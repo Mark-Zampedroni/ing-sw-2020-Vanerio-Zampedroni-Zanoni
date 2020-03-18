@@ -5,24 +5,31 @@ import it.polimi.ingsw.exceptions.actions.CantBuildException;
 public class Tile {
 
     private Tower height;
-    private boolean completed;
+    private boolean dome;
+    private boolean hasWorker;
 
     public Tile() {
         height = Tower.GROUND; //GROUND
-        completed = false;
+        dome = false;
     }
 
+    public void placeDome() {
+        dome = true;
+    }
+
+    // Dome Exception is checked in rules
     public void increaseHeight() {
-        height = Tower.increase(height);
-        if(height == Tower.DOME) {
-                completed = true;
-            }
+        if(!dome) {
+
+        }
     }
 
-    public boolean getCompleted() {
-        return completed;
+    // Dome is on getHeight level
+    public boolean isComplete() {
+        return dome;
     }
 
+    // Does not include the Dome
     public Tower getHeight() {
         return this.height;
     }
