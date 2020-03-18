@@ -15,7 +15,7 @@ public abstract class GodRules {
         {
             throw new AlreadyCompleteException("Dome");
         }
-        else if(!askEnemyConsent() || position.getWorker!=null)
+        else if(!askEnemyConsent() || position.getWorker()!=null)
         {
             throw new AlreadyOccupiedException("There is another");
         }
@@ -27,7 +27,7 @@ public abstract class GodRules {
         {
             throw new aException("U went too far");
         }
-        else if(!askEnemyConsent() || position.getWorker!=null)
+        else if(!askEnemyConsent() || position.getWorker()!=null)
         {
             throw new bException("There is another");
         }
