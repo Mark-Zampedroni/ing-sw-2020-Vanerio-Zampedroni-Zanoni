@@ -17,4 +17,7 @@ public class Board {
         }
     }
 
+    // PLACEHOLDER, DA IMPLEMENTARE
+    public Tile getTile(Position position) { return null; }
+
 }
