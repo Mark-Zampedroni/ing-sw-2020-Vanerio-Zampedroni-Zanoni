@@ -1,41 +1,40 @@
 package it.polimi.ingsw.model;
-import it.polimi.ingsw.enumerations.Tower;
 import it.polimi.ingsw.exceptions.actions.CantBuildException;
+import static it.polimi.ingsw.constants.Height.*;
+
+// MARK -- OK
 
 public class Tile {
 
-    private Tower height;
+    private int height;
     private boolean dome;
-    private boolean hasWorker;
 
     public Tile() {
-        height = Tower.GROUND; //GROUND
+        height = GROUND;
         dome = false;
     }
 
-    public void placeDome() {
-        dome = true;
-    }
+    public void placeDome() { dome = true; }
 
-    // Dome Exception is checked in rules
-    public void increaseHeight() {
-        if(!dome) {
+    public boolean hasDome() { return dome; }
 
+    public void increaseHeight() throws CantBuildException {
+        if(!hasDome()) {
+            if(height == TOP) { placeDome(); }
+            else { height += 1; }
+        }
+        else {
+            throw new CantBuildException("The tower is already completed.");
         }
     }
 
-    // Dome is on getHeight level
-    public boolean isComplete() {
-        return dome;
-    }
-
     // Does not include the Dome
-    public Tower getHeight() {
+    public int getHeight() {
         return this.height;
     }
 
     @Override
     public String toString() {
-        return "Tower su Tile è alta fino a " + height;
+        return (hasDome()) ? "Tower is completed." : "Tower height is " + height;
     }
 }

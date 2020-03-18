@@ -1,5 +1,7 @@
 package it.polimi.ingsw.model;
 
+// MARK -- OK
+
 public class Worker {
 
     private Position position;
@@ -10,16 +12,10 @@ public class Worker {
     }
 
     // Returns a copy of Position, so it can't be changed
-    public Position getPosition() {
-        return position.clone();
-    }
+    public Position getPosition() { return position.copy(); }
 
-    public void setPosition(Position position) {
-        this.position = position;
-    }
+    public void setPosition(Position position) { this.position = position; }
 
-    public Player getMaster() {
-        return master;
-    }
+    public Player getMaster() { return master; }
 
 }
