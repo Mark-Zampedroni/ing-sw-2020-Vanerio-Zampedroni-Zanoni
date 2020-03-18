@@ -7,10 +7,14 @@ public class Position {
     private int x;
     private int y;
 
-    // Valid values are 0 <= x < 6 and 0 <= y < 6
     public Position(int x, int y) {
-            this.x = x;
-            this.y = y;
+            setValue(x,y);
+    }
+
+    // Valid values are 0 <= x < 6 and 0 <= y < 6
+    public void setValue(int x, int y) {
+        this.x = x;
+        this.y = y;
     }
 
     public boolean equals(Position that) {
