@@ -25,6 +25,10 @@ public class Position {
         return new Position(x,y);
     }
 
+    public boolean isValid() {
+        return (x >= 0 && x < 6 && y >= 0 && y < 6);
+    }
+
     // Returns distance as the number of Tiles
     public int getDistanceFrom(Position that) {
         int deltax = Math.abs(this.x - that.getX());
