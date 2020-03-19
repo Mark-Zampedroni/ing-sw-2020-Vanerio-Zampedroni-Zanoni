@@ -14,38 +14,46 @@ import static it.polimi.ingsw.constants.Height.*;
 
 public abstract class GodRules {
 
-    public void consentBuild(Worker worker, Position position) throws CantBuildException {
+    public void consentBuild(Worker worker, Position position) throws CantBuildException, EnemyConsentException {
         if(worker.getPosition().getDistanceFrom(position)!=1 || !askEnemyConsent())
         {
-            throw new OutOfReachException("Maximum builing limit excedeed");
+            throw new OutOfReachException("Maximum building limit exceeded");
         }
-        else if(!askEnemyConsent() || Board.getTile(position).hasDome())
+        else if(Board.getTile(position).hasDome())
         {
             throw new AlreadyCompleteException("This tile is no longer available for building");
         }
-        else if(!askEnemyConsent() || position.getWorker()!=null)
+        else if(position.getWorker()!=null)
         {
-            throw new AlreadyOccupiedException("This tile is alrealy occupied");
+            throw new AlreadyOccupiedException("This tile is already occupied");
+        }
+        else if(!askEnemyConsent())
+        {
+            throw new EnemyConsentException("Not Allowed");
+        }
         }
 
-    }
 
-    public void consentMovement(Worker worker, Position position) throws CantMoveException {
+    public void consentMovement(Worker worker, Position position) throws CantMoveException, EnemyConsentException {
         if(worker.getPosition().getDistanceFrom(position)!=1 || !askEnemyConsent())
         {
-            throw new aException("Maximum moviment limit excedeed");
+            throw new aException("Maximum movement limit exceeded");
         }
-        else if(!askEnemyConsent() || position.getWorker()!=null)
+        else if(position.getWorker()!=null)
         {
-            throw new bException("This tile is alrealy occupied");
+            throw new bException("This tile is already occupied");
         }
-        else if(!askEnemyConsent() || Board.getTile(position).hasDome())
+        else if(Board.getTile(position).hasDome())
         {
             throw new cException("This tile is no longer available for movement");
         }
-        else if(!askEnemyConsent() || Board.getTile(position).getHeight() > Board.getTile(worker.getPosition()).getHeight() +1)
+        else if(Board.getTile(position).getHeight() > Board.getTile(worker.getPosition()).getHeight() +1)
         {
             throw new dException("Unreachable tile from this position");
+        }
+        else if(!askEnemyConsent())
+        {
+            throw new EnemyConsentException("Not Allowed");
         }
 
 

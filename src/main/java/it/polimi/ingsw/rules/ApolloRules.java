@@ -1,6 +1,7 @@
 package it.polimi.ingsw.rules;
 
 import it.polimi.ingsw.exceptions.actions.CantMoveException;
+import it.polimi.ingsw.exceptions.actions.SamePlayerException;
 import it.polimi.ingsw.exceptions.actions.movement.aException;
 import it.polimi.ingsw.exceptions.actions.movement.bException;
 import it.polimi.ingsw.exceptions.actions.movement.cException;
@@ -14,7 +15,7 @@ public class ApolloRules extends GodRules {
     public void consentMovement(Worker worker, Position position) throws CantMoveException {
         if (worker.getPosition().getDistanceFrom(position) != 1 || !askEnemyConsent())
         {
-            throw new aException("Maximum moviment limit excedeed");
+            throw new aException("Maximum movement limit exceeded");
         }
         else if (!askEnemyConsent() || Board.getTile(position).hasDome())
         {
@@ -23,6 +24,10 @@ public class ApolloRules extends GodRules {
         else if (!askEnemyConsent() || Board.getTile(position).getHeight() > Board.getTile(worker.getPosition()).getHeight() + 1)
         {
             throw new dException("Unreachable tile from this position");
+        }
+        else if(worker.getMaster()==position.getWorker().getMaster())
+        {
+            throw new SamePlayerException("Same player");
         }
     }
 }
