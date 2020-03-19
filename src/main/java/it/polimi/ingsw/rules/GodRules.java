@@ -14,8 +14,8 @@ import static it.polimi.ingsw.constants.Height.*;
 
 public abstract class GodRules {
 
-    public void consentBuild(Worker worker, Position position) throws CantBuildException, EnemyConsentException {
-        if(worker.getPosition().getDistanceFrom(position)!=1 || !askEnemyConsent())
+    public void consentBuild(Worker worker, Position position) throws CantBuildException {
+        if(worker.getPosition().getDistanceFrom(position)!=1 )
         {
             throw new OutOfReachException("Maximum building limit exceeded");
         }
@@ -27,15 +27,12 @@ public abstract class GodRules {
         {
             throw new AlreadyOccupiedException("This tile is already occupied");
         }
-        else if(!askEnemyConsent())
-        {
-            throw new EnemyConsentException("Not Allowed");
-        }
+
         }
 
 
-    public void consentMovement(Worker worker, Position position) throws CantMoveException, EnemyConsentException {
-        if(worker.getPosition().getDistanceFrom(position)!=1 || !askEnemyConsent())
+    public void consentMovement(Worker worker, Position position) throws CantMoveException {
+        if(worker.getPosition().getDistanceFrom(position)!=1)
         {
             throw new aException("Maximum movement limit exceeded");
         }
@@ -51,10 +48,7 @@ public abstract class GodRules {
         {
             throw new dException("Unreachable tile from this position");
         }
-        else if(!askEnemyConsent())
-        {
-            throw new EnemyConsentException("Not Allowed");
-        }
+
 
 
     }
@@ -64,5 +58,5 @@ public abstract class GodRules {
                                                                                                                     // Dipende quando viene effettuato il controllo, adesso subito successivo al consentMovement
     }
 
-    public boolean askEnemyConsent() { return true; } // Qui si chiede consenso alle regole dei nemici
+
 }

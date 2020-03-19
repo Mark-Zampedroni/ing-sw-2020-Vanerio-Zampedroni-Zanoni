@@ -13,15 +13,15 @@ import it.polimi.ingsw.model.Worker;
 public class ApolloRules extends GodRules {
     @Override
     public void consentMovement(Worker worker, Position position) throws CantMoveException {
-        if (worker.getPosition().getDistanceFrom(position) != 1 || !askEnemyConsent())
+        if (worker.getPosition().getDistanceFrom(position) != 1 )
         {
             throw new aException("Maximum movement limit exceeded");
         }
-        else if (!askEnemyConsent() || Board.getTile(position).hasDome())
+        else if ( Board.getTile(position).hasDome())
         {
             throw new cException("This tile is no longer available for movement");
         }
-        else if (!askEnemyConsent() || Board.getTile(position).getHeight() > Board.getTile(worker.getPosition()).getHeight() + 1)
+        else if ( Board.getTile(position).getHeight() > Board.getTile(worker.getPosition()).getHeight() + 1)
         {
             throw new dException("Unreachable tile from this position");
         }

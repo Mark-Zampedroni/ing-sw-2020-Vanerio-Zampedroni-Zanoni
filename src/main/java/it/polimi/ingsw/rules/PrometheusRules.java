@@ -1,7 +1,6 @@
 package it.polimi.ingsw.rules;
 
 import it.polimi.ingsw.exceptions.actions.CantMoveException;
-import it.polimi.ingsw.exceptions.actions.EnemyConsentException;
 import it.polimi.ingsw.exceptions.actions.movement.*;
 import it.polimi.ingsw.model.Board;
 import it.polimi.ingsw.model.Position;
@@ -12,7 +11,7 @@ public class PrometheusRules extends GodRules {
 
     @Override
 
-    public void consentMovement(Worker worker, Position position) throws CantMoveException, EnemyConsentException {
+    public void consentMovement(Worker worker, Position position) throws CantMoveException {
         super.consentMovement(worker, position);
         if (PreBuilding && Board.getTile(worker.getPosition()).getHeight() < Board.getTile(position).getHeight()) {
             throw new PrometheusException("Not Allowed due to Prometheus' power");
