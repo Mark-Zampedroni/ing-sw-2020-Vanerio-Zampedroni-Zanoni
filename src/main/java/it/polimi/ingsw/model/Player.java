@@ -13,7 +13,7 @@ public class Player {
     private boolean challenger;
     private Colors color;
 
-    // ovviamente challenger, rules e color sono temporanei
+    // ovviamente challenger e color sono temporanei
     public Player(String username) {
         this.username = username;
         this.rules = null;
@@ -27,6 +27,7 @@ public class Player {
     public void setRules(GodRules rules) {
         this.rules = rules;
     }
+
     public GodRules getRules() {
         return rules;
     }
@@ -35,6 +36,10 @@ public class Player {
     @SuppressWarnings("unchecked")
     public ArrayList<Worker> getWorkers() {
         return (ArrayList<Worker>) workers.clone();
+    }
+
+    public boolean isChallenger(){
+        return challenger;
     }
 
 }
