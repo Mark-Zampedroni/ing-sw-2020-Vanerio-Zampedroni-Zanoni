@@ -1,6 +1,5 @@
 package it.polimi.ingsw.model;
 
-// STEFANO
 
 public class Board {
 
@@ -8,6 +7,14 @@ public class Board {
     public static final int HEIGHT = 5;
 
     private final static Tile[][] tiles = new Tile[Board.WIDTH][Board.HEIGHT];
+
+    public Board () {
+        for (int i=0; i<5; i++) {
+            for (int j=0; i<5; i++) {
+                tiles [i] [j] = new Tile();
+            }
+        }
+    }
 
     public static void resetBoard() {
         for(int i = 0; i < Board.WIDTH; i++) {
@@ -17,7 +24,7 @@ public class Board {
         }
     }
 
-    // PLACEHOLDER, DA IMPLEMENTARE
-    public static Tile getTile(Position position) { return null; }
+    public static Tile getTile(Position position) {
+        return tiles[position.getX()][position.getY()]; }
 
 }
