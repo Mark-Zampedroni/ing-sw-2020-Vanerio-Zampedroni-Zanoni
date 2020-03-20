@@ -13,6 +13,9 @@ public class Player {
     public Player(String username) {
         this.username = username;
         this.rules = null;
+        this.workers= new ArrayList<>();
+        this.workers.add(new Worker(this));
+        this.workers.add(new Worker(this));
     }
 
     public void setRules(GodRules rules) {
