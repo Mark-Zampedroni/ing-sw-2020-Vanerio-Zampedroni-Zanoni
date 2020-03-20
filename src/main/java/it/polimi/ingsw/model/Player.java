@@ -37,7 +37,4 @@ public class Player {
         return (ArrayList<Worker>) workers.clone();
     }
 
-    // PLACEHOLDER, DA IMPLEMENTARE
-    public Worker getWorker(Position p) { return null; }
-
 }
