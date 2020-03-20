@@ -6,20 +6,15 @@ import it.polimi.ingsw.model.Board;
 import it.polimi.ingsw.model.Position;
 import it.polimi.ingsw.model.Worker;
 
-public class PrometheusRules extends GodRules {
-    private boolean PreBuilding; //True if worker has build before moving
-
+public class PrometheusRules extends EventRule {
+//event true if the worker has built before movement
     @Override
 
     public void consentMovement(Worker worker, Position position) throws CantMoveException {
         super.consentMovement(worker, position);
-        if (PreBuilding && Board.getTile(worker.getPosition()).getHeight() < Board.getTile(position).getHeight()) {
+        if (getEvent() && Board.getTile(worker.getPosition()).getHeight() < Board.getTile(position).getHeight()) {
             throw new PrometheusException("Not Allowed due to Prometheus' power");
         }
     }
-        public void setPreBuilding( boolean build)
-        {
-            this.PreBuilding = build;
-        }
 
 }
