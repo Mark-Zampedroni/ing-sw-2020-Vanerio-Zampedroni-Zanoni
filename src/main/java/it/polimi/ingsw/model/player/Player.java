@@ -26,6 +26,10 @@ public class Player {
         this.winner=false;
     }
 
+    public String getUsername(){
+        return this.username;
+    }
+
     public void setRules(GodRules rules) {
         this.rules = rules;
     }
