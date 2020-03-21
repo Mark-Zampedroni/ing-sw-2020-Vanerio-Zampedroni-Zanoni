@@ -3,12 +3,11 @@ package it.polimi.ingsw.rules;
 import it.polimi.ingsw.exceptions.actions.CantMoveException;
 import it.polimi.ingsw.exceptions.actions.SamePlayerException;
 import it.polimi.ingsw.exceptions.actions.movement.aException;
-import it.polimi.ingsw.exceptions.actions.movement.bException;
 import it.polimi.ingsw.exceptions.actions.movement.cException;
 import it.polimi.ingsw.exceptions.actions.movement.dException;
-import it.polimi.ingsw.model.Board;
-import it.polimi.ingsw.model.Position;
-import it.polimi.ingsw.model.Worker;
+import it.polimi.ingsw.model.map.Board;
+import it.polimi.ingsw.model.player.Position;
+import it.polimi.ingsw.model.player.Worker;
 
 public class ApolloRules extends GodRules {
     @Override

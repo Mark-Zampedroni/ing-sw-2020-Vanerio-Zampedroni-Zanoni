@@ -1,4 +1,4 @@
-package it.polimi.ingsw.model;
+package it.polimi.ingsw.model.map;
 import it.polimi.ingsw.exceptions.actions.CantBuildException;
 import static it.polimi.ingsw.constants.Height.*;
 
@@ -37,4 +37,6 @@ public class Tile {
     public String toString() {
         return (hasDome()) ? "Tower is completed." : "Tower height is " + height;
     }
+
+
 }

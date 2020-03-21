@@ -1,4 +1,4 @@
-package it.polimi.ingsw.model;
+package it.polimi.ingsw.model.player;
 import it.polimi.ingsw.enumerations.Colors;
 import it.polimi.ingsw.rules.GodRules;
 import java.util.ArrayList;

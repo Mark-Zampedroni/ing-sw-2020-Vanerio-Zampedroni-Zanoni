@@ -1,8 +1,8 @@
 package it.polimi.ingsw.rules;
 
-import it.polimi.ingsw.model.Board;
-import it.polimi.ingsw.model.Position;
-import it.polimi.ingsw.model.Worker;
+import it.polimi.ingsw.model.map.Board;
+import it.polimi.ingsw.model.player.Position;
+import it.polimi.ingsw.model.player.Worker;
 
 import static it.polimi.ingsw.constants.Height.MID;
 import static it.polimi.ingsw.constants.Height.TOP;

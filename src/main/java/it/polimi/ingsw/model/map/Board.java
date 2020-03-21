@@ -1,5 +1,7 @@
-package it.polimi.ingsw.model;
+package it.polimi.ingsw.model.map;
 
+
+import it.polimi.ingsw.model.player.Position;
 
 public class Board {
 
