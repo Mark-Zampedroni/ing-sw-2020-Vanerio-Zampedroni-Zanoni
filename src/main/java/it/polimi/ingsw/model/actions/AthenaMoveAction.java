@@ -4,7 +4,7 @@ import it.polimi.ingsw.model.map.Board;
 import it.polimi.ingsw.model.player.Position;
 import it.polimi.ingsw.model.player.Worker;
 
-public class AthenaMoveAction {
+public class AthenaMoveAction extends MoveAction{
     @Override
     public void fixOthers(Position position, Position oldPosition, Worker worker) {
         if (Board.getTile(oldPosition).getHeight() < Board.getTile(position).getHeight()) {
