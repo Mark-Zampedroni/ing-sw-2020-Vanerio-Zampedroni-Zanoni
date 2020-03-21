@@ -1,7 +1,7 @@
 package it.polimi.ingsw.rules;
 
 import it.polimi.ingsw.exceptions.actions.CantMoveException;
-import it.polimi.ingsw.exceptions.actions.SamePlayerException;
+import it.polimi.ingsw.exceptions.actions.movement.SamePlayerException;
 import it.polimi.ingsw.exceptions.actions.movement.aException;
 import it.polimi.ingsw.exceptions.actions.movement.cException;
 import it.polimi.ingsw.exceptions.actions.movement.dException;

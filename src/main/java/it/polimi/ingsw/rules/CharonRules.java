@@ -1,13 +1,12 @@
 package it.polimi.ingsw.rules;
 
 import it.polimi.ingsw.exceptions.actions.CantMoveException;
-import it.polimi.ingsw.exceptions.actions.movement.SamePlayerException;
 import it.polimi.ingsw.exceptions.actions.movement.*;
-import it.polimi.ingsw.model.map.Board;
-import it.polimi.ingsw.model.player.Position;
-import it.polimi.ingsw.model.player.Worker;
+import it.polimi.ingsw.model.Board;
+import it.polimi.ingsw.model.Position;
+import it.polimi.ingsw.model.Worker;
 
-public class MinotaurRules extends GodRules {
+public class CharonRules extends GodRules {
     @Override
     public void consentMovement(Worker worker, Position position) throws CantMoveException {
         if (worker.getPosition().getDistanceFrom(position) != 1) {
@@ -16,10 +15,10 @@ public class MinotaurRules extends GodRules {
             throw new cException("This tile is no longer available for movement");
         } else if ( Board.getTile(position).getHeight() > Board.getTile(worker.getPosition()).getHeight() + 1) {
             throw new dException("Unreachable tile from this position");
-        } else if (getPositionBackwards(worker.getPosition(), position).isValid()) {
+        } else if (getOppositePosition(worker.getPosition(), position).isValid()) {
             throw new OutofBorderException("Out of border");
-        } else if (getPositionBackwards(worker.getPosition(), position).getWorker() != null || Board.getTile(getPositionBackwards(worker.getPosition(), position)).hasDome()) {
-            throw new MinotaurException("Occupied tile");
+        } else if (getOppositePosition(worker.getPosition(), position).getWorker() != null || Board.getTile(getOppositePosition(worker.getPosition(), position)).hasDome()) {
+            throw new CharonException("Occupied tile");
         }
         else if(worker.getMaster()==position.getWorker().getMaster())
         {
@@ -27,8 +26,8 @@ public class MinotaurRules extends GodRules {
         }
     }
 
-    public Position getPositionBackwards(Position pos1, Position pos2) {
-        return new Position(pos2.getX() + (pos2.getX() - pos1.getX()), pos2.getY() + (pos2.getY() - pos1.getY()));
+    public Position getOppositePosition(Position pos1, Position pos2) {
+        return new Position(pos1.getX() + (pos1.getX() - pos2.getX()), pos1.getY() + (pos1.getY() - pos2.getY()));
     }
 
 }

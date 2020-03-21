@@ -3,13 +3,10 @@ import it.polimi.ingsw.exceptions.actions.*;
 import it.polimi.ingsw.exceptions.actions.building.AlreadyCompleteException;
 import it.polimi.ingsw.exceptions.actions.building.AlreadyOccupiedException;
 import it.polimi.ingsw.exceptions.actions.building.OutOfReachException;
-import it.polimi.ingsw.exceptions.actions.movement.aException;
-import it.polimi.ingsw.exceptions.actions.movement.bException;
-import it.polimi.ingsw.exceptions.actions.movement.cException;
-import it.polimi.ingsw.exceptions.actions.movement.dException;
-import it.polimi.ingsw.model.map.Board;
-import it.polimi.ingsw.model.player.Position;
-import it.polimi.ingsw.model.player.Worker;
+import it.polimi.ingsw.exceptions.actions.movement.*;
+import it.polimi.ingsw.model.Board;
+import it.polimi.ingsw.model.Position;
+import it.polimi.ingsw.model.Worker;
 import static it.polimi.ingsw.constants.Height.*;
 
 public abstract class GodRules {
@@ -48,6 +45,10 @@ public abstract class GodRules {
         {
             throw new dException("Unreachable tile from this position");
         }
+        else if(blockedByEnemy(worker, position))
+        {
+            throw new AthenaException("Not allowed due to Athena's power");
+        }
 
 
 
@@ -58,5 +59,9 @@ public abstract class GodRules {
                                                                                                                     // Dipende quando viene effettuato il controllo, adesso subito successivo al consentMovement
     }
 
+    public boolean blockedByEnemy(Worker worker, Position position)
+    {
+        return false;
+    }
 
 }
