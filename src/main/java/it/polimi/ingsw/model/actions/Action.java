@@ -14,6 +14,9 @@ public class Action {
                 new AtlasBuildAction().buildTowerOn(position, worker, false);  //qui andrebbe messo il collegamento con la view
             }
         }
+        if (action.equals(ActionType.MOVE)) {
+                new MoveAction().moveWorkerTo(position, worker);
+        }
 
     }
 
