@@ -4,9 +4,9 @@ import it.polimi.ingsw.exceptions.actions.building.AlreadyCompleteException;
 import it.polimi.ingsw.exceptions.actions.building.AlreadyOccupiedException;
 import it.polimi.ingsw.exceptions.actions.building.OutOfReachException;
 import it.polimi.ingsw.exceptions.actions.movement.*;
-import it.polimi.ingsw.model.Board;
-import it.polimi.ingsw.model.Position;
-import it.polimi.ingsw.model.Worker;
+import it.polimi.ingsw.model.map.Board;
+import it.polimi.ingsw.model.player.Position;
+import it.polimi.ingsw.model.player.Worker;
 import static it.polimi.ingsw.constants.Height.*;
 
 public abstract class GodRules {
