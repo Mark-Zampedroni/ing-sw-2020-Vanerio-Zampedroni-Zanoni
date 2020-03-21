@@ -39,6 +39,10 @@ public class Session {
         return list;
     }
 
+    public static int playersNumber() {
+        return players.size();
+    }
+
     public static void addGod(Gods gods) {
         godsList.add(gods);
     }
@@ -73,8 +77,8 @@ public class Session {
     public static void pickChallenger() {
         int firstTwoPlayers = (new Random().nextInt(1));
         int firstThreePlayers = (new Random().nextInt(2));
-        if (players.size() == 2) players.get(firstTwoPlayers).setChallenger();
-        if (players.size() == 3) players.get(firstThreePlayers).setChallenger();
+        if (playersNumber() == 2) players.get(firstTwoPlayers).setChallenger();
+        if (playersNumber() == 3) players.get(firstThreePlayers).setChallenger();
     }
  /*
     @Override
