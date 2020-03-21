@@ -6,6 +6,7 @@ import it.polimi.ingsw.model.player.Worker;
 
 import java.util.ArrayList;
 import java.util.Random;
+//import java.util.stream.Collectors;
 
 
 public class Session {
@@ -24,8 +25,8 @@ public class Session {
     }
 
     public static void removePlayer(Player player) {
-        for(Player localPlayer : players) {
-            if(localPlayer.equals(player)) {
+        for (Player localPlayer : players) {
+            if (localPlayer.equals(player)) {
                 players.remove(localPlayer);
             }
         }
@@ -49,8 +50,8 @@ public class Session {
     }
 
     public static void removeGod(Gods god) {
-        for(Gods localGod : godsList ) {
-            if(localGod.equals(god)) {
+        for (Gods localGod : godsList) {
+            if (localGod.equals(god)) {
                 godsList.remove(localGod);
             }
         }
@@ -60,23 +61,36 @@ public class Session {
         //da riempire quando avremo controller
     }
 
-    public static boolean hasWinner(){
-            for(Player player : players) {
-                    if(player.isWinner()) {
-                        return true;
-                    }
-                }
-            return false;
+    public static boolean hasWinner() {
+        for (Player player : players) {
+            if (player.isWinner()) {
+                return true;
+            }
         }
+        return false;
+    }
 
-    public static void pickChallenger (){
-        int firstTwoPlayers= (new Random().nextInt(1));
-        int firstThreePlayers= (new Random().nextInt(2));
-        if (players.size()==2) players.get(firstTwoPlayers).setChallenger();
-        if (players.size()==3) players.get(firstThreePlayers).setChallenger();
-        }
+    public static void pickChallenger() {
+        int firstTwoPlayers = (new Random().nextInt(1));
+        int firstThreePlayers = (new Random().nextInt(2));
+        if (players.size() == 2) players.get(firstTwoPlayers).setChallenger();
+        if (players.size() == 3) players.get(firstThreePlayers).setChallenger();
+    }
+ /*
+    @Override
+    public String toString() {
+        String space = ", ";
+        String out = players.stream()
+                .map(Object::toString)
+                .collect(Collectors.joining(space));
 
+        String out2 = godsList.stream()
+                .map(Object::toString)
+                .collect(Collectors.joining(space));
+        return "Players: " + out
+                + "Gods: " + out2 +
+                board.toString();
+    }*/
 }
-
 
 
