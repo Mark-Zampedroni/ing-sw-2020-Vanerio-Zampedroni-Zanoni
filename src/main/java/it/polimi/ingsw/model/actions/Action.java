@@ -13,7 +13,7 @@ public class Action {
     public void startAction (ActionType action, Worker worker, Position position) {
         if (action.equals(ActionType.BUILD)) {
             if (worker.getMaster().getGod().equals(Gods.ATLAS)){
-                new AtlasBuildAction().buildTowerOn(position, worker, false);  //qui andrebbe messo il collegamento con la view
+                new AtlasBuildAction().buildTowerOn(position, worker);  //qui andrebbe messo il collegamento con la view
             }
         }
         if (action.equals(ActionType.MOVE)) {
