@@ -1,5 +1,6 @@
 package it.polimi.ingsw.model.player;
 import it.polimi.ingsw.enumerations.Colors;
+import it.polimi.ingsw.enumerations.Gods;
 import it.polimi.ingsw.rules.GodRules;
 import java.util.ArrayList;
 
@@ -13,6 +14,7 @@ public class Player {
     private boolean challenger;
     private Colors color;
     private boolean winner;
+    private Gods god;
 
     // ovviamente challenger e color sono temporanei
     public Player(String username) {
@@ -24,10 +26,15 @@ public class Player {
         this.challenger=false;
         this.color=Colors.BLUE;
         this.winner=false;
+        this.god=null;
     }
 
     public String getUsername(){
         return this.username;
+    }
+
+    public void setGod(Gods god) {
+        this.god=god;
     }
 
     public void setRules(GodRules rules) {
@@ -66,5 +73,9 @@ public class Player {
                 +" {Color:"+ this.color
                 +" ,God: " + rules.toString()
                 +"}";
+    }
+
+    public Gods getGod() {
+        return this.god;
     }
 }
