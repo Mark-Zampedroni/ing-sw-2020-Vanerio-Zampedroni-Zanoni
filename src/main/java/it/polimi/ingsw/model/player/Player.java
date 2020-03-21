@@ -12,6 +12,7 @@ public class Player {
     private ArrayList<Worker> workers;
     private boolean challenger;
     private Colors color;
+    private boolean winner;
 
     // ovviamente challenger e color sono temporanei
     public Player(String username) {
@@ -22,6 +23,7 @@ public class Player {
         this.workers.add(new Worker(this));
         this.challenger=false;
         this.color=Colors.BLUE;
+        this.winner=false;
     }
 
     public void setRules(GodRules rules) {
@@ -44,6 +46,14 @@ public class Player {
 
     public void setChallenger() {
         this.challenger=true;
+    }
+
+    public boolean isWinner() {
+        return this.winner;
+    }
+
+    public void setWinner() {
+        this.winner=true;
     }
 
     @Override
