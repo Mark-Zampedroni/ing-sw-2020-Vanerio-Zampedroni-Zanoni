@@ -42,4 +42,15 @@ public class Player {
         return challenger;
     }
 
+    public void setChallenger() {
+        this.challenger=true;
+    }
+
+    @Override
+    public String toString() {
+        return "Username: "+this.username
+                +" {Color:"+ this.color
+                +" ,God: " + rules.toString()
+                +"}";
+    }
 }
