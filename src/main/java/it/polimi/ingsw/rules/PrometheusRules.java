@@ -6,7 +6,7 @@ import it.polimi.ingsw.model.map.Board;
 import it.polimi.ingsw.model.player.Position;
 import it.polimi.ingsw.model.player.Worker;
 
-public class PrometheusRules extends EventRule {
+public class PrometheusRules extends GodRules {
 //event true if the worker has built before movement
     @Override
 

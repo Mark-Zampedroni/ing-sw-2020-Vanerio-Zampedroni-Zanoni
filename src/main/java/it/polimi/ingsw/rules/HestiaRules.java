@@ -1,17 +1,16 @@
 package it.polimi.ingsw.rules;
 
 import it.polimi.ingsw.exceptions.actions.CantBuildException;
-import it.polimi.ingsw.exceptions.actions.building.HephaestusException;
+import it.polimi.ingsw.exceptions.actions.building.HestiaException;
 import it.polimi.ingsw.model.player.Position;
 import it.polimi.ingsw.model.player.Worker;
-
-public class HephaestusRules extends GodRules {
-
+//Event is true during the additional turn
+public class HestiaRules extends GodRules {
     public void consentBuild(Worker worker, Position position) throws CantBuildException {
         super.consentBuild(worker, position);
-        if (getEvent() && !position.equals(getPos())) {
-            throw new HephaestusException("Not Allowed");
+        if(getEvent() && position.isBoundary())
+        {
+            throw new HestiaException("Can't build on perimeter space");
         }
-        setPos(position);
     }
 }

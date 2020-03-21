@@ -11,6 +11,9 @@ import static it.polimi.ingsw.constants.Height.*;
 
 public abstract class GodRules {
 
+    private boolean event=false;
+    private Position pos;
+
     public void consentBuild(Worker worker, Position position) throws CantBuildException {
         if(worker.getPosition().getDistanceFrom(position)!=1 )
         {
@@ -55,13 +58,25 @@ public abstract class GodRules {
     }
 
     public boolean isWinner(Worker worker, Position position) {
-        return(Board.getTile(worker.getPosition()).getHeight()==MID && Board.getTile(position).getHeight()==TOP); // return(Board.getTile(worker.getPosition()).getHeight()==TOP);
-                                                                                                                    // Dipende quando viene effettuato il controllo, adesso subito successivo al consentMovement
+        return(Board.getTile(worker.getPosition()).getHeight()==MID && Board.getTile(position).getHeight()==TOP);
     }
 
     public boolean blockedByEnemy(Worker worker, Position position)
     {
         return false;
+    }
+
+
+    public boolean getEvent() {return event;}
+
+    public void setEvent(boolean event) {this.event = event;}
+
+    public Position getPos() {return pos;}
+
+    public void setPos(Position pos) {this.pos = pos;}
+
+    public void clear(){
+        this.event=false;
     }
 
 }
