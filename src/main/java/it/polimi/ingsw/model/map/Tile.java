@@ -18,13 +18,10 @@ public class Tile {
 
     public boolean hasDome() { return dome; }
 
-    public void increaseHeight() throws CantBuildException {
+    public void increaseHeight() {
         if(!hasDome()) {
             if(height == TOP) { placeDome(); }
             else { height += 1; }
-        }
-        else {
-            throw new CantBuildException("The tower is already completed.");
         }
     }
 

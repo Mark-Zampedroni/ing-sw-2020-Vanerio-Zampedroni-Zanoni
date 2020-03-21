@@ -53,6 +53,10 @@ public class Position {
         return null;
     }
 
+    public boolean isBoundary() {
+        return (x == 0 || x == 5 || y == 0 || y == 5);
+    }
+
     public int getX() {
         return x;
     }
