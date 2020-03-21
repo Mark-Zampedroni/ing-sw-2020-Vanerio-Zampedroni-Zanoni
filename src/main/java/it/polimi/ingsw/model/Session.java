@@ -5,7 +5,7 @@ import it.polimi.ingsw.model.player.Player;
 import it.polimi.ingsw.model.player.Worker;
 
 import java.util.ArrayList;
-
+import java.util.Random;
 
 
 public class Session {
@@ -69,7 +69,12 @@ public class Session {
             return false;
         }
 
-
+    public static void pickChallenger (){
+        int firstTwoPlayers= (new Random().nextInt(1));
+        int firstThreePlayers= (new Random().nextInt(2));
+        if (players.size()==2) players.get(firstTwoPlayers).setChallenger();
+        if (players.size()==3) players.get(firstThreePlayers).setChallenger();
+        }
 
 }
 
