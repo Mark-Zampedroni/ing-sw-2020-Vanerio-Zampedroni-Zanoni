@@ -2,7 +2,6 @@ package it.polimi.ingsw.model;
 import it.polimi.ingsw.enumerations.Gods;
 import it.polimi.ingsw.model.map.Board;
 import it.polimi.ingsw.model.player.Player;
-import it.polimi.ingsw.model.player.Worker;
 
 import java.util.ArrayList;
 import java.util.Random;
@@ -95,6 +94,10 @@ public class Session {
                 + "Gods: " + out2 +
                 board.toString();
     }*/
+
+    public static Board getBoard() {
+        return board;
+    }
 }
 
 
