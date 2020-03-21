@@ -10,7 +10,7 @@ public class Board {
 
     private final static Tile[][] tiles = new Tile[Board.WIDTH][Board.HEIGHT];
 
-    public Board () {
+    static {
         for (int i=0; i<5; i++) {
             for (int j=0; i<5; i++) {
                 tiles [i] [j] = new Tile();
