@@ -2,9 +2,9 @@ package it.polimi.ingsw.rules;
 
 import it.polimi.ingsw.exceptions.actions.CantMoveException;
 import it.polimi.ingsw.exceptions.actions.movement.*;
-import it.polimi.ingsw.model.Board;
-import it.polimi.ingsw.model.Position;
-import it.polimi.ingsw.model.Worker;
+import it.polimi.ingsw.model.map.Board;
+import it.polimi.ingsw.model.player.Position;
+import it.polimi.ingsw.model.player.Worker;
 
 public class PrometheusRules extends EventRule {
 //event true if the worker has built before movement

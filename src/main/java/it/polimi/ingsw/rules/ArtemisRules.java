@@ -2,8 +2,8 @@ package it.polimi.ingsw.rules;
 
 import it.polimi.ingsw.exceptions.actions.CantMoveException;
 import it.polimi.ingsw.exceptions.actions.movement.ArtemisException;
-import it.polimi.ingsw.model.Position;
-import it.polimi.ingsw.model.Worker;
+import it.polimi.ingsw.model.player.*;
+import it.polimi.ingsw.model.player.Worker;
 // event is true when additional movement turn has been occurred
 public class ArtemisRules extends EventRule {
 

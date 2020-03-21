@@ -1,10 +1,17 @@
 package it.polimi.ingsw.model;
-import java.util.ArrayList;
+import it.polimi.ingsw.enumerations.Gods;
+import it.polimi.ingsw.model.map.Board;
+import it.polimi.ingsw.model.player.Player;
 
-// STEFANO
+import java.util.ArrayList;
+import java.util.Random;
+//import java.util.stream.Collectors;
+
 
 public class Session {
     private static ArrayList<Player> players = new ArrayList<>();
+    private static Board board;
+    private static ArrayList<Gods> godsList;
 
     public static void addPlayer(Player player) {
         players.add(player);
@@ -16,6 +23,81 @@ public class Session {
         return (ArrayList<Player>) players.clone();
     }
 
+    public static void removePlayer(Player player) {
+        for (Player localPlayer : players) {
+            if (localPlayer.equals(player)) {
+                players.remove(localPlayer);
+            }
+        }
+    }
 
+    @SuppressWarnings("unchecked")
+    public static ArrayList<Player> getOtherPlayers(Player player) {
+        ArrayList<Player> list = (ArrayList<Player>) players.clone();
+        list.remove(player);
+        return list;
+    }
 
+    public static int playersNumber() {
+        return players.size();
+    }
+
+    public static void addGod(Gods gods) {
+        godsList.add(gods);
+    }
+
+    // Returns shallow copy of gods
+    @SuppressWarnings("unchecked")
+    public static ArrayList<Gods> getGods() {
+        return (ArrayList<Gods>) godsList.clone();
+    }
+
+    public static void removeGod(Gods god) {
+        for (Gods localGod : godsList) {
+            if (localGod.equals(god)) {
+                godsList.remove(localGod);
+            }
+        }
+    }
+
+    public static void startLobby() {
+        //da riempire quando avremo controller
+    }
+
+    public static boolean hasWinner() {
+        for (Player player : players) {
+            if (player.isWinner()) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public static void pickChallenger() {
+        int firstTwoPlayers = (new Random().nextInt(1));
+        int firstThreePlayers = (new Random().nextInt(2));
+        if (playersNumber() == 2) players.get(firstTwoPlayers).setChallenger();
+        if (playersNumber() == 3) players.get(firstThreePlayers).setChallenger();
+    }
+ /*
+    @Override
+    public String toString() {
+        String space = ", ";
+        String out = players.stream()
+                .map(Object::toString)
+                .collect(Collectors.joining(space));
+
+        String out2 = godsList.stream()
+                .map(Object::toString)
+                .collect(Collectors.joining(space));
+        return "Players: " + out
+                + "Gods: " + out2 +
+                board.toString();
+    }*/
+
+    public static Board getBoard() {
+        return board;
+    }
 }
+
+

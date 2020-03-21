@@ -1,6 +1,8 @@
-package it.polimi.ingsw.model;
+package it.polimi.ingsw.model.player;
 
 // MARK -- OK
+
+import it.polimi.ingsw.model.Session;
 
 public class Position {
 
