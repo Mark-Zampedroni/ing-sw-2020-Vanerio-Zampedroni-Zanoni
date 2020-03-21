@@ -23,6 +23,21 @@ public class Session {
         return (ArrayList<Player>) players.clone();
     }
 
+    public static void removePlayer(Player player) {
+        for(Player localPlayer : players) {
+            if(localPlayer.equals(player)) {
+                players.remove(localPlayer);
+            }
+        }
+    }
+
+    @SuppressWarnings("unchecked")
+    public static ArrayList<Player> getOtherPlayers(Player player) {
+        ArrayList<Player> list = (ArrayList<Player>) players.clone();
+        list.remove(player);
+        return list;
+    }
+
     public static void addGod(Gods gods) {
         godsList.add(gods);
     }
@@ -31,6 +46,14 @@ public class Session {
     @SuppressWarnings("unchecked")
     public static ArrayList<Gods> getGods() {
         return (ArrayList<Gods>) godsList.clone();
+    }
+
+    public static void removeGod(Gods god) {
+        for(Gods localGod : godsList ) {
+            if(localGod.equals(god)) {
+                godsList.remove(localGod);
+            }
+        }
     }
 
     public static void startLobby() {
@@ -45,5 +68,10 @@ public class Session {
                 }
             return false;
         }
-    }
+
+
+
+}
+
+
 
