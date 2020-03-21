@@ -11,11 +11,17 @@ public class MoveAction {
 
     public void moveWorkerTo (Position position, Worker worker) {
         GodRules rules = worker.getMaster().getRules();
+        Position oldPosition = worker.getPosition();
         try {
             rules.consentMovement(worker, position);
             worker.setPosition(position);
+            fixOthers(position, oldPosition, worker);
         } catch (CantMoveException e) {
             System.out.println("Move error, try again");
         }
+    }
+
+    public void fixOthers(Position position, Position oldPosition, Worker worker){
+        //
     }
 }

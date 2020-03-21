@@ -10,18 +10,13 @@ import it.polimi.ingsw.rules.GodRules;
 
 public class AtlasBuildAction extends BuildAction {
 
-    public void buildTowerOn (Position position, Worker worker, boolean dome) {
-        GodRules rules = worker.getMaster().getRules();
-        try {rules.consentBuild(worker, position);
-            Tile tile = Board.getTile(position);
-            if (dome)
-                tile.placeDome();
-            else if (tile.getHeight()!=3) {
-                tile.increaseHeight();
-            }
-        }
-        catch (CantBuildException e) {
-            System.out.println("Build error, try again");
-        }
-    }
+   @Override
+    public void executeBuild (Position position, Worker worker) {
+       if (!worker.getMaster().getRules().getEvent()) {
+           super.executeBuild(position, worker);
+       } else {
+           Tile tile = Board.getTile(position);
+           tile.placeDome();
+       }
+   }
 }

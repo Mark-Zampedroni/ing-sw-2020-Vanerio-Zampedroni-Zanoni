@@ -3,10 +3,11 @@ package it.polimi.ingsw.model.actions;
 import it.polimi.ingsw.model.player.Position;
 import it.polimi.ingsw.model.player.Worker;
 
-public class ApolloMoveAction extends MoveAction {
+public class ArthemisMoveAction {
 
     @Override
     public void fixOthers(Position position, Position oldPosition, Worker worker) {
-        position.getWorker().setPosition(oldPosition);
+        worker.getMaster().getRules().setEvent(true);
+        worker.getMaster().getRules().setPos(position);
     }
 }
