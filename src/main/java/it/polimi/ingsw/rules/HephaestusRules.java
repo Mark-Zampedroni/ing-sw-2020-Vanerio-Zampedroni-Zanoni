@@ -2,8 +2,8 @@ package it.polimi.ingsw.rules;
 
 import it.polimi.ingsw.exceptions.actions.CantBuildException;
 import it.polimi.ingsw.exceptions.actions.building.HephaestusException;
-import it.polimi.ingsw.model.Position;
-import it.polimi.ingsw.model.Worker;
+import it.polimi.ingsw.model.player.Position;
+import it.polimi.ingsw.model.player.Worker;
 
 public class HephaestusRules extends EventRule {
 

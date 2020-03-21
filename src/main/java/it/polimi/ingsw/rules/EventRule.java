@@ -1,6 +1,6 @@
 package it.polimi.ingsw.rules;
 
-import it.polimi.ingsw.model.Position;
+import it.polimi.ingsw.model.player.Position;
 
 public abstract class EventRule extends GodRules
 {
