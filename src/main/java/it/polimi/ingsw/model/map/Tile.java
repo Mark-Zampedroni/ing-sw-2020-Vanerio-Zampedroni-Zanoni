@@ -23,9 +23,6 @@ public class Tile {
             if(height == TOP) { placeDome(); }
             else { height += 1; }
         }
-        else {
-            throw new CantBuildException("The tower is already completed.");
-        }
     }
 
     // Does not include the Dome
