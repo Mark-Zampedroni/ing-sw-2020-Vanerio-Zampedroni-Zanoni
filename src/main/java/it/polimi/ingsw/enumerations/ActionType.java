@@ -1,5 +1,5 @@
 package it.polimi.ingsw.enumerations;
 
 public enum ActionType {
-    SELECT_PLAYER, MOVE, BUILD
+    SELECT_WORKER, MOVE, BUILD, END_TURN;
 }
