@@ -21,4 +21,11 @@ public class Worker {
 
     public Player getMaster() { return master; }
 
+    @Override
+    public String toString() {
+        return "{ Master: "+master+
+                " X: "+getPosition().getX()+
+                " Y: "+getPosition().getY()+"}";
+    }
+
 }
