@@ -6,7 +6,7 @@ import it.polimi.ingsw.model.player.Position;
 import it.polimi.ingsw.model.player.Worker;
 // event is true when additional building turn has been occurred
 
-public class DemeterRules extends GodRules {
+public class DemeterRules extends EventRule {
 
     public void consentBuild(Worker worker, Position position) throws CantBuildException {
         super.consentBuild(worker, position);

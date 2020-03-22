@@ -1,5 +1,5 @@
 package it.polimi.ingsw.rules;
 
-public class AtlasRules extends GodRules {
+public class AtlasRules extends EventRule {
 //Eredita tutto
 }

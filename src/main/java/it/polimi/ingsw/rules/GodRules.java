@@ -11,9 +11,6 @@ import static it.polimi.ingsw.constants.Height.*;
 
 public abstract class GodRules {
 
-    private boolean event=false;
-    private Position pos;
-
     public void consentBuild(Worker worker, Position position) throws CantBuildException {
         if(worker.getPosition().getDistanceFrom(position)!=1 )
         {
@@ -67,16 +64,5 @@ public abstract class GodRules {
     }
 
 
-    public boolean getEvent() {return event;}
-
-    public void setEvent(boolean event) {this.event = event;}
-
-    public Position getPos() {return pos;}
-
-    public void setPos(Position pos) {this.pos = pos;}
-
-    public void clear(){
-        this.event=false;
-    }
 
 }

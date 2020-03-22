@@ -5,7 +5,7 @@ import it.polimi.ingsw.exceptions.actions.building.HephaestusException;
 import it.polimi.ingsw.model.player.Position;
 import it.polimi.ingsw.model.player.Worker;
 
-public class HephaestusRules extends GodRules {
+public class HephaestusRules extends EventRule {
 
     public void consentBuild(Worker worker, Position position) throws CantBuildException {
         super.consentBuild(worker, position);
