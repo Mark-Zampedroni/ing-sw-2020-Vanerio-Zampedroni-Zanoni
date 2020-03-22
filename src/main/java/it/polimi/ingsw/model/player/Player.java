@@ -69,9 +69,9 @@ public class Player {
 
     @Override
     public String toString() {
-        return "Username: "+this.username
-                +" {Color:"+ this.color
-                +" ,God: " + rules.toString()
+        return "{Username: "+this.username
+                +", Color: "+ String.valueOf(color)
+                +", God: " + String.valueOf(rules)
                 +"}";
     }
 

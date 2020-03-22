@@ -12,6 +12,7 @@ public class Worker {
 
     public Worker(Player master) {
         this.master = master;
+        position = new Position(0,0); // May be changed on a later commit
     }
 
     // Returns a copy of Position, so it can't be changed
@@ -23,9 +24,9 @@ public class Worker {
 
     @Override
     public String toString() {
-        return "{ Master: "+master+
-                " X: "+getPosition().getX()+
-                " Y: "+getPosition().getY()+"}";
+        return "{Master: "+master+
+                " X: "+String.valueOf(getPosition().getX())+
+                " Y: "+String.valueOf(getPosition().getY())+"}";
     }
 
 }
