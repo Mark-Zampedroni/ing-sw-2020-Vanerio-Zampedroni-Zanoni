@@ -53,6 +53,11 @@ public class Position {
         return null;
     }
 
+    @Override
+    public String toString() {
+        return "("+x+","+y+")";
+    }
+
     public boolean isBoundary() {
         return (x == 0 || x == 5 || y == 0 || y == 5);
     }
