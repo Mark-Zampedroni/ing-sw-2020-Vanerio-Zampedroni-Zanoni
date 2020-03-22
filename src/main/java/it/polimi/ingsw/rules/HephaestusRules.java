@@ -12,6 +12,5 @@ public class HephaestusRules extends GodRules {
         if (getEvent() && !position.equals(getPos())) {
             throw new HephaestusException("Not Allowed");
         }
-        setPos(position);
     }
 }

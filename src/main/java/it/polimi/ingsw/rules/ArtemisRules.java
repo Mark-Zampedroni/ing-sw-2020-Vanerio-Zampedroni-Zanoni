@@ -13,8 +13,6 @@ public class ArtemisRules extends GodRules {
         {
             throw new ArtemisException("Not Allowed");
         }
-        setPos(worker.getPosition());
-
     }
 
 }

@@ -14,8 +14,6 @@ public class DemeterRules extends GodRules {
         {
             throw new DemeterException("Not Allowed");
         }
-        setPos(position);
-
 
     }
 
