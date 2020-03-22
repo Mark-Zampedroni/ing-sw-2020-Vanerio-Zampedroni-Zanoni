@@ -9,15 +9,8 @@ public class HephaestusRules extends EventRule {
 
     public void consentBuild(Worker worker, Position position) throws CantBuildException {
         super.consentBuild(worker, position);
-        if (!getEvent()) {
-            setPos(position);
-        } else {
-            setEvent(false);
-            if (!position.equals(getPos())) { //Metodo per valutare se il blocco piazzato è una dome?
-                throw new HephaestusException("Not Allowed");
-            }
+        if (getEvent() && !position.equals(getPos())) {
+            throw new HephaestusException("Not Allowed");
         }
     }
-
-
 }

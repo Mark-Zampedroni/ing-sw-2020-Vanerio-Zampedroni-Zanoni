@@ -55,13 +55,14 @@ public abstract class GodRules {
     }
 
     public boolean isWinner(Worker worker, Position position) {
-        return(Board.getTile(worker.getPosition()).getHeight()==MID && Board.getTile(position).getHeight()==TOP); // return(Board.getTile(worker.getPosition()).getHeight()==TOP);
-                                                                                                                    // Dipende quando viene effettuato il controllo, adesso subito successivo al consentMovement
+        return(Board.getTile(worker.getPosition()).getHeight()==MID && Board.getTile(position).getHeight()==TOP);
     }
 
     public boolean blockedByEnemy(Worker worker, Position position)
     {
         return false;
     }
+
+
 
 }
