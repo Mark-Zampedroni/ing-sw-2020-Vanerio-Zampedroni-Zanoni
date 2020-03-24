@@ -31,23 +31,23 @@ public abstract class GodRules {
     public void consentMovement(Worker worker, Position position) throws CantMoveException {
         if(worker.getPosition().getDistanceFrom(position)!=1)
         {
-            throw new aException("Maximum movement limit exceeded");
+            throw new MoveOutsideRangeException("Maximum movement limit exceeded");
         }
         else if(position.getWorker()!=null)
         {
-            throw new bException("This tile is already occupied");
+            throw new MoveOnWorkerException("This tile is already occupied");
         }
         else if(Board.getTile(position).hasDome())
         {
-            throw new cException("This tile is no longer available for movement");
+            throw new DomeMoveException("This tile is no longer available for movement");
         }
         else if(Board.getTile(position).getHeight() > Board.getTile(worker.getPosition()).getHeight() +1)
         {
-            throw new dException("Unreachable tile from this position");
+            throw new ClimbMoveException("Unreachable tile from this position");
         }
         else if(blockedByEnemy(worker, position))
         {
-            throw new AthenaException("Not allowed due to Athena's power");
+            throw new MoveGodPowerException("Not allowed due to Athena's power");
         }
 
 

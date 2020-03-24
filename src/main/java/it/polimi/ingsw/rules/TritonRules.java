@@ -1,8 +1,7 @@
 package it.polimi.ingsw.rules;
 
 import it.polimi.ingsw.exceptions.actions.CantMoveException;
-import it.polimi.ingsw.exceptions.actions.movement.ArtemisException;
-import it.polimi.ingsw.exceptions.actions.movement.TritonException;
+import it.polimi.ingsw.exceptions.actions.movement.MoveGodPowerException;
 import it.polimi.ingsw.model.player.Position;
 import it.polimi.ingsw.model.player.Worker;
 //event is true if it's NOT the first movement
@@ -12,7 +11,7 @@ public class TritonRules extends EventRule {
          super.consentMovement(worker, position);
          if(getEvent() && !position.isBoundary())
          {
-             throw new TritonException("Not Allowed");
+             throw new MoveGodPowerException("Not Allowed");
          }
      }
 

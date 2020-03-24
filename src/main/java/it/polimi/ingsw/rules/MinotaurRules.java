@@ -1,7 +1,7 @@
 package it.polimi.ingsw.rules;
 
 import it.polimi.ingsw.exceptions.actions.CantMoveException;
-import it.polimi.ingsw.exceptions.actions.movement.SamePlayerException;
+import it.polimi.ingsw.exceptions.actions.movement.MoveOnAllyWorkerException;
 import it.polimi.ingsw.exceptions.actions.movement.*;
 import it.polimi.ingsw.model.map.Board;
 import it.polimi.ingsw.model.player.Position;
@@ -11,19 +11,19 @@ public class MinotaurRules extends GodRules {
     @Override
     public void consentMovement(Worker worker, Position position) throws CantMoveException {
         if (worker.getPosition().getDistanceFrom(position) != 1) {
-            throw new aException("Maximum movement limit exceeded");
+            throw new MoveOutsideRangeException("Maximum movement limit exceeded");
         } else if (Board.getTile(position).hasDome()) {
-            throw new cException("This tile is no longer available for movement");
+            throw new DomeMoveException("This tile is no longer available for movement");
         } else if ( Board.getTile(position).getHeight() > Board.getTile(worker.getPosition()).getHeight() + 1) {
-            throw new dException("Unreachable tile from this position");
+            throw new ClimbMoveException("Unreachable tile from this position");
         } else if (getPositionBackwards(worker.getPosition(), position).isValid()) {
             throw new OutofBorderException("Out of border");
         } else if (getPositionBackwards(worker.getPosition(), position).getWorker() != null || Board.getTile(getPositionBackwards(worker.getPosition(), position)).hasDome()) {
-            throw new MinotaurException("Occupied tile");
+            throw new MoveGodPowerException("Occupied tile");
         }
         else if(worker.getMaster()==position.getWorker().getMaster())
         {
-            throw new SamePlayerException("Same player");
+            throw new MoveOnAllyWorkerException("Same player");
         }
     }
 

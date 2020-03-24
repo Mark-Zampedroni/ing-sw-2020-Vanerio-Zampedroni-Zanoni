@@ -13,7 +13,7 @@ public class PrometheusRules extends EventRule {
     public void consentMovement(Worker worker, Position position) throws CantMoveException {
         super.consentMovement(worker, position);
         if (getEvent() && Board.getTile(worker.getPosition()).getHeight() < Board.getTile(position).getHeight()) {
-            throw new PrometheusException("Not Allowed due to Prometheus' power");
+            throw new MoveGodPowerException("Not Allowed due to Prometheus' power");
         }
     }
 
