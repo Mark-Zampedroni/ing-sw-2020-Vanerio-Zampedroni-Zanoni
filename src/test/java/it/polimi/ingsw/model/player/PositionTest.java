@@ -15,13 +15,13 @@ class PositionTest {
 
     @Test
     void isValid() {
-        for(int x = 0; x<6; x++) {
-            for(int y = 0; y<6; y++) {
+        for(int x = 0; x<5; x++) {
+            for(int y = 0; y<5; y++) {
                 assertTrue((new Position(x,y)).isValid());
             }
         }
-        for(int x = -1; x>-6; x--) {
-            for(int y = -1; y>-6; y--) {
+        for(int x = -1; x>-5; x--) {
+            for(int y = -1; y>-5; y--) {
                 assertFalse((new Position(x,y)).isValid());
                 assertFalse((new Position(x,y*(-1))).isValid());
                 assertFalse((new Position(x*(-1),y)).isValid());
@@ -48,8 +48,8 @@ class PositionTest {
         Session.addPlayer(player);
 
         Worker worker = player.getWorkers().get(0);
-        for(int x = 0; x < 6; x++) {
-            for(int y = 0; y < 6; y++) {
+        for(int x = 0; x < 5; x++) {
+            for(int y = 0; y < 5; y++) {
                 worker.setPosition(new Position(x,y));
                 assertEquals((new Position(x,y)).getWorker(),worker);
                 assertNull((new Position(x+1,y)).getWorker());
@@ -79,10 +79,10 @@ class PositionTest {
     // Checks the correct return of equals() within the Board boundaries
     @Test
     void equals() {
-        for(int x = 0; x < 6;x++) {
-            for(int y = 0; y < 6; y++) {
-                for(int tx = 0; tx < 6; tx++) {
-                    for (int ty = 0; ty < 6; ty++) {
+        for(int x = 0; x < 5;x++) {
+            for(int y = 0; y < 5; y++) {
+                for(int tx = 0; tx < 5; tx++) {
+                    for (int ty = 0; ty < 5; ty++) {
                         position = new Position(x, y);
                         that = new Position(tx, ty);
                         if(x == tx && y == ty) {

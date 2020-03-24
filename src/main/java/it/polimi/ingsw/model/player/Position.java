@@ -28,7 +28,7 @@ public class Position {
     }
 
     public boolean isValid() {
-        return (x >= 0 && x < 6 && y >= 0 && y < 6);
+        return (x >= 0 && x < 5 && y >= 0 && y < 5);
     }
 
     // Returns distance as the number of Tiles
@@ -59,7 +59,7 @@ public class Position {
     }
 
     public boolean isBoundary() {
-        return (x == 0 || x == 5 || y == 0 || y == 5);
+        return (x == 0 || x == 4 || y == 0 || y == 4);
     }
 
     public int getX() {
