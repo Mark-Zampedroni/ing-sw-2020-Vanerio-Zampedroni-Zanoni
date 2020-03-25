@@ -2,7 +2,7 @@ package it.polimi.ingsw.rules;
 
 import it.polimi.ingsw.model.player.Position;
 
-public abstract class EventRule extends GodRules {
+public class EventRule extends GodRules {
     private boolean event=false;
     private Position pos;
 

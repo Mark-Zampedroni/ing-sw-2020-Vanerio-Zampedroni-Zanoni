@@ -8,7 +8,7 @@ public class AthenaRules extends EventRule {
     @Override
     public boolean blockedByEnemy(Worker worker, Position position)
     {
-        if (getEvent()) {return (Board.getTile(worker.getPosition()).getHeight() > Board.getTile(position).getHeight());}
+        if (getEvent()) {return (Board.getTile(worker.getPosition()).getHeight() < Board.getTile(position).getHeight());}
         else {return false;}
     }
 }
