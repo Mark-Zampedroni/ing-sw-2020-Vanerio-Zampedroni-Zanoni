@@ -12,8 +12,8 @@ public class Board {
 
     static {
         for (int i=0; i<Board.WIDTH; i++) {
-            for (int j=0; i<Board.HEIGHT; i++) {
-                tiles [i] [j] = new Tile();
+            for (int j=0; j<Board.HEIGHT; j++) {
+                tiles[i][j] = new Tile();
             }
         }
     }
