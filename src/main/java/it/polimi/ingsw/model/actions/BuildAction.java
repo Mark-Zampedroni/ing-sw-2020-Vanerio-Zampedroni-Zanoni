@@ -8,6 +8,7 @@ import it.polimi.ingsw.model.map.Tile;
 import it.polimi.ingsw.model.player.Position;
 import it.polimi.ingsw.model.player.Worker;
 import it.polimi.ingsw.rules.GodRules;
+import it.polimi.ingsw.rules.GodSharedRules;
 
 import java.util.ArrayList;
 
@@ -16,7 +17,7 @@ import static it.polimi.ingsw.model.Session.getBoard;
 public class BuildAction {
 
     public ArrayList<ActionType> buildTowerOn (Position position, Worker worker) {
-        GodRules rules = worker.getMaster().getRules();
+        GodSharedRules rules = worker.getMaster().getRules();
         ArrayList <ActionType> nextAction = new ArrayList<>();
         try {
             rules.consentBuild(worker, position);
@@ -24,6 +25,7 @@ public class BuildAction {
             }
         catch (CantBuildException e) {
             System.out.println("Build error, try again");
+            nextAction.add(ActionType.BUILD);
         }
         return nextAction;
     }

@@ -10,6 +10,7 @@ import java.util.ArrayList;
 
 public class TritonMoveAction extends MoveAction {
 
+    @Override
     public ArrayList<ActionType> fixOthers(Position position, Position oldPosition, Worker worker) {
         ArrayList<ActionType> nextAction = super.fixOthers(position, oldPosition, worker);
         if (position.isBoundary()) {

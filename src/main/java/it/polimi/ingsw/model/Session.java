@@ -4,14 +4,15 @@ import it.polimi.ingsw.model.map.Board;
 import it.polimi.ingsw.model.player.Player;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.Random;
 //import java.util.stream.Collectors;
 
 
 public class Session {
     private static ArrayList<Player> players = new ArrayList<>();
-    private static Board board;
-    private static ArrayList<Gods> godsList;
+    private static Board board = new Board();
+    private static ArrayList<Gods> godsList= new ArrayList<>();
 
     public static void addPlayer(Player player) {
         players.add(player);
@@ -24,9 +25,10 @@ public class Session {
     }
 
     public static void removePlayer(Player player) {
-        for (Player localPlayer : players) {
-            if (localPlayer.equals(player)) {
-                players.remove(localPlayer);
+        for(Iterator<Player> playerIterator = players.iterator(); playerIterator.hasNext();){
+            Player playerIt = playerIterator.next();
+            if (playerIt.equals(player)) {
+                playerIterator.remove();
             }
         }
     }

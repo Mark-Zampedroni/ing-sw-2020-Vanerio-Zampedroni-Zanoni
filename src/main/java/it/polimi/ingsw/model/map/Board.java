@@ -18,6 +18,14 @@ public class Board {
         }
     }
 
+    public static void clear() {
+        for (int i=0; i<Board.WIDTH; i++) {
+            for (int j=0; j<Board.HEIGHT; j++) {
+                tiles[i][j] = new Tile();
+            }
+        }
+    }
+
     public static Tile getTile(Position position) {
         return tiles[position.getX()][position.getY()]; }
 

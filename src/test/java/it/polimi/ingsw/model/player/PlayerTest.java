@@ -1,14 +1,13 @@
 package it.polimi.ingsw.model.player;
 
 import it.polimi.ingsw.enumerations.Gods;
+import it.polimi.ingsw.rules.GodRules;
+import it.polimi.ingsw.rules.GodSharedRules;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.*;
 
 
 class PlayerTest {
@@ -16,7 +15,6 @@ class PlayerTest {
     @Test
     void correctlyFlagged() {
         Player player = new Player("Paolo");
-        assertFalse(player.isChallenger());
         assertFalse(player.isChallenger());
         player.setChallenger();
         assertTrue(player.isChallenger());
@@ -26,7 +24,7 @@ class PlayerTest {
 
     @Test
     void correctlyCreated () {
-        Player player = new Player("Sandro");
+        Player player = new Player("Paolo");
         assertNull(player.getGod());
         player.setGod(Gods.APOLLO);
         String string = player.toString();
@@ -36,6 +34,9 @@ class PlayerTest {
         assertEquals(workers.size(), 2);
         assertEquals(workers.get(0).getMaster(), player);
         assertEquals(workers.get(1).getMaster(), player);
+        GodSharedRules rules = new GodRules();
+        player.setRules(rules);
+        assertNotEquals(player.getRules(), null);
     }
 
 

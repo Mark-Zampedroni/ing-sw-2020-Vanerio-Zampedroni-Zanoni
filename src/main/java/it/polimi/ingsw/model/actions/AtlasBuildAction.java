@@ -1,6 +1,6 @@
 package it.polimi.ingsw.model.actions;
 
-        import it.polimi.ingsw.enumerations.ActionType;
+import it.polimi.ingsw.enumerations.ActionType;
         import it.polimi.ingsw.enumerations.Gods;
         import it.polimi.ingsw.exceptions.actions.CantBuildException;
         import it.polimi.ingsw.model.map.Board;

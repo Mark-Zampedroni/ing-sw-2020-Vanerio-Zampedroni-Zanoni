@@ -7,21 +7,23 @@ import it.polimi.ingsw.model.map.Board;
 import it.polimi.ingsw.model.map.Tile;
 import it.polimi.ingsw.model.player.*;
 import it.polimi.ingsw.rules.GodRules;
+import it.polimi.ingsw.rules.GodSharedRules;
 
 import java.util.ArrayList;
 
 public class MoveAction {
 
     public ArrayList<ActionType> moveWorkerTo (Position position, Worker worker) {
-        GodRules rules = worker.getMaster().getRules();
+        GodSharedRules rules = worker.getMaster().getRules();
         Position oldPosition = worker.getPosition();
         ArrayList <ActionType> nextAction = new ArrayList<>();
         try {
             rules.consentMovement(worker, position);
-            worker.setPosition(position);
             nextAction = fixOthers(position, oldPosition, worker);
+            worker.setPosition(position);
         } catch (CantMoveException e) {
             System.out.println("Move error, try again");
+            nextAction.add(ActionType.MOVE);
         }
         return nextAction;
     }

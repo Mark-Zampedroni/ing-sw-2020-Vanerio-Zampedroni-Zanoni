@@ -14,11 +14,12 @@ public class ArthemisMoveAction extends MoveAction{
     @Override
     public ArrayList<ActionType> fixOthers(Position position, Position oldPosition, Worker worker) {
         EventRule rule = (EventRule) worker.getMaster().getRules();
+        ArrayList<ActionType> actions = new ArrayList<>();
+        if (!rule.getEvent()) {
+        actions.add(ActionType.MOVE); }
+        actions.add(ActionType.BUILD);
         rule.setEvent(true);
         rule.setPos(position);
-        ArrayList<ActionType> actions = new ArrayList<>();
-        actions.add(ActionType.BUILD);
-        actions.add(ActionType.MOVE);
         return actions;
     }
 }

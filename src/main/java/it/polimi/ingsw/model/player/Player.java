@@ -2,6 +2,8 @@ package it.polimi.ingsw.model.player;
 import it.polimi.ingsw.enumerations.Colors;
 import it.polimi.ingsw.enumerations.Gods;
 import it.polimi.ingsw.rules.GodRules;
+import it.polimi.ingsw.rules.GodSharedRules;
+
 import java.util.ArrayList;
 
 // STEFANO
@@ -9,7 +11,7 @@ import java.util.ArrayList;
 public class Player {
 
     private String username;
-    private GodRules rules;
+    private GodSharedRules rules;
     private ArrayList<Worker> workers;
     private boolean challenger;
     private Colors color;
@@ -37,11 +39,11 @@ public class Player {
         this.god=god;
     }
 
-    public void setRules(GodRules rules) {
+    public void setRules(GodSharedRules rules) {
         this.rules = rules;
     }
 
-    public GodRules getRules() {
+    public GodSharedRules getRules() {
         return rules;
     }
 
@@ -71,7 +73,7 @@ public class Player {
     public String toString() {
         return "{Username: "+this.username
                 +", Color: "+ String.valueOf(color)
-                +", God: " + String.valueOf(rules)
+                +", God: " + String.valueOf(god)
                 +"}";
     }
 
