@@ -1,13 +1,24 @@
 package it.polimi.ingsw.model.actions;
 
+import it.polimi.ingsw.enumerations.ActionType;
 import it.polimi.ingsw.model.player.Position;
 import it.polimi.ingsw.model.player.Worker;
+import it.polimi.ingsw.rules.AthenaRules;
+import it.polimi.ingsw.rules.EventRule;
+
+import java.util.ArrayList;
 
 public class ArthemisMoveAction extends MoveAction{
 
+    //metodo funziona per Artemide, vedere se funziona anche per altri
     @Override
-    public void fixOthers(Position position, Position oldPosition, Worker worker) {
-        worker.getMaster().getRules().setEvent(true);
-        worker.getMaster().getRules().setPos(position);
+    public ArrayList<ActionType> fixOthers(Position position, Position oldPosition, Worker worker) {
+        EventRule rule = (EventRule) worker.getMaster().getRules();
+        rule.setEvent(true);
+        rule.setPos(position);
+        ArrayList<ActionType> actions = new ArrayList<>();
+        actions.add(ActionType.BUILD);
+        actions.add(ActionType.MOVE);
+        return actions;
     }
 }
