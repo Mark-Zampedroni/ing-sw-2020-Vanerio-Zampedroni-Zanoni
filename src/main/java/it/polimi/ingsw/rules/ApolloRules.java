@@ -11,7 +11,7 @@ public class ApolloRules extends GodSharedRules {
     @Override
     public void consentMovement(Worker worker, Position position) throws CantMoveException {
         super.consentMovement(worker, position);
-        if (worker.getMaster() == position.getWorker().getMaster()) {
+        if (position.getWorker()!= null && worker.getMaster() == position.getWorker().getMaster()) {
             throw new MoveOnAllyWorkerException("Same player");
         }
     }
