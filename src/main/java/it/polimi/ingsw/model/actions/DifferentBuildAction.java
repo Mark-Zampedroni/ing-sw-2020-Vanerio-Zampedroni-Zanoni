@@ -14,10 +14,12 @@ public class DifferentBuildAction extends BuildAction {
     @Override
     public ArrayList<ActionType> executeBuild (Position position, Worker worker) {
         ArrayList<ActionType> nextAction = super.executeBuild(position, worker);
-        nextAction.add(ActionType.BUILD);
         EventRule rules = (EventRule) worker.getMaster().getRules();
-        rules.setEvent(true);
-        rules.setPos(position);
+        if (!rules.getEvent()) {
+            nextAction.add(ActionType.BUILD);
+            rules.setEvent(true);
+            rules.setPos(position);
+        }
         return nextAction;
     }
 }

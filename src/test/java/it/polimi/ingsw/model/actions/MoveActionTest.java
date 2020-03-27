@@ -31,8 +31,16 @@ class MoveActionTest {
         ArrayList<ActionType> nextAction= moving.moveWorkerTo(position, worker);
         assertTrue(worker.getPosition().equals(position));
         assertEquals(ActionType.BUILD, nextAction.get(0));
+
         //wrong move
-        position.setValue(4,4);
+        position = new Position (4,4);
+        nextAction = moving.moveWorkerTo(position, worker);
+        assertEquals(nextAction.get(0), ActionType.MOVE);
+
+        //other wrong move
+        position = new Position (1,3);
+        Board.getTile(position).increaseHeight();
+        Board.getTile(position).increaseHeight();
         nextAction = moving.moveWorkerTo(position, worker);
         assertEquals(nextAction.get(0), ActionType.MOVE);
     }
