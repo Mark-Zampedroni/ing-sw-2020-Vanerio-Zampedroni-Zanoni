@@ -31,6 +31,8 @@ public class Player {
         this.god=null;
     }
 
+    public void setColor(Colors color){ this.color=color;}
+
     public String getUsername(){
         return this.username;
     }
