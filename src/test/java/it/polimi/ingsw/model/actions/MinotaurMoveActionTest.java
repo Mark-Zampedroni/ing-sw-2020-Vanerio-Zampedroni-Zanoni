@@ -1,6 +1,7 @@
 package it.polimi.ingsw.model.actions;
 
 import it.polimi.ingsw.enumerations.ActionType;
+import it.polimi.ingsw.enumerations.Colors;
 import it.polimi.ingsw.enumerations.Gods;
 import it.polimi.ingsw.model.Session;
 import it.polimi.ingsw.model.map.Board;
@@ -28,6 +29,7 @@ class MinotaurMoveActionTest {
         Position position = new Position(1, 2);
         Player player = new Player("Giuseppe");
         Player playerTwo = new Player("Giovanni");
+        playerTwo.setColor(Colors.WHITE);
         Session.addPlayer(player);
         Session.addPlayer(playerTwo);
         Worker opponentWorker = playerTwo.getWorkers().get(0);
@@ -39,9 +41,6 @@ class MinotaurMoveActionTest {
         worker.setPosition(oldPosition);
         MoveAction moving = new MinotaurMoveAction();
         ArrayList<ActionType> nextAction = moving.moveWorkerTo(position, worker);
-        System.out.println(worker.getPosition());
-        System.out.println(opponentWorker.getPosition());
-        //c'è un problema con il consent
         assertTrue(worker.getPosition().equals(position));
         Position opponentPosition = opponentWorker.getPosition();
         position.setValue(position.getX(), position.getY()+1);
