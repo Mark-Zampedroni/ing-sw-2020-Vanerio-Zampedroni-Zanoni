@@ -2,7 +2,6 @@ package it.polimi.ingsw.rules;
 
 import it.polimi.ingsw.enumerations.Target;
 import it.polimi.ingsw.exceptions.NotInstantiableClass;
-import it.polimi.ingsw.exceptions.WrongGodException;
 import it.polimi.ingsw.exceptions.actions.CantActException;
 import it.polimi.ingsw.model.map.Board;
 import it.polimi.ingsw.model.player.Position;
@@ -15,8 +14,7 @@ public class Check {
     }
 
     public static void positionValidity(Position position, boolean value, String msg) throws CantActException {
-        if(!position.isValid() == value)
-        { throw new CantActException(msg); }
+        if(!position.isValid() == value) { throw new CantActException(msg); }
     }
 
     public static void positionValidity(Position position) throws CantActException {
@@ -42,9 +40,7 @@ public class Check {
     }
 
     public static void boundary(Position position, boolean value, String msg) throws CantActException {
-        if(position.isBoundary() == value) {
-            throw new CantActException(msg);
-        }
+        if(position.isBoundary() == value) { throw new CantActException(msg); }
     }
 
     public static void boundary(Position position) throws CantActException {
@@ -52,10 +48,7 @@ public class Check {
     }
 
     public static void height(Worker worker, Position position, int offset, String msg) throws CantActException {
-        if (Board.getTile(position).getHeight() >
-                Board.getTile(worker.getPosition()).getHeight() + offset) {
-            throw new CantActException(msg);
-        }
+        if (Board.getTile(position).getHeight() > Board.getTile(worker.getPosition()).getHeight() + offset) { throw new CantActException(msg); }
     }
 
     public static void height(Worker worker, Position position) throws CantActException {
@@ -63,9 +56,7 @@ public class Check {
     }
 
     public static void distance(Worker worker, Position position, int value, String msg) throws CantActException {
-        if(worker.getPosition().getDistanceFrom(position) != value) {
-            throw new CantActException(msg);
-        }
+        if(worker.getPosition().getDistanceFrom(position) != value) { throw new CantActException(msg); }
     }
 
     public static void distance(Worker worker, Position position) throws CantActException {
@@ -73,26 +64,28 @@ public class Check {
     }
 
     public static void dome(Position position, boolean value, String msg) throws CantActException {
-        if(Board.getTile(position).hasDome() == value) {
-            throw new CantActException(msg);
-        }
+        if(Board.getTile(position).hasDome() == value) { throw new CantActException(msg); }
     }
 
     public static void dome(Position position) throws CantActException {
         dome(position,true,"Tile has a dome");
     }
 
-    public static void oldPosition(Worker worker, Position position, boolean value, String msg) throws CantActException, WrongGodException {
-        GodSharedRules base = worker.getMaster().getRules();
-        if (!(base instanceof EventRule)) {
-            throw new WrongGodException("Static method passed on wrong god instance");
-        }
+    public static void oldPosition(Worker worker, Position position, boolean value, String msg) throws CantActException {
         EventRule eventBase = (EventRule) worker.getMaster().getRules();
-        if (position.equals(eventBase.getPos()) == value) { throw new CantActException(msg); }
+        if (eventBase.getEvent() && position.equals(eventBase.getPos()) == value) { throw new CantActException(msg); }
     }
 
-    public static void oldPosition(Worker worker, Position position) throws CantActException, WrongGodException {
+    public static void oldPosition(Worker worker, Position position) throws CantActException {
         oldPosition(worker,position,true,"Tile can't be old position");
+    }
+
+    public static void self(Worker worker, Position position, boolean value, String msg) throws CantActException {
+        if(position.getWorker() != null && (worker.getPosition()!=position)==value) { throw new CantActException(msg); }
+    }
+
+    public static void self(Worker worker, Position position) throws CantActException {
+        self(worker, position, true, "You must do that on the tile where is your worker");
     }
 
 }

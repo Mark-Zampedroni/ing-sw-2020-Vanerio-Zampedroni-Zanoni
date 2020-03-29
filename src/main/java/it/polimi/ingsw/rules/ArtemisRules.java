@@ -1,8 +1,7 @@
 package it.polimi.ingsw.rules;
 
 import it.polimi.ingsw.enumerations.ActionType;
-import it.polimi.ingsw.exceptions.actions.CantMoveException;
-import it.polimi.ingsw.exceptions.actions.movement.MoveGodPowerException;
+import it.polimi.ingsw.exceptions.actions.CantActException;
 import it.polimi.ingsw.model.player.*;
 import it.polimi.ingsw.model.player.Worker;
 
@@ -23,12 +22,9 @@ public class ArtemisRules extends EventRule {
     }
 
     @Override
-    public void consentMovement(Worker worker, Position position) throws CantMoveException {
+    public void consentMovement(Worker worker, Position position) throws CantActException {
         super.consentMovement(worker, position);
-        if (getEvent() && position.equals(getPos()))
-        {
-            throw new MoveGodPowerException("Not Allowed");
-        }
+        Check.oldPosition(worker,position);
     }
 
 }

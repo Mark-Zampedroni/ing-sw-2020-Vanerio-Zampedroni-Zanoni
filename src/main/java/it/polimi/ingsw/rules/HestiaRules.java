@@ -1,8 +1,7 @@
 package it.polimi.ingsw.rules;
 
 import it.polimi.ingsw.enumerations.ActionType;
-import it.polimi.ingsw.exceptions.actions.CantBuildException;
-import it.polimi.ingsw.exceptions.actions.building.BuildGodPowerException;
+import it.polimi.ingsw.exceptions.actions.CantActException;
 import it.polimi.ingsw.model.player.Position;
 import it.polimi.ingsw.model.player.Worker;
 
@@ -23,11 +22,8 @@ public class HestiaRules extends EventRule {
     }
 
     @Override
-    public void consentBuild(Worker worker, Position position) throws CantBuildException {
+    public void consentBuild(Worker worker, Position position) throws CantActException {
         super.consentBuild(worker, position);
-        if(getEvent() && position.isBoundary())
-        {
-            throw new BuildGodPowerException("Can't build on perimeter space");
-        }
+        Check.boundary(position);
     }
 }

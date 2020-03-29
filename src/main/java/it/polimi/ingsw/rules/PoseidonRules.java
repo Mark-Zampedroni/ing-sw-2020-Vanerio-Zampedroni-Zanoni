@@ -22,6 +22,7 @@ public class PoseidonRules extends GodRules{
     public void increaseCounter(){
         counter++;
     }
+
     public void clearCounter(){
         counter=0;
     }

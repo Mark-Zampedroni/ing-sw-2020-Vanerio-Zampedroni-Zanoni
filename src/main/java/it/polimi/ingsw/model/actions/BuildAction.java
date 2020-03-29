@@ -2,17 +2,14 @@ package it.polimi.ingsw.model.actions;
 
 import it.polimi.ingsw.constants.Height;
 import it.polimi.ingsw.enumerations.ActionType;
-import it.polimi.ingsw.exceptions.actions.CantBuildException;
+import it.polimi.ingsw.exceptions.actions.CantActException;
 import it.polimi.ingsw.model.map.Board;
 import it.polimi.ingsw.model.map.Tile;
 import it.polimi.ingsw.model.player.Position;
 import it.polimi.ingsw.model.player.Worker;
-import it.polimi.ingsw.rules.GodRules;
 import it.polimi.ingsw.rules.GodSharedRules;
 
 import java.util.ArrayList;
-
-import static it.polimi.ingsw.model.Session.getBoard;
 
 public class BuildAction {
 
@@ -23,7 +20,7 @@ public class BuildAction {
             rules.consentBuild(worker, position);
             nextAction = executeBuild (position, worker);
             }
-        catch (CantBuildException e) {
+        catch (CantActException e) {
             System.out.println("Build error, try again");
             nextAction.add(ActionType.BUILD);
         }
