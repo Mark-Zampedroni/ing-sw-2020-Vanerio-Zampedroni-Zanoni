@@ -1,4 +1,5 @@
 package it.polimi.ingsw.rules;
+
 import it.polimi.ingsw.enumerations.Target;
 import it.polimi.ingsw.exceptions.actions.*;
 import it.polimi.ingsw.model.player.Position;

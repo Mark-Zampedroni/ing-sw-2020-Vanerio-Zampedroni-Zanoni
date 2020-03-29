@@ -6,8 +6,6 @@ import it.polimi.ingsw.model.player.Position;
 import it.polimi.ingsw.model.player.Worker;
 import it.polimi.ingsw.rules.Check;
 import it.polimi.ingsw.rules.EventRule;
-
-import java.util.ArrayList;
 import java.util.List;
 
 //event is true if it's the 2nd building action
