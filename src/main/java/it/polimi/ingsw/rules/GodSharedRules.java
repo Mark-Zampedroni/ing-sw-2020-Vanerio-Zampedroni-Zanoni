@@ -16,55 +16,31 @@ import static it.polimi.ingsw.constants.Height.TOP;
 
 public abstract class GodSharedRules {
 
-
-
-
     public List<ActionType> afterSelect() {
         return new ArrayList<>(Arrays.asList(ActionType.SELECT_WORKER, ActionType.MOVE));
-     }
+    }
 
-     public List<ActionType> afterMove() {
+    public List<ActionType> afterMove() {
         List<ActionType> actions = new ArrayList<>();
         actions.add(ActionType.BUILD);
         return actions;
-     }
+    }
 
-     public List<ActionType> afterBuild() {
+    public List<ActionType> afterBuild() {
         List<ActionType> actions = new ArrayList<>();
         actions.add(ActionType.END_TURN);
         return actions;
-     }
-
-    public void executeBuild(Position position) {
-        Tile tile = Board.getTile(position);
-        tile.increaseHeight();
-     }
-
-    public void executeMove(Worker worker, Position position) {
-        worker.setPosition(position);
     }
 
-    public boolean consentSelection(Worker worker, List<ActionType> actions) {
-        for (ActionType action : actions) {
-            for (int i = -1; i < 2; i++) {
-                for (int j = -1; j < 2; j++) {
-                    try {
-                        switch (action) {
-                            case BUILD:
-                                consentBuild(worker, new Position(worker.getPosition().getX() + i, worker.getPosition().getY() + j));
-                            case MOVE:
-                                consentMovement(worker, new Position(worker.getPosition().getX() + i, worker.getPosition().getY() + j));
-                                return true;
-                        }
-                    } catch (CantActException e){}
-                }
-            }
-            return false;}
-        return false;}
+    public void consentSelect(Worker worker, List<ActionType> actions) throws CantActException {
+        if (!isSelectable(worker, actions)) {
+            throw new CantActException("This worker can't do any action");
+        }
+    }
 
     public void consentBuild(Worker worker, Position position) throws CantActException {
         Check.positionValidity(position);
-        Check.distance(worker,position);
+        Check.distance(worker, position);
         Check.dome(position);
     }
 
@@ -75,13 +51,39 @@ public abstract class GodSharedRules {
         Check.height(worker, position);
         // CHECK ATHENA BLOCK
     }
+
     public boolean isWinner(Worker worker, Position position) {
-        return(Board.getTile(worker.getPosition()).getHeight()==MID && Board.getTile(position).getHeight()==TOP);
+        return (Board.getTile(worker.getPosition()).getHeight() == MID && Board.getTile(position).getHeight() == TOP);
     }
 
-    public boolean blockedByEnemy(Worker worker, Position position) { return false; }
-}
+    public boolean blockedByEnemy(Worker worker, Position position) {
+        return false;
+    }
 
+    public boolean isSelectable(Worker worker, List<ActionType> actions) {
+        for (int i = -1; i < 2; i++) {
+            for (int j = -1; j < 2; j++) {
+                for (ActionType action : actions) {
+                    try {
+                        switch (action) {
+                            case BUILD:
+                                consentBuild(worker, new Position(worker.getPosition().getX() + i, worker.getPosition().getY() + j));
+                                return true;
+                            case MOVE:
+                                consentMovement(worker, new Position(worker.getPosition().getX() + i, worker.getPosition().getY() + j));
+                                return true;
+                            default:
+                                continue;
+                        }
+                    } catch (CantActException e) {
+                        continue;
+                    }
+                }
+            }
+        }
+        return false;
+    }
+}
 
 /* QUESTI DUE METODI NEL CONTROLLER */
 
