@@ -11,6 +11,7 @@ import static it.polimi.ingsw.constants.Height.TOP;
 public class PanRules extends GodRules {
     @Override
     public boolean isWinner(Worker worker, Position position){
-        return(Board.getTile(worker.getPosition()).getHeight()==MID && Board.getTile(position).getHeight()==TOP || Board.getTile(worker.getPosition()).getHeight() >= Board.getTile(position).getHeight() +2  );
+        return(super.isWinner(worker,position) ||
+               Board.getTile(worker.getPosition()).getHeight() >= Board.getTile(position).getHeight() +2  );
     }
 }
