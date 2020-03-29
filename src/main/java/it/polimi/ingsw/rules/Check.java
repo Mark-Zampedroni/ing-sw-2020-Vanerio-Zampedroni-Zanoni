@@ -1,7 +1,7 @@
 package it.polimi.ingsw.rules;
 
 import it.polimi.ingsw.enumerations.Target;
-import it.polimi.ingsw.exceptions.NotInstanciableClass;
+import it.polimi.ingsw.exceptions.NotInstantiableClass;
 import it.polimi.ingsw.exceptions.WrongGodException;
 import it.polimi.ingsw.exceptions.actions.CantActException;
 import it.polimi.ingsw.model.map.Board;
@@ -10,8 +10,8 @@ import it.polimi.ingsw.model.player.Worker;
 
 public class Check {
 
-    public Check() throws NotInstanciableClass {
-        throw new NotInstanciableClass();
+    public Check() throws NotInstantiableClass {
+        throw new NotInstantiableClass();
     }
 
     public static void positionValidity(Position position, boolean value, String msg) throws CantActException {
