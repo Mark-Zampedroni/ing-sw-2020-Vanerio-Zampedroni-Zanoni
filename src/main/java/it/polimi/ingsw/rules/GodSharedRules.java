@@ -16,6 +16,15 @@ import static it.polimi.ingsw.constants.Height.TOP;
 
 public abstract class GodSharedRules {
 
+    public void executeMove(Worker worker, Position position) {
+        worker.setPosition(position);
+    }
+
+    public void executeBuild(Position position) {
+        Tile tile = Board.getTile(position);
+        tile.increaseHeight();
+    }
+
     public List<ActionType> afterSelect() {
         return new ArrayList<>(Arrays.asList(ActionType.SELECT_WORKER, ActionType.MOVE));
     }
