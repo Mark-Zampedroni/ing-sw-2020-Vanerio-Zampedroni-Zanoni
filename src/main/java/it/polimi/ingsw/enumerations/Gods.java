@@ -22,8 +22,9 @@ public enum Gods {
             case TRITON: rule = new TritonRules();
             case POSEIDON: rule = new PoseidonRules();
             case HESTIA: rule = new HestiaRules();
-            return rule;
+            default: rule = new GodRules(); // Can't occur
         }
+        return rule;
     }
 
 
