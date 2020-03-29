@@ -28,6 +28,7 @@ public class PoseidonRules extends GodRules {
         counter=0;
     }
 
+    /* Da sistemare - va diviso in afterBuild e executeBuild
     @Override
     public ArrayList<ActionType> executeBuild (Position position, Worker worker) {
         ArrayList<ActionType> nextAction= super.executeBuild(position, worker);
@@ -45,5 +46,5 @@ public class PoseidonRules extends GodRules {
             nextAction.add(ActionType.BUILD_OTHER);
         }
         return nextAction;
-    }
+    } */
 }

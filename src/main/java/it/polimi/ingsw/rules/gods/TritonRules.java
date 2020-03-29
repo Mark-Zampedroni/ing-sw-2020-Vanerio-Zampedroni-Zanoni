@@ -3,17 +3,22 @@ package it.polimi.ingsw.rules.gods;
 import it.polimi.ingsw.enumerations.ActionType;
 import it.polimi.ingsw.model.player.Position;
 import it.polimi.ingsw.model.player.Worker;
-import it.polimi.ingsw.rules.GodRules;
+import it.polimi.ingsw.rules.EventRule;
+import java.util.List;
 
-import java.util.ArrayList;
+public class TritonRules extends EventRule {
 
-public class TritonRules extends GodRules {
     @Override
-    public ArrayList<ActionType> fixOthers(Position position, Position oldPosition, Worker worker) {
-        ArrayList<ActionType> nextAction = super.fixOthers(position, oldPosition, worker);
-        if (position.isBoundary()) {
-            nextAction.add(ActionType.MOVE);
-        }
-        return nextAction;
+    public void executeMove(Worker worker, Position position) {
+        super.executeMove(worker, position);
+        setEvent(position.isBoundary());
     }
+
+    @Override
+    public List<ActionType> afterMove() {
+        List<ActionType> actions = super.afterMove();
+        if(getEvent()) { actions.add(ActionType.MOVE); }
+        return actions;
+    }
+
 }

@@ -19,9 +19,7 @@ public abstract class GodSharedRules {
 
 
     public List<ActionType> afterSelect() {
-        List<ActionType> actions = new ArrayList<>();
-        actions.addAll(Arrays.asList(ActionType.SELECT_WORKER, ActionType.MOVE));
-        return actions;
+        return new ArrayList<>(Arrays.asList(ActionType.SELECT_WORKER, ActionType.MOVE));
      }
 
      public List<ActionType> afterMove() {
@@ -44,6 +42,7 @@ public abstract class GodSharedRules {
     public void executeMove(Worker worker, Position position) {
         worker.setPosition(position);
     }
+
 
     public void consentBuild(Worker worker, Position position) throws CantActException {
         Check.distance(worker,position);

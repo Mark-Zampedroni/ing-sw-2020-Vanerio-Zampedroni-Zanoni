@@ -7,26 +7,32 @@ import it.polimi.ingsw.model.player.Worker;
 import it.polimi.ingsw.rules.Check;
 import it.polimi.ingsw.rules.EventRule;
 
+import javax.swing.plaf.basic.BasicSliderUI;
 import java.util.ArrayList;
+import java.util.List;
 
 public class PrometheusRules extends EventRule {
 //event true if the worker has built before movement
-    @Override
 
+    @Override
+    public void executeBuild(Position position) {
+        if(!getEvent()) {
+            setEvent(true);
+        }
+        super.executeBuild(position);
+    }
+
+    @Override
+    public List<ActionType> afterBuild() {
+        List<ActionType> actions = super.afterBuild();
+        if(!getEvent()) { actions.add(ActionType.MOVE); }
+        return actions;
+    }
+
+    @Override
     public void consentMovement(Worker worker, Position position) throws CantActException {
         super.consentMovement(worker, position);
         Check.height(worker, position);
-    }
-//Rivedere
-    @Override
-    public ArrayList<ActionType> executeBuild(Position position, Worker worker) {
-        ArrayList<ActionType> nextAction;
-        nextAction = super.executeBuild(position, worker);
-        if (!this.getEvent()) {
-            this.setEvent(true);
-            nextAction = new ArrayList<>();
-            nextAction.add(ActionType.MOVE);}
-        return nextAction;
     }
 
 }

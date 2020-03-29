@@ -13,9 +13,9 @@ import java.util.ArrayList;
 public class MinotaurRules extends ApolloRules {
 
     @Override
-    public ArrayList<ActionType> fixOthers(Position position, Position oldPosition, Worker worked) {
-        position.getWorker().setPosition(getPositionBackwards(position, oldPosition));
-        return super.fixOthers(position, oldPosition, worked);
+    public void executeMove(Worker worker, Position position) {
+        position.getWorker().setPosition(getPositionBackwards(worker.getPosition(),position));
+        worker.setPosition(position);
     }
 
     @Override
