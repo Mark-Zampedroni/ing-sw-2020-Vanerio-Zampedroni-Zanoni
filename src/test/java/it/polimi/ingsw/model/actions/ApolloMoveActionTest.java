@@ -1,14 +1,12 @@
 package it.polimi.ingsw.model.actions;
 
 import it.polimi.ingsw.enumerations.ActionType;
-import it.polimi.ingsw.enumerations.Gods;
 import it.polimi.ingsw.model.Session;
 import it.polimi.ingsw.model.map.Board;
 import it.polimi.ingsw.model.player.Player;
 import it.polimi.ingsw.model.player.Position;
 import it.polimi.ingsw.model.player.Worker;
-import it.polimi.ingsw.rules.ApolloRules;
-import it.polimi.ingsw.rules.GodRules;
+import it.polimi.ingsw.rules.gods.ApolloRules;
 import it.polimi.ingsw.rules.GodSharedRules;
 import org.junit.jupiter.api.Test;
 

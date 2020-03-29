@@ -1,8 +1,9 @@
-package it.polimi.ingsw.rules;
+package it.polimi.ingsw.rules.gods;
 
 import it.polimi.ingsw.enumerations.ActionType;
 import it.polimi.ingsw.model.player.Position;
 import it.polimi.ingsw.model.player.Worker;
+import it.polimi.ingsw.rules.GodRules;
 
 import java.util.ArrayList;
 

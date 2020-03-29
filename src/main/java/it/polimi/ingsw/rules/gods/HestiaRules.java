@@ -1,14 +1,16 @@
-package it.polimi.ingsw.rules;
+package it.polimi.ingsw.rules.gods;
 
 import it.polimi.ingsw.enumerations.ActionType;
 import it.polimi.ingsw.exceptions.actions.CantActException;
 import it.polimi.ingsw.model.player.Position;
 import it.polimi.ingsw.model.player.Worker;
+import it.polimi.ingsw.rules.Check;
+import it.polimi.ingsw.rules.EventRule;
 
 import java.util.ArrayList;
 
-//event is true if it's the 2nd building action
-public class HephaestusRules extends EventRule {
+//Event is true during the additional turn
+public class HestiaRules extends EventRule {
 
     @Override
     public ArrayList<ActionType> executeBuild (Position position, Worker worker) {
@@ -24,6 +26,6 @@ public class HephaestusRules extends EventRule {
     @Override
     public void consentBuild(Worker worker, Position position) throws CantActException {
         super.consentBuild(worker, position);
-        Check.oldPosition(worker, position, false, "You must build on the previous position");
+        Check.boundary(position);
     }
 }

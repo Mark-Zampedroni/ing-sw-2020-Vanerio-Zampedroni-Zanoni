@@ -1,13 +1,14 @@
-package it.polimi.ingsw.rules;
+package it.polimi.ingsw.rules.gods;
 
 import it.polimi.ingsw.enumerations.ActionType;
 import it.polimi.ingsw.model.map.Board;
 import it.polimi.ingsw.model.player.Position;
 import it.polimi.ingsw.model.player.Worker;
+import it.polimi.ingsw.rules.GodRules;
 
 import java.util.ArrayList;
 
-public class PoseidonRules extends GodRules{
+public class PoseidonRules extends GodRules {
     //Il controllo sull'altezza della tile del worker che non si è mosso viene effettuato come ritorno
     private int counter;
 

@@ -1,7 +1,6 @@
 package it.polimi.ingsw.model.player;
 import it.polimi.ingsw.enumerations.Colors;
 import it.polimi.ingsw.enumerations.Gods;
-import it.polimi.ingsw.rules.GodRules;
 import it.polimi.ingsw.rules.GodSharedRules;
 
 import java.util.ArrayList;

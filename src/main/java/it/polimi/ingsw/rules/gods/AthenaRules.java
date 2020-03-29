@@ -1,6 +1,7 @@
-package it.polimi.ingsw.rules;
+package it.polimi.ingsw.rules.gods;
 
 import it.polimi.ingsw.model.player.*;
+import it.polimi.ingsw.rules.EventRule;
 
 public class AthenaRules extends EventRule {
     //event is true if worker has moved up

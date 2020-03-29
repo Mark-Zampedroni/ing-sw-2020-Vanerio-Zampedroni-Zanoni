@@ -1,7 +1,7 @@
 package it.polimi.ingsw.enumerations;
 
 import it.polimi.ingsw.rules.*;
-import it.polimi.ingsw.rules.GodSharedRules;
+import it.polimi.ingsw.rules.gods.*;
 
 public enum Gods {
     APOLLO, ARTEMIS, ATHENA, ATLAS, DEMETER, HEPHAESTUS, MINOTAUR, PAN, PROMETHEUS, ZEUS, TRITON, POSEIDON, HESTIA;
