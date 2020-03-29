@@ -6,21 +6,23 @@ import it.polimi.ingsw.model.player.*;
 import it.polimi.ingsw.model.player.Worker;
 import it.polimi.ingsw.rules.Check;
 import it.polimi.ingsw.rules.EventRule;
-
-import java.util.ArrayList;
+import java.util.List;
 
 // event is true when additional movement turn has been occurred
 public class ArtemisRules extends EventRule {
 
     @Override
-    public ArrayList<ActionType> fixOthers(Position position, Position oldPosition, Worker worker) {
-        ArrayList<ActionType> actions = new ArrayList<>();
-        if (!this.getEvent()) {
-            actions.add(ActionType.MOVE); }
-        actions.add(ActionType.BUILD);
-        this.setEvent(true);
-        this.setPos(position);
+    public List<ActionType> afterMove() {
+        List<ActionType> actions = super.afterMove();
+        if(!getEvent()) { actions.add(ActionType.MOVE); }
         return actions;
+    }
+
+    @Override
+    public void executeMove(Worker worker, Position position) {
+        setEvent(true);
+        setPos(position);
+        super.executeMove(worker, position);
     }
 
     @Override

@@ -12,17 +12,10 @@ import java.util.ArrayList;
 public class AtlasRules extends EventRule {
 
     @Override
-    public ArrayList<ActionType> executeBuild (Position position, Worker worker) {
-
-        ArrayList<ActionType> nextAction;
-        if (!this.getEvent()) {
-            nextAction= super.executeBuild(position, worker);
-        } else {
-            Tile tile = Board.getTile(position);
-            tile.placeDome();
-            nextAction = new ArrayList<>();
-            nextAction.add(ActionType.END_TURN);
-        }
-        return nextAction;
+    public void executeBuild(Position position) {
+        Tile tile = Board.getTile(position);
+        if(!getEvent()) { tile.increaseHeight(); }
+        else { tile.placeDome(); }
     }
+
 }

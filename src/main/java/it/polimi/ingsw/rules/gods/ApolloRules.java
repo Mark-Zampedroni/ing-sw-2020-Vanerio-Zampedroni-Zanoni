@@ -13,9 +13,9 @@ import java.util.ArrayList;
 public class ApolloRules extends GodSharedRules {
 
     @Override
-    public ArrayList<ActionType> fixOthers(Position position, Position oldPosition, Worker worker) {
-        position.getWorker().setPosition(oldPosition);
-        return super.fixOthers(position, oldPosition, worker);
+    public void executeMove(Worker worker, Position position) {
+        position.getWorker().setPosition(worker.getPosition());
+        super.executeMove(worker, position);
     }
 
     @Override

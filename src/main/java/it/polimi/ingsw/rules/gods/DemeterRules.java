@@ -8,26 +8,31 @@ import it.polimi.ingsw.rules.Check;
 import it.polimi.ingsw.rules.EventRule;
 
 import java.util.ArrayList;
+import java.util.List;
 // event is true when additional building turn has been occurred
 
 public class DemeterRules extends EventRule {
 
     @Override
-    public ArrayList<ActionType> executeBuild (Position position, Worker worker) {
-        ArrayList<ActionType> nextAction = super.executeBuild(position, worker);
-        if (!this.getEvent()) {
-            nextAction.add(ActionType.BUILD);
-            this.setEvent(true);
-            this.setPos(position);
+    public void executeBuild(Position position) {
+        if(!getEvent()) {
+            setEvent(true);
+            setPos(position);
         }
-        return nextAction;
+        super.executeBuild(position);
+    }
+
+    @Override
+    public List<ActionType> afterBuild() {
+        List<ActionType> actions = super.afterBuild();
+        if(!getEvent()) { actions.add(ActionType.BUILD); }
+        return actions;
     }
 
     @Override
     public void consentBuild(Worker worker, Position position) throws CantActException {
         super.consentBuild(worker, position);
         Check.oldPosition(worker, position);
-
     }
 
 }
