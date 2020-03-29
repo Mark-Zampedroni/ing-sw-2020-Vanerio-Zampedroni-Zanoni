@@ -1,4 +1,5 @@
 package it.polimi.ingsw.enumerations;
 
-public enum Colors { WHITE, BLUE, BROWN
+public enum Colors {
+    HITE, BLUE, BROWN;
 }
