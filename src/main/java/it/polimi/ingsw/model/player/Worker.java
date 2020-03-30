@@ -14,8 +14,13 @@ public class Worker {
     // Returns a copy of Position, so it can't be changed
     public Position getPosition() { return position.copy(); }
 
-    public void setPosition(Position position) { this.position = position; }
-    public void setPosition(int x, int y) { this.position = new Position(x,y); }
+    public void setPosition(Position position) {
+        if(position.getWorker() == null) {
+            this.position = position.copy();
+        }
+        else { System.out.println("Position is occupied by: "+position.getWorker()); }
+    }
+    public void setPosition(int x, int y) { setPosition(new Position(x,y)); }
 
     public Player getMaster() { return master; }
 

@@ -1,6 +1,8 @@
 package it.polimi.ingsw.model.player;
 
 import it.polimi.ingsw.model.Session;
+import it.polimi.ingsw.model.map.Board;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -15,9 +17,16 @@ class WorkerTest {
 
     @BeforeEach
     void setUp() {
+        Board.clear();
         player = new Player("TestName");
         Session.addPlayer(player);
         worker = player.getWorkers().get(0);
+    }
+
+    @AfterEach
+    void clearUp() {
+        Board.clear();
+        Session.removePlayer(player);
     }
 
     @Test
@@ -33,7 +42,7 @@ class WorkerTest {
     }
 
     @Test
-    void print() {
+    void testToString() {
         worker.setPosition(1,2);
         assertEquals("{Master: {Username: TestName, Color: BLUE, God: null} X: 1 Y: 2}", worker.toString());
     }

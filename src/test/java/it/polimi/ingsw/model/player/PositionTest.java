@@ -1,6 +1,9 @@
 package it.polimi.ingsw.model.player;
 
 import it.polimi.ingsw.model.Session;
+import it.polimi.ingsw.model.map.Board;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.Assert.assertTrue;
@@ -13,6 +16,12 @@ import static org.junit.Assert.assertSame;
 class PositionTest {
 
     Position position, that;
+
+    @BeforeEach
+    @AfterEach
+    void setUp() {
+        Board.clear();
+    }
 
     @Test
     void isValid() {
@@ -49,9 +58,11 @@ class PositionTest {
         Session.addPlayer(player);
 
         Worker worker = player.getWorkers().get(0);
-        for(int x = 0; x < 5; x++) {
-            for(int y = 0; y < 5; y++) {
-                worker.setPosition(new Position(x,y));
+        for(int x = 1; x < 4; x++) {
+            for(int y = 0; y < 4; y++) {
+                worker.setPosition(x,y);
+                System.out.println("x: "+x+", y: "+y);
+                System.out.println(worker);
                 assertNull((new Position(x+1,y)).getWorker());
                 assertNull((new Position(x,y+1)).getWorker());
                 assertSame((new Position(x,y)).getWorker(),worker);
@@ -85,7 +96,7 @@ class PositionTest {
 
     // toString test
     @Test
-    void print() {
+    void testToString() {
         for(int x = 0; x < 5;x++) {
             for (int y = 0; y < 5; y++) {
                 assertEquals("("+x+","+y+")",(new Position(x,y).toString()));

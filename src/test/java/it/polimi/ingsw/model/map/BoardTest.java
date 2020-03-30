@@ -27,7 +27,7 @@ class BoardTest {
     }
 
     @Test
-    void correctManagment() {
+    void correctManagement() {
         Board.getTile(new Position(2,3)).increaseHeight();
         Board.getTile(new Position(4, 4)).placeDome();
         assertEquals(Board.getTile(new Position(2,3)).getHeight(), 1);

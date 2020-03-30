@@ -1,8 +1,6 @@
 package it.polimi.ingsw.model.map;
 import static it.polimi.ingsw.constants.Height.*;
 
-// MARK -- OK
-
 public class Tile {
 
     private int height;
@@ -31,7 +29,7 @@ public class Tile {
 
     @Override
     public String toString() {
-        return (hasDome()) ? "Tower is completed." : "Tower height is " + height;
+        return "Tower, height: "+height+", dome: "+dome;
     }
 
 
