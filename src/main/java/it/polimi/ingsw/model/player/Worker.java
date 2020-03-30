@@ -1,10 +1,5 @@
 package it.polimi.ingsw.model.player;
 
-// MARK -- OK
-
-import it.polimi.ingsw.model.player.Player;
-import it.polimi.ingsw.model.player.Position;
-
 public class Worker {
 
     private Position position;
@@ -20,6 +15,7 @@ public class Worker {
     public Position getPosition() { return position.copy(); }
 
     public void setPosition(Position position) { this.position = position; }
+    public void setPosition(int x, int y) { this.position = new Position(x,y); }
 
     public Player getMaster() { return master; }
 

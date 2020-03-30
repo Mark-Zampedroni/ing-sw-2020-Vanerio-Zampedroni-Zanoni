@@ -8,6 +8,7 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertSame;
 
 class PositionTest {
 
@@ -51,9 +52,9 @@ class PositionTest {
         for(int x = 0; x < 5; x++) {
             for(int y = 0; y < 5; y++) {
                 worker.setPosition(new Position(x,y));
-                assertEquals((new Position(x,y)).getWorker(),worker);
                 assertNull((new Position(x+1,y)).getWorker());
                 assertNull((new Position(x,y+1)).getWorker());
+                assertSame((new Position(x,y)).getWorker(),worker);
             }
         }
     }
@@ -63,8 +64,8 @@ class PositionTest {
     void setValue() {
         position = new Position(2,2);
         position.setValue(3,3);
-        assertEquals(position.getX(),3);
-        assertEquals(position.getY(),3);
+        assertEquals(3,position.getX());
+        assertEquals(3,position.getY());
     }
 
     // Confirms that the returned value is a copy of the object
@@ -74,6 +75,22 @@ class PositionTest {
         that = position.copy();
         assertTrue(that.equals(position));
         assertNotEquals(position,that);
+    }
+
+    @Test
+    void isBoundary() {
+        assertTrue((new Position(0,1)).isBoundary());
+        assertFalse((new Position(1,1)).isBoundary());
+    }
+
+    // toString test
+    @Test
+    void print() {
+        for(int x = 0; x < 5;x++) {
+            for (int y = 0; y < 5; y++) {
+                assertEquals("("+x+","+y+")",(new Position(x,y).toString()));
+            }
+        }
     }
 
     // Checks the correct return of equals() within the Board boundaries

@@ -31,4 +31,10 @@ class WorkerTest {
             }
         }
     }
+
+    @Test
+    void print() {
+        worker.setPosition(1,2);
+        assertEquals("{Master: {Username: TestName, Color: BLUE, God: null} X: 1 Y: 2}", worker.toString());
+    }
 }
