@@ -1,7 +1,7 @@
 package it.polimi.ingsw.model.player;
 import it.polimi.ingsw.enumerations.Colors;
 import it.polimi.ingsw.enumerations.Gods;
-import it.polimi.ingsw.rules.GodSharedRules;
+import it.polimi.ingsw.rules.GodRules;
 
 import java.util.ArrayList;
 
@@ -10,41 +10,37 @@ import java.util.ArrayList;
 public class Player {
 
     private String username;
-    private GodSharedRules rules;
+    private GodRules rules;
     private ArrayList<Worker> workers;
-    private boolean challenger;
     private Colors color;
-    private boolean winner;
     private Gods god;
+    private boolean challenger;
+    private boolean winner;
 
     // ovviamente challenger e color sono temporanei
     public Player(String username) {
         this.username = username;
-        this.rules = null;
         this.workers= new ArrayList<>();
         this.workers.add(new Worker(this));
         this.workers.add(new Worker(this));
-        this.challenger=false;
         this.color=Colors.BLUE;
-        this.winner=false;
-        this.god=null;
     }
 
-    public void setColor(Colors color){ this.color=color;}
+    public void setColor(Colors color){ this.color = color;}
 
     public String getUsername(){
-        return this.username;
+        return username;
     }
 
     public void setGod(Gods god) {
-        this.god=god;
+        this.god = god;
     }
 
-    public void setRules(GodSharedRules rules) {
+    public void setRules(GodRules rules) {
         this.rules = rules;
     }
 
-    public GodSharedRules getRules() {
+    public GodRules getRules() {
         return rules;
     }
 
@@ -59,15 +55,15 @@ public class Player {
     }
 
     public void setChallenger() {
-        this.challenger=true;
+        challenger = true;
     }
 
     public boolean isWinner() {
-        return this.winner;
+        return winner;
     }
 
     public void setWinner() {
-        this.winner=true;
+        winner=true;
     }
 
     @Override
@@ -79,6 +75,6 @@ public class Player {
     }
 
     public Gods getGod() {
-        return this.god;
+        return god;
     }
 }

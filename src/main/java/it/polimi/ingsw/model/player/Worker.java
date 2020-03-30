@@ -11,6 +11,11 @@ public class Worker {
         position = new Position(0,0); // May be changed on a later commit
     }
 
+    public Worker(Player master, Position position) {
+        this.master = master;
+        this.position = position;
+    }
+
     // Returns a copy of Position, so it can't be changed
     public Position getPosition() { return position.copy(); }
 

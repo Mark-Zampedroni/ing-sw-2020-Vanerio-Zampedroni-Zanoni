@@ -12,11 +12,11 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-class GodRulesTest {
+class CommonRulesTest {
     Player player;
     Worker worker;
     Position position;
-    GodRules rule;
+    CommonRules rule;
 
     @BeforeEach
     void setUp() {
@@ -25,7 +25,7 @@ class GodRulesTest {
         worker = player.getWorkers().get(0);
         worker.setPosition(new Position(2,2));
         position= new Position(3,3 );
-        rule= new GodRules();
+        rule= new CommonRules();
         Board.clear();
 
 

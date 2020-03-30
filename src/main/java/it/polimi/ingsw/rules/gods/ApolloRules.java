@@ -5,9 +5,9 @@ import it.polimi.ingsw.exceptions.actions.CantActException;
 import it.polimi.ingsw.model.player.Position;
 import it.polimi.ingsw.model.player.Worker;
 import it.polimi.ingsw.rules.Check;
-import it.polimi.ingsw.rules.GodSharedRules;
+import it.polimi.ingsw.rules.GodRules;
 
-public class ApolloRules extends GodSharedRules {
+public class ApolloRules extends GodRules {
 
     @Override
     public void executeMove(Worker worker, Position position) {

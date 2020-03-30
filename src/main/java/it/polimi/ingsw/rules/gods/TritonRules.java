@@ -1,12 +1,12 @@
 package it.polimi.ingsw.rules.gods;
 
-import it.polimi.ingsw.enumerations.ActionType;
+import it.polimi.ingsw.enumerations.Action;
 import it.polimi.ingsw.model.player.Position;
 import it.polimi.ingsw.model.player.Worker;
-import it.polimi.ingsw.rules.EventRule;
+import it.polimi.ingsw.rules.EventRules;
 import java.util.List;
 
-public class TritonRules extends EventRule {
+public class TritonRules extends EventRules {
 
     @Override
     public void executeMove(Worker worker, Position position) {
@@ -15,9 +15,9 @@ public class TritonRules extends EventRule {
     }
 
     @Override
-    public List<ActionType> afterMove() {
-        List<ActionType> actions = super.afterMove();
-        if(getEvent()) { actions.add(ActionType.MOVE); }
+    public List<Action> afterMove() {
+        List<Action> actions = super.afterMove();
+        if(getEvent()) { actions.add(Action.MOVE); }
         return actions;
     }
 

@@ -1,4 +1,4 @@
-package it.polimi.ingsw.exceptions;
+package it.polimi.ingsw.exceptions.utility;
 
 public class NotInstantiableClass extends Exception {
     public NotInstantiableClass(String message) { super(message); }

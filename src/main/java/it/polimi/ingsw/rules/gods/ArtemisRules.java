@@ -1,20 +1,20 @@
 package it.polimi.ingsw.rules.gods;
 
-import it.polimi.ingsw.enumerations.ActionType;
+import it.polimi.ingsw.enumerations.Action;
 import it.polimi.ingsw.exceptions.actions.CantActException;
 import it.polimi.ingsw.model.player.*;
 import it.polimi.ingsw.model.player.Worker;
 import it.polimi.ingsw.rules.Check;
-import it.polimi.ingsw.rules.EventRule;
+import it.polimi.ingsw.rules.EventRules;
 import java.util.List;
 
 // event is true when additional movement turn has been occurred
-public class ArtemisRules extends EventRule {
+public class ArtemisRules extends EventRules {
 
     @Override
-    public List<ActionType> afterMove() {
-        List<ActionType> actions = super.afterMove();
-        if(!getEvent()) { actions.add(ActionType.MOVE); }
+    public List<Action> afterMove() {
+        List<Action> actions = super.afterMove();
+        if(!getEvent()) { actions.add(Action.MOVE); }
         return actions;
     }
 

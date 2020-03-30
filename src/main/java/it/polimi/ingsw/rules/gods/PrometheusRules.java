@@ -1,14 +1,14 @@
 package it.polimi.ingsw.rules.gods;
 
-import it.polimi.ingsw.enumerations.ActionType;
+import it.polimi.ingsw.enumerations.Action;
 import it.polimi.ingsw.exceptions.actions.CantActException;
 import it.polimi.ingsw.model.player.Position;
 import it.polimi.ingsw.model.player.Worker;
 import it.polimi.ingsw.rules.Check;
-import it.polimi.ingsw.rules.EventRule;
+import it.polimi.ingsw.rules.EventRules;
 import java.util.List;
 
-public class PrometheusRules extends EventRule {
+public class PrometheusRules extends EventRules {
 //event true if the worker has built before movement
 
     @Override
@@ -20,9 +20,9 @@ public class PrometheusRules extends EventRule {
     }
 
     @Override
-    public List<ActionType> afterBuild() {
-        List<ActionType> actions = super.afterBuild();
-        if(!getEvent()) { actions.add(ActionType.MOVE); }
+    public List<Action> afterBuild() {
+        List<Action> actions = super.afterBuild();
+        if(!getEvent()) { actions.add(Action.MOVE); }
         return actions;
     }
 

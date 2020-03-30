@@ -2,8 +2,8 @@ package it.polimi.ingsw.model.player;
 
 import it.polimi.ingsw.enumerations.Colors;
 import it.polimi.ingsw.enumerations.Gods;
+import it.polimi.ingsw.rules.CommonRules;
 import it.polimi.ingsw.rules.GodRules;
-import it.polimi.ingsw.rules.GodSharedRules;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
@@ -37,7 +37,7 @@ class PlayerTest {
         assertEquals(workers.size(), 2);
         assertEquals(workers.get(0).getMaster(), player);
         assertEquals(workers.get(1).getMaster(), player);
-        GodSharedRules rules = new GodRules();
+        GodRules rules = new CommonRules();
         player.setRules(rules);
         assertNotEquals(player.getRules(), null);
     }
