@@ -18,6 +18,7 @@ import static org.junit.Assert.assertEquals;
 
 class MoveActionTest {
 
+    /*
     @Test
     void moveWorkerTo() {
         //correct move
@@ -43,5 +44,5 @@ class MoveActionTest {
         Board.getTile(position).increaseHeight();
         nextAction = moving.moveWorkerTo(position, worker);
         assertEquals(nextAction.get(0), ActionType.MOVE);
-    }
+    }*/
 }

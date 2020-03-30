@@ -19,6 +19,7 @@ import static org.junit.Assert.assertEquals;
 
 class BuildActionTest {
 
+    /*
     @Test
     void BuildTowerOn() {
         Position position = new Position(1,2);
@@ -42,6 +43,6 @@ class BuildActionTest {
         nextAction= building.buildTowerOn(position, worker);
         assertTrue(Board.getTile(position).hasDome());
         assertEquals(ActionType.END_TURN, nextAction.get(0));
-    }
+    }*/
 
 }

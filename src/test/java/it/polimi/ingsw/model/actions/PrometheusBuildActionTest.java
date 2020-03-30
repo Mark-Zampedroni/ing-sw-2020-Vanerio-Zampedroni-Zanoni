@@ -19,6 +19,7 @@ import static org.junit.Assert.assertEquals;
 
 class PrometheusBuildActionTest {
 
+    /*
     @Test
     void BuildTowerOn() {
         Position position = new Position(1, 2);
@@ -51,5 +52,5 @@ class PrometheusBuildActionTest {
         nextAction = building.buildTowerOn(position, worker);
         assertTrue(Board.getTile(position).hasDome());
         assertEquals(ActionType.MOVE, nextAction.get(0));
-    }
+    }*/
 }

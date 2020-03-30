@@ -18,6 +18,7 @@ import static org.junit.Assert.assertEquals;
 
 class TritonMoveActionTest {
 
+    /*
     @Test
     void moveWorkerTo() {
         //correct move
@@ -49,5 +50,5 @@ class TritonMoveActionTest {
         Board.getTile(position).increaseHeight();
         nextAction = moving.moveWorkerTo(position, worker);
         assertEquals(nextAction.get(0), ActionType.MOVE);
-    }
+    }*/
 }

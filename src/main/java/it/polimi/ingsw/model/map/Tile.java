@@ -1,5 +1,4 @@
 package it.polimi.ingsw.model.map;
-import it.polimi.ingsw.exceptions.actions.CantBuildException;
 import static it.polimi.ingsw.constants.Height.*;
 
 // MARK -- OK
