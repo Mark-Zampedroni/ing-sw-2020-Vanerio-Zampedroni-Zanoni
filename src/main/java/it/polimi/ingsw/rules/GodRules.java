@@ -2,9 +2,10 @@ package it.polimi.ingsw.rules;
 
 import it.polimi.ingsw.enumerations.Action;
 import it.polimi.ingsw.exceptions.actions.CantActException;
+import it.polimi.ingsw.model.Session;
 import it.polimi.ingsw.model.map.Board;
 import it.polimi.ingsw.model.map.Tile;
-import it.polimi.ingsw.model.player.Position;
+import it.polimi.ingsw.model.map.Position;
 import it.polimi.ingsw.model.player.Worker;
 
 import java.util.ArrayList;
@@ -21,7 +22,7 @@ public abstract class GodRules {
     }
 
     public void executeBuild(Position position) {
-        Tile tile = Board.getTile(position);
+        Tile tile = Session.getBoard().getTile(position);
         tile.increaseHeight();
     }
 
@@ -62,7 +63,8 @@ public abstract class GodRules {
     }
 
     public boolean isWinner(Worker worker, Position position) {
-        return (Board.getTile(worker.getPosition()).getHeight() == MID && Board.getTile(position).getHeight() == TOP);
+        Board board = Session.getBoard();
+        return (board.getTile(worker.getPosition()).getHeight() == MID && board.getTile(position).getHeight() == TOP);
     }
 
     public boolean blockedByEnemy(Worker worker, Position position) {

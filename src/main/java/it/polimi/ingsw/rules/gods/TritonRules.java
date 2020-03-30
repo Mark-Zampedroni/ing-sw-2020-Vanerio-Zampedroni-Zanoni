@@ -1,7 +1,7 @@
 package it.polimi.ingsw.rules.gods;
 
 import it.polimi.ingsw.enumerations.Action;
-import it.polimi.ingsw.model.player.Position;
+import it.polimi.ingsw.model.map.Position;
 import it.polimi.ingsw.model.player.Worker;
 import it.polimi.ingsw.rules.EventRules;
 import java.util.List;

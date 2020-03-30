@@ -1,5 +1,7 @@
 package it.polimi.ingsw.model.player;
 
+import it.polimi.ingsw.model.map.Position;
+
 public class Worker {
 
     private Position position;
@@ -23,7 +25,7 @@ public class Worker {
         if(position.getWorker() == null) {
             this.position = position.copy();
         }
-        else { System.out.println("Position is occupied by: "+position.getWorker()); }
+        else { System.out.println("[!] Worker cant be moved on Position, it's occupied by: "+position.getWorker()); }
     }
     public void setPosition(int x, int y) { setPosition(new Position(x,y)); }
 

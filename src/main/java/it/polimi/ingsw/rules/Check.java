@@ -3,8 +3,8 @@ package it.polimi.ingsw.rules;
 import it.polimi.ingsw.enumerations.Target;
 import it.polimi.ingsw.exceptions.utility.NotInstantiableClass;
 import it.polimi.ingsw.exceptions.actions.CantActException;
-import it.polimi.ingsw.model.map.Board;
-import it.polimi.ingsw.model.player.Position;
+import it.polimi.ingsw.model.Session;
+import it.polimi.ingsw.model.map.Position;
 import it.polimi.ingsw.model.player.Worker;
 
 public class Check {
@@ -48,7 +48,7 @@ public class Check {
     }
 
     public static void height(Worker worker, Position position, int offset, String msg) throws CantActException {
-        if (Board.getTile(position).getHeight() > Board.getTile(worker.getPosition()).getHeight() + offset) { throw new CantActException(msg); }
+        if (Session.getBoard().getTile(position).getHeight() > Session.getBoard().getTile(worker.getPosition()).getHeight() + offset) { throw new CantActException(msg); }
     }
 
     public static void height(Worker worker, Position position) throws CantActException {
@@ -64,7 +64,7 @@ public class Check {
     }
 
     public static void dome(Position position, boolean value, String msg) throws CantActException {
-        if(Board.getTile(position).hasDome() == value) { throw new CantActException(msg); }
+        if(Session.getBoard().getTile(position).hasDome() == value) { throw new CantActException(msg); }
     }
 
     public static void dome(Position position) throws CantActException {

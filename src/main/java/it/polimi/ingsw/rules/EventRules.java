@@ -1,6 +1,6 @@
 package it.polimi.ingsw.rules;
 
-import it.polimi.ingsw.model.player.Position;
+import it.polimi.ingsw.model.map.Position;
 
 public class EventRules extends CommonRules {
 

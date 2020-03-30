@@ -1,8 +1,10 @@
-package it.polimi.ingsw.model.player;
+package it.polimi.ingsw.model.map;
 
 // MARK -- OK
 
 import it.polimi.ingsw.model.Session;
+import it.polimi.ingsw.model.player.Player;
+import it.polimi.ingsw.model.player.Worker;
 
 public class Position {
 

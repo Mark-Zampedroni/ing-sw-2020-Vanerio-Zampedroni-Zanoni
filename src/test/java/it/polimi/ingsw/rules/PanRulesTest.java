@@ -3,15 +3,19 @@ package it.polimi.ingsw.rules;
 import it.polimi.ingsw.model.Session;
 import it.polimi.ingsw.model.map.Board;
 import it.polimi.ingsw.model.player.Player;
-import it.polimi.ingsw.model.player.Position;
+import it.polimi.ingsw.model.map.Position;
 import it.polimi.ingsw.model.player.Worker;
 import it.polimi.ingsw.rules.gods.PanRules;
+import org.junit.Before;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 class PanRulesTest {
+
+    /*
     Player player;
     Worker worker;
     Position position;
@@ -24,18 +28,24 @@ class PanRulesTest {
         worker = player.getWorkers().get(0);
         worker.setPosition(new Position(2, 2));
         position= new Position(3,3 );
-        Board.clear();
+        Session.getBoard().clear();
     }
+
+    @AfterEach
+    void clear() {
+        Session.getBoard().clear();
+        Session.removePlayer(player);
+    }
+
     @Test
     void isWinner() {
-        Board.clear();
+        Board board = Session.getBoard();
         position.setValue(1, 2);
-        while(Board.getTile(position).getHeight()<3){Board.getTile(position).increaseHeight();}
-        while (Board.getTile(worker.getPosition()).getHeight() < 2) {Board.getTile(worker.getPosition()).increaseHeight();}
+        while(board.getTile(position).getHeight()<3){board.getTile(position).increaseHeight();}
+        while (board.getTile(worker.getPosition()).getHeight() < 2) {board.getTile(worker.getPosition()).increaseHeight();}
         assertTrue(test.isWinner(worker, position));
-        while (Board.getTile(worker.getPosition()).getHeight() < 3) {Board.getTile(worker.getPosition()).increaseHeight();}
+        while (board.getTile(worker.getPosition()).getHeight() < 3) {board.getTile(worker.getPosition()).increaseHeight();}
         position.setValue(2,3);
         assertTrue(test.isWinner(worker, position));
-
-    }
+    }*/
 }

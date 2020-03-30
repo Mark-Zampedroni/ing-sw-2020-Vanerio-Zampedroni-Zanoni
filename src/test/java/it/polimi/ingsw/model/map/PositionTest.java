@@ -1,7 +1,8 @@
-package it.polimi.ingsw.model.player;
+package it.polimi.ingsw.model.map;
 
 import it.polimi.ingsw.model.Session;
-import it.polimi.ingsw.model.map.Board;
+import it.polimi.ingsw.model.player.Player;
+import it.polimi.ingsw.model.player.Worker;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -20,7 +21,7 @@ class PositionTest {
     @BeforeEach
     @AfterEach
     void setUp() {
-        Board.clear();
+        Session.getBoard().clear();
     }
 
     @Test
@@ -61,13 +62,12 @@ class PositionTest {
         for(int x = 1; x < 4; x++) {
             for(int y = 0; y < 4; y++) {
                 worker.setPosition(x,y);
-                System.out.println("x: "+x+", y: "+y);
-                System.out.println(worker);
                 assertNull((new Position(x+1,y)).getWorker());
                 assertNull((new Position(x,y+1)).getWorker());
                 assertSame((new Position(x,y)).getWorker(),worker);
             }
         }
+        Session.removePlayer(player);
     }
 
     // Checks if setValue correctly reassigns the coordinates

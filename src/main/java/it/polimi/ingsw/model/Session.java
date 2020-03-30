@@ -24,6 +24,8 @@ public class Session {
         return (ArrayList<Player>) players.clone();
     }
 
+
+    // Vanno rimossi anche i Worker, altrimenti si hanno problemi con worker.getMaster() a null ed i check
     public static void removePlayer(Player player) {
         for(Iterator<Player> playerIterator = players.iterator(); playerIterator.hasNext();){
             Player playerIt = playerIterator.next();
@@ -44,6 +46,10 @@ public class Session {
         return players.size();
     }
 
+    public static Board getBoard() {
+        return board;
+    }
+
     public static void addGod(Gods gods) {
         godsList.add(gods);
     }
@@ -60,10 +66,6 @@ public class Session {
                 godsList.remove(localGod);
             }
         }
-    }
-
-    public static void startLobby() {
-        //da riempire quando avremo controller
     }
 
     public static boolean hasWinner() {
@@ -97,9 +99,6 @@ public class Session {
                 board.toString();
     }*/
 
-    public static Board getBoard() {
-        return board;
-    }
 }
 
 

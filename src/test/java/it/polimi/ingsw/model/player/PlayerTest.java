@@ -31,7 +31,6 @@ class PlayerTest {
         player.setGod(Gods.APOLLO);
         player.setColor(Colors.WHITE);
         String string = player.toString();
-        System.out.println(string);
         assertEquals("{Username: Paolo, Color: WHITE, God: APOLLO}", string);
         ArrayList<Worker> workers = player.getWorkers();
         assertEquals(workers.size(), 2);

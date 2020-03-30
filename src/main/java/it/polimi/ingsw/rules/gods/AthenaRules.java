@@ -1,5 +1,6 @@
 package it.polimi.ingsw.rules.gods;
 
+import it.polimi.ingsw.model.map.Position;
 import it.polimi.ingsw.model.player.*;
 import it.polimi.ingsw.rules.EventRules;
 
