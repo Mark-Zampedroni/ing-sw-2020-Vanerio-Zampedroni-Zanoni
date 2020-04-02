@@ -38,6 +38,7 @@ public class Check {
                 case ALLY: if (allyOccupant(worker,position) == value) { throw new CantActException(msg); }
                 case ENEMY: if (allyOccupant(worker,position) != value) { throw new CantActException(msg); }
                 case ANY: throw new CantActException("Tile is occupied by your worker");
+                case SELF: if(worker.getPosition().equals(position) != value) { throw new CantActException(msg); }
             }
         }
     }
@@ -67,8 +68,8 @@ public class Check {
     }
 
     public static void distance(Worker worker, Position position, int min, int max, String msg) throws CantActException {
-        if(worker.getPosition().getDistanceFrom(position) <= max &&
-           worker.getPosition().getDistanceFrom(position) >= min) { throw new CantActException(msg); }
+        if(worker.getPosition().getDistanceFrom(position) < min ||
+           worker.getPosition().getDistanceFrom(position) > max) { throw new CantActException(msg); }
     }
 
     public static void distance(Worker worker, Position position) throws CantActException {
