@@ -83,21 +83,6 @@ public class Session {
         if (playersNumber() == 2) players.get(firstTwoPlayers).setChallenger();
         if (playersNumber() == 3) players.get(firstThreePlayers).setChallenger();
     }
- /*
-    @Override
-    public String toString() {
-        String space = ", ";
-        String out = players.stream()
-                .map(Object::toString)
-                .collect(Collectors.joining(space));
-
-        String out2 = godsList.stream()
-                .map(Object::toString)
-                .collect(Collectors.joining(space));
-        return "Players: " + out
-                + "Gods: " + out2 +
-                board.toString();
-    }*/
 
 }
 

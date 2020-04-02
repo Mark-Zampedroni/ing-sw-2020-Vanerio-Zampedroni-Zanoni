@@ -11,6 +11,6 @@ public class AthenaRules extends EventRules {
 
     @Override
     public void consentEnemy(Worker worker, Position position) throws CantActException {
-        Check.height(worker,position,0,"Athena block you");
+        Check.height(worker,position,0,"Athena blocks you");
     }
 }

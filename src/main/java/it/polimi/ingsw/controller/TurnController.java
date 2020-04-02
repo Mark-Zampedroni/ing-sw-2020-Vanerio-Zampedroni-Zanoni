@@ -12,6 +12,8 @@ import it.polimi.ingsw.rules.GodRules;
 import java.util.ArrayList;
 import java.util.List;
 
+/* Controller della sequenza delle azioni, invoca i metodi di ActionController per richiederne l'esecuzione */
+/* possibleActions = { WIN } => ha vinto ; possibleActions.isEmpty() => ha perso */
 public class TurnController {
 
     List<Player> players;
@@ -27,6 +29,9 @@ public class TurnController {
         initTurn();
     }
 
+    /*
+        Initializes new turn environment
+     */
     public void initTurn() {
         currentPlayer = players.get(currentIndex);
         currentRules = currentPlayer.getRules();
@@ -34,33 +39,65 @@ public class TurnController {
         clearActions();
     }
 
-    public Reply response(String msg) { return new Reply(); } // Da mettere in server
-
-    private void clearActions() {
-        possibleActions = new ArrayList<>();
-        possibleActions.add(Action.SELECT_WORKER);
-    }
-
+    /*
+        Passes Turn to next Player in list
+     */
     public void passTurn() {
         currentIndex++;
         currentIndex = currentIndex % players.size(); //0-2 or 0-3
         initTurn();
     }
 
+    /*
+        DUMMY CLASS / SERVER -> CLIENT REPLY TO REQUESTS
+     */
+    public Reply response(String msg) { return new Reply(); } // Da mettere in server
+
+    /*
+        Set possibleActions to first action default, [SELECT_WORKER]
+     */
+    private void clearActions() {
+        possibleActions = new ArrayList<>();
+        possibleActions.add(Action.SELECT_WORKER);
+    }
+
+    /*
+        Throws exception if Action is not in possibleActions
+     */
     public void validateType(Action type) throws WrongActionException {
         if(!possibleActions.contains(type)) { throw new WrongActionException("You can't do that action"); }
     }
 
+
+    /*
+        Deletes Actions with empty candidates List
+     */
+    public void fixPossibleActions() {
+        actionControl.setCandidates(currentWorker,possibleActions);
+        possibleActions.removeIf(action -> actionControl.getCandidates(action).isEmpty());
+    }
+
+    /*
+        Executes Action [SELECT_WORKER] and returns following possible Actions as List
+     */
     public void executeAction(Worker worker, Action type) throws CantActException, WrongActionException {
         validateType(type);
         possibleActions = actionControl.act(worker,type);
+        fixPossibleActions(); // Creates candidate lists in ActionController and filters possibleActions list
     }
 
+    /*
+        Executes Action [BUILD/MOVE] and returns following possible Actions as List
+    */
     public void executeAction(Worker worker, Position position, Action type) throws CantActException, WrongActionException {
         validateType(type);
-        possibleActions = actionControl.act(worker,position,type);
+        possibleActions = actionControl.act(worker, position, type);
+        fixPossibleActions(); // Creates candidate lists in ActionController and filters possibleActions list
     }
 
+    /*
+        Reply to [SELECT_WORKER] request
+     */
     public Reply selectWorker(Worker worker) {
         try {
             executeAction(worker, Action.SELECT_WORKER);
@@ -69,6 +106,9 @@ public class TurnController {
         } catch(CantActException | WrongActionException e) { return response(e.getMessage()); }
     }
 
+    /*
+        Reply to [BUILD] request
+     */
     public Reply build(Position position) {
         try {
             executeAction(currentWorker, position, Action.BUILD);
@@ -76,13 +116,19 @@ public class TurnController {
         } catch(CantActException | WrongActionException e) { return response(e.getMessage()); }
     }
 
+    /*
+        Reply to [MOVE] request
+     */
     public Reply move(Position position) {
         try {
-            executeAction(currentWorker,position,Action.MOVE);
+            executeAction(currentWorker, position, Action.MOVE);
             return response("Worker moved to "+position);
         } catch(CantActException | WrongActionException e) { return response(e.getMessage()); }
     }
 
+    /*
+        Reply to [END_TURN] request
+     */
     public Reply endTurn() {
         try {
             validateType(Action.END_TURN);

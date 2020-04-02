@@ -31,15 +31,15 @@ public abstract class GodRules {
     }
 
     public List<Action> afterMove() {
-        List<Action> actions = new ArrayList<>();
-        actions.add(Action.BUILD);
-        return actions;
+        List<Action> out = new ArrayList<>();
+        out.add(Action.BUILD);
+        return out;
     }
 
     public List<Action> afterBuild() {
-        List<Action> actions = new ArrayList<>();
-        actions.add(Action.END_TURN);
-        return actions;
+        List<Action> out = new ArrayList<>();
+        out.add(Action.END_TURN);
+        return out;
     }
 
     public void consentSelect(Worker worker) throws CantActException {
@@ -71,16 +71,17 @@ public abstract class GodRules {
     }
 
     public boolean canSelect(Worker worker, List<Action> actions) {
-        for (int i = -1; i < 2; i++) {
-            for (int j = -1; j < 2; j++) {
+        Position position = worker.getPosition();
+        for (int x = -1; x < 2; x++) {
+            for (int y = -1; y < 2; y++) {
                 for (Action action : actions) {
                     try {
                         switch (action) {
                             case BUILD:
-                                consentBuild(worker, new Position(worker.getPosition().getX() + i, worker.getPosition().getY() + j));
+                                consentBuild(worker, new Position(position.getX() + x, position.getY() + y));
                                 return true;
                             case MOVE:
-                                consentMovement(worker, new Position(worker.getPosition().getX() + i, worker.getPosition().getY() + j));
+                                consentMovement(worker, new Position(position.getX() + x, position.getY() + y));
                                 return true;
                             default:
                                 // Do nothing
