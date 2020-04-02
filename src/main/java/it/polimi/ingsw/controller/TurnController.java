@@ -45,34 +45,40 @@ public class TurnController {
         currentIndex++;
         currentIndex = currentIndex % players.size(); //0-2 or 0-3
         initTurn();
-
     }
 
     public void validateType(Action type) throws WrongActionException {
         if(!possibleActions.contains(type)) { throw new WrongActionException("You can't do that action"); }
     }
 
+    public void executeAction(Worker worker, Action type) throws CantActException, WrongActionException {
+        validateType(type);
+        possibleActions = actionControl.act(worker,type);
+    }
+
+    public void executeAction(Worker worker, Position position, Action type) throws CantActException, WrongActionException {
+        validateType(type);
+        possibleActions = actionControl.act(worker,position,type);
+    }
+
     public Reply selectWorker(Worker worker) {
         try {
-            validateType(Action.SELECT_WORKER);
-            possibleActions = actionControl.act(worker,Action.SELECT_WORKER);
+            executeAction(worker, Action.SELECT_WORKER);
             currentWorker = worker;
             return response("Worker selected");
         } catch(CantActException | WrongActionException e) { return response(e.getMessage()); }
     }
 
-    public Reply build(Worker worker, Position position) {
+    public Reply build(Position position) {
         try {
-            validateType(Action.BUILD);
-            possibleActions = actionControl.act(worker,position,Action.BUILD);
+            executeAction(currentWorker, position, Action.BUILD);
             return response("Built in "+position);
         } catch(CantActException | WrongActionException e) { return response(e.getMessage()); }
     }
 
-    public Reply move(Worker worker, Position position) {
+    public Reply move(Position position) {
         try {
-            validateType(Action.MOVE);
-            possibleActions = actionControl.act(worker,position,Action.MOVE);
+            executeAction(currentWorker,position,Action.MOVE);
             return response("Worker moved to "+position);
         } catch(CantActException | WrongActionException e) { return response(e.getMessage()); }
     }

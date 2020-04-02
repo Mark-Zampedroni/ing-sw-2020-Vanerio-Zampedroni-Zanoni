@@ -84,11 +84,9 @@ public abstract class GodRules {
                                 consentMovement(worker, new Position(worker.getPosition().getX() + i, worker.getPosition().getY() + j));
                                 return true;
                             default:
-                                continue;
+                                // Do nothing
                         }
-                    } catch (CantActException e) {
-                        continue;
-                    }
+                    } catch (CantActException e) { /* Do nothing */ }
                 }
             }
         }

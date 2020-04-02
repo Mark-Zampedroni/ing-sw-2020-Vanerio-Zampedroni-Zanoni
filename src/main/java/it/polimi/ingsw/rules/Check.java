@@ -7,10 +7,21 @@ import it.polimi.ingsw.model.Session;
 import it.polimi.ingsw.model.map.Position;
 import it.polimi.ingsw.model.player.Worker;
 
+import static it.polimi.ingsw.constants.Height.*;
+
 public class Check {
 
     public Check() throws NotInstantiableClass {
         throw new NotInstantiableClass();
+    }
+
+    public static void piece(Worker worker, Position position, boolean value, int height, String msg) throws CantActException {
+        EventRules eventBase = (EventRules) worker.getMaster().getRules();
+        if((Session.getBoard().getTile(eventBase.getPos()).getHeight() == height) == value) { throw new CantActException(msg); }
+    }
+
+    public static void piece(Worker worker, Position position) throws CantActException {
+        piece(worker, position, true, TOP, "You can't build a dome");
     }
 
     public static void positionValidity(Position position, boolean value, String msg) throws CantActException {

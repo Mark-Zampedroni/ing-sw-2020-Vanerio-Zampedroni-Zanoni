@@ -1,7 +1,9 @@
 package it.polimi.ingsw.rules.gods;
 
+import static it.polimi.ingsw.constants.Height.*;
 import it.polimi.ingsw.enumerations.Action;
 import it.polimi.ingsw.exceptions.actions.CantActException;
+import it.polimi.ingsw.model.Session;
 import it.polimi.ingsw.model.map.Position;
 import it.polimi.ingsw.model.player.Worker;
 import it.polimi.ingsw.rules.Check;
@@ -31,5 +33,6 @@ public class HephaestusRules extends EventRules {
     public void consentBuild(Worker worker, Position position) throws CantActException {
         super.consentBuild(worker, position);
         Check.oldPosition(worker, position, false, "You must build on the previous position");
+        Check.piece(worker, position);
     }
 }
