@@ -17,7 +17,7 @@ public class Check {
 
     public static void piece(Worker worker, Position position, boolean value, int height, String msg) throws CantActException {
         EventRules eventBase = (EventRules) worker.getMaster().getRules();
-        if((Session.getBoard().getTile(eventBase.getPos()).getHeight() == height) == value) { throw new CantActException(msg); }
+        if(eventBase.getEvent() && (Session.getBoard().getTile(eventBase.getPos()).getHeight() == height) == value) { throw new CantActException(msg); }
     }
 
     public static void piece(Worker worker, Position position) throws CantActException {
