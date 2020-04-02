@@ -42,8 +42,8 @@ public abstract class GodRules {
         return actions;
     }
 
-    public void consentSelect(Worker worker, List<Action> actions) throws CantActException {
-        if (!isSelectable(worker, actions)) {
+    public void consentSelect(Worker worker) throws CantActException {
+        if (!isSelectable(worker, afterSelect())) {
             throw new CantActException("This worker can't do any action");
         }
     }

@@ -1,9 +1,10 @@
 package it.polimi.ingsw.controller;
 
-import it.polimi.ingsw.connection.message.Message;
 import it.polimi.ingsw.connection.message.Reply;
 import it.polimi.ingsw.enumerations.Action;
 import it.polimi.ingsw.exceptions.actions.CantActException;
+import it.polimi.ingsw.exceptions.actions.WrongActionException;
+import it.polimi.ingsw.model.map.Position;
 import it.polimi.ingsw.model.player.Player;
 import it.polimi.ingsw.model.player.Worker;
 import it.polimi.ingsw.rules.GodRules;
@@ -18,40 +19,72 @@ public class TurnController {
     Player currentPlayer;
     Worker currentWorker;
     GodRules currentRules;
+    ActionController actionControl;
     int currentIndex;
 
     public TurnController(List<Player> players) {
         this.players = players;
+        initTurn();
+    }
+
+    public void initTurn() {
         currentPlayer = players.get(currentIndex);
         currentRules = currentPlayer.getRules();
+        actionControl = new ActionController(currentPlayer);
+        clearActions();
     }
 
     public Reply response(String msg) { return new Reply(); } // Da mettere in server
 
     private void clearActions() {
-        possibleActions = new ArrayList();
+        possibleActions = new ArrayList<>();
         possibleActions.add(Action.SELECT_WORKER);
     }
 
     public void passTurn() {
         currentIndex++;
         currentIndex = currentIndex % players.size(); //0-2 or 0-3
-        currentPlayer = players.get(currentIndex);
-        currentRules = currentPlayer.getRules();
-        clearActions();
+        initTurn();
+
+    }
+
+    public void validateType(Action type) throws WrongActionException {
+        if(!possibleActions.contains(type)) { throw new WrongActionException("You can't do that action"); }
     }
 
     public Reply selectWorker(Worker worker) {
         try {
-            if(possibleActions.contains(Action.SELECT_WORKER)) {
-                currentRules.consentSelect();
-            }
-            else {
-                return response("You can't select a worker now");
-            }
-        } catch(CantActException e) { return response(e.getMessage()); }
+            validateType(Action.SELECT_WORKER);
+            possibleActions = actionControl.act(worker,Action.SELECT_WORKER);
+            currentWorker = worker;
+            return response("Worker selected");
+        } catch(CantActException | WrongActionException e) { return response(e.getMessage()); }
+    }
 
-        }
+    public Reply build(Worker worker, Position position) {
+        try {
+            validateType(Action.BUILD);
+            possibleActions = actionControl.act(worker,position,Action.BUILD);
+            return response("Built in "+position);
+        } catch(CantActException | WrongActionException e) { return response(e.getMessage()); }
+    }
+
+    public Reply move(Worker worker, Position position) {
+        try {
+            validateType(Action.MOVE);
+            possibleActions = actionControl.act(worker,position,Action.MOVE);
+            return response("Worker moved to "+position);
+        } catch(CantActException | WrongActionException e) { return response(e.getMessage()); }
+    }
+
+    public Reply endTurn() {
+        try {
+            validateType(Action.END_TURN);
+            Reply reply = response("Turn passed");
+            passTurn();
+            return reply;
+        } catch(WrongActionException e) { return response(e.getMessage()); }
     }
 
 }
+
