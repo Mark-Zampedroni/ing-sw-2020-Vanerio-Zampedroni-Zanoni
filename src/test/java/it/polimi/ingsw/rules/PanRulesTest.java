@@ -15,24 +15,23 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class PanRulesTest {
 
-    /*
+
     Player player;
     Worker worker;
-    Position position;
+    Position position = new Position(0,0);
     PanRules test= new PanRules();
 
-    @BeforeEach
+   @BeforeEach
     void setUp() {
+        Session.getBoard().clear();
         player = new Player("TestName");
         Session.addPlayer(player);
         worker = player.getWorkers().get(0);
-        worker.setPosition(new Position(2, 2));
-        position= new Position(3,3 );
-        Session.getBoard().clear();
+        player.setRules(test);
     }
 
     @AfterEach
-    void clear() {
+    void clearUp() {
         Session.getBoard().clear();
         Session.removePlayer(player);
     }
@@ -40,6 +39,7 @@ class PanRulesTest {
     @Test
     void isWinner() {
         Board board = Session.getBoard();
+        worker.setPosition(2,2);
         position.setValue(1, 2);
         while(board.getTile(position).getHeight()<3){board.getTile(position).increaseHeight();}
         while (board.getTile(worker.getPosition()).getHeight() < 2) {board.getTile(worker.getPosition()).increaseHeight();}
@@ -47,5 +47,5 @@ class PanRulesTest {
         while (board.getTile(worker.getPosition()).getHeight() < 3) {board.getTile(worker.getPosition()).increaseHeight();}
         position.setValue(2,3);
         assertTrue(test.isWinner(worker, position));
-    }*/
+    }
 }

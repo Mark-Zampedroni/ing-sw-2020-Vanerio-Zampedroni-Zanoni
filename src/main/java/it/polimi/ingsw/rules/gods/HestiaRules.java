@@ -15,7 +15,6 @@ public class HestiaRules extends EventRules {
     public void executeBuild(Position position) {
         if(!getEvent()) {
             setEvent(true);
-            setPos(position);
         }
         super.executeBuild(position);
     }
