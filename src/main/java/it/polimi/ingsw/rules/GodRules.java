@@ -93,36 +93,3 @@ public abstract class GodRules {
         return false;
     }
 }
-
-/* QUESTI DUE METODI NEL CONTROLLER */
-
-        /*
-        public ArrayList<ActionType> buildTowerOn (Position position, Worker worker) {
-            GodSharedRules rules = worker.getMaster().getRules();
-            ArrayList <ActionType> nextAction = new ArrayList<>();
-            try {
-                rules.consentBuild(worker, position);
-                nextAction = executeBuild (position, worker);
-            }
-            catch (CantActException e) {
-                System.out.println("Build error, try again");
-                nextAction.add(ActionType.BUILD);
-            }
-            return nextAction;
-        }*/
-
-        /*
-        public ArrayList<ActionType> moveWorkerTo (Position position, Worker worker) {
-            GodSharedRules rules = worker.getMaster().getRules();
-            Position oldPosition = worker.getPosition();
-            ArrayList <ActionType> nextAction = new ArrayList<>();
-            try {
-                rules.consentMovement(worker, position);
-                nextAction = fixOthers(position, oldPosition, worker);
-                worker.setPosition(position);
-            } catch (CantActException e) {
-                System.out.println("Move error, try again");
-                nextAction.add(ActionType.MOVE);
-            }
-            return nextAction;
-        }*/

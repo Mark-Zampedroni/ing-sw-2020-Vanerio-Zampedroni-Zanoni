@@ -1,9 +1,5 @@
 package it.polimi.ingsw.controller;
 
-import it.polimi.ingsw.model.player.Player;
-
-import java.util.List;
-
 public class TableController {
 
     SessionController session;
@@ -13,7 +9,7 @@ public class TableController {
         this.session = session;
     }
 
-    public void initTurn() {
+    public void startTurns() {
         turn = new TurnController(session.getPlayers());
     }
 
