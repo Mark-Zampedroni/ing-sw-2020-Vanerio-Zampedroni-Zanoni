@@ -28,7 +28,6 @@ public class ArtemisRules extends EventRules {
     @Override
     public void consentMovement(Worker worker, Position position) throws CantActException {
         super.consentMovement(worker, position);
-        Check.oldPosition(worker,position);
-    }
+        Check.oldPosition(worker,position);}
 
 }

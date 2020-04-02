@@ -11,6 +11,8 @@ import it.polimi.ingsw.rules.EventRules;
 import java.util.List;
 
 //event is true if it's the 2nd building action
+
+//LA SECONDA COSTRUZIONE NON DEVE ESSERE UNA DOME
 public class HephaestusRules extends EventRules {
 
     @Override
