@@ -9,7 +9,6 @@ import it.polimi.ingsw.model.player.Worker;
 import it.polimi.ingsw.rules.GodRules;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 /* Interfaccia con le azioni sul Model, controlla se sia eseguibile l'azione e l'effettua */
@@ -21,6 +20,8 @@ public class ActionController {
 
     List<Position> moveCandidates;
     List<Position> buildCandidates;
+    List<Worker> selectableWorkers; /* DA IMPLEMENTARE - Se isEmpty e azione SOLO SELECT_WORKER -> PERSO
+                                       uso il consentSelect gia' in GodRules */
 
     public ActionController(Player player) {
         this.player = player;
@@ -37,24 +38,35 @@ public class ActionController {
     }
 
     /*
+        Asserts that List contains Position
+     */
+    public void containsPosition(List<Position> list, Position position) throws CantActException {
+        if(!list.stream().filter(p -> p.equals(position)).findFirst().isPresent()) { throw new CantActException("You can't do that here"); }
+    }
+
+    /*
+        Creates action list with only [WIN]
+     */
+    public List<Action> winning() {
+        List<Action> out = new ArrayList<>();
+        out.add(Action.WIN);
+        return out;
+    }
+
+    /*
         Applies action [MOVE/BUILD] changes to model
      */
     public List<Action> act(Worker worker, Position position, Action type) throws CantActException, WrongActionException {
         boolean victory;
         switch(type) {
             case MOVE:
-                rules.consentMovement(worker, position);
+                containsPosition(moveCandidates, position);
                 newActions = rules.afterMove();
                 victory = rules.isWinner(worker, position);
                 rules.executeMove(worker, position);
-                if(victory) {
-                    List<Action> out = new ArrayList<>();
-                    out.add(Action.WIN);
-                    return out;
-                }
-                return newActions;
+                return victory ? winning() : newActions;
             case BUILD:
-                rules.consentBuild(worker, position);
+                containsPosition(buildCandidates, position);
                 newActions = rules.afterBuild();
                 rules.executeBuild(position);
                 return newActions;
@@ -117,10 +129,16 @@ public class ActionController {
         switch(type) {
             case MOVE: return getMoveCandidates();
             case BUILD: return getBuildCandidates();
-            default:
-                List<Position> out = new ArrayList<>();
-                out.add(new Position(0,0)); // Not empty
-                return out;
+            default: return dummyPosition();
         }
+    }
+
+    /*
+        Creates non-empty Position list
+     */
+    public List<Position> dummyPosition() {
+        List<Position> out = new ArrayList<>();
+        out.add(new Position(-1,-1));
+        return out;
     }
 }
