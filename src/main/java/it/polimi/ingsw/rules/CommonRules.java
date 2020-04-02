@@ -10,6 +10,7 @@ public class CommonRules extends GodRules {
     public void consentBuild(Worker worker, Position position) throws CantActException {
         super.consentBuild(worker, position);
         Check.occupant(worker, position, Target.ANY);
+        Check.distance(worker, position);
     }
 
     public void consentMovement(Worker worker, Position position) throws CantActException {

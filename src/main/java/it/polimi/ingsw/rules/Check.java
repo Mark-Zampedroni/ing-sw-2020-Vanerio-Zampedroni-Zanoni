@@ -66,12 +66,13 @@ public class Check {
         height(worker,position,1,"Tile is too high and unreachable from your position");
     }
 
-    public static void distance(Worker worker, Position position, int value, String msg) throws CantActException {
-        if(worker.getPosition().getDistanceFrom(position) != value) { throw new CantActException(msg); }
+    public static void distance(Worker worker, Position position, int min, int max, String msg) throws CantActException {
+        if(worker.getPosition().getDistanceFrom(position) <= max &&
+           worker.getPosition().getDistanceFrom(position) >= min) { throw new CantActException(msg); }
     }
 
     public static void distance(Worker worker, Position position) throws CantActException {
-        distance(worker,position,1,"Tile out of reach");
+        distance(worker,position,1,1,"Tile out of reach");
     }
 
     public static void dome(Position position, boolean value, String msg) throws CantActException {
@@ -89,14 +90,6 @@ public class Check {
 
     public static void oldPosition(Worker worker, Position position) throws CantActException {
         oldPosition(worker,position,true,"Tile can't be old position");
-    }
-
-    public static void self(Worker worker, Position position, boolean value, String msg) throws CantActException {
-        if(position.getWorker() != null && (worker.getPosition()!=position)==value) { throw new CantActException(msg); }
-    }
-
-    public static void self(Worker worker, Position position) throws CantActException {
-        self(worker, position, true, "You must do that on the tile where is your worker");
     }
 
 }

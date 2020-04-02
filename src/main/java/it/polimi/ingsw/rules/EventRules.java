@@ -4,7 +4,7 @@ import it.polimi.ingsw.model.map.Position;
 
 public class EventRules extends CommonRules {
 
-    private boolean event=false;
+    private boolean event;
     private Position pos;
 
     public boolean getEvent() {return event;}
@@ -16,6 +16,6 @@ public class EventRules extends CommonRules {
     public void setPos(Position pos) {this.pos = pos;}
 
     public void clear(){
-        this.event=false;
+        this.event = false;
     }
 }

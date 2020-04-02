@@ -43,14 +43,13 @@ public abstract class GodRules {
     }
 
     public void consentSelect(Worker worker) throws CantActException {
-        if (!isSelectable(worker, afterSelect())) {
+        if (!canSelect(worker, afterSelect())) {
             throw new CantActException("This worker can't do any action");
         }
     }
 
     public void consentBuild(Worker worker, Position position) throws CantActException {
         Check.positionValidity(position);
-        Check.distance(worker, position);
         Check.dome(position);
     }
 
@@ -71,7 +70,7 @@ public abstract class GodRules {
         return false;
     }
 
-    public boolean isSelectable(Worker worker, List<Action> actions) {
+    public boolean canSelect(Worker worker, List<Action> actions) {
         for (int i = -1; i < 2; i++) {
             for (int j = -1; j < 2; j++) {
                 for (Action action : actions) {

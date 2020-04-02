@@ -11,7 +11,7 @@ public class ZeusRules extends GodRules {
     @Override
     public void consentBuild(Worker worker, Position position) throws CantActException {
         super.consentBuild(worker,position);
-        Check.self(worker, position);
+        Check.distance(worker,position,0,1,"Tile out of reach");
 
     }
     @Override
