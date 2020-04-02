@@ -66,8 +66,8 @@ public abstract class GodRules {
         return (board.getTile(worker.getPosition()).getHeight() == MID && board.getTile(position).getHeight() == TOP);
     }
 
-    public boolean blockedByEnemy(Worker worker, Position position) {
-        return false;
+    public void consentEnemy(Worker worker, Position position) throws CantActException {
+        // Do nothing
     }
 
     public boolean canSelect(Worker worker, List<Action> actions) {
@@ -92,3 +92,10 @@ public abstract class GodRules {
         return false;
     }
 }
+
+        /*CONTROLLO UN'AZIONE NEL FUTURO DOPO SELEZIONE WORKER, SE LISTE VUOTE BLOCCO SELEZIONE WORKER
+
+        PER ALTRE AZIONI CONTROLLO POSSIBILITA' INTORNO CON I CONSENT, SE LISTE VUOTE PER BUILD E MOVE E NO END_TURN O SELECT_WORKER
+        ALLORA PERDE GAME. ALTRIMENTI NELL'EXECUTE CONTROLLA CHE SIA NELLA LISTA CORRISPETTIVA.
+
+        */
