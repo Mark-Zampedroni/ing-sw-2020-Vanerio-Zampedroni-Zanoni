@@ -9,6 +9,6 @@ public class PanRules extends CommonRules {
     @Override
     public boolean isWinner(Worker worker, Position position){
         return(super.isWinner(worker,position) ||
-                Session.getBoard().getTile(worker.getPosition()).getHeight() >= Session.getBoard().getTile(position).getHeight() +2  );
+                Session.getBoard().getTile(worker.getPosition()).getHeight() >= Session.getBoard().getTile(position).getHeight() + 2);
     }
 }
