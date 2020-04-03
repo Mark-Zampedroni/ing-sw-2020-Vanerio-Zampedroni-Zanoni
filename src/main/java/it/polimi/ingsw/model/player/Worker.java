@@ -31,7 +31,7 @@ public class Worker {
 
     public void switchPosition(Worker worker) {
         Position temp = position.copy();
-        position = worker.position;
+        position = worker.position.copy();
         worker.setPosition(position);
     }
 
