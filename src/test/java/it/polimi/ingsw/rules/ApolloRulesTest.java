@@ -31,7 +31,7 @@ class ApolloRulesTest {
         player.setRules(test);
         player2 = new Player("Gianni");
         Session.addPlayer(player2);
-        //worker2 = player2.getWorkers().get(0);
+        worker2 = player2.getWorkers().get(0);
         player2.setRules(test2);
     }
 
@@ -46,20 +46,13 @@ class ApolloRulesTest {
 
     @Test
     void consentMovement() {
-        /*
+
         worker.setPosition(1,1);
         assertDoesNotThrow(()->test.consentMovement(worker, new Position(1,2)));
-        worker.setPosition(1,1);
         player.getWorkers().get(1).setPosition(2,2);
         assertThrows(CantActException.class, () ->test.consentMovement(worker, new Position(2,2)));
-       */
         position= new Position(2,1);
-        worker.setPosition(1,1);
-        //worker2.setPosition(position);
-        player.getWorkers().get(1).setPosition(position);
-
-
-
+        worker2.setPosition(position);
         assertDoesNotThrow(()->test.consentMovement(worker, position));
 
 
