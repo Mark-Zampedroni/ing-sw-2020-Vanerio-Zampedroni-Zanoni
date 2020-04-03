@@ -105,9 +105,11 @@ public class ActionController {
                         case MOVE:
                             rules.consentMovement(worker, target);
                             moveCandidates.add(target.copy());
+                            break;
                         case BUILD:
                             rules.consentBuild(worker, target);
                             buildCandidates.add(target.copy());
+                            break;
                         default:
                             /* Do nothing */
                         }
