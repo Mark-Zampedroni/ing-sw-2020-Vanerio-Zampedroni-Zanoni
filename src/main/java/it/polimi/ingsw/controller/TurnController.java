@@ -35,6 +35,7 @@ public class TurnController {
     public void initTurn() {
         currentPlayer = players.get(currentIndex);
         currentRules = currentPlayer.getRules();
+        currentRules.clear(); // Resets god flags
         actionControl = new ActionController(currentPlayer);
         clearActions();
     }

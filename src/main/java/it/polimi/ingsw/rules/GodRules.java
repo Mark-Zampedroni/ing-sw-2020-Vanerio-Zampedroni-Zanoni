@@ -92,6 +92,12 @@ public abstract class GodRules {
         }
         return false;
     }
+
+    /*
+        Holder to enable clear call from any GodRules child
+     */
+    public void clear() { /* Do nothing */ }
+
 }
 
         /*CONTROLLO UN'AZIONE NEL FUTURO DOPO SELEZIONE WORKER, SE LISTE VUOTE BLOCCO SELEZIONE WORKER

@@ -15,7 +15,6 @@ public class EventRules extends CommonRules {
 
     public void setPos(Position pos) {this.pos = pos;}
 
-    public void clear(){
-        this.event = false;
-    }
+    @Override
+    public void clear() { event = false; }
 }

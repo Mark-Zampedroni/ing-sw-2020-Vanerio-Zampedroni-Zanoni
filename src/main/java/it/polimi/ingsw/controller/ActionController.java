@@ -26,6 +26,7 @@ public class ActionController {
     public ActionController(Player player) {
         this.player = player;
         this.rules = player.getRules();
+        selectableWorkers = new ArrayList<>();
         clear();
     }
 
@@ -80,8 +81,7 @@ public class ActionController {
      */
     public List<Action> act(Worker worker, Action type) throws CantActException, WrongActionException {
         if(type == Action.SELECT_WORKER) {
-            if(!player.getWorkers().contains(worker)) { throw new CantActException("You can't select an enemy worker"); }
-            rules.consentSelect(worker);
+            if(!selectableWorkers.contains(worker)) { throw new CantActException("You can't select this worker"); }
             return rules.afterSelect();
         }
         else {
@@ -115,6 +115,16 @@ public class ActionController {
                 }
             }
         }
+    }
+
+    public void setWorkerCandidates() {
+        for(Worker worker : player.getWorkers()) {
+            try {
+                rules.consentSelect(worker);
+                selectableWorkers.add(worker);
+            } catch(CantActException e) { /* Do nothing */ }
+        }
+
     }
 
     public List<Position> getMoveCandidates() {
