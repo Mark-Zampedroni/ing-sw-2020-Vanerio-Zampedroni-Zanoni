@@ -32,7 +32,7 @@ public class Worker {
     public void switchPosition(Worker worker) {
         Position temp = position.copy();
         position = worker.position.copy();
-        worker.setPosition(position);
+        worker.setPosition(temp);
     }
 
     public Player getMaster() { return master; }
