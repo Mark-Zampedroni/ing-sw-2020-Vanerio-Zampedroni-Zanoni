@@ -22,13 +22,18 @@ public class PrometheusRules extends EventRules {
     @Override
     public List<Action> afterBuild() {
         List<Action> actions = super.afterBuild();
-        if(!getEvent()) { actions.add(Action.MOVE); }
+        if(!getEvent()) {
+            actions.add(Action.MOVE);
+            actions.remove(0); }
         return actions;
     }
 
     @Override
     public void consentMovement(Worker worker, Position position) throws CantActException {
         super.consentMovement(worker, position);
-        Check.height(worker, position, 0, "Tile out of reach");}
+        Check.height(worker, position, 0, "Tile out of reach");
+    }
+
+
 
 }

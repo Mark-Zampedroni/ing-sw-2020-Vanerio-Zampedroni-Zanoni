@@ -1,20 +1,16 @@
 package it.polimi.ingsw.rules;
 
-import it.polimi.ingsw.enumerations.Action;
-import it.polimi.ingsw.exceptions.actions.CantActException;
+
 import it.polimi.ingsw.model.Session;
-import it.polimi.ingsw.model.map.Board;
+
 import it.polimi.ingsw.model.player.Player;
 import it.polimi.ingsw.model.map.Position;
 import it.polimi.ingsw.model.player.Worker;
 import it.polimi.ingsw.rules.gods.AtlasRules;
 import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.util.ArrayList;
-import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
