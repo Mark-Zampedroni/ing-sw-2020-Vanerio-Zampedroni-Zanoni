@@ -60,6 +60,7 @@ class PrometheusRulesTest {
 
     @Test
     void afterBuild(){
+        test.setEvent(false);
         List<Action> list = test.afterBuild();
         assertEquals(list.get(0), Action.MOVE);
         assertEquals(list.size(),1);

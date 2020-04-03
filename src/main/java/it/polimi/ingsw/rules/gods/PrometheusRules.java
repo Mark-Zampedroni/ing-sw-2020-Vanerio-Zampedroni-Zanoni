@@ -6,6 +6,8 @@ import it.polimi.ingsw.model.map.Position;
 import it.polimi.ingsw.model.player.Worker;
 import it.polimi.ingsw.rules.Check;
 import it.polimi.ingsw.rules.EventRules;
+
+import java.util.ArrayList;
 import java.util.List;
 
 public class PrometheusRules extends EventRules {
@@ -31,9 +33,5 @@ public class PrometheusRules extends EventRules {
     @Override
     public void consentMovement(Worker worker, Position position) throws CantActException {
         super.consentMovement(worker, position);
-        Check.height(worker, position, 0, "Tile out of reach");
-    }
-
-
-
+        Check.height(worker, position, 0, "Tile out of reach");}
 }
