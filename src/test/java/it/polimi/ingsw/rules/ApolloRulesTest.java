@@ -6,7 +6,6 @@ import it.polimi.ingsw.model.map.Position;
 import it.polimi.ingsw.model.player.Player;
 import it.polimi.ingsw.model.player.Worker;
 import it.polimi.ingsw.rules.gods.ApolloRules;
-import it.polimi.ingsw.rules.gods.PrometheusRules;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -15,46 +14,36 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class ApolloRulesTest {
     Player player;
+    Player opponent;
     Worker worker;
-    Player player2;
-    Worker worker2;
-    Position position;
     ApolloRules test = new ApolloRules();
-    PrometheusRules test2 = new PrometheusRules();
 
     @BeforeEach
     void setUp() {
         Session.getBoard().clear();
         player = new Player("TestName");
+        opponent = new Player("Opponent");
         Session.addPlayer(player);
+        Session.addPlayer(opponent);
         worker = player.getWorkers().get(0);
         player.setRules(test);
-        player2 = new Player("Gianni");
-        Session.addPlayer(player2);
-        worker2 = player2.getWorkers().get(0);
-        player2.setRules(test2);
     }
 
     @AfterEach
     void clearUp() {
         Session.getBoard().clear();
         Session.removePlayer(player);
-        Session.removePlayer(player2);
-
+        Session.removePlayer(opponent);
     }
 
 
     @Test
     void consentMovement() {
-
         worker.setPosition(1,1);
         assertDoesNotThrow(()->test.consentMovement(worker, new Position(1,2)));
+        worker.setPosition(1,1);
         player.getWorkers().get(1).setPosition(2,2);
         assertThrows(CantActException.class, () ->test.consentMovement(worker, new Position(2,2)));
-        position= new Position(2,1);
-        worker2.setPosition(position);
-        assertDoesNotThrow(()->test.consentMovement(worker, position));
-
 
     }
 
@@ -66,5 +55,16 @@ class ApolloRulesTest {
         player.getWorkers().get(1).setPosition(2,2);
         assertThrows(CantActException.class, () ->test.consentBuild(worker, new Position(2,2)));
 
+    }
+
+    @Test
+    void executeMove() {
+        worker.setPosition(2,2);
+        Position oldPosition = worker.getPosition();
+        opponent.getWorkers().get(0).setPosition(2,3);
+        Position position = opponent.getWorkers().get(0).getPosition();
+        test.executeMove(worker, new Position(2,3));
+        assertTrue(opponent.getWorkers().get(0).getPosition().equals(oldPosition));
+        assertTrue(worker.getPosition().equals(position));
     }
 }
