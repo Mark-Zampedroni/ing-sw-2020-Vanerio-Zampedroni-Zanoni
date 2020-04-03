@@ -29,6 +29,12 @@ public class Worker {
     }
     public void setPosition(int x, int y) { setPosition(new Position(x,y)); }
 
+    public void switchPosition(Worker worker) {
+        Position temp = position.copy();
+        position = worker.position;
+        worker.setPosition(position);
+    }
+
     public Player getMaster() { return master; }
 
     @Override
