@@ -52,6 +52,8 @@ class MinotaurRulesTest {
         int i;
         Position position= new Position(0,0);
         worker.setPosition(new Position(1,1));
+        worker2.setPosition(new Position(2,2));
+        assertDoesNotThrow(()->test.consentMovement(worker, new Position(2,2)));
         worker2.setPosition(position);
         assertThrows(CantActException.class, ()->test.consentMovement(worker, position)); //is valid
         position.setValue(2,2);
