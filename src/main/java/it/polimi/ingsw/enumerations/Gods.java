@@ -4,7 +4,7 @@ import it.polimi.ingsw.rules.*;
 import it.polimi.ingsw.rules.gods.*;
 
 public enum Gods {
-    APOLLO, ARTEMIS, ATHENA, ATLAS, DEMETER, HEPHAESTUS, MINOTAUR, PAN, PROMETHEUS, ZEUS, TRITON, POSEIDON, HESTIA;
+    APOLLO, ARTEMIS, ATHENA, ATLAS, DEMETER, HEPHAESTUS, MINOTAUR, PAN, PROMETHEUS, ZEUS, TRITON, POSEIDON, HESTIA, HERA;
 
     public static GodRules create(Gods god) {
         switch(god) {
@@ -21,6 +21,7 @@ public enum Gods {
             case TRITON: return new TritonRules();
             case POSEIDON: return new PoseidonRules();
             case HESTIA: return new HestiaRules();
+            case HERA: return new Hera();
             default: return new CommonRules(); // Can't occur
         }
     }

@@ -63,7 +63,7 @@ public class ActionController {
             case MOVE:
                 containsPosition(moveCandidates, position);
                 newActions = rules.afterMove();
-                victory = rules.isWinner(worker, position);
+                victory = rules.consentWin(worker, position);
                 rules.executeMove(worker, position);
                 return victory ? winning() : newActions;
             case BUILD:

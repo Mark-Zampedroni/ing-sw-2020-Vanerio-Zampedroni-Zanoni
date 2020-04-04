@@ -17,6 +17,8 @@ import static it.polimi.ingsw.constants.Height.TOP;
 
 public abstract class GodRules {
 
+    static List<EnemyRules> enemyModifiers = new ArrayList<>();
+
     public void executeMove(Worker worker, Position position) {
         worker.setPosition(position);
     }
@@ -58,16 +60,21 @@ public abstract class GodRules {
         Check.distance(worker, position);
         Check.dome(position);
         Check.height(worker, position);
-        // CHECK ATHENA BLOCK
+        for(EnemyRules enemy : enemyModifiers) { enemy.consentEnemyMovement(worker, position); } // Only Athena atm
     }
 
     public boolean isWinner(Worker worker, Position position) {
         Board board = Session.getBoard();
-        return (board.getTile(worker.getPosition()).getHeight() == MID && board.getTile(position).getHeight() == TOP);
+        return ((board.getTile(worker.getPosition()).getHeight() == MID && board.getTile(position).getHeight() == TOP));
     }
 
-    public void consentEnemy(Worker worker, Position position) throws CantActException {
-        // Do nothing
+    public boolean consentWin(Worker worker, Position position) {
+        for(EnemyRules enemy : enemyModifiers) { // Only Hera atm
+            if(!enemy.consentEnemyWin(position)) {
+                return false;
+            }
+        }
+        return isWinner(worker, position);
     }
 
     public boolean canSelect(Worker worker, List<Action> actions) {
