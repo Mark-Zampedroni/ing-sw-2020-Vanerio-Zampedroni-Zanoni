@@ -21,7 +21,7 @@ public enum Gods {
             case TRITON: return new TritonRules();
             case POSEIDON: return new PoseidonRules();
             case HESTIA: return new HestiaRules();
-            case HERA: return new Hera();
+            case HERA: return new HeraRules();
             default: return new CommonRules(); // Can't occur
         }
     }
