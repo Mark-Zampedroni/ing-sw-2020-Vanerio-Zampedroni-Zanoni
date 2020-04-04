@@ -50,6 +50,7 @@ class SessionTest {
         Session.removePlayer(one);
         assertEquals(Session.playersNumber(), 2);
         Session.addPlayer(one);
+        assertFalse(Session.hasWinner());
         one.setWinner();
         assertTrue(Session.hasWinner());
     }
@@ -64,6 +65,8 @@ class SessionTest {
         Session.getPlayers();
         assertEquals(Session.getPlayers().get(0).getGod(), one.getGod());
         assertEquals(Session.getPlayers().get(1).getGod(), two.getGod());
+        Session.removeGod(Gods.ATLAS);
+        assertEquals(Session.getPlayers().get(0).getGod(), one.getGod());
     }
 }
 
