@@ -14,7 +14,7 @@ public class EnemyRules extends CommonRules {
     }
 
     protected void removeEffect() {
-        enemyModifiers.removeIf(god -> god == this);
+        enemyModifiers.remove(this);
     }
 
 }
