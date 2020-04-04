@@ -20,7 +20,5 @@ public class AthenaRules extends EnemyRules {
     }
 
     @Override
-    public void consentEnemyMovement(Worker worker, Position position) throws CantActException {
-        Check.height(worker,position,0,"Athena blocks you");
-    }
+    public void consentEnemyMovement(Worker worker, Position position) throws CantActException { Check.height(worker,position,0,"Athena blocks you"); }
 }
