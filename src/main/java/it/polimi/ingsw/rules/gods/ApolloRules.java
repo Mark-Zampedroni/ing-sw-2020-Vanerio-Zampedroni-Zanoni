@@ -11,7 +11,12 @@ public class ApolloRules extends GodRules {
 
     @Override
     public void executeMove(Worker worker, Position position) {
-        worker.switchPosition(position.getWorker());
+        if(position.getWorker() != null) {
+            worker.switchPosition(position.getWorker());
+        }
+        else {
+            super.executeMove(worker,position);
+        }
     }
 
     @Override

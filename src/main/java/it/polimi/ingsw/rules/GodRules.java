@@ -60,7 +60,10 @@ public abstract class GodRules {
         Check.distance(worker, position);
         Check.dome(position);
         Check.height(worker, position);
-        for(EnemyRules enemy : enemyModifiers) { enemy.consentEnemyMovement(worker, position); } // Only Athena atm
+        for(EnemyRules enemy : enemyModifiers) {
+            if(this != enemy) {
+            enemy.consentEnemyMovement(worker, position); }
+        } // Only Athena atm
     }
 
     public boolean isWinner(Worker worker, Position position) {
@@ -70,7 +73,7 @@ public abstract class GodRules {
 
     public boolean consentWin(Worker worker, Position position) {
         for(EnemyRules enemy : enemyModifiers) { // Only Hera atm
-            if(!enemy.consentEnemyWin(position)) {
+            if(this != enemy && !enemy.consentEnemyWin(position)) {
                 return false;
             }
         }
