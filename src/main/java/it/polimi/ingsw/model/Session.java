@@ -61,10 +61,10 @@ public class Session {
     }
 
     public static void removeGod(Gods god) {
-        for (Gods localGod : godsList) {
-            if (localGod.equals(god)) {
-                godsList.remove(localGod);
-            }
+        for(Iterator<Gods> godsIterator = godsList.iterator(); godsIterator.hasNext();){
+            Gods godIt = godsIterator.next();
+            if (godIt.equals(god)) {
+                godsIterator.remove(); }
         }
     }
 

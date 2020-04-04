@@ -7,24 +7,26 @@ import it.polimi.ingsw.model.map.Board;
 import it.polimi.ingsw.model.player.Player;
 import it.polimi.ingsw.model.map.Position;
 import it.polimi.ingsw.model.player.Worker;
-import it.polimi.ingsw.rules.gods.PrometheusRules;
+import it.polimi.ingsw.rules.gods.AtlasRules;
+import it.polimi.ingsw.rules.gods.TritonRules;
 import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-//non ho idea del perchè mi dia il 92% di coverage
+class TritonRulesTest {
 
-class PrometheusRulesTest {
     Player player;
     Worker worker;
-    PrometheusRules test =new PrometheusRules();
+    TritonRules test= new TritonRules();
 
     @BeforeEach
-    void setUp() {
+    void setUp(){
         Session.getBoard().clear();
         player = new Player("TestName");
         Session.addPlayer(player);
@@ -38,35 +40,30 @@ class PrometheusRulesTest {
         Session.removePlayer(player);
     }
 
-
     @Test
-    void consentMovement() {
-        worker.setPosition(new Position(2,2));
-        assertDoesNotThrow(()->test.consentBuild(worker, new Position(3,2)));
-        worker.setPosition(3,2);
-        test.setEvent(true);
-        Session.getBoard().getTile(new Position(3,3)).increaseHeight();
-        assertThrows(CantActException.class, ()->test.consentMovement(worker, new Position(3,3)));
-    }
-
-    @Test
-    void executeBuild() {
-        Position position = new Position(1,2);
-        test.setEvent(false);
-        test.executeBuild(position);
+    void executeMove() {
+        worker.setPosition(0,1);
+        Position position = new Position(0,2);
+        test.executeMove(worker, position);
+        assertTrue(position.equals(worker.getPosition()));
         assertTrue(test.getEvent());
-        assertEquals(Session.getBoard().getTile(position).getHeight(),1);
+
+        position = new Position (3,3);
+        test.executeMove(worker, position);
+        assertTrue(position.equals(worker.getPosition()));
+        assertFalse(test.getEvent());
     }
 
     @Test
-    void afterBuild(){
+    void afterMove() {
         test.setEvent(false);
-        List<Action> list = test.afterBuild();
-        assertEquals(list.get(0), Action.MOVE);
+        List<Action> list = test.afterMove();
+        assertEquals(list.get(0), Action.BUILD);
         assertEquals(list.size(),1);
         test.setEvent(true);
-        list= test.afterBuild();
-        assertEquals(list.get(0), Action.END_TURN);
-        assertEquals(list.size(), 1);
+        list= test.afterMove();
+        assertEquals(list.get(0), Action.BUILD);
+        assertEquals(list.get(1), Action.MOVE);
+        assertEquals(list.size(),2);
     }
 }

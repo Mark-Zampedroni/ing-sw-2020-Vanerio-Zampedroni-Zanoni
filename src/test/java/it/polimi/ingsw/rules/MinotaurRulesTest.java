@@ -76,6 +76,16 @@ class MinotaurRulesTest {
 
     }
 
-
+    @Test
+    void executeMove() {
+        Position oldPosition = new Position (1,1);
+        Position position = new Position (2,2);
+        Position forwardPosition = new Position (3,3);
+        worker.setPosition(oldPosition);
+        worker2.setPosition(position);
+        test.executeMove(worker, position);
+        assertTrue(position.equals(worker.getPosition()));
+        assertTrue(forwardPosition.equals(worker2.getPosition()));
+    }
 
 }

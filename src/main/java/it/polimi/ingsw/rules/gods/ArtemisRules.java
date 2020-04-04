@@ -21,7 +21,7 @@ public class ArtemisRules extends EventRules {
     @Override
     public void executeMove(Worker worker, Position position) {
         setEvent(true);
-        setPos(position);
+        setPos(worker.getPosition());
         super.executeMove(worker, position);
     }
 
