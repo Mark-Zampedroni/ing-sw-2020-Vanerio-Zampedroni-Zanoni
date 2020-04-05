@@ -76,15 +76,15 @@ public class PoseidonRules extends EventRules {
                 setEvent(true);
                 list.add(Action.SELECT_WORKER);}
                 return list;
-            } else {
-                if (getCounter() < 2) {
-                    increaseCounter();
-                    list.add(Action.BUILD);
-                    return list;
-                } else {
-                    clearCounter();
-                    return list;
-                }
-            }
+        }
+        else if (getCounter() < 2) {
+            increaseCounter();
+            list.add(Action.BUILD);
+            return list;
+        }
+        else {
+            clearCounter();
+            return list;
         }
     }
+}
