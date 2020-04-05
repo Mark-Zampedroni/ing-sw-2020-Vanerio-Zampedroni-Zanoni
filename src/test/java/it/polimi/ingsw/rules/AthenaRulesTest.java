@@ -13,7 +13,7 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class EnemyRulesTest {
+class AthenaRulesTest {
 
     Player player, player2;
     Worker worker, worker2;
@@ -24,6 +24,8 @@ class EnemyRulesTest {
         player2 = new Player("TestName2");
         Session.addPlayer(player);
         Session.addPlayer(player2);
+        worker = player.getWorkers().get(0);
+        worker2 = player2.getWorkers().get(0);
     }
 
     @AfterEach
@@ -36,10 +38,7 @@ class EnemyRulesTest {
     @Test
     void applyEffect() {
         player.setRules(Gods.create(Gods.ATHENA));
-        worker = player.getWorkers().get(0);
-
         player2.setRules(new ApolloRules());
-        worker2 = player2.getWorkers().get(0);
 
         worker2.setPosition(2,2);
         player2.getRules().executeBuild(new Position(3,2)); // Height 1 (Athena second position)
