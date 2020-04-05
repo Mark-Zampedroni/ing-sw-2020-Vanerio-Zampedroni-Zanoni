@@ -38,7 +38,7 @@ class AthenaRulesTest {
     @Test
     void applyEffect() {
         player.setRules(Gods.create(Gods.ATHENA));
-        player2.setRules(new ApolloRules());
+        player2.setRules(Gods.create(Gods.APOLLO));
 
         worker2.setPosition(2,2);
         player2.getRules().executeBuild(new Position(3,2)); // Height 1 (Athena second position)
@@ -54,6 +54,27 @@ class AthenaRulesTest {
 
         player.getRules().executeMove(worker, new Position(4,3)); // If Athena moves on a position that isn't higher, then:
         assertDoesNotThrow(()->player2.getRules().consentMovement(worker2, new Position(2,3))); // Athena does not block enemy
+    }
+
+    @Test
+    void winCondition() {
+        player.setRules(Gods.create(Gods.ATHENA));
+        player2.setRules(Gods.create(Gods.APOLLO));
+
+        player2.getRules().executeBuild(new Position(0,1)); // Height 1
+        player2.getRules().executeBuild(new Position(1,0)); // Height 1
+        player2.getRules().executeBuild(new Position(2,0)); // Height 1
+        player2.getRules().executeBuild(new Position(0,2)); // Height 1
+        player2.getRules().executeBuild(new Position(0,2)); // Height 2
+        player2.getRules().executeBuild(new Position(0,3)); // Height 1
+        player2.getRules().executeBuild(new Position(0,3)); // Height 2
+        player2.getRules().executeBuild(new Position(0,3)); // Height 3
+
+        player.getRules().executeMove(worker, new Position(1,0)); // Athena activates effect
+        assertFalse(player2.getRules().consentWin(worker2, new Position(0,2))); // Height 2
+        player2.getRules().executeMove(worker2, new Position(0,2)); // Height 2
+        assertTrue(player2.getRules().consentWin(worker2, new Position(0,3))); // Height 3
+        player.getRules().executeMove(worker, new Position(2,0)); // Athena removes effect
     }
 
 }

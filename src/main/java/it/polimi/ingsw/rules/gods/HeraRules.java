@@ -10,6 +10,11 @@ public class HeraRules extends EnemyRules {
     }
 
     @Override
+    public void clear() {
+        removeEffect();
+    }
+
+    @Override
     public boolean consentEnemyWin(Position position) {
         return !(position.isBoundary());
     }
