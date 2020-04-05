@@ -1,6 +1,7 @@
 package it.polimi.ingsw.rules;
 
 
+import it.polimi.ingsw.enumerations.Gods;
 import it.polimi.ingsw.model.Session;
 
 import it.polimi.ingsw.model.player.Player;
@@ -18,7 +19,7 @@ class AtlasRulesTest {
 
     Player player;
     Worker worker;
-    AtlasRules test= new AtlasRules();
+    AtlasRules test= (AtlasRules)Gods.create(Gods.ATLAS);
 
     @BeforeEach
     void setUp(){

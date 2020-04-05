@@ -1,6 +1,7 @@
 package it.polimi.ingsw.rules;
 
 import it.polimi.ingsw.enumerations.Action;
+import it.polimi.ingsw.enumerations.Gods;
 import it.polimi.ingsw.exceptions.actions.CantActException;
 import it.polimi.ingsw.model.Session;
 import it.polimi.ingsw.model.map.Board;
@@ -23,7 +24,7 @@ class TritonRulesTest {
 
     Player player;
     Worker worker;
-    TritonRules test= new TritonRules();
+    TritonRules test= (TritonRules)Gods.create(Gods.TRITON);
 
     @BeforeEach
     void setUp(){

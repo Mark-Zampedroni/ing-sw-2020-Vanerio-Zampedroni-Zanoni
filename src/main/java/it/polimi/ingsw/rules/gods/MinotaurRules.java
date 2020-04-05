@@ -24,7 +24,7 @@ public class MinotaurRules extends ApolloRules {
         }
     }
 
-    public Position getPositionBackwards(Position from, Position to) {
+    private Position getPositionBackwards(Position from, Position to) {
         return new Position(2*to.getX() - from.getX(), 2*to.getY() - from.getY());
     }
 

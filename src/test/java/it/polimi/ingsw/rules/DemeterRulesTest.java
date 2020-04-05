@@ -1,6 +1,7 @@
 package it.polimi.ingsw.rules;
 
 import it.polimi.ingsw.enumerations.Action;
+import it.polimi.ingsw.enumerations.Gods;
 import it.polimi.ingsw.exceptions.actions.CantActException;
 import it.polimi.ingsw.model.Session;
 import static org.junit.jupiter.api.Assertions.*;
@@ -19,7 +20,7 @@ import java.util.List;
 class DemeterRulesTest {
     Player player;
     Worker worker;
-    DemeterRules test= new DemeterRules();
+    DemeterRules test= (DemeterRules)Gods.create(Gods.DEMETER);
 
 
     @BeforeEach

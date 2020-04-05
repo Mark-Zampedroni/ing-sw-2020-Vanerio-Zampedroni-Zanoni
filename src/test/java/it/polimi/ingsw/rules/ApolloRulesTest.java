@@ -1,5 +1,6 @@
 package it.polimi.ingsw.rules;
 
+import it.polimi.ingsw.enumerations.Gods;
 import it.polimi.ingsw.exceptions.actions.CantActException;
 import it.polimi.ingsw.model.Session;
 import it.polimi.ingsw.model.map.Position;
@@ -16,7 +17,7 @@ class ApolloRulesTest {
     Player player;
     Player opponent;
     Worker worker;
-    ApolloRules test = new ApolloRules();
+    GodRules test = Gods.create(Gods.APOLLO);
 
     @BeforeEach
     void setUp() {
@@ -41,7 +42,6 @@ class ApolloRulesTest {
     void consentMovement() {
         worker.setPosition(1,1);
         assertDoesNotThrow(()->test.consentMovement(worker, new Position(1,2)));
-        worker.setPosition(1,1);
         player.getWorkers().get(1).setPosition(2,2);
         assertThrows(CantActException.class, () ->test.consentMovement(worker, new Position(2,2)));
 
