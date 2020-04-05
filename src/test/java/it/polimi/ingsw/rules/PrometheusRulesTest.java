@@ -1,6 +1,7 @@
 package it.polimi.ingsw.rules;
 
 import it.polimi.ingsw.enumerations.Action;
+import it.polimi.ingsw.enumerations.Gods;
 import it.polimi.ingsw.exceptions.actions.CantActException;
 import it.polimi.ingsw.model.Session;
 import it.polimi.ingsw.model.map.Board;
@@ -21,7 +22,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class PrometheusRulesTest {
     Player player;
     Worker worker;
-    PrometheusRules test =new PrometheusRules();
+    PrometheusRules test = (PrometheusRules)Gods.create(Gods.PROMETHEUS);
 
     @BeforeEach
     void setUp() {

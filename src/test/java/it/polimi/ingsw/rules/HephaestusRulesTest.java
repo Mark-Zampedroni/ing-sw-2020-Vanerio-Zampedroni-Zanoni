@@ -1,6 +1,7 @@
 package it.polimi.ingsw.rules;
 
 import it.polimi.ingsw.enumerations.Action;
+import it.polimi.ingsw.enumerations.Gods;
 import it.polimi.ingsw.exceptions.actions.CantActException;
 import it.polimi.ingsw.model.Session;
 import it.polimi.ingsw.model.player.Player;
@@ -19,7 +20,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class HephaestusRulesTest {
     Player player;
     Worker worker;
-    HephaestusRules test = new HephaestusRules();
+    HephaestusRules test = (HephaestusRules) Gods.create(Gods.HEPHAESTUS);
 
     @BeforeEach
     void setUp() {

@@ -1,6 +1,7 @@
 package it.polimi.ingsw.rules;
 
 import it.polimi.ingsw.enumerations.Action;
+import it.polimi.ingsw.enumerations.Gods;
 import it.polimi.ingsw.exceptions.actions.CantActException;
 import it.polimi.ingsw.model.Session;
 import it.polimi.ingsw.model.map.Board;
@@ -22,7 +23,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class ArtemisRulesTest {
     Player player;
     Worker worker;
-    ArtemisRules test= new ArtemisRules();
+    ArtemisRules test= (ArtemisRules)Gods.create(Gods.ARTEMIS);
 
     @BeforeEach
     void setUp() {

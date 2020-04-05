@@ -38,7 +38,7 @@ public class Check {
                 case ALLY: if (allyOccupant(worker,position) == value) { throw new CantActException(msg); }break;
                 case ENEMY: if (allyOccupant(worker,position) != value) { throw new CantActException(msg); }break;
                 case ANY: throw new CantActException("Tile is occupied by your worker");
-                case SELF: if(worker.getPosition().equals(position) != value) { throw new CantActException(msg); }
+                case SELF: if(worker.getPosition().equals(position) != value) { throw new CantActException(msg); }break;
             }
         }
     }

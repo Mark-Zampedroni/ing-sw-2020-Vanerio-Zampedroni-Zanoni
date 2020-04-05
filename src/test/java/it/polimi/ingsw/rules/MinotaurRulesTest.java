@@ -1,5 +1,6 @@
 package it.polimi.ingsw.rules;
 
+import it.polimi.ingsw.enumerations.Gods;
 import it.polimi.ingsw.exceptions.actions.CantActException;
 import it.polimi.ingsw.model.Session;
 import it.polimi.ingsw.model.map.Board;
@@ -20,8 +21,8 @@ class MinotaurRulesTest {
     Player player;
     Player player2;
     Worker worker;
-    MinotaurRules test= new MinotaurRules();
-    ArtemisRules test2 = new ArtemisRules();
+    MinotaurRules test= (MinotaurRules)Gods.create(Gods.MINOTAUR);
+    GodRules test2 = Gods.create(Gods.ARTEMIS);
     Worker worker2;
 
     @BeforeEach
@@ -49,31 +50,23 @@ class MinotaurRulesTest {
 
     @Test
     void consentMovement() {
-        Position position= new Position(0,0);
-        worker.setPosition(new Position(1,1));
+        Position position= new Position(4,4);
+        worker.setPosition(new Position(3,3));
         worker2.setPosition(new Position(2,2));
         assertDoesNotThrow(()->test.consentMovement(worker, new Position(2,2)));
         worker2.setPosition(position);
         assertThrows(CantActException.class, ()->test.consentMovement(worker, position)); //is valid
-        position.setValue(2,2);
+        position.setValue(2,3);
         worker2.setPosition(position);
-        player2.getWorkers().get(1).setPosition(3,3);
+        player2.getWorkers().get(1).setPosition(1,3);
         assertThrows(CantActException.class, ()->test.consentMovement(worker, position));
-        player2.getWorkers().get(1).setPosition(4,4);
-        for(int i=0; i<4; i++){Session.getBoard().getTile(new Position(3,3)).increaseHeight();}
+        player2.getWorkers().get(1).setPosition(1,1);
+        for(int i=0; i<4; i++){Session.getBoard().getTile(new Position(1,3)).increaseHeight();}
         assertThrows(CantActException.class, ()->test.consentMovement(worker, position));
 
 
         }
 
-    @Test
-    void getPositionBackwards() {
-        Position position= new Position(3,3);
-        worker.setPosition(new Position(2,2));
-        worker2.setPosition(new Position(3,3));
-        assertTrue(test.getPositionBackwards(worker.getPosition(), position).equals(new Position(4,4)));
-
-    }
 
     @Test
     void executeMove() {

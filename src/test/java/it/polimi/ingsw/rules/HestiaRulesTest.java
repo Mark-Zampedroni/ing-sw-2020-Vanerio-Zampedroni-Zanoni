@@ -1,6 +1,7 @@
 package it.polimi.ingsw.rules;
 
 import it.polimi.ingsw.enumerations.Action;
+import it.polimi.ingsw.enumerations.Gods;
 import it.polimi.ingsw.exceptions.actions.CantActException;
 import it.polimi.ingsw.model.Session;
 import it.polimi.ingsw.model.map.Board;
@@ -20,7 +21,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class HestiaRulesTest {
     Player player;
     Worker worker;
-    HestiaRules test = new HestiaRules();
+    HestiaRules test =(HestiaRules)Gods.create(Gods.HESTIA);
     Position position;
 
     @BeforeEach

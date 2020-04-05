@@ -1,5 +1,6 @@
 package it.polimi.ingsw.rules;
 
+import it.polimi.ingsw.enumerations.Gods;
 import it.polimi.ingsw.model.Session;
 import it.polimi.ingsw.model.map.Board;
 import it.polimi.ingsw.model.player.Player;
@@ -19,7 +20,7 @@ class PanRulesTest {
     Player player;
     Worker worker;
     Position position = new Position(0,0);
-    PanRules test= new PanRules();
+    GodRules test= Gods.create(Gods.PAN);
 
    @BeforeEach
     void setUp() {
