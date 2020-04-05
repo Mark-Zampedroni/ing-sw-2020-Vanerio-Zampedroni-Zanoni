@@ -29,7 +29,6 @@ class WorkerTest {
 
     @Test
     void getPosition() {
-        System.out.println(Session.getPlayers());
         for(int x = 0; x < 6; x++) {
             for(int y = 0; y < 6; y++) {
                 worker.setPosition(new Position(x,y));

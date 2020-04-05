@@ -49,7 +49,6 @@ class MinotaurRulesTest {
 
     @Test
     void consentMovement() {
-        int i;
         Position position= new Position(0,0);
         worker.setPosition(new Position(1,1));
         worker2.setPosition(new Position(2,2));
@@ -61,7 +60,7 @@ class MinotaurRulesTest {
         player2.getWorkers().get(1).setPosition(3,3);
         assertThrows(CantActException.class, ()->test.consentMovement(worker, position));
         player2.getWorkers().get(1).setPosition(4,4);
-        for(i=0; i<4; i++){Session.getBoard().getTile(new Position(3,3)).increaseHeight();}
+        for(int i=0; i<4; i++){Session.getBoard().getTile(new Position(3,3)).increaseHeight();}
         assertThrows(CantActException.class, ()->test.consentMovement(worker, position));
 
 

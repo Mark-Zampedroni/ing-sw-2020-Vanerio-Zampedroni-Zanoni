@@ -45,7 +45,6 @@ class ZeusRulesTest {
     void consentMovement() {
         worker.setPosition(1,1);
         assertDoesNotThrow(()->test.consentMovement(worker, new Position(1,2)));
-        worker.setPosition(1,1);
         player.getWorkers().get(1).setPosition(2,2);
         assertThrows(CantActException.class, () ->test.consentMovement(worker, new Position(2,2)));
     }

@@ -27,12 +27,7 @@ public class Session {
 
     // Vanno rimossi anche i Worker, altrimenti si hanno problemi con worker.getMaster() a null ed i check
     public static void removePlayer(Player player) {
-        for(Iterator<Player> playerIterator = players.iterator(); playerIterator.hasNext();){
-            Player playerIt = playerIterator.next();
-            if (playerIt.equals(player)) {
-                playerIterator.remove();
-            }
-        }
+        players.removeIf(p -> p == player);
     }
 
     @SuppressWarnings("unchecked")
@@ -61,11 +56,7 @@ public class Session {
     }
 
     public static void removeGod(Gods god) {
-        for(Iterator<Gods> godsIterator = godsList.iterator(); godsIterator.hasNext();){
-            Gods godIt = godsIterator.next();
-            if (godIt.equals(god)) {
-                godsIterator.remove(); }
-        }
+        godsList.removeIf(elem -> elem.equals(god));
     }
 
     public static boolean hasWinner() {
