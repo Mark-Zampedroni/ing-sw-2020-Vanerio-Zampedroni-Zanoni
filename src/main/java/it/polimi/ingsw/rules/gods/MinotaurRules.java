@@ -22,7 +22,6 @@ public class MinotaurRules extends ApolloRules {
             Check.occupant(worker, backpos, Target.ANY, true, "Can't push enemy worker to an occupied tile");
             Check.dome(backpos, true, "Can't push enemy worker to a tile with a dome");
         }
-
     }
 
     public Position getPositionBackwards(Position from, Position to) {
