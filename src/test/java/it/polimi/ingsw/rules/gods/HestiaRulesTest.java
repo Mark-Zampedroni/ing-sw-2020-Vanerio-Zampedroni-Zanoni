@@ -21,7 +21,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class HestiaRulesTest {
     Player player;
     Worker worker;
-    HestiaRules test =(HestiaRules)Gods.create(Gods.HESTIA);
+    HestiaRules test = (HestiaRules) Gods.HESTIA.createRules();
     Position position;
 
     @BeforeEach

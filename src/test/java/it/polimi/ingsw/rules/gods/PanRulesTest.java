@@ -17,11 +17,10 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class PanRulesTest {
 
-
     Player player;
     Worker worker;
     Position position = new Position(0,0);
-    GodRules test= Gods.create(Gods.PAN);
+    GodRules test= Gods.PAN.createRules();
 
    @BeforeEach
     void setUp() {

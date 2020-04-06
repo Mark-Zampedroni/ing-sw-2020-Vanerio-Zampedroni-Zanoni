@@ -24,7 +24,7 @@ class TritonRulesTest {
 
     Player player;
     Worker worker;
-    TritonRules test= (TritonRules)Gods.create(Gods.TRITON);
+    TritonRules test= (TritonRules) Gods.TRITON.createRules();
 
     @BeforeEach
     void setUp(){

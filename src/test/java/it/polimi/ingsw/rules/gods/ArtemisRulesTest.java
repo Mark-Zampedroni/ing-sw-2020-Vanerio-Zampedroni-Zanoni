@@ -8,6 +8,8 @@ import it.polimi.ingsw.model.map.Board;
 import it.polimi.ingsw.model.player.Player;
 import it.polimi.ingsw.model.map.Position;
 import it.polimi.ingsw.model.player.Worker;
+import it.polimi.ingsw.rules.EventRules;
+import it.polimi.ingsw.rules.GodRules;
 import it.polimi.ingsw.rules.gods.ArtemisRules;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
@@ -23,7 +25,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class ArtemisRulesTest {
     Player player;
     Worker worker;
-    ArtemisRules test= (ArtemisRules)Gods.create(Gods.ARTEMIS);
+    ArtemisRules test= (ArtemisRules) Gods.ARTEMIS.createRules();
 
     @BeforeEach
     void setUp() {

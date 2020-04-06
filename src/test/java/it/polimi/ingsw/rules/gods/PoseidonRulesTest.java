@@ -22,7 +22,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class PoseidonRulesTest {
     Player player;
     Worker worker;
-    PoseidonRules test = (PoseidonRules)Gods.create(Gods.POSEIDON);
+    PoseidonRules test = (PoseidonRules) Gods.POSEIDON.createRules();
 
     @BeforeEach
     void setUp() {

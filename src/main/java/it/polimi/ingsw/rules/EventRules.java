@@ -2,7 +2,7 @@ package it.polimi.ingsw.rules;
 
 import it.polimi.ingsw.model.map.Position;
 
-public class EventRules extends CommonRules {
+public abstract class EventRules extends CommonRules {
 
     private boolean event;
     private Position pos;

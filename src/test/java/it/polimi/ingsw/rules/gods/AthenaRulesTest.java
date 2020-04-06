@@ -37,8 +37,8 @@ class AthenaRulesTest {
 
     @Test
     void applyEffect() {
-        player.setRules(Gods.create(Gods.ATHENA));
-        player2.setRules(Gods.create(Gods.APOLLO));
+        player.setRules(Gods.ATHENA.createRules());
+        player2.setRules(Gods.APOLLO.createRules());
 
         worker2.setPosition(2,2);
         player2.getRules().executeBuild(new Position(3,2)); // Height 1 (Athena second position)
@@ -58,8 +58,8 @@ class AthenaRulesTest {
 
     @Test
     void winCondition() {
-        player.setRules(Gods.create(Gods.ATHENA));
-        player2.setRules(Gods.create(Gods.APOLLO));
+        player.setRules(Gods.ATHENA.createRules());
+        player2.setRules(Gods.APOLLO.createRules());
 
         player2.getRules().executeBuild(new Position(0,1)); // Height 1
         player2.getRules().executeBuild(new Position(1,0)); // Height 1

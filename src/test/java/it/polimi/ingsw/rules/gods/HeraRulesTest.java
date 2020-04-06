@@ -38,7 +38,7 @@ class HeraRulesTest {
 
     @Test
     void applyEffect() {
-        player2.setRules(Gods.create(Gods.APOLLO)); // Any god
+        player2.setRules(Gods.APOLLO.createRules()); // Any god
         player2.getRules().executeBuild(new Position(0,1));
         player2.getRules().executeBuild(new Position(0,2));
         player2.getRules().executeBuild(new Position(0,2));
@@ -49,7 +49,7 @@ class HeraRulesTest {
         assertFalse(player2.getRules().consentWin(worker2, new Position(0,1)));
         assertTrue(player2.getRules().consentWin(worker2, new Position(0,3)));
         // Test Hera.consentWin block
-        player.setRules(Gods.create(Gods.HERA));
+        player.setRules(Gods.HERA.createRules());
         assertFalse(player2.getRules().consentWin(worker2, new Position(0,3)));
         // Test consentEnemyPosition
         assertDoesNotThrow(()->player2.getRules().consentMovement(worker2, new Position(0,3)));

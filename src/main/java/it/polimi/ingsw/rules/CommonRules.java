@@ -5,7 +5,7 @@ import it.polimi.ingsw.exceptions.actions.*;
 import it.polimi.ingsw.model.map.Position;
 import it.polimi.ingsw.model.player.Worker;
 
-public class CommonRules extends GodRules {
+public abstract class CommonRules extends GodRules {
 
     public void consentBuild(Worker worker, Position position) throws CantActException {
         super.consentBuild(worker, position);

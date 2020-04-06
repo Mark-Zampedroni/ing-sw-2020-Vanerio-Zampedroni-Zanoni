@@ -17,7 +17,7 @@ class ZeusRulesTest {
     Player player;
     Worker worker;
     Player opponent;
-    ZeusRules test = (ZeusRules)Gods.create(Gods.ZEUS);
+    ZeusRules test = (ZeusRules) Gods.ZEUS.createRules();
 
 
     @BeforeEach
@@ -36,7 +36,6 @@ class ZeusRulesTest {
         Session.getBoard().clear();
         Session.removePlayer(player);
         Session.removePlayer(opponent);
-
     }
 
     @Test

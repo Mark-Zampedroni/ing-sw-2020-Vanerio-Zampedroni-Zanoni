@@ -19,7 +19,7 @@ class AtlasRulesTest {
 
     Player player;
     Worker worker;
-    AtlasRules test= (AtlasRules)Gods.create(Gods.ATLAS);
+    AtlasRules test= (AtlasRules) Gods.ATLAS.createRules();
 
     @BeforeEach
     void setUp(){

@@ -20,7 +20,7 @@ import java.util.List;
 class DemeterRulesTest {
     Player player;
     Worker worker;
-    DemeterRules test= (DemeterRules)Gods.create(Gods.DEMETER);
+    DemeterRules test= (DemeterRules) Gods.DEMETER.createRules();
 
 
     @BeforeEach

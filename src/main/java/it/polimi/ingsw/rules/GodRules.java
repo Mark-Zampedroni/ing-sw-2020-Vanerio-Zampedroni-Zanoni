@@ -85,20 +85,17 @@ public abstract class GodRules {
         for (int x = -1; x < 2; x++) {
             for (int y = -1; y < 2; y++) {
                 for (Action action : actions) {
-                    if(x!=0 && y!=0) {
-                        try {
-                            switch (action) {
-                                case BUILD:
-                                    consentBuild(worker, new Position(position.getX() + x, position.getY() + y));
-                                    return true;
-                                case MOVE:
-                                    consentMovement(worker, new Position(position.getX() + x, position.getY() + y));
-                                    return true;
-                                default:
-                                    // Do nothing
+                    try {
+                        switch (action) {
+                            case BUILD:
+                                consentBuild(worker, new Position(position.getX() + x, position.getY() + y));
+                                return true;
+                            case MOVE:
+                                consentMovement(worker, new Position(position.getX() + x, position.getY() + y));
+                                return true;
+                            default: // Do nothing
                             }
                         } catch (CantActException e) { /* Do nothing */ }
-                    }
                 }
             }
         }

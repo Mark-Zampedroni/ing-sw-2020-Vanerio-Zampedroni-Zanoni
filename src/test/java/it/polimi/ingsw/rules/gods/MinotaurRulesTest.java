@@ -18,12 +18,11 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class MinotaurRulesTest {
 
-
     Player player;
     Player player2;
     Worker worker;
-    MinotaurRules test= (MinotaurRules)Gods.create(Gods.MINOTAUR);
-    GodRules test2 = Gods.create(Gods.ARTEMIS);
+    MinotaurRules test= (MinotaurRules) Gods.MINOTAUR.createRules();
+    GodRules test2 = Gods.ARTEMIS.createRules();
     Worker worker2;
 
     @BeforeEach
@@ -37,7 +36,6 @@ class MinotaurRulesTest {
         Session.addPlayer(player2);
         worker2 = player2.getWorkers().get(0);
         player2.setRules(test2);
-
     }
 
     @AfterEach
@@ -45,9 +43,7 @@ class MinotaurRulesTest {
         Session.getBoard().clear();
         Session.removePlayer(player);
         Session.removePlayer(player2);
-
     }
-
 
     @Test
     void consentMovement() {
@@ -64,10 +60,7 @@ class MinotaurRulesTest {
         player2.getWorkers().get(1).setPosition(1,1);
         for(int i=0; i<4; i++){Session.getBoard().getTile(new Position(1,3)).increaseHeight();}
         assertThrows(CantActException.class, ()->test.consentMovement(worker, position));
-
-
         }
-
 
     @Test
     void executeMove() {

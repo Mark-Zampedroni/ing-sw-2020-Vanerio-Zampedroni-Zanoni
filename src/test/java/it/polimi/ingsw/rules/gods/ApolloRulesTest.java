@@ -18,7 +18,7 @@ class ApolloRulesTest {
     Player player;
     Player opponent;
     Worker worker;
-    GodRules test = Gods.create(Gods.APOLLO);
+    GodRules test = Gods.APOLLO.createRules();
 
     @BeforeEach
     void setUp() {

@@ -22,7 +22,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class PrometheusRulesTest {
     Player player;
     Worker worker;
-    PrometheusRules test = (PrometheusRules)Gods.create(Gods.PROMETHEUS);
+    PrometheusRules test = (PrometheusRules) Gods.PROMETHEUS.createRules();
 
     @BeforeEach
     void setUp() {

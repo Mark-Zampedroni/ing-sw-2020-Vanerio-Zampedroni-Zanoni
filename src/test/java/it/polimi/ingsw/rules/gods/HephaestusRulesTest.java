@@ -20,7 +20,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class HephaestusRulesTest {
     Player player;
     Worker worker;
-    HephaestusRules test = (HephaestusRules) Gods.create(Gods.HEPHAESTUS);
+    HephaestusRules test = (HephaestusRules) Gods.HEPHAESTUS.createRules();
 
     @BeforeEach
     void setUp() {
@@ -36,7 +36,6 @@ class HephaestusRulesTest {
         Session.getBoard().clear();
         Session.removePlayer(player);
     }
-
 
     @Test
     void consentBuild() {
