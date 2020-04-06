@@ -52,7 +52,7 @@ class AthenaRulesTest {
         assertThrows(CantActException.class, ()->player2.getRules().consentMovement(worker2, new Position(2,3))); // Athena blocks enemy
         assertDoesNotThrow(()->player2.getRules().consentMovement(worker2, new Position(2,1))); // Athena blocks enemy
 
-        player.getRules().executeMove(worker, new Position(4,3)); // If Athena moves on a position that isn't higher, then:
+        player.getRules().clear();
         assertDoesNotThrow(()->player2.getRules().consentMovement(worker2, new Position(2,3))); // Athena does not block enemy
     }
 
@@ -74,7 +74,7 @@ class AthenaRulesTest {
         assertFalse(player2.getRules().consentWin(worker2, new Position(0,2))); // Height 2
         player2.getRules().executeMove(worker2, new Position(0,2)); // Height 2
         assertTrue(player2.getRules().consentWin(worker2, new Position(0,3))); // Height 3
-        player.getRules().executeMove(worker, new Position(2,0)); // Athena removes effect
+        player.getRules().clear();
     }
 
 }

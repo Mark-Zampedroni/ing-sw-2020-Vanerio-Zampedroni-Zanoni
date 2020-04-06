@@ -56,7 +56,7 @@ class HeraRulesTest {
         player.getRules().executeMove(worker2, new Position(0,2));
         assertTrue(player.getRules().consentWin(worker2, new Position(0,3)));
 
-        player.getRules().clear();
+        ((EnemyRules)player.getRules()).removeEffect();
     }
 
 }

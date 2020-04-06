@@ -12,11 +12,15 @@ public class AthenaRules extends EnemyRules {
 
     @Override
     public void executeMove(Worker worker, Position position) {
-        removeEffect();
         if(Session.getBoard().getTile(worker.getPosition()).getHeight() < Session.getBoard().getTile(position).getHeight()) {
             applyEffect();
         }
         worker.setPosition(position);
+    }
+
+    @Override
+    public void clear() {
+        removeEffect();
     }
 
     @Override
