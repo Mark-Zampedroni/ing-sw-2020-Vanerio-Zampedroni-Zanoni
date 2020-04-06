@@ -1,26 +1,27 @@
-package it.polimi.ingsw.rules;
+package it.polimi.ingsw.rules.gods;
 
 import it.polimi.ingsw.enumerations.Action;
 import it.polimi.ingsw.enumerations.Gods;
 import it.polimi.ingsw.exceptions.actions.CantActException;
 import it.polimi.ingsw.model.Session;
+import static org.junit.jupiter.api.Assertions.*;
+
+import it.polimi.ingsw.model.map.Board;
 import it.polimi.ingsw.model.player.Player;
 import it.polimi.ingsw.model.map.Position;
 import it.polimi.ingsw.model.player.Worker;
-import it.polimi.ingsw.rules.gods.HephaestusRules;
+import it.polimi.ingsw.rules.gods.DemeterRules;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
-
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
-
-class HephaestusRulesTest {
+class DemeterRulesTest {
     Player player;
     Worker worker;
-    HephaestusRules test = (HephaestusRules) Gods.create(Gods.HEPHAESTUS);
+    DemeterRules test= (DemeterRules)Gods.create(Gods.DEMETER);
+
 
     @BeforeEach
     void setUp() {
@@ -41,10 +42,11 @@ class HephaestusRulesTest {
     @Test
     void consentBuild() {
         worker.setPosition(1,1);
-        assertDoesNotThrow(()->test.consentBuild(worker, new Position(2,2)));
+        assertDoesNotThrow(() -> test.consentBuild(worker, new Position(2, 2)));
         test.setEvent(true);
-        test.setPos(new Position(2,2));
-        assertThrows(CantActException.class, ()->test.consentBuild(worker, new Position(2,1)));
+        test.setPos(new Position(2, 2));
+        assertThrows(CantActException.class, () -> test.consentBuild(worker, new Position(2, 2)));
+
     }
 
     @Test

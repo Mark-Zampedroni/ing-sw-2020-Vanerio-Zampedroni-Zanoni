@@ -1,4 +1,4 @@
-package it.polimi.ingsw.rules;
+package it.polimi.ingsw.rules.gods;
 
 import it.polimi.ingsw.enumerations.Gods;
 import it.polimi.ingsw.exceptions.actions.CantActException;
@@ -6,6 +6,7 @@ import it.polimi.ingsw.model.Session;
 import it.polimi.ingsw.model.map.Position;
 import it.polimi.ingsw.model.player.Player;
 import it.polimi.ingsw.model.player.Worker;
+import it.polimi.ingsw.rules.EnemyRules;
 import it.polimi.ingsw.rules.GodRules;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
