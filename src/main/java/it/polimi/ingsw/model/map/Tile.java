@@ -30,7 +30,7 @@ public class Tile {
     public boolean hasDome() { return dome; }
 
     /**
-     * Increases the tile height, if it's already reached {@link it.polimi.ingsw.constants.Height TOP}
+     * Increases the tile {@link it.polimi.ingsw.constants.Height height}, if it's already reached {@link it.polimi.ingsw.constants.Height TOP}
      * instead places a dome
      */
     public void increaseHeight() {
@@ -41,7 +41,7 @@ public class Tile {
     }
 
     /**
-     * Gets the height
+     * Gets the {@link it.polimi.ingsw.constants.Height height}
      *
      * @return the {@link it.polimi.ingsw.constants.Height height}
      */
