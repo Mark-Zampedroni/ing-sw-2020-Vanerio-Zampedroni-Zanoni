@@ -20,7 +20,7 @@ public class PoseidonRules extends EventRules {
     private Worker movedWorker;
     private Worker unmovedWorker;
 
-    public void setMovedWorker(Worker worker) {
+    private void setMovedWorker(Worker worker) {
         this.movedWorker = worker;
     }
 
@@ -28,19 +28,17 @@ public class PoseidonRules extends EventRules {
         return movedWorker;
     }
 
-    public int getCounter() {
-        return counter;
-    }
-
-    public void increaseCounter() {
+    private void increaseCounter() {
         counter++;
     }
 
-    public void clearCounter() {
+    private void clearCounter() {
         counter = 0;
     }
 
-    public void setUnmovedWorker() {
+    private int getCounter(){ return counter; }
+
+    private void setUnmovedWorker() {
         if (movedWorker.getMaster().getWorkers().get(0) != getMovedWorker()) {
             unmovedWorker = movedWorker.getMaster().getWorkers().get(0);
         } else {
@@ -48,15 +46,12 @@ public class PoseidonRules extends EventRules {
         }
     }
 
-    public Worker getUnmovedWorker() {
-        return unmovedWorker;
-    }
-
     @Override
     public void executeMove(Worker worker, Position position) {
         super.executeMove(worker, position);
         setMovedWorker(worker);
         setUnmovedWorker();
+        clearCounter();
     }
 
     @Override
@@ -72,7 +67,7 @@ public class PoseidonRules extends EventRules {
     public List<Action> afterBuild() {
         List<Action> list = super.afterBuild();
         if (!getEvent()) {
-            if (Session.getBoard().getTile(getUnmovedWorker().getPosition()).getHeight() == 0) {
+            if (Session.getBoard().getTile(unmovedWorker.getPosition()).getHeight() == 0) {
                 setEvent(true);
                 list.add(Action.SELECT_WORKER);}
                 return list;

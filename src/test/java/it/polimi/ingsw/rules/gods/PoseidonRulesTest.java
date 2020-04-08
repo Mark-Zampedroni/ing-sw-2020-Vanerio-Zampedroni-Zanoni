@@ -39,28 +39,17 @@ class PoseidonRulesTest {
         Session.removePlayer(player);
     }
 
-
-    @Test
-    void setUnmovedWorker() {
-        Worker worker2 = player.getWorkers().get(1);
-        test.setMovedWorker(worker);
-        test.setUnmovedWorker();
-        assertEquals(test.getUnmovedWorker(),worker2);
-        assertEquals(test.getMovedWorker(), worker);
-        test.setMovedWorker(worker2);
-        test.setUnmovedWorker();
-        assertEquals(test.getUnmovedWorker(),worker);
-        assertEquals(test.getMovedWorker(), worker2);
-    }
-
     @Test
     void executeMove() {
         Worker worker2 = player.getWorkers().get(1);
         worker.setPosition(1,1);
         test.executeMove(worker, new Position(1,2));
-        assertTrue(worker.getPosition().equals(new Position(1,2)));
-        assertEquals(test.getUnmovedWorker(), worker2);
         assertEquals(test.getMovedWorker(), worker);
+        assertDoesNotThrow(()->test.consentSelect(worker2));
+
+        test.executeMove(worker2, new Position(3,4));
+        assertEquals(test.getMovedWorker(), worker2);
+        assertDoesNotThrow(()->test.consentSelect(worker));
     }
 
     @Test
@@ -71,8 +60,7 @@ class PoseidonRulesTest {
         test.setEvent(false);
         assertDoesNotThrow(()->test.consentSelect(worker));
         test.setEvent(true);
-        test.setMovedWorker(worker);
-        test.setUnmovedWorker();
+        test.executeMove(worker, new Position(2,3));
         assertThrows(CantActException.class, ()->test.consentSelect(worker));
         assertDoesNotThrow(()->test.consentSelect(worker1));
     }
@@ -84,7 +72,8 @@ class PoseidonRulesTest {
         Position position = new Position(3,3);
         Session.getBoard().getTile(position).increaseHeight();
         test.executeMove(worker, new Position(2,3));
-        test.getUnmovedWorker().setPosition(position);
+        Worker worker1 = player.getWorkers().get(1);
+        worker1.setPosition(position);
         test.setEvent(false);
         List<Action> list =  test.afterBuild();
         assertEquals(list.get(0), Action.END_TURN);
@@ -93,34 +82,33 @@ class PoseidonRulesTest {
 
         //correct position for multibuild, firstbuild
         position = new Position(2,2);
-        test.getUnmovedWorker().setPosition(position);
-        test.clearCounter();
+        worker1.setPosition(position);
+
         list= test.afterBuild();
         assertEquals(list.get(0), Action.END_TURN);
         assertEquals(list.get(1), Action.SELECT_WORKER);
         assertEquals(list.size(), 2);
         assertTrue(test.getEvent());
-        assertEquals(test.getCounter(),0);
 
         list= test.afterBuild();
         assertEquals(list.get(0), Action.END_TURN);
         assertEquals(list.get(1), Action.BUILD);
         assertEquals(list.size(), 2);
         assertTrue(test.getEvent());
-        assertEquals(test.getCounter(),1);
+
 
         list= test.afterBuild();
         assertEquals(list.get(0), Action.END_TURN);
         assertEquals(list.get(1), Action.BUILD);
         assertEquals(list.size(), 2);
         assertTrue(test.getEvent());
-        assertEquals(test.getCounter(),2);
+
 
         list = test.afterBuild();
         assertEquals(list.get(0), Action.END_TURN);
         assertEquals(list.size(),1);
         assertTrue(test.getEvent());
-        assertEquals(test.getCounter(),0);
+
     }
 
 }
