@@ -25,7 +25,9 @@ class AthenaRulesTest {
         Session.addPlayer(player);
         Session.addPlayer(player2);
         worker = player.getWorkers().get(0);
+        worker.setPosition(0,0);
         worker2 = player2.getWorkers().get(0);
+        worker2.setPosition(4,4);
     }
 
     @AfterEach

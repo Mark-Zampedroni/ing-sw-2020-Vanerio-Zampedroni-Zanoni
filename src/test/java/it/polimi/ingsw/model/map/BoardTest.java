@@ -30,7 +30,7 @@ class BoardTest {
     @Test
     void correctManagement() {
         Session.getBoard().getTile(new Position(2,3)).increaseHeight();
-        Session.getBoard().getTile(new Position(4, 4)).placeDome();
+        Session.getBoard().getTile(new Position(4, 4)).putDome();
         assertEquals(Session.getBoard().getTile(new Position(2,3)).getHeight(), 1);
         assertTrue(Session.getBoard().getTile(new Position(4, 4)).hasDome());
     }

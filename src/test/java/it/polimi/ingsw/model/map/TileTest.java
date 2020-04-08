@@ -18,7 +18,7 @@ class TileTest {
     @Test
     void placeHasDome() {
         assertFalse(tile.hasDome());
-        tile.placeDome();
+        tile.putDome();
         assertTrue(tile.hasDome());
     }
 
@@ -38,7 +38,7 @@ class TileTest {
     @Test
     void testToString() {
         tile.increaseHeight();
-        tile.placeDome();
+        tile.putDome();
         assertEquals("Tower, height: 1, dome: true",tile.toString());
     }
 }

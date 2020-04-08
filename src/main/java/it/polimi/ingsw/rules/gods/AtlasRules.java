@@ -11,7 +11,7 @@ public class AtlasRules extends EventRules {
     public void executeBuild(Position position) {
         Tile tile = Session.getBoard().getTile(position);
         if(!getEvent()) { tile.increaseHeight(); }
-        else { tile.placeDome(); }
+        else { tile.putDome(); }
     }
 
 }

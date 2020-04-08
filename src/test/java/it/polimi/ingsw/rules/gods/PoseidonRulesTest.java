@@ -30,6 +30,7 @@ class PoseidonRulesTest {
         player = new Player("TestName");
         Session.addPlayer(player);
         worker = player.getWorkers().get(0);
+        worker.setPosition(0,0);
         player.setRules(test);
     }
 
@@ -43,6 +44,7 @@ class PoseidonRulesTest {
     void executeMove() {
         Worker worker2 = player.getWorkers().get(1);
         worker.setPosition(1,1);
+        worker2.setPosition(0,0);
         test.executeMove(worker, new Position(1,2));
         assertEquals(test.getMovedWorker(), worker);
         assertDoesNotThrow(()->test.consentSelect(worker2));
