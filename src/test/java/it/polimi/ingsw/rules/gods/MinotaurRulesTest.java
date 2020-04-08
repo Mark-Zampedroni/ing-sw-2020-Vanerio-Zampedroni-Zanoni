@@ -53,13 +53,13 @@ class MinotaurRulesTest {
         assertDoesNotThrow(()->test.consentMovement(worker, new Position(2,2)));
         worker2.setPosition(position);
         assertThrows(CantActException.class, ()->test.consentMovement(worker, position)); //is valid
-        position.setValue(2,3);
-        worker2.setPosition(position);
+        Position position2 = new Position(2,3);
+        worker2.setPosition(position2);
         player2.getWorkers().get(1).setPosition(1,3);
-        assertThrows(CantActException.class, ()->test.consentMovement(worker, position));
+        assertThrows(CantActException.class, ()->test.consentMovement(worker, position2));
         player2.getWorkers().get(1).setPosition(1,1);
         for(int i=0; i<4; i++){Session.getBoard().getTile(new Position(1,3)).increaseHeight();}
-        assertThrows(CantActException.class, ()->test.consentMovement(worker, position));
+        assertThrows(CantActException.class, ()->test.consentMovement(worker, position2));
         }
 
     @Test

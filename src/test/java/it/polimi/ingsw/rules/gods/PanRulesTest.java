@@ -41,12 +41,12 @@ class PanRulesTest {
     void isWinner() {
         Board board = Session.getBoard();
         worker.setPosition(2,2);
-        position.setValue(1, 2);
+        position = new Position(1, 2);
         while(board.getTile(position).getHeight()<3){board.getTile(position).increaseHeight();}
         while (board.getTile(worker.getPosition()).getHeight() < 2) {board.getTile(worker.getPosition()).increaseHeight();}
         assertTrue(test.isWinner(worker, position));
         while (board.getTile(worker.getPosition()).getHeight() < 3) {board.getTile(worker.getPosition()).increaseHeight();}
-        position.setValue(2,3);
+        position = new Position(2,3);
         assertTrue(test.isWinner(worker, position));
     }
 }

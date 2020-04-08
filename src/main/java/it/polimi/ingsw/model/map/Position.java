@@ -8,15 +8,10 @@ import it.polimi.ingsw.model.player.Worker;
 
 public class Position {
 
-    private int x;
-    private int y;
+    private final int x;
+    private final int y;
 
     public Position(int x, int y) {
-            setValue(x,y);
-    }
-
-    // Valid values are 0 <= x < 6 and 0 <= y < 6
-    public void setValue(int x, int y) {
         this.x = x;
         this.y = y;
     }

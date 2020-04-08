@@ -70,15 +70,6 @@ class PositionTest {
         Session.removePlayer(player);
     }
 
-    // Checks if setValue correctly reassigns the coordinates
-    @Test
-    void setValue() {
-        position = new Position(2,2);
-        position.setValue(3,3);
-        assertEquals(3,position.getX());
-        assertEquals(3,position.getY());
-    }
-
     // Confirms that the returned value is a copy of the object
     @Test
     void copy() {
