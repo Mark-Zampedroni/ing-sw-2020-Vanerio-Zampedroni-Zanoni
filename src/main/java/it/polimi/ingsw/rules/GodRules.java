@@ -127,7 +127,7 @@ public abstract class GodRules {
      *
      * @param worker worker that moves
      * @param position position to where the worker is moved
-     * @return {@code true} if the worker's {@link it.polimi.ingsw.model.player.Player master could win the game
+     * @return {@code true} if the worker's {@link it.polimi.ingsw.model.player.Player master} could win the game
      */
     public boolean isWinner(Worker worker, Position position) {
         Board board = Session.getBoard();
