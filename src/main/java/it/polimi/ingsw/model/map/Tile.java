@@ -46,7 +46,7 @@ public class Tile {
      * @return the {@link it.polimi.ingsw.constants.Height height}
      */
     public int getHeight() {
-        return this.height;
+        return height;
     }
 
     /**

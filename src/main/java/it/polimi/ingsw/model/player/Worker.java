@@ -9,7 +9,7 @@ import it.polimi.ingsw.model.map.Position;
 public class Worker {
 
     private Position position;
-    private Player master;
+    private final Player master;
 
     /**
      * Initializes worker on (-1,-1), it's not yet placed on the board
@@ -25,7 +25,7 @@ public class Worker {
      * Initializes the worker on an already valid {@link Position position}
      *
      * @param master owner of the worker
-     * @param position starting {@link Position position}
+     * @param position starting {@link Position position} on the {@link it.polimi.ingsw.model.map.Board board}
      */
     public Worker(Player master, Position position) {
         this.master = master;

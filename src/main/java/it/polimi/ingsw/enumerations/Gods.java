@@ -3,6 +3,9 @@ package it.polimi.ingsw.enumerations;
 import it.polimi.ingsw.rules.*;
 import it.polimi.ingsw.rules.gods.*;
 
+/**
+ * Playable gods, each {@link it.polimi.ingsw.model.player.Player player} can select one
+ */
 public enum Gods {
     APOLLO { public GodRules createRules() { return new ApolloRules(); } },
     ARTEMIS { public GodRules createRules() { return new ArtemisRules(); } },
@@ -19,6 +22,10 @@ public enum Gods {
     HESTIA { public GodRules createRules() { return new HestiaRules(); } },
     HERA { public GodRules createRules() { return new HeraRules(); } };
 
+    /**
+     * Creates the set of {@link GodRules rules} for the selected god
+     * @return the set of {@link GodRules rules} of the caller
+     */
     public abstract GodRules createRules();
 
 

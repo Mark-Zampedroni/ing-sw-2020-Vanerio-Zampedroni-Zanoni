@@ -34,26 +34,12 @@ public class Check {
 
     public static void occupant(Worker worker, Position position, Target type, boolean value, String msg) throws CantActException {
         if (position.getWorker() != null) {
-            switch (type) {
-                case ALLY:
-                    if (allyOccupant(worker,position) == value) { throw new CantActException(msg); }break;
-                case ENEMY:
-                    if (allyOccupant(worker,position) != value) { throw new CantActException(msg); }break;
-                case ANY:
-                    occupant(worker,position,Target.ALLY,value,"Tile occupied");
-                    occupant(worker,position,Target.ENEMY,value,"Tile occupied");
-                case SELF:
-                    if(worker.getPosition().equals(position) != value) { throw new CantActException(msg); }break;
-            }
+            if(type.compareWorkers(worker,position.getWorker()) == value) { throw new CantActException(msg); }
         }
     }
 
     public static void occupant(Worker worker, Position position, Target type) throws CantActException {
         occupant(worker,position,type,true,"Tile occupied");
-    }
-
-    private static boolean allyOccupant(Worker worker, Position position) {
-        return (worker.getMaster() == position.getWorker().getMaster());
     }
 
     public static void boundary(Position position, boolean value, String msg) throws CantActException {
