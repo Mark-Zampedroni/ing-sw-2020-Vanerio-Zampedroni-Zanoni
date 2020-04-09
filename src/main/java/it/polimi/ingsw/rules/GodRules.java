@@ -15,62 +15,132 @@ import java.util.List;
 import static it.polimi.ingsw.constants.Height.MID;
 import static it.polimi.ingsw.constants.Height.TOP;
 
+/**
+ * Rules shared by all the gods
+ */
 public abstract class GodRules {
 
     static List<EnemyRules> enemyModifiers = new ArrayList<>();
 
+    /**
+     * Executes a movement {@link Action action}
+     *
+     * @param worker selected {@link Worker worker}
+     * @param position {@link Position position} the {@link Worker worker} will move to
+     */
     public void executeMove(Worker worker, Position position) {
         worker.setPosition(position);
     }
 
+    /**
+     * Executes a build {@link Action action}
+     *
+     * @param position {@link Position position} where to build
+     */
     public void executeBuild(Position position) {
         Tile tile = Session.getBoard().getTile(position);
         tile.increaseHeight();
     }
 
+    /**
+     * Returns a list of possible {@link Action actions} after the
+     * {@link it.polimi.ingsw.model.player.Player player}
+     * {@link Action selected} a {@link Worker worker}
+     *
+     * @return list of {@link Action actions} that can be done after a worker {@link Action selection}
+     */
     public List<Action> afterSelect() {
         return new ArrayList<>(Arrays.asList(Action.SELECT_WORKER, Action.MOVE));
     }
 
+    /**
+     * Returns a list of possible {@link Action actions} after the
+     * {@link it.polimi.ingsw.model.player.Player player}
+     * {@link Action moved} a {@link Worker worker}
+     *
+     * @return list of {@link Action actions} that can be done after {@link Action moving}
+     */
     public List<Action> afterMove() {
         List<Action> out = new ArrayList<>();
         out.add(Action.BUILD);
         return out;
     }
 
+    /**
+     * Returns a list of possible {@link Action actions} after the
+     * {@link it.polimi.ingsw.model.player.Player player}
+     * {@link Action built} with a {@link Worker worker}
+     *
+     * @return list of {@link Action actions} that can be done after {@link Action building}
+     */
     public List<Action> afterBuild() {
         List<Action> out = new ArrayList<>();
         out.add(Action.END_TURN);
         return out;
     }
 
+    /**
+     * Checks if by the rules it's physically possible to perform a select {@link Action action}
+     *
+     * @param worker worker the {@link it.polimi.ingsw.model.player.Player player} wants to select
+     * @throws CantActException when the worker can't be selected
+     */
     public void consentSelect(Worker worker) throws CantActException {
         if (!canSelect(worker, afterSelect())) {
             throw new CantActException("This worker can't do any action");
         }
     }
 
+    /**
+     * Checks if by the rules it's physically possible to perform a build {@link Action action}
+     *
+     * @param worker worker that wants to build
+     * @param position position where the worker wants to build
+     * @throws CantActException when the worker can't build
+     */
     public void consentBuild(Worker worker, Position position) throws CantActException {
         Check.positionValidity(position);
         Check.dome(position);
     }
 
+    /**
+     * Checks if by the rules it's physically possible to perform a move {@link Action action}
+     *
+     * @param worker worker that wants to move
+     * @param position position to where the worker is moved
+     * @throws CantActException when the worker can't move
+     */
     public void consentMovement(Worker worker, Position position) throws CantActException {
         Check.positionValidity(position);
         Check.distance(worker, position);
         Check.dome(position);
         Check.height(worker, position);
-        for(EnemyRules enemy : enemyModifiers) {
+        for(EnemyRules enemy : enemyModifiers) { // Only Athena atm
             if(this != enemy) {
             enemy.consentEnemyMovement(worker, position); }
-        } // Only Athena atm
+        }
     }
 
+    /**
+     * Method to evaluate if the {@link Worker worker}'s
+     * {@link it.polimi.ingsw.model.player.Player master} wins the game
+     *
+     * @param worker worker that moves
+     * @param position position to where the worker is moved
+     * @return {@code true} if the worker's {@link it.polimi.ingsw.model.player.Player master could win the game
+     */
     public boolean isWinner(Worker worker, Position position) {
         Board board = Session.getBoard();
         return ((board.getTile(worker.getPosition()).getHeight() == MID && board.getTile(position).getHeight() == TOP));
     }
 
+    /**
+     * Checks if by the rules it's possible to win the game
+     *
+     * @param worker worker that moves
+     * @param position position to where the worker is moved
+     * @return {@code true} if the worker's {@link it.polimi.ingsw.model.player.Player master} wins the game
+     */
     public boolean consentWin(Worker worker, Position position) {
         for(EnemyRules enemy : enemyModifiers) { // Only Hera atm
             if(this != enemy && !enemy.consentEnemyWin(position)) {
@@ -80,6 +150,14 @@ public abstract class GodRules {
         return isWinner(worker, position);
     }
 
+    /**
+     * States if the {@link Worker worker} can physically perform at least one
+     * of the {@link Action actions} in list
+     *
+     * @param worker worker the {@link it.polimi.ingsw.model.player.Player player} may want to select
+     * @param actions list of {@link Action actions} the worker may be required to perform
+     * @return {@code true} if the worker could do at least one {@link Action action}
+     */
     public boolean canSelect(Worker worker, List<Action> actions) {
         Position position = worker.getPosition();
         for (int x = -1; x < 2; x++) {
@@ -94,24 +172,16 @@ public abstract class GodRules {
                                 consentMovement(worker, new Position(position.getX() + x, position.getY() + y));
                                 return true;
                             default: // Do nothing
-                            }
-                        } catch (CantActException e) { /* Do nothing */ }
+                        }
+                    } catch (CantActException e) { /* Do nothing */ }
                 }
             }
         }
         return false;
     }
 
-    /*
-        Holder to enable clear call from any GodRules child
+    /**
+     * Placeholder to make clear() callable from any {@link GodRules rules} set
      */
     public void clear() { /* Do nothing */ }
-
 }
-
-        /*CONTROLLO UN'AZIONE NEL FUTURO DOPO SELEZIONE WORKER, SE LISTE VUOTE BLOCCO SELEZIONE WORKER
-
-        PER ALTRE AZIONI CONTROLLO POSSIBILITA' INTORNO CON I CONSENT, SE LISTE VUOTE PER BUILD E MOVE E NO END_TURN O SELECT_WORKER
-        ALLORA PERDE GAME. ALTRIMENTI NELL'EXECUTE CONTROLLA CHE SIA NELLA LISTA CORRISPETTIVA.
-
-        */

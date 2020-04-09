@@ -24,6 +24,7 @@ public enum Gods {
 
     /**
      * Creates the set of {@link GodRules rules} for the selected god
+     *
      * @return the set of {@link GodRules rules} of the caller
      */
     public abstract GodRules createRules();
