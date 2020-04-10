@@ -8,9 +8,18 @@ import it.polimi.ingsw.rules.Check;
 import it.polimi.ingsw.rules.EventRules;
 import java.util.List;
 
-//Event is true during the additional turn
+/**
+ * Rules for a player with Hestia as God
+ */
+
 public class HestiaRules extends EventRules {
 
+    /**
+     * Executes a build {@link Action action}, if is the first build {@link Action action}
+     * calls the {@link #setEvent setEvent} with {@code true} argument
+     *
+     * @param position {@link Position position} where to build
+     */
     @Override
     public void executeBuild(Position position) {
         if(!getEvent()) {
@@ -19,6 +28,15 @@ public class HestiaRules extends EventRules {
         super.executeBuild(position);
     }
 
+    /**
+     * Returns a list of possible {@link Action actions} after the
+     * {@link it.polimi.ingsw.model.player.Player player}
+     * {@link Action built} with a {@link Worker worker},
+     * if the event flag described by {@link #getEvent() getEvent} is {@code true}
+     * adds another {@link Action BUILD} action to the next actions list
+     *
+     * @return list of {@link Action actions} that can be done after {@link Action building}
+     */
     @Override
     public List<Action> afterBuild() {
         List<Action> actions = super.afterBuild();
