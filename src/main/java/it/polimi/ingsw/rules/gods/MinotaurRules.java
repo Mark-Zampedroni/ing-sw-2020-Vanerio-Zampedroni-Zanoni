@@ -7,6 +7,7 @@ import it.polimi.ingsw.model.map.Position;
 import it.polimi.ingsw.model.player.Player;
 import it.polimi.ingsw.model.player.Worker;
 import it.polimi.ingsw.rules.Check;
+import it.polimi.ingsw.rules.GodRules;
 
 
 /**
@@ -27,6 +28,13 @@ public class MinotaurRules extends ApolloRules {
         worker.setPosition(position);
     }
 
+    /**
+     * Checks if by the rules it's physically possible to perform a move {@link Action action}
+     *
+     * @param worker worker that wants to move
+     * @param position position to where the worker is moved
+     * @throws CantActException when the worker can't move
+     */
     @Override
     public void consentMovement(Worker worker, Position position) throws CantActException {
         super.consentMovement(worker,position);
@@ -38,6 +46,13 @@ public class MinotaurRules extends ApolloRules {
         }
     }
 
+    /**
+     * Method used to calculate the position of the enemy's worker after using the Minotaur's ability
+     *
+     * @param from {@link Position position} of the worker whose {@link Player player} has Minotaur as god
+     * @param to {@link Position position} of the enemy's worker current position
+     * @return the {@link Position position} where the enemy's worker is going to be settled
+     */
     private Position getPositionBackwards(Position from, Position to) {
         return new Position(2*to.getX() - from.getX(), 2*to.getY() - from.getY());
     }

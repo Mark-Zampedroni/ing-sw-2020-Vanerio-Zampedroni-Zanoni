@@ -46,6 +46,13 @@ public class HephaestusRules extends EventRules {
         return actions;
     }
 
+    /**
+     * Checks if by the rules it's physically possible to perform a build {@link Action action}
+     *
+     * @param worker worker that wants to build
+     * @param position position where the worker wants to build
+     * @throws CantActException when the worker can't build
+     */
     @Override
     public void consentBuild(Worker worker, Position position) throws CantActException {
         super.consentBuild(worker, position);

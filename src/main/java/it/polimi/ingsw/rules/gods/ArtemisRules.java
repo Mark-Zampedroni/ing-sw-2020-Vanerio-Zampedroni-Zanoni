@@ -42,6 +42,13 @@ public class ArtemisRules extends EventRules {
         super.executeMove(worker, position);
     }
 
+    /**
+     * Checks if by the rules it's physically possible to perform a move {@link Action action}
+     *
+     * @param worker worker that wants to move
+     * @param position position to where the worker is moved
+     * @throws CantActException when the worker can't move
+     */
     @Override
     public void consentMovement(Worker worker, Position position) throws CantActException {
         super.consentMovement(worker, position);
