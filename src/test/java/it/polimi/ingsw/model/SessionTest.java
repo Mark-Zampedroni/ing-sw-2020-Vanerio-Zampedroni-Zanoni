@@ -53,6 +53,11 @@ class SessionTest {
         assertFalse(Session.hasWinner());
         one.setWinner();
         assertTrue(Session.hasWinner());
+        two.removeWorker(0);
+        Session.removePlayer(two);
+        assertEquals(Session.playersNumber(), 2);
+        two= new Player("Sandro");
+        Session.addPlayer(two);
     }
 
     @Test

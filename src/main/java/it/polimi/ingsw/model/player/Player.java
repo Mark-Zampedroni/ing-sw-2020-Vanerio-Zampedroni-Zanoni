@@ -1,6 +1,7 @@
 package it.polimi.ingsw.model.player;
 import it.polimi.ingsw.enumerations.Colors;
 import it.polimi.ingsw.enumerations.Gods;
+import it.polimi.ingsw.model.map.Position;
 import it.polimi.ingsw.rules.GodRules;
 
 import java.util.ArrayList;
@@ -94,6 +95,30 @@ public class Player {
     @SuppressWarnings("unchecked")
     public ArrayList<Worker> getWorkers() {
         return (ArrayList<Worker>) workers.clone();
+    }
+
+    /**
+     * Removes the {@link Worker worker} of a player in a specific {@link Position position}
+     *
+     * @param position specific {@link GodRules rules} that are linked to the chosen {@link Gods god}
+     */
+    public void removeWorker(Position position) {
+        if (workers.get(0).getPosition().equals(position)) {
+            workers.remove(0);
+        } else {
+            if (workers.get(1).getPosition().equals(position)) {
+                workers.remove(1);
+            }
+        }
+    }
+
+    /**
+     * Removes the {@link Worker worker} identified by his index
+     *
+     * @param index position of the {@link Worker worker} in the list in player
+     */
+    public void removeWorker(int index) {
+            workers.remove(index);
     }
 
     /**

@@ -24,9 +24,18 @@ public class Session {
         return (ArrayList<Player>) players.clone();
     }
 
-
-    // Vanno rimossi anche i Worker, altrimenti si hanno problemi con worker.getMaster() a null ed i check
     public static void removePlayer(Player player) {
+        int i=0;
+        while (!players.get(i).equals(player)) {
+            i++;
+        }
+        if (players.get(i).getWorkers().size() == 2) {
+            players.get(i).removeWorker(1);
+            players.get(i).removeWorker(0);} else {
+            if (players.get(i).getWorkers().size() == 1) {
+                players.get(i).removeWorker(0);
+            }
+        }
         players.removeIf(p -> p == player);
     }
 

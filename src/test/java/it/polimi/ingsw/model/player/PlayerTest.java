@@ -2,6 +2,7 @@ package it.polimi.ingsw.model.player;
 
 import it.polimi.ingsw.enumerations.Colors;
 import it.polimi.ingsw.enumerations.Gods;
+import it.polimi.ingsw.model.map.Position;
 import it.polimi.ingsw.rules.CommonRules;
 import it.polimi.ingsw.rules.GodRules;
 import org.junit.jupiter.api.Test;
@@ -39,6 +40,15 @@ class PlayerTest {
         GodRules rules = Gods.APOLLO.createRules();
         player.setRules(rules);
         assertNotEquals(player.getRules(), null);
+        player.removeWorker(0);
+        assertEquals(player.getWorkers().size(), 1);
+        player.removeWorker(0);
+        assertEquals(player.getWorkers().size(), 0);
+        player = new Player("Paolo");
+        Position position = new Position(2,3);
+        player.getWorkers().get(0).setPosition(position);
+        player.removeWorker(position);
+        assertEquals(player.getWorkers().size(), 1);
     }
 
 
