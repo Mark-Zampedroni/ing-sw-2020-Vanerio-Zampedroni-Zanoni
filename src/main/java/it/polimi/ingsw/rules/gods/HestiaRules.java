@@ -15,7 +15,7 @@ import java.util.List;
 public class HestiaRules extends EventRules {
 
     /**
-     * Executes a build {@link Action action}, if is the first build {@link Action action}
+     * Executes a build {@link Action action}, if it is the first build {@link Action action}
      * calls the {@link #setEvent setEvent} with {@code true} argument
      *
      * @param position {@link Position position} where to build

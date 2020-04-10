@@ -15,7 +15,7 @@ import java.util.List;
 public class DemeterRules extends EventRules {
 
     /**
-     * Executes a build {@link Action action}, if is the first build {@link Action action}
+     * Executes a build {@link Action action}, if it is the first build {@link Action action}
      * calls the {@link #setEvent setEvent} with {@code true} argument and calls the
      * {@link #setPos(Position) setPos} method with the {@link Position position} of the build
      * as argument

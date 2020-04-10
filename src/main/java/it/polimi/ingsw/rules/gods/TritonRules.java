@@ -28,7 +28,7 @@ public class TritonRules extends EventRules {
      * Returns a list of possible {@link Action actions} after the
      * {@link it.polimi.ingsw.model.player.Player player}
      * {@link Action moved} a {@link Worker worker},
-     * if the event flag described by {@link #getEvent() getEvent} is true add a optional {@link Action MOVE}
+     * if the event flag described by {@link #getEvent() getEvent} is true add a optional {@link Action MOVE} action
      *
      * @return list of {@link Action actions} that can be done after {@link Action moving}
      */

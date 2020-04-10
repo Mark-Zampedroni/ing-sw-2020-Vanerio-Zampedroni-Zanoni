@@ -13,7 +13,7 @@ public class AtlasRules extends EventRules {
 
     /**
      * Executes a build {@link Action action}, if the {@link #getEvent() getEvent} flag
-     * is {@code true} it {@link Action BUIL} a Dome
+     * is {@code true} it {@link Action builds} a Dome
      *
      * @param position {@link Position position} where to build
      */

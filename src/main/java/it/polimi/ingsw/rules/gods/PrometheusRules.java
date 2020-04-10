@@ -32,7 +32,7 @@ public class PrometheusRules extends EventRules {
     /**
      * Returns a list of possible {@link Action actions} after the
      * {@link it.polimi.ingsw.model.player.Player player}
-     * {@link Action built} with a {@link Worker worker}
+     * {@link Action built} with a {@link Worker worker},
      * if the event flag described by {@link #getEvent() getEvent} is {@code true} the next action is {@link Action MOVE}
      *
      * @return list of {@link Action actions} that can be done after {@link Action building}
