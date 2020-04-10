@@ -6,15 +6,13 @@ import it.polimi.ingsw.model.map.Position;
 import it.polimi.ingsw.model.map.Tile;
 import it.polimi.ingsw.model.player.Player;
 import it.polimi.ingsw.model.player.Worker;
-import it.polimi.ingsw.rules.GodRules;
 
 import java.util.ArrayList;
 import java.util.Random;
 
 /**
- * Session of the game, it contains all the useful informations, the {@link java.util.List list} of the {@link Player players},
- * the {@link Board board} and the {@link java.util.List list} of the {@link Gods gods}.
- * All its attributes are Static
+ * Session of the game containing the {@link java.util.List list} of the {@link Player players},
+ * the {@link Board board} and the {@link java.util.List list} of the {@link Gods gods}
  */
 public class Session {
     private static ArrayList<Player> players = new ArrayList<>();
@@ -64,7 +62,6 @@ public class Session {
      * Getter for the list of the {@link Player players} without the passed player
      *
      * @param player the {@link Player player} that you don't need to have in the list
-     *
      * @return a shallow copy of the {@link Player players}'s list and removes the {@link Player player} in the argument
      */
     @SuppressWarnings("unchecked")
@@ -77,7 +74,6 @@ public class Session {
     /**
      * Getter for the size of the list of the {@link Player players}
      *
-     *
      * @return the {@link int number} of the players in the game
      */
     public static int playersNumber() {
@@ -86,7 +82,6 @@ public class Session {
 
     /**
      * Getter for the {@link Board board}
-     *
      *
      * @return the {@link Board board} used in the session
      */
@@ -137,8 +132,7 @@ public class Session {
     }
 
     /**
-     * Set the challenger in a random way, is chosen from the {@link Player players} in the list
-     *
+     * Randomly chooses the challenger from the {@link Player players}
      */
     public static void pickChallenger() {
         int firstTwoPlayers = (new Random().nextInt(1));

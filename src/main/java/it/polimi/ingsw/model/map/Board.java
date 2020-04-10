@@ -12,16 +12,14 @@ public class Board {
     private final static Tile[][] tiles = new Tile[Board.WIDTH][Board.HEIGHT];
 
     /**
-     * Initializes the Board, it calls the method {@link #clear() clear}
-     *
+     * Initializes the board calling the method {@link #clear() clear}
      */
     public Board() {
         clear();
     }
 
     /**
-     * It replaces all the {@link Tile tiles} in the Board with new {@link Tile tiles}
-     *
+     * Replaces all the {@link Tile tiles} in the board with new {@link Tile tiles}
      */
     public void clear() {
         for (int x=0; x<Board.WIDTH; x++) {

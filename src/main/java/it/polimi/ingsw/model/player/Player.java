@@ -7,9 +7,9 @@ import it.polimi.ingsw.rules.GodRules;
 import java.util.ArrayList;
 
 /**
- * Used as the entity which represents a person (identified by his username) playing the game in a {@link it.polimi.ingsw.model.Session session}
- * with a unique {@link it.polimi.ingsw.enumerations.Colors color}, a specific {@link it.polimi.ingsw.enumerations.Gods god}
- * and two {@link it.polimi.ingsw.model.player.Worker workers}
+ * Used to represent a person (identified by his username) playing the game in a {@link it.polimi.ingsw.model.Session session}
+ * with a unique {@link it.polimi.ingsw.enumerations.Colors color}, a chosen {@link it.polimi.ingsw.enumerations.Gods god}
+ * and a list of {@link it.polimi.ingsw.model.player.Worker workers}
  */
 
 public class Player {
@@ -23,9 +23,9 @@ public class Player {
     private boolean winner;
 
     /**
-     * Initializes player with his username, creating his {@link Worker workers}
+     * Initializes a player with his username, creating two {@link Worker workers}
      *
-     * @param username unique string for identify player
+     * @param username unique string used to identify the player
      */
     public Player(String username) {
         this.username = username;
