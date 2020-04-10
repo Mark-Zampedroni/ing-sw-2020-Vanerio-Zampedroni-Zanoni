@@ -49,6 +49,10 @@ class PlayerTest {
         player.getWorkers().get(0).setPosition(position);
         player.removeWorker(position);
         assertEquals(player.getWorkers().size(), 1);
+        player = new Player("Paolo");
+        player.getWorkers().get(1).setPosition(position);
+        player.removeWorker(position);
+        assertEquals(player.getWorkers().size(), 1);
     }
 
 

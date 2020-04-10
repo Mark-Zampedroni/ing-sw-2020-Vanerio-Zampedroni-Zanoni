@@ -35,9 +35,8 @@ public class Board {
      * Getter for a specific {@link Tile tile} identified by its {@link Position position}
      *
      * @param position the position of the required {@link Tile tile}
-     * @return the {@link Tile tile} identified by the {@link Position position} 
+     * @return the {@link Tile tile} identified by the {@link Position position}
      */
     public Tile getTile(Position position) {
         return tiles[position.getX()][position.getY()]; }
-
 }
