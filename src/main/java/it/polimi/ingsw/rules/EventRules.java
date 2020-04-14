@@ -1,7 +1,5 @@
 package it.polimi.ingsw.rules;
 
-import it.polimi.ingsw.enumerations.Colors;
-import it.polimi.ingsw.enumerations.Gods;
 import it.polimi.ingsw.model.map.Position;
 
 public abstract class EventRules extends CommonRules {

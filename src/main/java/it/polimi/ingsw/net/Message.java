@@ -6,9 +6,9 @@ import java.io.Serializable;
 
 public class Message implements Serializable {
 
-    private MessageType type;
-    private String sender;
-    private String content;
+    private final MessageType type;
+    private final String sender;
+    private final String content;
 
     public Message(MessageType type, String sender, String content) {
         this.type = type;

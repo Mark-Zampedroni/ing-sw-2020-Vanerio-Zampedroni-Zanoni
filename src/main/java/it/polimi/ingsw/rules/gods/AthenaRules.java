@@ -6,7 +6,6 @@ import it.polimi.ingsw.model.map.Position;
 import it.polimi.ingsw.model.player.*;
 import it.polimi.ingsw.rules.Check;
 import it.polimi.ingsw.rules.EnemyRules;
-import it.polimi.ingsw.rules.EventRules;
 
 public class AthenaRules extends EnemyRules {
 

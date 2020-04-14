@@ -1,6 +1,5 @@
 package it.polimi.ingsw.rules;
 
-import it.polimi.ingsw.enumerations.Action;
 import it.polimi.ingsw.enumerations.Target;
 import it.polimi.ingsw.exceptions.utility.NotInstantiableClass;
 import it.polimi.ingsw.exceptions.actions.CantActException;
@@ -94,7 +93,7 @@ public class Check {
     }
 
     /**
-     * If value is {@code true} this method checks if the position is perimetrical, otherwise it checks the opposite statement
+     * If value is {@code true} this method checks if the position is on the perimeter, otherwise it checks the opposite statement
      *
      * @param position targeted position
      * @param value defines the condition that this method is checking
@@ -106,7 +105,7 @@ public class Check {
     }
 
     /**
-     * Checks if a position is perimetrical
+     * Checks if a position is on the perimeter
      *
      * @param position targeted position
      * @throws CantActException when the position is on the perimeter of {@link Board board}

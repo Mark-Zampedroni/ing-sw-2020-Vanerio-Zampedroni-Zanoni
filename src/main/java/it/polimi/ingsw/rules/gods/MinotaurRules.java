@@ -7,7 +7,6 @@ import it.polimi.ingsw.model.map.Position;
 import it.polimi.ingsw.model.player.Player;
 import it.polimi.ingsw.model.player.Worker;
 import it.polimi.ingsw.rules.Check;
-import it.polimi.ingsw.rules.GodRules;
 
 
 /**

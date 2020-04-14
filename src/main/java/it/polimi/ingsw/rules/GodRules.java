@@ -21,7 +21,7 @@ import static it.polimi.ingsw.constants.Height.TOP;
  */
 public abstract class GodRules extends Observable {
 
-    static List<EnemyRules> enemyModifiers = new ArrayList<>();
+    static final List<EnemyRules> enemyModifiers = new ArrayList<>();
 
     /**
      * Executes a movement {@link Action action}

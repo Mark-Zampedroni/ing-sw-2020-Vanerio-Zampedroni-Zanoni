@@ -14,8 +14,8 @@ import java.util.List;
 /* Interfaccia con le azioni sul Model, controlla se sia eseguibile l'azione e l'effettua */
 public class ActionController {
 
-    Player player;
-    GodRules rules;
+    final Player player;
+    final GodRules rules;
     List<Action> newActions;
 
     List<Position> moveCandidates;
@@ -42,7 +42,7 @@ public class ActionController {
         Asserts that List contains Position
      */
     public void containsPosition(List<Position> list, Position position) throws CantActException {
-        if(!list.stream().filter(p -> p.equals(position)).findFirst().isPresent()) { throw new CantActException("You can't do that here"); }
+        if(!list.isEmpty()) { throw new CantActException("You can't do that here"); }
     }
 
     /*

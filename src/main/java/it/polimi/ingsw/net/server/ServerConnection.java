@@ -2,6 +2,7 @@ package it.polimi.ingsw.net.server;
 
 import it.polimi.ingsw.controller.SessionController;
 import it.polimi.ingsw.enumerations.MessageType;
+import it.polimi.ingsw.model.Session;
 import it.polimi.ingsw.net.Message;
 
 import java.io.IOException;
@@ -18,8 +19,6 @@ import java.util.logging.SimpleFormatter;
 
 public class ServerConnection extends Thread {
 
-    private int port;
-
     private ServerSocket serverSocket;
     private Map<String, VirtualView> connections;
 
@@ -30,7 +29,6 @@ public class ServerConnection extends Thread {
     public static final Logger LOG = Logger.getLogger("Server");
 
     public ServerConnection(int port) {
-        this.port = port;
         connections = new HashMap<>();
         startLogging();
         sessionController = new SessionController(); // Controller
@@ -96,7 +94,7 @@ public class ServerConnection extends Thread {
                 LOG.info("A player tried to connect with the already in use username "+user+"\n");
                 connection.disconnect();
             }
-            else if(sessionController.getSession().getInstance().isStarted()) {
+            else if(Session.getInstance().isStarted()) {
                 connection.sendMessage(new Message(MessageType.KO, "SERVER", "A game has already started"));
                 LOG.info(user + " tried to connect, but the game has already started\n");
                 connection.disconnect();

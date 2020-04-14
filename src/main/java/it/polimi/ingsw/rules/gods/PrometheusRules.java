@@ -7,7 +7,6 @@ import it.polimi.ingsw.model.player.Worker;
 import it.polimi.ingsw.rules.Check;
 import it.polimi.ingsw.rules.EventRules;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**

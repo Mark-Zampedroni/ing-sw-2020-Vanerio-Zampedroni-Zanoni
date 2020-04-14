@@ -31,7 +31,7 @@ public class ClientConnection extends Thread {
 
     private final Logger LOG;
 
-    private List<Message> inQueue;
+    private final List<Message> inQueue;
 
     private final Object queueLock = new Object();
 

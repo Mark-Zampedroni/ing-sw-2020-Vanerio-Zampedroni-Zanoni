@@ -24,7 +24,7 @@ public class VirtualView implements Runnable {
     private Thread listener;
 
     public VirtualView(ServerConnection server, Socket socket) {
-        server.LOG.info("Creating virtual view\n");
+        ServerConnection.LOG.info("Creating virtual view\n");
         this.server = server;
         this.socket = socket;
         try {
@@ -33,7 +33,7 @@ public class VirtualView implements Runnable {
             listener = new Thread(this);
             listener.start();
             open = true;
-            server.LOG.info("Successful creation of virtual view\n");
+            ServerConnection.LOG.info("Successful creation of virtual view\n");
         } catch(IOException e) {
             ServerConnection.LOG.severe(e.toString());
         }
@@ -47,7 +47,7 @@ public class VirtualView implements Runnable {
                     output.reset();
                 }
             } catch(IOException e) {
-                server.LOG.severe(e.getMessage());
+                ServerConnection.LOG.severe(e.getMessage());
                 disconnect();
             }
         }
@@ -63,7 +63,7 @@ public class VirtualView implements Runnable {
                     open = false;
                 }
             } catch(IOException e) {
-                server.LOG.severe(e.getMessage());
+                ServerConnection.LOG.severe(e.getMessage());
             }
         }
     }
@@ -87,9 +87,9 @@ public class VirtualView implements Runnable {
                     }
                 }
             } catch(ClassNotFoundException e) {
-                server.LOG.severe(e.getMessage());
+                ServerConnection.LOG.severe(e.getMessage());
             } catch(IOException e) {
-                server.LOG.severe("Exception throw, connection closed");
+                ServerConnection.LOG.severe("Exception throw, connection closed");
                 disconnect();
             }
         }
