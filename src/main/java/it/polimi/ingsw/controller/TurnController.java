@@ -1,12 +1,13 @@
 package it.polimi.ingsw.controller;
 
-import it.polimi.ingsw.connection.message.Reply;
 import it.polimi.ingsw.enumerations.Action;
+import it.polimi.ingsw.enumerations.MessageType;
 import it.polimi.ingsw.exceptions.actions.CantActException;
 import it.polimi.ingsw.exceptions.actions.WrongActionException;
 import it.polimi.ingsw.model.map.Position;
 import it.polimi.ingsw.model.player.Player;
 import it.polimi.ingsw.model.player.Worker;
+import it.polimi.ingsw.net.Message;
 import it.polimi.ingsw.rules.GodRules;
 
 import java.util.ArrayList;
@@ -52,7 +53,7 @@ public class TurnController {
     /*
         DUMMY CLASS / SERVER -> CLIENT REPLY TO REQUESTS
      */
-    public Reply response(String msg) { return new Reply(); } // Da mettere in server
+    public Message response(String msg) { return new Message(MessageType.KO, "TEST", "test"); } // Da mettere in server
 
     /*
         Set possibleActions to first action default, [SELECT_WORKER]
@@ -99,7 +100,7 @@ public class TurnController {
     /*
         Reply to [SELECT_WORKER] request
      */
-    public Reply selectWorker(Worker worker) {
+    public Message selectWorker(Worker worker) {
         try {
             executeAction(worker, Action.SELECT_WORKER);
             currentWorker = worker;
@@ -110,7 +111,7 @@ public class TurnController {
     /*
         Reply to [BUILD] request
      */
-    public Reply build(Position position) {
+    public Message build(Position position) {
         try {
             executeAction(currentWorker, position, Action.BUILD);
             return response("Built in "+position);
@@ -120,7 +121,7 @@ public class TurnController {
     /*
         Reply to [MOVE] request
      */
-    public Reply move(Position position) {
+    public Message move(Position position) {
         try {
             executeAction(currentWorker, position, Action.MOVE);
             return response("Worker moved to "+position);
@@ -130,10 +131,10 @@ public class TurnController {
     /*
         Reply to [END_TURN] request
      */
-    public Reply endTurn() {
+    public Message endTurn() {
         try {
             validateType(Action.END_TURN);
-            Reply reply = response("Turn passed");
+            Message reply = response("Turn passed");
             passTurn();
             return reply;
         } catch(WrongActionException e) { return response(e.getMessage()); }

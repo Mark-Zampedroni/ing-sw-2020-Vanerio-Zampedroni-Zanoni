@@ -18,6 +18,28 @@ public class Session {
     private static ArrayList<Player> players = new ArrayList<>();
     private static Board board = new Board();
     private static ArrayList<Gods> godsList= new ArrayList<>();
+    private static boolean started; // MESSO DA MARK PER SERVER - DA AGGIUNGERE METODI
+    private static Session instance; // MESSO DA MARK PER SERVER - SINGLETON
+
+    // MESSO DA MARK - SINGLETON
+    private Session() {
+        super();
+    }
+
+    // MESSO DA MARK - SINGLETON
+    public static Session getInstance() {
+        if(instance == null) {
+            instance = new Session();
+        }
+        return instance;
+    }
+
+    // MESSO DA MARK - PARTITA AVVIATA
+    public boolean isStarted() {
+        return started;
+    }
+
+    // VANNO TOLTI GLI STATIC DAI METODI QUI SOTTO E GESTITI I CAMBIAMENTI NEI CHECK
 
     /**
      * Adds a {@link Player player} in the list of the {@link Player players}
