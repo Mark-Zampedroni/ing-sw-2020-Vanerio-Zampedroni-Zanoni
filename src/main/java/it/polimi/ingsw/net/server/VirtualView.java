@@ -15,8 +15,8 @@ public class VirtualView implements Runnable {
     private final ServerConnection server;
     private final Socket socket;
 
-    public static final Object readLock = new Object(); // Lock shared on all VirtualViews
-    public static final Object sendLock = new Object();
+    private final Object readLock = new Object(); // Lock shared on all VirtualViews
+    private final Object sendLock = new Object();
 
     private ObjectInputStream input; // Not final because on error it may not initialize
     private ObjectOutputStream output;
@@ -24,6 +24,7 @@ public class VirtualView implements Runnable {
     private Thread listener;
 
     public VirtualView(ServerConnection server, Socket socket) {
+        server.LOG.info("Creating virtual view\n");
         this.server = server;
         this.socket = socket;
         try {
@@ -32,6 +33,7 @@ public class VirtualView implements Runnable {
             listener = new Thread(this);
             listener.start();
             open = true;
+            server.LOG.info("Successful creation of virtual view\n");
         } catch(IOException e) {
             ServerConnection.LOG.severe(e.toString());
         }
@@ -40,12 +42,12 @@ public class VirtualView implements Runnable {
     public void sendMessage(Message msg) {
         if(open) {
             try {
-                synchronized(VirtualView.sendLock) {
+                synchronized(sendLock) {
                     output.writeObject(msg);
                     output.reset();
                 }
             } catch(IOException e) {
-                ServerConnection.LOG.severe(e.getMessage());
+                server.LOG.severe(e.getMessage());
                 disconnect();
             }
         }
@@ -61,7 +63,7 @@ public class VirtualView implements Runnable {
                     open = false;
                 }
             } catch(IOException e) {
-                ServerConnection.LOG.severe(e.getMessage());
+                server.LOG.severe(e.getMessage());
             }
         }
     }
@@ -74,19 +76,20 @@ public class VirtualView implements Runnable {
     public void run() {
         while(!Thread.currentThread().isInterrupted()) {
             try {
-                synchronized (VirtualView.readLock) {
+                synchronized (readLock) {
                     Message msg = (Message) input.readObject();
                     if(msg != null) {
                         if(msg.getType() == MessageType.REGISTRATION) {
                             server.registerConnection(this, msg.getSender());
                         }
                         // ServerApplication.onMessage(msg) || Altri casi
-                        System.out.println(msg); // TEST
+                        System.out.println(msg+"\n"); // TEST
                     }
                 }
             } catch(ClassNotFoundException e) {
-                ServerConnection.LOG.severe(e.getMessage());
+                server.LOG.severe(e.getMessage());
             } catch(IOException e) {
+                server.LOG.severe("Exception throw, connection closed");
                 disconnect();
             }
         }

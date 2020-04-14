@@ -89,8 +89,12 @@ public class ClientConnection extends Thread {
                         inQueue.add(msg); // Messages to read from controller
                     }
                 }
-            } catch(IOException | ClassNotFoundException e) {
+            }
+            catch(ClassNotFoundException e) {
                 LOG.severe(e.getMessage());
+            }
+            catch(IOException e) {
+                LOG.severe("Exception throw, connection closed");
                 disconnect();
             }
         }

@@ -1,5 +1,6 @@
 package it.polimi.ingsw;
 
+
 import it.polimi.ingsw.enumerations.MessageType;
 import it.polimi.ingsw.exceptions.net.FailedConnectionException;
 import it.polimi.ingsw.net.Message;
@@ -8,12 +9,9 @@ import it.polimi.ingsw.net.client.ClientConnection;
 import java.util.List;
 import java.util.Scanner;
 
-/** ESEMPIO DI CLIENT, GIUSTO PER MANDARE MESSAGGI, DA QUI FUNZIONA UN SOLO CLIENT ESSENDO STATICO **/
-
 public class ClientApp {
 
     public static void main(String []args) {
-
         ClientConnection client = null;
         String username;
         boolean connected = false;
@@ -26,6 +24,7 @@ public class ClientApp {
             username = scanner.nextLine();  // Read user input
             try {
                 client = new ClientConnection(username, "127.0.0.1", 7654);
+                System.out.println("Created socket with username "+username);
                 boolean replied = false;
                 while (!replied) {
                     queue = client.getQueue();
@@ -43,7 +42,5 @@ public class ClientApp {
             String content = scanner.nextLine();  // Read user input
             client.sendMessage(new Message(MessageType.OK,username,content));
         }
-
     }
-
 }

@@ -37,7 +37,7 @@ public class ServerConnection extends Thread {
         try {
             serverSocket = new ServerSocket(port);
         } catch(IOException e) {
-            ServerConnection.LOG.severe(e.getMessage());
+            LOG.severe(e.getMessage());
         }
         this.start(); // Starts thread
     }
@@ -55,7 +55,9 @@ public class ServerConnection extends Thread {
     public void run() {
         while (!Thread.currentThread().isInterrupted()) {
             try {
+                LOG.info("Waiting for request ...\n"); // TEST
                 Socket client = serverSocket.accept();
+                LOG.info("Socket created\n"); // TEST
                 new VirtualView(this, client);
             } catch (IOException e) {
                 ServerConnection.LOG.warning(e.getMessage());
@@ -74,12 +76,12 @@ public class ServerConnection extends Thread {
             }
         }
         if(user != null) {
-            LOG.info(user + " disconnected");
+            LOG.info(user + " disconnected\n");
             if(true) { // Game in lobby
                 synchronized(connectionsLock) {
                     connections.remove(user);
                 }
-                LOG.info(user + " removed from lobby");
+                LOG.info(user + " removed from lobby\n");
             }
         }
         // Gestione disconnessione giocatore
@@ -91,12 +93,12 @@ public class ServerConnection extends Thread {
         synchronized(connectionsLock) {
             if(connections.containsKey(user)) {
                 connection.sendMessage(new Message(MessageType.KO, "SERVER", "This username is already in use"));
-                ServerConnection.LOG.info("A player tried to connect with the already in use username "+user);
+                LOG.info("A player tried to connect with the already in use username "+user+"\n");
                 connection.disconnect();
             }
             else if(sessionController.getSession().getInstance().isStarted()) {
                 connection.sendMessage(new Message(MessageType.KO, "SERVER", "A game has already started"));
-                ServerConnection.LOG.info(user + " tried to connect, but the game has already started");
+                LOG.info(user + " tried to connect, but the game has already started\n");
                 connection.disconnect();
             }
             else if(false) { // is lobby full ?
@@ -104,7 +106,7 @@ public class ServerConnection extends Thread {
             }
             else {
                 connections.put(user, connection);
-                ServerConnection.LOG.info(user + " connected");
+                LOG.info(user + " connected\n");
                 connection.sendMessage(new Message(MessageType.OK, "SERVER", "Connection successful"));
             }
         }
