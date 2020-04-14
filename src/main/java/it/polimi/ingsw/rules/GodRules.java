@@ -7,6 +7,7 @@ import it.polimi.ingsw.model.map.Board;
 import it.polimi.ingsw.model.map.Tile;
 import it.polimi.ingsw.model.map.Position;
 import it.polimi.ingsw.model.player.Worker;
+import it.polimi.ingsw.observer.observable.Observable;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -18,7 +19,7 @@ import static it.polimi.ingsw.constants.Height.TOP;
 /**
  * Rules shared by all the gods
  */
-public abstract class GodRules {
+public abstract class GodRules extends Observable {
 
     static List<EnemyRules> enemyModifiers = new ArrayList<>();
 
