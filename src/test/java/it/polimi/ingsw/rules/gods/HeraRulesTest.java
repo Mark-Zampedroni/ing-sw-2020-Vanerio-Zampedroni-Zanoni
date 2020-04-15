@@ -23,17 +23,17 @@ class HeraRulesTest {
     void setUp() {
         player = new Player("TestName1");
         player2 = new Player("TestName2");
-        Session.addPlayer(player);
-        Session.addPlayer(player2);
+        Session.getInstance().addPlayer(player);
+        Session.getInstance().addPlayer(player2);
         worker = player.getWorkers().get(0);
         worker2 = player2.getWorkers().get(0);
     }
 
     @AfterEach
     void clearUp() {
-        Session.getBoard().clear();
-        Session.removePlayer(player);
-        Session.removePlayer(player2);
+        Session.getInstance().getBoard().clear();
+        Session.getInstance().removePlayer(player);
+        Session.getInstance().removePlayer(player2);
     }
 
     @Test

@@ -15,23 +15,23 @@ class BoardTest {
 
     @BeforeEach
     @AfterEach
-    void setUp() { Session.getBoard().clear(); }
+    void setUp() { Session.getInstance().getBoard().clear(); }
 
     @Test
     void correctlyCreated() {
         for (int i=0; i<5; i++) {
             for (int j=0; j<5; j++) {
-                assertEquals(Session.getBoard().getTile(new Position(i,j)).getHeight(), 0);
-                assertFalse(Session.getBoard().getTile(new Position(i,j)).hasDome());
+                assertEquals(Session.getInstance().getBoard().getTile(new Position(i,j)).getHeight(), 0);
+                assertFalse(Session.getInstance().getBoard().getTile(new Position(i,j)).hasDome());
             }
         }
     }
 
     @Test
     void correctManagement() {
-        Session.getBoard().getTile(new Position(2,3)).increaseHeight();
-        Session.getBoard().getTile(new Position(4, 4)).putDome();
-        assertEquals(Session.getBoard().getTile(new Position(2,3)).getHeight(), 1);
-        assertTrue(Session.getBoard().getTile(new Position(4, 4)).hasDome());
+        Session.getInstance().getBoard().getTile(new Position(2,3)).increaseHeight();
+        Session.getInstance().getBoard().getTile(new Position(4, 4)).putDome();
+        assertEquals(Session.getInstance().getBoard().getTile(new Position(2,3)).getHeight(), 1);
+        assertTrue(Session.getInstance().getBoard().getTile(new Position(4, 4)).hasDome());
     }
 }

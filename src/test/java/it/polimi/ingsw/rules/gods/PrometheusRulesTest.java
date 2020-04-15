@@ -26,17 +26,17 @@ class PrometheusRulesTest {
 
     @BeforeEach
     void setUp() {
-        Session.getBoard().clear();
+        Session.getInstance().getBoard().clear();
         player = new Player("TestName");
-        Session.addPlayer(player);
+        Session.getInstance().addPlayer(player);
         worker = player.getWorkers().get(0);
         player.setRules(test);
     }
 
     @AfterEach
     void clearUp() {
-        Session.getBoard().clear();
-        Session.removePlayer(player);
+        Session.getInstance().getBoard().clear();
+        Session.getInstance().removePlayer(player);
     }
 
 
@@ -46,7 +46,7 @@ class PrometheusRulesTest {
         assertDoesNotThrow(()->test.consentBuild(worker, new Position(3,2)));
         worker.setPosition(3,2);
         test.setEvent(true);
-        Session.getBoard().getTile(new Position(3,3)).increaseHeight();
+        Session.getInstance().getBoard().getTile(new Position(3,3)).increaseHeight();
         assertThrows(CantActException.class, ()->test.consentMovement(worker, new Position(3,3)));
     }
 
@@ -56,7 +56,7 @@ class PrometheusRulesTest {
         test.setEvent(false);
         test.executeBuild(position);
         assertTrue(test.getEvent());
-        assertEquals(Session.getBoard().getTile(position).getHeight(),1);
+        assertEquals(Session.getInstance().getBoard().getTile(position).getHeight(),1);
     }
 
     @Test

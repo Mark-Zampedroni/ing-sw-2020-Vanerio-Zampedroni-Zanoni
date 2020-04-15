@@ -28,7 +28,7 @@ public class Check {
      */
     public static void piece(Worker worker, Position position, boolean value, int height, String msg) throws CantActException {
         EventRules eventBase = (EventRules) worker.getMaster().getRules();
-        if(eventBase.getEvent() && (Session.getBoard().getTile(eventBase.getPos()).getHeight() == height) == value) { throw new CantActException(msg); }
+        if(eventBase.getEvent() && (Session.getInstance().getBoard().getTile(eventBase.getPos()).getHeight() == height) == value) { throw new CantActException(msg); }
     }
 
     /**
@@ -124,7 +124,7 @@ public class Check {
      * @throws CantActException when the position where the worker has tried to move on was too high
      */
     public static void height(Worker worker, Position position, int offset, String msg) throws CantActException {
-        if (Session.getBoard().getTile(position).getHeight() > Session.getBoard().getTile(worker.getPosition()).getHeight() + offset) { throw new CantActException(msg); }
+        if (Session.getInstance().getBoard().getTile(position).getHeight() > Session.getInstance().getBoard().getTile(worker.getPosition()).getHeight() + offset) { throw new CantActException(msg); }
     }
 
     /**
@@ -173,7 +173,7 @@ public class Check {
      * @throws CantActException when the position where the worker has tried to move on was too high
      */
     public static void dome(Position position, boolean value, String msg) throws CantActException {
-        if(Session.getBoard().getTile(position).hasDome() == value) { throw new CantActException(msg); }
+        if(Session.getInstance().getBoard().getTile(position).hasDome() == value) { throw new CantActException(msg); }
     }
 
     /**

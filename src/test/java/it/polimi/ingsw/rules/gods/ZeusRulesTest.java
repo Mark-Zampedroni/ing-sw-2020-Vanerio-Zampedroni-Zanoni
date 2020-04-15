@@ -22,20 +22,20 @@ class ZeusRulesTest {
 
     @BeforeEach
     void setUp() {
-        Session.getBoard().clear();
+        Session.getInstance().getBoard().clear();
         player = new Player("TestName");
         opponent = new Player("Opponent");
-        Session.addPlayer(player);
-        Session.addPlayer(opponent);
+        Session.getInstance().addPlayer(player);
+        Session.getInstance().addPlayer(opponent);
         worker = player.getWorkers().get(0);
         player.setRules(test);
     }
 
     @AfterEach
     void clearUp() {
-        Session.getBoard().clear();
-        Session.removePlayer(player);
-        Session.removePlayer(opponent);
+        Session.getInstance().getBoard().clear();
+        Session.getInstance().removePlayer(player);
+        Session.getInstance().removePlayer(opponent);
     }
 
     @Test

@@ -1,4 +1,5 @@
 package it.polimi.ingsw.model;
+import it.polimi.ingsw.enumerations.Colors;
 import it.polimi.ingsw.enumerations.Gods;
 import it.polimi.ingsw.model.map.Board;
 import it.polimi.ingsw.model.player.Player;
@@ -23,7 +24,11 @@ public class Session {
         super();
     }
 
-    // MESSO DA MARK - SINGLETON
+    /**
+     * Method that create a unique instance of Session
+     *
+     * @return the {@link Session session} with all the game informations
+     */
     public static Session getInstance() {
         if(instance == null) {
             instance = new Session();
@@ -31,19 +36,30 @@ public class Session {
         return instance;
     }
 
-    // MESSO DA MARK - PARTITA AVVIATA
+    /**
+     * Evaluates if the match is started
+     *
+     * @return {@code true} if is started
+     */
     public boolean isStarted() {
         return started;
     }
 
-    // VANNO TOLTI GLI STATIC DAI METODI QUI SOTTO E GESTITI I CAMBIAMENTI NEI CHECK
+    /**
+     * Setter for started flag
+     *
+     * @param state specific if the game is started
+     */
+    public void setStarted(boolean state) {
+        started=state;
+    }
 
     /**
      * Adds a {@link Player player} in the list of the {@link Player players}
      *
      * @param player identifies the {@link Player player}
      */
-    public static void addPlayer(Player player) {
+    public void addPlayer(Player player) {
         players.add(player);
     }
 
@@ -53,7 +69,7 @@ public class Session {
      * @return a shallow copy of the {@link Player players}'s list
      */
     @SuppressWarnings("unchecked")
-    public static ArrayList<Player> getPlayers() {
+    public ArrayList<Player> getPlayers() {
         return (ArrayList<Player>) players.clone();
     }
 
@@ -62,7 +78,7 @@ public class Session {
      *
      * @param player identifies the {@link Player player} you have to remove
      */
-    public static void removePlayer(Player player) {
+    public void removePlayer(Player player) {
         int i=0;
         while (!players.get(i).equals(player)) {
             i++;
@@ -84,7 +100,7 @@ public class Session {
      * @return a shallow copy of the {@link Player players}'s list and removes the {@link Player player} in the argument
      */
     @SuppressWarnings("unchecked")
-    public static ArrayList<Player> getOtherPlayers(Player player) {
+    public ArrayList<Player> getOtherPlayers(Player player) {
         ArrayList<Player> list = (ArrayList<Player>) players.clone();
         list.remove(player);
         return list;
@@ -95,7 +111,7 @@ public class Session {
      *
      * @return the {@link int number} of the players in the game
      */
-    public static int playersNumber() {
+    public int playersNumber() {
         return players.size();
     }
 
@@ -104,7 +120,7 @@ public class Session {
      *
      * @return the {@link Board board} used in the session
      */
-    public static Board getBoard() {
+    public Board getBoard() {
         return board;
     }
 
@@ -113,7 +129,7 @@ public class Session {
      *
      * @param god identifies the {@link Gods god} you have to add
      */
-    public static void addGod(Gods god) {
+    public void addGod(Gods god) {
         godsList.add(god);
     }
 
@@ -123,7 +139,7 @@ public class Session {
      * @return a shallow copy of the {@link Gods gods}'s list
      */
     @SuppressWarnings("unchecked")
-    public static ArrayList<Gods> getGods() {
+    public ArrayList<Gods> getGods() {
         return (ArrayList<Gods>) godsList.clone();
     }
 
@@ -132,7 +148,7 @@ public class Session {
      *
      * @param god identifies the {@link Gods god} you have to remove
      */
-    public static void removeGod(Gods god) {
+    public void removeGod(Gods god) {
         godsList.removeIf(elem -> elem.equals(god));
     }
 
@@ -141,7 +157,7 @@ public class Session {
      *
      * @return {@code true} if there is a winner
      */
-    public static boolean hasWinner() {
+    public boolean hasWinner() {
         for (Player player : players) {
             if (player.isWinner()) {
                 return true;
@@ -153,7 +169,7 @@ public class Session {
     /**
      * Randomly chooses the challenger from the {@link Player players}
      */
-    public static void pickChallenger() {
+    public void pickChallenger() {
         int firstTwoPlayers = (new Random().nextInt(1));
         int firstThreePlayers = (new Random().nextInt(2));
         if (playersNumber() == 2) players.get(firstTwoPlayers).setChallenger();

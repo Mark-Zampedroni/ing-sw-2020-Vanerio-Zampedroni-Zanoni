@@ -42,7 +42,7 @@ public abstract class GodRules extends Observable {
      */
     @SuppressWarnings("unchecked")
     public void executeBuild(Position position) {
-        Tile tile = Session.getBoard().getTile(position);
+        Tile tile = Session.getInstance().getBoard().getTile(position);
         tile.increaseHeight();
         notify(position);
     }
@@ -135,7 +135,7 @@ public abstract class GodRules extends Observable {
      * @return {@code true} if the worker's {@link it.polimi.ingsw.model.player.Player master} could win the game
      */
     public boolean isWinner(Worker worker, Position position) {
-        Board board = Session.getBoard();
+        Board board = Session.getInstance().getBoard();
         return ((board.getTile(worker.getPosition()).getHeight() == MID && board.getTile(position).getHeight() == TOP));
     }
 

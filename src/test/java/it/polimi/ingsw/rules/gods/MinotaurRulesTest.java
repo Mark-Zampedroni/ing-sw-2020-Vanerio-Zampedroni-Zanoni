@@ -27,22 +27,22 @@ class MinotaurRulesTest {
 
     @BeforeEach
     void setUp() {
-        Session.getBoard().clear();
+        Session.getInstance().getBoard().clear();
         player = new Player("TestName");
-        Session.addPlayer(player);
+        Session.getInstance().addPlayer(player);
         worker = player.getWorkers().get(0);
         player.setRules(test);
         player2 = new Player("TestName2");
-        Session.addPlayer(player2);
+        Session.getInstance().addPlayer(player2);
         worker2 = player2.getWorkers().get(0);
         player2.setRules(test2);
     }
 
     @AfterEach
     void clearUp() {
-        Session.getBoard().clear();
-        Session.removePlayer(player);
-        Session.removePlayer(player2);
+        Session.getInstance().getBoard().clear();
+        Session.getInstance().removePlayer(player);
+        Session.getInstance().removePlayer(player2);
     }
 
     @Test
@@ -58,7 +58,7 @@ class MinotaurRulesTest {
         player2.getWorkers().get(1).setPosition(1,3);
         assertThrows(CantActException.class, ()->test.consentMovement(worker, position2));
         player2.getWorkers().get(1).setPosition(1,1);
-        for(int i=0; i<4; i++){Session.getBoard().getTile(new Position(1,3)).increaseHeight();}
+        for(int i=0; i<4; i++){Session.getInstance().getBoard().getTile(new Position(1,3)).increaseHeight();}
         assertThrows(CantActException.class, ()->test.consentMovement(worker, position2));
         }
 

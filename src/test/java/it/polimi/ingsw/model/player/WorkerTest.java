@@ -15,16 +15,16 @@ class WorkerTest {
 
     @BeforeEach
     void setUp() {
-        Session.getBoard().clear();
+        Session.getInstance().getBoard().clear();
         player = new Player("TestName");
-        Session.addPlayer(player);
+        Session.getInstance().addPlayer(player);
         worker = player.getWorkers().get(0);
     }
 
     @AfterEach
     void clearUp() {
-        Session.getBoard().clear();
-        Session.removePlayer(player);
+        Session.getInstance().getBoard().clear();
+        Session.getInstance().removePlayer(player);
     }
 
     @Test

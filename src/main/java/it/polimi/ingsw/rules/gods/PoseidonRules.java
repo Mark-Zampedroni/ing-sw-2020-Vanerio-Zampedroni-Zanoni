@@ -115,7 +115,7 @@ public class PoseidonRules extends EventRules {
     public List<Action> afterBuild() {
         List<Action> list = super.afterBuild();
         if (!getEvent()) {
-            if (Session.getBoard().getTile(unmovedWorker.getPosition()).getHeight() == 0) {
+            if (Session.getInstance().getBoard().getTile(unmovedWorker.getPosition()).getHeight() == 0) {
                 setEvent(true);
                 list.add(Action.SELECT_WORKER);}
                 return list;

@@ -11,7 +11,7 @@ public class AthenaRules extends EnemyRules {
 
     @Override
     public void executeMove(Worker worker, Position position) {
-        if(Session.getBoard().getTile(worker.getPosition()).getHeight() < Session.getBoard().getTile(position).getHeight()) {
+        if(Session.getInstance().getBoard().getTile(worker.getPosition()).getHeight() < Session.getInstance().getBoard().getTile(position).getHeight()) {
             applyEffect();
         }
         worker.setPosition(position);

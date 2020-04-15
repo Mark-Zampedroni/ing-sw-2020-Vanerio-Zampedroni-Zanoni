@@ -22,56 +22,58 @@ class SessionTest {
 
     @BeforeEach
     void setUp() {
-        Session.getBoard().clear();
+        Session.getInstance().getBoard().clear();
         one = new Player("Piero");
         two = new Player ("Sandro");
         three = new Player ("Carmelo");
-        Session.addPlayer(one);
-        Session.addPlayer(two);
-        Session.addPlayer(three);
+        Session.getInstance().addPlayer(one);
+        Session.getInstance().addPlayer(two);
+        Session.getInstance().addPlayer(three);
+        Session.getInstance().setStarted(true);
+        assertTrue(Session.getInstance().isStarted());
     }
 
     @AfterEach
     void clear() {
-        Session.getBoard().clear();
-        Session.removePlayer(one);
-        Session.removePlayer(two);
-        Session.removePlayer(three);
+        Session.getInstance().getBoard().clear();
+        Session.getInstance().removePlayer(one);
+        Session.getInstance().removePlayer(two);
+        Session.getInstance().removePlayer(three);
     }
 
     @Test
     void PlayerManagement (){
-        assertEquals(3,Session.playersNumber());
-        Session.pickChallenger();
+        assertEquals(3,Session.getInstance().playersNumber());
+        Session.getInstance().pickChallenger();
         assertTrue((one.isChallenger() ^ two.isChallenger()) ^ three.isChallenger()); //xor
-        ArrayList<Player> otherPlayer = Session.getOtherPlayers(one);
+        ArrayList<Player> otherPlayer = Session.getInstance().getOtherPlayers(one);
         assertEquals(two.getUsername(), otherPlayer.get(0).getUsername());
         assertEquals(three.getUsername(), otherPlayer.get(1).getUsername());
-        Session.removePlayer(one);
-        assertEquals(Session.playersNumber(), 2);
-        Session.addPlayer(one);
-        assertFalse(Session.hasWinner());
+        Session.getInstance().removePlayer(one);
+        assertEquals(Session.getInstance().playersNumber(), 2);
+        Session.getInstance().addPlayer(one);
+        assertFalse(Session.getInstance().hasWinner());
         one.setWinner();
-        assertTrue(Session.hasWinner());
+        assertTrue(Session.getInstance().hasWinner());
         two.removeWorker(0);
-        Session.removePlayer(two);
-        assertEquals(Session.playersNumber(), 2);
+        Session.getInstance().removePlayer(two);
+        assertEquals(Session.getInstance().playersNumber(), 2);
         two= new Player("Sandro");
-        Session.addPlayer(two);
+        Session.getInstance().addPlayer(two);
     }
 
     @Test
     void GodsManagement() {
         one.setGod(Gods.APOLLO);
-        Session.addGod(one.getGod());
+        Session.getInstance().addGod(one.getGod());
         two.setGod(Gods.ATLAS);
-        Session.addGod(two.getGod());
-        Session.getGods();
-        Session.getPlayers();
-        assertEquals(Session.getPlayers().get(0).getGod(), one.getGod());
-        assertEquals(Session.getPlayers().get(1).getGod(), two.getGod());
-        Session.removeGod(Gods.ATLAS);
-        assertEquals(Session.getPlayers().get(0).getGod(), one.getGod());
+        Session.getInstance().addGod(two.getGod());
+        Session.getInstance().getGods();
+        Session.getInstance().getPlayers();
+        assertEquals(Session.getInstance().getPlayers().get(0).getGod(), one.getGod());
+        assertEquals(Session.getInstance().getPlayers().get(1).getGod(), two.getGod());
+        Session.getInstance().removeGod(Gods.ATLAS);
+        assertEquals(Session.getInstance().getPlayers().get(0).getGod(), one.getGod());
     }
 }
 

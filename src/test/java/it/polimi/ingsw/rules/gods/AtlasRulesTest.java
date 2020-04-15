@@ -23,17 +23,17 @@ class AtlasRulesTest {
 
     @BeforeEach
     void setUp(){
-        Session.getBoard().clear();
+        Session.getInstance().getBoard().clear();
         player = new Player("TestName");
-        Session.addPlayer(player);
+        Session.getInstance().addPlayer(player);
         worker = player.getWorkers().get(0);
         player.setRules(test);
     }
 
     @AfterEach
     void clearUp() {
-        Session.getBoard().clear();
-        Session.removePlayer(player);
+        Session.getInstance().getBoard().clear();
+        Session.getInstance().removePlayer(player);
     }
 
     @Test
@@ -41,11 +41,11 @@ class AtlasRulesTest {
         Position position = new Position(1,2);
         test.setEvent(false);
         test.executeBuild(position);
-        assertEquals(Session.getBoard().getTile(position).getHeight(), 1);
-        assertFalse(Session.getBoard().getTile(position).hasDome());
+        assertEquals(Session.getInstance().getBoard().getTile(position).getHeight(), 1);
+        assertFalse(Session.getInstance().getBoard().getTile(position).hasDome());
         test.setEvent(true);
         position = new Position (3,4);
         test.executeBuild(position);
-        assertTrue(Session.getBoard().getTile(position).hasDome());
+        assertTrue(Session.getInstance().getBoard().getTile(position).hasDome());
     }
 }

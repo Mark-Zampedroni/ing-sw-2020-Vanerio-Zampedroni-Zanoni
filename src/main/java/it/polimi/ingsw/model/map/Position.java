@@ -72,7 +72,7 @@ public class Position {
      * @return the {@link Worker worker} on the same coordinates, null if none is found
      */
     public Worker getWorker() {
-        for(Player player : Session.getPlayers()) {
+        for(Player player : Session.getInstance().getPlayers()) {
             for(Worker worker : player.getWorkers()) {
                 if(this.equals(worker.getPosition())) {
                     return worker;

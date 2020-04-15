@@ -26,9 +26,9 @@ class PoseidonRulesTest {
 
     @BeforeEach
     void setUp() {
-        Session.getBoard().clear();
+        Session.getInstance().getBoard().clear();
         player = new Player("TestName");
-        Session.addPlayer(player);
+        Session.getInstance().addPlayer(player);
         worker = player.getWorkers().get(0);
         worker.setPosition(0,0);
         player.setRules(test);
@@ -36,8 +36,8 @@ class PoseidonRulesTest {
 
     @AfterEach
     void clearUp() {
-        Session.getBoard().clear();
-        Session.removePlayer(player);
+        Session.getInstance().getBoard().clear();
+        Session.getInstance().removePlayer(player);
     }
 
     @Test
@@ -72,7 +72,7 @@ class PoseidonRulesTest {
 
         //not correct position for second worker and multibuild
         Position position = new Position(3,3);
-        Session.getBoard().getTile(position).increaseHeight();
+        Session.getInstance().getBoard().getTile(position).increaseHeight();
         test.executeMove(worker, new Position(2,3));
         Worker worker1 = player.getWorkers().get(1);
         worker1.setPosition(position);

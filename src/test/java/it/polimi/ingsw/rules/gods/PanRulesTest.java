@@ -24,22 +24,22 @@ class PanRulesTest {
 
    @BeforeEach
     void setUp() {
-        Session.getBoard().clear();
+        Session.getInstance().getBoard().clear();
         player = new Player("TestName");
-        Session.addPlayer(player);
+        Session.getInstance().addPlayer(player);
         worker = player.getWorkers().get(0);
         player.setRules(test);
     }
 
     @AfterEach
     void clearUp() {
-        Session.getBoard().clear();
-        Session.removePlayer(player);
+        Session.getInstance().getBoard().clear();
+        Session.getInstance().removePlayer(player);
     }
 
     @Test
     void isWinner() {
-        Board board = Session.getBoard();
+        Board board = Session.getInstance().getBoard();
         worker.setPosition(2,2);
         position = new Position(1, 2);
         while(board.getTile(position).getHeight()<3){board.getTile(position).increaseHeight();}

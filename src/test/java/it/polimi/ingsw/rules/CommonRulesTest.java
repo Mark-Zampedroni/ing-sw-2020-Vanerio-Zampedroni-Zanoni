@@ -24,9 +24,9 @@ class CommonRulesTest {
 
     @BeforeEach
     void setUp() {
-        Session.getBoard().clear();
+        Session.getInstance().getBoard().clear();
         player = new Player("TestName");
-        Session.addPlayer(player);
+        Session.getInstance().addPlayer(player);
         worker = player.getWorkers().get(0);
         test = Gods.APOLLO.createRules();
         player.setRules(test);
@@ -36,8 +36,8 @@ class CommonRulesTest {
     @AfterEach
     void clearUp() {
         player.getRules().clear();
-        Session.getBoard().clear();
-        Session.removePlayer(player);
+        Session.getInstance().getBoard().clear();
+        Session.getInstance().removePlayer(player);
 
     }
 
@@ -58,7 +58,7 @@ class CommonRulesTest {
             for (int y = -1; y < 2; y++) {
                 if(!(x==0 && y==0)) {
                     for(int k=0; k<4; k++) {
-                        Session.getBoard().getTile(new Position(2 + x, 2 + y)).increaseHeight();
+                        Session.getInstance().getBoard().getTile(new Position(2 + x, 2 + y)).increaseHeight();
                     }
                 }
             }

@@ -21,7 +21,7 @@ class PositionTest {
     @BeforeEach
     @AfterEach
     void setUp() {
-        Session.getBoard().clear();
+        Session.getInstance().getBoard().clear();
     }
 
     @Test
@@ -56,7 +56,7 @@ class PositionTest {
     @Test
     void getWorker() {
         Player player = new Player("TestName");
-        Session.addPlayer(player);
+        Session.getInstance().addPlayer(player);
 
         Worker worker = player.getWorkers().get(0);
         for(int x = 1; x < 4; x++) {
@@ -67,7 +67,7 @@ class PositionTest {
                 assertSame((new Position(x,y)).getWorker(),worker);
             }
         }
-        Session.removePlayer(player);
+        Session.getInstance().removePlayer(player);
     }
 
     // Confirms that the returned value is a copy of the object

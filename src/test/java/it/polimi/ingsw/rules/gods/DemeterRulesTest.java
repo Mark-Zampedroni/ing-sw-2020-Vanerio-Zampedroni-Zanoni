@@ -25,17 +25,17 @@ class DemeterRulesTest {
 
     @BeforeEach
     void setUp() {
-        Session.getBoard().clear();
+        Session.getInstance().getBoard().clear();
         player = new Player("TestName");
-        Session.addPlayer(player);
+        Session.getInstance().addPlayer(player);
         worker = player.getWorkers().get(0);
         player.setRules(test);
     }
 
     @AfterEach
     void clearUp() {
-        Session.getBoard().clear();
-        Session.removePlayer(player);
+        Session.getInstance().getBoard().clear();
+        Session.getInstance().removePlayer(player);
     }
 
 
@@ -56,7 +56,7 @@ class DemeterRulesTest {
         test.executeBuild(position);
         assertTrue(test.getEvent());
         assertTrue(position.equals(test.getPos()));
-        assertEquals(Session.getBoard().getTile(position).getHeight(),1);
+        assertEquals(Session.getInstance().getBoard().getTile(position).getHeight(),1);
     }
 
     @Test
