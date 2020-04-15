@@ -12,11 +12,4 @@ public interface Observer<T> {
      */
     void update(T message);
 
-    /**
-     * Method that change the situation in a class that implements the interface
-     *
-     * @param message identifies information about the change
-     * @param secondMessage identifies information about the change
-     */
-    void update(T message, T secondMessage);
 }

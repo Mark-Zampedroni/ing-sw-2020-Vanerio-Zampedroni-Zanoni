@@ -1,111 +1,103 @@
 package it.polimi.ingsw.net.server;
 
-import it.polimi.ingsw.controller.SessionController;
 import it.polimi.ingsw.enumerations.MessageType;
-import it.polimi.ingsw.model.Session;
+import it.polimi.ingsw.net.ActionMessage;
 import it.polimi.ingsw.net.Message;
+import it.polimi.ingsw.observer.observable.Observable;
+import it.polimi.ingsw.view.RemoteView;
 
 import java.io.IOException;
-import java.net.ServerSocket;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.net.Socket;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.logging.FileHandler;
-import java.util.logging.Logger;
-import java.util.logging.SimpleFormatter;
 
-public class ServerConnection extends Thread {
+public class ServerConnection extends Observable<ActionMessage> implements Runnable {
 
-    private ServerSocket serverSocket;
-    private Map<String, VirtualView> connections;
+    private boolean open;
 
-    private final Object connectionsLock = new Object();
+    private final Server server;
+    private final Socket socket;
 
-    private SessionController sessionController;
+    private final Object readLock = new Object(); // Lock shared on all VirtualViews
+    private final Object sendLock = new Object();
 
-    public static final Logger LOG = Logger.getLogger("Server");
+    private ObjectInputStream input; // Not final because on error it may not initialize
+    private ObjectOutputStream output;
 
-    public ServerConnection(int port) {
-        connections = new HashMap<>();
-        startLogging();
-        sessionController = new SessionController(); // Controller
+    private Thread listener;
+
+    public ServerConnection(Server server, Socket socket) {
+        Server.LOG.info("Creating virtual view\n");
+        this.server = server;
+        this.socket = socket;
         try {
-            serverSocket = new ServerSocket(port);
+            this.input = new ObjectInputStream(socket.getInputStream());
+            this.output = new ObjectOutputStream(socket.getOutputStream());
+            listener = new Thread(this);
+            listener.start();
+            open = true;
+            new RemoteView(this);
+            Server.LOG.info("Successful creation of virtual view\n");
         } catch(IOException e) {
-            LOG.severe(e.getMessage());
+            Server.LOG.severe(e.toString());
         }
-        this.start(); // Starts thread
     }
 
-    private void startLogging() {
-        DateFormat dateFormat = new SimpleDateFormat("MM_dd_HH-mm-ss");
-        Date date = new Date();
-        try {
-            FileHandler fileHandler = new FileHandler("log/server/"+dateFormat.format(date)+".log");
-            fileHandler.setFormatter(new SimpleFormatter());
-            LOG.addHandler(fileHandler);
-        } catch(IOException e) { LOG.severe(e.getMessage() + " couldn't be opened\n"); }
-    }
-
-    public void run() {
-        while (!Thread.currentThread().isInterrupted()) {
+    public void sendMessage(Message msg) {
+        if(open) {
             try {
-                LOG.info("Waiting for request ...\n"); // TEST
-                Socket client = serverSocket.accept();
-                LOG.info("Socket created\n"); // TEST
-                new VirtualView(this, client);
-            } catch (IOException e) {
-                ServerConnection.LOG.warning(e.getMessage());
+                synchronized(sendLock) {
+                    output.writeObject(msg);
+                    output.reset();
+                }
+            } catch(IOException e) {
+                Server.LOG.severe(e.getMessage());
+                disconnect();
             }
         }
     }
 
-    public void onDisconnection(VirtualView connection) {
-
-        String user = null;
-        synchronized(connectionsLock) {
-            for (Map.Entry<String, VirtualView> entry : connections.entrySet()) {
-                if (entry.getValue().equals(connection)) {
-                    user = entry.getKey();
+    public void disconnect() {
+        if(open) {
+            try {
+                if(!socket.isClosed()) {
+                    socket.close();
+                    listener.interrupt();
+                    server.onDisconnection(this);
+                    open = false;
                 }
+            } catch(IOException e) {
+                Server.LOG.severe(e.getMessage());
             }
         }
-        if(user != null) {
-            LOG.info(user + " disconnected\n");
-            if(true) { // Game in lobby
-                synchronized(connectionsLock) {
-                    connections.remove(user);
-                }
-                LOG.info(user + " removed from lobby\n");
-            }
-        }
-        // Gestione disconnessione giocatore
-        // 1) in lobby esce
-        // 2) altrimenti notifica tutti e chiude la partita
     }
 
-    public void registerConnection(VirtualView connection, String user) {
-        synchronized(connectionsLock) {
-            if(connections.containsKey(user)) {
-                connection.sendMessage(new Message(MessageType.KO, "SERVER", "This username is already in use"));
-                LOG.info("A player tried to connect with the already in use username "+user+"\n");
-                connection.disconnect();
-            }
-            else if(Session.getInstance().isStarted()) {
-                connection.sendMessage(new Message(MessageType.KO, "SERVER", "A game has already started"));
-                LOG.info(user + " tried to connect, but the game has already started\n");
-                connection.disconnect();
-            }
-            else if(false) { // is lobby full ?
-                // do nothing atm
-            }
-            else {
-                connections.put(user, connection);
-                LOG.info(user + " connected\n");
-                connection.sendMessage(new Message(MessageType.OK, "SERVER", "Connection successful"));
+    public boolean isOpen()  {
+        return open;
+    }
+
+    @Override
+    public void run() {
+        while(!Thread.currentThread().isInterrupted()) {
+            try {
+                synchronized (readLock) {
+                    Message msg = (Message) input.readObject();
+                    if(msg != null) {
+                        if(msg.getType() == MessageType.REGISTRATION) {
+                            server.registerConnection(this, msg.getSender());
+                        }
+                        else if(msg.getType() == MessageType.ACTION) {
+                            notify((ActionMessage) msg); // Notify RemoteView
+                        }
+                        // Server.onMessage(msg) || Altri casi
+                        System.out.println(msg+"\n"); // TEST
+                    }
+                }
+            } catch(ClassNotFoundException e) {
+                Server.LOG.severe(e.getMessage());
+            } catch(IOException e) {
+                Server.LOG.severe("Exception throw, connection closed");
+                disconnect();
             }
         }
     }

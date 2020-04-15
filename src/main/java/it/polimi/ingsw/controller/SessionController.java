@@ -22,6 +22,19 @@ public class SessionController {
         return session;
     }
 
+    public boolean isStarted() {
+        return session.isStarted();
+    }
+
+    /*
+    public void addPlayer(String username) {
+        session.addPlayer(username);
+    }
+
+    public void removePlayer(String username) {
+        session.removePlayer(username);
+    }*/
+
     // GESTIONE MESSAGGI
 
 }
