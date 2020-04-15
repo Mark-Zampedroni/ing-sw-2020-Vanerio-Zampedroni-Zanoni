@@ -29,8 +29,10 @@ public abstract class GodRules extends Observable {
      * @param worker selected {@link Worker worker}
      * @param position {@link Position position} the {@link Worker worker} will move to
      */
+    @SuppressWarnings("unchecked")
     public void executeMove(Worker worker, Position position) {
         worker.setPosition(position);
+        notify(worker, position);
     }
 
     /**
@@ -38,9 +40,11 @@ public abstract class GodRules extends Observable {
      *
      * @param position {@link Position position} where to build
      */
+    @SuppressWarnings("unchecked")
     public void executeBuild(Position position) {
         Tile tile = Session.getBoard().getTile(position);
         tile.increaseHeight();
+        notify(position);
     }
 
     /**

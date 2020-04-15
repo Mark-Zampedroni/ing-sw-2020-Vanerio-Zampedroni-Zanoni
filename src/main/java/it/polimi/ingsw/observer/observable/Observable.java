@@ -31,4 +31,15 @@ public class Observable<T> {
         }
     }
 
+    /**
+     * Call the {@link Observer update} method in all the {@link Observer observers} in the list
+     *
+     * @param message identifies information about the change
+     * @param secondMessage identifies information about the change
+     */
+    public void notify(T message, T secondMessage){
+        for(Observer<T> observer: observers){
+            observer.update(message, secondMessage);
+        }
+    }
 }
