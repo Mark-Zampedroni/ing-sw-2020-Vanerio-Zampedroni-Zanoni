@@ -1,5 +1,6 @@
 package it.polimi.ingsw;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 import it.polimi.ingsw.constants.Height;
@@ -83,24 +84,24 @@ public class SerializationTest
         catch(ClassNotFoundException ex) {
             System.out.println("ClassNotFoundException is caught");
         }
-        assertTrue(serializedSession.getPlayers().get(0).equals(player1));
-        assertTrue(serializedSession.getPlayers().get(1).equals(player2));
-        assertTrue(serializedSession.getPlayers().get(0).getUsername().equals("Gianni"));
-        assertTrue(serializedSession.getPlayers().get(1).getUsername().equals("Sandro"));
-        assertTrue(serializedSession.getPlayers().get(0).getRules().equals(rules1));
-        assertTrue(serializedSession.getPlayers().get(1).getRules().equals(rules2));
-        assertTrue(serializedSession.getPlayers().get(0).getGod().equals(Gods.HESTIA));
-        assertTrue(serializedSession.getPlayers().get(1).getGod().equals(Gods.APOLLO));
+        assertEquals(serializedSession.getPlayers().get(0), player1);
+        assertEquals(serializedSession.getPlayers().get(1), player2);
+        assertEquals("Gianni", serializedSession.getPlayers().get(0).getUsername());
+        assertEquals("Sandro", serializedSession.getPlayers().get(1).getUsername());
+        assertEquals(serializedSession.getPlayers().get(0).getRules(), rules1);
+        assertEquals(serializedSession.getPlayers().get(1).getRules(), rules2);
+        assertEquals(serializedSession.getPlayers().get(0).getGod(), Gods.HESTIA);
+        assertEquals(serializedSession.getPlayers().get(1).getGod(), Gods.APOLLO);
         assertTrue(((HestiaRules)serializedSession.getPlayers().get(0).getRules()).getEvent());
-        assertTrue(serializedSession.getPlayers().get(0).getRules().equals(rules1));
-        assertTrue(serializedSession.getPlayers().get(1).getRules().equals(rules2));
+        assertEquals(serializedSession.getPlayers().get(0).getRules(), rules1);
+        assertEquals(serializedSession.getPlayers().get(1).getRules(), rules2);
         assertTrue(serializedSession.getPlayers().get(0).isChallenger());
         assertTrue(player1.getWorkers().get(0).getPosition().equals(serializedSession.getPlayers().get(0).getWorkers().get(0).getPosition()));
         assertTrue(player1.getWorkers().get(1).getPosition().equals(serializedSession.getPlayers().get(0).getWorkers().get(1).getPosition()));
         assertTrue(player2.getWorkers().get(0).getPosition().equals(serializedSession.getPlayers().get(1).getWorkers().get(0).getPosition()));
         assertTrue(player2.getWorkers().get(1).getPosition().equals(serializedSession.getPlayers().get(1).getWorkers().get(1).getPosition()));
         assertTrue(serializedSession.getBoard().getTile(new Position(1,2)).hasDome());
-        assertTrue(serializedSession.getBoard().getTile(new Position(3,2)).getHeight()== Height.BOTTOM);
+        assertEquals(serializedSession.getBoard().getTile(new Position(3, 2)).getHeight(), Height.BOTTOM);
         System.out.println(serializedSession.getPlayers().get(0).toString()+" "+serializedSession.getPlayers().get(1).toString());
     }
 }
