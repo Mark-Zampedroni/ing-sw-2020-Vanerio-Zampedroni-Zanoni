@@ -1,9 +1,14 @@
 package it.polimi.ingsw;
 
 
+import it.polimi.ingsw.enumerations.Action;
 import it.polimi.ingsw.enumerations.MessageType;
 import it.polimi.ingsw.exceptions.net.FailedConnectionException;
-import it.polimi.ingsw.net.Message;
+import it.polimi.ingsw.model.map.Position;
+import it.polimi.ingsw.model.player.Player;
+import it.polimi.ingsw.model.player.Worker;
+import it.polimi.ingsw.net.messages.ActionMessage;
+import it.polimi.ingsw.net.messages.Message;
 import it.polimi.ingsw.net.client.ClientConnection;
 
 import java.util.List;
@@ -38,9 +43,9 @@ public class ClientApp {
         System.out.println("Connection successful!");
 
         while(true) {
-            System.out.println("\nType message:");
+            System.out.println("\nType ACTION message:");
             String content = scanner.nextLine();  // Read user input
-            client.sendMessage(new Message(MessageType.OK,username,content));
+            client.sendMessage(new ActionMessage(username, content, Action.MOVE, new Position(0,0), new Worker(new Player("test"))));
         }
     }
 }

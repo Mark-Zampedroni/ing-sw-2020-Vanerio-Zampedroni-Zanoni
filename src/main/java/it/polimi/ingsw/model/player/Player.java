@@ -99,6 +99,13 @@ public class Player implements Serializable {
     }
 
     /**
+     * Getter for workers list size
+     *
+     * @return the number of {@link Worker workers} the player has
+     */
+    public int getWorkersSize() { return workers.size(); }
+
+    /**
      * Removes the {@link Worker worker} of a player in a specific {@link Position position}
      *
      * @param position specific {@link GodRules rules} that are linked to the chosen {@link Gods god}

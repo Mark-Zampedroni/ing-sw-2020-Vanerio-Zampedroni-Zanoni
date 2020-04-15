@@ -1,4 +1,4 @@
-package it.polimi.ingsw.net;
+package it.polimi.ingsw.net.messages;
 
 import it.polimi.ingsw.enumerations.MessageType;
 
@@ -8,12 +8,12 @@ public class Message implements Serializable {
 
     private final MessageType type;
     private final String sender;
-    private final String content;
+    private final String info;
 
-    public Message(MessageType type, String sender, String content) {
+    public Message(MessageType type, String sender, String info) {
         this.type = type;
         this.sender = sender;
-        this.content = content;
+        this.info = info;
     }
 
     public MessageType getType() {
@@ -24,15 +24,15 @@ public class Message implements Serializable {
         return sender;
     }
 
-    public String getContent() {
-        return content;
+    public String getInfo() {
+        return info;
     }
 
     @Override
     public String toString() {
     return "From: "+sender+"\n"+
            "Type: "+type+"\n"+
-           "Content: "+content;
+           "Info: "+info;
     }
 
 }

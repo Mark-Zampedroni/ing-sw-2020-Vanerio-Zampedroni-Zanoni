@@ -2,7 +2,7 @@ package it.polimi.ingsw.net.client;
 
 import it.polimi.ingsw.enumerations.MessageType;
 import it.polimi.ingsw.exceptions.net.FailedConnectionException;
-import it.polimi.ingsw.net.Message;
+import it.polimi.ingsw.net.messages.Message;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;

@@ -20,7 +20,9 @@ public class Session implements Serializable {
     private static boolean started;
     private static Session instance;
 
-    // MESSO DA MARK - SINGLETON
+    /**
+     * Singleton instance
+     */
     private Session() {
         super();
     }
@@ -56,7 +58,7 @@ public class Session implements Serializable {
     }
 
     /**
-     * Adds a {@link Player player} in the list of the {@link Player players}
+     * Adds a {@link Player player} to the list of {@link Player players}
      *
      * @param player identifies the {@link Player player}
      */
@@ -65,9 +67,52 @@ public class Session implements Serializable {
     }
 
     /**
+     * Adds a {@link Player player} to the list of {@link Player players}
+     *
+     * @param username is the {@link Player player}'s name
+     */
+    public void addPlayer(String username) {
+        players.add(new Player(username));
+    }
+
+    /**
+     * Removes the {@link Player player} and his {@link Worker workers} from the game
+     *
+     * @param player identifies the {@link Player player} to remove
+     */
+    public void removePlayer(Player player) {
+        removeWorkers(player);
+        players.removeIf(p -> p == player);
+    }
+
+    /**
+     * Removes the {@link Player player} and his {@link Worker workers} from the game
+     *
+     * @param username name of the {@link Player player} to remove
+     */
+    public void removePlayer(String username) {
+        removePlayer(getPlayerByName(username));
+    }
+
+    /**
+     * Get {@link Player player} by username
+     *
+     * @param username is the {@link Player player}'s name
+     * @return the player, or null if not found
+     */
+    private Player getPlayerByName(String username) {
+        for(Player p : players) {
+            if (p.getUsername().equals(username)) {
+                return p;
+            }
+        }
+        return null;
+    }
+
+    /**
      * Getter for the list of the {@link Player players}
      *
-     * @return a shallow copy of the {@link Player players}'s list
+     * @return a shallow copy of the {@link Player players} list
      */
     @SuppressWarnings("unchecked")
     public ArrayList<Player> getPlayers() {
@@ -75,23 +120,14 @@ public class Session implements Serializable {
     }
 
     /**
-     * Removes the {@link Player player} and his {@link Worker workers} from the game
+     * Removes the {@link Worker workers} of a {@link Player player} from the game
      *
-     * @param player identifies the {@link Player player} you have to remove
+     * @param player identifies the {@link Worker workers} master
      */
-    public void removePlayer(Player player) {
-        int i=0;
-        while (!players.get(i).equals(player)) {
-            i++;
+    private void removeWorkers(Player player) {
+        while(player.getWorkersSize() != 0) {
+            player.removeWorker(player.getWorkersSize());
         }
-        if (players.get(i).getWorkers().size() == 2) {
-            players.get(i).removeWorker(1);
-            players.get(i).removeWorker(0);} else {
-            if (players.get(i).getWorkers().size() == 1) {
-                players.get(i).removeWorker(0);
-            }
-        }
-        players.removeIf(p -> p == player);
     }
 
     /**
@@ -160,9 +196,7 @@ public class Session implements Serializable {
      */
     public boolean hasWinner() {
         for (Player player : players) {
-            if (player.isWinner()) {
-                return true;
-            }
+            if (player.isWinner()) { return true; }
         }
         return false;
     }
@@ -171,10 +205,8 @@ public class Session implements Serializable {
      * Randomly chooses the challenger from the {@link Player players}
      */
     public void pickChallenger() {
-        int firstTwoPlayers = (new Random().nextInt(1));
-        int firstThreePlayers = (new Random().nextInt(2));
-        if (playersNumber() == 2) players.get(firstTwoPlayers).setChallenger();
-        if (playersNumber() == 3) players.get(firstThreePlayers).setChallenger();
+        int challengerNumber = (new Random().nextInt(playersNumber()));
+        players.get(challengerNumber).setChallenger();
     }
 
 }

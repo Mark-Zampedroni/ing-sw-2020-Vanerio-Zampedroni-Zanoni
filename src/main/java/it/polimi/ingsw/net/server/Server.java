@@ -2,8 +2,8 @@ package it.polimi.ingsw.net.server;
 
 import it.polimi.ingsw.controller.SessionController;
 import it.polimi.ingsw.enumerations.MessageType;
-import it.polimi.ingsw.model.Session;
-import it.polimi.ingsw.net.Message;
+import it.polimi.ingsw.net.messages.Message;
+import it.polimi.ingsw.view.RemoteView;
 
 import java.io.IOException;
 import java.net.ServerSocket;
@@ -64,7 +64,6 @@ public class Server extends Thread {
     }
 
     public void onDisconnection(ServerConnection connection) {
-
         String user = null;
         synchronized(connectionsLock) {
             for (Map.Entry<String, ServerConnection> entry : connections.entrySet()) {
@@ -75,12 +74,13 @@ public class Server extends Thread {
         }
         if(user != null) {
             LOG.info(user + " disconnected\n");
-            if(true) { // Game in lobby
-                synchronized(connectionsLock) {
+            if(true) { // Game in lobby - felice e non sconnette tutti
+                synchronized (connectionsLock) {
                     connections.remove(user);
                 }
                 LOG.info(user + " removed from lobby\n");
             }
+            sessionController.removePlayer(user);
         }
         // Gestione disconnessione giocatore
         // 1) in lobby esce
@@ -105,6 +105,7 @@ public class Server extends Thread {
             else {
                 connections.put(user, connection);
                 LOG.info(user + " connected\n");
+                sessionController.addPlayer(user, new RemoteView(user,connection));
                 connection.sendMessage(new Message(MessageType.OK, "SERVER", "Connection successful"));
             }
         }

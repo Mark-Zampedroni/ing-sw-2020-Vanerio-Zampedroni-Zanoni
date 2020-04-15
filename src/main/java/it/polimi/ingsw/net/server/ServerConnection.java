@@ -1,10 +1,9 @@
 package it.polimi.ingsw.net.server;
 
 import it.polimi.ingsw.enumerations.MessageType;
-import it.polimi.ingsw.net.ActionMessage;
-import it.polimi.ingsw.net.Message;
+import it.polimi.ingsw.net.messages.ActionMessage;
+import it.polimi.ingsw.net.messages.Message;
 import it.polimi.ingsw.observer.observable.Observable;
-import it.polimi.ingsw.view.RemoteView;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -36,7 +35,6 @@ public class ServerConnection extends Observable<ActionMessage> implements Runna
             listener = new Thread(this);
             listener.start();
             open = true;
-            new RemoteView(this);
             Server.LOG.info("Successful creation of virtual view\n");
         } catch(IOException e) {
             Server.LOG.severe(e.toString());
@@ -87,10 +85,11 @@ public class ServerConnection extends Observable<ActionMessage> implements Runna
                             server.registerConnection(this, msg.getSender());
                         }
                         else if(msg.getType() == MessageType.ACTION) {
-                            notify((ActionMessage) msg); // Notify RemoteView
+                            notify((ActionMessage) msg); // Notify RemoteView -> SessionController -> print
                         }
-                        // Server.onMessage(msg) || Altri casi
-                        System.out.println(msg+"\n"); // TEST
+                        else { // NO REGISTRATION AND NO ACTION WILL PRINT ON CONSOLE // TEST
+                            System.out.println(msg + "\n"); // TEST
+                        }
                     }
                 }
             } catch(ClassNotFoundException e) {

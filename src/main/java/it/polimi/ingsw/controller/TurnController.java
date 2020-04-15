@@ -7,7 +7,7 @@ import it.polimi.ingsw.exceptions.actions.WrongActionException;
 import it.polimi.ingsw.model.map.Position;
 import it.polimi.ingsw.model.player.Player;
 import it.polimi.ingsw.model.player.Worker;
-import it.polimi.ingsw.net.Message;
+import it.polimi.ingsw.net.messages.Message;
 import it.polimi.ingsw.rules.GodRules;
 
 import java.util.ArrayList;
