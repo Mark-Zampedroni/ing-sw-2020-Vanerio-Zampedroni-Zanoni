@@ -47,7 +47,7 @@ public class SessionController implements Observer<ActionMessage>  {
 
     public void update(ActionMessage message) {
         // GESTISCE MESSAGGIO CHE ARRIVA DA UNA VIRTUAL VIEW (controlla username messaggio per sapere chi)
-        System.out.println("Stampato da SessionController: \n"+message); // TEST
+        System.out.println("Stampato da SessionController: \n"+message+"\n"); // TEST
     }
 
     public void updateActions(String username, Message message) {

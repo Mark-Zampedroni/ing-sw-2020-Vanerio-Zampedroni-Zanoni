@@ -83,12 +83,13 @@ public class ServerConnection extends Observable<ActionMessage> implements Runna
                     if(msg != null) {
                         if(msg.getType() == MessageType.REGISTRATION) {
                             server.registerConnection(this, msg.getSender());
+                            System.out.println("Stampato da Connection, gestito su Server: \n"+msg+"\n"); // TEST
                         }
                         else if(msg.getType() == MessageType.ACTION) {
                             notify((ActionMessage) msg); // Notify RemoteView -> SessionController -> print
                         }
                         else { // NO REGISTRATION AND NO ACTION WILL PRINT ON CONSOLE // TEST
-                            System.out.println(msg + "\n"); // TEST
+                            System.out.println("Stampato da Connection: \n"+msg+"\n"); // TEST
                         }
                     }
                 }

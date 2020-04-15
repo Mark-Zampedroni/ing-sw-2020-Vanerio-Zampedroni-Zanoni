@@ -16,7 +16,7 @@ import java.util.Scanner;
 
 public class ClientApp {
 
-    public static void main(String []args) {
+    public static void main(String[] args) {
         ClientConnection client = null;
         String username;
         boolean connected = false;
@@ -29,7 +29,7 @@ public class ClientApp {
             username = scanner.nextLine();  // Read user input
             try {
                 client = new ClientConnection(username, "127.0.0.1", 7654);
-                System.out.println("Created socket with username "+username);
+                System.out.println("Created socket with username " + username);
                 boolean replied = false;
                 while (!replied) {
                     queue = client.getQueue();
@@ -37,15 +37,31 @@ public class ClientApp {
                 }
                 Message msg = queue.get(0);
                 connected = (msg.getType() == MessageType.OK);
-            } catch(FailedConnectionException e) { System.out.println("Client couldn't reach the server, retry when ready"); }
-        } while(!connected);
+            } catch (FailedConnectionException e) {
+                System.out.println("Client couldn't reach the server, retry when ready");
+            }
+        } while (!connected);
 
         System.out.println("Connection successful!");
 
-        while(true) {
-            System.out.println("\nType ACTION message:");
+        while (true) {
+            System.out.println("\nType 1 for ACTION, 2 for OK, 3 for KO");
             String content = scanner.nextLine();  // Read user input
-            client.sendMessage(new ActionMessage(username, content, Action.MOVE, new Position(0,0), new Worker(new Player("test"))));
+            if (content.equals("1")) {
+                System.out.println("\nType your ACTION message: ");
+                content = scanner.nextLine();  // Read user input
+                client.sendMessage(new ActionMessage(username, content, Action.MOVE, new Position(0, 0), new Worker(new Player("test"))));
+            } else if (content.equals("2")) {
+                System.out.println("\nType your OK message: ");
+                content = scanner.nextLine();  // Read user input
+                client.sendMessage(new Message(MessageType.OK, username,content));
+            } else if (content.equals("3")) {
+                System.out.println("\nType your KO message: ");
+                content = scanner.nextLine();  // Read user input
+                client.sendMessage(new Message(MessageType.KO, username,content));
+            } else {
+                System.out.println("That's not 1, 2 or 3!");
+            }
         }
     }
 }
