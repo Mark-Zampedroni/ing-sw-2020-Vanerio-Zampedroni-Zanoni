@@ -2,11 +2,13 @@ package it.polimi.ingsw.model.player;
 
 import it.polimi.ingsw.model.map.Position;
 
+import java.io.Serializable;
+
 /**
  * Used as a piece placed on the {@link it.polimi.ingsw.model.map.Board board} and moved
  * by a {@link Player player}, it can perform certain actions
  */
-public class Worker {
+public class Worker implements Serializable {
 
     private Position position;
     private final Player master;

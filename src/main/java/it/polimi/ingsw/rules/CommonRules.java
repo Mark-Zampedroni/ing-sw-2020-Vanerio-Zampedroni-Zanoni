@@ -6,10 +6,12 @@ import it.polimi.ingsw.exceptions.actions.*;
 import it.polimi.ingsw.model.map.Position;
 import it.polimi.ingsw.model.player.Worker;
 
+import java.io.Serializable;
+
 /**
  * Rules shared by most of the gods
  */
-public abstract class CommonRules extends GodRules {
+public abstract class CommonRules extends GodRules implements Serializable {
 
     /**
      * Checks if by the rules it's physically possible to perform a build {@link Action action}

@@ -4,6 +4,7 @@ import it.polimi.ingsw.enumerations.Gods;
 import it.polimi.ingsw.model.map.Position;
 import it.polimi.ingsw.rules.GodRules;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 /**
@@ -12,7 +13,7 @@ import java.util.ArrayList;
  * and a list of {@link it.polimi.ingsw.model.player.Worker workers}
  */
 
-public class Player {
+public class Player implements Serializable {
 
     private String username;
     private GodRules rules;
