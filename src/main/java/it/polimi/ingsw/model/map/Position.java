@@ -4,10 +4,12 @@ import it.polimi.ingsw.model.Session;
 import it.polimi.ingsw.model.player.Player;
 import it.polimi.ingsw.model.player.Worker;
 
+import java.io.Serializable;
+
 /**
  * Used as coordinates holder by {@link Worker Worker} and indirectly links it to a {@link Tile Tile}
  */
-public class Position {
+public class Position implements Serializable {
 
     private final int x;
     private final int y;

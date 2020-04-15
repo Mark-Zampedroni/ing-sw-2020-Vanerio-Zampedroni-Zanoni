@@ -7,12 +7,13 @@ import it.polimi.ingsw.model.map.Position;
 import it.polimi.ingsw.model.player.Worker;
 import it.polimi.ingsw.rules.EventRules;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
  * Rules for a player with Poseidon as God
  */
-public class PoseidonRules extends EventRules {
+public class PoseidonRules extends EventRules implements Serializable {
 
     private int counter;
     private Worker movedWorker;

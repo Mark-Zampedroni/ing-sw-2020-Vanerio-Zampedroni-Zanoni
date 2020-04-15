@@ -5,6 +5,7 @@ import it.polimi.ingsw.model.map.Board;
 import it.polimi.ingsw.model.player.Player;
 import it.polimi.ingsw.model.player.Worker;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -12,12 +13,12 @@ import java.util.Random;
  * Session of the game containing the {@link java.util.List list} of the {@link Player players},
  * the {@link Board board} and the {@link java.util.List list} of the {@link Gods gods}
  */
-public class Session {
+public class Session implements Serializable {
     private static ArrayList<Player> players = new ArrayList<>();
     private static Board board = new Board();
     private static ArrayList<Gods> godsList= new ArrayList<>();
-    private static boolean started; // MESSO DA MARK PER SERVER - DA AGGIUNGERE METODI
-    private static Session instance; // MESSO DA MARK PER SERVER - SINGLETON
+    private static boolean started;
+    private static Session instance;
 
     // MESSO DA MARK - SINGLETON
     private Session() {

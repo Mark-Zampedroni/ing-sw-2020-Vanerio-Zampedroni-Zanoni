@@ -1,10 +1,12 @@
 package it.polimi.ingsw.model.map;
 
+import java.io.Serializable;
+
 /**
  * Game map, contains 25 {@link Tile tiles} and unique for a {@link it.polimi.ingsw.model.Session session},
  * also contains the {@link it.polimi.ingsw.model.player.Worker workers} during the game
  */
-public class Board {
+public class Board implements Serializable {
 
     public static final int WIDTH = 5;
     public static final int HEIGHT = 5;

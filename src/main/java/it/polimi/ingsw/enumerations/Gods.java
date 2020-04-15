@@ -3,10 +3,12 @@ package it.polimi.ingsw.enumerations;
 import it.polimi.ingsw.rules.*;
 import it.polimi.ingsw.rules.gods.*;
 
+import java.io.Serializable;
+
 /**
  * Playable gods, each {@link it.polimi.ingsw.model.player.Player player} can select one
  */
-public enum Gods {
+public enum Gods implements Serializable {
     APOLLO { public GodRules createRules() { return new ApolloRules(); } },
     ARTEMIS { public GodRules createRules() { return new ArtemisRules(); } },
     ATHENA { public GodRules createRules() { return new AthenaRules(); } },

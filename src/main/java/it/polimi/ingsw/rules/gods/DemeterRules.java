@@ -6,13 +6,15 @@ import it.polimi.ingsw.model.map.Position;
 import it.polimi.ingsw.model.player.Worker;
 import it.polimi.ingsw.rules.Check;
 import it.polimi.ingsw.rules.EventRules;
+
+import java.io.Serializable;
 import java.util.List;
 
 /**
  * Rules for a player with Demeter as God
  */
 
-public class DemeterRules extends EventRules {
+public class DemeterRules extends EventRules implements Serializable {
 
     /**
      * Executes a build {@link Action action}, if it is the first build {@link Action action}

@@ -4,12 +4,14 @@ import it.polimi.ingsw.enumerations.Action;
 import it.polimi.ingsw.model.map.Position;
 import it.polimi.ingsw.model.player.Worker;
 import it.polimi.ingsw.rules.EventRules;
+
+import java.io.Serializable;
 import java.util.List;
 
 /**
  * Rules for a player with Triton as God
  */
-public class TritonRules extends EventRules {
+public class TritonRules extends EventRules implements Serializable {
 
     /**
      * Executes a movement {@link Action action}, if the movement is on a boundary tile calls the {@link #setEvent setEvent} with {@code true}

@@ -6,10 +6,12 @@ import it.polimi.ingsw.model.map.Tile;
 import it.polimi.ingsw.model.map.Position;
 import it.polimi.ingsw.rules.EventRules;
 
+import java.io.Serializable;
+
 /**
  * Rules for a player with Atlas as God
  */
-public class AtlasRules extends EventRules {
+public class AtlasRules extends EventRules implements Serializable {
 
     /**
      * Executes a build {@link Action action}, if the {@link #getEvent() getEvent} flag

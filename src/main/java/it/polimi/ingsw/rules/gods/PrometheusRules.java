@@ -7,12 +7,13 @@ import it.polimi.ingsw.model.player.Worker;
 import it.polimi.ingsw.rules.Check;
 import it.polimi.ingsw.rules.EventRules;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
  * Rules for a player with Prometheus as God
  */
-public class PrometheusRules extends EventRules {
+public class PrometheusRules extends EventRules implements Serializable {
 
     /**
      * Executes a build {@link Action action}, if is the first build {@link Action action}

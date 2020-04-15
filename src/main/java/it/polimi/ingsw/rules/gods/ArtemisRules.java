@@ -6,12 +6,14 @@ import it.polimi.ingsw.model.map.Position;
 import it.polimi.ingsw.model.player.Worker;
 import it.polimi.ingsw.rules.Check;
 import it.polimi.ingsw.rules.EventRules;
+
+import java.io.Serializable;
 import java.util.List;
 
 /**
  * Rules for a player with Artemis as God
  */
-public class ArtemisRules extends EventRules {
+public class ArtemisRules extends EventRules implements Serializable {
 
     /**
      * Returns a list of possible {@link Action actions} after the

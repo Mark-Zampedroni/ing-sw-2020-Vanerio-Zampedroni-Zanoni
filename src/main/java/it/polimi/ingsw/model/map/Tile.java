@@ -1,10 +1,12 @@
 package it.polimi.ingsw.model.map;
+import java.io.Serializable;
+
 import static it.polimi.ingsw.constants.Height.*;
 
 /**
  * Tile of the game map, 25 of them and are initialized when a {@link Board board} is created
  */
-public class Tile {
+public class Tile implements Serializable {
 
     private int height;
     private boolean dome;
