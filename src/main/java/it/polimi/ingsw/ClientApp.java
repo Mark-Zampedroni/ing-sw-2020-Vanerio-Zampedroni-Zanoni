@@ -50,7 +50,7 @@ public class ClientApp {
             if (content.equals("1")) {
                 System.out.println("\nType your ACTION message: ");
                 content = scanner.nextLine();  // Read user input
-                client.sendMessage(new ActionMessage(username, content, Action.MOVE, new Position(0, 0), new Worker(new Player("test"))));
+                client.sendMessage(new ActionMessage(username, content, Action.MOVE, new Position(0, 0), new Worker()));
             } else if (content.equals("2")) {
                 System.out.println("\nType your OK message: ");
                 content = scanner.nextLine();  // Read user input

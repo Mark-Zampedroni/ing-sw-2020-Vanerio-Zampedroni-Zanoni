@@ -126,7 +126,7 @@ public class Session implements Serializable {
      */
     private void removeWorkers(Player player) {
         while(player.getWorkersSize() != 0) {
-            player.removeWorker(player.getWorkersSize());
+            player.removeWorker(player.getWorkersSize()-1);
         }
     }
 

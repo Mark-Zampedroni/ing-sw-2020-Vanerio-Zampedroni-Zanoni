@@ -31,8 +31,8 @@ public class Player implements Serializable {
     public Player(String username) {
         this.username = username;
         this.workers= new ArrayList<>();
-        this.workers.add(new Worker(this));
-        this.workers.add(new Worker(this));
+        this.workers.add(new Worker());
+        this.workers.add(new Worker());
         this.color=Colors.BLUE;
     }
 
@@ -41,7 +41,7 @@ public class Player implements Serializable {
      *
      * @param color specific {@link Colors color} for the player assigned during the creation, never change during the match
      */
-    public void setColor(Colors color){ this.color = color;}
+    public void setColor(Colors color) { this.color = color;}
 
     /**
      * Getter for username

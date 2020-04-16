@@ -47,7 +47,7 @@ class WorkerTest {
 
     @Test
     void getMaster() {
-        Worker worker2 = new Worker(player, new Position(2,2));
+        Worker worker2 = new Worker(new Position(2,2));
         assertTrue(worker2.getPosition().equals(new Position(2,2)));
         assertEquals(player,worker.getMaster());
     }

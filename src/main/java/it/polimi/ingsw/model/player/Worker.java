@@ -1,5 +1,6 @@
 package it.polimi.ingsw.model.player;
 
+import it.polimi.ingsw.model.Session;
 import it.polimi.ingsw.model.map.Position;
 
 import java.io.Serializable;
@@ -11,26 +12,20 @@ import java.io.Serializable;
 public class Worker implements Serializable {
 
     private Position position;
-    private final Player master;
 
     /**
      * Initializes worker on (-1,-1), it's not yet placed on the board
-     *
-     * @param master owner of the worker
      */
-    public Worker(Player master) {
-        this.master = master;
+    public Worker() {
         position = new Position(-1,-1); // Worker on (-1,-1) only if not placed on Board
     }
 
     /**
      * Initializes the worker on an already valid {@link Position position}
      *
-     * @param master owner of the worker
      * @param position starting {@link Position position} on the {@link it.polimi.ingsw.model.map.Board board}
      */
-    public Worker(Player master, Position position) {
-        this.master = master;
+    public Worker(Position position) {
         this.position = position;
     }
 
@@ -77,7 +72,14 @@ public class Worker implements Serializable {
      *
      * @return the {@link Player player} who owns the worker
      */
-    public Player getMaster() { return master; }
+    public Player getMaster() {
+        for(Player p : Session.getInstance().getPlayers()) {
+            for(Worker w : p.getWorkers()) {
+                if(this == w) { return p; }
+            }
+        }
+        return null; // Can't happen
+    }
 
     /**
      * Generates a String which contains the worker's variables values
@@ -86,7 +88,7 @@ public class Worker implements Serializable {
      */
     @Override
     public String toString() {
-        return "{Master: "+master+
+        return "{Master: "+getMaster()+
                 " X: "+getPosition().getX()+
                 " Y: "+getPosition().getY()+"}";
     }
