@@ -2,6 +2,7 @@ package it.polimi.ingsw;
 
 
 import it.polimi.ingsw.enumerations.Action;
+import it.polimi.ingsw.enumerations.Colors;
 import it.polimi.ingsw.enumerations.MessageType;
 import it.polimi.ingsw.exceptions.net.FailedConnectionException;
 import it.polimi.ingsw.model.map.Position;
@@ -10,15 +11,22 @@ import it.polimi.ingsw.model.player.Worker;
 import it.polimi.ingsw.net.messages.ActionMessage;
 import it.polimi.ingsw.net.messages.Message;
 import it.polimi.ingsw.net.client.ClientConnection;
+import it.polimi.ingsw.net.messages.RegistrationReply;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
 
 public class ClientApp {
 
+    static List<Colors> colors = new ArrayList<>(Arrays.asList(Colors.values()));
+
     public static void main(String[] args) {
         ClientConnection client = null;
         String username;
+        Colors color;
+
         boolean connected = false;
 
         Scanner scanner = new Scanner(System.in);  // Create a Scanner object
@@ -27,9 +35,11 @@ public class ClientApp {
             List<Message> queue = null;
             System.out.println("Enter username: ");
             username = scanner.nextLine();  // Read user input
+            System.out.println("Choose a color from: "+colors);
+            color = Colors.valueOf(scanner.nextLine().toUpperCase()); // Crasha se si sbaglia a digitare il colore
             try {
-                client = new ClientConnection(username, "127.0.0.1", 7654);
-                System.out.println("Created socket with username " + username);
+                client = new ClientConnection(username, color,"127.0.0.1", 7654);
+                System.out.println("Created socket with username " + username + " and color "+color+"\n");
                 boolean replied = false;
                 while (!replied) {
                     queue = client.getQueue();
@@ -37,6 +47,8 @@ public class ClientApp {
                 }
                 Message msg = queue.get(0);
                 connected = (msg.getType() == MessageType.OK);
+                if(msg.getType() == MessageType.KO_COLOR) { updateAvailableColors(((RegistrationReply) msg).getColors()); }
+                else if(msg.getType() == MessageType.KO_NAME) { System.out.println("Name is not available"); }
             } catch (FailedConnectionException e) {
                 System.out.println("Client couldn't reach the server, retry when ready");
             }
@@ -50,7 +62,7 @@ public class ClientApp {
             if (content.equals("1")) {
                 System.out.println("\nType your ACTION message: ");
                 content = scanner.nextLine();  // Read user input
-                client.sendMessage(new ActionMessage(username, content, Action.MOVE, new Position(0, 0), new Worker()));
+                client.sendMessage(new ActionMessage(username, content, Action.MOVE, new Position(0, 0), new Worker(new Position(0, 0))));
             } else if (content.equals("2")) {
                 System.out.println("\nType your OK message: ");
                 content = scanner.nextLine();  // Read user input
@@ -63,5 +75,9 @@ public class ClientApp {
                 System.out.println("That's not 1, 2 or 3!");
             }
         }
+    }
+
+    public static void updateAvailableColors(List<Colors> colorList) {
+        colors = colorList;
     }
 }

@@ -42,7 +42,7 @@ public class ApolloRules extends GodRules {
     @Override
     public void consentMovement(Worker worker, Position position) throws CantActException {
         super.consentMovement(worker, position);
-        Check.occupant(worker, position, Target.ALLY);
+        Check.relation(worker, position, Target.ALLY);
     }
 
     /**
@@ -55,7 +55,7 @@ public class ApolloRules extends GodRules {
     @Override
     public void consentBuild(Worker worker, Position position) throws CantActException {
         super.consentBuild(worker, position);
-        Check.occupant(worker, position, Target.ANY);
+        Check.relation(worker, position, Target.ANY);
         Check.distance(worker, position);
     }
 }

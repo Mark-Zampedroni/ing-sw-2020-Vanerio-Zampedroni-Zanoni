@@ -6,6 +6,7 @@ import it.polimi.ingsw.model.Session;
 import it.polimi.ingsw.model.map.Board;
 import it.polimi.ingsw.model.map.Tile;
 import it.polimi.ingsw.model.map.Position;
+import it.polimi.ingsw.model.player.Player;
 import it.polimi.ingsw.model.player.Worker;
 import it.polimi.ingsw.observer.observable.Observable;
 
@@ -33,6 +34,16 @@ public abstract class GodRules extends Observable implements Serializable {
     public void executeMove(Worker worker, Position position) {
         worker.setPosition(position);
         //notify(worker, position);  serializeModel e mandarlo con notify
+    }
+
+    public void executeAdd(Player player, Position position) {
+        player.addWorker(position);
+    }
+
+    public void consentAdd(Position position) throws CantActException {
+        Check.dome(position);
+        Check.positionValidity(position);
+        Check.occupant(position);
     }
 
     /**

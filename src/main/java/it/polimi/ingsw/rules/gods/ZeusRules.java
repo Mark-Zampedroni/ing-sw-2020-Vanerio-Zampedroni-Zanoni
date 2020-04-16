@@ -20,7 +20,7 @@ public class ZeusRules extends GodRules {
     public void consentBuild(Worker worker, Position position) throws CantActException {
         super.consentBuild(worker,position);
         Check.distance(worker,position,0,1,"Tile out of reach");
-        Check.occupant(worker, position, Target.SELF, false, "It can only be done on your selected worker position");
+        Check.relation(worker, position, Target.SELF, false, "It can only be done on your selected worker position");
 
     }
     /**
@@ -33,7 +33,7 @@ public class ZeusRules extends GodRules {
     @Override
     public void consentMovement(Worker worker, Position position) throws CantActException {
         super.consentMovement(worker, position);
-        Check.occupant(worker, position, Target.ANY);
+        Check.relation(worker, position, Target.ANY);
 
     }
 }

@@ -1,6 +1,7 @@
 package it.polimi.ingsw.rules.gods;
 
 
+import it.polimi.ingsw.enumerations.Colors;
 import it.polimi.ingsw.enumerations.Gods;
 import it.polimi.ingsw.model.Session;
 
@@ -24,8 +25,7 @@ class AtlasRulesTest {
     @BeforeEach
     void setUp(){
         Session.getInstance().getBoard().clear();
-        player = new Player("TestName");
-        Session.getInstance().addPlayer(player);
+        player = Setupper.addPlayer("TestName", Colors.BLUE,1);
         worker = player.getWorkers().get(0);
         player.setRules(test);
     }
@@ -33,7 +33,7 @@ class AtlasRulesTest {
     @AfterEach
     void clearUp() {
         Session.getInstance().getBoard().clear();
-        Session.getInstance().removePlayer(player);
+        Setupper.removePlayer(player);
     }
 
     @Test

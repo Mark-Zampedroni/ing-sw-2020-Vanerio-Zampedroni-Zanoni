@@ -1,8 +1,10 @@
 package it.polimi.ingsw.net.server;
 
 import it.polimi.ingsw.controller.SessionController;
+import it.polimi.ingsw.enumerations.Colors;
 import it.polimi.ingsw.enumerations.MessageType;
 import it.polimi.ingsw.net.messages.Message;
+import it.polimi.ingsw.net.messages.RegistrationReply;
 import it.polimi.ingsw.view.RemoteView;
 
 import java.io.IOException;
@@ -10,9 +12,7 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 import java.util.logging.FileHandler;
 import java.util.logging.Logger;
 import java.util.logging.SimpleFormatter;
@@ -87,15 +87,21 @@ public class Server extends Thread {
         // 2) altrimenti notifica tutti e chiude la partita
     }
 
-    public void registerConnection(ServerConnection connection, String user) {
+    public void registerConnection(ServerConnection connection, String user, Colors color) {
         synchronized(connectionsLock) {
             if(connections.containsKey(user)) {
-                connection.sendMessage(new Message(MessageType.KO, "SERVER", "This username is already in use"));
+                connection.sendMessage(new RegistrationReply(MessageType.KO_NAME, "SERVER", "This username is already in use"));
+                LOG.info("A player tried to connect with the already in use username "+user+"\n");
+                connection.disconnect();
+            }
+            else if(!sessionController.getFreeColors().contains(color)) {
+                connection.sendMessage(new RegistrationReply(MessageType.KO_COLOR, "SERVER", "Color "+color+
+                                       " is not available", sessionController.getFreeColors()));
                 LOG.info("A player tried to connect with the already in use username "+user+"\n");
                 connection.disconnect();
             }
             else if(sessionController.isStarted()) {
-                connection.sendMessage(new Message(MessageType.KO, "SERVER", "A game has already started"));
+                connection.sendMessage(new RegistrationReply(MessageType.KO, "SERVER", "A game has already started"));
                 LOG.info(user + " tried to connect, but the game has already started\n");
                 connection.disconnect();
             }
@@ -105,8 +111,8 @@ public class Server extends Thread {
             else {
                 connections.put(user, connection);
                 LOG.info(user + " connected\n");
-                sessionController.addPlayer(user, new RemoteView(user,connection));
-                connection.sendMessage(new Message(MessageType.OK, "SERVER", "Connection successful"));
+                sessionController.addPlayer(user, color, new RemoteView(user,connection));
+                connection.sendMessage(new RegistrationReply(MessageType.OK, "SERVER", "Connection successful"));
             }
         }
     }

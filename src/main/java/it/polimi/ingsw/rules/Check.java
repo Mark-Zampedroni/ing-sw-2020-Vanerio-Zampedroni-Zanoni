@@ -64,6 +64,10 @@ public class Check {
         positionValidity(position,true,"Position is not valid");
     }
 
+    public static void occupant(Position position) throws CantActException {
+        if (position.getWorker() != null) { throw new CantActException("This position already has a worker"); }
+    }
+
     /**
      * Checks if a worker had been placed on a specific position, if value is {@code true} this method checks if the position is occupied by a worker,  otherwise it checks the opposite statement
      *
@@ -74,7 +78,7 @@ public class Check {
      * @param msg displays an error message
      * @throws CantActException when the condition hasn't been respected accordingly to value
      */
-    public static void occupant(Worker worker, Position position, Target type, boolean value, String msg) throws CantActException {
+    public static void relation(Worker worker, Position position, Target type, boolean value, String msg) throws CantActException {
         if (position.getWorker() != null) {
             if(type.compareWorkers(worker,position.getWorker()) == value) { throw new CantActException(msg); }
         }
@@ -88,8 +92,8 @@ public class Check {
      * @param type defines a specific type of a worker placed in a position
      * @throws CantActException when the position was already occupied by a worker
      */
-    public static void occupant(Worker worker, Position position, Target type) throws CantActException {
-        occupant(worker,position,type,true,"Tile occupied");
+    public static void relation(Worker worker, Position position, Target type) throws CantActException {
+        relation(worker,position,type,true,"Tile occupied");
     }
 
     /**

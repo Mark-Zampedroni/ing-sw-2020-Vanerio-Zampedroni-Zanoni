@@ -1,5 +1,6 @@
 package it.polimi.ingsw.rules.gods;
 
+import it.polimi.ingsw.enumerations.Colors;
 import it.polimi.ingsw.enumerations.Gods;
 import it.polimi.ingsw.exceptions.actions.CantActException;
 import it.polimi.ingsw.model.Session;
@@ -28,12 +29,10 @@ class MinotaurRulesTest {
     @BeforeEach
     void setUp() {
         Session.getInstance().getBoard().clear();
-        player = new Player("TestName");
-        Session.getInstance().addPlayer(player);
+        player = Setupper.addPlayer("TestName", Colors.BLUE,1);
         worker = player.getWorkers().get(0);
         player.setRules(test);
-        player2 = new Player("TestName2");
-        Session.getInstance().addPlayer(player2);
+        player2 = Setupper.addPlayer("TestName2", Colors.WHITE,2);
         worker2 = player2.getWorkers().get(0);
         player2.setRules(test2);
     }
@@ -41,8 +40,8 @@ class MinotaurRulesTest {
     @AfterEach
     void clearUp() {
         Session.getInstance().getBoard().clear();
-        Session.getInstance().removePlayer(player);
-        Session.getInstance().removePlayer(player2);
+        Setupper.removePlayer(player);
+        Setupper.removePlayer(player2);
     }
 
     @Test

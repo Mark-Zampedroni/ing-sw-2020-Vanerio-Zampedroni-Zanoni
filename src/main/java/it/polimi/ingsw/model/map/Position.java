@@ -32,16 +32,7 @@ public class Position implements Serializable {
      * @return {@code true} if the coordinates match
      */
     public boolean equals(Position position) {
-            return (getDistanceFrom(position) == 0);
-    }
-
-    /**
-     * Creates a deep copy of the position
-     *
-     * @return pointer to the newly created position
-     */
-    public Position copy() {
-        return new Position(x,y);
+            return (x == position.getX() && y == position.getY());
     }
 
     /**

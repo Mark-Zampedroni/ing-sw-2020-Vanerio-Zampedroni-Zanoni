@@ -14,13 +14,6 @@ public class Worker implements Serializable {
     private Position position;
 
     /**
-     * Initializes worker on (-1,-1), it's not yet placed on the board
-     */
-    public Worker() {
-        position = new Position(-1,-1); // Worker on (-1,-1) only if not placed on Board
-    }
-
-    /**
      * Initializes the worker on an already valid {@link Position position}
      *
      * @param position starting {@link Position position} on the {@link it.polimi.ingsw.model.map.Board board}
@@ -34,7 +27,7 @@ public class Worker implements Serializable {
      *
      * @return a copy of {@link Position position}
      */
-    public Position getPosition() { return position.copy(); }
+    public Position getPosition() { return position; }
 
     /**
      * Puts the worker on {@link Position position}, successful only if it's not already occupied
@@ -42,10 +35,7 @@ public class Worker implements Serializable {
      * @param position target position
      */
     public void setPosition(Position position) {
-        if(position.getWorker() == null) {
-            this.position = position.copy();
-        }
-        else { System.out.println("[!] Worker cant be moved on Position, it's occupied by: "+position.getWorker()); }
+        this.position = position;
     }
 
     /**
@@ -62,8 +52,8 @@ public class Worker implements Serializable {
      * @param worker worker to switch the position with
      */
     public void switchPosition(Worker worker) {
-        Position temp = position.copy();
-        position = worker.position.copy();
+        Position temp = position;
+        position = worker.position;
         worker.setPosition(temp);
     }
 
@@ -75,7 +65,7 @@ public class Worker implements Serializable {
     public Player getMaster() {
         for(Player p : Session.getInstance().getPlayers()) {
             for(Worker w : p.getWorkers()) {
-                if(this == w) { return p; }
+                if(this.equals(w)) { return p; }
             }
         }
         return null; // Can't happen
@@ -92,5 +82,9 @@ public class Worker implements Serializable {
                 " X: "+getPosition().getX()+
                 " Y: "+getPosition().getY()+"}";
     }
+/*
+    public boolean equals(Worker worker) {
+        return (position.equals(worker.getPosition()));
+    }*/
 
 }

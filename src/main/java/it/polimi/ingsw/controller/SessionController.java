@@ -1,5 +1,6 @@
 package it.polimi.ingsw.controller;
 
+import it.polimi.ingsw.enumerations.Colors;
 import it.polimi.ingsw.model.Session;
 import it.polimi.ingsw.model.player.Player;
 import it.polimi.ingsw.net.messages.ActionMessage;
@@ -7,9 +8,7 @@ import it.polimi.ingsw.net.messages.Message;
 import it.polimi.ingsw.observer.observable.Observer;
 import it.polimi.ingsw.view.RemoteView;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class SessionController implements Observer<ActionMessage>  {
 
@@ -18,6 +17,7 @@ public class SessionController implements Observer<ActionMessage>  {
     Session session;
 
     Map<String, RemoteView> views = new HashMap<>();
+    private List<Colors> freeColors = new ArrayList<>(Arrays.asList(Colors.values()));
 
     public SessionController() {
         table = new TableController(this);
@@ -30,17 +30,21 @@ public class SessionController implements Observer<ActionMessage>  {
         return session;
     }
 
+    public List<Colors> getFreeColors() { return freeColors; }
+
     public boolean isStarted() {
         return session.isStarted();
     }
 
-    public void addPlayer(String username, RemoteView view) {
-        session.addPlayer(username);
+    public void addPlayer(String username, Colors color, RemoteView view) {
+        freeColors.removeIf(c -> c == color);
+        session.addPlayer(username, color);
         views.put(username, view);
         view.addObserver(this);
     }
 
     public void removePlayer(String username) {
+        freeColors.add(session.getPlayerColor(username));
         session.removePlayer(username);
         views.remove(username);
     }

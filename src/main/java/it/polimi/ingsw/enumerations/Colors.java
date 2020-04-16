@@ -7,5 +7,5 @@ import java.io.Serializable;
  * workers on the {@link it.polimi.ingsw.model.map.Board board}
  */
 public enum Colors implements Serializable {
-    WHITE, BLUE, BROWN
+    BLUE, RED, GREEN, WHITE
 }

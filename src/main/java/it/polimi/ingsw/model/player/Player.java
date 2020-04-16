@@ -28,20 +28,17 @@ public class Player implements Serializable {
      *
      * @param username unique string used to identify the player
      */
-    public Player(String username) {
+    public Player(String username, Colors color) {
         this.username = username;
         this.workers= new ArrayList<>();
-        this.workers.add(new Worker());
-        this.workers.add(new Worker());
-        this.color=Colors.BLUE;
+        this.color = color;
     }
 
-    /**
-     * Setter for color
-     *
-     * @param color specific {@link Colors color} for the player assigned during the creation, never change during the match
-     */
-    public void setColor(Colors color) { this.color = color;}
+    public void addWorker(Position position) {
+        workers.add(new Worker(position));
+    }
+
+    public Colors getColor() { return color; }
 
     /**
      * Getter for username
@@ -93,7 +90,6 @@ public class Player implements Serializable {
      *
      * @return a shallow copy of the list which contains the workers {@link Worker workers}
      */
-    @SuppressWarnings("unchecked")
     public ArrayList<Worker> getWorkers() {
         return (ArrayList<Worker>) workers.clone();
     }
@@ -111,13 +107,7 @@ public class Player implements Serializable {
      * @param position specific {@link GodRules rules} that are linked to the chosen {@link Gods god}
      */
     public void removeWorker(Position position) {
-        if (workers.get(0).getPosition().equals(position)) {
-            workers.remove(0);
-        } else {
-            if (workers.get(1).getPosition().equals(position)) {
-                workers.remove(1);
-            }
-        }
+        workers.removeIf(w -> w.getPosition().equals(position));
     }
 
     /**

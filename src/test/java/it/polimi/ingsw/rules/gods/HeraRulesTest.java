@@ -1,5 +1,6 @@
 package it.polimi.ingsw.rules.gods;
 
+import it.polimi.ingsw.enumerations.Colors;
 import it.polimi.ingsw.enumerations.Gods;
 import it.polimi.ingsw.exceptions.actions.CantActException;
 import it.polimi.ingsw.model.Session;
@@ -21,10 +22,8 @@ class HeraRulesTest {
 
     @BeforeEach
     void setUp() {
-        player = new Player("TestName1");
-        player2 = new Player("TestName2");
-        Session.getInstance().addPlayer(player);
-        Session.getInstance().addPlayer(player2);
+        player = Setupper.addPlayer("TestName1", Colors.BLUE,1);
+        player2 = Setupper.addPlayer("TestName2", Colors.RED,2);
         worker = player.getWorkers().get(0);
         worker2 = player2.getWorkers().get(0);
     }
@@ -32,8 +31,8 @@ class HeraRulesTest {
     @AfterEach
     void clearUp() {
         Session.getInstance().getBoard().clear();
-        Session.getInstance().removePlayer(player);
-        Session.getInstance().removePlayer(player2);
+        Setupper.removePlayer(player);
+        Setupper.removePlayer(player2);
     }
 
     @Test

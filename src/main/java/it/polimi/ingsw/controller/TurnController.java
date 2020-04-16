@@ -74,7 +74,7 @@ public class TurnController {
     /*
         Deletes Actions with empty candidates List
      */
-    public void fixPossibleActions() {
+    public void fixPossibleActions() { // Checks only move and build actions
         actionControl.setCandidates(currentWorker,possibleActions);
         possibleActions.removeIf(action -> actionControl.getCandidates(action).isEmpty());
     }
@@ -85,7 +85,17 @@ public class TurnController {
     public void executeAction(Worker worker, Action type) throws CantActException, WrongActionException {
         validateType(type);
         possibleActions = actionControl.act(worker,type);
+        currentWorker = worker;
         fixPossibleActions(); // Creates candidate lists in ActionController and filters possibleActions list
+    }
+
+    /*
+        Executes Action [ADD_WORKER] and returns following possible Actions as List
+     */
+    public void executeAction(Position position, Action type) throws CantActException, WrongActionException {
+        validateType(type);
+        possibleActions = actionControl.act(position, type);
+        fixPossibleActions();
     }
 
     /*
@@ -105,6 +115,16 @@ public class TurnController {
             executeAction(worker, Action.SELECT_WORKER);
             currentWorker = worker;
             return response("Worker selected");
+        } catch(CantActException | WrongActionException e) { return response(e.getMessage()); }
+    }
+
+    /*
+        Reply to [ADD_WORKER] request
+     */
+    public Message addWorker(Position position) {
+        try {
+            executeAction(position, Action.ADD_WORKER);
+            return response("Worker added to "+position);
         } catch(CantActException | WrongActionException e) { return response(e.getMessage()); }
     }
 

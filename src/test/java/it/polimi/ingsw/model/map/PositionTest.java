@@ -1,5 +1,6 @@
 package it.polimi.ingsw.model.map;
 
+import it.polimi.ingsw.enumerations.Colors;
 import it.polimi.ingsw.model.Session;
 import it.polimi.ingsw.model.player.Player;
 import it.polimi.ingsw.model.player.Worker;
@@ -55,7 +56,9 @@ class PositionTest {
     // Tests if Worker is correctly retrievable from Position
     @Test
     void getWorker() {
-        Player player = new Player("TestName");
+        Player player = new Player("TestName", Colors.BLUE);
+        player.addWorker(new Position(0,0));
+        player.addWorker(new Position(0,0));
         Session.getInstance().addPlayer(player);
 
         Worker worker = player.getWorkers().get(0);
@@ -68,15 +71,6 @@ class PositionTest {
             }
         }
         Session.getInstance().removePlayer(player);
-    }
-
-    // Confirms that the returned value is a copy of the object
-    @Test
-    void copy() {
-        position = new Position(2,3);
-        that = position.copy();
-        assertTrue(that.equals(position));
-        assertNotEquals(position,that);
     }
 
     @Test

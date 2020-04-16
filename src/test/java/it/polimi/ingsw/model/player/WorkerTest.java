@@ -1,7 +1,9 @@
 package it.polimi.ingsw.model.player;
 
+import it.polimi.ingsw.enumerations.Colors;
 import it.polimi.ingsw.model.Session;
 import it.polimi.ingsw.model.map.Position;
+import it.polimi.ingsw.rules.gods.Setupper;
 import org.junit.jupiter.api.*;
 
 import static org.junit.Assert.assertTrue;
@@ -16,15 +18,14 @@ class WorkerTest {
     @BeforeEach
     void setUp() {
         Session.getInstance().getBoard().clear();
-        player = new Player("TestName");
-        Session.getInstance().addPlayer(player);
+        player = Setupper.addPlayer("TestName", Colors.BLUE,1);
         worker = player.getWorkers().get(0);
     }
 
     @AfterEach
     void clearUp() {
         Session.getInstance().getBoard().clear();
-        Session.getInstance().removePlayer(player);
+        Setupper.removePlayer(player);
     }
 
     @Test
@@ -47,8 +48,8 @@ class WorkerTest {
 
     @Test
     void getMaster() {
-        Worker worker2 = new Worker(new Position(2,2));
-        assertTrue(worker2.getPosition().equals(new Position(2,2)));
-        assertEquals(player,worker.getMaster());
+        Worker worker2 = new Worker(new Position(-3,-3));
+        assertTrue(worker2.getPosition().equals(new Position(-3,-3)));
+        assertEquals(worker.getMaster(), player);
     }
 }

@@ -25,18 +25,16 @@ public class SerializationTest
     @Test
     public void correctSerialization()
     {
-        Player player1= new Player("Gianni");
-        Player player2= new Player("Sandro");
+        Player player1= new Player("Gianni", Colors.BLUE);
+        player1.addWorker(new Position(2,3));
+        player1.addWorker(new Position(3,3));
+        Player player2= new Player("Sandro", Colors.WHITE);
+        player2.addWorker(new Position(2,4));
+        player2.addWorker(new Position(4,4));
         GodRules rules1 = Gods.HESTIA.createRules();
         GodRules rules2 = Gods.APOLLO.createRules();
         Session.getInstance().addPlayer(player1);
         Session.getInstance().addPlayer(player2);
-        player1.getWorkers().get(0).setPosition(2,3);
-        player1.getWorkers().get(1).setPosition(3,3);
-        player2.getWorkers().get(0).setPosition(2,4);
-        player2.getWorkers().get(1).setPosition(4,4);
-        player1.setColor(Colors.WHITE);
-        player2.setColor(Colors.BLUE);
         player1.setGod(Gods.HESTIA);
         player2.setGod(Gods.APOLLO);
         player1.setChallenger();
@@ -58,9 +56,6 @@ public class SerializationTest
 
             output.close();
             file.close();
-
-            System.out.println("Session has been serialized");
-
         }
         catch(IOException ex) {
             System.out.println("IOException is caught");
@@ -102,6 +97,5 @@ public class SerializationTest
         assertTrue(player2.getWorkers().get(1).getPosition().equals(serializedSession.getPlayers().get(1).getWorkers().get(1).getPosition()));
         assertTrue(serializedSession.getBoard().getTile(new Position(1,2)).hasDome());
         assertEquals(serializedSession.getBoard().getTile(new Position(3, 2)).getHeight(), Height.BOTTOM);
-        System.out.println(serializedSession.getPlayers().get(0).toString()+" "+serializedSession.getPlayers().get(1).toString());
     }
 }

@@ -22,7 +22,7 @@ public abstract class CommonRules extends GodRules implements Serializable {
      */
     public void consentBuild(Worker worker, Position position) throws CantActException {
         super.consentBuild(worker, position);
-        Check.occupant(worker, position, Target.ANY);
+        Check.relation(worker, position, Target.ANY);
         Check.distance(worker, position);
     }
 
@@ -35,7 +35,7 @@ public abstract class CommonRules extends GodRules implements Serializable {
      */
     public void consentMovement(Worker worker, Position position) throws CantActException {
         super.consentMovement(worker, position);
-        Check.occupant(worker, position, Target.ANY);
+        Check.relation(worker, position, Target.ANY);
 
     }
 

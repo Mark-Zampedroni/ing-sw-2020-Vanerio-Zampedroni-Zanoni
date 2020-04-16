@@ -1,9 +1,12 @@
 package it.polimi.ingsw.model;
 
+import it.polimi.ingsw.enumerations.Colors;
 import it.polimi.ingsw.enumerations.Gods;
 import it.polimi.ingsw.model.map.Board;
+import it.polimi.ingsw.model.map.Position;
 import it.polimi.ingsw.model.player.Player;
 import it.polimi.ingsw.model.player.Worker;
+import it.polimi.ingsw.rules.gods.Setupper;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -23,12 +26,9 @@ class SessionTest {
     @BeforeEach
     void setUp() {
         Session.getInstance().getBoard().clear();
-        one = new Player("Piero");
-        two = new Player ("Sandro");
-        three = new Player ("Carmelo");
-        Session.getInstance().addPlayer(one);
-        Session.getInstance().addPlayer(two);
-        Session.getInstance().addPlayer(three);
+        one = Setupper.addPlayer("Piero", Colors.BLUE,1);
+        two = Setupper.addPlayer ("Sandro", Colors.WHITE,2);
+        three = Setupper.addPlayer ("Carmelo", Colors.GREEN,3);
         Session.getInstance().setStarted(true);
         assertTrue(Session.getInstance().isStarted());
     }
@@ -36,9 +36,9 @@ class SessionTest {
     @AfterEach
     void clear() {
         Session.getInstance().getBoard().clear();
-        Session.getInstance().removePlayer(one);
-        Session.getInstance().removePlayer(two);
-        Session.getInstance().removePlayer(three);
+        Setupper.removePlayer(one);
+        Setupper.removePlayer(two);
+        Setupper.removePlayer(three);
     }
 
     @Test
@@ -58,7 +58,7 @@ class SessionTest {
         two.removeWorker(0);
         Session.getInstance().removePlayer(two);
         assertEquals(Session.getInstance().playersNumber(), 2);
-        two= new Player("Sandro");
+        two= new Player("Sandro", Colors.BLUE);
         Session.getInstance().addPlayer(two);
     }
 

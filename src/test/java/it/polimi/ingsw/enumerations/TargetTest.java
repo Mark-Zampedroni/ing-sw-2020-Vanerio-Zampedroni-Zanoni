@@ -1,8 +1,10 @@
 package it.polimi.ingsw.enumerations;
 
 import it.polimi.ingsw.model.Session;
+import it.polimi.ingsw.model.map.Position;
 import it.polimi.ingsw.model.player.Player;
 import it.polimi.ingsw.model.player.Worker;
+import it.polimi.ingsw.rules.gods.Setupper;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -19,10 +21,8 @@ class TargetTest {
     @BeforeEach
     void setUp() {
         Session.getInstance().getBoard().clear();
-        player = new Player("TestName");
-        player2 = new Player("TestName2");
-        Session.getInstance().addPlayer(player);
-        Session.getInstance().addPlayer(player2);
+        player = Setupper.addPlayer("TestName", Colors.BLUE,1);
+        player2 = Setupper.addPlayer("TestName2", Colors.RED,2);
         worker = player.getWorkers().get(0);
         worker2 = player2.getWorkers().get(0);
     }
@@ -30,8 +30,8 @@ class TargetTest {
     @AfterEach
     void clearUp() {
         Session.getInstance().getBoard().clear();
-        Session.getInstance().removePlayer(player);
-        Session.getInstance().removePlayer(player2);
+        Setupper.removePlayer(player);
+        Setupper.removePlayer(player2);
     }
 
     @Test

@@ -71,8 +71,8 @@ public class Session implements Serializable {
      *
      * @param username is the {@link Player player}'s name
      */
-    public void addPlayer(String username) {
-        players.add(new Player(username));
+    public void addPlayer(String username, Colors color) {
+        players.add(new Player(username, color));
     }
 
     /**
@@ -109,6 +109,10 @@ public class Session implements Serializable {
         return null;
     }
 
+    public Colors getPlayerColor(String username) {
+        return getPlayerByName(username).getColor();
+    }
+
     /**
      * Getter for the list of the {@link Player players}
      *
@@ -136,9 +140,8 @@ public class Session implements Serializable {
      * @param player the {@link Player player} that you don't need to have in the list
      * @return a shallow copy of the {@link Player players}'s list and removes the {@link Player player} in the argument
      */
-    @SuppressWarnings("unchecked")
     public ArrayList<Player> getOtherPlayers(Player player) {
-        ArrayList<Player> list = (ArrayList<Player>) players.clone();
+        ArrayList<Player> list = getPlayers();
         list.remove(player);
         return list;
     }

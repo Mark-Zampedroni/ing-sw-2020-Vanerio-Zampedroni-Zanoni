@@ -14,13 +14,13 @@ import java.util.List;
 /* Interfaccia con le azioni sul Model, controlla se sia eseguibile l'azione e l'effettua */
 public class ActionController {
 
-    final Player player;
-    final GodRules rules;
-    List<Action> newActions;
+    private final Player player;
+    private final GodRules rules;
+    private List<Action> newActions;
 
-    List<Position> moveCandidates;
-    List<Position> buildCandidates;
-    List<Worker> selectableWorkers; /* DA IMPLEMENTARE - Se isEmpty e azione SOLO SELECT_WORKER -> PERSO
+    private List<Position> moveCandidates;
+    private List<Position> buildCandidates;
+    private List<Worker> selectableWorkers; /* DA IMPLEMENTARE - Se isEmpty e azione SOLO SELECT_WORKER -> PERSO
                                        uso il consentSelect gia' in GodRules */
 
     public ActionController(Player player) {
@@ -82,7 +82,20 @@ public class ActionController {
     public List<Action> act(Worker worker, Action type) throws CantActException, WrongActionException {
         if(type == Action.SELECT_WORKER) {
             if(!selectableWorkers.contains(worker)) { throw new CantActException("You can't select this worker"); }
+            // SELECT WORKER ACTION
             return rules.afterSelect();
+        }
+        else {
+            throw new WrongActionException("Used correct method signature but wrong parameters.");
+        }
+    }
+
+    public List<Action> act(Position position, Action type) throws CantActException, WrongActionException {
+        if(type == Action.ADD_WORKER) {
+            rules.consentAdd(position);
+            newActions = new ArrayList<>();
+            newActions.add((player.getWorkers().size() < 2) ? Action.ADD_WORKER : Action.END_TURN);
+            return newActions;
         }
         else {
             throw new WrongActionException("Used correct method signature but wrong parameters.");
@@ -104,11 +117,11 @@ public class ActionController {
                     switch (action) {
                         case MOVE:
                             rules.consentMovement(worker, target);
-                            moveCandidates.add(target.copy());
+                            moveCandidates.add(target);
                             break;
                         case BUILD:
                             rules.consentBuild(worker, target);
-                            buildCandidates.add(target.copy());
+                            buildCandidates.add(target);
                             break;
                         default:
                             /* Do nothing */

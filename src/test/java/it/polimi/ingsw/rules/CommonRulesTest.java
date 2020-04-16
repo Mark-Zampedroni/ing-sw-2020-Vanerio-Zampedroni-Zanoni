@@ -1,12 +1,14 @@
 package it.polimi.ingsw.rules;
 
 import it.polimi.ingsw.enumerations.Action;
+import it.polimi.ingsw.enumerations.Colors;
 import it.polimi.ingsw.enumerations.Gods;
 import it.polimi.ingsw.exceptions.actions.CantActException;
 import it.polimi.ingsw.model.Session;
 import it.polimi.ingsw.model.map.Position;
 import it.polimi.ingsw.model.player.Player;
 import it.polimi.ingsw.model.player.Worker;
+import it.polimi.ingsw.rules.gods.Setupper;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -25,8 +27,7 @@ class CommonRulesTest {
     @BeforeEach
     void setUp() {
         Session.getInstance().getBoard().clear();
-        player = new Player("TestName");
-        Session.getInstance().addPlayer(player);
+        player = Setupper.addPlayer("TestName", Colors.BLUE,1);
         worker = player.getWorkers().get(0);
         test = Gods.APOLLO.createRules();
         player.setRules(test);
@@ -37,7 +38,7 @@ class CommonRulesTest {
     void clearUp() {
         player.getRules().clear();
         Session.getInstance().getBoard().clear();
-        Session.getInstance().removePlayer(player);
+        Setupper.removePlayer(player);
 
     }
 

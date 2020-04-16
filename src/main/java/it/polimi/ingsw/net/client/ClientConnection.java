@@ -1,8 +1,10 @@
 package it.polimi.ingsw.net.client;
 
+import it.polimi.ingsw.enumerations.Colors;
 import it.polimi.ingsw.enumerations.MessageType;
 import it.polimi.ingsw.exceptions.net.FailedConnectionException;
 import it.polimi.ingsw.net.messages.Message;
+import it.polimi.ingsw.net.messages.RegistrationMessage;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -21,6 +23,7 @@ import java.util.logging.SimpleFormatter;
 public class ClientConnection extends Thread {
 
     private final String username;
+
     private final String ip;
     private final int port;
 
@@ -35,7 +38,7 @@ public class ClientConnection extends Thread {
 
     private final Object queueLock = new Object();
 
-    public ClientConnection(String username, String ip, int port) throws FailedConnectionException {
+    public ClientConnection(String username, Colors color, String ip, int port) throws FailedConnectionException {
         this.username = username;
         this.ip = ip;
         this.port = port;
@@ -43,7 +46,7 @@ public class ClientConnection extends Thread {
         inQueue = new ArrayList<>();
 
         startLogging();
-        startConnection();
+        startConnection(color);
     }
 
     private void startLogging() {
@@ -56,12 +59,12 @@ public class ClientConnection extends Thread {
         } catch(IOException e) { LOG.severe(e.getMessage() + " couldn't be opened\n"); }
     }
 
-    public void startConnection() throws FailedConnectionException {
+    public void startConnection(Colors color) throws FailedConnectionException {
         try {
             socket = new Socket(ip, port);
             output = new ObjectOutputStream(socket.getOutputStream());
             input = new ObjectInputStream(socket.getInputStream());
-            sendMessage(new Message(MessageType.REGISTRATION, username, "Connection request as " + username));
+            sendMessage(new RegistrationMessage(username, "Connection request as " + username,color));
             this.start();
         } catch(IOException e) {
             LOG.severe(e.getMessage());
@@ -83,7 +86,6 @@ public class ClientConnection extends Thread {
         while(!Thread.currentThread().isInterrupted()) {
             try {
                 Message msg = (Message) input.readObject();
-                System.out.println(msg); // TEST
                 if(msg != null) {
                     synchronized(queueLock) {
                         inQueue.add(msg); // Messages to read from controller
