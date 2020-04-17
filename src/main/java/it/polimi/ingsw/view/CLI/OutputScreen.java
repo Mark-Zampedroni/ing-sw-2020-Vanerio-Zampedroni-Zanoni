@@ -25,4 +25,10 @@ public class OutputScreen implements Screen {
         layout.add("\n"+string);
     }
 
+    public void removeLastLine() {
+        if(layout.size()  != 0) {
+            layout.remove(layout.size() - 1);
+        }
+    }
+
 }

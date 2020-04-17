@@ -102,4 +102,11 @@ public class Cli implements View {
     private void updateColors(List<Colors> colors) {
         this.colors = colors;
     }
+
+    public void denyLogin(){
+        inputScreen.clear();
+        inputScreen.addLine("\nLobby is full");
+        outputScreen.removeLastLine();
+        updateScreen();
+    }
 }

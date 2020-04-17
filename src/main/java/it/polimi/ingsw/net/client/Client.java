@@ -20,6 +20,7 @@ public class Client extends Thread implements Observer<Message> {
     private String username;
     private ClientConnection connection;
     private View view;
+    private int playerCounter;
 
     public Client(String ip, int port, int view) {
 
@@ -102,13 +103,15 @@ public class Client extends Thread implements Observer<Message> {
                 viewInput.add(() -> view.requestAction()); // TEST
             }
             else {
-                viewInput.add(() -> view.requestLogin() );
+                if(playerCounter<3){viewInput.add(() -> view.requestLogin() );}
+                else{viewInput.add(() -> view.denyLogin());}
             }
         }
     }
 
     private void parseLobbyUpdate(LobbyUpdate message) {
         if(state == GameState.LOGIN || state == GameState.LOBBY) {
+            playerCounter = message.getPlayers().keySet().size();
             viewUpdate.add(() -> view.updateLobby(message));
         }
     }
