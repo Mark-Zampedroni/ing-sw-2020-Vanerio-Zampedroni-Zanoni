@@ -1,11 +1,42 @@
 package it.polimi.ingsw.view.CLI;
 
-public interface Screen {
+import java.util.ArrayList;
+import java.util.List;
 
-    void clear();
+public class Screen {
 
-    String getLayout();
+    private final List<String> layout;
 
+    public Screen() {
+        layout = new ArrayList<>();
+        clear();
+    }
 
+    public void clear() {
+        synchronized(layout) {
+            layout.clear();
+            layout.add("");
+        }
+    }
+
+    public String getLayout() {
+        synchronized(layout) {
+            return String.join("", layout);
+        }
+    }
+
+    public void addLine(String string) {
+        synchronized(layout) {
+            layout.add("\n" + string);
+        }
+    }
+
+    public void removeLastLine() {
+        synchronized(layout) {
+            if (layout.size() != 0) {
+                layout.remove(layout.size() - 1);
+            }
+        }
+    }
 
 }

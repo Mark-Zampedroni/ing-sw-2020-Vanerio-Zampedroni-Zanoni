@@ -109,12 +109,14 @@ public class Client extends Thread implements Observer<Message> {
         }
     }
 
-    private void parseLobbyUpdate(LobbyUpdate message) {
+    private void parseLobbyUpdate(LobbyUpdate message){
         if(state == GameState.LOGIN || state == GameState.LOBBY) {
+            if(playerCounter == 3 && message.getPlayers().keySet().size() < playerCounter && state == GameState.LOGIN){
+                viewInput.add(() -> view.requestLogin() );}
             playerCounter = message.getPlayers().keySet().size();
             viewUpdate.add(() -> view.updateLobby(message));
+            }
         }
-    }
 
     public void requestLogin(String username, Colors color) {
         connection.registerConnection(username,color);
@@ -127,7 +129,5 @@ public class Client extends Thread implements Observer<Message> {
     public GameState getGameState() {
         return state;
     }
-
-
 
 }

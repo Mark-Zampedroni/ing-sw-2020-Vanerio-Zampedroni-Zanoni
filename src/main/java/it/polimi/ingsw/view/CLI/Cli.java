@@ -18,8 +18,8 @@ public class Cli implements View {
 
     private List<Colors> colors;
 
-    private InputScreen inputScreen;
-    private OutputScreen outputScreen;
+    private Screen inputScreen;
+    private Screen outputScreen;
 
     private Client client;
     private Scanner input;
@@ -27,8 +27,8 @@ public class Cli implements View {
     public Cli(Client client) {
         colors = new ArrayList<>(Arrays.asList(Colors.values()));
 
-        inputScreen = new InputScreen();
-        outputScreen = new OutputScreen();
+        inputScreen = new Screen();
+        outputScreen = new Screen();
 
         this.client = client;
         input = new Scanner(System.in);
