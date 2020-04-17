@@ -5,7 +5,7 @@ import java.util.List;
 
 public class InputScreen implements Screen {
 
-    private List<String> layout;
+    private final List<String> layout;
 
     public InputScreen() {
         layout = new ArrayList<>();
@@ -18,7 +18,9 @@ public class InputScreen implements Screen {
     }
 
     public String getLayout() {
-        return String.join("", layout);
+        synchronized(layout) {
+            return String.join("", layout);
+        }
     }
 
     public void addLine(String string) {

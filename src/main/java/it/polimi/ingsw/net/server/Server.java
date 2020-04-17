@@ -87,6 +87,7 @@ public class Server extends Thread {
                 if(sessionController.getState() == GameState.LOBBY) { // Game in lobby - felice e non sconnette tutti
                     connections.remove(user);
                     LOG.info(user + " removed from lobby\n");
+                    broadcastLobbyUpdate();
                 }
                 sessionController.removePlayer(user);
             }
