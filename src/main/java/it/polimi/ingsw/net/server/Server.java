@@ -87,9 +87,9 @@ public class Server extends Thread {
                 if(sessionController.getState() == GameState.LOBBY) { // Game in lobby - felice e non sconnette tutti
                     connections.remove(user);
                     LOG.info(user + " removed from lobby\n");
-                    broadcastLobbyUpdate();
                 }
                 sessionController.removePlayer(user);
+                broadcastLobbyUpdate();
             }
         }
         // Gestione disconnessione giocatore
@@ -119,9 +119,7 @@ public class Server extends Thread {
             else {
                 confirmConnection(user, color, connection);
                 connection.sendMessage(new RegistrationReply("SERVER", user,true));
-                System.out.println(sessionController.getPlayers()); // TEST
                 broadcastLobbyUpdate();
-
             }
         }
     }
@@ -132,18 +130,21 @@ public class Server extends Thread {
     }
 
     private void broadcastLobbyUpdate() {
+        System.out.println(sessionController.getPlayers());
         broadcastMessage(new LobbyUpdate("SERVER", "Update",
-                        sessionController.getFreeColors(), sessionController.getPlayers()));
+                         sessionController.getFreeColors(), sessionController.getPlayers()));
     }
 
     public void broadcastMessage(Message message) {
         if(sessionController.getState() == GameState.LOBBY) {
             for (ServerConnection c : pendingConnections) {
                 c.sendMessage(message);
+                System.out.println("Broadcast to pending!"); // TEST
             }
         }
         for(String c : connections.keySet()) {
             connections.get(c).sendMessage(message);
+            System.out.println("Broadcast to registered!"); // TEST
         }
     }
 
