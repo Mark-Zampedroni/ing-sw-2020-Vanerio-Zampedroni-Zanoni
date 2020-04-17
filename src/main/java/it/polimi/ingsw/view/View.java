@@ -9,5 +9,6 @@ public interface View {
     void updateLobby(LobbyUpdate message);
     void requestLogin();
     void requestAction();
+    void denyLogin();
 
 }
