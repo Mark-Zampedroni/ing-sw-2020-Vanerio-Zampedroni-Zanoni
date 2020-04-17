@@ -1,10 +1,9 @@
 package it.polimi.ingsw.net.client;
 
 import it.polimi.ingsw.enumerations.Colors;
-import it.polimi.ingsw.enumerations.MessageType;
 import it.polimi.ingsw.exceptions.net.FailedConnectionException;
 import it.polimi.ingsw.net.messages.Message;
-import it.polimi.ingsw.net.messages.RegistrationMessage;
+import it.polimi.ingsw.net.messages.lobby.RegistrationMessage;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -22,8 +21,6 @@ import java.util.logging.SimpleFormatter;
 
 public class ClientConnection extends Thread {
 
-    private final String username;
-
     private final String ip;
     private final int port;
 
@@ -31,45 +28,61 @@ public class ClientConnection extends Thread {
     private ObjectOutputStream output;
 
     private Socket socket;
-
-    private final Logger LOG;
-
+    public final Logger LOG;
     private final List<Message> inQueue;
+
+    private boolean registered;
 
     private final Object queueLock = new Object();
 
-    public ClientConnection(String username, Colors color, String ip, int port) throws FailedConnectionException {
-        this.username = username;
+    public ClientConnection(String ip, int port, Client controller) {
         this.ip = ip;
         this.port = port;
-        LOG = Logger.getLogger(username);
         inQueue = new ArrayList<>();
 
+        LOG = Logger.getLogger("client");
         startLogging();
-        startConnection(color);
+
+        while (true) {
+            try {
+                Thread.sleep(1000);
+                System.out.println("start connection!");
+                startConnection();
+                new ClientMessageReceiver(this, controller);
+                LOG.info("Created connection and controller");
+                break;
+            } catch (FailedConnectionException | InterruptedException e) {
+                System.out.println(e.getMessage());
+            }
+        }
     }
 
     private void startLogging() {
         DateFormat dateFormat = new SimpleDateFormat("MM_dd_HH-mm-ss");
         Date date = new Date();
         try {
-            FileHandler fileHandler = new FileHandler("log/"+username+"/"+dateFormat.format(date)+".log");
+            FileHandler fileHandler = new FileHandler("log/client/" + dateFormat.format(date) + ".log");
             fileHandler.setFormatter(new SimpleFormatter());
             LOG.addHandler(fileHandler);
-        } catch(IOException e) { LOG.severe(e.getMessage() + " couldn't be opened\n"); }
+        } catch (IOException e) {
+            LOG.severe(e.getMessage() + " couldn't be opened\n");
+        }
     }
 
-    public void startConnection(Colors color) throws FailedConnectionException {
+    public void startConnection() throws FailedConnectionException {
         try {
             socket = new Socket(ip, port);
             output = new ObjectOutputStream(socket.getOutputStream());
             input = new ObjectInputStream(socket.getInputStream());
-            sendMessage(new RegistrationMessage(username, "Connection request as " + username,color));
             this.start();
         } catch(IOException e) {
-            LOG.severe(e.getMessage());
+            LOG.severe("Couldn't reach the server");
             throw new FailedConnectionException("Couldn't reach the server");
         }
+    }
+
+    public void registerConnection(String username, Colors color) {
+        sendMessage(new RegistrationMessage(username, "Registration request as " + username + " with color "+color, color));
     }
 
     public void sendMessage(Message msg) {
@@ -88,7 +101,7 @@ public class ClientConnection extends Thread {
                 Message msg = (Message) input.readObject();
                 if(msg != null) {
                     synchronized(queueLock) {
-                        inQueue.add(msg); // Messages to read from controller
+                        inQueue.add(msg); // Messages read in Client
                     }
                 }
             }
@@ -106,7 +119,7 @@ public class ClientConnection extends Thread {
         try {
             if(!socket.isClosed()) {
                 socket.close();
-                System.out.println("Connection closed");
+                LOG.info("Connection closed");
             }
             this.interrupt();
         } catch(IOException e) {
@@ -123,5 +136,11 @@ public class ClientConnection extends Thread {
         return copy;
     }
 
+    public boolean isRegistered() {
+        return registered;
+    }
 
+    public void register() {
+        registered = true;
+    }
 }

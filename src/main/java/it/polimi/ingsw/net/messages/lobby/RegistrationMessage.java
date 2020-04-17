@@ -1,7 +1,8 @@
-package it.polimi.ingsw.net.messages;
+package it.polimi.ingsw.net.messages.lobby;
 
 import it.polimi.ingsw.enumerations.Colors;
 import it.polimi.ingsw.enumerations.MessageType;
+import it.polimi.ingsw.net.messages.Message;
 
 public class RegistrationMessage extends Message {
 

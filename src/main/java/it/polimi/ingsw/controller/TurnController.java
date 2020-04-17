@@ -53,7 +53,7 @@ public class TurnController {
     /*
         DUMMY CLASS / SERVER -> CLIENT REPLY TO REQUESTS
      */
-    public Message response(String msg) { return new Message(MessageType.KO, "TEST", "test"); } // Da mettere in server
+    public Message response(String msg) { return new Message(MessageType.ACTION, "TEST", "test"); } // Da mettere in server
 
     /*
         Set possibleActions to first action default, [SELECT_WORKER]

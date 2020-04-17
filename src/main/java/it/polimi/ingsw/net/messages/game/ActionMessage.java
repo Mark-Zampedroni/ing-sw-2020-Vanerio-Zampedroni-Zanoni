@@ -1,11 +1,10 @@
-package it.polimi.ingsw.net.messages;
+package it.polimi.ingsw.net.messages.game;
 
 import it.polimi.ingsw.enumerations.Action;
 import it.polimi.ingsw.enumerations.MessageType;
 import it.polimi.ingsw.model.map.Position;
 import it.polimi.ingsw.model.player.Worker;
-
-// TEST
+import it.polimi.ingsw.net.messages.Message;
 
 public class ActionMessage extends Message {
 

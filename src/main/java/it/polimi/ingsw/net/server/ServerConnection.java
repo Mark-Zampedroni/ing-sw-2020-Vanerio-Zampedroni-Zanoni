@@ -1,9 +1,9 @@
 package it.polimi.ingsw.net.server;
 
 import it.polimi.ingsw.enumerations.MessageType;
-import it.polimi.ingsw.net.messages.ActionMessage;
+import it.polimi.ingsw.net.messages.game.ActionMessage;
 import it.polimi.ingsw.net.messages.Message;
-import it.polimi.ingsw.net.messages.RegistrationMessage;
+import it.polimi.ingsw.net.messages.lobby.RegistrationMessage;
 import it.polimi.ingsw.observer.observable.Observable;
 
 import java.io.IOException;
@@ -14,6 +14,7 @@ import java.net.Socket;
 public class ServerConnection extends Observable<ActionMessage> implements Runnable {
 
     private boolean open;
+    private boolean registered;
 
     private final Server server;
     private final Socket socket;
@@ -71,35 +72,34 @@ public class ServerConnection extends Observable<ActionMessage> implements Runna
         }
     }
 
-    public boolean isOpen()  {
-        return open;
-    }
-
     @Override
     public void run() {
-        while(!Thread.currentThread().isInterrupted()) {
+        while (!Thread.currentThread().isInterrupted()) {
             try {
                 synchronized (readLock) {
                     Message msg = (Message) input.readObject();
-                    if(msg != null) {
-                        if(msg.getType() == MessageType.REGISTRATION) {
-                            server.registerConnection(this, msg.getSender(), ((RegistrationMessage) msg).getColor());
-                            System.out.println("Stampato da Connection, gestito su Server: \n"+msg+"\n"); // TEST
+                    if (msg != null) {
+                        if (!registered) {
+                            if (msg.getType() == MessageType.REGISTRATION) {
+                                server.registerConnection(this, msg.getSender(), ((RegistrationMessage) msg).getColor());
+                            }
                         }
-                        else if(msg.getType() == MessageType.ACTION) {
+                        else {
                             notify((ActionMessage) msg); // Notify RemoteView -> SessionController -> print
-                        }
-                        else { // NO REGISTRATION AND NO ACTION WILL PRINT ON CONSOLE // TEST
-                            System.out.println("Stampato da Connection: \n"+msg+"\n"); // TEST
+                            }
                         }
                     }
-                }
-            } catch(ClassNotFoundException e) {
+            } catch(ClassNotFoundException e){
                 Server.LOG.severe(e.getMessage());
-            } catch(IOException e) {
+            } catch(IOException e){
                 Server.LOG.severe("Exception throw, connection closed");
                 disconnect();
             }
         }
     }
+
+    public void register() {
+        registered = true;
+    }
+
 }
