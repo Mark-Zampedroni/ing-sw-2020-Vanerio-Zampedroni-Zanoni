@@ -19,19 +19,30 @@ public class ModelSerialized implements Serializable {
     private Session session;
     private String fileName;
 
+    /**
+     * Constructor
+     *
+     * @param session session serialized by the ModelSerialized
+     */
     public ModelSerialized(Session session) {
         this.session=session;
     }
 
+    /**
+     * Getter for the {@link String string} filename
+     *
+     * @return the {@link String string} filename
+     */
     public String getFileName() {
         return fileName;
     }
 
-    //converte la sessione in un outputstream
-    public ObjectOutputStream sessionSerializerFileType (){
+    /**
+     * Converts a the session in a {@link File file} with a specific {@link String filename}
+     */
+    public void sessionSerializerFileType (){
 
-        //for local behaviours
-        ObjectOutputStream output=null;
+        ObjectOutputStream output;
         fileName = "serializedSession.ser";
         try {
             FileOutputStream file = new FileOutputStream(fileName);
@@ -45,12 +56,15 @@ public class ModelSerialized implements Serializable {
         catch(IOException ex) {
             System.out.println("IOException is caught");
         }
-        return output;
     }
 
-    //sessione in versione stringa, unico con doppia versione
+    /**
+     * Converts the session in a serialized object contained in a {@link String string}
+     *
+     * @return the {@link String string} containing the session
+     */
     public String sessionSerializerStringType() {
-        String string="";
+        String string;
         try {
             ByteArrayOutputStream bytesStream = new ByteArrayOutputStream();
             ObjectOutputStream output = new ObjectOutputStream(bytesStream);
@@ -64,9 +78,14 @@ public class ModelSerialized implements Serializable {
         }
     }
 
+    /**
+     * Converts the board in a serialized object contained in a {@link String string}
+     *
+     * @return the {@link String string} containing the board
+     */
     public String boardSerialized () {
         Board board= Session.getInstance().getBoard();
-        String string="";
+        String string;
 
         try {
             ByteArrayOutputStream bytesStream = new ByteArrayOutputStream();
@@ -81,12 +100,17 @@ public class ModelSerialized implements Serializable {
         }
     }
 
-    //dei worker serializzati non conosco i master
+    /**
+     * Converts a {@link List list} containing the workers in a serialized object contained in a {@link String string}
+     *
+     * @param playerIndex index of the player that has the workers
+     * @return the {@link String string} containing the {@link List list}
+     */
     public String workersSerialized(int playerIndex) {
         ArrayList<Worker> workerArrayList = Session.getInstance().getPlayers().get(playerIndex).getWorkers();
-        String string="";
+        String string;
 
-        try {
+        try{
             ByteArrayOutputStream bytesStream = new ByteArrayOutputStream();
             ObjectOutputStream output = new ObjectOutputStream(bytesStream);
             output.writeObject(workerArrayList);
