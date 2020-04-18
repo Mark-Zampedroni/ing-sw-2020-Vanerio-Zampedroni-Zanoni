@@ -64,18 +64,7 @@ public class ModelSerialized implements Serializable {
      * @return the {@link String string} containing the session
      */
     public String sessionSerializerStringType() {
-        String string;
-        try {
-            ByteArrayOutputStream bytesStream = new ByteArrayOutputStream();
-            ObjectOutputStream output = new ObjectOutputStream(bytesStream);
-            output.writeObject(session);
-            output.flush();
-            string = Base64.getEncoder().encodeToString(bytesStream.toByteArray());
-            return string;
-        }
-        catch (IOException e) {
-            return "Error";
-        }
+        return createSerialization(Session.getInstance());
     }
 
     /**
@@ -85,19 +74,7 @@ public class ModelSerialized implements Serializable {
      */
     public String boardSerialized () {
         Board board= Session.getInstance().getBoard();
-        String string;
-
-        try {
-            ByteArrayOutputStream bytesStream = new ByteArrayOutputStream();
-            ObjectOutputStream output = new ObjectOutputStream(bytesStream);
-            output.writeObject(board);
-            output.flush();
-            string = Base64.getEncoder().encodeToString(bytesStream.toByteArray());
-            return string;
-        }
-        catch (IOException e) {
-            return "Error";
-        }
+        return createSerialization(board);
     }
 
     /**
@@ -108,19 +85,20 @@ public class ModelSerialized implements Serializable {
      */
     public String workersSerialized(int playerIndex) {
         ArrayList<Worker> workerArrayList = Session.getInstance().getPlayers().get(playerIndex).getWorkers();
-        String string;
+        return createSerialization(workerArrayList);
+    }
 
+    private String createSerialization(Object object) {
         try{
             ByteArrayOutputStream bytesStream = new ByteArrayOutputStream();
             ObjectOutputStream output = new ObjectOutputStream(bytesStream);
-            output.writeObject(workerArrayList);
+            output.writeObject(object);
             output.flush();
-            string = Base64.getEncoder().encodeToString(bytesStream.toByteArray());
-            return string;
+            return Base64.getEncoder().encodeToString(bytesStream.toByteArray());
+
         }
         catch (IOException e) {
             return "Error";
         }
     }
-
 }

@@ -36,10 +36,8 @@ public class ModelSerializedTest {
     GodRules rules1;
     GodRules rules2;
 
-
     @BeforeEach
     void setUp(){
-        Session.getInstance().setStarted(true);
     }
 
     @AfterEach
@@ -47,15 +45,16 @@ public class ModelSerializedTest {
         Session.getInstance().getBoard().clear();
         Setupper.removePlayer(player1);
         Setupper.removePlayer(player2);
+        player1=null;
+        player2=null;
         rules1=null;
         rules2=null;
     }
 
     @Test
     public void sessionSerializedTest() {
-        ModelSerialized modelSerialized= new ModelSerialized(Session.getInstance());
-        Session.getInstance().setStarted(true);
 
+        Session.getInstance().setStarted(true);
         player1= new Player("Gianni", Colors.BLUE);
         player1.addWorker(new Position(2,3));
         player1.addWorker(new Position(3,3));
@@ -77,6 +76,7 @@ public class ModelSerializedTest {
         player1.getRules().executeBuild(new Position(1,2));
         Session.getInstance().getBoard().getTile(new Position(3,2)).increaseHeight();
         ((HestiaRules)player1.getRules()).setEvent(true);
+        ModelSerialized modelSerialized= new ModelSerialized(Session.getInstance());
         modelSerialized.sessionSerializerFileType();
 
         Session serializedSession=null;
@@ -120,9 +120,8 @@ public class ModelSerializedTest {
 
     @Test
     public void sessionSerializedTestString() {
-        ModelSerialized modelSerialized= new ModelSerialized(Session.getInstance());
-        Session.getInstance().setStarted(true);
 
+        Session.getInstance().setStarted(true);
         player1= new Player("Gianni", Colors.BLUE);
         player1.addWorker(new Position(2,3));
         player1.addWorker(new Position(3,3));
@@ -144,7 +143,7 @@ public class ModelSerializedTest {
         player1.getRules().executeBuild(new Position(1,2));
         Session.getInstance().getBoard().getTile(new Position(3,2)).increaseHeight();
         ((HestiaRules)player1.getRules()).setEvent(true);
-
+        ModelSerialized modelSerialized= new ModelSerialized(Session.getInstance());
         String message= modelSerialized.sessionSerializerStringType();
         Session serializedSession=null;
         try
