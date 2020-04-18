@@ -57,15 +57,22 @@ public class Server extends Thread {
     /*
         Quando arriva una richiesta di connessione l'apre e l'aggiunge alle connessioni non registrate
      */
-    public void run() {
+    public void run() { // BLOCCA SE NON IN LOBBY
         while (!Thread.currentThread().isInterrupted()) {
             try {
                 LOG.info("Waiting for request ...\n"); // TEST
                 Socket client = serverSocket.accept();
-                LOG.info("Socket created\n"); // TEST
                 ServerConnection c = new ServerConnection(this, client);
-                sendLobbyUpdate(c);
-                pendingConnections.add(c);
+                if(sessionController.isStarted()) {
+                    c.sendMessage(new Message(MessageType.DISCONNECT, "SERVER", "The game has already started, you can't connect"));
+                    c.disconnect();
+                    LOG.info("Received connection request, but the game has already started\n");
+                }
+                else {
+                    pendingConnections.add(c);
+                    sessionController.sendLobbyUpdate(pendingConnections);
+                    LOG.info("Created new connection\n");
+                }
             } catch (IOException e) {
                 Server.LOG.warning(e.getMessage());
             }
@@ -89,7 +96,7 @@ public class Server extends Thread {
                     LOG.info(user + " removed from lobby\n");
                 }
                 sessionController.removePlayer(user);
-                broadcastLobbyUpdate();
+                sessionController.sendLobbyUpdate(pendingConnections);
             }
         }
         // Gestione disconnessione giocatore
@@ -108,7 +115,7 @@ public class Server extends Thread {
                 LOG.info("A player tried to register with the already in use color "+color+"\n");
             }
             else if(sessionController.isStarted()) {
-                connection.sendMessage(new FlagMessage(MessageType.REGISTRATION,"SERVER", "A game has already started",false));
+                connection.sendMessage(new Message(MessageType.DISCONNECT,"SERVER", "A game has already started"));
                 LOG.info(user + " tried to register, but the game has already started\n");
                 connection.disconnect();
             }
@@ -119,32 +126,8 @@ public class Server extends Thread {
             else {
                 confirmConnection(user, color, connection);
                 connection.sendMessage(new FlagMessage(MessageType.REGISTRATION,"SERVER", user,true));
-                broadcastLobbyUpdate();
+                sessionController.sendLobbyUpdate(pendingConnections);
             }
-        }
-    }
-
-    private void sendLobbyUpdate(ServerConnection connection) {
-        connection.sendMessage(new LobbyUpdate( "SERVER", "Update",
-                               sessionController.getFreeColors(), sessionController.getPlayers()));
-    }
-
-    private void broadcastLobbyUpdate() {
-        System.out.println(sessionController.getPlayers());
-        broadcastMessage(new LobbyUpdate("SERVER", "Update",
-                         sessionController.getFreeColors(), sessionController.getPlayers()));
-    }
-
-    public void broadcastMessage(Message message) {
-        if(sessionController.getState() == GameState.LOBBY) {
-            for (ServerConnection c : pendingConnections) {
-                c.sendMessage(message);
-                System.out.println("Broadcast to pending!"); // TEST
-            }
-        }
-        for(String c : connections.keySet()) {
-            connections.get(c).sendMessage(message);
-            System.out.println("Broadcast to registered!"); // TEST
         }
     }
 

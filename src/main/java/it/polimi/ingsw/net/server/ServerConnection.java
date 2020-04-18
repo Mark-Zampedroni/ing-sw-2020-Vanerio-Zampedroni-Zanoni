@@ -11,7 +11,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 
-public class ServerConnection extends Observable<ActionMessage> implements Runnable {
+public class ServerConnection extends Observable<Message> implements Runnable {
 
     private boolean open;
     private boolean registered;
@@ -85,7 +85,7 @@ public class ServerConnection extends Observable<ActionMessage> implements Runna
                             }
                         }
                         else {
-                            notify((ActionMessage) msg); // Notify RemoteView -> SessionController -> print
+                            notify(msg); // Notify RemoteView -> SessionController -> print
                             }
                         }
                     }

@@ -1,5 +1,6 @@
 package it.polimi.ingsw.view;
 
+import it.polimi.ingsw.enumerations.GameState;
 import it.polimi.ingsw.net.messages.lobby.LobbyUpdate;
 
 public interface View {
@@ -11,6 +12,7 @@ public interface View {
     void requestAction();
     void denyLogin();
     void requestReady();
-    void requestUnready();
+    void switchState(GameState state); // Enum con varie finestre ? No bello se passa state
+    //void requestUnready();
 
 }

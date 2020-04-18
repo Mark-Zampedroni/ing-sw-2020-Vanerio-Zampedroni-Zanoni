@@ -3,6 +3,7 @@ package it.polimi.ingsw.net.client;
 import it.polimi.ingsw.enumerations.Colors;
 import it.polimi.ingsw.enumerations.GameState;
 import it.polimi.ingsw.net.messages.FlagMessage;
+import it.polimi.ingsw.net.messages.StateUpdateMessage;
 import it.polimi.ingsw.net.messages.lobby.LobbyUpdate;
 import it.polimi.ingsw.net.messages.Message;
 import it.polimi.ingsw.observer.observable.Observer;
@@ -73,7 +74,10 @@ public class Client extends Thread implements Observer<Message> {
     }
 
     public void update(Message message) {
-        switch(message.getType()) {
+        switch (message.getType()) {
+            case DISCONNECT:
+                parseDisconnectMessage(message);
+                break;
             case REGISTRATION:
                 parseRegistrationReply((FlagMessage) message);
                 break;
@@ -83,14 +87,19 @@ public class Client extends Thread implements Observer<Message> {
             case ACTION: // TEST
                 parseActionReply(message);
                 break;
-            case STATE_UPDATE: // ancora niente
+            case STATE_UPDATE:
+                parseStateUpdate((StateUpdateMessage) message);
                 break;
         }
     }
 
+    private void parseDisconnectMessage(Message message) {
+        viewUpdate.add(() -> view.showMessage(message.getInfo()));
+    }
+
     // TEST, NO MESSAGE MA ACTIONMESSAGE
     private void parseActionReply(Message message) {
-        viewUpdate.add(() -> view.requestAction());
+        viewInput.add(() -> view.requestAction());
     }
 
     private void parseRegistrationReply(FlagMessage message) {
@@ -108,14 +117,21 @@ public class Client extends Thread implements Observer<Message> {
         }
     }
 
-    private void parseLobbyUpdate(LobbyUpdate message){
+    private void parseLobbyUpdate(LobbyUpdate message) {
         if(state == GameState.LOGIN || state == GameState.LOBBY) {
-            if(playerCounter == 3 && message.getPlayers().keySet().size() < playerCounter && state == GameState.LOGIN){
-                viewInput.add(() -> view.requestLogin() );}
+            if(playerCounter == 3 && message.getPlayers().keySet().size() < playerCounter && state == GameState.LOGIN) {
+                viewInput.add(() -> view.requestLogin() );
+            }
             playerCounter = message.getPlayers().keySet().size();
             viewUpdate.add(() -> view.updateLobby(message));
-            }
         }
+    }
+
+
+    private void parseStateUpdate(StateUpdateMessage message) {
+        state = message.getState();
+        viewUpdate.add(() -> view.switchState(state));
+    }
 
     public void requestLogin(String username, Colors color) {
         connection.registerConnection(username,color);
@@ -123,10 +139,6 @@ public class Client extends Thread implements Observer<Message> {
 
     public void sendMessage(Message message) {
         connection.sendMessage(message);
-    }
-
-    public GameState getGameState() {
-        return state;
     }
 
 }

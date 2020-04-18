@@ -11,15 +11,15 @@ import it.polimi.ingsw.observer.observable.Observer;
 import java.util.ArrayList;
 import java.util.List;
 
-public class RemoteView extends Observable<ActionMessage> implements Observer<ModelSerialized> {
+public class RemoteView extends Observable<Message> implements Observer<ModelSerialized> {
 
     private ServerConnection connection;
     private String username;
     private List<Action> possibleActions;
 
-    private class MessageReceiver implements Observer<ActionMessage> {
+    private class MessageReceiver implements Observer<Message> {
         @Override
-        public void update(ActionMessage message) {
+        public void update(Message message) {
             handleInput(message);
         }
     }
@@ -32,17 +32,13 @@ public class RemoteView extends Observable<ActionMessage> implements Observer<Mo
     }
 
     // RICEVE INPUT DEL GIOCATORE - RICHIESTA AZIONE
-    private void handleInput(ActionMessage message) {
-        System.out.println("[ Qui viene eseguita la mossa "+message.getAction()+" ]\n"); // TEST
+    private void handleInput(Message message) {
+        System.out.println("[Arrivato messaggio da "+message.getSender()+"]"); // TEST
         notify(message); // LA GIRA AL SESSIONCONTROLLER
     }
 
-    // TEST
-    public void parseMessage(Message message) {
-        sendMessage(message);
-    }
 
-    private void sendMessage(Message message) {
+    public void sendMessage(Message message) {
         connection.sendMessage(message);
     }
 

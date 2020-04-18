@@ -5,22 +5,29 @@ import it.polimi.ingsw.enumerations.GameState;
 import it.polimi.ingsw.enumerations.MessageType;
 import it.polimi.ingsw.model.Session;
 import it.polimi.ingsw.model.player.Player;
+import it.polimi.ingsw.net.messages.FlagMessage;
+import it.polimi.ingsw.net.messages.StateUpdateMessage;
 import it.polimi.ingsw.net.messages.game.ActionMessage;
 import it.polimi.ingsw.net.messages.Message;
+import it.polimi.ingsw.net.messages.lobby.LobbyUpdate;
+import it.polimi.ingsw.net.server.ServerConnection;
 import it.polimi.ingsw.observer.observable.Observer;
 import it.polimi.ingsw.view.RemoteView;
 
 import java.util.*;
 
-public class SessionController implements Observer<ActionMessage>  {
+public class SessionController implements Observer<Message>  {
 
-    GameState state;
+    private GameState state;
+
+    private final Object viewLock = new Object();
 
     TableController table;
     Session session;
 
-    Map<String, RemoteView> views = new HashMap<>();
-    private List<Colors> freeColors = new ArrayList<>(Arrays.asList(Colors.values()));
+    private final Map<String, Boolean> flagged = new HashMap<>();
+    private final Map<String, RemoteView> views = new HashMap<>();
+    private final List<Colors> freeColors = new ArrayList<>(Arrays.asList(Colors.values()));
 
     public SessionController() {
         table = new TableController(this);
@@ -41,34 +48,94 @@ public class SessionController implements Observer<ActionMessage>  {
     public List<Colors> getFreeColors() { return freeColors; }
 
     public boolean isStarted() {
-        return session.isStarted();
+        return (state != GameState.LOBBY);
     }
 
     public void addPlayer(String username, Colors color, RemoteView view) {
-        freeColors.removeIf(c -> c == color);
-        session.addPlayer(username, color);
-        views.put(username, view);
-        view.addObserver(this);
+        synchronized (viewLock) {
+            freeColors.removeIf(c -> c == color);
+            session.addPlayer(username, color);
+            views.put(username, view);
+            flagged.put(username, false);
+            view.addObserver(this);
+        }
     }
 
     public void removePlayer(String username) {
-        freeColors.add(session.getPlayerColor(username));
-        session.removePlayer(username);
-        views.remove(username);
+        synchronized (viewLock) {
+            freeColors.add(session.getPlayerColor(username));
+            session.removePlayer(username);
+            views.remove(username);
+            flagged.remove(username);
+        }
     }
 
-    public void update(ActionMessage message) {
+    public void update(Message message) {
         System.out.println("Stampato da SessionController: \n"+message+"\n"); // TEST
-        views.get(message.getSender()).parseMessage(reply(message));
-
+        switch(message.getType()) {
+            case READY:
+                parseReadyMessage((FlagMessage) message);
+                break;
+        }
+        //views.get(message.getSender()).sendMessage(reply(message));
     }
 
     public void updateActions(String username, Message message) {
         views.get(username).updateActions(message);
     }
 
-    public Message reply(Message message) {
-        return (new Message(MessageType.ACTION,"SERVER","Action request received"));
+    public void sendAllMessage(Message message, List<ServerConnection> unregistered) {
+        sendRegisteredMessage(message);
+        synchronized (viewLock) {
+            for (ServerConnection connection : unregistered) {
+                connection.sendMessage(message);
+            }
+        }
+    }
+
+    public void sendRegisteredMessage(Message message) {
+        synchronized (viewLock) {
+            for (String player : views.keySet()) {
+                views.get(player).sendMessage(message);
+            }
+        }
+    }
+
+    public void sendLobbyUpdate(List<ServerConnection> unregistered) {
+        sendAllMessage(new LobbyUpdate("SERVER", "Update",
+                        freeColors, session.getPlayers()), unregistered);
+
+    }
+
+    public void parseReadyMessage(FlagMessage message) {
+        synchronized (viewLock) {
+            if (state == GameState.LOBBY) {
+                System.out.println("\nReady message: "+message+"\n");
+                flagged.replace(message.getSender(), message.getFlag());
+                if(views.keySet().size() > 1 && areAllReady()) {
+                    setGameState(GameState.GOD_SELECTION);
+                }
+            }
+        }
+    }
+
+    private boolean areAllReady() {
+        if(state == GameState.LOBBY) {
+            for (String p : flagged.keySet()) {
+                if(!flagged.get(p)) { return false; }
+            }
+        }
+        return true;
+    }
+
+    private void setGameState(GameState state) {
+        this.state = state;
+        System.out.println("\nNew state: "+state+"\n");
+        sendStateUpdate();
+    }
+
+    private void sendStateUpdate() {
+        sendRegisteredMessage(new StateUpdateMessage(MessageType.STATE_UPDATE,"SERVER","Nuovo stato",state));
     }
 
 

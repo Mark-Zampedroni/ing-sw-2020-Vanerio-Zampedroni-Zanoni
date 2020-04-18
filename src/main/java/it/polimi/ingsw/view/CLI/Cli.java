@@ -2,6 +2,7 @@ package it.polimi.ingsw.view.CLI;
 
 import it.polimi.ingsw.enumerations.Action;
 import it.polimi.ingsw.enumerations.Colors;
+import it.polimi.ingsw.enumerations.GameState;
 import it.polimi.ingsw.enumerations.MessageType;
 import it.polimi.ingsw.model.map.Position;
 import it.polimi.ingsw.model.player.Worker;
@@ -11,6 +12,14 @@ import it.polimi.ingsw.net.messages.game.ActionMessage;
 import it.polimi.ingsw.net.messages.lobby.LobbyUpdate;
 import it.polimi.ingsw.view.View;
 
+
+/*
+    Commento di Mark:
+
+    Bisogna trovare un modo per non dover chiamare il sendMessage del client direttamente dalla view.
+    Magari facendo una classe per la costruzione dei messaggi, perchè sono usati uguali sia da CLI che da GUI ...
+
+ */
 import java.util.*;
 
 public class Cli implements View {
@@ -80,6 +89,7 @@ public class Cli implements View {
         String content = input.nextLine();  // Read user input
         inputScreen.addLine(content);
         updateScreen();
+        // TEST
         client.sendMessage(new ActionMessage(username, content, Action.MOVE, new Position(0, 0), new Worker(new Position(0, 0))));
     }
 
@@ -89,7 +99,10 @@ public class Cli implements View {
     }
 
     public void showMessage(String text) {
-        System.out.println(text);
+        outputScreen.clear();
+        inputScreen.clear();
+        outputScreen.addLine(text+"\n");
+        updateScreen();
     }
 
     private void updateLobbyChoices(Map<String, Colors> choices) {
@@ -115,7 +128,7 @@ public class Cli implements View {
         updateScreen();
     }
 
-    public void requestReady(){
+    public void requestReady() {
         inputScreen.clear();
         inputScreen.addLine("\nType 'Ok' to ready up: ");
         updateScreen();
@@ -125,6 +138,14 @@ public class Cli implements View {
         client.sendMessage(new FlagMessage(MessageType.READY,username,content,true));
     }
 
+    public void switchState(GameState state) {
+        inputScreen.clear();
+        outputScreen.clear();
+        outputScreen.addLine("\nGame state is now: "+state+"\n");
+        updateScreen();
+    }
+
+    /*
     public void requestUnready(){
         inputScreen.clear();
         inputScreen.addLine("\nType 'Ko' to unready: ");
@@ -133,9 +154,7 @@ public class Cli implements View {
         inputScreen.addLine(content);
         updateScreen();
         client.sendMessage(new FlagMessage(MessageType.READY,username,content,false));
-
-
-    }
+    }*/
 
 
 }
