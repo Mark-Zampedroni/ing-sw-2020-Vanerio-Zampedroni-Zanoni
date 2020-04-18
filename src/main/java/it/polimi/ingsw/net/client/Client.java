@@ -99,7 +99,7 @@ public class Client extends Thread implements Observer<Message> {
                 connection.register();
                 username = message.getInfo();
                 state = GameState.LOBBY;
-                viewInput.add(() -> view.requestAction()); // TEST
+                viewInput.add(() -> view.requestReady()); // TEST
             }
             else {
                 if(playerCounter<3){viewInput.add(() -> view.requestLogin() );}

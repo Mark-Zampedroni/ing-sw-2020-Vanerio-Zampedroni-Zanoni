@@ -2,9 +2,11 @@ package it.polimi.ingsw.view.CLI;
 
 import it.polimi.ingsw.enumerations.Action;
 import it.polimi.ingsw.enumerations.Colors;
+import it.polimi.ingsw.enumerations.MessageType;
 import it.polimi.ingsw.model.map.Position;
 import it.polimi.ingsw.model.player.Worker;
 import it.polimi.ingsw.net.client.Client;
+import it.polimi.ingsw.net.messages.FlagMessage;
 import it.polimi.ingsw.net.messages.game.ActionMessage;
 import it.polimi.ingsw.net.messages.lobby.LobbyUpdate;
 import it.polimi.ingsw.view.View;
@@ -112,4 +114,28 @@ public class Cli implements View {
         outputScreen.removeLastLine();
         updateScreen();
     }
+
+    public void requestReady(){
+        inputScreen.clear();
+        inputScreen.addLine("\nType 'Ok' to ready up: ");
+        updateScreen();
+        String content = input.nextLine();  // Read user input
+        inputScreen.addLine(content);
+        updateScreen();
+        client.sendMessage(new FlagMessage(MessageType.READY,username,content,true));
+    }
+
+    public void requestUnready(){
+        inputScreen.clear();
+        inputScreen.addLine("\nType 'Ko' to unready: ");
+        updateScreen();
+        String content = input.nextLine();  // Read user input
+        inputScreen.addLine(content);
+        updateScreen();
+        client.sendMessage(new FlagMessage(MessageType.READY,username,content,false));
+
+
+    }
+
+
 }

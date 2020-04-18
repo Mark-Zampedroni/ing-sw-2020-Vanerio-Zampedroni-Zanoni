@@ -10,5 +10,7 @@ public interface View {
     void requestLogin();
     void requestAction();
     void denyLogin();
+    void requestReady();
+    void requestUnready();
 
 }
