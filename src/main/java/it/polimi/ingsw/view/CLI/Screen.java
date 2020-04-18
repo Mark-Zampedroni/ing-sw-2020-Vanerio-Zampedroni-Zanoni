@@ -15,7 +15,7 @@ public class Screen {
     public void clear() {
         synchronized(layout) {
             layout.clear();
-            layout.add("");
+            layout.add("------------------------------------------------------");
         }
     }
 

@@ -35,7 +35,7 @@ public class Cli implements View {
     }
 
     private void updateScreen() {
-        System.out.println(outputScreen.getLayout() + inputScreen.getLayout());
+        System.out.println("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n"+outputScreen.getLayout() + inputScreen.getLayout());
     }
 
     public void requestLogin() {
@@ -73,7 +73,7 @@ public class Cli implements View {
 
     public void requestAction() { // Test
         inputScreen.clear();
-        inputScreen.addLine("\nType your message: ");
+        inputScreen.addLine("You are registered!\nType your message:  ");
         updateScreen();
         String content = input.nextLine();  // Read user input
         inputScreen.addLine(content);
@@ -92,10 +92,13 @@ public class Cli implements View {
 
     private void updateLobbyChoices(Map<String, Colors> choices) {
         outputScreen.clear();
+        outputScreen.addLine("Current players:");
+        if(choices.keySet().isEmpty()) { outputScreen.addLine("No one registered yet"); }
         for(String s : choices.keySet()) {
-           outputScreen.addLine("\nCurrent players:\nName: "+s+", Color: "+choices.get(s));
+           outputScreen.addLine("Name: "+s+", Color: "+choices.get(s));
         }
-        outputScreen.addLine("\nAvailable colors: "+colors+"\n");
+        outputScreen.addLine("");
+        outputScreen.addLine("Available colors: "+colors+"\n");
         updateScreen();
     }
 
@@ -105,7 +108,7 @@ public class Cli implements View {
 
     public void denyLogin(){
         inputScreen.clear();
-        inputScreen.addLine("\nLobby is full");
+        inputScreen.addLine("Lobby is full");
         outputScreen.removeLastLine();
         updateScreen();
     }
