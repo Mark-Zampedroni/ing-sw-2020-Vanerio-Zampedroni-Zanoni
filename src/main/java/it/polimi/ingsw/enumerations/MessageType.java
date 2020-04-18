@@ -1,5 +1,5 @@
 package it.polimi.ingsw.enumerations;
 
 public enum MessageType {
-    REGISTRATION, ACTION, STATE_UPDATE, LOBBY_UPDATE
+    REGISTRATION, STATE_UPDATE, LOBBY_UPDATE, READY, ACTION
 }

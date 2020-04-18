@@ -4,9 +4,9 @@ import it.polimi.ingsw.controller.SessionController;
 import it.polimi.ingsw.enumerations.Colors;
 import it.polimi.ingsw.enumerations.GameState;
 import it.polimi.ingsw.enumerations.MessageType;
+import it.polimi.ingsw.net.messages.FlagMessage;
 import it.polimi.ingsw.net.messages.lobby.LobbyUpdate;
 import it.polimi.ingsw.net.messages.Message;
-import it.polimi.ingsw.net.messages.lobby.RegistrationReply;
 import it.polimi.ingsw.view.RemoteView;
 
 import java.io.IOException;
@@ -100,25 +100,25 @@ public class Server extends Thread {
     public void registerConnection(ServerConnection connection, String user, Colors color) {
         synchronized(connectionsLock) {
             if(connections.containsKey(user)) {
-                connection.sendMessage(new RegistrationReply("SERVER", "This username is already in use",false));
+                connection.sendMessage(new FlagMessage(MessageType.REGISTRATION,"SERVER", "This username is already in use",false));
                 LOG.info("A player tried to register with the already in use username "+user+"\n");
             }
             else if(!sessionController.getFreeColors().contains(color)) {
-                connection.sendMessage(new RegistrationReply("SERVER", "Color "+color+ " is not available",false));
+                connection.sendMessage(new FlagMessage(MessageType.REGISTRATION,"SERVER", "Color "+color+ " is not available",false));
                 LOG.info("A player tried to register with the already in use color "+color+"\n");
             }
             else if(sessionController.isStarted()) {
-                connection.sendMessage(new RegistrationReply("SERVER", "A game has already started",false));
+                connection.sendMessage(new FlagMessage(MessageType.REGISTRATION,"SERVER", "A game has already started",false));
                 LOG.info(user + " tried to register, but the game has already started\n");
                 connection.disconnect();
             }
             else if(sessionController.getPlayers().size() == 3) {
-                connection.sendMessage(new RegistrationReply("SERVER", "Lobby is full",false));
+                connection.sendMessage(new FlagMessage(MessageType.REGISTRATION,"SERVER", "Lobby is full",false));
                 LOG.info(user + " tried to register, but the lobby is full\n");
             }
             else {
                 confirmConnection(user, color, connection);
-                connection.sendMessage(new RegistrationReply("SERVER", user,true));
+                connection.sendMessage(new FlagMessage(MessageType.REGISTRATION,"SERVER", user,true));
                 broadcastLobbyUpdate();
             }
         }

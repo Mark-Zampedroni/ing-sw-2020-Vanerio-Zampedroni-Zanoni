@@ -2,12 +2,11 @@ package it.polimi.ingsw.net.client;
 
 import it.polimi.ingsw.enumerations.Colors;
 import it.polimi.ingsw.enumerations.GameState;
+import it.polimi.ingsw.net.messages.FlagMessage;
 import it.polimi.ingsw.net.messages.lobby.LobbyUpdate;
 import it.polimi.ingsw.net.messages.Message;
-import it.polimi.ingsw.net.messages.lobby.RegistrationReply;
 import it.polimi.ingsw.observer.observable.Observer;
 import it.polimi.ingsw.view.CLI.Cli;
-import it.polimi.ingsw.view.GUI.Gui;
 import it.polimi.ingsw.view.View;
 
 import java.util.concurrent.LinkedBlockingQueue;
@@ -76,7 +75,7 @@ public class Client extends Thread implements Observer<Message> {
     public void update(Message message) {
         switch(message.getType()) {
             case REGISTRATION:
-                parseRegistrationReply((RegistrationReply) message);
+                parseRegistrationReply((FlagMessage) message);
                 break;
             case LOBBY_UPDATE:
                 parseLobbyUpdate((LobbyUpdate) message);
@@ -94,9 +93,9 @@ public class Client extends Thread implements Observer<Message> {
         viewUpdate.add(() -> view.requestAction());
     }
 
-    private void parseRegistrationReply(RegistrationReply message) {
+    private void parseRegistrationReply(FlagMessage message) {
         if(state == GameState.LOGIN) {
-            if(message.isSuccess()) {
+            if(message.getFlag()) {
                 connection.register();
                 username = message.getInfo();
                 state = GameState.LOBBY;
