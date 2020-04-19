@@ -2,10 +2,7 @@ package it.polimi.ingsw.model;
 
 import it.polimi.ingsw.enumerations.Colors;
 import it.polimi.ingsw.enumerations.Gods;
-import it.polimi.ingsw.model.map.Board;
-import it.polimi.ingsw.model.map.Position;
 import it.polimi.ingsw.model.player.Player;
-import it.polimi.ingsw.model.player.Worker;
 import it.polimi.ingsw.rules.gods.Setupper;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -44,7 +41,8 @@ class SessionTest {
     @Test
     void PlayerManagement (){
         assertEquals(3,Session.getInstance().playersNumber());
-        Session.getInstance().pickChallenger();
+        Session.getInstance().getChallenger();
+        Session.getInstance().getChallenger();
         assertTrue((one.isChallenger() ^ two.isChallenger()) ^ three.isChallenger()); //xor
         ArrayList<Player> otherPlayer = Session.getInstance().getOtherPlayers(one);
         assertEquals(two.getUsername(), otherPlayer.get(0).getUsername());

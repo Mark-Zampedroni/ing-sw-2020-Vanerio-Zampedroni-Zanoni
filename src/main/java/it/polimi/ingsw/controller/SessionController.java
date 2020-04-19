@@ -7,7 +7,6 @@ import it.polimi.ingsw.model.Session;
 import it.polimi.ingsw.model.player.Player;
 import it.polimi.ingsw.net.messages.FlagMessage;
 import it.polimi.ingsw.net.messages.StateUpdateMessage;
-import it.polimi.ingsw.net.messages.game.ActionMessage;
 import it.polimi.ingsw.net.messages.Message;
 import it.polimi.ingsw.net.messages.lobby.LobbyUpdate;
 import it.polimi.ingsw.net.server.ServerConnection;
@@ -24,6 +23,7 @@ public class SessionController implements Observer<Message>  {
 
     TableController table;
     Session session;
+    String challenger;
 
     private final Map<String, Boolean> flagged = new HashMap<>();
     private final Map<String, RemoteView> views = new HashMap<>();
@@ -107,13 +107,15 @@ public class SessionController implements Observer<Message>  {
 
     }
 
-    public void parseReadyMessage(FlagMessage message) {
+    private void parseReadyMessage(FlagMessage message) {
         synchronized (viewLock) {
             if (state == GameState.LOBBY) {
                 System.out.println("\nReady message: "+message+"\n");
                 flagged.replace(message.getSender(), message.getFlag());
                 if(views.keySet().size() > 1 && areAllReady()) {
                     setGameState(GameState.GOD_SELECTION);
+                    Session.getInstance().getChallenger();
+
                 }
             }
         }

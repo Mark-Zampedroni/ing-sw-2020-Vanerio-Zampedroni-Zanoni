@@ -130,7 +130,7 @@ public class Cli implements View {
 
     public void requestReady() {
         inputScreen.clear();
-        inputScreen.addLine("\nType 'Ok' to ready up: ");
+        inputScreen.addLine("\nType anything to ready up: ");
         updateScreen();
         String content = input.nextLine();  // Read user input
         inputScreen.addLine(content);
@@ -144,17 +144,6 @@ public class Cli implements View {
         outputScreen.addLine("\nGame state is now: "+state+"\n");
         updateScreen();
     }
-
-    /*
-    public void requestUnready(){
-        inputScreen.clear();
-        inputScreen.addLine("\nType 'Ko' to unready: ");
-        updateScreen();
-        String content = input.nextLine();  // Read user input
-        inputScreen.addLine(content);
-        updateScreen();
-        client.sendMessage(new FlagMessage(MessageType.READY,username,content,false));
-    }*/
 
 
 }

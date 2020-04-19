@@ -207,9 +207,16 @@ public class Session implements Serializable {
     /**
      * Randomly chooses the challenger from the {@link Player players}
      */
-    public void pickChallenger() {
+    public String getChallenger() {
+        for (Player player : players) {
+            if(player.isChallenger()){
+                return player.getUsername();
+            }
+        }
         int challengerNumber = (new Random().nextInt(playersNumber()));
-        players.get(challengerNumber).setChallenger();
+        Player p = players.get(challengerNumber);
+        p.setChallenger();
+        return p.getUsername();
     }
 
 }
