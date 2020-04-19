@@ -26,8 +26,6 @@ public enum Gods implements Serializable {
     HESTIA("a") { public GodRules createRules() { return new HestiaRules(); } },
     HERA("a") { public GodRules createRules() { return new HeraRules(); } };
 
-    String newLine;
-    String returnLine;
     String description;
     Gods (String description){
         this.description = description;
@@ -37,13 +35,6 @@ public enum Gods implements Serializable {
         return description;
     }
 
-    public String getGodsList(){
-        for(Gods god: Arrays.asList(Gods.values())) {
-            newLine = "Name: " + god.toString()+ "description: " + god.getDescription();
-            returnLine= returnLine + newLine;
-        }
-        return returnLine;
-    }
 
     /**
      * Creates the set of {@link GodRules rules} for the selected god

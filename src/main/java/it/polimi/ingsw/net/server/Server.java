@@ -70,7 +70,7 @@ public class Server extends Thread {
                 }
                 else {
                     pendingConnections.add(c);
-                    sessionController.sendLobbyUpdate(pendingConnections);
+                    sessionController.sendLobbyUpdate(c);
                     LOG.info("Created new connection\n");
                 }
             } catch (IOException e) {

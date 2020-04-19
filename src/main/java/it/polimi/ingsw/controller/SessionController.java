@@ -2,12 +2,14 @@ package it.polimi.ingsw.controller;
 
 import it.polimi.ingsw.enumerations.Colors;
 import it.polimi.ingsw.enumerations.GameState;
+import it.polimi.ingsw.enumerations.Gods;
 import it.polimi.ingsw.enumerations.MessageType;
 import it.polimi.ingsw.model.Session;
 import it.polimi.ingsw.model.player.Player;
 import it.polimi.ingsw.net.messages.FlagMessage;
 import it.polimi.ingsw.net.messages.StateUpdateMessage;
 import it.polimi.ingsw.net.messages.Message;
+import it.polimi.ingsw.net.messages.lobby.GodUpdate;
 import it.polimi.ingsw.net.messages.lobby.LobbyUpdate;
 import it.polimi.ingsw.net.server.ServerConnection;
 import it.polimi.ingsw.observer.observable.Observer;
@@ -23,8 +25,8 @@ public class SessionController implements Observer<Message>  {
 
     TableController table;
     Session session;
-    String challenger;
-
+    String newLine;
+    String returnLine;
     private final Map<String, Boolean> flagged = new HashMap<>();
     private final Map<String, RemoteView> views = new HashMap<>();
     private final List<Colors> freeColors = new ArrayList<>(Arrays.asList(Colors.values()));
@@ -115,7 +117,15 @@ public class SessionController implements Observer<Message>  {
                 if(views.keySet().size() > 1 && areAllReady()) {
                     setGameState(GameState.GOD_SELECTION);
                     Session.getInstance().getChallenger();
-
+                    String x= "";
+                    for (String player : views.keySet()) {
+                        if(Session.getInstance().getChallenger().equals(player)){
+                            views.get(player).sendMessage(new GodUpdate(MessageType.GOD_UPDATE, "SERVER", "Available Gods: \n" + getGodsList()));
+                        }
+                        else{
+                            views.get(player).sendMessage(new Message(MessageType.GOD_UPDATE, "SERVER", "a"));
+                        }
+                    }
                 }
             }
         }
@@ -140,6 +150,17 @@ public class SessionController implements Observer<Message>  {
         sendRegisteredMessage(new StateUpdateMessage(MessageType.STATE_UPDATE,"SERVER","Nuovo stato",state));
     }
 
+    public String getGodsList(){
+        for(Gods god: Arrays.asList(Gods.values())) {
+            newLine = "Name: " + god.toString()+ "\tdescription: " + god.getDescription()+ "\n";
+            returnLine= returnLine + newLine;
+        }
+        return returnLine;
+    }
+
+    public void sendLobbyUpdate(ServerConnection unregistered) {
+        unregistered.sendMessage(new LobbyUpdate("SERVER", "Update", freeColors, session.getPlayers()));
+    }
 
     /*
     public void removePlayer(String username) {
@@ -147,5 +168,6 @@ public class SessionController implements Observer<Message>  {
     }*/
 
     // GESTIONE MESSAGGI
+
 
 }
