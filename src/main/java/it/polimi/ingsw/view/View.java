@@ -12,6 +12,7 @@ public interface View {
     void requestAction();
     void denyLogin();
     void requestReady();
+    void godSelection();
     void switchState(GameState state); // Enum con varie finestre ? No bello se passa state
     //void requestUnready();
 

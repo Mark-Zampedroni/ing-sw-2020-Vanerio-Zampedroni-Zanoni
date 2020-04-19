@@ -146,4 +146,7 @@ public class Cli implements View {
     }
 
 
+    public void godSelection(){
+
+    }
 }

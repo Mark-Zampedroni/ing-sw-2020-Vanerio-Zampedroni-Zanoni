@@ -116,14 +116,13 @@ public class SessionController implements Observer<Message>  {
                 flagged.replace(message.getSender(), message.getFlag());
                 if(views.keySet().size() > 1 && areAllReady()) {
                     setGameState(GameState.GOD_SELECTION);
-                    Session.getInstance().getChallenger();
                     String x= "";
                     for (String player : views.keySet()) {
                         if(Session.getInstance().getChallenger().equals(player)){
-                            views.get(player).sendMessage(new GodUpdate(MessageType.GOD_UPDATE, "SERVER", "Available Gods: \n" + getGodsList()));
+                            views.get(player).sendMessage(new GodUpdate(MessageType.GOD_UPDATE, "SERVER", "Available Gods: \n" + getGodsList() + "\nYou are the challenger\n",true, null));
                         }
                         else{
-                            views.get(player).sendMessage(new Message(MessageType.GOD_UPDATE, "SERVER", "a"));
+                            views.get(player).sendMessage(new FlagMessage(MessageType.GOD_UPDATE, "SERVER", "Available Gods: \n" + getGodsList() + "\nThe challenger is " + Session.getInstance().getChallenger(), false));
                         }
                     }
                 }
@@ -150,10 +149,10 @@ public class SessionController implements Observer<Message>  {
         sendRegisteredMessage(new StateUpdateMessage(MessageType.STATE_UPDATE,"SERVER","Nuovo stato",state));
     }
 
-    public String getGodsList(){
+    private String getGodsList(){
         for(Gods god: Arrays.asList(Gods.values())) {
             newLine = "Name: " + god.toString()+ "\tdescription: " + god.getDescription()+ "\n";
-            returnLine= returnLine + newLine;
+            returnLine = returnLine + newLine;
         }
         return returnLine;
     }

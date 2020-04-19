@@ -2,8 +2,10 @@ package it.polimi.ingsw.net.client;
 
 import it.polimi.ingsw.enumerations.Colors;
 import it.polimi.ingsw.enumerations.GameState;
+import it.polimi.ingsw.enumerations.Gods;
 import it.polimi.ingsw.net.messages.FlagMessage;
 import it.polimi.ingsw.net.messages.StateUpdateMessage;
+import it.polimi.ingsw.net.messages.lobby.GodUpdate;
 import it.polimi.ingsw.net.messages.lobby.LobbyUpdate;
 import it.polimi.ingsw.net.messages.Message;
 import it.polimi.ingsw.observer.observable.Observer;
@@ -90,6 +92,9 @@ public class Client extends Thread implements Observer<Message> {
             case STATE_UPDATE:
                 parseStateUpdate((StateUpdateMessage) message);
                 break;
+            case GOD_UPDATE:
+                parseGodUpdate((GodUpdate) message);
+                break;
         }
     }
 
@@ -124,6 +129,17 @@ public class Client extends Thread implements Observer<Message> {
             }
             playerCounter = message.getPlayers().keySet().size();
             viewUpdate.add(() -> view.updateLobby(message));
+        }
+    }
+
+    private void parseGodUpdate(GodUpdate message){
+        if(state == GameState.GOD_SELECTION){
+            if(message.getFlag()){
+                viewInput.add(() -> view.godSelection());
+            }
+            else{
+                viewUpdate.add(() -> view.showMessage(message.getInfo()));
+            }
         }
     }
 
