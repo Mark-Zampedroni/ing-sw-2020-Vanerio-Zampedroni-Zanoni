@@ -53,7 +53,6 @@ public class SessionController implements Observer<Message>  {
 
     // Cambia stato
     public void switchState(GameState state) {
-        if(this.state != null) { synchronized(viewLock) { sendStateUpdate(); } }
         this.state = state;
         switch(state) {
             case LOBBY:
@@ -66,6 +65,7 @@ public class SessionController implements Observer<Message>  {
                 System.out.println("This state is not yet implemented or the Server doesn't use it");
                 // Altri stati
         }
+        synchronized(viewLock) { sendStateUpdate(); }
         System.out.println("\nNew state: "+state+"\n"); // TEST
     }
 

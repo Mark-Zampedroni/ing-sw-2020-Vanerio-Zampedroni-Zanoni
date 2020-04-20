@@ -132,14 +132,13 @@ public class Client extends Thread implements Observer<Message> {
         }
     }
 
-    /*IL PROBLEMA E' QUA  PRIMO IF*/
     private void parseGodUpdate(GodUpdate message) {
-        //if (state == GameState.GOD_SELECTION) {
+        if (state == GameState.GOD_SELECTION) {
             viewUpdate.add(() -> view.displayGods(message));
             if (message.getInfo().equals(username)) {
                 viewInput.add(() -> view.godSelection(message.getGods()));
             }
-        //}
+        }
     }
 
 
