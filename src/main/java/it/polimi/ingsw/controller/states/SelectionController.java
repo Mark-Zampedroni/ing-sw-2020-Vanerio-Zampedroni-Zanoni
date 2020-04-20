@@ -18,12 +18,11 @@ import java.util.Map;
 public class SelectionController extends StateController {
 
 
-    private Map<String, ArrayList<String>> GodMap= new HashMap<>();;
+    private Map<String, ArrayList<String>> GodMap= new HashMap<>();
 
     public SelectionController(SessionController controller, Map<String,RemoteView> views) {
         super(controller, views);
         startGodMap();
-        sendUpdate();
     }
 
     @Override
@@ -60,7 +59,7 @@ public class SelectionController extends StateController {
 
     private void startGodMap(){
         ArrayList<String> list = new ArrayList<>();
-        for(Gods god: Arrays.asList(Gods.values())) {
+        for(Gods god : Gods.values()) {
             GodMap.put(god.toString(),god.getDescription());
         }
         GodMap.put("chosen",list);

@@ -58,7 +58,11 @@ public class SessionController implements Observer<Message>  {
                 System.out.println("This state is not yet implemented or the Server doesn't use it");
                 // Altri stati
         }
-        synchronized(viewLock) { sendStateUpdate(); }
+        synchronized(viewLock) {
+            sendStateUpdate();
+            if(this.state != GameState.LOBBY) stateController.sendUpdate();
+        }
+
         System.out.println("\nNew state: "+state+"\n"); // TEST
     }
 
