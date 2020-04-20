@@ -42,13 +42,6 @@ public class SessionController implements Observer<Message>  {
 
     public GameState getState() { return state; }
 
-    public List<Colors> getFreeColors() {
-        return Arrays.asList(Colors.values())
-                .stream()
-                .filter(c -> !(session.getPlayers().stream().map(Player::getColor).collect(Collectors.toList())).contains(c))
-                .collect(Collectors.toList());
-    }
-
     public boolean isGameStarted() { return (state != GameState.LOBBY); }
 
     // Cambia stato
@@ -94,6 +87,10 @@ public class SessionController implements Observer<Message>  {
             session.removePlayer(username);
             views.remove(username);
         }
+    }
+
+    public List<Colors> getFreeColors() {
+        return stateController.getFreeColors();
     }
 
     // Notifica da parte di una view che è arrivato un messaggio, come viene gestito cambia in base allo stato (parseMessage)
