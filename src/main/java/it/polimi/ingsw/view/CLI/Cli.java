@@ -4,11 +4,10 @@ import it.polimi.ingsw.enumerations.Action;
 import it.polimi.ingsw.enumerations.Colors;
 import it.polimi.ingsw.enumerations.GameState;
 import it.polimi.ingsw.enumerations.MessageType;
-import it.polimi.ingsw.model.Session;
 import it.polimi.ingsw.model.map.Position;
 import it.polimi.ingsw.model.player.Worker;
 import it.polimi.ingsw.net.client.Client;
-import it.polimi.ingsw.net.messages.FlagMessage;
+import it.polimi.ingsw.net.messages.Message;
 import it.polimi.ingsw.net.messages.game.ActionMessage;
 import it.polimi.ingsw.net.messages.lobby.GodUpdate;
 import it.polimi.ingsw.net.messages.lobby.LobbyUpdate;
@@ -137,7 +136,7 @@ public class Cli implements View {
         String content = input.nextLine();  // Read user input
         inputScreen.addLine(content);
         updateScreen();
-        client.sendMessage(new FlagMessage(MessageType.READY,username,content,true));
+        client.sendMessage(new Message(MessageType.READY,username,content));
     }
 
     public void switchState(GameState state) {
@@ -152,8 +151,7 @@ public class Cli implements View {
         outputScreen.clear();
         outputScreen.addLine("\nAvailable Gods:\n");
         for(String text: message.getGods().keySet()){
-            if(!text.equals("chosen"))
-            {
+            if(!text.equals("chosen")) {
                 outputScreen.addLine(text + "\t " + message.getGods().get(text).toString());
             }
         }
@@ -162,6 +160,7 @@ public class Cli implements View {
             outputScreen.addLine(already);
         }
         outputScreen.addLine("\nThe challenger is: " + message.getInfo());
+        outputScreen.addLine("");
         updateScreen();
     }
 

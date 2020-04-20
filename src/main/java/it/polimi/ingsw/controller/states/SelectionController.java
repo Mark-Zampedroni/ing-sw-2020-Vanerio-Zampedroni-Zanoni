@@ -1,6 +1,7 @@
 package it.polimi.ingsw.controller.states;
 
 import it.polimi.ingsw.controller.SessionController;
+import it.polimi.ingsw.enumerations.GameState;
 import it.polimi.ingsw.enumerations.Gods;
 import it.polimi.ingsw.enumerations.MessageType;
 import it.polimi.ingsw.model.Session;
@@ -23,19 +24,37 @@ public class SelectionController extends StateController {
 
     @Override
     public void parseMessage(Message message) {
-        System.out.println("SELECTION CONTROLLER: "+message);
+        switch(message.getType()) {
+            case GOD_UPDATE:
+                parseGodMessage((GodUpdate) message);
+                break;
+            default:
+                System.out.println("[Warning] Wrong message type");
+        }
     }
 
     @Override
     public void sendUpdate() {
-        for (String player : views.keySet()) {
-            if (Session.getInstance().getChallenger().equals(player)) {
-               // views.get(player).sendMessage(new GodUpdate(MessageType.GOD_UPDATE, "SERVER", "Available Gods: \n" + getGodsList() + "\nYou are the challenger\n", true, null));
-            } else {
-                views.get(player).sendMessage(new FlagMessage(MessageType.GOD_UPDATE, "SERVER", "Available Gods: \n" + getGodsList() + "\nThe challenger is " + Session.getInstance().getChallenger(), false));
+        sendBroadcastMessage(new GodUpdate("SERVER", Session.getInstance().getChallenger(),getGodsList()));
+    }
+
+    private void parseGodMessage (GodUpdate message){
+        if(message.getSender().equals(Session.getInstance().getChallenger())) {
+            if (message.getGods().get("chosen").size() < Session.getInstance().getPlayers().size() - 1) {
+                message.getGods().keySet().removeIf(text -> text.equals(message.getInfo()));
+                message.getGods().get("chosen").add(message.getInfo());
+                sendBroadcastMessage(new GodUpdate("SERVER", Session.getInstance().getChallenger(), message.getGods()));
+            }
+            else{
+                System.out.println("\nChosen Gods:\n");
+                for(String already: message.getGods().get("chosen")){
+                    System.out.println(already + "\t" );
+                }
+                controller.switchState(GameState.GOD_ASSIGNMENT);
             }
         }
     }
+
 
     private Map<String, ArrayList<String>> getGodsList(){
         Map<String, ArrayList<String>> GodMap = new HashMap<>();
