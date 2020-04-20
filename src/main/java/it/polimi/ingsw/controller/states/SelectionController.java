@@ -17,8 +17,12 @@ import java.util.Map;
 
 public class SelectionController extends StateController {
 
+
+    private Map<String, ArrayList<String>> GodMap= new HashMap<>();;
+
     public SelectionController(SessionController controller, Map<String,RemoteView> views) {
         super(controller, views);
+        startGodMap();
         sendUpdate();
     }
 
@@ -35,35 +39,41 @@ public class SelectionController extends StateController {
 
     @Override
     public void sendUpdate() {
-        sendBroadcastMessage(new GodUpdate("SERVER", Session.getInstance().getChallenger(),getGodsList()));
+        sendBroadcastMessage(new GodUpdate("SERVER", Session.getInstance().getChallenger(),GodMap));
     }
 
     private void parseGodMessage (GodUpdate message){
         if(message.getSender().equals(Session.getInstance().getChallenger())) {
-            if (message.getGods().get("chosen").size() < Session.getInstance().getPlayers().size() - 1) {
-                message.getGods().keySet().removeIf(text -> text.equals(message.getInfo()));
-                message.getGods().get("chosen").add(message.getInfo());
-                sendBroadcastMessage(new GodUpdate("SERVER", Session.getInstance().getChallenger(), message.getGods()));
-            }
-            else{
-                System.out.println("\nChosen Gods:\n");
-                for(String already: message.getGods().get("chosen")){
-                    System.out.println(already + "\t" );
+            if (okGod(GodMap,message.getInfo())){
+                if (GodMap.get("chosen").size() < Session.getInstance().getPlayers().size()) {
+                    GodMap.keySet().removeIf(text -> text.equals(message.getInfo()));
+                    GodMap.get("chosen").add(message.getInfo());
+                    sendUpdate();
+                } else {
+                    controller.switchState(GameState.GOD_ASSIGNMENT);
                 }
-                controller.switchState(GameState.GOD_ASSIGNMENT);
             }
+            else {sendUpdate();}
         }
     }
 
 
-    private Map<String, ArrayList<String>> getGodsList(){
-        Map<String, ArrayList<String>> GodMap = new HashMap<>();
+    private void startGodMap(){
         ArrayList<String> list = new ArrayList<>();
         for(Gods god: Arrays.asList(Gods.values())) {
             GodMap.put(god.toString(),god.getDescription());
         }
         GodMap.put("chosen",list);
-        return GodMap;
+    }
+
+    private boolean okGod(Map<String, ArrayList<String>> gods, String playerChoice){
+        for(String text: gods.keySet()){
+            if(!text.equals("chosen") && playerChoice.equals(text)){return true;}
+        }
+        for(String already: gods.get("chosen")){
+            if(already.equals(playerChoice)){return false;}
+        }
+        return false;
     }
 
 

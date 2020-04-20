@@ -168,8 +168,8 @@ public class Cli implements View {
         String c;
         inputScreen.clear();
         inputScreen.addLine("\nChoose a god: ");
+        updateScreen();
         do {
-            updateScreen();
             c = input.nextLine().toUpperCase();
             inputScreen.removeLastLine();
             inputScreen.addLine("This god can't be selected, choose a different one: ");
