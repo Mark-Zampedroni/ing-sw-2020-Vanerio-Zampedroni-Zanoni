@@ -4,11 +4,13 @@ import it.polimi.ingsw.enumerations.Action;
 import it.polimi.ingsw.enumerations.Colors;
 import it.polimi.ingsw.enumerations.GameState;
 import it.polimi.ingsw.enumerations.MessageType;
+import it.polimi.ingsw.model.Session;
 import it.polimi.ingsw.model.map.Position;
 import it.polimi.ingsw.model.player.Worker;
 import it.polimi.ingsw.net.client.Client;
 import it.polimi.ingsw.net.messages.FlagMessage;
 import it.polimi.ingsw.net.messages.game.ActionMessage;
+import it.polimi.ingsw.net.messages.lobby.GodUpdate;
 import it.polimi.ingsw.net.messages.lobby.LobbyUpdate;
 import it.polimi.ingsw.view.View;
 
@@ -146,7 +148,45 @@ public class Cli implements View {
     }
 
 
-    public void godSelection(){
+    public void displayGods(GodUpdate message){
+        outputScreen.clear();
+        outputScreen.addLine("\nAvailable Gods:\n");
+        for(String text: message.getGods().keySet()){
+            if(!text.equals("chosen"))
+            {
+                outputScreen.addLine(text + "\t " + message.getGods().get(text).toString());
+            }
+        }
+        outputScreen.addLine("\nChosen Gods:\n");
+        for(String already: message.getGods().get("chosen")){
+            outputScreen.addLine(already);
+        }
+        outputScreen.addLine("\nThe challenger is: " + message.getInfo());
+        updateScreen();
+    }
 
+    public void godSelection(Map<String, ArrayList<String>> gods){
+        String c;
+        inputScreen.clear();
+        inputScreen.addLine("\nChoose a god: ");
+        do {
+            updateScreen();
+            c = input.nextLine().toUpperCase();
+            inputScreen.removeLastLine();
+            inputScreen.addLine("This god can't be selected, choose a different one: ");
+        } while(!okGod(gods, c));
+        inputScreen.removeLastLine();
+        updateScreen();
+        client.sendMessage(new GodUpdate(username, c, gods));
+    }
+
+    private boolean okGod(Map<String, ArrayList<String>> gods, String playerChoice){
+        for(String text: gods.keySet()){
+            if(!text.equals("chosen") && playerChoice.equals(text)){return true;}
+        }
+        for(String already: gods.get("chosen")){
+            if(already.equals(playerChoice)){return false;}
+        }
+        return false;
     }
 }

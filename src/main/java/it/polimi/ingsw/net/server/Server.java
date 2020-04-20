@@ -5,8 +5,8 @@ import it.polimi.ingsw.enumerations.Colors;
 import it.polimi.ingsw.enumerations.GameState;
 import it.polimi.ingsw.enumerations.MessageType;
 import it.polimi.ingsw.net.messages.FlagMessage;
-import it.polimi.ingsw.net.messages.lobby.LobbyUpdate;
 import it.polimi.ingsw.net.messages.Message;
+import it.polimi.ingsw.net.messages.lobby.LobbyUpdate;
 import it.polimi.ingsw.view.RemoteView;
 
 import java.io.IOException;
@@ -23,7 +23,7 @@ public class Server extends Thread {
 
     private ServerSocket serverSocket;
     private Map<String, ServerConnection> connections;
-    private List<ServerConnection> pendingConnections;
+    private final List<ServerConnection> pendingConnections;
 
     private final Object connectionsLock = new Object();
 
@@ -35,13 +35,13 @@ public class Server extends Thread {
         connections = new HashMap<>();
         pendingConnections = new ArrayList<>();
         startLogging();
-        sessionController = new SessionController(); // Controller
+        sessionController = new SessionController(pendingConnections); // Controller
         try {
             serverSocket = new ServerSocket(port);
         } catch(IOException e) {
             LOG.severe(e.getMessage());
         }
-        this.start(); // Starts thread
+        this.start();
     }
 
     private void startLogging() {
@@ -60,17 +60,16 @@ public class Server extends Thread {
     public void run() { // BLOCCA SE NON IN LOBBY
         while (!Thread.currentThread().isInterrupted()) {
             try {
-                LOG.info("Waiting for request ...\n"); // TEST
                 Socket client = serverSocket.accept();
                 ServerConnection c = new ServerConnection(this, client);
-                if(sessionController.isStarted()) {
+                if(sessionController.isGameStarted()) {
                     c.sendMessage(new Message(MessageType.DISCONNECT, "SERVER", "The game has already started, you can't connect"));
                     c.disconnect();
                     LOG.info("Received connection request, but the game has already started\n");
                 }
                 else {
                     pendingConnections.add(c);
-                    sessionController.sendLobbyUpdate(c);
+                    c.sendMessage(new LobbyUpdate("SERVER", "Update", sessionController.getFreeColors(), sessionController.getPlayers()));
                     LOG.info("Created new connection\n");
                 }
             } catch (IOException e) {
@@ -96,7 +95,7 @@ public class Server extends Thread {
                     LOG.info(user + " removed from lobby\n");
                 }
                 sessionController.removePlayer(user);
-                sessionController.sendLobbyUpdate(pendingConnections);
+                sessionController.sendUpdate();
             }
         }
         // Gestione disconnessione giocatore
@@ -114,7 +113,7 @@ public class Server extends Thread {
                 connection.sendMessage(new FlagMessage(MessageType.REGISTRATION,"SERVER", "Color "+color+ " is not available",false));
                 LOG.info("A player tried to register with the already in use color "+color+"\n");
             }
-            else if(sessionController.isStarted()) {
+            else if(sessionController.isGameStarted()) {
                 connection.sendMessage(new Message(MessageType.DISCONNECT,"SERVER", "A game has already started"));
                 LOG.info(user + " tried to register, but the game has already started\n");
                 connection.disconnect();
@@ -126,16 +125,18 @@ public class Server extends Thread {
             else {
                 confirmConnection(user, color, connection);
                 connection.sendMessage(new FlagMessage(MessageType.REGISTRATION,"SERVER", user,true));
-                sessionController.sendLobbyUpdate(pendingConnections);
+                sessionController.sendUpdate();
             }
         }
     }
 
     private void confirmConnection(String user, Colors color, ServerConnection connection) {
-        connections.put(user, connection);
-        pendingConnections.remove(connection);
-        connection.register();
-        LOG.info(user + " connected\n");
-        sessionController.addPlayer(user, color, new RemoteView(user,connection));
+        synchronized (connectionsLock) {
+            connections.put(user, connection);
+            pendingConnections.remove(connection);
+            connection.register();
+            LOG.info(user + " connected\n");
+            sessionController.addPlayer(user, color, new RemoteView(user, connection));
+        }
     }
 }

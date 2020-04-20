@@ -114,17 +114,17 @@ public class ActionController {
                 target = new Position(center.getX()+x,center.getY()+y);
                 for (Action action : actions) {
                     try {
-                    switch (action) {
-                        case MOVE:
-                            rules.consentMovement(worker, target);
-                            moveCandidates.add(target);
-                            break;
-                        case BUILD:
-                            rules.consentBuild(worker, target);
-                            buildCandidates.add(target);
-                            break;
-                        default:
-                            /* Do nothing */
+                        switch (action) {
+                            case MOVE:
+                                rules.consentMovement(worker, target);
+                                moveCandidates.add(target);
+                                break;
+                            case BUILD:
+                                rules.consentBuild(worker, target);
+                                buildCandidates.add(target);
+                                break;
+                            default:
+                                /* Do nothing */
                         }
                     } catch(CantActException e) { /* Do nothing */ }
                 }

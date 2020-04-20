@@ -6,6 +6,7 @@ import it.polimi.ingsw.rules.gods.*;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 
 /**
  * Playable gods, each {@link it.polimi.ingsw.model.player.Player player} can select one
@@ -31,8 +32,10 @@ public enum Gods implements Serializable {
         this.description = description;
     }
 
-    public String getDescription(){
-        return description;
+    public ArrayList<String> getDescription(){
+        ArrayList<String> arraydesc =  new ArrayList<>();
+        arraydesc.add(description);
+        return arraydesc;
     }
 
 

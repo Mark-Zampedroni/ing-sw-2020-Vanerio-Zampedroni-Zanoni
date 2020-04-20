@@ -1,28 +1,20 @@
 package it.polimi.ingsw.net.messages.lobby;
 
-import it.polimi.ingsw.enumerations.Colors;
-import it.polimi.ingsw.enumerations.Gods;
 import it.polimi.ingsw.enumerations.MessageType;
-import it.polimi.ingsw.model.player.Player;
-import it.polimi.ingsw.net.messages.FlagMessage;
+import it.polimi.ingsw.net.messages.Message;
 
 import java.util.ArrayList;
-import java.util.List;
+import java.util.Map;
 
 
-public class GodUpdate extends FlagMessage {
+public class GodUpdate extends Message {
 
-    private ArrayList<Gods> chosenGods = new ArrayList<>();
+    private Map<String, ArrayList<String>> gods;
 
-    public GodUpdate(MessageType type, String sender, String info,  boolean flag, ArrayList<Gods> god) {
-        super(MessageType.GOD_UPDATE, sender, info, flag);
+    public GodUpdate(String sender, String info, Map<String, ArrayList<String>> gods) {
+        super(MessageType.GOD_UPDATE, sender, info);
+        this.gods = gods;
     }
 
-    public ArrayList<Gods> getChosenGods() {
-        return chosenGods;
-    }
-
-    public void setChosenGod(Gods god) {
-        chosenGods.add(god);
-    }
+    public Map<String, ArrayList<String>> getGods(){return this.gods;}
 }
