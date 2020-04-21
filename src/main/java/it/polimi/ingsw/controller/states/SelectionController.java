@@ -1,12 +1,12 @@
 package it.polimi.ingsw.controller.states;
 
 import it.polimi.ingsw.controller.SessionController;
-import it.polimi.ingsw.enumerations.GameState;
 import it.polimi.ingsw.enumerations.Gods;
 import it.polimi.ingsw.enumerations.MessageType;
 import it.polimi.ingsw.model.Session;
 import it.polimi.ingsw.net.messages.FlagMessage;
 import it.polimi.ingsw.net.messages.Message;
+import it.polimi.ingsw.net.messages.lobby.GodChoice;
 import it.polimi.ingsw.net.messages.lobby.GodUpdate;
 import it.polimi.ingsw.view.RemoteView;
 
@@ -19,10 +19,12 @@ public class SelectionController extends StateController {
 
 
     private Map<String, ArrayList<String>> GodMap= new HashMap<>();
+    String players = new String();
 
     public SelectionController(SessionController controller, Map<String,RemoteView> views) {
         super(controller, views);
         startGodMap();
+        sendUpdate();
     }
 
     @Override
@@ -31,6 +33,8 @@ public class SelectionController extends StateController {
             case GOD_UPDATE:
                 parseGodMessage((GodUpdate) message);
                 break;
+            case GOD_CHOICE:
+                parseGodChoiceMessage(message);
             default:
                 System.out.println("[Warning] Wrong message type");
         }
@@ -43,37 +47,29 @@ public class SelectionController extends StateController {
 
     private void parseGodMessage (GodUpdate message){
         if(message.getSender().equals(Session.getInstance().getChallenger())) {
-            if (okGod(GodMap,message.getInfo())){
+            if (GodMap.containsKey(message.getInfo())){
                 if (GodMap.get("chosen").size() < Session.getInstance().getPlayers().size()) {
                     GodMap.keySet().removeIf(text -> text.equals(message.getInfo()));
                     GodMap.get("chosen").add(message.getInfo());
                     sendUpdate();
                 } else {
-                    controller.switchState(GameState.GOD_ASSIGNMENT);
+                    views.get(Session.getInstance().getChallenger()).sendMessage(new GodChoice("SERVER","starter" , new ArrayList<>(views.keySet())));
                 }
             }
             else {sendUpdate();}
         }
     }
 
+    private void parseGodChoiceMessage(Message message){
+        
+    }
 
     private void startGodMap(){
         ArrayList<String> list = new ArrayList<>();
-        for(Gods god : Gods.values()) {
+        for(Gods god: Arrays.asList(Gods.values())) {
             GodMap.put(god.toString(),god.getDescription());
         }
         GodMap.put("chosen",list);
     }
-
-    private boolean okGod(Map<String, ArrayList<String>> gods, String playerChoice){
-        for(String text: gods.keySet()){
-            if(!text.equals("chosen") && playerChoice.equals(text)){return true;}
-        }
-        for(String already: gods.get("chosen")){
-            if(already.equals(playerChoice)){return false;}
-        }
-        return false;
-    }
-
 
 }

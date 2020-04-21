@@ -2,9 +2,9 @@ package it.polimi.ingsw.net.client;
 
 import it.polimi.ingsw.enumerations.Colors;
 import it.polimi.ingsw.enumerations.GameState;
-import it.polimi.ingsw.enumerations.Gods;
 import it.polimi.ingsw.net.messages.FlagMessage;
 import it.polimi.ingsw.net.messages.StateUpdateMessage;
+import it.polimi.ingsw.net.messages.lobby.GodChoice;
 import it.polimi.ingsw.net.messages.lobby.GodUpdate;
 import it.polimi.ingsw.net.messages.lobby.LobbyUpdate;
 import it.polimi.ingsw.net.messages.Message;
@@ -95,6 +95,9 @@ public class Client extends Thread implements Observer<Message> {
             case GOD_UPDATE:
                 parseGodUpdate((GodUpdate) message);
                 break;
+            case GOD_CHOICE:
+                parseGodChoice((GodChoice) message);
+                break;
         }
     }
 
@@ -133,18 +136,26 @@ public class Client extends Thread implements Observer<Message> {
     }
 
     private void parseGodUpdate(GodUpdate message) {
-        //if (state == GameState.GOD_SELECTION) {
             viewUpdate.add(() -> view.displayGods(message));
             if (message.getInfo().equals(username)) {
                 viewInput.add(() -> view.godSelection(message.getGods()));
-        //    }
+            }
+
+    }
+
+    private void parseGodChoice(GodChoice message){
+        if(message.getInfo().equals("starter")){
+            viewInput.add(() -> view.Starter(message.getGods()));
+        }
+        else{
+            viewInput.add(() -> view.godAssignment(message.getGods()));
         }
     }
 
 
     private void parseStateUpdate(StateUpdateMessage message) {
         state = message.getState();
-        viewUpdate.add(() -> view.switchState(state));
+        //viewUpdate.add(() -> view.switchState(state));
     }
 
     public void requestLogin(String username, Colors color) {

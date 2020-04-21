@@ -21,7 +21,9 @@ import it.polimi.ingsw.view.View;
     Magari facendo una classe per la costruzione dei messaggi, perchè sono usati uguali sia da CLI che da GUI ...
 
  */
+import java.awt.*;
 import java.util.*;
+import java.util.List;
 
 public class Cli implements View {
 
@@ -168,24 +170,45 @@ public class Cli implements View {
         String c;
         inputScreen.clear();
         inputScreen.addLine("\nChoose a god: ");
-        updateScreen();
         do {
+            updateScreen();
             c = input.nextLine().toUpperCase();
             inputScreen.removeLastLine();
             inputScreen.addLine("This god can't be selected, choose a different one: ");
-        } while(!okGod(gods, c));
+        } while(!gods.containsKey(c));
         inputScreen.removeLastLine();
         updateScreen();
-        client.sendMessage(new GodUpdate(username, c, gods));
+        client.sendMessage(new Message(MessageType.GOD_UPDATE, username, c));
     }
 
-    private boolean okGod(Map<String, ArrayList<String>> gods, String playerChoice){
-        for(String text: gods.keySet()){
-            if(!text.equals("chosen") && playerChoice.equals(text)){return true;}
-        }
-        for(String already: gods.get("chosen")){
-            if(already.equals(playerChoice)){return false;}
-        }
-        return false;
+    public void Starter(ArrayList<String> gods){
+        String c;
+        inputScreen.clear();
+        inputScreen.addLine("\nChoose the starter player: ");
+        updateScreen();
+        do {
+            updateScreen();
+            c = input.nextLine().toUpperCase();
+            inputScreen.removeLastLine();
+            inputScreen.addLine("Player not found");
+        } while(!gods.contains(c));
+        inputScreen.removeLastLine();
+        updateScreen();
+        client.sendMessage(new Message(MessageType.GOD_CHOICE,username, c));
+    }
+
+    public void godAssignment(ArrayList<String> gods){
+        String c;
+        inputScreen.clear();
+        inputScreen.addLine("\nChoose your god: ");
+        do {
+            updateScreen();
+            c = input.nextLine().toUpperCase();
+            inputScreen.removeLastLine();
+            inputScreen.addLine("God not found");
+        } while(!gods.contains(c));
+        inputScreen.removeLastLine();
+        updateScreen();
+        client.sendMessage(new Message(MessageType.GOD_CHOICE,username, c));
     }
 }

@@ -18,6 +18,8 @@ public interface View {
     void requestReady();
     void displayGods(GodUpdate message);
     void godSelection(Map<String, ArrayList<String>> gods);
+    void Starter(ArrayList<String> string );
+    void godAssignment(ArrayList<String> string);
     void switchState(GameState state); // Enum con varie finestre ? No bello se passa state
     //void requestUnready();
 
