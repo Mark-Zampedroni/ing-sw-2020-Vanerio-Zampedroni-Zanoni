@@ -130,7 +130,8 @@ public class ClientConnection extends Thread {
     public List<Message> getQueue() {
         List<Message> copy;
         synchronized(queueLock) {
-            copy = new ArrayList<>(List.copyOf(inQueue));
+            copy = new ArrayList<>();
+            for(Message message : inQueue) { copy.add(message); }
             inQueue.clear();
         }
         return copy;

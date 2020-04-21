@@ -21,6 +21,7 @@ public class SessionController implements Observer<Message>  {
 
     private GameState state;
     private StateController stateController;
+    private int playersNumber;
 
     private final Object viewLock = new Object();
 

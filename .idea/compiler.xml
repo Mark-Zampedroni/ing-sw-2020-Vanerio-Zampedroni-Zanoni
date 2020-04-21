@@ -9,6 +9,6 @@
         <module name="ing-sw-2020-Vanerio-Zampedroni-Zanoni" />
       </profile>
     </annotationProcessing>
-    <bytecodeTargetLevel target="13" />
+    <bytecodeTargetLevel target="8" />
   </component>
 </project>
