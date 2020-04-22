@@ -11,9 +11,7 @@ import it.polimi.ingsw.model.map.Board;
 import it.polimi.ingsw.model.map.Position;
 import it.polimi.ingsw.model.player.Player;
 import it.polimi.ingsw.model.player.Worker;
-import it.polimi.ingsw.model.serialization.ModelSerialized;
-import it.polimi.ingsw.net.messages.Message;
-import it.polimi.ingsw.rules.EventRules;
+import it.polimi.ingsw.serialization.ModelSerialized;
 import it.polimi.ingsw.rules.GodRules;
 import it.polimi.ingsw.rules.gods.HestiaRules;
 import it.polimi.ingsw.rules.gods.Setupper;
@@ -22,7 +20,6 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 
 import java.io.*;
-import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Base64;
 

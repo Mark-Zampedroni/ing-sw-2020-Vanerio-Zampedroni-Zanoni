@@ -6,18 +6,14 @@ import it.polimi.ingsw.enumerations.Gods;
 import it.polimi.ingsw.model.Session;
 import it.polimi.ingsw.model.map.Position;
 import it.polimi.ingsw.model.player.Player;
-import it.polimi.ingsw.model.serialization.ModelDeserialization;
-import it.polimi.ingsw.model.serialization.ModelSerialized;
+import it.polimi.ingsw.serialization.ModelDeserialization;
+import it.polimi.ingsw.serialization.ModelSerialized;
 import it.polimi.ingsw.rules.GodRules;
 import it.polimi.ingsw.rules.gods.HestiaRules;
 import it.polimi.ingsw.rules.gods.Setupper;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.ObjectInputStream;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;

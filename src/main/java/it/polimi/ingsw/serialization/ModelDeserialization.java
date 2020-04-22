@@ -1,4 +1,4 @@
-package it.polimi.ingsw.model.serialization;
+package it.polimi.ingsw.serialization;
 
 import it.polimi.ingsw.enumerations.Gods;
 import it.polimi.ingsw.model.Session;
