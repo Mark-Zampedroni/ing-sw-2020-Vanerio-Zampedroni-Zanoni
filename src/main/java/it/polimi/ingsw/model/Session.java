@@ -100,7 +100,7 @@ public class Session implements Serializable {
      * @param username is the {@link Player player}'s name
      * @return the player, or null if not found
      */
-    private Player getPlayerByName(String username) {
+    public Player getPlayerByName(String username) {
         for(Player p : players) {
             if (p.getUsername().equals(username)) {
                 return p;

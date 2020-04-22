@@ -58,6 +58,9 @@ class SessionTest {
         assertEquals(Session.getInstance().playersNumber(), 2);
         two= new Player("Sandro", Colors.BLUE);
         Session.getInstance().addPlayer(two);
+        Session.getInstance().addPlayer("Luca", Colors.WHITE);
+        assertEquals(Session.getInstance().getPlayerColor("Luca"), Colors.WHITE);
+        assertNull(Session.getInstance().getPlayerByName("Marco"));
     }
 
     @Test
@@ -72,6 +75,7 @@ class SessionTest {
         assertEquals(Session.getInstance().getPlayers().get(1).getGod(), two.getGod());
         Session.getInstance().removeGod(Gods.ATLAS);
         assertEquals(Session.getInstance().getPlayers().get(0).getGod(), one.getGod());
+
     }
 }
 

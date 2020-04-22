@@ -25,7 +25,7 @@ public class ModelDeserializationTest {
     GodRules rules1;
     GodRules rules2;
 
-
+/*
     @BeforeEach
     void setUp(){
         Session.getInstance().setStarted(true);
@@ -137,6 +137,6 @@ public class ModelDeserializationTest {
         assertTrue(player2.getWorkers().get(1).getPosition().equals(serializedSession.getPlayers().get(1).getWorkers().get(1).getPosition()));
         assertTrue(serializedSession.getBoard().getTile(new Position(1,2)).hasDome());
         assertEquals(serializedSession.getBoard().getTile(new Position(3, 2)).getHeight(), Height.BOTTOM);
-    }
+    }*/
 
 }

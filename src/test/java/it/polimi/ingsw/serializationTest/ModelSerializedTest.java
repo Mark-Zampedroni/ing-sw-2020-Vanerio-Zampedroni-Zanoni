@@ -173,7 +173,7 @@ public class ModelSerializedTest {
         assertTrue(player2.getWorkers().get(1).getPosition().equals(serializedSession.getPlayers().get(1).getWorkers().get(1).getPosition()));
         assertTrue(serializedSession.getBoard().getTile(new Position(1,2)).hasDome());
         assertEquals(serializedSession.getBoard().getTile(new Position(3, 2)).getHeight(), Height.BOTTOM);
-    }*/
+    }
 
     @Test
     public void boardSerializedTest(){
@@ -263,5 +263,5 @@ public class ModelSerializedTest {
         }
         assertTrue(player1.getWorkers().get(0).getPosition().equals(serializedWorkers.get(0).getPosition()));
         assertTrue(player1.getWorkers().get(1).getPosition().equals(serializedWorkers.get(1).getPosition()));
-    }
+    }*/
 }
