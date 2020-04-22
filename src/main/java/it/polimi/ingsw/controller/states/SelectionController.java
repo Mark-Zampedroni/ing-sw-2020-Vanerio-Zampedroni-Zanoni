@@ -19,6 +19,7 @@ public class SelectionController extends StateController {
 
 
     private Map<String, ArrayList<String>> GodMap= new HashMap<>();
+    boolean flag; // Momentanea
 
     public SelectionController(SessionController controller, Map<String,RemoteView> views) {
         super(controller, views);
@@ -30,7 +31,7 @@ public class SelectionController extends StateController {
     public void parseMessage(Message message) {
         switch(message.getType()) {
             case GOD_UPDATE:
-                parseGodMessage((GodUpdate) message);
+                parseGodMessage(message);
                 break;
             case GOD_CHOICE:
                 parseGodChoiceMessage(message);
@@ -44,14 +45,15 @@ public class SelectionController extends StateController {
         sendBroadcastMessage(new GodUpdate("SERVER", Session.getInstance().getChallenger(),GodMap));
     }
 
-    private void parseGodMessage (GodUpdate message){
+    private void parseGodMessage (Message message){
         if(message.getSender().equals(Session.getInstance().getChallenger())) {
             if (GodMap.containsKey(message.getInfo())){
-                if (GodMap.get("chosen").size() < Session.getInstance().getPlayers().size()) {
-                    GodMap.keySet().removeIf(text -> text.equals(message.getInfo()));
-                    GodMap.get("chosen").add(message.getInfo());
+                GodMap.keySet().removeIf(text -> text.equals(message.getInfo()));
+                GodMap.get("chosen").add(message.getInfo());
+                if (GodMap.get("chosen").size() < controller.getPlayers().size()) {
                     sendUpdate();
                 } else {
+                    sendBroadcastMessage(new GodUpdate("SERVER", "update",GodMap));
                     views.get(Session.getInstance().getChallenger()).sendMessage(new Message(MessageType.GOD_CHOICE,"SERVER","starter"));
                 }
             }
@@ -60,8 +62,9 @@ public class SelectionController extends StateController {
     }
 
     private void parseGodChoiceMessage(Message message){
-        if(message.getSender().equals(Session.getInstance().getChallenger()) && GodMap.get("chosen").size() == controller.getPlayers().size()){
+        if(message.getSender().equals(Session.getInstance().getChallenger()) && !flag){
             if(views.containsKey(message.getInfo())){
+                flag=true;
                 sendBroadcastMessage(new Message(MessageType.GOD_CHOICE, "SERVER", "available"));
                 views.get(message.getInfo()).sendMessage(new Message(MessageType.GOD_CHOICE,"SERVER","choice"));
             }
@@ -89,7 +92,7 @@ public class SelectionController extends StateController {
                     }
                 }
                 else{
-                    views.get(message.getInfo()).sendMessage(new Message(MessageType.GOD_CHOICE,"SERVER","choice"));
+                    views.get(message.getSender()).sendMessage(new Message(MessageType.GOD_CHOICE,"SERVER","choice"));
                 }
             }
             else{

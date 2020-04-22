@@ -2,6 +2,8 @@ package it.polimi.ingsw.net.client;
 
 import it.polimi.ingsw.enumerations.Colors;
 import it.polimi.ingsw.enumerations.GameState;
+import it.polimi.ingsw.model.Session;
+import it.polimi.ingsw.model.player.Player;
 import it.polimi.ingsw.net.messages.FlagMessage;
 import it.polimi.ingsw.net.messages.StateUpdateMessage;
 import it.polimi.ingsw.net.messages.lobby.GodUpdate;
@@ -141,18 +143,29 @@ public class Client extends Thread implements Observer<Message> {
     private void parseGodUpdate(GodUpdate message) {
         if(state == GameState.GOD_SELECTION) {
             chosenGods = new ArrayList<>(message.getGods().get("chosen"));
-            viewUpdate.add(() -> view.displayGods(message));
-            if (message.getInfo().equals(username)) {
-                viewInput.add(() -> view.godSelection(message.getGods()));
+            if(!message.getInfo().equals("update")){
+                viewUpdate.add(() -> view.displayGods(message));
+                if (message.getInfo().equals(username)) {
+                    viewInput.add(() -> view.godSelection(message.getGods()));
+                }
             }
+
         }
     }
-
+            //Da aggiungere mappa per i nomi dei player, Adesso va con 3 stronzi a,b,c
     private void parseGodChoice(Message message){
         switch (message.getInfo()) {
             case "starter":
-                viewUpdate.add(() -> view.displayString(new ArrayList<>(map.keySet()), "\nAvailable Players to choose: "));
-                viewInput.add(() -> view.Starter(new ArrayList<>(map.keySet())));
+                ArrayList<String> a = new ArrayList<>();
+                a.add("a");
+                a.add("b");
+                a.add("c");
+                //viewUpdate.add(() -> view.displayString(new ArrayList<>(map.keySet()), "\nAvailable Players to choose: "));
+                viewUpdate.add(() -> view.displayString(a, "\nAvailable Players to choose: "));
+
+               // viewInput.add(() -> view.Starter(new ArrayList<>(map.keySet())));
+                viewInput.add(() -> view.Starter(a));
+
                 break;
             case "choice":
                 viewUpdate.add(() -> view.displayString(chosenGods, "\nAvailable Gods: "));

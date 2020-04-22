@@ -1,12 +1,12 @@
 package it.polimi.ingsw.view;
 
 import it.polimi.ingsw.enumerations.Action;
-import it.polimi.ingsw.model.ModelSerialized;
 import it.polimi.ingsw.net.messages.game.ActionMessage;
 import it.polimi.ingsw.net.messages.Message;
 import it.polimi.ingsw.net.server.ServerConnection;
 import it.polimi.ingsw.observer.observable.Observable;
 import it.polimi.ingsw.observer.observable.Observer;
+import it.polimi.ingsw.serialization.ModelSerialized;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -187,7 +187,7 @@ public class Cli implements View {
         inputScreen.addLine("\nChoose the starter player: ");
         do {
             updateScreen();
-            c = input.nextLine().toUpperCase();
+            c = input.nextLine();
             inputScreen.removeLastLine();
             inputScreen.addLine("Player not found, try again: ");
         } while(!gods.contains(c));
@@ -218,5 +218,6 @@ public class Cli implements View {
             updateScreen();
             outputScreen.addLine(list);
         }
+        updateScreen();
     }
 }
