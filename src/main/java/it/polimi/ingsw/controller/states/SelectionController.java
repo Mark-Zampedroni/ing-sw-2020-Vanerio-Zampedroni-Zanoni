@@ -60,7 +60,7 @@ public class SelectionController extends StateController {
     }
 
     private void parseGodChoiceMessage(Message message){
-        if(message.getSender().equals(Session.getInstance().getChallenger())){
+        if(message.getSender().equals(Session.getInstance().getChallenger()) && GodMap.get("chosen").size() == controller.getPlayers().size()){
             if(views.containsKey(message.getInfo())){
                 sendBroadcastMessage(new Message(MessageType.GOD_CHOICE, "SERVER", "available"));
                 views.get(message.getInfo()).sendMessage(new Message(MessageType.GOD_CHOICE,"SERVER","choice"));
