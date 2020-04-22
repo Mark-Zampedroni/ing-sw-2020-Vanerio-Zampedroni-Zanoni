@@ -61,6 +61,7 @@ class SessionTest {
         Session.getInstance().addPlayer("Luca", Colors.WHITE);
         assertEquals(Session.getInstance().getPlayerColor("Luca"), Colors.WHITE);
         assertNull(Session.getInstance().getPlayerByName("Marco"));
+        Session.getInstance().removePlayer("Luca");
     }
 
     @Test

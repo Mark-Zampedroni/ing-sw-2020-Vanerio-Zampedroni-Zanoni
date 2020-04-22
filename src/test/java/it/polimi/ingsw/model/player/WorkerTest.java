@@ -51,5 +51,8 @@ class WorkerTest {
         Worker worker2 = new Worker(new Position(-3,-3));
         assertTrue(worker2.getPosition().equals(new Position(-3,-3)));
         assertEquals(worker.getMaster(), player);
+        worker2 = new Worker(new Position(1,2));
+        worker2.setPosition(3,4);
+        assertNull(worker2.getMaster());
     }
 }
