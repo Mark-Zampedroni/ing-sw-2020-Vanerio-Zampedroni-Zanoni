@@ -1,12 +1,12 @@
 package it.polimi.ingsw.controller.states;
 
 import it.polimi.ingsw.controller.SessionController;
+import it.polimi.ingsw.enumerations.GameState;
 import it.polimi.ingsw.enumerations.Gods;
 import it.polimi.ingsw.enumerations.MessageType;
 import it.polimi.ingsw.model.Session;
-import it.polimi.ingsw.net.messages.FlagMessage;
+import it.polimi.ingsw.model.player.Player;
 import it.polimi.ingsw.net.messages.Message;
-import it.polimi.ingsw.net.messages.lobby.GodChoice;
 import it.polimi.ingsw.net.messages.lobby.GodUpdate;
 import it.polimi.ingsw.view.RemoteView;
 
@@ -19,7 +19,6 @@ public class SelectionController extends StateController {
 
 
     private Map<String, ArrayList<String>> GodMap= new HashMap<>();
-    String players = new String();
 
     public SelectionController(SessionController controller, Map<String,RemoteView> views) {
         super(controller, views);
@@ -53,7 +52,7 @@ public class SelectionController extends StateController {
                     GodMap.get("chosen").add(message.getInfo());
                     sendUpdate();
                 } else {
-                    views.get(Session.getInstance().getChallenger()).sendMessage(new GodChoice("SERVER","starter" , new ArrayList<>(views.keySet())));
+                    views.get(Session.getInstance().getChallenger()).sendMessage(new Message(MessageType.GOD_CHOICE,"SERVER","starter"));
                 }
             }
             else {sendUpdate();}
@@ -61,7 +60,43 @@ public class SelectionController extends StateController {
     }
 
     private void parseGodChoiceMessage(Message message){
-        
+        if(message.getSender().equals(Session.getInstance().getChallenger())){
+            if(views.containsKey(message.getInfo())){
+                sendBroadcastMessage(new Message(MessageType.GOD_CHOICE, "SERVER", "available"));
+                views.get(message.getInfo()).sendMessage(new Message(MessageType.GOD_CHOICE,"SERVER","choice"));
+            }
+            else {views.get(Session.getInstance().getChallenger()).sendMessage(new Message(MessageType.GOD_CHOICE,"SERVER","starter"));}
+        }
+        else {
+            if (GodMap.get("chosen").size() > 0) {
+                if (GodMap.get("chosen").contains(message.getInfo())) {
+                    for(Player user: controller.getPlayers()){
+                        if(user.getUsername().equals(message.getSender()) && user.getGod() == null) {
+                            for (Gods god : Arrays.asList(Gods.values())) {
+                                if (message.getInfo().equals(god.toString())) {
+                                    user.setGod(god);
+                                }
+                            }
+                        }
+                    }
+                    GodMap.get("chosen").remove(message.getInfo());
+                    sendBroadcastMessage(new Message(MessageType.GOD_CHOICE, "SERVER", message.getInfo()));
+                    for(Player user: controller.getPlayers()){
+                        if(user.getGod() == null){
+                            views.get(user.getUsername()).sendMessage(new Message(MessageType.GOD_CHOICE,"SERVER","choice"));
+                            break;
+                        }
+                    }
+                }
+                else{
+                    views.get(message.getInfo()).sendMessage(new Message(MessageType.GOD_CHOICE,"SERVER","choice"));
+                }
+            }
+            else{
+                controller.switchState(GameState.FIRST_TURN);
+            }
+
+        }
     }
 
     private void startGodMap(){

@@ -4,7 +4,6 @@ import it.polimi.ingsw.enumerations.Colors;
 import it.polimi.ingsw.enumerations.GameState;
 import it.polimi.ingsw.net.messages.FlagMessage;
 import it.polimi.ingsw.net.messages.StateUpdateMessage;
-import it.polimi.ingsw.net.messages.lobby.GodChoice;
 import it.polimi.ingsw.net.messages.lobby.GodUpdate;
 import it.polimi.ingsw.net.messages.lobby.LobbyUpdate;
 import it.polimi.ingsw.net.messages.Message;
@@ -12,6 +11,8 @@ import it.polimi.ingsw.observer.observable.Observer;
 import it.polimi.ingsw.view.CLI.Cli;
 import it.polimi.ingsw.view.View;
 
+import java.util.ArrayList;
+import java.util.Map;
 import java.util.concurrent.LinkedBlockingQueue;
 
 public class Client extends Thread implements Observer<Message> {
@@ -23,6 +24,8 @@ public class Client extends Thread implements Observer<Message> {
     private ClientConnection connection;
     private View view;
     private int playerCounter;
+    private ArrayList<String> chosenGods;
+    private Map<String, Colors> map;
 
     public Client(String ip, int port, int view) {
 
@@ -96,7 +99,7 @@ public class Client extends Thread implements Observer<Message> {
                 parseGodUpdate((GodUpdate) message);
                 break;
             case GOD_CHOICE:
-                parseGodChoice((GodChoice) message);
+                parseGodChoice(message);
                 break;
         }
     }
@@ -136,19 +139,31 @@ public class Client extends Thread implements Observer<Message> {
     }
 
     private void parseGodUpdate(GodUpdate message) {
+        if(state == GameState.GOD_SELECTION) {
+            chosenGods = new ArrayList<>(message.getGods().get("chosen"));
             viewUpdate.add(() -> view.displayGods(message));
             if (message.getInfo().equals(username)) {
                 viewInput.add(() -> view.godSelection(message.getGods()));
             }
-
+        }
     }
 
-    private void parseGodChoice(GodChoice message){
-        if(message.getInfo().equals("starter")){
-            viewInput.add(() -> view.Starter(message.getGods()));
-        }
-        else{
-            viewInput.add(() -> view.godAssignment(message.getGods()));
+    private void parseGodChoice(Message message){
+        switch (message.getInfo()) {
+            case "starter":
+                viewUpdate.add(() -> view.displayString(new ArrayList<>(map.keySet()), "\nAvailable Players to choose: "));
+                viewInput.add(() -> view.Starter(new ArrayList<>(map.keySet())));
+                break;
+            case "choice":
+                viewUpdate.add(() -> view.displayString(chosenGods, "\nAvailable Gods: "));
+                viewInput.add(() -> view.godAssignment(chosenGods));
+                break;
+            case "available":
+                viewUpdate.add(() -> view.displayString(chosenGods, "\nAvailable Gods: "));
+                break;
+            default:
+                chosenGods.remove(message.getInfo());
+                break;
         }
     }
 

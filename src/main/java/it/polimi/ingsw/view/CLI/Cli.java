@@ -185,12 +185,11 @@ public class Cli implements View {
         String c;
         inputScreen.clear();
         inputScreen.addLine("\nChoose the starter player: ");
-        updateScreen();
         do {
             updateScreen();
             c = input.nextLine().toUpperCase();
             inputScreen.removeLastLine();
-            inputScreen.addLine("Player not found");
+            inputScreen.addLine("Player not found, try again: ");
         } while(!gods.contains(c));
         inputScreen.removeLastLine();
         updateScreen();
@@ -210,5 +209,14 @@ public class Cli implements View {
         inputScreen.removeLastLine();
         updateScreen();
         client.sendMessage(new Message(MessageType.GOD_CHOICE,username, c));
+    }
+
+    public void displayString(ArrayList<String> string, String text){
+        outputScreen.clear();
+        outputScreen.addLine(text);
+        for(String list: string){
+            updateScreen();
+            outputScreen.addLine(list);
+        }
     }
 }
