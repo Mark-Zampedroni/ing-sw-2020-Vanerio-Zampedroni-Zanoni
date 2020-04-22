@@ -22,7 +22,7 @@ import java.util.HashMap;
  */
 public class SerializationTest
 {
-    @Test
+    /*@Test
     public void correctSerialization()
     {
         Player player1= new Player("Gianni", Colors.BLUE);
@@ -97,5 +97,5 @@ public class SerializationTest
         assertTrue(player2.getWorkers().get(1).getPosition().equals(serializedSession.getPlayers().get(1).getWorkers().get(1).getPosition()));
         assertTrue(serializedSession.getBoard().getTile(new Position(1,2)).hasDome());
         assertEquals(serializedSession.getBoard().getTile(new Position(3, 2)).getHeight(), Height.BOTTOM);
-    }
+    }*/
 }

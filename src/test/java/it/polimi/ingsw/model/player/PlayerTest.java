@@ -24,6 +24,7 @@ class PlayerTest {
         assertTrue(player.isChallenger());
         player.setWinner();
         assertTrue(player.isWinner());
+        assertEquals(player.getColor(), Colors.BLUE);
     }
 
     @Test
