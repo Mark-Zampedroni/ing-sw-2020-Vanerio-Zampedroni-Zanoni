@@ -1,5 +1,6 @@
 package it.polimi.ingsw.rules;
 
+import it.polimi.ingsw.DTO.DTOsession;
 import it.polimi.ingsw.enumerations.Action;
 import it.polimi.ingsw.exceptions.actions.CantActException;
 import it.polimi.ingsw.model.Session;
@@ -33,7 +34,7 @@ public abstract class GodRules extends Observable implements Serializable {
      */
     public void executeMove(Worker worker, Position position) {
         worker.setPosition(position);
-        //notify(worker, position);  serializeModel e mandarlo con notify
+        notify(new DTOsession(Session.getInstance()));
     }
 
     public void executeAdd(Player player, Position position) {
@@ -54,7 +55,7 @@ public abstract class GodRules extends Observable implements Serializable {
     public void executeBuild(Position position) {
         Tile tile = Session.getInstance().getBoard().getTile(position);
         tile.increaseHeight();
-        //notify(position);   serializeModel e mandarlo con notify
+        notify(new DTOsession(Session.getInstance()));
     }
 
     /**
