@@ -1,17 +1,20 @@
 package it.polimi.ingsw.view;
 
+import it.polimi.ingsw.DTO.DTOsession;
 import it.polimi.ingsw.enumerations.Action;
 import it.polimi.ingsw.net.messages.game.ActionMessage;
 import it.polimi.ingsw.net.messages.Message;
+import it.polimi.ingsw.net.messages.game.ChangeMessage;
 import it.polimi.ingsw.net.server.ServerConnection;
 import it.polimi.ingsw.observer.observable.Observable;
 import it.polimi.ingsw.observer.observable.Observer;
+import it.polimi.ingsw.rules.GodRules;
 import it.polimi.ingsw.serialization.ModelSerialized;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class RemoteView extends Observable<Message> implements Observer<ModelSerialized> {
+public class RemoteView extends Observable<Message> implements Observer<DTOsession> {
 
     private ServerConnection connection;
     private String username;
@@ -42,7 +45,10 @@ public class RemoteView extends Observable<Message> implements Observer<ModelSer
         connection.sendMessage(message);
     }
 
-    public void update(ModelSerialized model) {
+    @Override
+    public void update(DTOsession dtOsession) {
+        String s="all";
+        ChangeMessage message = new ChangeMessage(username, s, dtOsession);
         // RICEVE MODEL SERIALIZZATO E NE SALVA IL PUNTATORE, VIENE MANDATO IN UPDATE ACTIONS
         // VERRA' SEMPRE ESEGUITO PRIMA SERIAL. MODEL, POI AGGIORNAMENTO AZIONI, POI INVIO
     }
