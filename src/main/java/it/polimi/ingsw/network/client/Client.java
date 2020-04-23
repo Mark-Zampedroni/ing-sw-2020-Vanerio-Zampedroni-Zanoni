@@ -188,9 +188,6 @@ public class Client extends Thread implements Observer<Message> {
                 viewUpdate.add(() -> view.displayString(chosenGods, "\nAvailable Gods: "));
                 viewInput.add(() -> view.godAssignment(chosenGods));
                 break;
-            case "available":
-                viewUpdate.add(() -> view.displayString(chosenGods, "\nAvailable Gods: "));
-                break;
             default:
                 chosenGods.remove(message.getInfo());
                 break;

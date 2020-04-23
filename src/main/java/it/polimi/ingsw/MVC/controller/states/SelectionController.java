@@ -54,7 +54,12 @@ public class SelectionController extends StateController {
                     sendUpdate();
                 } else {
                     sendBroadcastMessage(new GodUpdate("SERVER", "update",GodMap));
-                    views.get(Session.getInstance().getChallenger()).sendMessage(new Message(MessageType.GOD_CHOICE,"SERVER","starter"));
+                    for(Player player: controller.getPlayers()){
+                        if(!player.isChallenger()){
+                            views.get(player.getUsername()).sendMessage(new Message(MessageType.GOD_CHOICE,"SERVER","choice"));
+                            break;
+                        }
+                    }
                 }
             }
             else {sendUpdate();}
@@ -62,45 +67,46 @@ public class SelectionController extends StateController {
     }
 
     private void parseGodChoiceMessage(Message message){
-        if(message.getSender().equals(Session.getInstance().getChallenger()) && !flag){
-            if(views.containsKey(message.getInfo())){
-                flag=true;
-                sendBroadcastMessage(new Message(MessageType.GOD_CHOICE, "SERVER", "available"));
-                views.get(message.getInfo()).sendMessage(new Message(MessageType.GOD_CHOICE,"SERVER","choice"));
-            }
-            else {views.get(Session.getInstance().getChallenger()).sendMessage(new Message(MessageType.GOD_CHOICE,"SERVER","starter"));}
-        }
-        else {
-            if (GodMap.get("chosen").size() > 0) {
-                if (GodMap.get("chosen").contains(message.getInfo())) {
-                    for(Player user: controller.getPlayers()){
-                        if(user.getUsername().equals(message.getSender()) && user.getGod() == null) {
-                            for (Gods god : Gods.values()) {
-                                if (message.getInfo().equals(god.toString())) {
-                                    user.setGod(god);
-                                }
+        if(!flag){
+            if (GodMap.get("chosen").contains(message.getInfo())) {
+                for (Player user : controller.getPlayers()) {
+                    if (user.getUsername().equals(message.getSender()) && user.getGod() == null) {
+                        for (Gods god : Gods.values()) {
+                            if (message.getInfo().equals(god.toString())) {
+                                user.setGod(god);
                             }
                         }
                     }
-                    GodMap.get("chosen").remove(message.getInfo());
-                    sendBroadcastMessage(new Message(MessageType.GOD_CHOICE, "SERVER", message.getInfo()));
-                    for(Player user: controller.getPlayers()){
-                        if(user.getGod() == null){
-                            views.get(user.getUsername()).sendMessage(new Message(MessageType.GOD_CHOICE,"SERVER","choice"));
+                }
+                GodMap.get("chosen").remove(message.getInfo());
+                sendBroadcastMessage(new Message(MessageType.GOD_CHOICE, "SERVER", message.getInfo()));
+                if (GodMap.get("chosen").size() > 0) {
+                    for (Player user : controller.getPlayers()) {
+                        if (user.getGod() == null && (!user.isChallenger() || GodMap.get("chosen").size() == 1)) {
+                            views.get(user.getUsername()).sendMessage(new Message(MessageType.GOD_CHOICE, "SERVER", "choice"));
                             break;
                         }
                     }
+                } else {
+                    views.get(Session.getInstance().getChallenger()).sendMessage(new Message(MessageType.GOD_CHOICE, "SERVER", "starter"));
+                    flag = true;
                 }
-                else{
-                    views.get(message.getSender()).sendMessage(new Message(MessageType.GOD_CHOICE,"SERVER","choice"));
-                }
+            } else {
+                views.get(message.getSender()).sendMessage(new Message(MessageType.GOD_CHOICE, "SERVER", "choice"));
             }
-            else{
+        }
+        else{
+            if(views.containsKey(message.getInfo())){
+                //message.getInfo contiene lo starting player Si potrebbe riordinare la lista dei player avendo questo in prima posizione.
                 tryNextState();
             }
-
+            else{views.get(Session.getInstance().getChallenger()).sendMessage(new Message(MessageType.GOD_CHOICE, "SERVER", "starter"));}
         }
     }
+
+
+
+
 
     private void startGodMap(){
         ArrayList<String> list = new ArrayList<>();
