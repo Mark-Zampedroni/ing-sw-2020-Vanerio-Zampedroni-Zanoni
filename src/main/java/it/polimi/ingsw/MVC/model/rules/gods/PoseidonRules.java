@@ -81,10 +81,10 @@ public class PoseidonRules extends EventRules implements Serializable {
      */
     @Override
     public void executeMove(Worker worker, Position position) {
-        super.executeMove(worker, position);
         setMovedWorker(worker);
         setUnmovedWorker();
         clearCounter();
+        super.executeMove(worker, position);
     }
 
     /**

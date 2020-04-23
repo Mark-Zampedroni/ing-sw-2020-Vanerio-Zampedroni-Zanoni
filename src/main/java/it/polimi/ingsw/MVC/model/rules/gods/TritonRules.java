@@ -22,8 +22,8 @@ public class TritonRules extends EventRules implements Serializable {
      */
     @Override
     public void executeMove(Worker worker, Position position) {
-        super.executeMove(worker, position);
         setEvent(position.isBoundary());
+        super.executeMove(worker, position);
     }
 
     /**

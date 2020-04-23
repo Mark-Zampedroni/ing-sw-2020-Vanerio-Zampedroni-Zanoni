@@ -1,5 +1,6 @@
 package it.polimi.ingsw.MVC.model.rules.gods;
 
+import it.polimi.ingsw.MVC.model.Session;
 import it.polimi.ingsw.utility.enumerations.Action;
 import it.polimi.ingsw.utility.enumerations.Target;
 import it.polimi.ingsw.utility.exceptions.actions.CantActException;
@@ -7,6 +8,7 @@ import it.polimi.ingsw.MVC.model.map.Position;
 import it.polimi.ingsw.MVC.model.player.Player;
 import it.polimi.ingsw.MVC.model.player.Worker;
 import it.polimi.ingsw.MVC.model.rules.Check;
+import it.polimi.ingsw.utility.serialization.DTO.DTOsession;
 
 
 /**
@@ -25,6 +27,7 @@ public class MinotaurRules extends ApolloRules {
     public void executeMove(Worker worker, Position position) {
         position.getWorker().setPosition(getPositionBackwards(worker.getPosition(),position));
         worker.setPosition(position);
+        notify(new DTOsession(Session.getInstance()));
     }
 
     /**

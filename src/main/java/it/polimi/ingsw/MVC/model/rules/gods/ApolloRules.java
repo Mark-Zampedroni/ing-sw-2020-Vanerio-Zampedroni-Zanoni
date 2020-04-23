@@ -1,5 +1,6 @@
 package it.polimi.ingsw.MVC.model.rules.gods;
 
+import it.polimi.ingsw.MVC.model.Session;
 import it.polimi.ingsw.utility.enumerations.Action;
 import it.polimi.ingsw.utility.enumerations.Target;
 import it.polimi.ingsw.utility.exceptions.actions.CantActException;
@@ -8,6 +9,7 @@ import it.polimi.ingsw.MVC.model.player.Player;
 import it.polimi.ingsw.MVC.model.player.Worker;
 import it.polimi.ingsw.MVC.model.rules.Check;
 import it.polimi.ingsw.MVC.model.rules.GodRules;
+import it.polimi.ingsw.utility.serialization.DTO.DTOsession;
 
 /**
  * Rules for a player with Apollo as God
@@ -26,6 +28,7 @@ public class ApolloRules extends GodRules {
     public void executeMove(Worker worker, Position position) {
         if(position.getWorker() != null) {
             worker.switchPosition(position.getWorker());
+            notify(new DTOsession(Session.getInstance()));
         }
         else {
             super.executeMove(worker,position);
