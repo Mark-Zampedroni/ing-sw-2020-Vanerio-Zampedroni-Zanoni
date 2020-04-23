@@ -40,8 +40,6 @@ public class SessionController implements Observer<Message>  {
         System.out.println("Created Lobby controller");
     }
 
-    public List<Player> getPlayers() { return session.getPlayers(); }
-
     public Session getSession() { return session; }
 
     public GameState getState() { return state; }
@@ -116,6 +114,10 @@ public class SessionController implements Observer<Message>  {
 
     public int getGameCapacity() {
         return gameCapacity;
+    }
+
+    public List<Player> getPlayers() {
+        return session.getPlayers();
     }
 
 }

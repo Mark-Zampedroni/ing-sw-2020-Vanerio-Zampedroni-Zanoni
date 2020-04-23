@@ -136,16 +136,6 @@ public class Cli implements View {
         updateScreen();
     }
 
-    public void requestReady() {
-        inputScreen.clear();
-        inputScreen.addLine("\nType anything to ready up: ");
-        updateScreen();
-        String content = input.nextLine();  // Read user input
-        inputScreen.addLine(content);
-        updateScreen();
-        client.sendMessage(new Message(MessageType.READY,username,content));
-    }
-
     public void switchState(GameState state) {
         inputScreen.clear();
         outputScreen.clear();
