@@ -1,19 +1,7 @@
 package it.polimi.ingsw.serializationTest;
 
-import it.polimi.ingsw.constants.Height;
-import it.polimi.ingsw.enumerations.Colors;
-import it.polimi.ingsw.enumerations.Gods;
-import it.polimi.ingsw.model.Session;
-import it.polimi.ingsw.model.map.Position;
-import it.polimi.ingsw.model.player.Player;
-import it.polimi.ingsw.serialization.ModelDeserialization;
-import it.polimi.ingsw.serialization.ModelSerialized;
-import it.polimi.ingsw.rules.GodRules;
-import it.polimi.ingsw.rules.gods.HestiaRules;
-import it.polimi.ingsw.rules.gods.Setupper;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
+import it.polimi.ingsw.MVC.model.player.Player;
+import it.polimi.ingsw.MVC.model.rules.GodRules;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;

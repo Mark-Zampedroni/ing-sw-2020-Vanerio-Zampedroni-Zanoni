@@ -3,25 +3,12 @@ package it.polimi.ingsw.serializationTest;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
-import it.polimi.ingsw.constants.Height;
-import it.polimi.ingsw.enumerations.Colors;
-import it.polimi.ingsw.enumerations.Gods;
-import it.polimi.ingsw.model.Session;
-import it.polimi.ingsw.model.map.Board;
-import it.polimi.ingsw.model.map.Position;
-import it.polimi.ingsw.model.player.Player;
-import it.polimi.ingsw.model.player.Worker;
-import it.polimi.ingsw.serialization.ModelSerialized;
-import it.polimi.ingsw.rules.GodRules;
-import it.polimi.ingsw.rules.gods.HestiaRules;
-import it.polimi.ingsw.rules.gods.Setupper;
-import org.junit.Test;
+import it.polimi.ingsw.MVC.model.Session;
+import it.polimi.ingsw.MVC.model.player.Player;
+import it.polimi.ingsw.MVC.model.rules.GodRules;
+import it.polimi.ingsw.MVC.model.rules.gods.Setupper;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
-
-import java.io.*;
-import java.util.ArrayList;
-import java.util.Base64;
 
 
 public class ModelSerializedTest {

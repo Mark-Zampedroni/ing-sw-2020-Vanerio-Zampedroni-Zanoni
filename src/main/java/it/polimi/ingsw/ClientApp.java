@@ -1,8 +1,8 @@
 package it.polimi.ingsw;
 
 
-import it.polimi.ingsw.enumerations.Colors;
-import it.polimi.ingsw.net.client.Client;
+import it.polimi.ingsw.utility.enumerations.Colors;
+import it.polimi.ingsw.network.client.Client;
 
 import java.util.ArrayList;
 import java.util.Arrays;

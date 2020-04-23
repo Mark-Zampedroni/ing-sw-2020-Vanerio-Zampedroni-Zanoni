@@ -3,20 +3,6 @@ package it.polimi.ingsw.serializationTest;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
-import it.polimi.ingsw.constants.Height;
-import it.polimi.ingsw.enumerations.Colors;
-import it.polimi.ingsw.enumerations.Gods;
-import it.polimi.ingsw.model.Session;
-import it.polimi.ingsw.model.map.Position;
-import it.polimi.ingsw.model.player.Player;
-import it.polimi.ingsw.rules.EventRules;
-import it.polimi.ingsw.rules.GodRules;
-import it.polimi.ingsw.rules.gods.HestiaRules;
-import org.junit.Test;
-
-import java.io.*;
-import java.util.HashMap;
-
 /**
  * Unit test for simple App.
  */

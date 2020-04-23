@@ -1,6 +1,6 @@
 package it.polimi.ingsw;
 
-import it.polimi.ingsw.net.server.Server;
+import it.polimi.ingsw.network.server.Server;
 
 public class ServerApp {
 
