@@ -46,7 +46,7 @@ public class SelectionController extends StateController {
 
     @Override
     public void sendUpdate() {
-        sendBroadcastMessage(new GodUpdate("SERVER", Session.getInstance().getChallenger(), godMap));
+        sendBroadcastMessage(new GodUpdate("SERVER", challenger.getUsername(), godMap));
     }
 
     private void parseGodMessage (Message message){

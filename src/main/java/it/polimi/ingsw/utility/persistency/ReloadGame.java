@@ -1,4 +1,4 @@
-package it.polimi.ingsw.persistency;
+package it.polimi.ingsw.utility.persistency;
 
 import java.io.FileInputStream;
 import java.io.IOException;

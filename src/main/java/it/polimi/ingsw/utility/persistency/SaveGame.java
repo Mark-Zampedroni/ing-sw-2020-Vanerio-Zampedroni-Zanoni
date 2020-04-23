@@ -1,4 +1,4 @@
-package it.polimi.ingsw.persistency;
+package it.polimi.ingsw.utility.persistency;
 
 import it.polimi.ingsw.MVC.controller.SessionController;
 

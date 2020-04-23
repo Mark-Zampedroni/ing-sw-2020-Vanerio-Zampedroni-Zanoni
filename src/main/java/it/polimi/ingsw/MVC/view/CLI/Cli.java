@@ -176,7 +176,7 @@ public class Cli implements View {
         client.sendMessage(new Message(MessageType.GOD_UPDATE, username, c));
     }
 
-    public void Starter(ArrayList<String> gods){
+    public void starter(ArrayList<String> gods){
         String c;
         inputScreen.clear();
         inputScreen.addLine("\nChoose the starter player: ");

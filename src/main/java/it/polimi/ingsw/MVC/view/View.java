@@ -18,7 +18,7 @@ public interface View {
     void showLogged();
     void displayGods(GodUpdate message);
     void godSelection(Map<String, ArrayList<String>> gods);
-    void Starter(ArrayList<String> string );
+    void starter(ArrayList<String> string );
     void displayString(ArrayList<String> string, String text);
     void godAssignment(ArrayList<String> gods);
     void switchState(GameState state); // Enum con varie finestre ? No bello se passa state

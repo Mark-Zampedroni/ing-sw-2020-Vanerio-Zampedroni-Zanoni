@@ -126,7 +126,7 @@ public class Client extends Thread implements Observer<Message> {
 
     // TEST, NO MESSAGE MA ACTIONMESSAGE
     private void parseActionReply(Message message) {
-        viewInput.add(() -> view.requestAction());
+        viewInput.add(view::requestAction);
     }
 
     private void parseRegistrationReply(FlagMessage message) {
@@ -134,11 +134,11 @@ public class Client extends Thread implements Observer<Message> {
             if(message.getFlag()) {
                 username = message.getInfo();
                 state = GameState.LOBBY;
-                viewInput.add(() -> view.showLogged()); // TEST
+                viewInput.add(view::showLogged); // TEST
             }
             else {
-                if(playerCounter<3){viewInput.add(() -> view.requestLogin() );} // poi sistemo
-                else{viewInput.add(() -> view.denyLogin());}
+                if(playerCounter<3){viewInput.add(view::requestLogin); } // poi sistemo
+                else{viewInput.add(view::denyLogin); }
             }
         }
     }
@@ -146,11 +146,11 @@ public class Client extends Thread implements Observer<Message> {
     private void parseLobbyUpdate(LobbyUpdate message) {
         if(state == GameState.PRE_LOBBY) {
             state = GameState.LOGIN;
-            viewInput.add(() -> this.view.requestLogin());
+            viewInput.add(view::requestLogin);
         }
         if(state == GameState.LOGIN || state == GameState.LOBBY) {
             if(playerCounter == 3 && message.getPlayers().keySet().size() < playerCounter && state == GameState.LOGIN) {
-                viewInput.add(() -> view.requestLogin() );
+                viewInput.add(view::requestLogin);
             }
             playerCounter = message.getPlayers().keySet().size();
             viewUpdate.add(() -> view.updateLobby(message));
@@ -181,7 +181,7 @@ public class Client extends Thread implements Observer<Message> {
                 viewUpdate.add(() -> view.displayString(a, "\nAvailable Players to choose: "));
 
                // viewInput.add(() -> view.Starter(new ArrayList<>(map.keySet())));
-                viewInput.add(() -> view.Starter(a));
+                viewInput.add(() -> view.starter(a));
 
                 break;
             case "choice":
