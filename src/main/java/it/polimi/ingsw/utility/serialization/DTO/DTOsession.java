@@ -36,7 +36,6 @@ public class DTOsession {
     /**
      * Method that create a unique instance of DTOsession
      *
-     * @return the {@link DTOsession DTOsession} with all the game informations
      * @param session indicates his equivalent in server storage
      */
     public DTOsession (Session session) {
