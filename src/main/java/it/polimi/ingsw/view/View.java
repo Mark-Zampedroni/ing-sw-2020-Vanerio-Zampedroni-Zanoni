@@ -15,7 +15,7 @@ public interface View {
     void requestLogin();
     void requestAction();
     void denyLogin();
-    void requestReady();
+    void showLogged();
     void displayGods(GodUpdate message);
     void godSelection(Map<String, ArrayList<String>> gods);
     void Starter(ArrayList<String> string );

@@ -15,26 +15,29 @@ import it.polimi.ingsw.observer.observable.Observer;
 import it.polimi.ingsw.view.RemoteView;
 
 import java.util.*;
-import java.util.stream.Collectors;
+import java.util.logging.Logger;
 
 public class SessionController implements Observer<Message>  {
 
     private GameState state;
     private StateController stateController;
-    private int playersNumber;
+    private int gameCapacity;
 
     private final Object viewLock = new Object();
+
+    private static Logger LOG;
 
     TurnController table;
     Session session;
 
-    private final List<ServerConnection> pendingConnections;
     private final Map<String, RemoteView> views = new HashMap<>();
 
-    public SessionController(List<ServerConnection> pendingConnections) {
-        this.pendingConnections = pendingConnections;
+    public SessionController(List<ServerConnection> pendingConnections, Logger LOG) {
+        SessionController.LOG = LOG;
         session = Session.getInstance();
-        switchState(GameState.LOBBY);
+        state = GameState.LOBBY;
+        stateController = new LobbyController(this, views, pendingConnections);
+        System.out.println("Created Lobby controller");
     }
 
     public List<Player> getPlayers() { return session.getPlayers(); }
@@ -49,22 +52,23 @@ public class SessionController implements Observer<Message>  {
     public void switchState(GameState state) {
         this.state = state;
         switch(state) {
-            case LOBBY:
-                stateController = new LobbyController(this, views, pendingConnections);
-                break;
             case GOD_SELECTION:
                 stateController = new SelectionController(this, views);
                 break;
             default:
-                System.out.println("This state is not yet implemented or the Server doesn't use it");
+                LOG.severe("Tried to switch to state "+state+", but the Server doesn't support it yet");
                 // Altri stati
         }
         synchronized(viewLock) {
-            sendStateUpdate();
-            if(this.state != GameState.LOBBY) stateController.sendUpdate();
+            sendStateUpdate(); // Notify new state to clients
+            if(this.state != GameState.LOBBY) stateController.sendUpdate(); // Update clients info
         }
 
-        System.out.println("\nNew state: "+state+"\n"); // TEST
+        LOG.info("Server switch to new state: "+state); // TEST
+    }
+
+    public void tryNextState() {
+        stateController.tryNextState();
     }
 
     // Update ai client per notificarli che è cambiato lo stato, uguale per tutti gli stati
@@ -101,9 +105,17 @@ public class SessionController implements Observer<Message>  {
     // Notifica da parte di una view che è arrivato un messaggio, come viene gestito cambia in base allo stato (parseMessage)
     public void update(Message message) {
         synchronized(viewLock) {
-            System.out.println("Stampato da SessionController: \n" + message + "\n"); // TEST
+            LOG.info("SessionController received RemoteView message: "+message);
             stateController.parseMessage(message);
         }
+    }
+
+    public void setGameCapacity(int capacity) {
+        gameCapacity = capacity;
+    }
+
+    public int getGameCapacity() {
+        return gameCapacity;
     }
 
 }

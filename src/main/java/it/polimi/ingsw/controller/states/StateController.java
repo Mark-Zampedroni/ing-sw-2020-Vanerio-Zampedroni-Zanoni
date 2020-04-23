@@ -21,12 +21,14 @@ public abstract class StateController {
 
     public abstract void sendUpdate();
     public abstract void parseMessage(Message message);
+    public abstract void tryNextState();
 
     public void sendBroadcastMessage(Message message) {
         for (String player : views.keySet()) {
             views.get(player).sendMessage(message);
         }
     }
+
     public List<Colors> getFreeColors() {
         return new ArrayList<>(); // Empty, Override in Lobby
     }

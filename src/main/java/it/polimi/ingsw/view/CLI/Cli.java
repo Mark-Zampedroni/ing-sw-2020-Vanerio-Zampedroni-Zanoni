@@ -69,6 +69,12 @@ public class Cli implements View {
         updateScreen();
     }
 
+    public void showLogged(){
+        inputScreen.clear();
+        inputScreen.addLine("Waiting for other players to log");
+        updateScreen();
+    }
+
     private void requestColor() {
         inputScreen.addLine("Choose one of the available colors: ");
         String c;

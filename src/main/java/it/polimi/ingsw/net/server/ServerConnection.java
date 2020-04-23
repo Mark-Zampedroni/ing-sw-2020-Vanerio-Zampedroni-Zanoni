@@ -1,7 +1,7 @@
 package it.polimi.ingsw.net.server;
 
+import it.polimi.ingsw.enumerations.ConnectionLevel;
 import it.polimi.ingsw.enumerations.MessageType;
-import it.polimi.ingsw.net.messages.game.ActionMessage;
 import it.polimi.ingsw.net.messages.Message;
 import it.polimi.ingsw.net.messages.lobby.RegistrationMessage;
 import it.polimi.ingsw.observer.observable.Observable;
@@ -13,14 +13,14 @@ import java.net.Socket;
 
 public class ServerConnection extends Observable<Message> implements Runnable {
 
+    private ConnectionLevel level;
     private boolean open;
-    private boolean registered;
 
     private final Server server;
     private final Socket socket;
 
-    private final Object readLock = new Object(); // Lock shared on all VirtualViews
-    private final Object sendLock = new Object();
+    private final Object readLock = new Object(); // static?
+    private final Object sendLock = new Object(); // static?
 
     private ObjectInputStream input; // Not final because on error it may not initialize
     private ObjectOutputStream output;
@@ -28,7 +28,8 @@ public class ServerConnection extends Observable<Message> implements Runnable {
     private Thread listener;
 
     public ServerConnection(Server server, Socket socket) {
-        Server.LOG.info("Creating virtual view\n");
+        Server.LOG.info("[CONNECTION] Creating virtual view");
+        level = ConnectionLevel.FRESH;
         this.server = server;
         this.socket = socket;
         try {
@@ -37,9 +38,9 @@ public class ServerConnection extends Observable<Message> implements Runnable {
             listener = new Thread(this);
             listener.start();
             open = true;
-            Server.LOG.info("Successful creation of Connection\n");
+            Server.LOG.info("[CONNECTION] Successful creation of Connection");
         } catch(IOException e) {
-            Server.LOG.severe(e.toString());
+            Server.LOG.severe("[CONNECTION] "+e.toString());
         }
     }
 
@@ -51,13 +52,13 @@ public class ServerConnection extends Observable<Message> implements Runnable {
                     output.reset();
                 }
             } catch(IOException e) {
-                Server.LOG.severe(e.getMessage());
+                Server.LOG.severe("[CONNECTION] "+e.toString());
                 disconnect();
             }
         }
     }
 
-    public void disconnect() {
+    protected void disconnect() {
         if(open) {
             try {
                 if(!socket.isClosed()) {
@@ -67,7 +68,7 @@ public class ServerConnection extends Observable<Message> implements Runnable {
                     open = false;
                 }
             } catch(IOException e) {
-                Server.LOG.severe(e.getMessage());
+                Server.LOG.severe("[CONNECTION] "+e.toString());
             }
         }
     }
@@ -76,30 +77,37 @@ public class ServerConnection extends Observable<Message> implements Runnable {
     public void run() {
         while (!Thread.currentThread().isInterrupted()) {
             try {
+                Message msg = (Message) input.readObject();
                 synchronized (readLock) {
-                    Message msg = (Message) input.readObject();
                     if (msg != null) {
-                        if (!registered) {
+                        if (level != ConnectionLevel.REGISTERED) { // Message received by Server
                             if (msg.getType() == MessageType.REGISTRATION) {
                                 server.registerConnection(this, msg.getSender(), ((RegistrationMessage) msg).getColor());
                             }
-                        }
-                        else {
-                            notify(msg); // Notify RemoteView -> SessionController -> print
+                            else if(msg.getType() == MessageType.SLOTS_CHOICE) {
+                                server.startLobby(this, msg.getInfo());
                             }
                         }
+                        else { // Message received by View
+                            notify(msg); // Notify -> RemoteView -> SessionController
+                        }
                     }
+                }
             } catch(ClassNotFoundException e){
-                Server.LOG.severe(e.getMessage());
+                Server.LOG.severe("[CONNECTION] "+e.toString());
             } catch(IOException e){
-                Server.LOG.severe("Exception throw, connection closed");
+                Server.LOG.severe("[CONNECTION] "+e.toString());
                 disconnect();
             }
         }
     }
 
-    public void register() {
-        registered = true;
+    protected void setConnectionLevel(ConnectionLevel level) {
+        this.level = level;
+    }
+
+    public ConnectionLevel getConnectionLevel() {
+        return level;
     }
 
 }

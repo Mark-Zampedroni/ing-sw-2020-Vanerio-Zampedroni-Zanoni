@@ -2,6 +2,7 @@ package it.polimi.ingsw.net.client;
 
 import it.polimi.ingsw.enumerations.Colors;
 import it.polimi.ingsw.enumerations.GameState;
+import it.polimi.ingsw.enumerations.MessageType;
 import it.polimi.ingsw.model.Session;
 import it.polimi.ingsw.model.player.Player;
 import it.polimi.ingsw.net.messages.FlagMessage;
@@ -15,6 +16,7 @@ import it.polimi.ingsw.view.View;
 
 import java.util.ArrayList;
 import java.util.Map;
+import java.util.Scanner;
 import java.util.concurrent.LinkedBlockingQueue;
 
 public class Client extends Thread implements Observer<Message> {
@@ -31,16 +33,15 @@ public class Client extends Thread implements Observer<Message> {
 
     public Client(String ip, int port, int view) {
 
-        state = GameState.CONNECTION;
         viewUpdate = new LinkedBlockingQueue<>();
         viewInput = new LinkedBlockingQueue<>();
 
         initGraphic(view);
-        createConnection(ip,port); // state -> LOGIN
+        createConnection(ip,port); // state -> PRE_LOBBY
 
         System.out.println("Connected");
 
-        viewInput.add(() -> this.view.requestLogin());
+        //viewInput.add(() -> this.view.requestLogin());
         new UpdateListener().start();
         this.start();
     }
@@ -77,33 +78,48 @@ public class Client extends Thread implements Observer<Message> {
 
     public void createConnection(String ip, int port) {
         connection = new ClientConnection(ip, port, this);
-        state = GameState.LOGIN;
+        state = GameState.PRE_LOBBY;
     }
 
     public void update(Message message) {
         switch (message.getType()) {
-            case DISCONNECT:
+            case SLOTS_CHOICE: // PRE-LOBBY
+                parseSlotMessage(message);
+                break;
+            case INFO: // PRE-LOBBY
+                parseInfoMessage(message);
+                break;
+            case DISCONNECT: // PRE-LOBBY / LOBBY (tutte)
                 parseDisconnectMessage(message);
                 break;
-            case REGISTRATION:
+            case REGISTRATION: // LOBBY (pendente)
                 parseRegistrationReply((FlagMessage) message);
                 break;
-            case LOBBY_UPDATE:
+            case LOBBY_UPDATE: // LOBBY (tutte)
                 parseLobbyUpdate((LobbyUpdate) message);
                 break;
-            case ACTION: // TEST
+            case ACTION: // GAME
                 parseActionReply(message);
                 break;
-            case STATE_UPDATE:
+            case STATE_UPDATE: // TUTTE
                 parseStateUpdate((StateUpdateMessage) message);
                 break;
-            case GOD_UPDATE:
+            case GOD_UPDATE: // GOD_SELECTION
                 parseGodUpdate((GodUpdate) message);
                 break;
-            case GOD_CHOICE:
+            case GOD_CHOICE: // GOD_SELECTION
                 parseGodChoice(message);
                 break;
         }
+    }
+
+    private void parseSlotMessage(Message message) { // TEST CLI
+        System.out.println("\nDa quanti player il game? Scrivere 2 o 3\n");
+        sendMessage(new Message(MessageType.SLOTS_CHOICE,"GameStarter", (new Scanner(System.in)).nextLine()));
+    }
+
+    private void parseInfoMessage(Message message) {
+        System.out.println("\n\n\n"+message.getInfo()+"\n\n");
     }
 
     private void parseDisconnectMessage(Message message) {
@@ -121,16 +137,20 @@ public class Client extends Thread implements Observer<Message> {
                 connection.register();
                 username = message.getInfo();
                 state = GameState.LOBBY;
-                viewInput.add(() -> view.requestReady()); // TEST
+                viewInput.add(() -> view.showLogged()); // TEST
             }
             else {
-                if(playerCounter<3){viewInput.add(() -> view.requestLogin() );}
+                if(playerCounter<3){viewInput.add(() -> view.requestLogin() );} // poi sistemo
                 else{viewInput.add(() -> view.denyLogin());}
             }
         }
     }
 
     private void parseLobbyUpdate(LobbyUpdate message) {
+        if(state == GameState.PRE_LOBBY) {
+            state = GameState.LOGIN;
+            viewInput.add(() -> this.view.requestLogin());
+        }
         if(state == GameState.LOGIN || state == GameState.LOBBY) {
             if(playerCounter == 3 && message.getPlayers().keySet().size() < playerCounter && state == GameState.LOGIN) {
                 viewInput.add(() -> view.requestLogin() );

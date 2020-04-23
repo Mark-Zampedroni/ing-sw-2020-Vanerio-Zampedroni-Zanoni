@@ -35,6 +35,7 @@ public class SelectionController extends StateController {
                 break;
             case GOD_CHOICE:
                 parseGodChoiceMessage(message);
+                break;
             default:
                 System.out.println("[Warning] Wrong message type");
         }
@@ -75,7 +76,7 @@ public class SelectionController extends StateController {
                 if (GodMap.get("chosen").contains(message.getInfo())) {
                     for(Player user: controller.getPlayers()){
                         if(user.getUsername().equals(message.getSender()) && user.getGod() == null) {
-                            for (Gods god : Arrays.asList(Gods.values())) {
+                            for (Gods god : Gods.values()) {
                                 if (message.getInfo().equals(god.toString())) {
                                     user.setGod(god);
                                 }
@@ -96,7 +97,7 @@ public class SelectionController extends StateController {
                 }
             }
             else{
-                controller.switchState(GameState.FIRST_TURN);
+                tryNextState();
             }
 
         }
@@ -104,10 +105,14 @@ public class SelectionController extends StateController {
 
     private void startGodMap(){
         ArrayList<String> list = new ArrayList<>();
-        for(Gods god: Arrays.asList(Gods.values())) {
+        for(Gods god: Gods.values()) {
             GodMap.put(god.toString(),god.getDescription());
         }
         GodMap.put("chosen",list);
+    }
+
+    public void tryNextState() {
+        controller.switchState(GameState.FIRST_TURN);
     }
 
 }
