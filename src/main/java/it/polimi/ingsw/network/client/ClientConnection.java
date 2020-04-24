@@ -4,6 +4,7 @@ import it.polimi.ingsw.utility.enumerations.Colors;
 import it.polimi.ingsw.utility.exceptions.net.FailedConnectionException;
 import it.polimi.ingsw.network.messages.Message;
 import it.polimi.ingsw.network.messages.lobby.RegistrationMessage;
+import it.polimi.ingsw.utility.observer.Observable;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -32,6 +33,41 @@ public class ClientConnection extends Thread {
     private final List<Message> inQueue;
 
     private final Object queueLock = new Object();
+
+    private class ClientMessageReceiver extends Observable<Message> implements Runnable {
+
+        private Thread t;
+        private ClientConnection connection;
+
+        public ClientMessageReceiver(ClientConnection connection, Client controller) {
+            this.connection = connection;
+            this.addObserver(controller);
+
+            t = new Thread(this);
+            t.start();
+        }
+
+        @Override
+        public void run() {
+            List<Message> messages;
+            while (!Thread.currentThread().isInterrupted()) {
+                do {
+                    messages = connection.getQueue(); // Consumer
+                    try {
+                        Thread.sleep(50);
+                    } catch(InterruptedException e) { connection.LOG.warning("ClientReceiver wait time Exception"); }
+                } while(messages.isEmpty());
+                for(Message msg : messages) {
+                    notify(msg);
+                }
+            }
+        }
+
+        public void clear() {
+            t.interrupt();
+        }
+
+    }
 
     public ClientConnection(String ip, int port, Client controller) {
         this.ip = ip;
@@ -128,8 +164,7 @@ public class ClientConnection extends Thread {
     public List<Message> getQueue() {
         List<Message> copy;
         synchronized(queueLock) {
-            copy = new ArrayList<>();
-            copy.addAll(inQueue);
+            copy = new ArrayList<>(inQueue);
             inQueue.clear();
         }
         return copy;
