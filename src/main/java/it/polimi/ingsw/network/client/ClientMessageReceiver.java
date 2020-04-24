@@ -26,7 +26,7 @@ public class ClientMessageReceiver extends Observable<Message> implements Runnab
                 messages = connection.getQueue(); // Consumer
                 try {
                     Thread.sleep(50);
-                } catch(InterruptedException e) { connection.LOG.warning("Consumer wait time Exception"); }
+                } catch(InterruptedException e) { connection.LOG.warning("ClientReceiver wait time Exception"); }
             } while(messages.isEmpty());
             for(Message msg : messages) {
                 notify(msg);

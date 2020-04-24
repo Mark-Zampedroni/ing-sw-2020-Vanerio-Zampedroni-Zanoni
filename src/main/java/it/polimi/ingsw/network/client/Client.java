@@ -29,7 +29,6 @@ public class Client extends Thread implements Observer<Message> {
 
     private View view;
 
-    private int playerCounter;
     private ArrayList<String> chosenGods;
     private Map<String, Colors> players;
 
@@ -41,9 +40,6 @@ public class Client extends Thread implements Observer<Message> {
         initGraphic(view);
         createConnection(ip,port); // state -> PRE_LOBBY
 
-        System.out.println("Connected");
-
-        //viewInput.add(() -> this.view.requestLogin());
         new UpdateListener().start();
         this.start();
     }
@@ -141,11 +137,11 @@ public class Client extends Thread implements Observer<Message> {
                 viewInput.add(view::showLogged); // TEST
             }
             else {
-                if(playerCounter<3){viewInput.add(view::requestLogin); } // poi sistemo
-                else{viewInput.add(view::denyLogin); }
+                viewInput.add(view::requestLogin);
             }
         }
     }
+
 
     private void parseLobbyUpdate(LobbyUpdate message) {
         players = message.getPlayers();
@@ -154,10 +150,6 @@ public class Client extends Thread implements Observer<Message> {
             viewInput.add(view::requestLogin);
         }
         if(state == GameState.LOGIN || state == GameState.LOBBY) {
-            if(playerCounter == 3 && message.getPlayers().keySet().size() < playerCounter && state == GameState.LOGIN) {
-                viewInput.add(view::requestLogin);
-            }
-            playerCounter = message.getPlayers().keySet().size();
             viewOutput.add(() -> view.updateLobby(message)); // Qui ha info
         }
     }
@@ -179,11 +171,7 @@ public class Client extends Thread implements Observer<Message> {
         switch (message.getInfo()) {
             case "starter":
                 viewOutput.add(() -> view.displayString(new ArrayList<>(players.keySet()), "\nAvailable Players to choose: "));
-                //viewOutput.add(() -> view.displayString(a, "\nAvailable Players to choose: "));
-
                 viewInput.add(() -> view.starter(new ArrayList<>(players.keySet())));
-                //viewInput.add(() -> view.starter(a));
-
                 break;
             case "choice":
                 viewOutput.add(() -> view.displayString(chosenGods, "\nAvailable Gods: "));
