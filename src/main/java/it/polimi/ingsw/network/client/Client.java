@@ -19,19 +19,23 @@ import java.util.concurrent.LinkedBlockingQueue;
 
 public class Client extends Thread implements Observer<Message> {
 
-    private final LinkedBlockingQueue<Runnable> viewUpdate;
+    private final LinkedBlockingQueue<Runnable> viewOutput;
     private final LinkedBlockingQueue<Runnable> viewInput;
+
     private GameState state;
     private String username;
+
     private ClientConnection connection;
+
     private View view;
+
     private int playerCounter;
     private ArrayList<String> chosenGods;
-    private Map<String, Colors> map;
+    private Map<String, Colors> players;
 
     public Client(String ip, int port, int view) {
 
-        viewUpdate = new LinkedBlockingQueue<>();
+        viewOutput = new LinkedBlockingQueue<>();
         viewInput = new LinkedBlockingQueue<>();
 
         initGraphic(view);
@@ -49,7 +53,7 @@ public class Client extends Thread implements Observer<Message> {
         public void run() {
             while (!Thread.currentThread().isInterrupted()) {
                 try {
-                    viewUpdate.take().run();
+                    viewOutput.take().run();
                 } catch (InterruptedException e) {
                     Thread.currentThread().interrupt();
                 }
@@ -121,7 +125,7 @@ public class Client extends Thread implements Observer<Message> {
     }
 
     private void parseDisconnectMessage(Message message) {
-        viewUpdate.add(() -> view.showMessage(message.getInfo()));
+        viewOutput.add(() -> view.showMessage(message.getInfo()));
     }
 
     // TEST, NO MESSAGE MA ACTIONMESSAGE
@@ -144,6 +148,7 @@ public class Client extends Thread implements Observer<Message> {
     }
 
     private void parseLobbyUpdate(LobbyUpdate message) {
+        players = message.getPlayers();
         if(state == GameState.PRE_LOBBY) {
             state = GameState.LOGIN;
             viewInput.add(view::requestLogin);
@@ -153,7 +158,7 @@ public class Client extends Thread implements Observer<Message> {
                 viewInput.add(view::requestLogin);
             }
             playerCounter = message.getPlayers().keySet().size();
-            viewUpdate.add(() -> view.updateLobby(message));
+            viewOutput.add(() -> view.updateLobby(message)); // Qui ha info
         }
     }
 
@@ -161,7 +166,7 @@ public class Client extends Thread implements Observer<Message> {
         if(state == GameState.GOD_SELECTION) {
             chosenGods = new ArrayList<>(message.getGods().get("chosen"));
             if(!message.getInfo().equals("update")){
-                viewUpdate.add(() -> view.displayGods(message));
+                viewOutput.add(() -> view.displayGods(message));
                 if (message.getInfo().equals(username)) {
                     viewInput.add(() -> view.godSelection(message.getGods()));
                 }
@@ -173,19 +178,15 @@ public class Client extends Thread implements Observer<Message> {
     private void parseGodChoice(Message message){
         switch (message.getInfo()) {
             case "starter":
-                ArrayList<String> a = new ArrayList<>();
-                a.add("a");
-                a.add("b");
-                a.add("c");
-                //viewUpdate.add(() -> view.displayString(new ArrayList<>(map.keySet()), "\nAvailable Players to choose: "));
-                viewUpdate.add(() -> view.displayString(a, "\nAvailable Players to choose: "));
+                viewOutput.add(() -> view.displayString(new ArrayList<>(players.keySet()), "\nAvailable Players to choose: "));
+                //viewOutput.add(() -> view.displayString(a, "\nAvailable Players to choose: "));
 
-               // viewInput.add(() -> view.Starter(new ArrayList<>(map.keySet())));
-                viewInput.add(() -> view.starter(a));
+                viewInput.add(() -> view.starter(new ArrayList<>(players.keySet())));
+                //viewInput.add(() -> view.starter(a));
 
                 break;
             case "choice":
-                viewUpdate.add(() -> view.displayString(chosenGods, "\nAvailable Gods: "));
+                viewOutput.add(() -> view.displayString(chosenGods, "\nAvailable Gods: "));
                 viewInput.add(() -> view.godAssignment(chosenGods));
                 break;
             default:

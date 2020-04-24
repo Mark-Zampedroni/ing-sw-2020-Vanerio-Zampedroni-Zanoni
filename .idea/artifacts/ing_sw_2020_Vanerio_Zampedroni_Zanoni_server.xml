@@ -1,9 +1,9 @@
 <component name="ArtifactManager">
-  <artifact type="jar" build-on-make="true" name="ing-sw-2020-Vanerio-Zampedroni-Zanoni:server">
+  <artifact type="jar" name="ing-sw-2020-Vanerio-Zampedroni-Zanoni:server">
     <output-path>$PROJECT_DIR$/out/artifacts/ing_sw_2020_Vanerio_Zampedroni_Zanoni_server</output-path>
     <root id="archive" name="ing-sw-2020-Vanerio-Zampedroni-Zanoni.jar">
       <element id="directory" name="META-INF">
-        <element id="file-copy" path="$PROJECT_DIR$/src/server/META-INF/MANIFEST.MF" />
+        <element id="file-copy" path="$PROJECT_DIR$/src/main/java/jar/server/META-INF/MANIFEST.MF" />
       </element>
       <element id="module-output" name="ing-sw-2020-Vanerio-Zampedroni-Zanoni" />
     </root>

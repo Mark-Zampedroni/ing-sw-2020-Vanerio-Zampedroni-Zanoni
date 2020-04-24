@@ -28,7 +28,7 @@ public class LobbyController extends StateController {
     }
 
     @Override
-    public void sendUpdate() {
+    public void sendUpdate() { // Invece di controller.getPlayers() un DTO
         sendBroadcastMessage(new LobbyUpdate("SERVER", "Update", controller.getFreeColors(), controller.getPlayers()));
     }
 

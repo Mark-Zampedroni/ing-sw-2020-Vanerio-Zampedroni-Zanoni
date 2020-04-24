@@ -25,8 +25,8 @@ public class SelectionController extends StateController {
         super(controller, views);
         session = Session.getInstance();
         startGodMap();
-        sendUpdate();
         challenger = session.getPlayerByName(session.getChallenger());
+        sendUpdate();
         turn = session.getPlayers().indexOf(challenger);
     }
 

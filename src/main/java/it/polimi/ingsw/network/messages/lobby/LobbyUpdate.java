@@ -12,7 +12,7 @@ import java.util.Map;
 public class LobbyUpdate extends Message { // Anche per quando un player si flagga ready
 
     private List<Colors> colors;
-    private Map<String,Colors> registeredPlayers;
+    private Map<String, Colors> registeredPlayers;
 
     public LobbyUpdate(String sender, String info, List<Colors> colors, List<Player> players) {
         super(MessageType.LOBBY_UPDATE, sender, info);
