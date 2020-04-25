@@ -15,7 +15,6 @@ import it.polimi.ingsw.MVC.view.View;
 
 import java.util.ArrayList;
 import java.util.Map;
-import java.util.Scanner;
 import java.util.concurrent.LinkedBlockingQueue;
 
 public class Client extends Thread implements Observer<Message> {
@@ -82,7 +81,7 @@ public class Client extends Thread implements Observer<Message> {
 
     public void update(Message message) {
         switch (message.getType()) {
-            case CONNECTION_TOKEN: // state = GameState.PRE_LOBBY;
+            case CONNECTION_TOKEN: // CONNECTION
                 parseConnectionMessage(message);
                 break;
             case SLOTS_CHOICE: // PRE-LOBBY
@@ -115,6 +114,7 @@ public class Client extends Thread implements Observer<Message> {
         }
     }
 
+    /* Connection */
     private void parseConnectionMessage(Message message) {
         if(state == GameState.CONNECTION) {
             username = message.getInfo();
@@ -122,17 +122,66 @@ public class Client extends Thread implements Observer<Message> {
         }
     }
 
+    /* CREAZIONE PARTITA */////////////////////////////////////////////////////////////////
     private void parseSlotMessage(Message message) { // TEST CLI
-        System.out.println("\nDa quanti player il game? Scrivere 2 o 3\n");
-        sendMessage(new Message(MessageType.SLOTS_CHOICE, username, (new Scanner(System.in)).nextLine()));
+        viewOutput.add(view::requestNumberOfPlayers);
     }
 
-    private void parseInfoMessage(Message message) {
-        System.out.println("\n\n\n"+message.getInfo()+"\n\n");
+    public boolean validateNumberOfPlayers(String number) {
+        if(number.equals("2") || number.equals("3")) { // Controllo su client - implementato anti-cheat su server
+            sendMessage(new Message(MessageType.SLOTS_CHOICE, username, number));
+            return true;
+        }
+        view.showInputText("The number you typed is not valid, please choose 2 or 3:");
+        return false;
+    }
+    //^^^ CREAZIONE PARTITA ^^^/////////////////////////////////////////////////////////////////////////////
+
+
+    /* LOBBY *////////////////////////////////////////////////////////////////////////////
+    public boolean validateUsername(String requestedUsername) {
+        if(!players.containsKey(requestedUsername)) {
+            return true;
+        }
+        view.showInputText("This username is already taken, choose a different one:");
+        return false;
+    }
+
+    public boolean validateColor(String requestedColor) {
+        if(!Colors.isValid(requestedColor)) {
+            view.showInputText("The color selected does not exist, choose one of the available colors:");
+            return false;
+        }
+        else if(players.containsValue(Colors.valueOf(requestedColor))) {
+            view.showInputText("This color is already taken, choose a different one:");
+            return false;
+        }
+        return true;
+    }
+
+    public void requestLogin(String requestedUsername, Colors color) {
+        sendMessage(new RegistrationMessage(username, requestedUsername, color));
+    }
+
+    private void parseLobbyUpdate(LobbyUpdate message) {
+        players = message.getPlayers();
+        if(state == GameState.PRE_LOBBY) {
+            state = GameState.LOGIN;
+            viewInput.add(view::requestLogin);
+            viewOutput.add(() -> view.updateLobby(message.getPlayers(), message.getColors()));
+        }
+        else if(state == GameState.LOGIN || state == GameState.LOBBY) {
+            viewOutput.add(() -> view.updateLobby(message.getPlayers(), message.getColors()));
+        }
     }
 
     private void parseDisconnectMessage(Message message) {
-        viewOutput.add(() -> view.showMessage(message.getInfo()));
+        viewOutput.add(() -> view.showInputText(message.getInfo()));
+    }
+    //^^^ LOBBY ^^^////////////////////////////////////////////////////////////////////////////
+
+    private void parseInfoMessage(Message message) {
+        System.out.println("\n\n\n"+message.getInfo()+"\n\n");
     }
 
     // TEST, NO MESSAGE MA ACTIONMESSAGE
@@ -145,7 +194,7 @@ public class Client extends Thread implements Observer<Message> {
             if(message.getFlag()) {
                 username = message.getInfo(); // View registrata su Server
                 state = GameState.LOBBY;
-                viewInput.add(view::showLogged); // TEST
+                viewInput.add(() -> view.showInputText("Waiting for other players to log")); // TEST
             }
             else {
                 viewInput.add(view::requestLogin);
@@ -154,21 +203,10 @@ public class Client extends Thread implements Observer<Message> {
     }
 
 
-    private void parseLobbyUpdate(LobbyUpdate message) {
-        players = message.getPlayers();
-        if(state == GameState.PRE_LOBBY) {
-            state = GameState.LOGIN;
-            viewInput.add(view::requestLogin);
-        }
-        if(state == GameState.LOGIN || state == GameState.LOBBY) {
-            viewOutput.add(() -> view.updateLobby(message)); // Qui ha info
-        }
-    }
-
     private void parseGodUpdate(GodUpdate message) {
-        if(state == GameState.GOD_SELECTION) {
+        if (state == GameState.GOD_SELECTION) {
             chosenGods = new ArrayList<>(message.getGods().get("chosen"));
-            if(!message.getInfo().equals("update")){
+            if (!message.getInfo().equals("update")) {
                 viewOutput.add(() -> view.displayGods(message));
                 if (message.getInfo().equals(username)) {
                     viewInput.add(() -> view.godSelection(message.getGods()));
@@ -177,15 +215,15 @@ public class Client extends Thread implements Observer<Message> {
 
         }
     }
-            //Da aggiungere mappa per i nomi dei player, Adesso va con 3 stronzi a,b,c
+
     private void parseGodChoice(Message message){
         switch (message.getInfo()) {
             case "starter":
-                viewOutput.add(() -> view.displayString(new ArrayList<>(players.keySet()), "\nAvailable Players to choose: "));
+                //viewOutput.add(() -> view.displayString(new ArrayList<>(players.keySet()), "\nAvailable Players to choose: "));
                 viewInput.add(() -> view.starter(new ArrayList<>(players.keySet())));
                 break;
             case "choice":
-                viewOutput.add(() -> view.displayString(chosenGods, "\nAvailable Gods: "));
+                //viewOutput.add(() -> view.displayString(chosenGods, "\nAvailable Gods: "));
                 viewInput.add(() -> view.godAssignment(chosenGods));
                 break;
             default:
@@ -198,10 +236,6 @@ public class Client extends Thread implements Observer<Message> {
     private void parseStateUpdate(StateUpdateMessage message) {
         state = message.getState();
         //viewUpdate.add(() -> view.switchState(state));
-    }
-
-    public void requestLogin(String requestedUsername, Colors color) {
-        sendMessage(new RegistrationMessage(username, requestedUsername, color));
     }
 
     public void sendMessage(Message message) {
