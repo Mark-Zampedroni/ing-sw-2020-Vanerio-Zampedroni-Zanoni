@@ -1,6 +1,9 @@
 package it.polimi.ingsw.utility.enumerations;
 
 public enum MessageType {
+
+    CONNECTION_TOKEN,
+
     SLOTS_CHOICE,
     REGISTRATION,
     DISCONNECT,

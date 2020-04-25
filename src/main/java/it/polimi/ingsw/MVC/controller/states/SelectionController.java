@@ -11,6 +11,7 @@ import it.polimi.ingsw.network.messages.lobby.GodUpdate;
 import it.polimi.ingsw.MVC.view.RemoteView;
 
 import java.util.*;
+import java.util.logging.Logger;
 
 public class SelectionController extends StateController {
 
@@ -21,8 +22,8 @@ public class SelectionController extends StateController {
     private int turn;
     boolean flag; // Momentanea
 
-    public SelectionController(SessionController controller, Map<String,RemoteView> views) {
-        super(controller, views);
+    public SelectionController(SessionController controller, Map<String, RemoteView> views, Logger LOG) {
+        super(controller, views, LOG);
         session = Session.getInstance();
         startGodMap();
         challenger = session.getPlayerByName(session.getChallenger());

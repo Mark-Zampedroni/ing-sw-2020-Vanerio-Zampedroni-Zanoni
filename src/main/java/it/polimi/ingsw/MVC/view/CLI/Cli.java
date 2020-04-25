@@ -12,6 +12,7 @@ import it.polimi.ingsw.network.messages.game.ActionMessage;
 import it.polimi.ingsw.network.messages.lobby.GodUpdate;
 import it.polimi.ingsw.network.messages.lobby.LobbyUpdate;
 import it.polimi.ingsw.MVC.view.View;
+import java.awt.Toolkit;
 
 
 /*
@@ -40,11 +41,24 @@ public class Cli implements View {
     public Cli(Client client) {
         colors = new ArrayList<>(Arrays.asList(Colors.values()));
 
+        Toolkit tk = Toolkit.getDefaultToolkit();
+        double width = tk.getScreenSize().getWidth();
+        double height = tk.getScreenSize().getHeight();
+
+        screenTest(width,9.15);
+
         inputScreen = new Screen();
         outputScreen = new Screen();
 
         this.client = client;
         input = new Scanner(System.in);
+    }
+
+    private void screenTest(double width, double divisor) {
+        System.out.println("\n\n"+divisor);
+        for(int x = 0; x < Toolkit.getDefaultToolkit().getScreenSize().getWidth()/9.15; x++) {
+            System.out.print("A");
+        }
     }
 
     private void updateScreen() {

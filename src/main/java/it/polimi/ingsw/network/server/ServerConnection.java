@@ -13,11 +13,14 @@ import java.net.Socket;
 
 public class ServerConnection extends Observable<Message> implements Runnable {
 
-    private ConnectionLevel level;
+    private String token;
+
     private boolean open;
 
     private final Server server;
     private final Socket socket;
+
+    private boolean inLobby;
 
     private final Object readLock = new Object(); // static?
     private final Object sendLock = new Object(); // static?
@@ -27,9 +30,8 @@ public class ServerConnection extends Observable<Message> implements Runnable {
 
     private Thread listener;
 
-    public ServerConnection(Server server, Socket socket) {
+    public ServerConnection(Server server, Socket socket, String token) {
         Server.LOG.info("[CONNECTION] Creating virtual view");
-        level = ConnectionLevel.FRESH;
         this.server = server;
         this.socket = socket;
         try {
@@ -38,10 +40,16 @@ public class ServerConnection extends Observable<Message> implements Runnable {
             listener = new Thread(this);
             listener.start();
             open = true;
+            sendToken(token);
             Server.LOG.info("[CONNECTION] Successful creation of Connection");
         } catch(IOException e) {
             Server.LOG.severe("[CONNECTION] "+e.toString());
         }
+    }
+
+    private void sendToken(String token) {
+        this.token = token;
+        sendMessage(new Message(MessageType.CONNECTION_TOKEN, "SERVER", token));
     }
 
     public void sendMessage(Message msg) {
@@ -80,11 +88,8 @@ public class ServerConnection extends Observable<Message> implements Runnable {
                 Message msg = (Message) input.readObject();
                 synchronized (readLock) {
                     if (msg != null) {
-                        if (level != ConnectionLevel.REGISTERED) { // Message received by Server
-                            if (msg.getType() == MessageType.REGISTRATION) {
-                                server.registerConnection(this, msg.getSender(), ((RegistrationMessage) msg).getColor());
-                            }
-                            else if(msg.getType() == MessageType.SLOTS_CHOICE) {
+                        if (!inLobby) { // Message received by Server
+                            if(msg.getType() == MessageType.SLOTS_CHOICE) {
                                 server.startLobby(this, msg.getInfo());
                             }
                         }
@@ -102,12 +107,29 @@ public class ServerConnection extends Observable<Message> implements Runnable {
         }
     }
 
-    protected void setConnectionLevel(ConnectionLevel level) {
-        this.level = level;
+    public boolean isInLobby() {
+        return inLobby;
     }
 
-    public ConnectionLevel getConnectionLevel() {
-        return level;
+    public void putInLobby() {
+        inLobby = true;
+    }
+
+    public String getToken() {
+        return token;
+    }
+
+    public void denyConnection(String message) {
+        sendMessage(new Message(MessageType.DISCONNECT, "SERVER", message));
+        disconnect();
+    }
+
+    public void setName(String username) {
+        token = username;
+    }
+
+    public String getUsername() {
+        return token;
     }
 
 }

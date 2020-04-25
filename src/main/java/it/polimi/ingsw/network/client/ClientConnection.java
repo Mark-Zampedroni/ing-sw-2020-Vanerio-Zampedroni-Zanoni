@@ -115,10 +115,6 @@ public class ClientConnection extends Thread {
         }
     }
 
-    public void registerConnection(String username, Colors color) {
-        sendMessage(new RegistrationMessage(username, "Registration request as " + username + " with color "+color, color));
-    }
-
     public void sendMessage(Message msg) {
         try {
             if (output != null) {

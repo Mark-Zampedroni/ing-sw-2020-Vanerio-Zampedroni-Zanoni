@@ -1,6 +1,5 @@
 package it.polimi.ingsw.MVC.view;
 
-import it.polimi.ingsw.utility.enumerations.GameState;
 import it.polimi.ingsw.network.messages.lobby.GodUpdate;
 import it.polimi.ingsw.network.messages.lobby.LobbyUpdate;
 

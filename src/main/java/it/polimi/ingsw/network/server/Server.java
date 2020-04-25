@@ -1,14 +1,11 @@
 package it.polimi.ingsw.network.server;
 
 import it.polimi.ingsw.MVC.controller.SessionController;
-import it.polimi.ingsw.utility.enumerations.Colors;
 import it.polimi.ingsw.utility.enumerations.ConnectionLevel;
 import it.polimi.ingsw.utility.enumerations.GameState;
 import it.polimi.ingsw.utility.enumerations.MessageType;
-import it.polimi.ingsw.network.messages.FlagMessage;
 import it.polimi.ingsw.network.messages.Message;
 import it.polimi.ingsw.network.messages.lobby.LobbyUpdate;
-import it.polimi.ingsw.MVC.view.RemoteView;
 
 import java.io.IOException;
 import java.net.ServerSocket;
@@ -24,27 +21,28 @@ import java.util.stream.Collectors;
 public class Server extends Thread {
 
     private ServerSocket serverSocket;
-    private Map<String, ServerConnection> registeredConnections;
-    private final List<ServerConnection> connections;
+    private final List<ServerConnection> allConnections;
+    private final List<ServerConnection> freshConnections;
 
     private final Object connectionsLock = new Object();
 
     private SessionController sessionController;
     private ServerConnection gameCreator;
 
+    private int token = 0;
+
     public static final Logger LOG = Logger.getLogger("Server");
 
     public Server(int port) {
-        registeredConnections = new HashMap<>();
-        connections = new ArrayList<>();
+        freshConnections = new ArrayList<>();
+        allConnections = new ArrayList<>();
         startLogging();
-        sessionController = new SessionController(connections, LOG); // Controller
+        sessionController = new SessionController(freshConnections, LOG); // Controller
         try {
             serverSocket = new ServerSocket(port);
         } catch(IOException e) {
             LOG.severe(e.getMessage());
         }
-        System.out.println("Starting Server thread");
         this.start();
     }
 
@@ -62,14 +60,17 @@ public class Server extends Thread {
         while (!Thread.currentThread().isInterrupted()) {
             try {
                 LOG.info("Waiting for connection request");
+                token += 1;
+                String name = String.valueOf(token);
                 Socket client = serverSocket.accept();
-                ServerConnection c = new ServerConnection(this, client);
+                ServerConnection c = new ServerConnection(this, client, name);
                 if(sessionController.isGameStarted()) { // DA SINCRONIZZARE SU LOCK
-                    denyConnection(c,"The game has already started, you can't connect");
+                    c.denyConnection("The game has already started, you can't connect");
                 }
                 else {
                     synchronized(connectionsLock) {
-                        connections.add(c); //
+                        freshConnections.add(c);
+                        allConnections.add(c);
                         if (gameCreator == null) {
                             setNewGameCreator();
                         } // Se e' il primo player decide quante persone entreranno
@@ -88,11 +89,13 @@ public class Server extends Thread {
 
     protected void onDisconnection(ServerConnection connection) {
         synchronized(connectionsLock) {
-            if (connection.getConnectionLevel() == ConnectionLevel.REGISTERED) {
-                disconnectRegistered(connection);
+            if (connection.isInLobby()) {
+                disconnectInLobby(connection);
             } else {
-                connections.remove(connection);
+                freshConnections.remove(connection);
             }
+            allConnections.remove(connection);
+
             if (gameCreator == connection) { // !sessionController.isGameStarted() ? Se non si potrà gestire in registered
                 Server.LOG.info("Removed current game Creator");
                 setNewGameCreator();
@@ -101,38 +104,16 @@ public class Server extends Thread {
         }
     }
 
-    private void disconnectRegistered(ServerConnection connection) {
-        String user = getConnectionUsername(connection);
-        if(user != null) {
-            LOG.info(user + " disconnected\n");
-            if(sessionController.getState() == GameState.LOBBY) { // Game in lobby - felice e non sconnette tutti
-                registeredConnections.remove(user);
-                LOG.info(user + " removed from lobby\n");
-                sessionController.removePlayer(user);
-                sessionController.sendUpdate();
-            }
-            else {
-                System.out.println("CHIUSURA PARTITA! USCITO PLAYER");
-            }
+    private void disconnectInLobby(ServerConnection connection) {
+        String user = connection.getUsername();
+        LOG.info(user + " disconnected\n");
+        if(sessionController.getState() == GameState.LOBBY) { // Game in lobby - felice e non sconnette tutti
+            LOG.info(user + " removed from lobby\n");
+            sessionController.removePlayer(user);
+            sessionController.sendUpdate();
         }
-    }
-
-    protected void registerConnection(ServerConnection connection, String user, Colors color) {
-        synchronized(connectionsLock) {
-            if(registeredConnections.containsKey(user)) { // Anti-cheat
-                connection.sendMessage(createRegistrationReply("This username is already in use",false));
-                LOG.info("A player tried to register with the already in use username "+user+"\n");
-            }
-            else if(!sessionController.getFreeColors().contains(color)) { // Anti-cheat
-                connection.sendMessage(createRegistrationReply("Color "+color+ " is not available",false));
-                LOG.info("A player tried to register with the already in use color "+color+"\n");
-            }
-            else {
-                confirmConnection(user, color, connection);
-                connection.sendMessage(createRegistrationReply( user,true));
-                sessionController.sendUpdate();
-                tryStartGame();
-            }
+        else {
+            System.out.println("CHIUSURA PARTITA! USCITO PLAYER");
         }
     }
 
@@ -148,16 +129,12 @@ public class Server extends Thread {
         }
     }
 
-    private void denyConnection(ServerConnection connection, String message) {
-        connection.sendMessage(new Message(MessageType.DISCONNECT, "SERVER", message));
-        connection.disconnect();
-        LOG.info("Disconnected connection with message "+message);
-    }
-
     private void setNewGameCreator() {
         gameCreator = null;
-        if(!connections.isEmpty()) {
-            gameCreator = connections.get(0);
+        if(!allConnections.isEmpty()) {
+            gameCreator = (freshConnections.size() != allConnections.size()) ?
+                          allConnections.stream().filter(ServerConnection::isInLobby).collect(Collectors.toList()).get(0) :
+                          allConnections.get(0); // Oldest connection
             if(!isLobbyCreated()) {
                 gameCreator.sendMessage(new Message(MessageType.SLOTS_CHOICE, "SERVER", "Create game"));
             }
@@ -169,24 +146,17 @@ public class Server extends Thread {
     private void fillPlayersSlots() {
         synchronized (connectionsLock) {
             if(isLobbyCreated()) {
-                int neededPlayers = sessionController.getGameCapacity() - (getFilteredLevel(ConnectionLevel.PENDING).size() + registeredConnections.size());
-                connections.stream().filter(c -> c.getConnectionLevel() == ConnectionLevel.FRESH).limit(neededPlayers)
+                int neededPlayers = sessionController.getGameCapacity() - (allConnections.size() - freshConnections.size());
+                List<ServerConnection> copy = new ArrayList<>(freshConnections);
+                copy.stream().limit(neededPlayers)
                         .forEach(c -> {
+                            c.putInLobby();
+                            sessionController.addUnregisteredView(c);
+                            freshConnections.remove(c);
                             c.sendMessage(createLobbyUpdate());
-                            c.setConnectionLevel(ConnectionLevel.PENDING);
                         });
             }
             notifyFreshQueue();
-        }
-    }
-
-    private void confirmConnection(String user, Colors color, ServerConnection connection) {
-        synchronized (connectionsLock) {
-            registeredConnections.put(user, connection);
-            connections.remove(connection);
-            connection.setConnectionLevel(ConnectionLevel.REGISTERED);
-            LOG.info(user + " connected\n");
-            sessionController.addPlayer(user, color, new RemoteView(user, connection));
         }
     }
 
@@ -194,37 +164,10 @@ public class Server extends Thread {
         return (sessionController.getGameCapacity() != 0);
     }
 
-    private List<ServerConnection> getFilteredLevel(ConnectionLevel level) {
-        return connections.stream().filter(c -> c.getConnectionLevel() == level).collect(Collectors.toList());
-    }
-
-    private String getConnectionUsername(ServerConnection connection) {
-        String user = null;
-        for (Map.Entry<String, ServerConnection> entry : registeredConnections.entrySet()) {
-            if (entry.getValue().equals(connection)) {
-                user = entry.getKey();
-                break;
-            }
-        }
-        return user;
-    }
-
-    private void tryStartGame() {
-        synchronized (connectionsLock) {
-            if (registeredConnections.size() == sessionController.getGameCapacity()) {
-                List<ServerConnection> copy = new ArrayList<>(connections);
-                copy.forEach(c -> denyConnection(c,"The game has started, you were disconnected"));
-                connections.clear();
-                sessionController.tryNextState();
-            }
-        }
-    }
-
     // Notifica la coda in pre-lobby sulla posizione in cui sono
     private void notifyFreshQueue() {
-        List<ServerConnection> toNotify = getFilteredLevel(ConnectionLevel.FRESH);
-        for(ServerConnection connection : toNotify) {
-            if(gameCreator != connection) { connection.sendMessage(createInfoUpdate(toNotify.indexOf(connection))); }
+        for(ServerConnection connection : freshConnections) {
+            if(gameCreator != connection) { connection.sendMessage(createInfoUpdate(freshConnections.indexOf(connection))); }
         }
     }
 
@@ -232,7 +175,7 @@ public class Server extends Thread {
     private Message createInfoUpdate(int position) {
         if(isLobbyCreated()) {
             return new Message(MessageType.INFO, "SERVER", "The game is for " + sessionController.getGameCapacity() + " players ...\n"
-                    + "At the moment the Lobby is full and there are " + position + " players in queue before you\n"
+                    + "At the moment the Lobby is full and " + ((position == 0) ? "you are first in queue\n" : "there are " + position + " players in queue before you\n")
                     + "You will be disconnected if no slots are vacated and the game starts");
         }
         else {
@@ -245,9 +188,7 @@ public class Server extends Thread {
         return new LobbyUpdate("SERVER", "Update", sessionController.getFreeColors(), sessionController.getPlayers());
     }
 
-    private Message createRegistrationReply(String info, boolean success) {
-        return new FlagMessage(MessageType.REGISTRATION,"SERVER", info ,success);
-    }
+
 
 
 }

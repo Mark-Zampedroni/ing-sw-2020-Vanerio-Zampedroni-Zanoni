@@ -32,12 +32,11 @@ public class SessionController implements Observer<Message>  {
 
     private final Map<String, RemoteView> views = new HashMap<>();
 
-    public SessionController(List<ServerConnection> pendingConnections, Logger LOG) {
+    public SessionController(List<ServerConnection> connections, Logger LOG) {
         SessionController.LOG = LOG;
         session = Session.getInstance();
         state = GameState.LOBBY;
-        stateController = new LobbyController(this, views, pendingConnections);
-        System.out.println("Created Lobby controller");
+        stateController = new LobbyController(this, views, LOG, connections);
     }
 
     public Session getSession() { return session; }
@@ -51,7 +50,7 @@ public class SessionController implements Observer<Message>  {
         this.state = state;
         switch(state) {
             case GOD_SELECTION:
-                stateController = new SelectionController(this, views);
+                stateController = new SelectionController(this, views, LOG);
                 break;
             default:
                 LOG.severe("Tried to switch to state "+state+", but the Server doesn't support it yet");
@@ -79,20 +78,23 @@ public class SessionController implements Observer<Message>  {
         stateController.sendUpdate();
     }
 
+    public void addUnregisteredView(ServerConnection connection) {
+        synchronized(viewLock) {
+            stateController.addUnregisteredView(connection);
+        }
+    }
+
     // Registra un player e lo aggiunge al gioco
     public void addPlayer(String username, Colors color, RemoteView view) {
         synchronized(viewLock) {
-            session.addPlayer(username, color);
-            views.put(username, view);
-            view.addObserver(this);
+            stateController.addPlayer(username, color, view);
         }
     }
 
     // Rimuove un player registrato e lo de-registra
     public void removePlayer(String username) {
         synchronized(viewLock) {
-            session.removePlayer(username);
-            views.remove(username);
+            stateController.removePlayer(username);
         }
     }
 

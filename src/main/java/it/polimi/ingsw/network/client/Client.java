@@ -1,5 +1,6 @@
 package it.polimi.ingsw.network.client;
 
+import it.polimi.ingsw.network.messages.lobby.RegistrationMessage;
 import it.polimi.ingsw.utility.enumerations.Colors;
 import it.polimi.ingsw.utility.enumerations.GameState;
 import it.polimi.ingsw.utility.enumerations.MessageType;
@@ -38,7 +39,7 @@ public class Client extends Thread implements Observer<Message> {
         viewInput = new LinkedBlockingQueue<>();
 
         initGraphic(view);
-        createConnection(ip,port); // state -> PRE_LOBBY
+        createConnection(ip,port);
 
         new UpdateListener().start();
         this.start();
@@ -75,12 +76,15 @@ public class Client extends Thread implements Observer<Message> {
 
 
     public void createConnection(String ip, int port) {
+        state = GameState.CONNECTION;
         connection = new ClientConnection(ip, port, this);
-        state = GameState.PRE_LOBBY;
     }
 
     public void update(Message message) {
         switch (message.getType()) {
+            case CONNECTION_TOKEN: // state = GameState.PRE_LOBBY;
+                parseConnectionMessage(message);
+                break;
             case SLOTS_CHOICE: // PRE-LOBBY
                 parseSlotMessage(message);
                 break;
@@ -111,9 +115,16 @@ public class Client extends Thread implements Observer<Message> {
         }
     }
 
+    private void parseConnectionMessage(Message message) {
+        if(state == GameState.CONNECTION) {
+            username = message.getInfo();
+            state = GameState.PRE_LOBBY;
+        }
+    }
+
     private void parseSlotMessage(Message message) { // TEST CLI
         System.out.println("\nDa quanti player il game? Scrivere 2 o 3\n");
-        sendMessage(new Message(MessageType.SLOTS_CHOICE,"GameStarter", (new Scanner(System.in)).nextLine()));
+        sendMessage(new Message(MessageType.SLOTS_CHOICE, username, (new Scanner(System.in)).nextLine()));
     }
 
     private void parseInfoMessage(Message message) {
@@ -132,7 +143,7 @@ public class Client extends Thread implements Observer<Message> {
     private void parseRegistrationReply(FlagMessage message) {
         if(state == GameState.LOGIN) {
             if(message.getFlag()) {
-                username = message.getInfo();
+                username = message.getInfo(); // View registrata su Server
                 state = GameState.LOBBY;
                 viewInput.add(view::showLogged); // TEST
             }
@@ -189,8 +200,8 @@ public class Client extends Thread implements Observer<Message> {
         //viewUpdate.add(() -> view.switchState(state));
     }
 
-    public void requestLogin(String username, Colors color) {
-        connection.registerConnection(username,color);
+    public void requestLogin(String requestedUsername, Colors color) {
+        sendMessage(new RegistrationMessage(username, requestedUsername, color));
     }
 
     public void sendMessage(Message message) {
