@@ -1,5 +1,6 @@
 package it.polimi.ingsw.MVC.model.rules.gods;
 
+import it.polimi.ingsw.MVC.model.rules.GodRules;
 import it.polimi.ingsw.utility.enumerations.Action;
 import it.polimi.ingsw.utility.enumerations.Colors;
 import it.polimi.ingsw.utility.enumerations.Gods;
@@ -20,7 +21,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class ArtemisRulesTest {
     Player player;
     Worker worker;
-    ArtemisRules test= (ArtemisRules) Gods.ARTEMIS.createRules();
+    ArtemisRules test= (ArtemisRules) GodRules.getInstance(Gods.ARTEMIS);
 
     @BeforeEach
     void setUp() {

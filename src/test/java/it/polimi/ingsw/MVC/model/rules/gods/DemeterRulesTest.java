@@ -1,5 +1,6 @@
 package it.polimi.ingsw.MVC.model.rules.gods;
 
+import it.polimi.ingsw.MVC.model.rules.GodRules;
 import it.polimi.ingsw.utility.enumerations.Action;
 import it.polimi.ingsw.utility.enumerations.Colors;
 import it.polimi.ingsw.utility.enumerations.Gods;
@@ -19,7 +20,7 @@ import java.util.List;
 class DemeterRulesTest {
     Player player;
     Worker worker;
-    DemeterRules test= (DemeterRules) Gods.DEMETER.createRules();
+    DemeterRules test= (DemeterRules) GodRules.getInstance(Gods.DEMETER);
 
 
     @BeforeEach

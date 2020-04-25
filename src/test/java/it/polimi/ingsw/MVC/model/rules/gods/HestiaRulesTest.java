@@ -1,5 +1,6 @@
 package it.polimi.ingsw.MVC.model.rules.gods;
 
+import it.polimi.ingsw.MVC.model.rules.GodRules;
 import it.polimi.ingsw.utility.enumerations.Action;
 import it.polimi.ingsw.utility.enumerations.Colors;
 import it.polimi.ingsw.utility.enumerations.Gods;
@@ -20,7 +21,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class HestiaRulesTest {
     Player player;
     Worker worker;
-    HestiaRules test = (HestiaRules) Gods.HESTIA.createRules();
+    HestiaRules test = (HestiaRules) GodRules.getInstance(Gods.HESTIA);
     Position position;
 
     @BeforeEach

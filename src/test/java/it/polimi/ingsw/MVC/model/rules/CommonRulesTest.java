@@ -29,7 +29,7 @@ class CommonRulesTest {
         Session.getInstance().getBoard().clear();
         player = Setupper.addPlayer("TestName", Colors.BLUE,1);
         worker = player.getWorkers().get(0);
-        test = Gods.APOLLO.createRules();
+        test = GodRules.getInstance(Gods.APOLLO);
         player.setRules(test);
         list = new ArrayList<>();
     }

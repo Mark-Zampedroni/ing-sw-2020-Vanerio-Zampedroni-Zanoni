@@ -36,7 +36,7 @@ class PlayerTest {
         assertEquals(workers.size(), 2);
         assertEquals(workers.get(0).getMaster(), player);
         assertEquals(workers.get(1).getMaster(), player);
-        GodRules rules = Gods.APOLLO.createRules();
+        GodRules rules = GodRules.getInstance(Gods.APOLLO);
         player.setRules(rules);
         assertNotEquals(player.getRules(), null);
         player.removeWorker(0);

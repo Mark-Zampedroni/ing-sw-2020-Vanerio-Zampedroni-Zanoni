@@ -68,6 +68,11 @@
             <set />
           </value>
         </entry>
+        <entry key="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/MVC/model/rules/GodRules.java">
+          <value>
+            <set />
+          </value>
+        </entry>
         <entry key="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/MVC/model/rules/gods/AthenaRules.java">
           <value>
             <set />
@@ -423,6 +428,11 @@
             <set />
           </value>
         </entry>
+        <entry key="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/utility/enumerations/Gods.java">
+          <value>
+            <set />
+          </value>
+        </entry>
         <entry key="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/utility/serialization/DTO/DTOboard.java">
           <value>
             <set />
@@ -509,6 +519,81 @@
           </value>
         </entry>
         <entry key="$PROJECT_DIR$/src/test/java/it/polimi/ingsw/MVC/model/rules/CheckTest.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/src/test/java/it/polimi/ingsw/MVC/model/rules/CommonRulesTest.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/src/test/java/it/polimi/ingsw/MVC/model/rules/gods/ApolloRulesTest.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/src/test/java/it/polimi/ingsw/MVC/model/rules/gods/ArtemisRulesTest.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/src/test/java/it/polimi/ingsw/MVC/model/rules/gods/AthenaRulesTest.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/src/test/java/it/polimi/ingsw/MVC/model/rules/gods/AtlasRulesTest.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/src/test/java/it/polimi/ingsw/MVC/model/rules/gods/DemeterRulesTest.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/src/test/java/it/polimi/ingsw/MVC/model/rules/gods/HephaestusRulesTest.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/src/test/java/it/polimi/ingsw/MVC/model/rules/gods/HeraRulesTest.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/src/test/java/it/polimi/ingsw/MVC/model/rules/gods/HestiaRulesTest.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/src/test/java/it/polimi/ingsw/MVC/model/rules/gods/MinotaurRulesTest.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/src/test/java/it/polimi/ingsw/MVC/model/rules/gods/PanRulesTest.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/src/test/java/it/polimi/ingsw/MVC/model/rules/gods/PoseidonRulesTest.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/src/test/java/it/polimi/ingsw/MVC/model/rules/gods/PrometheusRulesTest.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/src/test/java/it/polimi/ingsw/MVC/model/rules/gods/TritonRulesTest.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/src/test/java/it/polimi/ingsw/MVC/model/rules/gods/ZeusRulesTest.java">
           <value>
             <set />
           </value>

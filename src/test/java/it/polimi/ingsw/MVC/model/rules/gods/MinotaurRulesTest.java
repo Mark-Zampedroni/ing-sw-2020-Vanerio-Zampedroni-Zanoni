@@ -19,8 +19,8 @@ class MinotaurRulesTest {
     Player player;
     Player player2;
     Worker worker;
-    MinotaurRules test= (MinotaurRules) Gods.MINOTAUR.createRules();
-    GodRules test2 = Gods.ARTEMIS.createRules();
+    MinotaurRules test= (MinotaurRules) GodRules.getInstance(Gods.MINOTAUR);
+    GodRules test2 = GodRules.getInstance(Gods.ARTEMIS);
     Worker worker2;
 
     @BeforeEach

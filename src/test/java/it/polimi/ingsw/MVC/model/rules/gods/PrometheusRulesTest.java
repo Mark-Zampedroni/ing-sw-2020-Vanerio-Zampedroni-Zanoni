@@ -1,5 +1,6 @@
 package it.polimi.ingsw.MVC.model.rules.gods;
 
+import it.polimi.ingsw.MVC.model.rules.GodRules;
 import it.polimi.ingsw.utility.enumerations.Action;
 import it.polimi.ingsw.utility.enumerations.Colors;
 import it.polimi.ingsw.utility.enumerations.Gods;
@@ -21,7 +22,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class PrometheusRulesTest {
     Player player;
     Worker worker;
-    PrometheusRules test = (PrometheusRules) Gods.PROMETHEUS.createRules();
+    PrometheusRules test = (PrometheusRules) GodRules.getInstance(Gods.PROMETHEUS);
 
     @BeforeEach
     void setUp() {

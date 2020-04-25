@@ -68,7 +68,7 @@ public class Cli implements View {
         updateScreen();
     }
 
-    public void showLogged(){
+    public void showLogged() {
         inputScreen.clear();
         inputScreen.addLine("Waiting for other players to log");
         updateScreen();

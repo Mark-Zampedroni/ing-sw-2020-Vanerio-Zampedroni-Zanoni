@@ -1,5 +1,6 @@
 package it.polimi.ingsw.MVC.model.rules.gods;
 
+import it.polimi.ingsw.MVC.model.rules.GodRules;
 import it.polimi.ingsw.utility.enumerations.Colors;
 import it.polimi.ingsw.utility.enumerations.Gods;
 import it.polimi.ingsw.MVC.model.Session;
@@ -35,7 +36,7 @@ class HeraRulesTest {
 
     @Test
     void applyEffect() {
-        player2.setRules(Gods.APOLLO.createRules()); // Any god
+        player2.setRules(GodRules.getInstance(Gods.APOLLO)); // Any god
         player2.getRules().executeBuild(new Position(0,1));
         player2.getRules().executeBuild(new Position(0,2));
         player2.getRules().executeBuild(new Position(0,2));
@@ -46,7 +47,7 @@ class HeraRulesTest {
         assertFalse(player2.getRules().consentWin(worker2, new Position(0,1)));
         assertTrue(player2.getRules().consentWin(worker2, new Position(0,3)));
         // Test Hera.consentWin block
-        player.setRules(Gods.HERA.createRules());
+        player.setRules(GodRules.getInstance(Gods.HERA));
         assertFalse(player2.getRules().consentWin(worker2, new Position(0,3)));
         // Test consentEnemyPosition
         assertDoesNotThrow(()->player2.getRules().consentMovement(worker2, new Position(0,3)));

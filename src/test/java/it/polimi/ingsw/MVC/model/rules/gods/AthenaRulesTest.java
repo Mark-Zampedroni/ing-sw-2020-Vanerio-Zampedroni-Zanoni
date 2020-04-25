@@ -1,5 +1,6 @@
 package it.polimi.ingsw.MVC.model.rules.gods;
 
+import it.polimi.ingsw.MVC.model.rules.GodRules;
 import it.polimi.ingsw.utility.enumerations.Colors;
 import it.polimi.ingsw.utility.enumerations.Gods;
 import it.polimi.ingsw.utility.exceptions.actions.CantActException;
@@ -37,8 +38,8 @@ class AthenaRulesTest {
 
     @Test
     void applyEffect() {
-        player.setRules(Gods.ATHENA.createRules());
-        player2.setRules(Gods.APOLLO.createRules());
+        player.setRules(GodRules.getInstance(Gods.ATHENA));
+        player2.setRules(GodRules.getInstance(Gods.APOLLO));
 
         worker2.setPosition(2,2);
         player2.getRules().executeBuild(new Position(3,2)); // Height 1 (Athena second position)
@@ -58,8 +59,8 @@ class AthenaRulesTest {
 
     @Test
     void winCondition() {
-        player.setRules(Gods.ATHENA.createRules());
-        player2.setRules(Gods.APOLLO.createRules());
+        player.setRules(GodRules.getInstance(Gods.ATHENA));
+        player2.setRules(GodRules.getInstance(Gods.APOLLO));
 
         player2.getRules().executeBuild(new Position(0,1)); // Height 1
         player2.getRules().executeBuild(new Position(1,0)); // Height 1

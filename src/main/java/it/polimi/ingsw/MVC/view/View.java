@@ -9,19 +9,23 @@ import java.util.Map;
 
 public interface View {
 
+    // NO PASSARE MESSAGGI ! VANNO MESSI COME ARGOMENTI LIST O STRING
+
+    // Prefissi :
+    // show -> mostra roba come messaggio (vicino all'output / finestra popup)
+    // update -> uno per tipo di finestra, si passano le variabili per costruirlo (pezzi fissi + variabili)
+    // request -> attesa di input che verrà poi parsato nel client
 
     void showMessage(String string);
     void updateLobby(LobbyUpdate message);
     void requestLogin();
     void requestAction();
-    void denyLogin();
     void showLogged();
     void displayGods(GodUpdate message);
     void godSelection(Map<String, ArrayList<String>> gods);
     void starter(ArrayList<String> string );
     void displayString(ArrayList<String> string, String text);
     void godAssignment(ArrayList<String> gods);
-    void switchState(GameState state); // Enum con varie finestre ? No bello se passa state
     //void requestUnready();
 
 }

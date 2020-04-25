@@ -1,5 +1,7 @@
 package it.polimi.ingsw.MVC.model.rules;
 
+import it.polimi.ingsw.MVC.model.rules.gods.*;
+import it.polimi.ingsw.utility.enumerations.Gods;
 import it.polimi.ingsw.utility.serialization.DTO.DTOsession;
 import it.polimi.ingsw.utility.enumerations.Action;
 import it.polimi.ingsw.utility.exceptions.actions.CantActException;
@@ -22,7 +24,7 @@ import static it.polimi.ingsw.utility.constants.Height.TOP;
 /**
  * Rules shared by all the gods
  */
-public abstract class GodRules extends Observable implements Serializable {
+public abstract class GodRules extends Observable<DTOsession> implements Serializable {
 
     static final List<EnemyRules> enemyModifiers = new ArrayList<>();
 
@@ -36,6 +38,7 @@ public abstract class GodRules extends Observable implements Serializable {
         worker.setPosition(position);
         notify(new DTOsession(Session.getInstance()));
     }
+
 
     public void executeAdd(Player player, Position position) {
         player.addWorker(position);
@@ -194,6 +197,26 @@ public abstract class GodRules extends Observable implements Serializable {
             }
         }
         return false;
+    }
+
+    public static GodRules getInstance(Gods god) {
+        switch(god) {
+            case APOLLO: return new ApolloRules();
+            case ARTEMIS: return new ArtemisRules();
+            case ATHENA: return new AthenaRules();
+            case ATLAS: return new AtlasRules();
+            case DEMETER: return new DemeterRules();
+            case HEPHAESTUS: return new HephaestusRules();
+            case MINOTAUR: return new MinotaurRules();
+            case PAN: return new PanRules();
+            case PROMETHEUS: return new PrometheusRules();
+            case ZEUS: return new ZeusRules();
+            case TRITON: return new TritonRules();
+            case POSEIDON: return new PoseidonRules();
+            case HESTIA: return new HestiaRules();
+            case HERA: return new HeraRules();
+            default: return null;
+        }
     }
 
     /**

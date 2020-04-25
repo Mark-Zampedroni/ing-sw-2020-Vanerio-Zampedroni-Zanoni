@@ -1,5 +1,6 @@
 package it.polimi.ingsw.MVC.model.rules.gods;
 
+import it.polimi.ingsw.MVC.model.rules.GodRules;
 import it.polimi.ingsw.utility.enumerations.Action;
 import it.polimi.ingsw.utility.enumerations.Colors;
 import it.polimi.ingsw.utility.enumerations.Gods;
@@ -21,7 +22,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class PoseidonRulesTest {
     Player player;
     Worker worker;
-    PoseidonRules test = (PoseidonRules) Gods.POSEIDON.createRules();
+    PoseidonRules test = (PoseidonRules) GodRules.getInstance(Gods.POSEIDON);
 
     @BeforeEach
     void setUp() {

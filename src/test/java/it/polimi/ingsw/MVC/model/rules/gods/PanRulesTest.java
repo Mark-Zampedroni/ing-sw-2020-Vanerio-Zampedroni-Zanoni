@@ -19,7 +19,7 @@ class PanRulesTest {
     Player player;
     Worker worker;
     Position position = new Position(0,0);
-    GodRules test= Gods.PAN.createRules();
+    GodRules test = GodRules.getInstance(Gods.PAN);
 
    @BeforeEach
     void setUp() {

@@ -1,5 +1,6 @@
 package it.polimi.ingsw.MVC.model.rules.gods;
 
+import it.polimi.ingsw.MVC.model.rules.GodRules;
 import it.polimi.ingsw.utility.enumerations.Colors;
 import it.polimi.ingsw.utility.enumerations.Gods;
 import it.polimi.ingsw.utility.exceptions.actions.CantActException;
@@ -17,7 +18,7 @@ class ZeusRulesTest {
     Player player;
     Worker worker;
     Player opponent;
-    ZeusRules test = (ZeusRules) Gods.ZEUS.createRules();
+    ZeusRules test = (ZeusRules) GodRules.getInstance(Gods.ZEUS);
 
 
     @BeforeEach

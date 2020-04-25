@@ -1,8 +1,5 @@
 package it.polimi.ingsw.utility.enumerations;
 
-import it.polimi.ingsw.MVC.model.rules.*;
-import it.polimi.ingsw.MVC.model.rules.gods.*;
-
 import java.io.Serializable;
 import java.util.ArrayList;
 
@@ -10,20 +7,20 @@ import java.util.ArrayList;
  * Playable gods, each {@link it.polimi.ingsw.MVC.model.player.Player player} can select one
  */
 public enum Gods implements Serializable {
-    APOLLO("a") { public GodRules createRules() { return new ApolloRules(); } },
-    ARTEMIS("a") { public GodRules createRules() { return new ArtemisRules(); } },
-    ATHENA("a") { public GodRules createRules() { return new AthenaRules(); } },
-    ATLAS("a") { public GodRules createRules() { return new AtlasRules(); } },
-    DEMETER("a") { public GodRules createRules() { return new DemeterRules(); } },
-    HEPHAESTUS("a") { public GodRules createRules() { return new HephaestusRules(); } },
-    MINOTAUR("a") { public GodRules createRules() { return new MinotaurRules(); } },
-    PAN("a") { public GodRules createRules() { return new PanRules(); } },
-    PROMETHEUS("a") { public GodRules createRules() { return new PrometheusRules(); } },
-    ZEUS("a") { public GodRules createRules() { return new ZeusRules(); } },
-    TRITON("a") { public GodRules createRules() { return new TritonRules(); } },
-    POSEIDON("a") { public GodRules createRules() { return new PoseidonRules(); } },
-    HESTIA("a") { public GodRules createRules() { return new HestiaRules(); } },
-    HERA("a") { public GodRules createRules() { return new HeraRules(); } };
+    APOLLO("Your Move: Your Worker may move into an opponent Worker's space by forcing their Worker to the space yours just vacated."),
+    ARTEMIS("Your Move: Your Worker may move one additional time, but not back to its initial space."),
+    ATHENA("Opponent's Turn: If one of your Workers moved up on your last turn, opponent Workers cannot move up this turn."),
+    ATLAS("Your Build: Your Worker may build a dome at any level."),
+    DEMETER("Your Build: Your Worker may build one additional time, but not on the same space."),
+    HEPHAESTUS("Your Build: Your Worker may build one additional block (not dome) on top of your first block."),
+    MINOTAUR("Your Move: Your Worker may move into an opponent Worker's space, if their Worker can be forced one space straight backwards to an unoccupied space at any level."),
+    PAN("Win Condition: You also win if your Worker moves down two or more levels."),
+    PROMETHEUS("Your Turn: If your Worker does not move up, it may build both before and after moving."),
+    ZEUS("Your Build: Your Worker may build a block under itself."),
+    TRITON("Your Move: Each time your Worker moves into a perimeter space, it may immediately move again."),
+    POSEIDON("End of Your Turn: If your unmoved Worker is on the ground level, it may build up to three times."),
+    HESTIA("Your Build: Your Worker may build one additional time, but this cannot be on a perimeter space."),
+    HERA("Opponent's Turn: An opponent cannot win by moving into a perimeter space.");
 
     String description;
     Gods (String description){
@@ -35,13 +32,4 @@ public enum Gods implements Serializable {
         arraydesc.add(description);
         return arraydesc;
     }
-
-
-    /**
-     * Creates the set of {@link GodRules rules} for the selected god
-     *
-     * @return the set of {@link GodRules rules} of the caller
-     */
-    public abstract GodRules createRules();
-
 }
