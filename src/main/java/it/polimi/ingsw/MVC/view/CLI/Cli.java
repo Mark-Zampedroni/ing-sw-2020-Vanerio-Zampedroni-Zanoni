@@ -121,10 +121,6 @@ public class Cli implements View {
         client.sendMessage(new ActionMessage(username, content, Action.MOVE, new Position(0, 0), new Worker(new Position(0, 0))));
     }
 
-    public void denyLogin(){
-        showInputText("Lobby is full");
-    }
-
     public void displayGods(GodUpdate message) {
         //outputScreen.addLine("\nAvailable Gods:\n");
         for(String text: message.getGods().keySet()){

@@ -22,12 +22,12 @@ public interface View {
     void updateLobby(Map<String, Colors> players, List<Colors> availableColors); // Aggiorna la LOBBY
     void requestNumberOfPlayers(); // Chiede al primo giocatore da quante persone fare la partita
     void requestLogin(); // Chiede al giocatore di scegliere un username e un colore
-
-    void displayGods(GodUpdate message);
-    void godSelection(Map<String, ArrayList<String>> gods);
-    void starter(ArrayList<String> string );
-    void godAssignment(ArrayList<String> gods);
-
+    //Scelta dio / starte
+    void displayGods(GodUpdate message);  // updateGodChoices
+    void godSelection(Map<String, ArrayList<String>> gods); // requestGameGods
+    void starter(ArrayList<String> string ); // requestStarter
+    void godAssignment(ArrayList<String> gods); // requestPlayerGod
+    //Board
     void requestAction(); // TEST
 
 }
