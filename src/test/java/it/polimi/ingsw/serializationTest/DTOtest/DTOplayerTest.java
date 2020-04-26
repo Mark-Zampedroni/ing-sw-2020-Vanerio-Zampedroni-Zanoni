@@ -21,7 +21,7 @@ public class DTOplayerTest {
 
     @BeforeEach
     void setUp(){
-        Player player = Setupper.addPlayer("Paolo", Colors.BLUE, 1);
+        this.player = Setupper.addPlayer("Paolo", Colors.BLUE, 1);
         player.setGod(Gods.ATLAS);
         player.setChallenger();
         player.setWinner();
@@ -37,14 +37,11 @@ public class DTOplayerTest {
         player=null;
     }
 
+    /**
+     * Testing if the creation of a DTOplayer works, testing all the getters
+     */
     @Test
     void correctlyCreated(){
-        player = new Player("Paolo", Colors.BLUE);
-        player.setGod(Gods.ATLAS);
-        player.setChallenger();
-        player.setWinner();
-        player.addWorker(new Position(1,2));
-        player.addWorker(new Position(1,3));
         DTOplayer dtOplayer = new DTOplayer(player);
         assertTrue(dtOplayer.isWinner());
         assertEquals(dtOplayer.getColor(), Colors.BLUE);

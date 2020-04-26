@@ -75,11 +75,11 @@ public class DTOposition {
     }
 
 
-   /* /**
+/**
      * Evaluates if the DTOposition is valid
      *
-     * @return {@code true} if position is within the {@link Board board} boundaries
-
+     * @return {@code true} if position is within the {@link DTOboard DTOboard} boundaries
+    */
     public boolean isValid() {
         return (x >= 0 && x < 5 && y >= 0 && y < 5);
     }
@@ -87,9 +87,9 @@ public class DTOposition {
     /**
      * Calculates the distance from another DTOposition
      *
-     * @param position target {@link Position position}
+     * @param position target {@link DTOposition DTOposition}
      * @return calculated distance
-
+    */
     public int getDistanceFrom(DTOposition position) {
         int deltax = Math.abs(this.x - position.getX());
         int deltay = Math.abs(this.y - position.getY());
@@ -98,15 +98,13 @@ public class DTOposition {
 
         return (int)(diagonal * Math.sqrt(2) + straight);
     }
-*/
 
-   /* /**
-     * Checks if the position is perimetrical
+    /**
+     * Checks if the DTOposition is perimetrical
      *
-     * @return {@code true} if position coordinates are on the perimeter of {@link Board board}
-
+     * @return {@code true} if DTOposition coordinates are on the perimeter of {@link DTOboard DTOboard}
+    */
     public boolean isBoundary() {
         return (x == 0 || x == 4 || y == 0 || y == 4);
     }
-*/
 }
