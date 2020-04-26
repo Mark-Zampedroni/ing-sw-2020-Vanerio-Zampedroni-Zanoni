@@ -2,12 +2,11 @@ package it.polimi.ingsw.MVC.controller.states;
 
 import it.polimi.ingsw.MVC.controller.SessionController;
 import it.polimi.ingsw.utility.enumerations.GameState;
-import it.polimi.ingsw.utility.enumerations.Gods;
 import it.polimi.ingsw.utility.enumerations.MessageType;
 import it.polimi.ingsw.MVC.model.Session;
 import it.polimi.ingsw.MVC.model.player.Player;
 import it.polimi.ingsw.network.messages.Message;
-import it.polimi.ingsw.network.messages.lobby.GodChosen;
+import it.polimi.ingsw.network.messages.godSelection.GodChosen;
 import it.polimi.ingsw.MVC.view.RemoteView;
 
 import java.util.*;
@@ -17,7 +16,7 @@ public class SelectionController extends StateController {
 
 
     private Map<String, ArrayList<String>> godMap = new HashMap<>();
-    private ArrayList<String> chosenGod = new ArrayList<>();
+    private List<String> chosenGod = new ArrayList<>();
     private Session session;
     private Player challenger;
     private int turn;

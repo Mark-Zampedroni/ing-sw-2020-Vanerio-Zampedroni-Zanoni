@@ -2,6 +2,8 @@ package it.polimi.ingsw.utility.enumerations;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 /**
  * Playable gods, each {@link it.polimi.ingsw.MVC.model.player.Player player} can select one
@@ -31,5 +33,11 @@ public enum Gods implements Serializable {
         ArrayList<String> arraydesc =  new ArrayList<>();
         arraydesc.add(description);
         return arraydesc;
+    }
+
+    public static boolean isValid(String god) {
+        List<String> valid = new ArrayList<>(Arrays.asList("APOLLO","ARTEMIS","ATHENA","ATLAS","DEMETER","HEPHAESTUS","MINOTAUR",
+                "PAN","PROMETHEUS","ZEUS","TRITON","POSEIDON","HESTIA","HERA"));
+        return valid.contains(god);
     }
 }

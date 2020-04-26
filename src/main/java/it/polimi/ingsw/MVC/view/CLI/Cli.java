@@ -3,13 +3,10 @@ package it.polimi.ingsw.MVC.view.CLI;
 import it.polimi.ingsw.utility.enumerations.Action;
 import it.polimi.ingsw.utility.enumerations.Colors;
 import it.polimi.ingsw.utility.enumerations.Gods;
-import it.polimi.ingsw.utility.enumerations.MessageType;
 import it.polimi.ingsw.MVC.model.map.Position;
 import it.polimi.ingsw.MVC.model.player.Worker;
 import it.polimi.ingsw.network.client.Client;
-import it.polimi.ingsw.network.messages.Message;
 import it.polimi.ingsw.network.messages.game.ActionMessage;
-import it.polimi.ingsw.network.messages.lobby.LobbyUpdate;
 import it.polimi.ingsw.MVC.view.View;
 
 
@@ -126,42 +123,28 @@ public class Cli implements View {
         // TEST
         client.sendMessage(new ActionMessage(username, content, Action.MOVE, new Position(0, 0), new Worker(new Position(0, 0))));
     }
-    //^^^ GOD SELECTION ^^^//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    //*GOD SELECTION*//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-    public void updateGodSelection(ArrayList<Gods> gods) {
+    public void updateGameGods(List<Gods> gods) {
         SceneBuilder.clearScenario();
         SceneBuilder.addToScenario("Available gods:\n");
-        for(Gods god : gods) {
-            SceneBuilder.addToScenario("Name: "+god.toString()+", Description: "+god.getDescription()+"\n");
-        }
+        gods.forEach(g -> SceneBuilder.addToScenario("Name: "+g.toString()+", Description: "+g.getDescription()+"\n"));
         SceneBuilder.printScene();
     }
 
-    public void requestGods(){
+    public void requestGameGods(){
         showInputText("Choose three of the available gods:");
-        String requestedGod;
-        do {
-            requestedGod = input.nextLine().toUpperCase();
-        }
-        while(!client.validateGods(requestedGod));
+        while(!client.validateGods(input.nextLine().toUpperCase()));
     }
 
-    public void requestSingleGod(){
+    public void requestPlayerGod(){
         showInputText("Choose one of the available gods:");
-        String requestedGod;
-        do {
-            requestedGod = input.nextLine().toUpperCase();
-        }
-        while(!client.validateGod(requestedGod));
+        while(!client.validatePlayerGodChoice(input.nextLine().toUpperCase()));
     }
 
-    public void requestStarter(){
+    public void requestStarterPlayer(){
         showInputText("Choose the starting player: ");
-        String requestedPlayer;
-        do {
-            requestedPlayer = input.nextLine().toUpperCase();
-        }
-        while(!client.validatePlayer(requestedPlayer));
+        while(!client.validatePlayer(input.nextLine()));
     }
 
 

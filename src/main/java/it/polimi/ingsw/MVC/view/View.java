@@ -23,10 +23,10 @@ public interface View {
     void requestNumberOfPlayers(); // Chiede al primo giocatore da quante persone fare la partita
     void requestLogin(); // Chiede al giocatore di scegliere un username e un colore
     //Scelta dio / starte
-    void updateGodSelection(ArrayList<Gods> gods);//Aggiorna con la lista degli dei disponibili e la loro descrizione
-    void requestGods(); //Chiede al challenger gli dei per il gioco
-    void requestSingleGod();
-    void requestStarter();
+    void updateGameGods(List<Gods> gods);//Aggiorna con la lista degli dei disponibili e la loro descrizione
+    void requestGameGods(); //Chiede al challenger gli dei per il gioco
+    void requestPlayerGod();
+    void requestStarterPlayer();
 
     //Board
     void requestAction(); // TEST

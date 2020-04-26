@@ -1,6 +1,6 @@
 package it.polimi.ingsw.network.client;
 
-import it.polimi.ingsw.network.messages.lobby.GodChosen;
+import it.polimi.ingsw.network.messages.godSelection.GodChosen;
 import it.polimi.ingsw.network.messages.lobby.RegistrationMessage;
 import it.polimi.ingsw.utility.enumerations.Colors;
 import it.polimi.ingsw.utility.enumerations.GameState;
@@ -16,13 +16,14 @@ import it.polimi.ingsw.MVC.view.View;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.LinkedBlockingQueue;
+import java.util.stream.Collectors;
 
 public class Client extends Thread implements Observer<Message> {
 
-    private final LinkedBlockingQueue<Runnable> viewOutput;
-    private final LinkedBlockingQueue<Runnable> viewInput;
+    private final LinkedBlockingQueue<Runnable> viewOutput, viewInput;
 
     private GameState state;
     private String username;
@@ -31,16 +32,20 @@ public class Client extends Thread implements Observer<Message> {
 
     private View view;
 
-    private boolean challenger;
-    private ArrayList<Gods> gods = new ArrayList<>(Arrays.asList(Gods.values()));
-    private ArrayList<String> godToString;
-    private ArrayList<String> chosenGods;
+    private boolean challenger; // Sicuro serva? Se lo usi solo nel metodo dichiaralo in locale li
+    private List<Gods> gods = new ArrayList<>(Arrays.asList(Gods.values()));
+    // Per vedere se un dio è valido true/false usa -> Gods.isValid(string);
+    private List<String> godToString;
+    // godToString in ogni momento vale -> Arrays.asList(Gods.values()).filter(g -> !chosenGods.contains(g)).map(g -> g.toString()).collect(Collectors.toList());
+    private List<String> chosenGods;
     private Map<String, Colors> players;
 
     public Client(String ip, int port, int view) {
 
         viewOutput = new LinkedBlockingQueue<>();
         viewInput = new LinkedBlockingQueue<>();
+
+        chosenGods = new ArrayList<>();
 
         initGraphic(view);
         createConnection(ip,port);
@@ -209,28 +214,28 @@ public class Client extends Thread implements Observer<Message> {
             }
         }
     }
-    //^^^ GOD SELECTION ^^^///////////////////uwu/////////////////////////////////owo////////////////////////
+    //* GOD SELECTION *///////////////////uwu/////////OwO/////////UwU/////////////owo////////////////////////
     private void parseGodUpdate(Message message){
         if(message.getInfo().equals(username)){
             challenger = true;
             viewOutput.add(() -> view.addText("\nYou are the Challenger"));
-            viewOutput.add(() -> view.updateGodSelection(gods));
-            godToString = createGodListofString(gods); //Trovami un altro modo che sono sicuro esista @junkyboi
-            viewInput.add(view::requestGods);
+            viewOutput.add(() -> view.updateGameGods(gods));
+            godToString = gods.stream().map(Enum::toString).collect(Collectors.toList());
+            viewInput.add(view::requestGameGods);
         }
         else {
             viewOutput.add(() -> view.addText("\nChallenger is: " + message.getInfo()));
-            viewOutput.add(() -> view.updateGodSelection(gods));
+            viewOutput.add(() -> view.updateGameGods(gods));
         }
     }
 
-    public boolean validateGods(String string){
-        if(!godToString.contains(string)){
+    public boolean validateGods(String requestedGod){
+        if(!godToString.contains(requestedGod)){
             view.showInputText("God not available, choose a different one:");
             return false;
         }
-            godToString.remove(string);
-            chosenGods.add(string);
+            godToString.remove(requestedGod);
+            chosenGods.add(requestedGod);
         if(chosenGods.size() == players.keySet().size()){
             sendMessage(new GodChosen(username, "", chosenGods)); //Messaggio con gli dei scelti
             return true;
@@ -238,39 +243,23 @@ public class Client extends Thread implements Observer<Message> {
         return false;
     }
 
-    private ArrayList<String> createGodListofString(ArrayList<Gods> god){
-        ArrayList<String> godToString = new ArrayList<>();
-        for(Gods list: god){
-            godToString.add(list.toString());
-        }
-        return godToString;
-    }
-
-    private ArrayList<Gods> createGodListofGods(ArrayList<String> god){
-        ArrayList<Gods> gods = new ArrayList<>();
-        for(String text: god){
-            gods.add(Gods.valueOf(text));
-        }
-        return gods;
-    }
-
     private void parseGodChosen(GodChosen message){
         chosenGods.clear();
         chosenGods.addAll(message.getGods());
-        if(chosenGods.size() == 0 ){
+        if(chosenGods.isEmpty()){
             askStarter();
         }
         else{
-            viewOutput.add(() -> view.updateGodSelection(createGodListofGods(message.getGods())));
+            viewOutput.add(() -> view.updateGameGods((message.getGods()).stream().map(Gods::valueOf).collect(Collectors.toList())));
         }
     }
 
     private void parseGodChoice(Message message){
-        viewInput.add(view::requestGods);
+        viewInput.add(view::requestGameGods);
     }
 
-    public boolean validateGod(String string){
-        if(!chosenGods.contains(string)){
+    public boolean validatePlayerGodChoice(String requestedGod){
+        if(!chosenGods.contains(requestedGod)){
             view.showInputText("This god isn't available, please choose a different one: ");
             return false;
         }
@@ -279,7 +268,7 @@ public class Client extends Thread implements Observer<Message> {
     }
 
     private void askStarter(){
-        viewInput.add(view::requestGods);
+        viewInput.add(view::requestGameGods);
     }
 
     public boolean validatePlayer(String string){
@@ -290,13 +279,6 @@ public class Client extends Thread implements Observer<Message> {
          sendMessage(new Message(MessageType.STARTER_PLAYER,username, string));
          return true;
     }
-
-
-
-
-
-
-
 
     private void parseStateUpdate(StateUpdateMessage message) {
         state = message.getState();
