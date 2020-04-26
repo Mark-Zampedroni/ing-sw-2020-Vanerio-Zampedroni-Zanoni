@@ -1,12 +1,13 @@
 package it.polimi.ingsw.network.client;
 
+import it.polimi.ingsw.network.messages.lobby.GodChosen;
 import it.polimi.ingsw.network.messages.lobby.RegistrationMessage;
 import it.polimi.ingsw.utility.enumerations.Colors;
 import it.polimi.ingsw.utility.enumerations.GameState;
+import it.polimi.ingsw.utility.enumerations.Gods;
 import it.polimi.ingsw.utility.enumerations.MessageType;
 import it.polimi.ingsw.network.messages.FlagMessage;
 import it.polimi.ingsw.network.messages.StateUpdateMessage;
-import it.polimi.ingsw.network.messages.lobby.GodUpdate;
 import it.polimi.ingsw.network.messages.lobby.LobbyUpdate;
 import it.polimi.ingsw.network.messages.Message;
 import it.polimi.ingsw.utility.observer.Observer;
@@ -14,6 +15,7 @@ import it.polimi.ingsw.MVC.view.CLI.Cli;
 import it.polimi.ingsw.MVC.view.View;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Map;
 import java.util.concurrent.LinkedBlockingQueue;
 
@@ -29,6 +31,9 @@ public class Client extends Thread implements Observer<Message> {
 
     private View view;
 
+    private boolean challenger;
+    private ArrayList<Gods> gods = new ArrayList<>(Arrays.asList(Gods.values()));
+    private ArrayList<String> godToString;
     private ArrayList<String> chosenGods;
     private Map<String, Colors> players;
 
@@ -105,8 +110,11 @@ public class Client extends Thread implements Observer<Message> {
             case STATE_UPDATE: // TUTTE
                 parseStateUpdate((StateUpdateMessage) message);
                 break;
-            case GOD_UPDATE: // GOD_SELECTION
-                parseGodUpdate((GodUpdate) message);
+            case GOD_UPDATE:
+                parseGodUpdate(message);
+                break;
+            case GOD_CHOSEN: // GOD_SELECTION
+                parseGodChosen((GodChosen) message);
                 break;
             case GOD_CHOICE: // GOD_SELECTION
                 parseGodChoice(message);
@@ -135,7 +143,7 @@ public class Client extends Thread implements Observer<Message> {
         view.showInputText("The number you typed is not valid, please choose 2 or 3:");
         return false;
     }
-    //^^^ CREAZIONE PARTITA ^^^/////////////////////////////////////////////////////////////////////////////
+    //^^^ CREAZIONE PARTITA ^^^////uwu/////////////////////////////////////////////////////////////////////////
 
 
     /* LOBBY *////////////////////////////////////////////////////////////////////////////
@@ -201,36 +209,93 @@ public class Client extends Thread implements Observer<Message> {
             }
         }
     }
+    //^^^ GOD SELECTION ^^^///////////////////uwu/////////////////////////////////owo////////////////////////
+    private void parseGodUpdate(Message message){
+        if(message.getInfo().equals(username)){
+            challenger = true;
+            viewOutput.add(() -> view.addText("\nYou are the Challenger"));
+            viewOutput.add(() -> view.updateGodSelection(gods));
+            godToString = createGodListofString(gods); //Trovami un altro modo che sono sicuro esista @junkyboi
+            viewInput.add(view::requestGods);
+        }
+        else {
+            viewOutput.add(() -> view.addText("\nChallenger is: " + message.getInfo()));
+            viewOutput.add(() -> view.updateGodSelection(gods));
+        }
+    }
 
+    public boolean validateGods(String string){
+        if(!godToString.contains(string)){
+            view.showInputText("God not available, choose a different one:");
+            return false;
+        }
+            godToString.remove(string);
+            chosenGods.add(string);
+        if(chosenGods.size() == players.keySet().size()){
+            sendMessage(new GodChosen(username, "", chosenGods)); //Messaggio con gli dei scelti
+            return true;
+        }
+        return false;
+    }
 
-    private void parseGodUpdate(GodUpdate message) {
-        if (state == GameState.GOD_SELECTION) {
-            chosenGods = new ArrayList<>(message.getGods().get("chosen"));
-            if (!message.getInfo().equals("update")) {
-                viewOutput.add(() -> view.displayGods(message));
-                if (message.getInfo().equals(username)) {
-                    viewInput.add(() -> view.godSelection(message.getGods()));
-                }
-            }
+    private ArrayList<String> createGodListofString(ArrayList<Gods> god){
+        ArrayList<String> godToString = new ArrayList<>();
+        for(Gods list: god){
+            godToString.add(list.toString());
+        }
+        return godToString;
+    }
 
+    private ArrayList<Gods> createGodListofGods(ArrayList<String> god){
+        ArrayList<Gods> gods = new ArrayList<>();
+        for(String text: god){
+            gods.add(Gods.valueOf(text));
+        }
+        return gods;
+    }
+
+    private void parseGodChosen(GodChosen message){
+        chosenGods.clear();
+        chosenGods.addAll(message.getGods());
+        if(chosenGods.size() == 0 ){
+            askStarter();
+        }
+        else{
+            viewOutput.add(() -> view.updateGodSelection(createGodListofGods(message.getGods())));
         }
     }
 
     private void parseGodChoice(Message message){
-        switch (message.getInfo()) {
-            case "starter":
-                //viewOutput.add(() -> view.displayString(new ArrayList<>(players.keySet()), "\nAvailable Players to choose: "));
-                viewInput.add(() -> view.starter(new ArrayList<>(players.keySet())));
-                break;
-            case "choice":
-                //viewOutput.add(() -> view.displayString(chosenGods, "\nAvailable Gods: "));
-                viewInput.add(() -> view.godAssignment(chosenGods));
-                break;
-            default:
-                chosenGods.remove(message.getInfo());
-                break;
-        }
+        viewInput.add(view::requestGods);
     }
+
+    public boolean validateGod(String string){
+        if(!chosenGods.contains(string)){
+            view.showInputText("This god isn't available, please choose a different one: ");
+            return false;
+        }
+        sendMessage(new Message(MessageType.GOD_CHOICE,username, ""));
+        return true;
+    }
+
+    private void askStarter(){
+        viewInput.add(view::requestGods);
+    }
+
+    public boolean validatePlayer(String string){
+         if(!players.containsKey(string)){
+             view.showInputText("This player doesn't exist, choose again: ");
+             return false;
+         }
+         sendMessage(new Message(MessageType.STARTER_PLAYER,username, string));
+         return true;
+    }
+
+
+
+
+
+
 
 
     private void parseStateUpdate(StateUpdateMessage message) {

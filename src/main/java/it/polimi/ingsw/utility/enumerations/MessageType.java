@@ -11,7 +11,9 @@ public enum MessageType {
     LOBBY_UPDATE,
     READY,
     GOD_UPDATE,
+    GOD_CHOSEN,
     GOD_CHOICE,
+    STARTER_PLAYER,
     ACTION,
 
     INFO

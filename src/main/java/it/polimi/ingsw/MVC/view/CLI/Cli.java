@@ -2,13 +2,13 @@ package it.polimi.ingsw.MVC.view.CLI;
 
 import it.polimi.ingsw.utility.enumerations.Action;
 import it.polimi.ingsw.utility.enumerations.Colors;
+import it.polimi.ingsw.utility.enumerations.Gods;
 import it.polimi.ingsw.utility.enumerations.MessageType;
 import it.polimi.ingsw.MVC.model.map.Position;
 import it.polimi.ingsw.MVC.model.player.Worker;
 import it.polimi.ingsw.network.client.Client;
 import it.polimi.ingsw.network.messages.Message;
 import it.polimi.ingsw.network.messages.game.ActionMessage;
-import it.polimi.ingsw.network.messages.lobby.GodUpdate;
 import it.polimi.ingsw.network.messages.lobby.LobbyUpdate;
 import it.polimi.ingsw.MVC.view.View;
 
@@ -72,6 +72,12 @@ public class Cli implements View {
         SceneBuilder.putOutputRequest("\n"+text);
         SceneBuilder.printScene();
     }
+
+    public void addText(String text) {
+        SceneBuilder.addToScenario("\n"+text);
+        SceneBuilder.printScene();
+    }
+
     //^^^ CREAZIONE PARTITA ^^^///////////////////////////////////
 
     /* LOBBY *///////////////////////////////////////////////////////////////////////////////////////
@@ -120,48 +126,43 @@ public class Cli implements View {
         // TEST
         client.sendMessage(new ActionMessage(username, content, Action.MOVE, new Position(0, 0), new Worker(new Position(0, 0))));
     }
+    //^^^ GOD SELECTION ^^^//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-    public void displayGods(GodUpdate message) {
-        //outputScreen.addLine("\nAvailable Gods:\n");
-        for(String text: message.getGods().keySet()){
-            if(!text.equals("chosen")) {
-                //outputScreen.addLine(text + "\t " + message.getGods().get(text).toString());
-            }
+    public void updateGodSelection(ArrayList<Gods> gods) {
+        SceneBuilder.clearScenario();
+        SceneBuilder.addToScenario("Available gods:\n");
+        for(Gods god : gods) {
+            SceneBuilder.addToScenario("Name: "+god.toString()+", Description: "+god.getDescription()+"\n");
         }
-        //outputScreen.addLine("\nChosen Gods:\n");
-        for(String already: message.getGods().get("chosen")){
-            //outputScreen.addLine(already);
+        SceneBuilder.printScene();
+    }
+
+    public void requestGods(){
+        showInputText("Choose three of the available gods:");
+        String requestedGod;
+        do {
+            requestedGod = input.nextLine().toUpperCase();
         }
-       // outputScreen.addLine("\nThe challenger is: " + message.getInfo());
+        while(!client.validateGods(requestedGod));
     }
 
-    public void godSelection(Map<String, ArrayList<String>> gods){
-        String c;
-        showInputText("\nChoose a god: ");
+    public void requestSingleGod(){
+        showInputText("Choose one of the available gods:");
+        String requestedGod;
         do {
-            c = input.nextLine().toUpperCase();
-            //showMessage("This god can't be selected, choose a different one: ");
-        } while(!gods.containsKey(c));
-        client.sendMessage(new Message(MessageType.GOD_UPDATE, username, c));
+            requestedGod = input.nextLine().toUpperCase();
+        }
+        while(!client.validateGod(requestedGod));
     }
 
-    public void starter(ArrayList<String> gods){
-        String c;
-        showInputText("\nChoose the starter player: ");
+    public void requestStarter(){
+        showInputText("Choose the starting player: ");
+        String requestedPlayer;
         do {
-            c = input.nextLine();
-            //showMessage("Player not found, try again: ");
-        } while(!gods.contains(c));
-        client.sendMessage(new Message(MessageType.GOD_CHOICE,username, c));
+            requestedPlayer = input.nextLine().toUpperCase();
+        }
+        while(!client.validatePlayer(requestedPlayer));
     }
 
-    public void godAssignment(ArrayList<String> gods){
-        String c;
-        showInputText("\nChoose your god: ");
-        do {
-            c = input.nextLine().toUpperCase();
-            //showMessage("God not found");
-        } while(!gods.contains(c));
-        client.sendMessage(new Message(MessageType.GOD_CHOICE,username, c));
-    }
+
 }
