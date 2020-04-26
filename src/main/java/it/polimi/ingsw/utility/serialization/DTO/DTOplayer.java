@@ -14,7 +14,6 @@ import java.util.List;
 
 public class DTOplayer {
     private String username;
-    //private GodRules rules;
     private ArrayList<DTOworker> workers;
     private Colors color;
     private Gods god;
@@ -110,10 +109,4 @@ public class DTOplayer {
                 +", God: " + god
                 +"}";
     }
-
-    //Non dovrebbero servire le godrules a lato client
-    /*public GodRules getRules() {
-       return rules;
-    }*/
-
 }

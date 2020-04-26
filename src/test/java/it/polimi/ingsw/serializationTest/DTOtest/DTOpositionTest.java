@@ -2,11 +2,8 @@ package it.polimi.ingsw.serializationTest.DTOtest;
 
 import it.polimi.ingsw.MVC.model.Session;
 import it.polimi.ingsw.MVC.model.map.Position;
-import it.polimi.ingsw.MVC.model.player.Player;
 import it.polimi.ingsw.MVC.model.rules.gods.Setupper;
 import it.polimi.ingsw.utility.enumerations.Colors;
-import it.polimi.ingsw.utility.enumerations.Gods;
-import it.polimi.ingsw.utility.serialization.DTO.DTOplayer;
 import it.polimi.ingsw.utility.serialization.DTO.DTOposition;
 import it.polimi.ingsw.utility.serialization.DTO.DTOsession;
 import org.junit.jupiter.api.AfterEach;
@@ -22,11 +19,14 @@ public class DTOpositionTest {
 
     @BeforeEach
     void setUp(){
+        Session.getInstance().addPlayer("Paolo", Colors.BLUE);
+        Session.getInstance().getPlayers().get(0).addWorker(new Position(2,3));
         this.position= new Position(2,3);
     }
 
     @AfterEach
     void clear() {
+        Setupper.removePlayer(Session.getInstance().getPlayers().get(0));
         position = null;
     }
 
@@ -62,8 +62,6 @@ public class DTOpositionTest {
      */
     @Test
     void correctlyWorkers(){
-        Session.getInstance().addPlayer("Paolo", Colors.BLUE);
-        Session.getInstance().getPlayers().get(0).addWorker(new Position(2,3));
         DTOsession dtOsession= new DTOsession(Session.getInstance());
         DTOposition dtOposition = new DTOposition(new Position(2,3));
         assertEquals(dtOposition.getWorker(), dtOsession.getPlayers().get(0).getWorkers().get(0));

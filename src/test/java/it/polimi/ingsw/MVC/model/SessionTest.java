@@ -28,6 +28,7 @@ class SessionTest {
         three = Setupper.addPlayer ("Carmelo", Colors.GREEN,3);
         Session.getInstance().setStarted(true);
         assertTrue(Session.getInstance().isStarted());
+        System.out.println(Session.getInstance().getPlayers());
     }
 
     @AfterEach

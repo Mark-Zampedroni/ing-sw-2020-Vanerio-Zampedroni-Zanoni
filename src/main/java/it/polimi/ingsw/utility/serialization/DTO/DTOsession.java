@@ -6,24 +6,18 @@ import it.polimi.ingsw.MVC.model.Session;
 import it.polimi.ingsw.MVC.model.player.Player;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * DTO copy of the class {@link Session Session}
  */
 public class DTOsession {
 
-    private static ArrayList<DTOplayer> players = new ArrayList<>();
+    private static ArrayList<DTOplayer> players;
     private static DTOboard board;
     private static ArrayList<Gods> godsList= new ArrayList<>();
     private static boolean started;
     private static DTOsession instance;
-
-    /**
-     * Singleton instance
-     */
-    private DTOsession() {
-        super();
-    }
 
     /**
      * Method that returns the unique instance of Session
@@ -39,6 +33,7 @@ public class DTOsession {
      * @param session indicates his equivalent in server storage
      */
     public DTOsession (Session session) {
+        players = new ArrayList<>();
         for(Player p : session.getPlayers()) {
             DTOplayer dtOplayer = new DTOplayer(p);
             players.add(dtOplayer);

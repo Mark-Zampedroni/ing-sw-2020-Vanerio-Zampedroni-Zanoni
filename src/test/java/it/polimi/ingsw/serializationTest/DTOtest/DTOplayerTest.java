@@ -1,6 +1,7 @@
 package it.polimi.ingsw.serializationTest.DTOtest;
 
 
+import it.polimi.ingsw.MVC.model.Session;
 import it.polimi.ingsw.MVC.model.map.Position;
 import it.polimi.ingsw.MVC.model.player.Player;
 import it.polimi.ingsw.MVC.model.rules.gods.Setupper;

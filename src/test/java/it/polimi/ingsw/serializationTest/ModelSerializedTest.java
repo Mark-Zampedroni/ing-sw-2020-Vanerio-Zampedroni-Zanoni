@@ -13,6 +13,7 @@ import org.junit.jupiter.api.BeforeEach;
 
 public class ModelSerializedTest {
 
+    /*
     //a seguito di questo test abbiamo una sessione serializzata sotto forma di file dentro ModelSerialized
     //la conversione è tramite funzione, la riconversione è locale
     Player player1;
@@ -35,7 +36,7 @@ public class ModelSerializedTest {
         rules2=null;
     }
 
-    /*@Test
+    @Test
     public void sessionSerializedTest() {
 
         Session.getInstance().setStarted(true);
