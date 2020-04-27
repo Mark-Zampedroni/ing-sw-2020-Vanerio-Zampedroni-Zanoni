@@ -13,9 +13,9 @@ public class SceneBuilder {
 
 
     private static String buildScene() {
-        return Ansi.CLEAR_CONSOLE +
+        return Ansi.CLEAR_CONSOLE + "\n--------------------------------\n" +
                 scenario +
-                outputRequest;
+                outputRequest + "\n--------------------------------";
     }
 
     public static void printScene() {

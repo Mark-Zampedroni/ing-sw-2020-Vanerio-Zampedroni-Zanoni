@@ -71,11 +71,6 @@ public class Cli extends Client {
         SceneBuilder.printScene();
     }
 
-    public void addText(String text) {
-        SceneBuilder.addToScenario("\n"+text);
-        SceneBuilder.printScene();
-    }
-
     //^^^ CREAZIONE PARTITA ^^^///////////////////////////////////
 
     /* LOBBY *///////////////////////////////////////////////////////////////////////////////////////
@@ -130,21 +125,12 @@ public class Cli extends Client {
         SceneBuilder.clearScenario();
         SceneBuilder.addToScenario("Available gods:\n");
         gods.forEach(g -> SceneBuilder.addToScenario("Name: "+g.toString()+", Description: "+g.getDescription()+"\n"));
-        SceneBuilder.printScene();
-    }
-
-    public void showChallenger(String name, boolean flag){
-        if(flag){
-            SceneBuilder.addToScenario("\nYou are the challenger\n");
-        }
-        else{
-            SceneBuilder.addToScenario("\nThe challenger is: " + name +"\n");
-        }
-        SceneBuilder.printScene();
+        showInputText((challenger)
+                ? "You are the challenger! Choose "+players.size()+" gods\nType the name of 1 god:\n"
+                : "You are not the challenger, wait while he chooses "+players.size()+" gods\n");
     }
 
     public void requestGameGods(){
-        showInputText("Choose some of the available gods:");
         while(!validateGods(requestInput().toUpperCase()));
     }
 
@@ -154,11 +140,6 @@ public class Cli extends Client {
         for(String text: name){
             SceneBuilder.addToScenario( text +"\n");
         }
-        SceneBuilder.printScene();
-    }
-
-    public void showPicking(String name){
-        SceneBuilder.addToScenario("\n" + name + " is choosing a god...");
         SceneBuilder.printScene();
     }
 

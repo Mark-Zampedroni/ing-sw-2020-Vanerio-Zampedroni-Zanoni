@@ -178,17 +178,12 @@ public abstract class Client extends Thread implements Observer<Message>, View {
     }
     //* GOD SELECTION *///////////////////uwu/////////OwO/////////UwU/////////////owo////////////////////////
     private void parseGodStart(Message message){
-        if(message.getInfo().equals(username)){
+        if(message.getInfo().equals(username)) {
             challenger = true;
-            viewRequest(() -> updateGameGods(gods));
-            viewRequest(() -> showChallenger(message.getInfo(),challenger));
             godToString = gods.stream().map(Enum::toString).collect(Collectors.toList());
             viewRequest(this::requestGameGods);
         }
-        else {
-            viewRequest(() -> updateGameGods(gods));
-            viewRequest(() -> showChallenger(message.getInfo(),challenger));
-        }
+        viewRequest(() -> updateGameGods(gods));
     }
 
     public boolean validateGods(String requestedGod){
@@ -203,7 +198,7 @@ public abstract class Client extends Thread implements Observer<Message>, View {
     }
 
     private void parseAddGod(Message message){
-        if(!challenger){
+        if(!challenger) {
             chosenGods.add(message.getInfo());
             viewRequest(() -> showChosenGods(chosenGods));
         }
@@ -214,9 +209,9 @@ public abstract class Client extends Thread implements Observer<Message>, View {
         if(username.equals(message.getInfo())){
             viewRequest(this::requestPlayerGod);
         }
-        else{
+        else {
             viewRequest(() -> showChosenGods(chosenGods));
-            viewRequest(() -> showPicking(message.getInfo()));
+            viewRequest(() -> showInputText(message.getInfo()+" is choosing ..."));
         }
     }
 
