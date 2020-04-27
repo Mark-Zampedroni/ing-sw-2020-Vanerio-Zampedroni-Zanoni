@@ -30,27 +30,10 @@ public class Cli extends Client {
     private Scanner input;
 
     public Cli(String ip, int port, int view) {
+
         super(ip, port, view);
-
-        /*
-        Toolkit tk = Toolkit.getDefaultToolkit();
-        double width = tk.getScreenSize().getWidth();
-        double height = tk.getScreenSize().getHeight();
-
-        for(int x = 0; x < height/40; x++) { System.out.println(""); } // Dovrebbe stampare righe vuote fino a metà schermo
-        screenTest(width,9.15);
-         */
-
         input = new Scanner(System.in);
     }
-
-    /* TEST FOR SCREEN WIDTH
-    private void screenTest(double width, double divisor) {
-        System.out.println("\n\n"+divisor);
-        for(int x = 0; x < Toolkit.getDefaultToolkit().getScreenSize().getWidth()/9.15; x++) {
-            System.out.print("A");
-        }
-    }*/
 
     private String requestInput() {
         while(true) {
@@ -100,13 +83,11 @@ public class Cli extends Client {
         return requestedColor;
     }
 
-    public void updateLobby(Map<String, Colors> players, List<Colors> availableColors) {
+    public void updateLobby(List<Colors> availableColors) {
         SceneBuilder.clearScenario();
         SceneBuilder.addToScenario("Current players:\n");
         if(players.keySet().isEmpty()) { SceneBuilder.addToScenario("No one registered yet\n"); }
-        for(String s : players.keySet()) {
-           SceneBuilder.addToScenario("Name: "+s+", Color: "+players.get(s)+"\n");
-        }
+        players.keySet().stream().forEach(s -> SceneBuilder.addToScenario("Name: "+s+", Color: "+players.get(s)+"\n"));
         SceneBuilder.addToScenario("\nAvailable colors: "+availableColors+"\n");
         SceneBuilder.printScene();
     }
@@ -121,26 +102,39 @@ public class Cli extends Client {
     }
     //*GOD SELECTION*//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-    public void updateGameGods(List<Gods> gods) {
+    public void updateChallengerGodSelection() {
         SceneBuilder.clearScenario();
-        SceneBuilder.addToScenario("Available gods:\n");
-        gods.forEach(g -> SceneBuilder.addToScenario("Name: "+g.toString()+", Description: "+g.getDescription()+"\n"));
+        showAvailableGods();
+        if(!chosenGods.isEmpty()) { showChosenGods(); }
         showInputText((challenger)
-                ? "You are the challenger! Choose "+players.size()+" gods\nType the name of 1 god:\n"
-                : "You are not the challenger, wait while he chooses "+players.size()+" gods\n");
+                ? "You are the challenger! Choose "+players.size()+" gods\nType the name of 1 god:"
+                : "You are not the challenger, wait while he chooses "+players.size()+" gods");
     }
 
-    public void requestGameGods(){
+    public void updatePlayerGodSelection() {
+        SceneBuilder.clearScenario();
+        showChosenGods();
+        SceneBuilder.printScene();
+    }
+
+    public void showAvailablePlayers() {
+        SceneBuilder.clearScenario();
+        SceneBuilder.addToScenario("Players:\n");
+        players.keySet().forEach(p -> SceneBuilder.addToScenario(p+" , "+players.get(p).toString()+"\n"));
+        SceneBuilder.printScene();
+    }
+
+    public void requestChallengerGod(){
         while(!validateGods(requestInput().toUpperCase()));
     }
 
-    public void showChosenGods(List<String> name){
-        SceneBuilder.clearScenario();
+    private void showAvailableGods() {
+        SceneBuilder.addToScenario("Available gods:\n");
+        getAvailableGods().forEach(g -> SceneBuilder.addToScenario("Name: " + g.toString() + ", Description: " + g.getDescription() + "\n"));
+    }
+    private void showChosenGods() {
         SceneBuilder.addToScenario("\nChosen gods: \n");
-        for(String text: name){
-            SceneBuilder.addToScenario( text +"\n");
-        }
-        SceneBuilder.printScene();
+        chosenGods.stream().map(god -> Gods.valueOf(god)).forEach(g ->  SceneBuilder.addToScenario("Name: "+g.toString()+", Description: "+g.getDescription()+"\n"));
     }
 
     public void requestPlayerGod(){

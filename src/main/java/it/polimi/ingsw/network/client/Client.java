@@ -10,11 +10,9 @@ import it.polimi.ingsw.network.messages.StateUpdateMessage;
 import it.polimi.ingsw.network.messages.lobby.LobbyUpdate;
 import it.polimi.ingsw.network.messages.Message;
 import it.polimi.ingsw.utility.observer.Observer;
-import it.polimi.ingsw.MVC.view.CLI.Cli;
 import it.polimi.ingsw.MVC.view.View;
 
 import java.util.*;
-import java.util.concurrent.LinkedBlockingQueue;
 import java.util.stream.Collectors;
 
 public abstract class Client extends Thread implements Observer<Message>, View {
@@ -24,13 +22,10 @@ public abstract class Client extends Thread implements Observer<Message>, View {
 
     private ClientConnection connection;
 
-    protected boolean challenger; // Sicuro serva? Se lo usi solo nel metodo dichiaralo in locale li
-    protected List<Gods> gods = new ArrayList<>(Arrays.asList(Gods.values()));
-    // Per vedere se un dio è valido true/false usa -> Gods.isValid(string);
-    protected List<String> godToString;
-    // godToString in ogni momento vale -> Arrays.asList(Gods.values()).filter(g -> !chosenGods.contains(g)).map(g -> g.toString()).collect(Collectors.toList());
-    protected List<String> chosenGods;
+    protected boolean challenger;
+    protected List<String> chosenGods; // Si può usare solo la mappa gods qui sotto, usando delle key segnaposto che poi si tolgono
     protected Map<String, Colors> players;
+    protected Map<String, String> gods;
 
     public Client(String ip, int port, int view) {
         chosenGods = new ArrayList<>();
@@ -74,8 +69,8 @@ public abstract class Client extends Thread implements Observer<Message>, View {
             case STATE_UPDATE: // TUTTE
                 parseStateUpdate((StateUpdateMessage) message);
                 break;
-            case GOD_START:
-                parseGodStart(message);
+            case CHALLENGER_SELECTION:
+                parseChallengerSelection(message);
                 break;
             case GOD_ADD: // GOD_SELECTION
                 parseAddGod(message);
@@ -143,10 +138,9 @@ public abstract class Client extends Thread implements Observer<Message>, View {
         if(state == GameState.PRE_LOBBY) {
             state = GameState.LOGIN;
             viewRequest(this::requestLogin);
-            viewRequest(() -> updateLobby(message.getPlayers(), message.getColors()));
         }
-        else if(state == GameState.LOGIN || state == GameState.LOBBY) {
-            viewRequest(() -> updateLobby(message.getPlayers(), message.getColors()));
+        if(state == GameState.LOGIN || state == GameState.LOBBY) {
+            viewRequest(() -> updateLobby(message.getColors()));
         }
     }
 
@@ -177,40 +171,39 @@ public abstract class Client extends Thread implements Observer<Message>, View {
         }
     }
     //* GOD SELECTION *///////////////////uwu/////////OwO/////////UwU/////////////owo////////////////////////
-    private void parseGodStart(Message message){
-        if(message.getInfo().equals(username)) {
+    private void parseChallengerSelection(Message message){
+        if(message.getInfo().equals(username) && chosenGods.size() != players.size()) {
             challenger = true;
-            godToString = gods.stream().map(Enum::toString).collect(Collectors.toList());
-            viewRequest(this::requestGameGods);
+            viewRequest(this::requestChallengerGod);
         }
-        viewRequest(() -> updateGameGods(gods));
+        viewRequest(this::updateChallengerGodSelection);
     }
 
     public boolean validateGods(String requestedGod){
-        if(!godToString.contains(requestedGod)){
+        if(!getStringAvailableGods().contains(requestedGod)){
             showInputText("God not available, choose a different one:");
             return false;
         }
-            godToString.remove(requestedGod);
-            chosenGods.add(requestedGod);
         sendMessage(new Message(MessageType.GOD_ADD, username, requestedGod));
-        return chosenGods.size() == players.keySet().size();
+        return true;
     }
 
     private void parseAddGod(Message message){
-        if(!challenger) {
-            chosenGods.add(message.getInfo());
-            viewRequest(() -> showChosenGods(chosenGods));
+        chosenGods.add(message.getInfo());
+        if(chosenGods.size() != players.size()) {
+            viewRequest(this::updateChallengerGodSelection);
+            if (challenger) {
+                viewRequest(this::requestChallengerGod);
+            }
         }
     }
 
-
     private void parseGodPlayerChoice(Message message){
+        viewRequest(this::updatePlayerGodSelection);
         if(username.equals(message.getInfo())){
             viewRequest(this::requestPlayerGod);
         }
         else {
-            viewRequest(() -> showChosenGods(chosenGods));
             viewRequest(() -> showInputText(message.getInfo()+" is choosing ..."));
         }
     }
@@ -226,16 +219,18 @@ public abstract class Client extends Thread implements Observer<Message>, View {
 
     private void parseRemoveGod(Message message){
         chosenGods.remove(message.getInfo());
-        if(chosenGods.size() == 0 && challenger){
-            askStarter();
+        if(chosenGods.size() == 0) {
+            if(challenger) {
+                viewRequest(this::requestStarterPlayer);
+            }
+            else {
+                viewRequest(() -> showInputText("The Challenger is choosing the starter player ..."));
+            }
+            viewRequest(this::showAvailablePlayers);
         }
         else{
-            viewRequest(() -> showChosenGods(chosenGods));
+            viewRequest(this::updatePlayerGodSelection);
         }
-    }
-
-    private void askStarter(){
-        viewRequest(this::requestStarterPlayer);
     }
 
     public boolean validatePlayer(String string){
@@ -254,6 +249,14 @@ public abstract class Client extends Thread implements Observer<Message>, View {
 
     public void sendMessage(Message message) {
         connection.sendMessage(message);
+    }
+
+    protected List<String> getStringAvailableGods() {
+        return getAvailableGods().stream().map(Enum::toString).collect(Collectors.toList());
+    }
+
+    protected List<Gods> getAvailableGods() {
+        return Arrays.stream(Gods.values()).filter(god -> !chosenGods.contains(god.toString())).collect(Collectors.toList());
     }
 
 }

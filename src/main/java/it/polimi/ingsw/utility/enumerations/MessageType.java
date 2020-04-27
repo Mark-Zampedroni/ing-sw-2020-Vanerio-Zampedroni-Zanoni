@@ -10,7 +10,7 @@ public enum MessageType {
     STATE_UPDATE,
     LOBBY_UPDATE,
     READY,
-    GOD_START,
+    CHALLENGER_SELECTION,
     GOD_PLAYERCHOICE,
     GOD_ADD,
     GOD_REMOVE,

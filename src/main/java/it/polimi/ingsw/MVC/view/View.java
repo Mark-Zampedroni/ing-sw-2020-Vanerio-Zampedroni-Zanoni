@@ -1,16 +1,10 @@
 package it.polimi.ingsw.MVC.view;
 
-import it.polimi.ingsw.network.messages.lobby.LobbyUpdate;
 import it.polimi.ingsw.utility.enumerations.Colors;
-import it.polimi.ingsw.utility.enumerations.Gods;
-
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
+
 
 public interface View {
-
-    // NO PASSARE MESSAGGI ! VANNO MESSI COME ARGOMENTI LIST O STRING
 
     // Prefissi :
     // show -> mostra roba come messaggio (vicino all'output / finestra popup)
@@ -18,25 +12,23 @@ public interface View {
     // request -> attesa di input che verrà poi parsato nel client
 
 
-
-    // ^^^ Sta roba non vuole dire nulla,
-    // è come invocare dei metodi dello SceneBuilder direttamente, la GUI non saprebbe interpretarla
-    // con solo una stringa come argomento. Se devi mostrare testo chiama metodi di SceneBuilder direttamente nella CLI.
-
-
-
+    // Da togliere -> i testi vanno spostati in CLI
     void showInputText(String text);
-    //Lobby
-    void updateLobby(Map<String, Colors> players, List<Colors> availableColors); // Aggiorna la LOBBY
+    //Pre-Lobby
     void requestNumberOfPlayers(); // Chiede al primo giocatore da quante persone fare la partita
+    //Lobby
+    void updateLobby(List<Colors> availableColors); // Aggiorna la LOBBY
     void requestLogin(); // Chiede al giocatore di scegliere un username e un colore
-    //Scelta dio / starter
-    void updateGameGods(List<Gods> gods);//Aggiorna con la lista degli dei disponibili e la loro descrizione
-    void requestGameGods(); //Chiede al challenger gli dei per il gioco
-    void showChosenGods(List<String> name);
-    void requestStarterPlayer();
-    void requestPlayerGod();
-    //Board
+    //Scelta dei da parte del Challenger
+    void updateChallengerGodSelection(); // Aggiorna i player durante la scelta del Challenger
+    void requestChallengerGod(); //Chiede di scegliere un dio da aggiungere al gioco
+    //Scelta dio di ogni giocatore
+    void updatePlayerGodSelection(); // Aggiorna i player durante le scelte del dio di ogni giocatore
+    void requestPlayerGod(); // Chiede di scegliere un dio da usare
+    //Scelta starter player
+    void showAvailablePlayers(); // Mostra i giocatori disponibili con i loro dei
+    void requestStarterPlayer(); // Chiede di scegliere lo starter player
+    //Richiesta azione durante il gioco
     void requestAction(); // TEST
 
 }
