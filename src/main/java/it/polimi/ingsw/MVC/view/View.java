@@ -33,12 +33,14 @@ public interface View {
     void updateLobby(Map<String, Colors> players, List<Colors> availableColors); // Aggiorna la LOBBY
     void requestNumberOfPlayers(); // Chiede al primo giocatore da quante persone fare la partita
     void requestLogin(); // Chiede al giocatore di scegliere un username e un colore
-    //Scelta dio / starte
+    //Scelta dio / starter
     void updateGameGods(List<Gods> gods);//Aggiorna con la lista degli dei disponibili e la loro descrizione
     void requestGameGods(); //Chiede al challenger gli dei per il gioco
-    void requestPlayerGod();
+    void showChallenger(String name, boolean flag);
+    void showChosenGods(List<String> name);
     void requestStarterPlayer();
-
+    void requestPlayerGod();
+    void showPicking(String name);
     //Board
     void requestAction(); // TEST
 

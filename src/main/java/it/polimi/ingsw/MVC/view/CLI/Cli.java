@@ -132,9 +132,33 @@ public class Cli implements View {
         SceneBuilder.printScene();
     }
 
+    public void showChallenger(String name, boolean flag){
+        if(flag){
+            SceneBuilder.addToScenario("\nYou are the challenger\n");
+        }
+        else{
+            SceneBuilder.addToScenario("\nThe challenger is: " + name +"\n");
+        }
+        SceneBuilder.printScene();
+    }
+
     public void requestGameGods(){
-        showInputText("Choose three of the available gods:");
+        showInputText("Choose some of the available gods:");
         while(!client.validateGods(input.nextLine().toUpperCase()));
+    }
+
+    public void showChosenGods(List<String> name){
+        SceneBuilder.clearScenario();
+        SceneBuilder.addToScenario("\nChosen gods: \n");
+        for(String text: name){
+            SceneBuilder.addToScenario( text +"\n");
+        }
+        SceneBuilder.printScene();
+    }
+
+    public void showPicking(String name){
+        SceneBuilder.addToScenario("\n" + name + " is choosing a god...");
+        SceneBuilder.printScene();
     }
 
     public void requestPlayerGod(){

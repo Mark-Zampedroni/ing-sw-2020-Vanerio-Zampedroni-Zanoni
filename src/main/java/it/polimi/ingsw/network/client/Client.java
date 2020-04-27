@@ -1,6 +1,5 @@
 package it.polimi.ingsw.network.client;
 
-import it.polimi.ingsw.network.messages.godSelection.GodChosen;
 import it.polimi.ingsw.network.messages.lobby.RegistrationMessage;
 import it.polimi.ingsw.utility.enumerations.Colors;
 import it.polimi.ingsw.utility.enumerations.GameState;
@@ -14,10 +13,7 @@ import it.polimi.ingsw.utility.observer.Observer;
 import it.polimi.ingsw.MVC.view.CLI.Cli;
 import it.polimi.ingsw.MVC.view.View;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.stream.Collectors;
 
@@ -115,14 +111,17 @@ public class Client extends Thread implements Observer<Message> {
             case STATE_UPDATE: // TUTTE
                 parseStateUpdate((StateUpdateMessage) message);
                 break;
-            case GOD_UPDATE:
-                parseGodUpdate(message);
+            case GOD_START:
+                parseGodStart(message);
                 break;
-            case GOD_CHOSEN: // GOD_SELECTION
-                parseGodChosen((GodChosen) message);
+            case GOD_ADD: // GOD_SELECTION
+                parseAddGod(message);
                 break;
-            case GOD_CHOICE: // GOD_SELECTION
-                parseGodChoice(message);
+            case GOD_REMOVE:
+                parseRemoveGod(message);
+                break;
+            case GOD_PLAYERCHOICE: // GOD_SELECTION
+                parseGodPlayerChoice(message);
                 break;
         }
     }
@@ -215,17 +214,17 @@ public class Client extends Thread implements Observer<Message> {
         }
     }
     //* GOD SELECTION *///////////////////uwu/////////OwO/////////UwU/////////////owo////////////////////////
-    private void parseGodUpdate(Message message){
+    private void parseGodStart(Message message){
         if(message.getInfo().equals(username)){
             challenger = true;
-            viewOutput.add(() -> view.addText("\nYou are the Challenger"));
             viewOutput.add(() -> view.updateGameGods(gods));
+            viewOutput.add(() -> view.showChallenger(message.getInfo(),challenger));
             godToString = gods.stream().map(Enum::toString).collect(Collectors.toList());
             viewInput.add(view::requestGameGods);
         }
         else {
-            viewOutput.add(() -> view.addText("\nChallenger is: " + message.getInfo()));
             viewOutput.add(() -> view.updateGameGods(gods));
+            viewOutput.add(() -> view.showChallenger(message.getInfo(),challenger));
         }
     }
 
@@ -236,26 +235,26 @@ public class Client extends Thread implements Observer<Message> {
         }
             godToString.remove(requestedGod);
             chosenGods.add(requestedGod);
-        if(chosenGods.size() == players.keySet().size()){
-            sendMessage(new GodChosen(username, "", chosenGods)); //Messaggio con gli dei scelti
-            return true;
-        }
-        return false;
+        sendMessage(new Message(MessageType.GOD_ADD, username, requestedGod));
+        return chosenGods.size() == players.keySet().size();
     }
 
-    private void parseGodChosen(GodChosen message){
-        chosenGods.clear();
-        chosenGods.addAll(message.getGods());
-        if(chosenGods.isEmpty()){
-            askStarter();
+    private void parseAddGod(Message message){
+        if(!challenger){
+            chosenGods.add(message.getInfo());
+            viewOutput.add(() -> view.showChosenGods(chosenGods));
+        }
+    }
+
+
+    private void parseGodPlayerChoice(Message message){
+        if(username.equals(message.getInfo())){
+            viewInput.add(view::requestPlayerGod);
         }
         else{
-            viewOutput.add(() -> view.updateGameGods((message.getGods()).stream().map(Gods::valueOf).collect(Collectors.toList())));
+            viewOutput.add(() -> view.showChosenGods(chosenGods));
+            viewOutput.add(() -> view.showPicking(message.getInfo()));
         }
-    }
-
-    private void parseGodChoice(Message message){
-        viewInput.add(view::requestGameGods);
     }
 
     public boolean validatePlayerGodChoice(String requestedGod){
@@ -263,12 +262,22 @@ public class Client extends Thread implements Observer<Message> {
             view.showInputText("This god isn't available, please choose a different one: ");
             return false;
         }
-        sendMessage(new Message(MessageType.GOD_CHOICE,username, ""));
+        sendMessage(new Message(MessageType.GOD_PLAYERCHOICE,username, requestedGod));
         return true;
     }
 
+    private void parseRemoveGod(Message message){
+        chosenGods.remove(message.getInfo());
+        if(chosenGods.size() == 0 && challenger){
+            askStarter();
+        }
+        else{
+            viewOutput.add(() -> view.showChosenGods(chosenGods));
+        }
+    }
+
     private void askStarter(){
-        viewInput.add(view::requestGameGods);
+        viewInput.add(view::requestStarterPlayer);
     }
 
     public boolean validatePlayer(String string){
