@@ -2,6 +2,7 @@ package it.polimi.ingsw;
 
 
 import it.polimi.ingsw.MVC.view.CLI.Ansi;
+import it.polimi.ingsw.MVC.view.CLI.Cli;
 import it.polimi.ingsw.MVC.view.CLI.SceneBuilder;
 import it.polimi.ingsw.utility.enumerations.Colors;
 import it.polimi.ingsw.network.client.Client;
@@ -15,7 +16,7 @@ public class ClientApp {
     public static List<Colors> colors = new ArrayList<>(Arrays.asList(Colors.values()));
 
     public static void main(String[] args) {
-        new Client("127.0.0.1", 7654,0);
+        new Cli("127.0.0.1", 7654,0);
         /*System.out.println(Ansi.addStringColor("RED") + SceneBuilder.SANTORINI_TITLE + Ansi.RESET);
         System.out.println(Ansi.addStringColor("RED", true) + SceneBuilder.SANTORINI_TITLE + Ansi.RESET);
         System.out.println(Ansi.addBackgroundColor("CYAN") + SceneBuilder.SANTORINI_TITLE + Ansi.RESET);

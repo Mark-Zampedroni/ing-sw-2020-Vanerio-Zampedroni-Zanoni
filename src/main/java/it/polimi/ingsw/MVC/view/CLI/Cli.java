@@ -24,18 +24,13 @@ import it.polimi.ingsw.MVC.view.View;
 import java.util.*;
 import java.util.List;
 
-public class Cli implements View {
+public class Cli extends Client {
 
-    private String username;
-    private Colors color;
 
-    private List<Colors> colors;
-
-    private Client client;
     private Scanner input;
 
-    public Cli(Client client) {
-        colors = new ArrayList<>(Arrays.asList(Colors.values()));
+    public Cli(String ip, int port, int view) {
+        super(ip, port, view);
 
         /*
         Toolkit tk = Toolkit.getDefaultToolkit();
@@ -46,7 +41,6 @@ public class Cli implements View {
         screenTest(width,9.15);
          */
 
-        this.client = client;
         input = new Scanner(System.in);
     }
 
@@ -58,11 +52,18 @@ public class Cli implements View {
         }
     }*/
 
+    private String requestInput() {
+        while(true) {
+            try {
+                return input.nextLine();
+            } catch (IndexOutOfBoundsException e) { /* nothing */ }
+        }
+    }
 
     /* CREAZIONE PARTITA *///////////////////////////////////////////////////////////////////////////////////////
     public void requestNumberOfPlayers() {
         showInputText("You are the first player who connected: choose if you want to play as 2 or 3 people :\n(Type 2 or 3) ");
-        while(!client.validateNumberOfPlayers(input.nextLine().toUpperCase()));
+        while(!validateNumberOfPlayers(requestInput().toUpperCase()));
     }
 
     public void showInputText(String text) {
@@ -81,16 +82,16 @@ public class Cli implements View {
     public void requestLogin() {
         String requestedUsername = requestUsername();
         String requestedColor = requestColor();
-        client.requestLogin(requestedUsername, Colors.valueOf(requestedColor));
+        requestLogin(requestedUsername, Colors.valueOf(requestedColor));
     }
 
     private String requestUsername() {
         showInputText("Input username:");
         String requestedUsername;
         do {
-            requestedUsername = input.nextLine();
+            requestedUsername = requestInput();
         }
-        while(!client.validateUsername(requestedUsername));
+        while(!validateUsername(requestedUsername));
         return requestedUsername;
     }
 
@@ -98,9 +99,9 @@ public class Cli implements View {
         showInputText("Choose one of the available colors:");
         String requestedColor;
         do {
-            requestedColor = input.nextLine().toUpperCase();
+            requestedColor = requestInput().toUpperCase();
         }
-        while(!client.validateColor(requestedColor));
+        while(!validateColor(requestedColor));
         return requestedColor;
     }
 
@@ -119,9 +120,9 @@ public class Cli implements View {
 
     public void requestAction() { // Test
         showInputText("You are registered!\nType your message:  ");
-        String content = input.nextLine();  // Read user input
+        String content = requestInput();  // Read user input
         // TEST
-        client.sendMessage(new ActionMessage(username, content, Action.MOVE, new Position(0, 0), new Worker(new Position(0, 0))));
+        sendMessage(new ActionMessage(username, content, Action.MOVE, new Position(0, 0), new Worker(new Position(0, 0))));
     }
     //*GOD SELECTION*//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -144,7 +145,7 @@ public class Cli implements View {
 
     public void requestGameGods(){
         showInputText("Choose some of the available gods:");
-        while(!client.validateGods(input.nextLine().toUpperCase()));
+        while(!validateGods(requestInput().toUpperCase()));
     }
 
     public void showChosenGods(List<String> name){
@@ -163,12 +164,12 @@ public class Cli implements View {
 
     public void requestPlayerGod(){
         showInputText("Choose one of the available gods:");
-        while(!client.validatePlayerGodChoice(input.nextLine().toUpperCase()));
+        while(!validatePlayerGodChoice(requestInput().toUpperCase()));
     }
 
     public void requestStarterPlayer(){
         showInputText("Choose the starting player: ");
-        while(!client.validatePlayer(input.nextLine()));
+        while(!validatePlayer(requestInput()));
     }
 
 

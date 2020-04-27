@@ -19,9 +19,6 @@ public interface View {
 
 
 
-
-    void addText(String text);
-
     // ^^^ Sta roba non vuole dire nulla,
     // è come invocare dei metodi dello SceneBuilder direttamente, la GUI non saprebbe interpretarla
     // con solo una stringa come argomento. Se devi mostrare testo chiama metodi di SceneBuilder direttamente nella CLI.

@@ -17,68 +17,31 @@ import java.util.*;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.stream.Collectors;
 
-public class Client extends Thread implements Observer<Message> {
-
-    private final LinkedBlockingQueue<Runnable> viewOutput, viewInput;
+public abstract class Client extends Thread implements Observer<Message>, View {
 
     private GameState state;
-    private String username;
+    protected String username;
 
     private ClientConnection connection;
 
-    private View view;
-
-    private boolean challenger; // Sicuro serva? Se lo usi solo nel metodo dichiaralo in locale li
-    private List<Gods> gods = new ArrayList<>(Arrays.asList(Gods.values()));
+    protected boolean challenger; // Sicuro serva? Se lo usi solo nel metodo dichiaralo in locale li
+    protected List<Gods> gods = new ArrayList<>(Arrays.asList(Gods.values()));
     // Per vedere se un dio è valido true/false usa -> Gods.isValid(string);
-    private List<String> godToString;
+    protected List<String> godToString;
     // godToString in ogni momento vale -> Arrays.asList(Gods.values()).filter(g -> !chosenGods.contains(g)).map(g -> g.toString()).collect(Collectors.toList());
-    private List<String> chosenGods;
-    private Map<String, Colors> players;
+    protected List<String> chosenGods;
+    protected Map<String, Colors> players;
 
     public Client(String ip, int port, int view) {
-
-        viewOutput = new LinkedBlockingQueue<>();
-        viewInput = new LinkedBlockingQueue<>();
-
         chosenGods = new ArrayList<>();
-
-        initGraphic(view);
         createConnection(ip,port);
-
-        new UpdateListener().start();
         this.start();
     }
 
-    private class UpdateListener extends Thread {
-        @Override
-        public void run() {
-            while (!Thread.currentThread().isInterrupted()) {
-                try {
-                    viewOutput.take().run();
-                } catch (InterruptedException e) {
-                    Thread.currentThread().interrupt();
-                }
-            }
-        }
+    private void viewRequest(Runnable request) {
+        new Thread(request).start();
+        // view.updateFrame();
     }
-
-    public void run() {
-        while (!Thread.currentThread().isInterrupted()) {
-            try {
-                viewInput.take().run();
-            } catch (InterruptedException e) {
-                Thread.currentThread().interrupt();
-            }
-        }
-    }
-
-
-    private void initGraphic(int choice) {
-        // this.view = (choice == 0) ? new Cli(this) : new Gui(this);
-        this.view = new Cli(this); // Test CLI, da implementare View su GUI
-    }
-
 
     public void createConnection(String ip, int port) {
         state = GameState.CONNECTION;
@@ -136,7 +99,7 @@ public class Client extends Thread implements Observer<Message> {
 
     /* CREAZIONE PARTITA */////////////////////////////////////////////////////////////////
     private void parseSlotMessage(Message message) { // TEST CLI
-        viewOutput.add(view::requestNumberOfPlayers);
+        viewRequest(this::requestNumberOfPlayers);
     }
 
     public boolean validateNumberOfPlayers(String number) {
@@ -144,7 +107,7 @@ public class Client extends Thread implements Observer<Message> {
             sendMessage(new Message(MessageType.SLOTS_CHOICE, username, number));
             return true;
         }
-        view.showInputText("The number you typed is not valid, please choose 2 or 3:");
+        showInputText("The number you typed is not valid, please choose 2 or 3:");
         return false;
     }
     //^^^ CREAZIONE PARTITA ^^^////uwu/////////////////////////////////////////////////////////////////////////
@@ -155,17 +118,17 @@ public class Client extends Thread implements Observer<Message> {
         if(!players.containsKey(requestedUsername)) {
             return true;
         }
-        view.showInputText("This username is already taken, choose a different one:");
+        showInputText("This username is already taken, choose a different one:");
         return false;
     }
 
     public boolean validateColor(String requestedColor) {
         if(!Colors.isValid(requestedColor)) {
-            view.showInputText("The color selected does not exist, choose one of the available colors:");
+            showInputText("The color selected does not exist, choose one of the available colors:");
             return false;
         }
         else if(players.containsValue(Colors.valueOf(requestedColor))) {
-            view.showInputText("This color is already taken, choose a different one:");
+            showInputText("This color is already taken, choose a different one:");
             return false;
         }
         return true;
@@ -179,16 +142,16 @@ public class Client extends Thread implements Observer<Message> {
         players = message.getPlayers();
         if(state == GameState.PRE_LOBBY) {
             state = GameState.LOGIN;
-            viewInput.add(view::requestLogin);
-            viewOutput.add(() -> view.updateLobby(message.getPlayers(), message.getColors()));
+            viewRequest(this::requestLogin);
+            viewRequest(() -> updateLobby(message.getPlayers(), message.getColors()));
         }
         else if(state == GameState.LOGIN || state == GameState.LOBBY) {
-            viewOutput.add(() -> view.updateLobby(message.getPlayers(), message.getColors()));
+            viewRequest(() -> updateLobby(message.getPlayers(), message.getColors()));
         }
     }
 
     private void parseDisconnectMessage(Message message) {
-        viewOutput.add(() -> view.showInputText(message.getInfo()));
+        viewRequest(() -> showInputText(message.getInfo()));
     }
     //^^^ LOBBY ^^^////////////////////////////////////////////////////////////////////////////
 
@@ -198,7 +161,7 @@ public class Client extends Thread implements Observer<Message> {
 
     // TEST, NO MESSAGE MA ACTIONMESSAGE
     private void parseActionReply(Message message) {
-        viewInput.add(view::requestAction);
+        viewRequest(this::requestAction);
     }
 
     private void parseRegistrationReply(FlagMessage message) {
@@ -206,10 +169,10 @@ public class Client extends Thread implements Observer<Message> {
             if(message.getFlag()) {
                 username = message.getInfo(); // View registrata su Server
                 state = GameState.LOBBY;
-                viewInput.add(() -> view.showInputText("Waiting for other players to log")); // TEST
+                viewRequest(() -> showInputText("Waiting for other players to log")); // TEST
             }
             else {
-                viewInput.add(view::requestLogin);
+                viewRequest(this::requestLogin);
             }
         }
     }
@@ -217,20 +180,20 @@ public class Client extends Thread implements Observer<Message> {
     private void parseGodStart(Message message){
         if(message.getInfo().equals(username)){
             challenger = true;
-            viewOutput.add(() -> view.updateGameGods(gods));
-            viewOutput.add(() -> view.showChallenger(message.getInfo(),challenger));
+            viewRequest(() -> updateGameGods(gods));
+            viewRequest(() -> showChallenger(message.getInfo(),challenger));
             godToString = gods.stream().map(Enum::toString).collect(Collectors.toList());
-            viewInput.add(view::requestGameGods);
+            viewRequest(this::requestGameGods);
         }
         else {
-            viewOutput.add(() -> view.updateGameGods(gods));
-            viewOutput.add(() -> view.showChallenger(message.getInfo(),challenger));
+            viewRequest(() -> updateGameGods(gods));
+            viewRequest(() -> showChallenger(message.getInfo(),challenger));
         }
     }
 
     public boolean validateGods(String requestedGod){
         if(!godToString.contains(requestedGod)){
-            view.showInputText("God not available, choose a different one:");
+            showInputText("God not available, choose a different one:");
             return false;
         }
             godToString.remove(requestedGod);
@@ -242,24 +205,24 @@ public class Client extends Thread implements Observer<Message> {
     private void parseAddGod(Message message){
         if(!challenger){
             chosenGods.add(message.getInfo());
-            viewOutput.add(() -> view.showChosenGods(chosenGods));
+            viewRequest(() -> showChosenGods(chosenGods));
         }
     }
 
 
     private void parseGodPlayerChoice(Message message){
         if(username.equals(message.getInfo())){
-            viewInput.add(view::requestPlayerGod);
+            viewRequest(this::requestPlayerGod);
         }
         else{
-            viewOutput.add(() -> view.showChosenGods(chosenGods));
-            viewOutput.add(() -> view.showPicking(message.getInfo()));
+            viewRequest(() -> showChosenGods(chosenGods));
+            viewRequest(() -> showPicking(message.getInfo()));
         }
     }
 
     public boolean validatePlayerGodChoice(String requestedGod){
         if(!chosenGods.contains(requestedGod)){
-            view.showInputText("This god isn't available, please choose a different one: ");
+            showInputText("This god isn't available, please choose a different one: ");
             return false;
         }
         sendMessage(new Message(MessageType.GOD_PLAYERCHOICE,username, requestedGod));
@@ -272,17 +235,17 @@ public class Client extends Thread implements Observer<Message> {
             askStarter();
         }
         else{
-            viewOutput.add(() -> view.showChosenGods(chosenGods));
+            viewRequest(() -> showChosenGods(chosenGods));
         }
     }
 
     private void askStarter(){
-        viewInput.add(view::requestStarterPlayer);
+        viewRequest(this::requestStarterPlayer);
     }
 
     public boolean validatePlayer(String string){
          if(!players.containsKey(string)){
-             view.showInputText("This player doesn't exist, choose again: ");
+             showInputText("This player doesn't exist, choose again: ");
              return false;
          }
          sendMessage(new Message(MessageType.STARTER_PLAYER,username, string));
