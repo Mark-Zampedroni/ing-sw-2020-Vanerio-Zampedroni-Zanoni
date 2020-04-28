@@ -78,6 +78,7 @@ public class ClientConnection extends Thread {
         new ClientMessageReceiver(this, controller);
 
         LOG = Logger.getLogger("client");
+        LOG.setUseParentHandlers(false);
         startLogging();
     }
 
