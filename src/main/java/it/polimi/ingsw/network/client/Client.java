@@ -22,7 +22,7 @@ public abstract class Client extends Thread implements Observer<Message>, View {
 
     private ClientConnection connection;
 
-    protected boolean challenger;
+    protected String challenger;
     protected List<String> chosenGods; // Si può usare solo la mappa gods qui sotto, usando delle key segnaposto che poi si tolgono
     protected Map<String, Colors> players;
     protected Map<String, String> gods;
@@ -170,8 +170,8 @@ public abstract class Client extends Thread implements Observer<Message>, View {
     //* GOD SELECTION *///////////////////uwu/////////OwO/////////UwU/////////////owo////////////////////////
     private void parseChallengerSelection(Message message){
         gods = new HashMap<>();
+        challenger = message.getInfo();
         if(message.getInfo().equals(username) && chosenGods.size() != players.size()) {
-            challenger = true;
             viewRequest(this::requestChallengerGod);
         }
         viewRequest(this::updateChallengerGodSelection);
@@ -198,7 +198,7 @@ public abstract class Client extends Thread implements Observer<Message>, View {
         chosenGods.add(message.getInfo());
         if(chosenGods.size() != players.size()) {
             viewRequest(this::updateChallengerGodSelection);
-            if (challenger) {
+            if (challenger.equals(username)) {
                 viewRequest(this::requestChallengerGod);
             }
         }
@@ -206,7 +206,7 @@ public abstract class Client extends Thread implements Observer<Message>, View {
 
     private void parseGodPlayerChoice(Message message){
         viewRequest(this::updatePlayerGodSelection);
-        viewRequest(this::showPlayer_God);
+        gods.put(message.getInfo(),""); // Adding player in map
         if(username.equals(message.getInfo())){
             viewRequest(this::requestPlayerGod);
         }
@@ -226,8 +226,14 @@ public abstract class Client extends Thread implements Observer<Message>, View {
 
     private void removeGod(Message message){
         chosenGods.remove(message.getInfo());
+        for(String player: gods.keySet()){ // Adding the god to the player in the mpa
+            if(gods.get(player).equals("")) {
+                gods.replace(player, message.getInfo());
+            }
+        }
+        viewRequest(this::updatePlayerGodSelection);
         if(chosenGods.size() == 0) {
-            if(challenger) {
+            if(challenger.equals(username)) {
                 viewRequest(this::requestStarterPlayer);
             }
             else {
@@ -235,9 +241,11 @@ public abstract class Client extends Thread implements Observer<Message>, View {
             }
             viewRequest(this::showAvailablePlayers);
         }
-        else{
+       /* else{
             viewRequest(this::updatePlayerGodSelection);
         }
+
+        */
     }
 
     public boolean validatePlayer(String string){

@@ -52,7 +52,7 @@ public class SelectionController extends StateController {
 
 
     private void parseAddMessage(Message message) {
-        if (message.getSender().equals(challenger.getUsername())) { // Manca condizione god contenuto in enum
+        if (message.getSender().equals(challenger.getUsername()) && Gods.isValid(message.getInfo()) ) {
             chosenGod.add(message.getInfo());
             sendBroadcastMessage(new FlagMessage(MessageType.GOD_MANAGEMENT,"SERVER", message.getInfo(), true));
             if(chosenGod.size() == controller.getPlayers().size()){

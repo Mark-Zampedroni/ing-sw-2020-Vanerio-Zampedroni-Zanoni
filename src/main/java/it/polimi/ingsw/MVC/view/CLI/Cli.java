@@ -106,29 +106,28 @@ public class Cli extends Client {
         SceneBuilder.clearScenario();
         showAvailableGods();
         if(!chosenGods.isEmpty()) { showChosenGods(); }
-        showInputText((challenger)
+        showInputText((challenger.equals(username))
                 ? "You are the challenger! Choose "+players.size()+" gods\nType the name of 1 god:"
-                : "You are not the challenger, wait while he chooses "+players.size()+" gods");
+                : "You are not the challenger, wait while " +challenger+" chooses "+players.size()+" gods");
     }
 
     public void updatePlayerGodSelection() {
         SceneBuilder.clearScenario();
         showChosenGods();
+        showPlayer_God();
         SceneBuilder.printScene();
     }
 
     public void showAvailablePlayers() {
         SceneBuilder.clearScenario();
         SceneBuilder.addToScenario("Players:\n");
-        players.keySet().forEach(p -> SceneBuilder.addToScenario(p+" , "+players.get(p).toString()+"\n"));
+        players.keySet().forEach(p -> SceneBuilder.addToScenario(p+" with "+players.get(p).toString()+"\n"));
         SceneBuilder.printScene();
     }
 
     public void showPlayer_God() {
-        SceneBuilder.clearScenario();
-        SceneBuilder.addToScenario("Players:\n");
+        SceneBuilder.addToScenario("Players with their God:\n");
         gods.keySet().forEach(p -> SceneBuilder.addToScenario(p+" , "+gods.get(p)+"\n"));
-        SceneBuilder.printScene();
     }
 
     public void requestChallengerGod(){
@@ -139,7 +138,8 @@ public class Cli extends Client {
         SceneBuilder.addToScenario("Available gods:\n");
         getAvailableGods().forEach(g -> SceneBuilder.addToScenario("Name: " + g.toString() + ", Description: " + g.getDescription() + "\n"));
     }
-    private void showChosenGods() {
+
+    public void showChosenGods() {
         SceneBuilder.addToScenario("\nChosen gods: \n");
         chosenGods.stream().map(god -> Gods.valueOf(god)).forEach(g ->  SceneBuilder.addToScenario("Name: "+g.toString()+", Description: "+g.getDescription()+"\n"));
     }
