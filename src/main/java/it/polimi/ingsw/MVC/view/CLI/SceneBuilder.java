@@ -1,8 +1,9 @@
 package it.polimi.ingsw.MVC.view.CLI;
 
-import java.awt.*;
-
 public class SceneBuilder {
+
+    private static final int SCREEN_WIDTH = 205;
+    private static int cursorOffset;
 
     private static StringBuilder builder = new StringBuilder();
 
@@ -27,18 +28,19 @@ public class SceneBuilder {
 
 
     public static double getScreenCharSize() {
-        return Toolkit.getDefaultToolkit().getScreenSize().getWidth()/9.3;
+        return SCREEN_WIDTH;
     }
 
     // Dato uno scenario in testo lo centra nello schermo del terminale // (non so se funzioni per tutti)
-    private static String centerScreen(String text) {
+    private static StringBuilder centerScreen(String text) {
         StringBuilder temp = new StringBuilder();
         String offset = getEmptyLength((int) ((getScreenCharSize()-getLongestLine(text))/2));
         for(String line : text.split("\\r?\\n")) {
             String newLine = offset + line + "\n";
             temp.append(newLine);
         }
-        return temp.toString();
+        cursorOffset = offset.length();
+        return temp;
     }
 
     // Restituisce una con "length" spazi vuoti
@@ -58,8 +60,9 @@ public class SceneBuilder {
         appendAllLinesCentered(CREDITS,width);
         appendEmptyLine();
         appendAllLinesCentered(inputMessage, width);
-        System.out.println(centerScreen(Ansi.CLEAR_CONSOLE+builder));
-        System.out.print(Ansi.moveCursorE(10));
+        builder = centerScreen(Ansi.CLEAR_CONSOLE+builder);
+        System.out.println(builder);
+        System.out.print(Ansi.moveCursorE(cursorOffset));
     }
 
     // Aggiunge una riga vuota
