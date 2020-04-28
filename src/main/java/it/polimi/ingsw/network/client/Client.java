@@ -9,9 +9,11 @@ import it.polimi.ingsw.network.messages.FlagMessage;
 import it.polimi.ingsw.network.messages.StateUpdateMessage;
 import it.polimi.ingsw.network.messages.lobby.LobbyUpdate;
 import it.polimi.ingsw.network.messages.Message;
+import it.polimi.ingsw.utility.exceptions.net.FailedConnectionException;
 import it.polimi.ingsw.utility.observer.Observer;
 import it.polimi.ingsw.MVC.view.View;
 
+import java.io.IOException;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -29,7 +31,6 @@ public abstract class Client extends Thread implements Observer<Message>, View {
 
     public Client(String ip, int port, int view) {
         chosenGods = new ArrayList<>();
-        createConnection(ip,port);
         this.start();
     }
 
@@ -38,9 +39,12 @@ public abstract class Client extends Thread implements Observer<Message>, View {
         // view.updateFrame();
     }
 
-    public void createConnection(String ip, int port) {
+    public boolean createConnection(String ip, int port) {
         state = GameState.CONNECTION;
-        connection = new ClientConnection(ip, port, this);
+        try {
+            connection = new ClientConnection(ip, port, this);
+        } catch(IOException e) { return false; }
+        return true;
     }
 
     public void update(Message message) {

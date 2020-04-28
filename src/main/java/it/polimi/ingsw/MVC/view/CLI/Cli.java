@@ -33,6 +33,8 @@ public class Cli extends Client {
 
         super(ip, port, view);
         input = new Scanner(System.in);
+        waitConnectionRequest(ip, port);
+
     }
 
     private String requestInput() {
@@ -43,9 +45,18 @@ public class Cli extends Client {
         }
     }
 
+    private void waitConnectionRequest(String ip, int port) {
+        SceneBuilder.printStartScreen("Press [ENTER] when you are ready");
+        requestInput(); // waiting for [ENTER]
+        while(!createConnection(ip, port)) {
+            SceneBuilder.printStartScreen("Connection failed! The server is unreachable, press [ENTER] to try again");
+            requestInput(); // waiting for [ENTER]
+        }
+    }
+
     /* CREAZIONE PARTITA *///////////////////////////////////////////////////////////////////////////////////////
     public void requestNumberOfPlayers() {
-        showInputText("You are the first player who connected: choose if you want to play as 2 or 3 people :\n(Type 2 or 3) ");
+        SceneBuilder.printStartScreen("You are the first player to connect!\nchoose if you want to play as 2 or 3 people (Type 2 or 3)");
         while(!validateNumberOfPlayers(requestInput().toUpperCase()));
     }
 
@@ -87,7 +98,7 @@ public class Cli extends Client {
         SceneBuilder.clearScenario();
         SceneBuilder.addToScenario("Current players:\n");
         if(players.keySet().isEmpty()) { SceneBuilder.addToScenario("No one registered yet\n"); }
-        players.keySet().stream().forEach(s -> SceneBuilder.addToScenario("Name: "+s+", Color: "+players.get(s)+"\n"));
+        players.keySet().forEach(s -> SceneBuilder.addToScenario("Name: "+s+", Color: "+players.get(s)+"\n"));
         SceneBuilder.addToScenario("\nAvailable colors: "+availableColors+"\n");
         SceneBuilder.printScene();
     }
@@ -141,7 +152,7 @@ public class Cli extends Client {
 
     public void showChosenGods() {
         SceneBuilder.addToScenario("\nChosen gods: \n");
-        chosenGods.stream().map(god -> Gods.valueOf(god)).forEach(g ->  SceneBuilder.addToScenario("Name: "+g.toString()+", Description: "+g.getDescription()+"\n"));
+        chosenGods.stream().map(Gods::valueOf).forEach(g ->  SceneBuilder.addToScenario("Name: "+g.toString()+", Description: "+g.getDescription()+"\n"));
     }
 
     public void requestPlayerGod(){

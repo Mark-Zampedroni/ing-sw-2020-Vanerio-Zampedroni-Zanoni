@@ -69,26 +69,16 @@ public class ClientConnection extends Thread {
 
     }
 
-    public ClientConnection(String ip, int port, Client controller) {
+    public ClientConnection(String ip, int port, Client controller) throws IOException {
         this.ip = ip;
         this.port = port;
         inQueue = new ArrayList<>();
 
+        startConnection();
+        new ClientMessageReceiver(this, controller);
+
         LOG = Logger.getLogger("client");
         startLogging();
-
-        while (true) {
-            try {
-                Thread.sleep(1000);
-                System.out.println("start connection!");
-                startConnection();
-                new ClientMessageReceiver(this, controller);
-                LOG.info("Created connection and controller");
-                break;
-            } catch (FailedConnectionException | InterruptedException e) {
-                System.out.println(e.getMessage());
-            }
-        }
     }
 
     private void startLogging() {
@@ -103,16 +93,11 @@ public class ClientConnection extends Thread {
         }
     }
 
-    public void startConnection() throws FailedConnectionException {
-        try {
-            socket = new Socket(ip, port);
-            output = new ObjectOutputStream(socket.getOutputStream());
-            input = new ObjectInputStream(socket.getInputStream());
-            this.start();
-        } catch(IOException e) {
-            LOG.severe("Couldn't reach the server");
-            throw new FailedConnectionException("Couldn't reach the server");
-        }
+    public void startConnection() throws IOException {
+        socket = new Socket(ip, port);
+        output = new ObjectOutputStream(socket.getOutputStream());
+        input = new ObjectInputStream(socket.getInputStream());
+        this.start();
     }
 
     public void sendMessage(Message msg) {
