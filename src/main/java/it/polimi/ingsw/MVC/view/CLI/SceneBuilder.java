@@ -1,5 +1,7 @@
 package it.polimi.ingsw.MVC.view.CLI;
 
+import java.awt.*;
+
 public class SceneBuilder {
 
     private static StringBuilder builder = new StringBuilder();
@@ -24,25 +26,53 @@ public class SceneBuilder {
     }
 
 
+    public static double getScreenCharSize() {
+        return Toolkit.getDefaultToolkit().getScreenSize().getWidth()/9.3;
+    }
 
-    //public static void setScreenLength()
+    // Dato uno scenario in testo lo centra nello schermo del terminale // (non so se funzioni per tutti)
+    private static String centerScreen(String text) {
+        StringBuilder temp = new StringBuilder();
+        String offset = getEmptyLength((int) ((getScreenCharSize()-getLongestLine(text))/2));
+        for(String line : text.split("\\r?\\n")) {
+            String newLine = offset + line + "\n";
+            temp.append(newLine);
+        }
+        return temp.toString();
+    }
+
+    // Restituisce una con "length" spazi vuoti
+    private static String getEmptyLength(int length) {
+        StringBuilder temp = new StringBuilder();
+        for(int x = 0; x < length; x++) { temp.append(" "); }
+        return temp.toString();
+    }
 
     // Stampa la schermata iniziale
     public static void printStartScreen(String inputMessage) {
         builder.setLength(0);
         int width = getLongestLine(TITLE);
-        builder.append(TITLE+"\n\n");
+        appendEmptyLine(2);
+        builder.append(TITLE);
+        appendEmptyLine(3);
         appendAllLinesCentered(CREDITS,width);
         appendEmptyLine();
-        appendAllLinesCentered(inputMessage,width);
-        System.out.println(Ansi.CLEAR_CONSOLE+builder);
+        appendAllLinesCentered(inputMessage, width);
+        System.out.println(centerScreen(Ansi.CLEAR_CONSOLE+builder));
         System.out.print(Ansi.moveCursorE(10));
     }
 
+    // Aggiunge una riga vuota
     private static void appendEmptyLine() {
         builder.append("\n");
     }
 
+    // Aggiunge un numero "number" di righe vuote
+    private static void appendEmptyLine(int number) {
+        for(int x = 0; x < number; x++) { builder.append("\n"); }
+    }
+
+    // Centra ogni riga a capo su un pezzo di lunghezza length (se non ci sta non funziona)
     private static void appendAllLinesCentered(String text, int length) {
         for(String line : text.split("\\r?\\n")) {
             String temp = centerLine(line,length)+"\n";
@@ -50,7 +80,7 @@ public class SceneBuilder {
         }
     }
 
-    // Centra una stringa sapendo che lo schermo è lungo "length" caratteri
+    // Centra una stringa in un pezzo di lunghezza length (se non ci sta non funziona)
     private static String centerLine(String text, int length) {
         StringBuilder temp = new StringBuilder();
         for(int i = (length - text.length())/2; i>0; i--) {
