@@ -57,12 +57,23 @@ public class Cli extends Client {
     /* CREAZIONE PARTITA *///////////////////////////////////////////////////////////////////////////////////////
     public void requestNumberOfPlayers() {
         SceneBuilder.printStartScreen("You are the first player to connect!\nchoose if you want to play as 2 or 3 people (Type 2 or 3)");
-        while(!validateNumberOfPlayers(requestInput().toUpperCase()));
+        while(!validateNumberOfPlayers(requestInput().toUpperCase())) {
+            SceneBuilder.printStartScreen("The number you typed is not valid, please choose 2 or 3:");
+        }
     }
 
     public void showInputText(String text) {
         SceneBuilder.putOutputRequest("\n"+text);
         SceneBuilder.printScene();
+    }
+
+    public void showInfo(String text) {
+        switch(state) {
+            case PRE_LOBBY:
+                SceneBuilder.printStartScreen(text);
+                break;
+        }
+
     }
 
     //^^^ CREAZIONE PARTITA ^^^///////////////////////////////////

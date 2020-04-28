@@ -14,6 +14,7 @@ public interface View {
 
     // Da togliere -> i testi vanno spostati in CLI
     void showInputText(String text);
+    void showInfo(String text);
     //Pre-Lobby
     void requestNumberOfPlayers(); // Chiede al primo giocatore da quante persone fare la partita
     //Lobby

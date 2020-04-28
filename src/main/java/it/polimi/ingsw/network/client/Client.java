@@ -19,7 +19,7 @@ import java.util.stream.Collectors;
 
 public abstract class Client extends Thread implements Observer<Message>, View {
 
-    private GameState state;
+    protected GameState state;
     protected String username;
 
     private ClientConnection connection;
@@ -35,8 +35,7 @@ public abstract class Client extends Thread implements Observer<Message>, View {
     }
 
     private void viewRequest(Runnable request) {
-        new Thread(request).start();
-        // view.updateFrame();
+        new Thread(request).start(); // da sincronizzare sulle mappe/liste nei metodi di questa classe
     }
 
     public boolean createConnection(String ip, int port) {
@@ -103,7 +102,6 @@ public abstract class Client extends Thread implements Observer<Message>, View {
             sendMessage(new Message(MessageType.SLOTS_CHOICE, username, number));
             return true;
         }
-        showInputText("The number you typed is not valid, please choose 2 or 3:");
         return false;
     }
     //^^^ CREAZIONE PARTITA ^^^////uwu/////////////////////////////////////////////////////////////////////////
@@ -151,7 +149,7 @@ public abstract class Client extends Thread implements Observer<Message>, View {
     //^^^ LOBBY ^^^////////////////////////////////////////////////////////////////////////////
 
     private void parseInfoMessage(Message message) {
-        System.out.println("\n\n\n"+message.getInfo()+"\n\n");
+        viewRequest(() -> showInfo(message.getInfo()));
     }
 
     // TEST, NO MESSAGE MA ACTIONMESSAGE
