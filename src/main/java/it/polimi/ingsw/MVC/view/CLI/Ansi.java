@@ -62,5 +62,13 @@ public class Ansi {
         return addColor(color, false, true);
     }
 
+    public static String moveCursorE(int columns) {
+        return "\033["+columns+"C"+"\033[0B";
+    }
+
+    public static String moveCursorS(int rows) {
+        return "\033["+rows+"B";
+    }
+
 
 }

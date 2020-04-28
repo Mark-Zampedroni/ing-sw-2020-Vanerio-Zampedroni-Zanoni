@@ -24,6 +24,9 @@ public class SceneBuilder {
     }
 
 
+
+    //public static void setScreenLength()
+
     // Stampa la schermata iniziale
     public static void printStartScreen(String inputMessage) {
         builder.setLength(0);
@@ -33,6 +36,7 @@ public class SceneBuilder {
         appendEmptyLine();
         appendAllLinesCentered(inputMessage,width);
         System.out.println(Ansi.CLEAR_CONSOLE+builder);
+        System.out.print(Ansi.moveCursorE(10));
     }
 
     private static void appendEmptyLine() {
@@ -103,7 +107,7 @@ public class SceneBuilder {
             "  \\ '---'  /  | | | |  ._.   '--'| |   \\  '-' /    .-   \\ \\  | | ._.   '- | |\n" +
             "   '-.___.'   '-'  \\.)           '-'    '----'           '-' '-'          '-'";
 
-    private static final String CREDITS = "Game developed by Stefano Valerio, Mark Zampedroni and Marco Zanoni\n"+
+    private static final String CREDITS = "Game developed by Stefano vanerio, Mark Zampedroni and Marco Zanoni\n"+
                                           "Original board version published by Roxley Games";
 
 
