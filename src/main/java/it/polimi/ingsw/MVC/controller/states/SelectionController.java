@@ -1,6 +1,7 @@
 package it.polimi.ingsw.MVC.controller.states;
 
 import it.polimi.ingsw.MVC.controller.SessionController;
+import it.polimi.ingsw.network.messages.FlagMessage;
 import it.polimi.ingsw.utility.enumerations.GameState;
 import it.polimi.ingsw.utility.enumerations.Gods;
 import it.polimi.ingsw.utility.enumerations.MessageType;
@@ -31,7 +32,7 @@ public class SelectionController extends StateController {
     @Override
     public void parseMessage(Message message) {
         switch (message.getType()) {
-            case GOD_ADD:
+            case GOD_MANAGEMENT:
                 parseAddMessage(message);
                 break;
             case GOD_PLAYERCHOICE:
@@ -53,7 +54,7 @@ public class SelectionController extends StateController {
     private void parseAddMessage(Message message) {
         if (message.getSender().equals(challenger.getUsername())) { // Manca condizione god contenuto in enum
             chosenGod.add(message.getInfo());
-            sendBroadcastMessage(new Message(MessageType.GOD_ADD,"SERVER", message.getInfo()));
+            sendBroadcastMessage(new FlagMessage(MessageType.GOD_MANAGEMENT,"SERVER", message.getInfo(), true));
             if(chosenGod.size() == controller.getPlayers().size()){
                 askNextSelection();
             }
@@ -65,7 +66,7 @@ public class SelectionController extends StateController {
         if (chosenGod.contains(message.getInfo())) {
             chosenGod.remove(message.getInfo());
             assignGod(message.getSender(),message.getInfo());
-            sendBroadcastMessage(new Message(MessageType.GOD_REMOVE,"SERVER", message.getInfo()));
+            sendBroadcastMessage(new FlagMessage(MessageType.GOD_MANAGEMENT,"SERVER", message.getInfo(), false));
             if (chosenGod.size() < controller.getPlayers().size()) {
                 askNextSelection();
             }

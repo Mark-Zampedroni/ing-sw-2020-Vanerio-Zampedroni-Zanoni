@@ -124,6 +124,13 @@ public class Cli extends Client {
         SceneBuilder.printScene();
     }
 
+    public void showPlayer_God() {
+        SceneBuilder.clearScenario();
+        SceneBuilder.addToScenario("Players:\n");
+        gods.keySet().forEach(p -> SceneBuilder.addToScenario(p+" , "+gods.get(p)+"\n"));
+        SceneBuilder.printScene();
+    }
+
     public void requestChallengerGod(){
         while(!validateGods(requestInput().toUpperCase()));
     }

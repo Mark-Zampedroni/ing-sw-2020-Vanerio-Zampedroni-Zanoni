@@ -72,11 +72,8 @@ public abstract class Client extends Thread implements Observer<Message>, View {
             case CHALLENGER_SELECTION:
                 parseChallengerSelection(message);
                 break;
-            case GOD_ADD: // GOD_SELECTION
-                parseAddGod(message);
-                break;
-            case GOD_REMOVE:
-                parseRemoveGod(message);
+            case GOD_MANAGEMENT: // GOD_SELECTION
+                parseManagementMessage((FlagMessage) message);
                 break;
             case GOD_PLAYERCHOICE: // GOD_SELECTION
                 parseGodPlayerChoice(message);
@@ -172,6 +169,7 @@ public abstract class Client extends Thread implements Observer<Message>, View {
     }
     //* GOD SELECTION *///////////////////uwu/////////OwO/////////UwU/////////////owo////////////////////////
     private void parseChallengerSelection(Message message){
+        gods = new HashMap<>();
         if(message.getInfo().equals(username) && chosenGods.size() != players.size()) {
             challenger = true;
             viewRequest(this::requestChallengerGod);
@@ -184,11 +182,19 @@ public abstract class Client extends Thread implements Observer<Message>, View {
             showInputText("God not available, choose a different one:");
             return false;
         }
-        sendMessage(new Message(MessageType.GOD_ADD, username, requestedGod));
+        sendMessage(new FlagMessage(MessageType.GOD_MANAGEMENT, username, requestedGod, true));
         return true;
     }
 
-    private void parseAddGod(Message message){
+    private void parseManagementMessage(FlagMessage message){
+        if (message.getFlag()) {
+            addGod(message);
+        } else {
+            removeGod(message);
+        }
+    }
+
+    private void addGod(Message message){
         chosenGods.add(message.getInfo());
         if(chosenGods.size() != players.size()) {
             viewRequest(this::updateChallengerGodSelection);
@@ -200,6 +206,7 @@ public abstract class Client extends Thread implements Observer<Message>, View {
 
     private void parseGodPlayerChoice(Message message){
         viewRequest(this::updatePlayerGodSelection);
+        viewRequest(this::showPlayer_God);
         if(username.equals(message.getInfo())){
             viewRequest(this::requestPlayerGod);
         }
@@ -217,7 +224,7 @@ public abstract class Client extends Thread implements Observer<Message>, View {
         return true;
     }
 
-    private void parseRemoveGod(Message message){
+    private void removeGod(Message message){
         chosenGods.remove(message.getInfo());
         if(chosenGods.size() == 0) {
             if(challenger) {

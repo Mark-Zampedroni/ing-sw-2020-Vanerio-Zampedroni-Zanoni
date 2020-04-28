@@ -12,8 +12,7 @@ public enum MessageType {
     READY,
     CHALLENGER_SELECTION,
     GOD_PLAYERCHOICE,
-    GOD_ADD,
-    GOD_REMOVE,
+    GOD_MANAGEMENT,
     STARTER_PLAYER,
     ACTION,
 

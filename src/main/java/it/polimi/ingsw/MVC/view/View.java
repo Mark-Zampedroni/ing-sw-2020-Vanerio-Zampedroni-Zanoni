@@ -28,6 +28,7 @@ public interface View {
     //Scelta starter player
     void showAvailablePlayers(); // Mostra i giocatori disponibili con i loro dei
     void requestStarterPlayer(); // Chiede di scegliere lo starter player
+    void showPlayer_God();
     //Richiesta azione durante il gioco
     void requestAction(); // TEST
 
