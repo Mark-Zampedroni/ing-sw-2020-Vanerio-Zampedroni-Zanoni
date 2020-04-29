@@ -45,12 +45,6 @@ public class SelectionController extends StateController {
         }
     }
 
-    @Override
-    public void sendUpdate() {
-        //sendBroadcastMessage(new Message(MessageType.GOD_REMOVE,"SERVER", ""));
-    }
-
-
     private void parseAddMessage(Message message) {
         if (message.getSender().equals(challenger.getUsername()) && Gods.isValid(message.getInfo()) ) {
             chosenGod.add(message.getInfo());

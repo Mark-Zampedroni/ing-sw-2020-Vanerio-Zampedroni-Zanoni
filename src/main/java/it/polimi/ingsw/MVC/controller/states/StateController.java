@@ -24,7 +24,10 @@ public abstract class StateController {
         this.LOG = LOG;
     }
 
-    public abstract void sendUpdate();
+    public void sendUpdate() {
+        LOG.warning("This state can't send updates");
+    }
+
     public abstract void parseMessage(Message message);
     public abstract void tryNextState();
 
