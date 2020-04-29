@@ -3,6 +3,7 @@ package it.polimi.ingsw.MVC.controller;
 import it.polimi.ingsw.MVC.controller.states.LobbyController;
 import it.polimi.ingsw.MVC.controller.states.SelectionController;
 import it.polimi.ingsw.MVC.controller.states.StateController;
+import it.polimi.ingsw.MVC.controller.states.TurnController;
 import it.polimi.ingsw.utility.enumerations.Colors;
 import it.polimi.ingsw.utility.enumerations.GameState;
 import it.polimi.ingsw.utility.enumerations.MessageType;
@@ -51,6 +52,10 @@ public class SessionController implements Observer<Message>  {
         switch(state) {
             case GOD_SELECTION:
                 stateController = new SelectionController(this, views, LOG);
+                break;
+            case GAME:
+                //stateController = new TurnController
+                System.out.println("Inizia partita!");
                 break;
             default:
                 LOG.severe("Tried to switch to state "+state+", but the Server doesn't support it yet");

@@ -213,9 +213,9 @@ public abstract class Client extends Thread implements Observer<Message>, View {
         return true;
     }
 
-    private void removeGod(Message message){
+    private void removeGod(Message message) {
         chosenGods.remove(message.getInfo());
-        for(String player: gods.keySet()){ // Adding the god to the player in the mpa
+        for(String player: gods.keySet()) {
             if(gods.get(player).equals("")) {
                 gods.replace(player, message.getInfo());
             }
@@ -230,15 +230,10 @@ public abstract class Client extends Thread implements Observer<Message>, View {
             }
             viewRequest(this::showAvailablePlayers);
         }
-       /* else{
-            viewRequest(this::updatePlayerGodSelection);
-        }
-
-        */
     }
 
-    public boolean validatePlayer(String string){
-         if(!players.containsKey(string)){
+    public boolean validatePlayer(String string) {
+         if(!players.containsKey(string)) {
              showInputText("This player doesn't exist, choose again: ");
              return false;
          }

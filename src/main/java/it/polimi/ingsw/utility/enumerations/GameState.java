@@ -6,7 +6,6 @@ public enum GameState {
     LOGIN,
     LOBBY,
     GOD_SELECTION,
-    FIRST_TURN,
     GAME,
     END_GAME
 }

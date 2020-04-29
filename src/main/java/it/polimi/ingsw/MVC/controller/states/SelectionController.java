@@ -84,7 +84,7 @@ public class SelectionController extends StateController {
     }
 
     public void tryNextState() {
-        controller.switchState(GameState.FIRST_TURN);
+        controller.switchState(GameState.GAME);
     }
 
     private void askNextSelection() {

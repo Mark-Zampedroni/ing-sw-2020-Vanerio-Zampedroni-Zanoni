@@ -1,5 +1,7 @@
-package it.polimi.ingsw.MVC.controller;
+package it.polimi.ingsw.MVC.controller.states;
 
+import it.polimi.ingsw.MVC.controller.ActionController;
+import it.polimi.ingsw.MVC.controller.SessionController;
 import it.polimi.ingsw.utility.enumerations.Action;
 import it.polimi.ingsw.utility.enumerations.MessageType;
 import it.polimi.ingsw.utility.exceptions.actions.CantActException;
@@ -19,14 +21,21 @@ public class TurnController {
 
     List<Player> players;
     List<Action> possibleActions;
+
     Player currentPlayer;
+
     Worker currentWorker;
+
     GodRules currentRules;
+
     ActionController actionControl;
+    SessionController controller;
+
     int currentIndex;
 
-    public TurnController(List<Player> players) {
-        this.players = players;
+    public TurnController(SessionController controller) {
+        this.controller = controller;
+        this.players = controller.getPlayers();
         initTurn();
     }
 
