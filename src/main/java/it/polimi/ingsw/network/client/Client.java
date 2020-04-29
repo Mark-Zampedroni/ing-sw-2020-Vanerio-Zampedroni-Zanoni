@@ -244,7 +244,7 @@ public abstract class Client extends Thread implements Observer<Message>, View {
              showInputText("This player doesn't exist, choose again: ");
              return false;
          }
-         sendMessage(new Message(MessageType.STARTER_PLAYER,username, string));
+         sendMessage(new Message(MessageType.STARTER_PLAYER, username, string));
          return true;
     }
 

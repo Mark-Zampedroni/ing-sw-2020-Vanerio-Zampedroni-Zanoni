@@ -35,6 +35,7 @@ public class SelectionController extends StateController {
 
     @Override
     public void parseMessage(Message message) {
+        System.out.println(controller.getTurnOwner());
         if(message.getSender().equals(controller.getTurnOwner())) {
             switch (message.getType()) {
                 case SELECTED_GODS_CHANGE:
@@ -45,8 +46,9 @@ public class SelectionController extends StateController {
                     break;
                 case STARTER_PLAYER:
                     parseStarterPlayerMessage(message);
+                    break;
                 default:
-                    System.out.println("[Warning] Wrong message type");
+                    LOG.warning("Wrong message type : "+message);
             }
         }
         else {
@@ -73,7 +75,7 @@ public class SelectionController extends StateController {
             if (chosenGod.contains(message.getInfo())) {
                 chosenGod.remove(message.getInfo());
                 assignGod(message.getSender(), message.getInfo());
-                if (chosenGod.size() < controller.getPlayers().size()) {
+                if (!chosenGod.isEmpty()) {
                     sendBroadcastMessage(new FlagMessage(MessageType.SELECTED_GODS_CHANGE, "SERVER", message.getInfo(), false));
                     askNextSelection();
                 } else {
