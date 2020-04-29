@@ -72,8 +72,8 @@ public class SessionController implements Observer<Message>  {
                 // Altri stati
         }
         synchronized(viewLock) {
-            sendStateUpdate(); // Notify new state to clients
-            if(this.state != GameState.LOBBY) stateController.sendUpdate(); // Update clients info
+            sendStateUpdate(state); // Notify new state to clients
+            //if(this.state != GameState.LOBBY) stateController.sendUpdate(); // Update clients info
         }
 
         LOG.info("Server switch to new state: "+state); // TEST
@@ -84,8 +84,8 @@ public class SessionController implements Observer<Message>  {
     }
 
     // Update ai client per notificarli che è cambiato lo stato, uguale per tutti gli stati
-    private void sendStateUpdate() {
-        stateController.sendBroadcastMessage(new StateUpdateMessage(MessageType.STATE_UPDATE,"SERVER","Nuovo stato", state));
+    public void sendStateUpdate(GameState newState) {
+        stateController.sendBroadcastMessage(new StateUpdateMessage(MessageType.STATE_UPDATE,"SERVER","Nuovo stato", newState));
     }
 
     // Update sulla situazione in base allo stato in cui si trova
