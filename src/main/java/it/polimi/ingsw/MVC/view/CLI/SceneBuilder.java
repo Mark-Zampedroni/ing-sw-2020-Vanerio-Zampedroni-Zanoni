@@ -1,5 +1,10 @@
 package it.polimi.ingsw.MVC.view.CLI;
 
+import it.polimi.ingsw.utility.enumerations.Colors;
+
+import java.util.List;
+import java.util.Map;
+
 public class SceneBuilder {
 
     private static final int SCREEN_WIDTH = 205;
@@ -65,6 +70,28 @@ public class SceneBuilder {
         System.out.print(Ansi.moveCursorE(cursorOffset));
     }
 
+    public static void printLobbyScreen(String inputMessage, Map<String, Colors> players) {
+        int defaultLength = 10;
+        int defaultSpace = 5;
+        builder.setLength(0);
+        appendEmptyLine(2);
+        builder.append("Players in Lobby:\n");
+        if(!players.keySet().isEmpty()) {
+            appendEmptyLine(2);
+            builder.append("Name:"+getEmptyLength(defaultSpace)+"Color:\n");
+            appendEmptyLine();
+            players.keySet().forEach(p -> builder.append(p + (getEmptyLength(defaultLength-p.length())) + Ansi.decorateColorString(players.get(p).toString(),players.get(p).toString()) + "\n"));
+        }
+        else {
+            appendEmptyLine(2);
+            builder.append("No one registered yet");
+        }
+        appendEmptyLine(2);
+        builder.append(inputMessage+"\n");
+        builder = centerScreen(Ansi.CLEAR_CONSOLE+builder);
+        System.out.println(builder);
+    }
+
     // Aggiunge una riga vuota
     private static void appendEmptyLine() {
         builder.append("\n");
@@ -74,6 +101,10 @@ public class SceneBuilder {
     private static void appendEmptyLine(int number) {
         for(int x = 0; x < number; x++) { builder.append("\n"); }
     }
+
+    /*private static int getLongestWord(List<String> words) {
+        return words.stream().map(String::length).max(Integer::compareTo).get();
+    }*/
 
     // Centra ogni riga a capo su un pezzo di lunghezza length (se non ci sta non funziona)
     private static void appendAllLinesCentered(String text, int length) {

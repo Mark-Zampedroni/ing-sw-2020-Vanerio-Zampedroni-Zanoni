@@ -46,6 +46,10 @@ public class Ansi {
         return PRE+(Integer.parseInt(color)+backgroundOffset)+brightness;
     }
 
+    public static String decorateColorString(String text, String color) {
+        return addStringColor(color) + text + RESET;
+    }
+
     public static String addStringColor(String color, boolean bright) {
         return addColor(color, bright,false);
     }

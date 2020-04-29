@@ -109,23 +109,11 @@ public abstract class Client extends Thread implements Observer<Message>, View {
 
     /* LOBBY *////////////////////////////////////////////////////////////////////////////
     public boolean validateUsername(String requestedUsername) {
-        if(!players.containsKey(requestedUsername)) {
-            return true;
-        }
-        showInputText("This username is already taken, choose a different one:");
-        return false;
+        return !players.containsKey(requestedUsername);
     }
 
     public boolean validateColor(String requestedColor) {
-        if(!Colors.isValid(requestedColor)) {
-            showInputText("The color selected does not exist, choose one of the available colors:");
-            return false;
-        }
-        else if(players.containsValue(Colors.valueOf(requestedColor))) {
-            showInputText("This color is already taken, choose a different one:");
-            return false;
-        }
-        return true;
+        return !(!Colors.isValid(requestedColor) || players.containsValue(Colors.valueOf(requestedColor)));
     }
 
     public void requestLogin(String requestedUsername, Colors color) {
@@ -162,7 +150,6 @@ public abstract class Client extends Thread implements Observer<Message>, View {
             if(message.getFlag()) {
                 username = message.getInfo(); // View registrata su Server
                 state = GameState.LOBBY;
-                viewRequest(() -> showInputText("Waiting for other players to log")); // TEST
             }
             else {
                 viewRequest(this::requestLogin);

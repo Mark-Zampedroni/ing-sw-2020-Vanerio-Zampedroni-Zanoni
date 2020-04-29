@@ -23,11 +23,14 @@ import it.polimi.ingsw.MVC.view.View;
  */
 import java.util.*;
 import java.util.List;
+import java.util.function.Function;
 
 public class Cli extends Client {
 
 
     private Scanner input;
+
+    private String inputSave = "";
 
     public Cli(String ip, int port, int view) {
 
@@ -80,38 +83,39 @@ public class Cli extends Client {
 
     /* LOBBY *///////////////////////////////////////////////////////////////////////////////////////
     public void requestLogin() {
-        String requestedUsername = requestUsername();
-        String requestedColor = requestColor();
+        String requestedUsername = requestLobbyInput("Input username:",
+                                                       "This username is already taken, choose a different one:",
+                                                            (username) -> !validateUsername(username));
+        String requestedColor = requestLobbyInput("Choose one of the available colors:",
+                                                    "This color does not exist or was already chosen, select a different one:",
+                                                          (color) -> !validateColor(color.toUpperCase())).toUpperCase();
         requestLogin(requestedUsername, Colors.valueOf(requestedColor));
     }
 
-    private String requestUsername() {
-        showInputText("Input username:");
-        String requestedUsername;
-        do {
-            requestedUsername = requestInput();
+    private String requestLobbyInput(String request, String error, Function<String,Boolean> check) {
+        inputSave = request;
+        SceneBuilder.printLobbyScreen(inputSave, players);
+        String someInput = requestInput();
+        while(check.apply(someInput)) {
+            someInput = showWrongInput(error);
         }
-        while(!validateUsername(requestedUsername));
-        return requestedUsername;
+        return someInput;
     }
 
-    private String requestColor() {
-        showInputText("Choose one of the available colors:");
-        String requestedColor;
-        do {
-            requestedColor = requestInput().toUpperCase();
-        }
-        while(!validateColor(requestedColor));
-        return requestedColor;
+    private String showWrongInput(String text) {
+        inputSave = text;
+        SceneBuilder.printLobbyScreen(inputSave, players);
+        return requestInput();
     }
 
     public void updateLobby(List<Colors> availableColors) {
-        SceneBuilder.clearScenario();
-        SceneBuilder.addToScenario("Current players:\n");
-        if(players.keySet().isEmpty()) { SceneBuilder.addToScenario("No one registered yet\n"); }
-        players.keySet().forEach(s -> SceneBuilder.addToScenario("Name: "+s+", Color: "+players.get(s)+"\n"));
-        SceneBuilder.addToScenario("\nAvailable colors: "+availableColors+"\n");
-        SceneBuilder.printScene();
+        if(players.containsKey(username)) {
+            inputSave = "Waiting for other players to join ...";
+        }
+        SceneBuilder.printLobbyScreen(inputSave, players);
+        // Vanno mostrati i colori -> da fare metodo showRequest in SceneBuilder per cambiare solo una Stringa
+        // "request" che si utilizza in tutti gli scenari, diventa più facile modificare solo un pezzo quando arriva
+        // info, vale anche per la pre-lobby e le cose da fare dopo !
     }
 
     //^^^ LOBBY ^^^//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
