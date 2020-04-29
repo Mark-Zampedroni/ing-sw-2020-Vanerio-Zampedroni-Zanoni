@@ -8,6 +8,7 @@ import it.polimi.ingsw.MVC.model.player.Worker;
 
 public class DTOworker {
 
+    private String masterUsername;
     private DTOposition position;
 
     /**
@@ -16,7 +17,17 @@ public class DTOworker {
      * @param worker indicates his equivalent in server storage
      */
     public DTOworker(Worker worker) {
+        this.masterUsername = worker.getMaster().getUsername();
         this.position = new DTOposition(worker.getPosition());
+    }
+
+    /**
+     * Getter for master username
+     *
+     * @return the {@link String username} of the player who owns the worker
+     */
+    public String getMasterUsername() {
+        return masterUsername;
     }
 
     /**
@@ -26,19 +37,6 @@ public class DTOworker {
      */
     public DTOposition getPosition() { return position; }
 
-    /**
-     * Getter for master
-     *
-     * @return the {@link DTOplayer DTOplayer} who owns the worker
-     */
-    public DTOplayer getMaster() {
-        for(DTOplayer p : DTOsession.getInstance().getPlayers()) {
-            for(DTOworker w : p.getWorkers()) {
-                if(this.equals(w)) { return p; }
-            }
-        }
-        return null; // Can't happen
-    }
 
     /**
      * Generates a String which contains the DTOworker's variables values
@@ -47,12 +45,8 @@ public class DTOworker {
      */
     @Override
     public String toString() {
-        return "{Master: "+getMaster()+
+        return "{Master: "+getMasterUsername()+
                 " X: "+getPosition().getX()+
                 " Y: "+getPosition().getY()+"}";
     }
-/*
-    public boolean equals(Worker worker) {
-        return (position.equals(worker.getPosition()));
-    }*/
 }
