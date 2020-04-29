@@ -47,23 +47,6 @@ public class DTOposition {
         return (x == position.getX() && y == position.getY());
     }
 
-
-    /**
-     * Confirms if there is a {@link DTOworker worker} on the same coordinates
-     *
-     * @return the {@link DTOworker worker} on the same coordinates, null if none is found
-     */
-    public DTOworker getWorker() {
-        for(DTOplayer player : DTOsession.getInstance().getPlayers()) {
-            for(DTOworker worker : player.getWorkers()) {
-                if(this.equals(worker.getPosition())) {
-                    return worker;
-                }
-            }
-        }
-        return null;
-    }
-
     /**
      * Generates a String stating the DTOposition coordinates
      *

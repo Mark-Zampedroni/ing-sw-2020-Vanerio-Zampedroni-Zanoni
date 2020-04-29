@@ -5,7 +5,6 @@ import it.polimi.ingsw.MVC.model.map.Position;
 import it.polimi.ingsw.MVC.model.rules.gods.Setupper;
 import it.polimi.ingsw.utility.enumerations.Colors;
 import it.polimi.ingsw.utility.serialization.DTO.DTOposition;
-import it.polimi.ingsw.utility.serialization.DTO.DTOsession;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -58,15 +57,4 @@ public class DTOworkerTest {
         assertEquals(dtOposition.getDistanceFrom(dtOposition2), position.getDistanceFrom(position2));
     }
 
-    /**
-     * Testing if getWorker method works, if a worker is on the DTOposition
-     */
-    @Test
-    void correctlyWorkers(){
-
-        DTOsession dtOsession= new DTOsession(Session.getInstance());
-        DTOposition dtOposition = new DTOposition(new Position(2,3));
-        assertEquals(dtOposition.getWorker(), dtOsession.getPlayers().get(0).getWorkers().get(0));
-
-    }
 }

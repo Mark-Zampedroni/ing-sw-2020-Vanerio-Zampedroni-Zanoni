@@ -56,15 +56,4 @@ public class DTOpositionTest {
         assertTrue(position.equals(position2));
         assertEquals(dtOposition.getDistanceFrom(dtOposition2), position.getDistanceFrom(position2));
     }
-
-    /**
-     * Testing if getWorker method works, if a worker is on the DTOposition
-     */
-    @Test
-    void correctlyWorkers(){
-        DTOsession dtOsession= new DTOsession(Session.getInstance());
-        DTOposition dtOposition = new DTOposition(new Position(2,3));
-        assertEquals(dtOposition.getWorker(), dtOsession.getPlayers().get(0).getWorkers().get(0));
-
-    }
 }
