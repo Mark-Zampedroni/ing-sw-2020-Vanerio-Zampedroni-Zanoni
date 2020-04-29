@@ -137,18 +137,18 @@ public class Player implements Serializable {
     }
 
     /**
-     * Evaluates if the player is the winner
+     * Evaluates if the player is the starter
      *
-     * @return {@code true} if the player is the winner of the {@link it.polimi.ingsw.MVC.model.Session session}
+     * @return {@code true} if the player is the starter of the {@link it.polimi.ingsw.MVC.model.Session session}
      */
     public boolean isStarter() {
         return starter;
     }
 
     /**
-     * The current player becomes the winner of the match
+     * The current player becomes the starter of the match
      */
-    public void setWinner() {
+    public void setStarter() {
         starter =true;
     }
 

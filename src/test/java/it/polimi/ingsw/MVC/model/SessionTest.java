@@ -52,7 +52,7 @@ class SessionTest {
         assertEquals(Session.getInstance().playersNumber(), 2);
         Session.getInstance().addPlayer(one);
         assertFalse(Session.getInstance().hasWinner());
-        one.setWinner();
+        one.setStarter();
         assertTrue(Session.getInstance().hasWinner());
         two.removeWorker(0);
         Session.getInstance().removePlayer(two);

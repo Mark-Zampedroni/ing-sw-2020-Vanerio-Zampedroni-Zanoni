@@ -20,7 +20,7 @@ class PlayerTest {
         assertFalse(player.isChallenger());
         player.setChallenger();
         assertTrue(player.isChallenger());
-        player.setWinner();
+        player.setStarter();
         assertTrue(player.isStarter());
         assertEquals(player.getColor(), Colors.BLUE);
     }

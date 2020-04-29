@@ -5,7 +5,9 @@ public enum GameState {
     PRE_LOBBY,
     LOGIN,
     LOBBY,
+    CHALLENGER_SELECTION,
     GOD_SELECTION,
+    STARTER_SELECTION,
     GAME,
     END_GAME
 }
