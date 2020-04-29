@@ -64,7 +64,7 @@ public class SessionController implements Observer<Message>  {
                 stateController = new SelectionController(this, views, LOG);
                 break;
             case GAME:
-                //stateController = new TurnController
+                stateController = new TurnController(this, views, LOG);
                 System.out.println("Inizia partita!");
                 break;
             default:

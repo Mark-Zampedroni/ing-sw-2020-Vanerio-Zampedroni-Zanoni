@@ -94,7 +94,7 @@ public class SelectionController extends StateController {
             for (Player player : controller.getPlayers()) {
                 if (player.getUsername().equals(message.getInfo())) {
                     player.setStarter();
-                    sendBroadcastMessage(new Message(MessageType.STARTER_PLAYER, "SERVER", message.getInfo()));
+                    controller.setTurnOwner(message.getInfo());
                     tryNextState();
                 }
             }

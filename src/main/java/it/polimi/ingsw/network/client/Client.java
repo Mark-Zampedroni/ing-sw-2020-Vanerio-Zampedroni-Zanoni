@@ -21,21 +21,28 @@ public abstract class Client extends Thread implements Observer<Message>, View {
     protected GameState state;
     protected String username;
 
+    private List<Runnable> requests;
+
     private ClientConnection connection;
 
     protected String challenger;
-    protected String starter;
     protected List<String> chosenGods; // Si può usare solo la mappa gods qui sotto, usando delle key segnaposto che poi si tolgono
     protected Map<String, Colors> players;
     protected Map<String, String> gods;
 
     public Client(String ip, int port, int view) {
         chosenGods = new ArrayList<>();
+        requests = new ArrayList<>();
         this.start();
     }
 
     private void viewRequest(Runnable request) {
-        new Thread(request).start(); // da sincronizzare sulle mappe/liste nei metodi di questa classe
+        requests.add(request);
+    }
+
+    public void flushRequests() {
+        requests.forEach(r -> new Thread(r).start());
+        requests.clear();
     }
 
     public boolean createConnection(String ip, int port) {
@@ -81,10 +88,9 @@ public abstract class Client extends Thread implements Observer<Message>, View {
             case ASK_PLAYER_GOD: // GOD_SELECTION
                 parseGodPlayerChoice(message);
                 break;
-            case STARTER_PLAYER:
-                parseStarterPlayer(message);
-                break;
+            default: //
         }
+        flushRequests();
     }
 
     /* Connection */
@@ -169,10 +175,6 @@ public abstract class Client extends Thread implements Observer<Message>, View {
         viewRequest(this::updateChallengerGodSelection);
     }
 
-    private void parseStarterPlayer(Message message) {
-        starter = message.getInfo();
-    }
-
     public boolean validateGods(String requestedGod){
         if(!getStringAvailableGods().contains(requestedGod)){
             showInputText("God not available, choose a different one:");
@@ -201,8 +203,8 @@ public abstract class Client extends Thread implements Observer<Message>, View {
     }
 
     private void parseGodPlayerChoice(Message message){
-        viewRequest(this::updatePlayerGodSelection);
         gods.put(message.getInfo(),""); // Adding player in map
+        viewRequest(this::updatePlayerGodSelection);
         if(username.equals(message.getInfo())){
             viewRequest(this::requestPlayerGod);
         }

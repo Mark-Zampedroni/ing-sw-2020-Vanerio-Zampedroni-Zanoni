@@ -2,6 +2,8 @@ package it.polimi.ingsw.MVC.controller.states;
 
 import it.polimi.ingsw.MVC.controller.ActionController;
 import it.polimi.ingsw.MVC.controller.SessionController;
+import it.polimi.ingsw.MVC.model.Session;
+import it.polimi.ingsw.MVC.view.RemoteView;
 import it.polimi.ingsw.utility.enumerations.Action;
 import it.polimi.ingsw.utility.enumerations.MessageType;
 import it.polimi.ingsw.utility.exceptions.actions.CantActException;
@@ -14,10 +16,12 @@ import it.polimi.ingsw.MVC.model.rules.GodRules;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.logging.Logger;
 
 /* Controller della sequenza delle azioni, invoca i metodi di ActionController per richiederne l'esecuzione */
 /* possibleActions = { WIN } => ha vinto ; possibleActions.isEmpty() => ha perso */
-public class TurnController {
+public class TurnController extends StateController {
 
     List<Player> players;
     List<Action> possibleActions;
@@ -33,11 +37,21 @@ public class TurnController {
 
     int currentIndex;
 
-    public TurnController(SessionController controller) {
+    public TurnController(SessionController controller, Map<String, RemoteView> views, Logger LOG) {
+        super(controller, views, LOG);
         this.controller = controller;
+        controller.getPlayers().indexOf(Session.getInstance().getPlayerByName(controller.getTurnOwner()));
         this.players = controller.getPlayers();
         initTurn();
     }
+
+    @Override
+    public void parseMessage(Message message) {
+        // Arrivano i messaggini
+    }
+
+    @Override
+    public void tryNextState() {/* END_GAME */}
 
     /*
         Initializes new turn environment
@@ -46,6 +60,7 @@ public class TurnController {
         currentPlayer = players.get(currentIndex);
         currentRules = currentPlayer.getRules();
         currentRules.clear(); // Resets god flags
+        System.out.println("New player turn! "+currentPlayer); // TEST
         actionControl = new ActionController(currentPlayer);
         clearActions();
     }
