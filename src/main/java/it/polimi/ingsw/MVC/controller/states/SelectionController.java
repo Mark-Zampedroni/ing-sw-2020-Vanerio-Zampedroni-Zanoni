@@ -37,10 +37,10 @@ public class SelectionController extends StateController {
     public void parseMessage(Message message) {
         if(message.getSender().equals(controller.getTurnOwner())) {
             switch (message.getType()) {
-                case GOD_MANAGEMENT:
+                case SELECTED_GODS_CHANGE:
                     parseAddMessage(message);
                     break;
-                case GOD_PLAYERCHOICE:
+                case ASK_PLAYER_GOD:
                     parseGodChoiceMessage(message);
                     break;
                 case STARTER_PLAYER:
@@ -58,7 +58,7 @@ public class SelectionController extends StateController {
         if (state == GameState.CHALLENGER_SELECTION){
             if (Gods.isValid(message.getInfo())) {
                 chosenGod.add(message.getInfo());
-                sendBroadcastMessage(new FlagMessage(MessageType.GOD_MANAGEMENT, "SERVER", message.getInfo(), true));
+                sendBroadcastMessage(new FlagMessage(MessageType.SELECTED_GODS_CHANGE, "SERVER", message.getInfo(), true));
                 if (chosenGod.size() == controller.getPlayers().size()) {
                     state = GameState.GOD_SELECTION;
                     askNextSelection();
@@ -74,15 +74,15 @@ public class SelectionController extends StateController {
                 chosenGod.remove(message.getInfo());
                 assignGod(message.getSender(), message.getInfo());
                 if (chosenGod.size() < controller.getPlayers().size()) {
-                    sendBroadcastMessage(new FlagMessage(MessageType.GOD_MANAGEMENT, "SERVER", message.getInfo(), false));
-                    askNextSelection(); //Spostare send update sopra
-                }else{
+                    sendBroadcastMessage(new FlagMessage(MessageType.SELECTED_GODS_CHANGE, "SERVER", message.getInfo(), false));
+                    askNextSelection();
+                } else {
                     state = GameState.STARTER_SELECTION;
                     controller.setTurnOwner(challenger.getUsername());
-                    sendBroadcastMessage(new FlagMessage(MessageType.GOD_MANAGEMENT, "SERVER", message.getInfo(), false));
+                    sendBroadcastMessage(new FlagMessage(MessageType.SELECTED_GODS_CHANGE, "SERVER", message.getInfo(), false));
                 }
             } else {
-                views.get(message.getSender()).sendMessage(new Message(MessageType.GOD_PLAYERCHOICE, "SERVER", "choice"));
+                views.get(message.getSender()).sendMessage(new Message(MessageType.ASK_PLAYER_GOD, "SERVER", "choice"));
             }
         }
     }
@@ -92,6 +92,7 @@ public class SelectionController extends StateController {
             for (Player player : controller.getPlayers()) {
                 if (player.getUsername().equals(message.getInfo())) {
                     player.setStarter();
+                    sendBroadcastMessage(new Message(MessageType.STARTER_PLAYER, "SERVER", message.getInfo()));
                     tryNextState();
                 }
             }
@@ -107,7 +108,7 @@ public class SelectionController extends StateController {
         Player turnOwner = session.getPlayers().get(turn);
         controller.setTurnOwner(turnOwner.getUsername());
         if (turnOwner.getGod() == null) {
-            sendBroadcastMessage(new Message(MessageType.GOD_PLAYERCHOICE, "SERVER", turnOwner.getUsername()));
+            sendBroadcastMessage(new Message(MessageType.ASK_PLAYER_GOD, "SERVER", turnOwner.getUsername()));
         }
     }
 

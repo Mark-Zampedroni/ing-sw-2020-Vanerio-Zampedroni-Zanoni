@@ -2,6 +2,7 @@ package it.polimi.ingsw.MVC.view.CLI;
 
 import it.polimi.ingsw.utility.enumerations.Colors;
 
+import java.util.Arrays;
 import java.util.Map;
 
 public class SceneBuilder {
@@ -88,14 +89,14 @@ public class SceneBuilder {
             b.append("No one registered yet");
         }
         appendEmptyLine(b,2);
-        /*
-        builder.append("Available colors: ");
-        Arrays.stream(Colors.values()).filter(c -> !players.values().contains(c)).map(c -> c.toString()).forEach(c -> builder
+        b.append("Available colors: ");
+        Arrays.stream(Colors.values()).filter(c -> !players.containsValue(c)).map(Enum::toString).forEach(c -> b
                 .append(Ansi.decorateColorString(c,c))
-                .append(" "));*/
+                .append(" "));
         b.append("\n").append(inputMessage).append("\n");
         System.out.println(centerScreen(Ansi.CLEAR_CONSOLE+b));
     }
+
 
     // Aggiunge una riga vuota
     private static void appendEmptyLine(StringBuilder b) {
