@@ -9,7 +9,6 @@ import it.polimi.ingsw.network.messages.FlagMessage;
 import it.polimi.ingsw.network.messages.StateUpdateMessage;
 import it.polimi.ingsw.network.messages.lobby.LobbyUpdate;
 import it.polimi.ingsw.network.messages.Message;
-import it.polimi.ingsw.utility.exceptions.net.FailedConnectionException;
 import it.polimi.ingsw.utility.observer.Observer;
 import it.polimi.ingsw.MVC.view.View;
 
@@ -25,6 +24,7 @@ public abstract class Client extends Thread implements Observer<Message>, View {
     private ClientConnection connection;
 
     protected String challenger;
+    protected String starter;
     protected List<String> chosenGods; // Si può usare solo la mappa gods qui sotto, usando delle key segnaposto che poi si tolgono
     protected Map<String, Colors> players;
     protected Map<String, String> gods;
@@ -75,11 +75,14 @@ public abstract class Client extends Thread implements Observer<Message>, View {
             case CHALLENGER_SELECTION:
                 parseChallengerSelection(message);
                 break;
-            case GOD_MANAGEMENT: // GOD_SELECTION
+            case SELECTED_GODS_CHANGE: // GOD_SELECTION
                 parseManagementMessage((FlagMessage) message);
                 break;
-            case GOD_PLAYERCHOICE: // GOD_SELECTION
+            case ASK_PLAYER_GOD: // GOD_SELECTION
                 parseGodPlayerChoice(message);
+                break;
+            case STARTER_PLAYER:
+                parseStarterPlayer(message);
                 break;
         }
     }
@@ -157,7 +160,7 @@ public abstract class Client extends Thread implements Observer<Message>, View {
         }
     }
     //* GOD SELECTION *///////////////////uwu/////////OwO/////////UwU/////////////owo////////////////////////
-    private void parseChallengerSelection(Message message){
+    private void parseChallengerSelection(Message message) {
         gods = new HashMap<>();
         challenger = message.getInfo();
         if(message.getInfo().equals(username) && chosenGods.size() != players.size()) {
@@ -166,12 +169,16 @@ public abstract class Client extends Thread implements Observer<Message>, View {
         viewRequest(this::updateChallengerGodSelection);
     }
 
+    private void parseStarterPlayer(Message message) {
+        starter = message.getInfo();
+    }
+
     public boolean validateGods(String requestedGod){
         if(!getStringAvailableGods().contains(requestedGod)){
             showInputText("God not available, choose a different one:");
             return false;
         }
-        sendMessage(new FlagMessage(MessageType.GOD_MANAGEMENT, username, requestedGod, true));
+        sendMessage(new FlagMessage(MessageType.SELECTED_GODS_CHANGE, username, requestedGod, true));
         return true;
     }
 
@@ -209,7 +216,7 @@ public abstract class Client extends Thread implements Observer<Message>, View {
             showInputText("This god isn't available, please choose a different one: ");
             return false;
         }
-        sendMessage(new Message(MessageType.GOD_PLAYERCHOICE,username, requestedGod));
+        sendMessage(new Message(MessageType.ASK_PLAYER_GOD, username, requestedGod));
         return true;
     }
 

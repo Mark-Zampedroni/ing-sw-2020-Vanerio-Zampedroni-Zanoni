@@ -86,7 +86,7 @@ public class Cli extends Client {
         String requestedUsername = requestLobbyInput("Input username:",
                                                        "This username is already taken, choose a different one:",
                                                             (username) -> !validateUsername(username));
-        String requestedColor = requestLobbyInput("Choose one of the available colors:",
+        String requestedColor = requestLobbyInput("Selected name: "+requestedUsername+", choose one of the available colors:",
                                                     "This color does not exist or was already chosen, select a different one:",
                                                           (color) -> !validateColor(color.toUpperCase())).toUpperCase();
         requestLogin(requestedUsername, Colors.valueOf(requestedColor));
@@ -113,17 +113,14 @@ public class Cli extends Client {
             inputSave = "Waiting for other players to join ...";
         }
         SceneBuilder.printLobbyScreen(inputSave, players);
-        // Vanno mostrati i colori -> da fare metodo showRequest in SceneBuilder per cambiare solo una Stringa
-        // "request" che si utilizza in tutti gli scenari, diventa più facile modificare solo un pezzo quando arriva
-        // info, vale anche per la pre-lobby e le cose da fare dopo !
     }
 
     //^^^ LOBBY ^^^//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+    // TEST
     public void requestAction() { // Test
         showInputText("You are registered!\nType your message:  ");
-        String content = requestInput();  // Read user input
-        // TEST
+        String content = requestInput();
         sendMessage(new ActionMessage(username, content, Action.MOVE, new Position(0, 0), new Worker(new Position(0, 0))));
     }
     //*GOD SELECTION*//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

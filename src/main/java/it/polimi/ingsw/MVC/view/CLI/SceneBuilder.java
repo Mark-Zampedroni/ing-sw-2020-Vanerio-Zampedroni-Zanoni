@@ -2,15 +2,13 @@ package it.polimi.ingsw.MVC.view.CLI;
 
 import it.polimi.ingsw.utility.enumerations.Colors;
 
-import java.util.List;
+import java.util.Arrays;
 import java.util.Map;
 
 public class SceneBuilder {
 
     private static final int SCREEN_WIDTH = 205;
     private static int cursorOffset;
-
-    private static StringBuilder builder = new StringBuilder();
 
     private static String outputRequest = "";
     private static String scenario = "";
@@ -57,49 +55,56 @@ public class SceneBuilder {
 
     // Stampa la schermata iniziale
     public static void printStartScreen(String inputMessage) {
-        builder.setLength(0);
+        final StringBuilder b = new StringBuilder();
+        b.setLength(0);
         int width = getLongestLine(TITLE);
-        appendEmptyLine(2);
-        builder.append(TITLE);
-        appendEmptyLine(3);
-        appendAllLinesCentered(CREDITS,width);
-        appendEmptyLine();
-        appendAllLinesCentered(inputMessage, width);
-        builder = centerScreen(Ansi.CLEAR_CONSOLE+builder);
-        System.out.println(builder);
+        appendEmptyLine(b,2);
+        b.append(TITLE);
+        appendEmptyLine(b,3);
+        appendAllLinesCentered(b,CREDITS,width);
+        appendEmptyLine(b);
+        appendAllLinesCentered(b,inputMessage, width);
+        System.out.println(centerScreen(Ansi.CLEAR_CONSOLE+b));
         System.out.print(Ansi.moveCursorE(cursorOffset));
     }
 
     public static void printLobbyScreen(String inputMessage, Map<String, Colors> players) {
         int defaultLength = 10;
         int defaultSpace = 5;
-        builder.setLength(0);
-        appendEmptyLine(2);
-        builder.append("Players in Lobby:\n");
+        final StringBuilder b = new StringBuilder();
+        appendEmptyLine(b,2);
+        b.append("Players in Lobby:\n");
         if(!players.keySet().isEmpty()) {
-            appendEmptyLine(2);
-            builder.append("Name:"+getEmptyLength(defaultSpace)+"Color:\n");
-            appendEmptyLine();
-            players.keySet().forEach(p -> builder.append(p + (getEmptyLength(defaultLength-p.length())) + Ansi.decorateColorString(players.get(p).toString(),players.get(p).toString()) + "\n"));
+            appendEmptyLine(b,2);
+            b.append("Name:").append(getEmptyLength(defaultSpace)).append("Color:\n");
+            appendEmptyLine(b);
+            players.keySet().forEach(p -> b
+                    .append(p)
+                    .append(getEmptyLength(defaultLength-p.length()))
+                    .append(Ansi.decorateColorString(players.get(p).toString(),players.get(p).toString()))
+                    .append("\n"));
         }
         else {
-            appendEmptyLine(2);
-            builder.append("No one registered yet");
+            appendEmptyLine(b,2);
+            b.append("No one registered yet");
         }
-        appendEmptyLine(2);
-        builder.append(inputMessage+"\n");
-        builder = centerScreen(Ansi.CLEAR_CONSOLE+builder);
-        System.out.println(builder);
+        appendEmptyLine(b,2);
+        b.append("Available colors: ");
+        Arrays.stream(Colors.values()).filter(c -> !players.containsValue(c)).map(Enum::toString).forEach(c -> b
+                .append(Ansi.decorateColorString(c,c))
+                .append(" "));
+        b.append("\n").append(inputMessage).append("\n");
+        System.out.println(centerScreen(Ansi.CLEAR_CONSOLE+b));
     }
+
 
     // Aggiunge una riga vuota
-    private static void appendEmptyLine() {
-        builder.append("\n");
+    private static void appendEmptyLine(StringBuilder b) {
+        b.append("\n");
     }
-
     // Aggiunge un numero "number" di righe vuote
-    private static void appendEmptyLine(int number) {
-        for(int x = 0; x < number; x++) { builder.append("\n"); }
+    private static void appendEmptyLine(StringBuilder b, int number) {
+        for(int x = 0; x < number; x++) { b.append("\n"); }
     }
 
     /*private static int getLongestWord(List<String> words) {
@@ -107,10 +112,10 @@ public class SceneBuilder {
     }*/
 
     // Centra ogni riga a capo su un pezzo di lunghezza length (se non ci sta non funziona)
-    private static void appendAllLinesCentered(String text, int length) {
+    private static void appendAllLinesCentered(StringBuilder b, String text, int length) {
         for(String line : text.split("\\r?\\n")) {
             String temp = centerLine(line,length)+"\n";
-            builder.append(temp);
+            b.append(temp);
         }
     }
 
@@ -132,32 +137,6 @@ public class SceneBuilder {
         }
         return max;
     }
-
-
-    public static String board =  "╔═════════════════════════════════════╤════════════════╗\n" +
-            "║                                     │                ║\n" +
-            "║   ┌─────┬─────┬─────┬─────┬─────┐   │  # is Mark     ║\n" +
-            "║   │  #  │     │     │     │     │   │  @ is Glu      ║\n" +
-            "║   │  0  │  1  │  0  │  0  │  0  │   │                ║\n" +
-            "║   ├─────┼─────┼─────┼─────┼─────┤   │  X is a dome   ║\n" +
-            "║   │     │     │  @  │     │  @  │   │                ║\n" +
-            "║   │  0  │  2  │  0  │  0  │  0  │   │                ║\n" +
-            "║   ├─────┼─────┼─────┼─────┼─────┤   │                ║\n" +
-            "║   │  X  │     │     │     │     │   │                ║\n" +
-            "║   │  3  │  1  │  0  │  1  │  0  │   │                ║\n" +
-            "║   ├─────┼─────┼─────┼─────┼─────┤   │                ║\n" +
-            "║   │     │     │  #  │     │     │   │                ║\n" +
-            "║   │  0  │  0  │  1  │  2  │  0  │   │                ║\n" +
-            "║   ├─────┼─────┼─────┼─────┼─────┤   │                ║\n" +
-            "║   │     │     │     │     │     │   │                ║\n" +
-            "║   │  0  │  0  │  0  │  0  │  0  │   │                ║\n" +
-            "║   └─────┴─────┴─────┴─────┴─────┘   │                ║\n" +
-            "║                                     │                ║\n" +
-            "╚═════════════════════════════════════╧════════════════╝\n" +
-            " Waiting for input ...                                  \n" +
-            "                                                        \n" +
-            " [Input line] (23)                                        ";
-
 
     private static final String TITLE = "      .---.                                          ,___ \n" +
             "     / .-, .                   ________            .'  _  \\  [ ]          [ ]\n" +
