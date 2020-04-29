@@ -24,6 +24,8 @@ public class SessionController implements Observer<Message>  {
     private StateController stateController;
     private int gameCapacity;
 
+    private String turnOwner;
+
     private final Object viewLock = new Object();
 
     private static Logger LOG;
@@ -43,6 +45,14 @@ public class SessionController implements Observer<Message>  {
     public Session getSession() { return session; }
 
     public GameState getState() { return state; }
+
+    public void setTurnOwner(String turnOwner) {
+        this.turnOwner = turnOwner;
+    }
+
+    public String getTurnOwner() {
+        return turnOwner;
+    }
 
     public boolean isGameStarted() { return (state != GameState.LOBBY); }
 

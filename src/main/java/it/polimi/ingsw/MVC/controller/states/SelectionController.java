@@ -19,7 +19,6 @@ public class SelectionController extends StateController {
     private List<String> chosenGod = new ArrayList<>();
     private Session session;
     private Player challenger;
-    private Player turnOwner;
     private int turn;
 
     public SelectionController(SessionController controller, Map<String, RemoteView> views, Logger LOG) {
@@ -28,26 +27,32 @@ public class SelectionController extends StateController {
         challenger = session.getPlayerByName(session.getChallenger());
         sendBroadcastMessage(new Message(MessageType.CHALLENGER_SELECTION, "SERVER", challenger.getUsername()));
         turn = session.getPlayers().indexOf(challenger);
+        controller.setTurnOwner(challenger.getUsername());
     }
 
     @Override
     public void parseMessage(Message message) {
-        switch (message.getType()) {
-            case GOD_MANAGEMENT:
-                parseAddMessage(message);
-                break;
-            case GOD_PLAYERCHOICE:
-                parseGodChoiceMessage(message);
-                break;
-            case STARTER_PLAYER:
-                parseStarterPlayerMessage(message);
-            default:
-                System.out.println("[Warning] Wrong message type");
+        if(message.getSender().equals(controller.getTurnOwner())) {
+            switch (message.getType()) {
+                case GOD_MANAGEMENT:
+                    parseAddMessage(message);
+                    break;
+                case GOD_PLAYERCHOICE:
+                    parseGodChoiceMessage(message);
+                    break;
+                case STARTER_PLAYER:
+                    parseStarterPlayerMessage(message);
+                default:
+                    System.out.println("[Warning] Wrong message type");
+            }
+        }
+        else {
+            LOG.warning("A player who is not the turn owner sent a message : "+message);
         }
     }
 
     private void parseAddMessage(Message message) {
-        if (message.getSender().equals(challenger.getUsername()) && Gods.isValid(message.getInfo()) ) {
+        if (Gods.isValid(message.getInfo()) ) {
             chosenGod.add(message.getInfo());
             sendBroadcastMessage(new FlagMessage(MessageType.GOD_MANAGEMENT,"SERVER", message.getInfo(), true));
             if(chosenGod.size() == controller.getPlayers().size()){
@@ -58,17 +63,15 @@ public class SelectionController extends StateController {
     }
 
     private void parseGodChoiceMessage(Message message) {
-        if (turnOwner.getUsername().equals(message.getSender())) {
-            if (chosenGod.contains(message.getInfo())) {
-                chosenGod.remove(message.getInfo());
-                assignGod(message.getSender(), message.getInfo());
-                sendBroadcastMessage(new FlagMessage(MessageType.GOD_MANAGEMENT, "SERVER", message.getInfo(), false));
-                if (chosenGod.size() < controller.getPlayers().size()) {
-                    askNextSelection();
-                }
-            } else {
-                views.get(message.getSender()).sendMessage(new Message(MessageType.GOD_PLAYERCHOICE, "SERVER", "choice"));
+        if (chosenGod.contains(message.getInfo())) {
+            chosenGod.remove(message.getInfo());
+            assignGod(message.getSender(), message.getInfo());
+            sendBroadcastMessage(new FlagMessage(MessageType.GOD_MANAGEMENT, "SERVER", message.getInfo(), false));
+            if (chosenGod.size() < controller.getPlayers().size()) {
+                askNextSelection();
             }
+        } else {
+            views.get(message.getSender()).sendMessage(new Message(MessageType.GOD_PLAYERCHOICE, "SERVER", "choice"));
         }
     }
 
@@ -87,7 +90,8 @@ public class SelectionController extends StateController {
 
     private void askNextSelection() {
         turn = (turn + 1) % controller.getGameCapacity();
-        turnOwner = session.getPlayers().get(turn);
+        Player turnOwner = session.getPlayers().get(turn);
+        controller.setTurnOwner(turnOwner.getUsername());
         if (turnOwner.getGod() == null) {
             sendBroadcastMessage(new Message(MessageType.GOD_PLAYERCHOICE, "SERVER", turnOwner.getUsername()));
         }
