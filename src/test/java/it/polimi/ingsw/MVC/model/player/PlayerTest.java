@@ -7,7 +7,6 @@ import it.polimi.ingsw.MVC.model.rules.GodRules;
 import it.polimi.ingsw.MVC.model.rules.gods.Setupper;
 import org.junit.jupiter.api.Test;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.Assert.*;
@@ -22,7 +21,7 @@ class PlayerTest {
         player.setChallenger();
         assertTrue(player.isChallenger());
         player.setWinner();
-        assertTrue(player.isWinner());
+        assertTrue(player.isStarter());
         assertEquals(player.getColor(), Colors.BLUE);
     }
 

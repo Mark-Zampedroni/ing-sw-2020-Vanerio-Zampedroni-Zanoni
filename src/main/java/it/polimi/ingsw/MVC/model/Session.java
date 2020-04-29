@@ -199,7 +199,7 @@ public class Session implements Serializable {
      */
     public boolean hasWinner() {
         for (Player player : players) {
-            if (player.isWinner()) { return true; }
+            if (player.isStarter()) { return true; }
         }
         return false;
     }

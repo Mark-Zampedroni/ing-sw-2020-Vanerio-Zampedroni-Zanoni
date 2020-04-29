@@ -19,6 +19,7 @@ public class SelectionController extends StateController {
     private List<String> chosenGod = new ArrayList<>();
     private Session session;
     private Player challenger;
+    private Player turnOwner;
     private int turn;
 
     public SelectionController(SessionController controller, Map<String, RemoteView> views, Logger LOG) {
@@ -57,21 +58,24 @@ public class SelectionController extends StateController {
     }
 
     private void parseGodChoiceMessage(Message message) {
-        if (chosenGod.contains(message.getInfo())) {
-            chosenGod.remove(message.getInfo());
-            assignGod(message.getSender(),message.getInfo());
-            sendBroadcastMessage(new FlagMessage(MessageType.GOD_MANAGEMENT,"SERVER", message.getInfo(), false));
-            if (chosenGod.size() < controller.getPlayers().size()) {
-                askNextSelection();
+        if (turnOwner.getUsername().equals(message.getSender())) {
+            if (chosenGod.contains(message.getInfo())) {
+                chosenGod.remove(message.getInfo());
+                assignGod(message.getSender(), message.getInfo());
+                sendBroadcastMessage(new FlagMessage(MessageType.GOD_MANAGEMENT, "SERVER", message.getInfo(), false));
+                if (chosenGod.size() < controller.getPlayers().size()) {
+                    askNextSelection();
+                }
+            } else {
+                views.get(message.getSender()).sendMessage(new Message(MessageType.GOD_PLAYERCHOICE, "SERVER", "choice"));
             }
-        } else {
-            views.get(message.getSender()).sendMessage(new Message(MessageType.GOD_PLAYERCHOICE, "SERVER", "choice"));
         }
     }
 
     private void parseStarterPlayerMessage(Message message) {
         for (Player player : controller.getPlayers()) {
             if (player.getUsername().equals(message.getInfo())) {
+                player.setWinner();
                 tryNextState();
             }
         }
@@ -83,7 +87,7 @@ public class SelectionController extends StateController {
 
     private void askNextSelection() {
         turn = (turn + 1) % controller.getGameCapacity();
-        Player turnOwner = session.getPlayers().get(turn);
+        turnOwner = session.getPlayers().get(turn);
         if (turnOwner.getGod() == null) {
             sendBroadcastMessage(new Message(MessageType.GOD_PLAYERCHOICE, "SERVER", turnOwner.getUsername()));
         }

@@ -34,7 +34,7 @@ public class DTOplayer {
         }
         this.color = player.getColor();
         this.challenger=player.isChallenger();
-        this.winner=player.isWinner();
+        this.winner=player.isStarter();
         this.god=player.getGod();
     }
 

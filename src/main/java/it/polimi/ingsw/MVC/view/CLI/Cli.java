@@ -153,7 +153,7 @@ public class Cli extends Client {
 
     public void showPlayer_God() {
         SceneBuilder.addToScenario("Players with their God:\n");
-        gods.keySet().forEach(p -> SceneBuilder.addToScenario(p+" , "+gods.get(p)+"\n"));
+        gods.keySet().forEach(p -> SceneBuilder.addToScenario(p+" with "+gods.get(p)+"\n"));
     }
 
     public void requestChallengerGod(){

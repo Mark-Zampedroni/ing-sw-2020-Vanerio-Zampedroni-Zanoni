@@ -22,7 +22,7 @@ public class Player implements Serializable {
     private Colors color;
     private Gods god;
     private boolean challenger;
-    private boolean winner;
+    private boolean starter;
 
     /**
      * Initializes a player with his username, creating two {@link Worker workers}
@@ -141,15 +141,15 @@ public class Player implements Serializable {
      *
      * @return {@code true} if the player is the winner of the {@link it.polimi.ingsw.MVC.model.Session session}
      */
-    public boolean isWinner() {
-        return winner;
+    public boolean isStarter() {
+        return starter;
     }
 
     /**
      * The current player becomes the winner of the match
      */
     public void setWinner() {
-        winner=true;
+        starter =true;
     }
 
     /**
