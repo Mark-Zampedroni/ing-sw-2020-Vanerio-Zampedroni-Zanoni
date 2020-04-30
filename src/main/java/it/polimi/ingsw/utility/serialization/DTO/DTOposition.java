@@ -48,6 +48,9 @@ public class DTOposition implements Serializable {
     public boolean equals(DTOposition position) {
         return (x == position.getX() && y == position.getY());
     }
+    public boolean equals(Position position) {
+        return (x == position.getX() && y == position.getY());
+    }
 
     /**
      * Generates a String stating the DTOposition coordinates

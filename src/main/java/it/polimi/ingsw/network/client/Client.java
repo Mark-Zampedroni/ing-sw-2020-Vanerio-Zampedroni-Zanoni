@@ -74,9 +74,6 @@ public abstract class Client extends Thread implements Observer<Message>, View {
             case LOBBY_UPDATE: // LOBBY (tutte)
                 parseLobbyUpdate((LobbyUpdate) message);
                 break;
-            case ACTION: // GAME
-                parseActionReply(message);
-                break;
             case STATE_UPDATE: // TUTTE
                 parseStateUpdate((StateUpdateMessage) message);
                 break;
@@ -89,8 +86,8 @@ public abstract class Client extends Thread implements Observer<Message>, View {
             case ASK_PLAYER_GOD: // GOD_SELECTION
                 parseGodPlayerChoice(message);
                 break;
-            case ACTION_REQUEST:
-                parseStartTurn((ActionRequestMessage) message);
+            case TURN_UPDATE:
+                parseTurnUpdate((ActionRequestMessage) message);
                 break;
             default: //
         }
@@ -151,11 +148,6 @@ public abstract class Client extends Thread implements Observer<Message>, View {
 
     private void parseInfoMessage(Message message) {
         viewRequest(() -> showInfo(message.getInfo()));
-    }
-
-    // TEST, NO MESSAGE MA ACTIONMESSAGE
-    private void parseActionReply(Message message) {
-        viewRequest(this::requestAction);
     }
 
     private void parseRegistrationReply(FlagMessage message) {
@@ -271,9 +263,9 @@ public abstract class Client extends Thread implements Observer<Message>, View {
         return Arrays.stream(Gods.values()).filter(god -> !chosenGods.contains(god.toString())).collect(Collectors.toList());
     }
 
-    private void parseStartTurn(ActionRequestMessage message) {
+    private void parseTurnUpdate(ActionRequestMessage message) {
         if(username.equals(message.getInfo())) {
-            System.out.println("\nPossile actions: "+message.getPossibleActions());
+            viewRequest(() -> requestTurnAction(message.getPossibleActions()));
         }
         else {
             System.out.println("\nTurn of: "+message.getInfo());

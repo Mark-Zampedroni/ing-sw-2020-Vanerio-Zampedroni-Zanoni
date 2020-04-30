@@ -4,6 +4,7 @@ import it.polimi.ingsw.MVC.controller.states.actionControl.ActionController;
 import it.polimi.ingsw.MVC.controller.SessionController;
 import it.polimi.ingsw.MVC.model.Session;
 import it.polimi.ingsw.MVC.view.RemoteView;
+import it.polimi.ingsw.network.messages.game.ActionMessage;
 import it.polimi.ingsw.network.messages.game.ActionRequestMessage;
 import it.polimi.ingsw.utility.enumerations.Action;
 import it.polimi.ingsw.utility.enumerations.MessageType;
@@ -38,9 +39,6 @@ public class TurnController extends StateController {
      *
      *  COSE DA FARE:
      *
-     *  1) AGGIUNGERE AL CLIENT DI RISPONDERE AL MESSAGGIO ACTION_REQUEST (MessageType)
-     *
-     *  2) RICEVUTA LA RISPOSTA CONTROLLARE CHE LA COPPIA AZIONE-POSIZIONE RICHIESTE SIANO NELLA LISTA DI QUELLE POSSIBILI
      *  3) CONTROLLARE ANCHE SU CLIENT CHE AZIONE-POSIZIONE SIA NELLA MAPPA ARRIVATA CON ACTION_REQUEST
      *
      *  4) ESEGUIRE L'AZIONE INVOCANDO executeAction(Position position, Action type) - (più comodo leggersi i DTO?)
@@ -67,15 +65,40 @@ public class TurnController extends StateController {
 
     @Override
     public void parseMessage(Message message) {
-        // Arrivano i messaggini
+        if(message.getSender().equals(controller.getTurnOwner())) {
+            switch (message.getType()) {
+                case ACTION:
+                    parseActionMessage((ActionMessage) message);
+                    break;
+            }
+        } else {
+            LOG.warning("A player who is not the turn owner sent a message : "+message);
+        }
+    }
+
+    public void parseActionMessage(ActionMessage message) {
+        if(possibleActions.containsKey(message.getAction()) &&
+          (possibleActions.get(message.getAction()).stream().anyMatch(p -> message.getPosition().equals(p)) ||
+           message.getAction() == Action.END_TURN)) {
+            Position requestedPosition = null;
+            if(message.getPosition() != null) { requestedPosition = new Position(message.getPosition().getX(), message.getPosition().getY()); }
+            try {
+                System.out.println("Doing action "+message.getAction());
+                executeAction(requestedPosition, message.getAction());
+            } catch(WrongActionException e) { System.out.println(Arrays.toString(e.getStackTrace())); }
+        }
+        else {
+            // TEST
+            System.out.println(possibleActions.containsKey(message.getAction()));
+            System.out.println(possibleActions.get(message.getAction()).stream().anyMatch(p -> message.getPosition().equals(p)));
+            System.out.println(possibleActions);
+            System.out.println("Non contiene "+message.getAction()+" in "+message.getPosition());
+            views.get(message.getSender()).updateActions(possibleActions, message.getSender());
+        }
     }
 
     @Override
     public void tryNextState() {/* END_GAME */}
-
-    public Worker getCurrentWorker() {
-        return currentWorker;
-    }
 
     public void setCurrentWorker(Worker newCurrentWorker) {
         this.currentWorker = newCurrentWorker;
@@ -89,6 +112,7 @@ public class TurnController extends StateController {
         Initializes new turn environment
      */
     public void initTurn() {
+        System.out.println("INIT TURN CALL");
         currentWorker = null;
         possibleActions = new HashMap<>();
         currentPlayer = players.get(currentIndex);
@@ -127,26 +151,12 @@ public class TurnController extends StateController {
     }
 
     /*
-        DUMMY CLASS / SERVER -> CLIENT REPLY TO REQUESTS
-     */
-    public Message response(String msg) { return new Message(MessageType.ACTION, "TEST", "test"); } // Da mettere in server
-
-
-    /*
-        Throws exception if Action is not in possibleActions
-     */
-    public void validateType(Action type) throws WrongActionException {
-        if(!possibleActions.containsKey(type)) { throw new WrongActionException("You can't do that action"); }
-    }
-
-
-    /*
         Deletes Actions with empty candidates List
      */
     public void fixPossibleActions() { // Checks only move and build actions
         List<Action> impossibleActions = new ArrayList<>();
         for(Action action : possibleActions.keySet()) {
-            if(possibleActions.get(action).isEmpty()) {
+            if(possibleActions.get(action).isEmpty() && action != Action.END_TURN) {
                 impossibleActions.add(action);
             }
         }
@@ -158,24 +168,23 @@ public class TurnController extends StateController {
      */
     public void executeAction(Position position, Action type) throws WrongActionException {
         // WORKS ON PREVIOUS CANDIDATES
-        validateType(type); // Checks if type is in Map<Action>
-        List<Action> candidates = actionControl.act(currentWorker,position,type);
-        // CREATES NEW CANDIDATES FOR NEXT ACTION
-        possibleActions.clear();
-        candidates.forEach(action -> possibleActions.put(action, getCandidates(action)));
-        fixPossibleActions(); // Remove Action candidates with no Position
+        if(type == Action.END_TURN) { endTurn(); }
+        else {
+            List<Action> candidates = actionControl.act(currentWorker, position, type);
+            System.out.println("Candidates: " + candidates);
+            // CREATES NEW CANDIDATES FOR NEXT ACTION
+            possibleActions.clear();
+            candidates.forEach(action -> possibleActions.put(action, getCandidates(action)));
+            fixPossibleActions(); // Remove Action candidates with no Position
+            sendUpdate();
+        }
     }
 
     /*
         Reply to [END_TURN] request
      */
-    public Message endTurn() {
-        try {
-            validateType(Action.END_TURN);
-            Message reply = response("Turn passed");
-            passTurn();
-            return reply;
-        } catch(WrongActionException e) { return response(e.getMessage()); }
+    public void endTurn() {
+        passTurn();
     }
 
 }

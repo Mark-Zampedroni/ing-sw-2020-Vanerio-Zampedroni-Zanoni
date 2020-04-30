@@ -14,7 +14,7 @@ public enum MessageType {
     ASK_PLAYER_GOD,
     SELECTED_GODS_CHANGE,
     STARTER_PLAYER,
-    ACTION_REQUEST,
+    TURN_UPDATE,
     ACTION,
 
     INFO

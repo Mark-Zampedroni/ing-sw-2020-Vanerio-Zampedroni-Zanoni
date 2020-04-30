@@ -15,7 +15,7 @@ public class ActionRequestMessage extends Message {
     DTOsession gameUpdate;
 
     public ActionRequestMessage(String sender, String turnOwner, Map<Action, List<DTOposition>> possibleActions, DTOsession gameUpdate) {
-        super(MessageType.ACTION_REQUEST, sender, turnOwner);
+        super(MessageType.TURN_UPDATE, sender, turnOwner);
         this.possibleActions = possibleActions;
         this.gameUpdate = gameUpdate;
     }
