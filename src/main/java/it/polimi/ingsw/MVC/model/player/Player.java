@@ -159,12 +159,17 @@ public class Player implements Serializable {
      *
      * @return {@code true} if the player has lost
      */
-    public boolean isLoss() {return loss;}
+    public boolean isLoser() {return loss;}
 
     /**
      * The current player loses
      */
-    public void setLoss() {loss = true;}
+    public void setLoser() {loss = true;}
+
+    public void loss(){
+        setLoser();
+        workers.clear();
+    }
 
 
 
