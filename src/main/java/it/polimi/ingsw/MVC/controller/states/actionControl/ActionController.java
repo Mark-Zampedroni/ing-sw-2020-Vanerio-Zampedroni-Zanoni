@@ -56,6 +56,7 @@ public class ActionController {
             case BUILD:
                 if(worker == null) { break; } // ERROR
                 return getMoveBuildCandidates(worker,action);
+            case WIN:
             case END_TURN: return new ArrayList<>();
         }
         return null; // ERROR

@@ -23,6 +23,7 @@ public class Player implements Serializable {
     private Gods god;
     private boolean challenger;
     private boolean starter;
+    private boolean loss;
 
     /**
      * Initializes a player with his username, creating two {@link Worker workers}
@@ -152,6 +153,20 @@ public class Player implements Serializable {
     public void setStarter() {
         starter =true;
     }
+
+    /**
+     * Evaluates if the player has lost
+     *
+     * @return {@code true} if the player has lost
+     */
+    public boolean isLoss() {return loss;}
+
+    /**
+     * The current player loses
+     */
+    public void setLoss() {loss = true;}
+
+
 
     /**
      * Creates a String that contains the player most important values

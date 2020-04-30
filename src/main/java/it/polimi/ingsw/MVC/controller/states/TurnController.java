@@ -121,7 +121,12 @@ public class TurnController extends StateController {
             //controller.switchState(GameState.END_GAME);
         }
         else if(possibleActions.keySet().isEmpty()){
+            currentPlayer.setLoss();
             System.out.println("\nLoser\n");
+            //for(Worker worker: currentPlayer.getWorkers()){
+                //currentPlayer.removeWorker();
+           // }
+
         }
         else {
             views.values().forEach(v -> v.updateActions(possibleActions, currentPlayer.getUsername()));
@@ -155,7 +160,7 @@ public class TurnController extends StateController {
         impossibleActions.forEach(action -> possibleActions.remove(action));
     }
 
-    /*
+     /*
         If possible, executes action on model
      */
     public void executeAction(Position position, Action type) throws WrongActionException {

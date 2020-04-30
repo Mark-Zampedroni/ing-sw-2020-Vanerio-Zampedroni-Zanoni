@@ -185,11 +185,10 @@ public class Cli extends Client {
     }
 
     private Action requestAction(Set<Action> possibleActions) {
-        System.out.println("\nChoose an action (0, 1, 2, ...) on previous list:\n");
         String x;
         do{
+            System.out.println("\nChoose an action (0, 1, 2, ...) on previous list:\n");
             x = requestInput();
-            System.out.println("\nNot an action, try again: \n");
         }
         while(!validateAction(possibleActions.size()-1,Integer.parseInt(x)));
         return new ArrayList<>(possibleActions).get(Integer.parseInt(x));
