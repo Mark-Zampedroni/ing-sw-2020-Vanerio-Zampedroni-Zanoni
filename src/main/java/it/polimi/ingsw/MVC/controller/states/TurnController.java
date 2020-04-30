@@ -121,11 +121,8 @@ public class TurnController extends StateController {
             //controller.switchState(GameState.END_GAME);
         }
         else if(possibleActions.keySet().isEmpty()){
-            currentPlayer.setLoss();
+            //currentPlayer.setLoss();
             System.out.println("\nLoser\n");
-            //for(Worker worker: currentPlayer.getWorkers()){
-                //currentPlayer.removeWorker();
-           // }
 
         }
         else {
