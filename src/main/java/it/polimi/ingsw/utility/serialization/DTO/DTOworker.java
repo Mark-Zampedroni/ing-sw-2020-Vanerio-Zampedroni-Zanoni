@@ -47,8 +47,6 @@ public class DTOworker implements Serializable {
      */
     @Override
     public String toString() {
-        return "{Master: "+getMasterUsername()+
-                " X: "+getPosition().getX()+
-                " Y: "+getPosition().getY()+"}";
+        return "Master: "+getMasterUsername()+" , ("+getPosition().getX()+","+getPosition().getY()+")";
     }
 }
