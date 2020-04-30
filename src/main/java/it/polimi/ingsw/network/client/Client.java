@@ -1,6 +1,5 @@
 package it.polimi.ingsw.network.client;
 
-import it.polimi.ingsw.MVC.model.map.Board;
 import it.polimi.ingsw.network.messages.game.ActionRequestMessage;
 import it.polimi.ingsw.network.messages.lobby.RegistrationMessage;
 import it.polimi.ingsw.utility.enumerations.*;
@@ -257,22 +256,11 @@ public abstract class Client extends Thread implements Observer<Message>, View {
     }
 
     public boolean validateAction(int range, int value) {
-        if (value >= 0 && value <= range) {
-            return true;
-        }
-        else
-            System.out.println("\nNot an action\n");
-            return false;
+        return value >= 0 && value <= range;
     }
 
     public boolean validatePosition(List<DTOposition> possiblePositions, int x, int y){
-        for(DTOposition position : possiblePositions){
-            if(x == position.getX() && y == position.getY()){
-                return true;
-            }
-        }
-        System.out.println("\nPosition not available\n");
-        return false;
+        return possiblePositions.stream().anyMatch(p -> p.getX() == x && p.getY() == y);
     }
 
 
