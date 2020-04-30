@@ -7,6 +7,7 @@ import it.polimi.ingsw.MVC.view.RemoteView;
 import it.polimi.ingsw.network.messages.game.ActionMessage;
 import it.polimi.ingsw.network.messages.game.ActionRequestMessage;
 import it.polimi.ingsw.utility.enumerations.Action;
+import it.polimi.ingsw.utility.enumerations.GameState;
 import it.polimi.ingsw.utility.enumerations.MessageType;
 import it.polimi.ingsw.utility.exceptions.actions.CantActException;
 import it.polimi.ingsw.utility.exceptions.actions.WrongActionException;
@@ -117,6 +118,7 @@ public class TurnController extends StateController {
         fixPossibleActions();
         if(possibleActions.containsKey(Action.WIN)){
             System.out.println("\nWon\n");
+            //controller.switchState(GameState.END_GAME);
         }
         else if(possibleActions.keySet().isEmpty()){
             System.out.println("\nLoser\n");

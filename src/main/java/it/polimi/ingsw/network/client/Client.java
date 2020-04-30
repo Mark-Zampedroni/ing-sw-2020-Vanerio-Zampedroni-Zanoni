@@ -249,12 +249,10 @@ public abstract class Client extends Thread implements Observer<Message>, View {
     /*GAME*//////////////////////////////////////////////////////////////////////////////////////////
 
     private void parseTurnUpdate(ActionRequestMessage message) {
+        System.out.println(message.getGameUpdate());
         if(username.equals(message.getInfo())) {
             viewRequest(() -> requestTurnAction(message.getPossibleActions()));
             //Aggiungere stampa board
-        }
-        else{
-            viewRequest(() -> showBoard(message.getGameUpdate()));
         }
     }
 

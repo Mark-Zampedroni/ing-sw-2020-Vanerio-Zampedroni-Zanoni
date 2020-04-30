@@ -36,7 +36,7 @@ public interface View {
     //Scelta starter player
     void showAvailablePlayers(); // Mostra i giocatori disponibili con i loro dei
     void requestStarterPlayer(); // Chiede di scegliere lo starter player
-    void showPlayer_God();
+    void showPlayerGod();
     //Richiesta azione durante il gioco
     void requestTurnAction(Map<Action, List<DTOposition>> possibleActions);
     void showBoard(DTOsession session);

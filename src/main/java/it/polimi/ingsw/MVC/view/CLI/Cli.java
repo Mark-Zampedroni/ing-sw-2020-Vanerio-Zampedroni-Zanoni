@@ -4,11 +4,8 @@ import it.polimi.ingsw.utility.enumerations.Action;
 import it.polimi.ingsw.utility.enumerations.Colors;
 import it.polimi.ingsw.utility.enumerations.Gods;
 import it.polimi.ingsw.MVC.model.map.Position;
-import it.polimi.ingsw.MVC.model.player.Worker;
 import it.polimi.ingsw.network.client.Client;
 import it.polimi.ingsw.network.messages.game.ActionMessage;
-import it.polimi.ingsw.MVC.view.View;
-import it.polimi.ingsw.utility.serialization.DTO.DTOboard;
 import it.polimi.ingsw.utility.serialization.DTO.DTOposition;
 import it.polimi.ingsw.utility.serialization.DTO.DTOsession;
 
@@ -134,7 +131,7 @@ public class Cli extends Client {
     public void updatePlayerGodSelection() {
         SceneBuilder.clearScenario();
         showChosenGods();
-        showPlayer_God();
+        showPlayerGod();
         SceneBuilder.printScene();
     }
 
@@ -145,7 +142,7 @@ public class Cli extends Client {
         SceneBuilder.printScene();
     }
 
-    public void showPlayer_God() {
+    public void showPlayerGod() {
         SceneBuilder.addToScenario("Players with their Gods:\n");
         gods.keySet().forEach(p -> SceneBuilder.addToScenario(p+" with "+gods.get(p)+"\n"));
     }
@@ -207,7 +204,7 @@ public class Cli extends Client {
 
 
     public void showBoard(DTOsession session){
-
+        System.out.println(session);
     }
 
 }
