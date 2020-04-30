@@ -54,7 +54,7 @@ class CommonRulesTest {
         worker.setPosition(2, 2);
 
         assertTrue(test.canSelect(worker,list));
-        assertDoesNotThrow(()->test.consentSelect(worker));
+        assertDoesNotThrow(()->test.consentSelect(player.getUsername(),worker));
         for (int x = -1; x < 2 ; x++) {
             for (int y = -1; y < 2; y++) {
                 if(!(x==0 && y==0)) {
@@ -65,7 +65,7 @@ class CommonRulesTest {
             }
         }
         assertFalse(test.canSelect(worker,list));
-        assertThrows(CantActException.class, ()->test.consentSelect(worker));
+        assertThrows(CantActException.class, ()->test.consentSelect(player.getUsername(),worker));
     }
 
 }

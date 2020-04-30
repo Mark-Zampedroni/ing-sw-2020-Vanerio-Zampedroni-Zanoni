@@ -31,6 +31,6 @@ public interface View {
     void requestStarterPlayer(); // Chiede di scegliere lo starter player
     void showPlayer_God();
     //Richiesta azione durante il gioco
-    void requestAction(); // TEST
+    void requestAction();
 
 }

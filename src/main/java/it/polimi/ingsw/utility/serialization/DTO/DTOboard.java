@@ -3,11 +3,13 @@ package it.polimi.ingsw.utility.serialization.DTO;
 import it.polimi.ingsw.MVC.model.map.Board;
 import it.polimi.ingsw.MVC.model.map.Position;
 
+import java.io.Serializable;
+
 /**
  * DTO copy of the class {@link Board board}
  */
 
-public class DTOboard {
+public class DTOboard implements Serializable {
     public static final int WIDTH = 5;
     public static final int HEIGHT = 5;
 

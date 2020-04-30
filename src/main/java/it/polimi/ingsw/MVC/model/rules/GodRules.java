@@ -104,8 +104,8 @@ public abstract class GodRules extends Observable<DTOsession> implements Seriali
      * @param worker worker the {@link it.polimi.ingsw.MVC.model.player.Player player} wants to select
      * @throws CantActException when the worker can't be selected
      */
-    public void consentSelect(Worker worker) throws CantActException {
-        if (!canSelect(worker, afterSelect())) {
+    public void consentSelect(String username, Worker worker) throws CantActException {
+        if (!canSelect(worker, afterSelect()) || worker.getMaster() != Session.getInstance().getPlayerByName(username)) {
             throw new CantActException("This worker can't do any action");
         }
     }

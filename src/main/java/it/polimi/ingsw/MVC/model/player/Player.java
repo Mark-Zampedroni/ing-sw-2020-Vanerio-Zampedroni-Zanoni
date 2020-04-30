@@ -57,6 +57,7 @@ public class Player implements Serializable {
      */
     public void setGod(Gods god) {
         this.god = god;
+        setRules(GodRules.getInstance(god));
     }
 
     /**

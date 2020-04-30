@@ -1,5 +1,6 @@
 package it.polimi.ingsw.network.client;
 
+import it.polimi.ingsw.network.messages.game.ActionRequestMessage;
 import it.polimi.ingsw.network.messages.lobby.RegistrationMessage;
 import it.polimi.ingsw.utility.enumerations.Colors;
 import it.polimi.ingsw.utility.enumerations.GameState;
@@ -21,21 +22,28 @@ public abstract class Client extends Thread implements Observer<Message>, View {
     protected GameState state;
     protected String username;
 
+    private List<Runnable> requests;
+
     private ClientConnection connection;
 
     protected String challenger;
-    protected String starter;
     protected List<String> chosenGods; // Si può usare solo la mappa gods qui sotto, usando delle key segnaposto che poi si tolgono
     protected Map<String, Colors> players;
     protected Map<String, String> gods;
 
     public Client(String ip, int port, int view) {
         chosenGods = new ArrayList<>();
+        requests = new ArrayList<>();
         this.start();
     }
 
     private void viewRequest(Runnable request) {
-        new Thread(request).start(); // da sincronizzare sulle mappe/liste nei metodi di questa classe
+        requests.add(request);
+    }
+
+    public void flushRequests() {
+        requests.forEach(r -> new Thread(r).start());
+        requests.clear();
     }
 
     public boolean createConnection(String ip, int port) {
@@ -81,10 +89,12 @@ public abstract class Client extends Thread implements Observer<Message>, View {
             case ASK_PLAYER_GOD: // GOD_SELECTION
                 parseGodPlayerChoice(message);
                 break;
-            case STARTER_PLAYER:
-                parseStarterPlayer(message);
+            case ACTION_REQUEST:
+                parseStartTurn((ActionRequestMessage) message);
                 break;
+            default: //
         }
+        flushRequests();
     }
 
     /* Connection */
@@ -169,10 +179,6 @@ public abstract class Client extends Thread implements Observer<Message>, View {
         viewRequest(this::updateChallengerGodSelection);
     }
 
-    private void parseStarterPlayer(Message message) {
-        starter = message.getInfo();
-    }
-
     public boolean validateGods(String requestedGod){
         if(!getStringAvailableGods().contains(requestedGod)){
             showInputText("God not available, choose a different one:");
@@ -201,8 +207,8 @@ public abstract class Client extends Thread implements Observer<Message>, View {
     }
 
     private void parseGodPlayerChoice(Message message){
-        viewRequest(this::updatePlayerGodSelection);
         gods.put(message.getInfo(),""); // Adding player in map
+        viewRequest(this::updatePlayerGodSelection);
         if(username.equals(message.getInfo())){
             viewRequest(this::requestPlayerGod);
         }
@@ -244,7 +250,7 @@ public abstract class Client extends Thread implements Observer<Message>, View {
              showInputText("This player doesn't exist, choose again: ");
              return false;
          }
-         sendMessage(new Message(MessageType.STARTER_PLAYER,username, string));
+         sendMessage(new Message(MessageType.STARTER_PLAYER, username, string));
          return true;
     }
 
@@ -263,6 +269,15 @@ public abstract class Client extends Thread implements Observer<Message>, View {
 
     protected List<Gods> getAvailableGods() {
         return Arrays.stream(Gods.values()).filter(god -> !chosenGods.contains(god.toString())).collect(Collectors.toList());
+    }
+
+    private void parseStartTurn(ActionRequestMessage message) {
+        if(username.equals(message.getInfo())) {
+            System.out.println("\nPossile actions: "+message.getPossibleActions());
+        }
+        else {
+            System.out.println("\nTurn of: "+message.getInfo());
+        }
     }
 
 }

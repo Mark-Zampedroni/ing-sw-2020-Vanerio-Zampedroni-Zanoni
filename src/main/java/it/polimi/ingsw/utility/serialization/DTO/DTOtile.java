@@ -2,7 +2,9 @@ package it.polimi.ingsw.utility.serialization.DTO;
 
 import it.polimi.ingsw.MVC.model.map.Tile;
 
-public class DTOtile {
+import java.io.Serializable;
+
+public class DTOtile implements Serializable {
     private int height;
     private boolean dome;
 

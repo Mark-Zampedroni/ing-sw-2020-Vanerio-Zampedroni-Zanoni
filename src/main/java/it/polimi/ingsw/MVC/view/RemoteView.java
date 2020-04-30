@@ -1,5 +1,9 @@
 package it.polimi.ingsw.MVC.view;
 
+import it.polimi.ingsw.MVC.model.Session;
+import it.polimi.ingsw.MVC.model.map.Position;
+import it.polimi.ingsw.network.messages.game.ActionRequestMessage;
+import it.polimi.ingsw.utility.serialization.DTO.DTOposition;
 import it.polimi.ingsw.utility.serialization.DTO.DTOsession;
 import it.polimi.ingsw.utility.enumerations.Action;
 import it.polimi.ingsw.network.messages.Message;
@@ -9,14 +13,16 @@ import it.polimi.ingsw.utility.observer.Observable;
 import it.polimi.ingsw.utility.observer.Observer;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class RemoteView extends Observable<Message> implements Observer<DTOsession> {
 
     private ServerConnection connection;
     private boolean registered;
     private String username;
-    private List<Action> possibleActions;
+    private DTOsession dtoSession;
 
     private class MessageReceiver implements Observer<Message> {
         @Override
@@ -29,7 +35,6 @@ public class RemoteView extends Observable<Message> implements Observer<DTOsessi
 
     public RemoteView(ServerConnection connection) {
         this.connection = connection;
-        possibleActions = new ArrayList<>();
         connection.addObserver(new MessageReceiver());
     }
 
@@ -55,17 +60,18 @@ public class RemoteView extends Observable<Message> implements Observer<DTOsessi
     }
 
     @Override
-    public void update(DTOsession dtOsession) {
-        String s = "all";
-        ChangeMessage message = new ChangeMessage(username, s, dtOsession);
-        // RICEVE MODEL SERIALIZZATO E NE SALVA IL PUNTATORE, VIENE MANDATO IN UPDATE ACTIONS
-        // VERRA' SEMPRE ESEGUITO PRIMA SERIAL. MODEL, POI AGGIORNAMENTO AZIONI, POI INVIO
+    public void update(DTOsession dtoSession) {
+        this.dtoSession = dtoSession;
     }
 
-    public void updateActions(Message message) {
-        // RICEVE AZIONI E LE METTE IN POSSIBLEACTIONS
-        // - Crea pacchetto -
-        // MANDA MESSAGGIO
+    public void getFirstDTOSession(DTOsession dtoSession) {
+        if(this.dtoSession == null) {
+            this.dtoSession = dtoSession;
+        }
+    }
+
+    public void updateActions(Map<Action, List<DTOposition>> actionCandidates, String turnOwner) {
+        sendMessage(new ActionRequestMessage("SERVER",turnOwner,actionCandidates,dtoSession));
     }
 
 }

@@ -4,12 +4,13 @@ package it.polimi.ingsw.utility.serialization.DTO;
 import it.polimi.ingsw.MVC.model.Session;
 import it.polimi.ingsw.MVC.model.player.Player;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 /**
  * DTO copy of the class {@link Session Session}
  */
-public class DTOsession {
+public class DTOsession implements Serializable {
 
     private  DTOboard board;
     private ArrayList<DTOworker> workers;
@@ -22,9 +23,8 @@ public class DTOsession {
     public DTOsession (Session session) {
         workers = new ArrayList<>();
         for(Player p : session.getPlayers()) {
-            workers.add(new DTOworker(p.getWorkers().get(0)));
-            workers.add(new DTOworker(p.getWorkers().get(1)));
-            }
+            p.getWorkers().forEach(w -> workers.add(new DTOworker(w)));
+        }
 
         board = new DTOboard(session.getBoard());
         }
