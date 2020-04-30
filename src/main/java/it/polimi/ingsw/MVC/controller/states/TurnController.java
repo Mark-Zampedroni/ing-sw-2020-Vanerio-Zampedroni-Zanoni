@@ -34,20 +34,6 @@ public class TurnController extends StateController {
     ActionController actionControl;
     SessionController controller;
 
-
-    /**
-     *
-     *  COSE DA FARE:
-     *
-     *  3) CONTROLLARE ANCHE SU CLIENT CHE AZIONE-POSIZIONE SIA NELLA MAPPA ARRIVATA CON ACTION_REQUEST
-     *
-     *  4) ESEGUIRE L'AZIONE INVOCANDO executeAction(Position position, Action type) - (più comodo leggersi i DTO?)
-     *  4.1) MAGARI SCRIVERE NEL DTOPOSITION UN .EQUALS(POSITION) PER FARE I CONFRONTI CROSS-CLASSE
-     *
-     *  5) TROVARE BUGO (non so se ci siano Bughi, sicuramente almeno qualcosa non funzionerà)
-     *
-     */
-
     int currentIndex;
     int turnCounter;
 
@@ -83,16 +69,11 @@ public class TurnController extends StateController {
             Position requestedPosition = null;
             if(message.getPosition() != null) { requestedPosition = new Position(message.getPosition().getX(), message.getPosition().getY()); }
             try {
-                System.out.println("Doing action "+message.getAction());
                 executeAction(requestedPosition, message.getAction());
             } catch(WrongActionException e) { System.out.println(Arrays.toString(e.getStackTrace())); }
         }
         else {
-            // TEST
-            System.out.println(possibleActions.containsKey(message.getAction()));
-            System.out.println(possibleActions.get(message.getAction()).stream().anyMatch(p -> message.getPosition().equals(p)));
-            System.out.println(possibleActions);
-            System.out.println("Non contiene "+message.getAction()+" in "+message.getPosition());
+            LOG.warning("Client sent impossible action: "+message.getAction()+" in "+message.getPosition());
             views.get(message.getSender()).updateActions(possibleActions, message.getSender());
         }
     }

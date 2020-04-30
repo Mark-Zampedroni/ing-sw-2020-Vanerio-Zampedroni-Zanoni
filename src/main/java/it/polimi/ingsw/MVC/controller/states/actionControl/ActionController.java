@@ -39,35 +39,14 @@ public class ActionController {
     public List<Action> act(Worker worker, Position position, Action type) throws WrongActionException {
         //boolean victory;
         switch(type) {
-            case MOVE:
-                List<Action> afterMove = rules.afterMove();
-                //victory = rules.consentWin(worker, position);
-                rules.executeMove(worker, position);
-                //return victory ? winning() : newActions;
-                return afterMove; // if only end_turn -> passa automatico
-            case BUILD:
-                List<Action> afterBuild = rules.afterBuild();
-                rules.executeBuild(position);
-                return afterBuild;
-            case SELECT_WORKER:
-                for (Player player : Session.getInstance().getPlayers()) {
-                    for (Worker w : player.getWorkers()) {
-                        if (w.getPosition().equals(position)) {
-                            controller.setCurrentWorker(w);
-                            break;
-                        }
-                    }
-                }
-                return rules.afterSelect();
-            case ADD_WORKER:
-                rules.executeAdd(controller.getCurrentPlayer(), position);
-                return Collections.singletonList((player.getWorkers().size() < 2) ? Action.ADD_WORKER : Action.END_TURN);
+            case MOVE: return actMove(worker,position);
+            case BUILD: return actBuild(position);
+            case SELECT_WORKER: return actSelectWorker(position);
+            case ADD_WORKER: return actAddWorker(position);
             default:
                 throw new WrongActionException("Used correct method signature but wrong parameters.");
         }
     }
-
-
 
     public List<Position> getCandidates(Worker worker, Action action) {
         switch(action) {
@@ -82,6 +61,42 @@ public class ActionController {
         return null; // ERROR
     }
 
+
+    private List<Action> actAddWorker(Position position) {
+        rules.executeAdd(controller.getCurrentPlayer(), position);
+        return Collections.singletonList((player.getWorkers().size() < 2) ? Action.ADD_WORKER : Action.END_TURN);
+    }
+
+    private List<Action> actSelectWorker(Position position) {
+        for (Player player : Session.getInstance().getPlayers()) {
+            for (Worker w : player.getWorkers()) {
+                if (w.getPosition().equals(position)) {
+                    controller.setCurrentWorker(w);
+                    break;
+                }
+            }
+        }
+        return rules.afterSelect();
+    }
+
+
+    private List<Action> actMove(Worker worker, Position position) {
+        List<Action> afterMove = rules.afterMove();
+        //victory = rules.consentWin(worker, position);
+        rules.executeMove(worker, position);
+        //return victory ? winning() : newActions;
+        return afterMove; // if only end_turn -> passa automatico
+    }
+
+
+    private List<Action> actBuild(Position position) {
+        List<Action> afterBuild = rules.afterBuild();
+        rules.executeBuild(position);
+        return afterBuild;
+    }
+
+
+    // CANDIDATES MOVE / BUILD
     private List<Position> getMoveBuildCandidates(Worker worker, Action action) {
         Position target;
         List<Position> temp = new ArrayList<>();
@@ -107,6 +122,7 @@ public class ActionController {
         return temp;
     }
 
+    // CANDIDATES SELECT_WORKER
     private List<Position> getSelectWorkerCandidates() {
         List<Position> temp = new ArrayList<>();
         for(Worker worker : player.getWorkers()) {
@@ -118,6 +134,7 @@ public class ActionController {
         return temp;
     }
 
+    // CANDIDATES ADD_WORKER
     private List<Position> getAddWorkerCandidates() {
         Position target;
         List<Position> temp = new ArrayList<>();

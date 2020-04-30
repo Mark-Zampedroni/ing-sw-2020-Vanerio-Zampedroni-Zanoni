@@ -267,9 +267,7 @@ public abstract class Client extends Thread implements Observer<Message>, View {
         if(username.equals(message.getInfo())) {
             viewRequest(() -> requestTurnAction(message.getPossibleActions()));
         }
-        else {
-            System.out.println("\nTurn of: "+message.getInfo());
-        }
+        // ... e in ogni caso stampa board -> da fare qui sotto
     }
 
 }
