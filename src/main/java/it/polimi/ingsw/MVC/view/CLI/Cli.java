@@ -8,7 +8,9 @@ import it.polimi.ingsw.MVC.model.player.Worker;
 import it.polimi.ingsw.network.client.Client;
 import it.polimi.ingsw.network.messages.game.ActionMessage;
 import it.polimi.ingsw.MVC.view.View;
+import it.polimi.ingsw.utility.serialization.DTO.DTOboard;
 import it.polimi.ingsw.utility.serialization.DTO.DTOposition;
+import it.polimi.ingsw.utility.serialization.DTO.DTOsession;
 
 
 /*
@@ -187,14 +189,25 @@ public class Cli extends Client {
 
     private Action requestAction(Set<Action> possibleActions) {
         System.out.println("\nChoose an action (0, 1, 2, ...) on previous list:\n");
+        while(!validateAction(possibleActions.size()-1,Integer.parseInt(requestInput())));
         return new ArrayList<>(possibleActions).get(Integer.parseInt(requestInput()));
     }
+
     private DTOposition requestPosition(List<DTOposition> possiblePositions) {
-        System.out.println("\nChoose x:");
-        int x = Integer.parseInt(requestInput());
-        System.out.println("\nChoose y:");
-        int y = Integer.parseInt(requestInput());
+        int x, y;
+        do {
+            System.out.println("\nChoose x:");
+            x = Integer.parseInt(requestInput());
+            System.out.println("\nChoose y:");
+            y = Integer.parseInt(requestInput());
+        }
+        while(!validatePosition(possiblePositions, x, y));
         return new DTOposition(new Position(x,y));
+    }
+
+
+    public void showBoard(DTOsession session){
+
     }
 
 }

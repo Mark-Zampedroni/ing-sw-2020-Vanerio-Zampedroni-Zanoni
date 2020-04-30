@@ -1,8 +1,11 @@
 package it.polimi.ingsw.MVC.view;
 
+import it.polimi.ingsw.MVC.model.map.Board;
 import it.polimi.ingsw.utility.enumerations.Action;
 import it.polimi.ingsw.utility.enumerations.Colors;
+import it.polimi.ingsw.utility.serialization.DTO.DTOboard;
 import it.polimi.ingsw.utility.serialization.DTO.DTOposition;
+import it.polimi.ingsw.utility.serialization.DTO.DTOsession;
 
 import java.util.List;
 import java.util.Map;
@@ -36,5 +39,6 @@ public interface View {
     void showPlayer_God();
     //Richiesta azione durante il gioco
     void requestTurnAction(Map<Action, List<DTOposition>> possibleActions);
+    void showBoard(DTOsession session);
 
 }

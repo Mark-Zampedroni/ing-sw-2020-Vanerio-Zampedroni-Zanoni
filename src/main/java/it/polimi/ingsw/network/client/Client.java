@@ -1,17 +1,16 @@
 package it.polimi.ingsw.network.client;
 
+import it.polimi.ingsw.MVC.model.map.Board;
 import it.polimi.ingsw.network.messages.game.ActionRequestMessage;
 import it.polimi.ingsw.network.messages.lobby.RegistrationMessage;
-import it.polimi.ingsw.utility.enumerations.Colors;
-import it.polimi.ingsw.utility.enumerations.GameState;
-import it.polimi.ingsw.utility.enumerations.Gods;
-import it.polimi.ingsw.utility.enumerations.MessageType;
+import it.polimi.ingsw.utility.enumerations.*;
 import it.polimi.ingsw.network.messages.FlagMessage;
 import it.polimi.ingsw.network.messages.StateUpdateMessage;
 import it.polimi.ingsw.network.messages.lobby.LobbyUpdate;
 import it.polimi.ingsw.network.messages.Message;
 import it.polimi.ingsw.utility.observer.Observer;
 import it.polimi.ingsw.MVC.view.View;
+import it.polimi.ingsw.utility.serialization.DTO.DTOposition;
 
 import java.io.IOException;
 import java.util.*;
@@ -246,6 +245,39 @@ public abstract class Client extends Thread implements Observer<Message>, View {
          return true;
     }
 
+
+    /*GAME*//////////////////////////////////////////////////////////////////////////////////////////
+
+    private void parseTurnUpdate(ActionRequestMessage message) {
+        if(username.equals(message.getInfo())) {
+            viewRequest(() -> requestTurnAction(message.getPossibleActions()));
+            //Aggiungere stampa board
+        }
+        else{
+            viewRequest(() -> showBoard(message.getGameUpdate()));
+        }
+    }
+
+    public boolean validateAction(int range, int value) {
+        if (value >= 0 && value <= range) {
+            return true;
+        }
+        else
+            System.out.println("\nNot an action\n");
+            return false;
+    }
+
+    public boolean validatePosition(List<DTOposition> possiblePositions, int x, int y){
+        for(DTOposition position : possiblePositions){
+            if(x == position.getX() && y == position.getY()){
+                return true;
+            }
+        }
+        System.out.println("\nPosition not available\n");
+        return false;
+    }
+
+
     private void parseStateUpdate(StateUpdateMessage message) {
         state = message.getState();
         //viewUpdate.add(() -> view.switchState(state));
@@ -263,11 +295,7 @@ public abstract class Client extends Thread implements Observer<Message>, View {
         return Arrays.stream(Gods.values()).filter(god -> !chosenGods.contains(god.toString())).collect(Collectors.toList());
     }
 
-    private void parseTurnUpdate(ActionRequestMessage message) {
-        if(username.equals(message.getInfo())) {
-            viewRequest(() -> requestTurnAction(message.getPossibleActions()));
-        }
-        // ... e in ogni caso stampa board -> da fare qui sotto
-    }
+
+
 
 }

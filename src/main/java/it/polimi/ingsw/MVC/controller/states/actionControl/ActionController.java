@@ -81,11 +81,12 @@ public class ActionController {
 
 
     private List<Action> actMove(Worker worker, Position position) {
+
         List<Action> afterMove = rules.afterMove();
-        //victory = rules.consentWin(worker, position);
+        boolean victory = rules.consentWin(worker, position);
         rules.executeMove(worker, position);
-        //return victory ? winning() : newActions;
-        return afterMove; // if only end_turn -> passa automatico
+        return victory ?  Arrays.asList(Action.WIN) : afterMove;
+        //return afterMove; // if only end_turn -> passa automatico
     }
 
 

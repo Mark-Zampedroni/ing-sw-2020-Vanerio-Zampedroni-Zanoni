@@ -114,7 +114,16 @@ public class TurnController extends StateController {
 
     @Override
     public void sendUpdate() {
-        views.values().forEach(v -> v.updateActions(possibleActions, currentPlayer.getUsername()));
+        fixPossibleActions();
+        if(possibleActions.containsKey(Action.WIN)){
+            System.out.println("\nWon\n");
+        }
+        else if(possibleActions.keySet().isEmpty()){
+            System.out.println("\nLoser\n");
+        }
+        else {
+            views.values().forEach(v -> v.updateActions(possibleActions, currentPlayer.getUsername()));
+        }
     }
 
     private List<DTOposition> getCandidates(Action type) {
@@ -131,13 +140,13 @@ public class TurnController extends StateController {
         initTurn();
     }
 
-    /*
+     /*
         Deletes Actions with empty candidates List
      */
     public void fixPossibleActions() { // Checks only move and build actions
         List<Action> impossibleActions = new ArrayList<>();
         for(Action action : possibleActions.keySet()) {
-            if(possibleActions.get(action).isEmpty() && action != Action.END_TURN) {
+            if(possibleActions.get(action).isEmpty() && action != Action.END_TURN && action != Action.WIN) {
                 impossibleActions.add(action);
             }
         }
@@ -156,7 +165,6 @@ public class TurnController extends StateController {
             // CREATES NEW CANDIDATES FOR NEXT ACTION
             possibleActions.clear();
             candidates.forEach(action -> possibleActions.put(action, getCandidates(action)));
-            fixPossibleActions(); // Remove Action candidates with no Position
             sendUpdate();
         }
     }
