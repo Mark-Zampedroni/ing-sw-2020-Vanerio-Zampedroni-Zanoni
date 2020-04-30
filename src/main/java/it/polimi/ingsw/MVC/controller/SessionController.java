@@ -14,6 +14,7 @@ import it.polimi.ingsw.network.messages.Message;
 import it.polimi.ingsw.network.server.ServerConnection;
 import it.polimi.ingsw.utility.observer.Observer;
 import it.polimi.ingsw.MVC.view.RemoteView;
+import it.polimi.ingsw.utility.serialization.DTO.DTOsession;
 
 import java.util.*;
 import java.util.logging.Logger;
@@ -64,6 +65,7 @@ public class SessionController implements Observer<Message>  {
                 stateController = new SelectionController(this, views, LOG);
                 break;
             case GAME:
+                assignFirstDTOSession();
                 stateController = new TurnController(this, views, LOG);
                 System.out.println("Inizia partita!");
                 break;
@@ -135,6 +137,11 @@ public class SessionController implements Observer<Message>  {
 
     public List<Player> getPlayers() {
         return session.getPlayers();
+    }
+
+    private void assignFirstDTOSession() {
+        DTOsession dto = new DTOsession(session);
+        views.values().forEach(v -> v.getFirstDTOSession(dto));
     }
 
 }

@@ -2,11 +2,13 @@ package it.polimi.ingsw.utility.serialization.DTO;
 
 import it.polimi.ingsw.MVC.model.player.Worker;
 
+import java.io.Serializable;
+
 /**
  * DTO copy of the class {@link Worker Worker}
  */
 
-public class DTOworker {
+public class DTOworker implements Serializable {
 
     private String masterUsername;
     private DTOposition position;

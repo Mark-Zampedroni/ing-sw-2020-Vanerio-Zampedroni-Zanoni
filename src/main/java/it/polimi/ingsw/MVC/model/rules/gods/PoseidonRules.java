@@ -95,12 +95,12 @@ public class PoseidonRules extends EventRules implements Serializable {
      * @throws CantActException when the worker can't be selected
      */
     @Override
-    public void consentSelect(Worker worker) throws CantActException{
+    public void consentSelect(String username, Worker worker) throws CantActException{
         if (getEvent()) {
         if (! worker.equals(unmovedWorker)) {
             throw new CantActException("This worker can't do any action");
         }}
-        super.consentSelect(worker);
+        super.consentSelect(username, worker);
     }
 
     /**

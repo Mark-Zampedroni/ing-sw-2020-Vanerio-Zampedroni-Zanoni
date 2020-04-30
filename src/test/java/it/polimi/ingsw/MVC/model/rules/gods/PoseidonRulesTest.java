@@ -46,11 +46,11 @@ class PoseidonRulesTest {
         worker2.setPosition(0,0);
         test.executeMove(worker, new Position(1,2));
         assertEquals(test.getMovedWorker(), worker);
-        assertDoesNotThrow(()->test.consentSelect(worker2));
+        assertDoesNotThrow(()->test.consentSelect(player.getUsername(),worker2));
 
         test.executeMove(worker2, new Position(3,4));
         assertEquals(test.getMovedWorker(), worker2);
-        assertDoesNotThrow(()->test.consentSelect(worker));
+        assertDoesNotThrow(()->test.consentSelect(player.getUsername(),worker));
     }
 
     @Test
@@ -59,11 +59,11 @@ class PoseidonRulesTest {
         worker.setPosition(new Position(2,2));
         worker1.setPosition(3,4);
         test.setEvent(false);
-        assertDoesNotThrow(()->test.consentSelect(worker));
+        assertDoesNotThrow(()->test.consentSelect(player.getUsername(),worker));
         test.setEvent(true);
         test.executeMove(worker, new Position(2,3));
-        assertThrows(CantActException.class, ()->test.consentSelect(worker));
-        assertDoesNotThrow(()->test.consentSelect(worker1));
+        assertThrows(CantActException.class, ()->test.consentSelect(player.getUsername(),worker));
+        assertDoesNotThrow(()->test.consentSelect(player.getUsername(),worker1));
     }
 
     @Test

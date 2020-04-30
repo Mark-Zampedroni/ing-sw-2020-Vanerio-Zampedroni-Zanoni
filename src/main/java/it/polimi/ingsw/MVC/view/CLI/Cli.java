@@ -117,12 +117,6 @@ public class Cli extends Client {
 
     //^^^ LOBBY ^^^//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-    // TEST
-    public void requestAction() { // Test
-        showInputText("You are registered!\nType your message:  ");
-        String content = requestInput();
-        sendMessage(new ActionMessage(username, content, Action.MOVE, new Position(0, 0), new Worker(new Position(0, 0))));
-    }
     //*GOD SELECTION*//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     public void updateChallengerGodSelection() {
@@ -177,5 +171,9 @@ public class Cli extends Client {
         while(!validatePlayer(requestInput()));
     }
 
-
+    //* GAME *//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    public void requestAction() { // Test
+        String content = requestInput();
+        sendMessage(new ActionMessage(username, content, Action.MOVE, new Position(0, 0), new Worker(new Position(0, 0))));
+    }
 }

@@ -1,6 +1,6 @@
 package it.polimi.ingsw.utility.persistency;
 
-import it.polimi.ingsw.MVC.controller.ActionController;
+import it.polimi.ingsw.MVC.controller.states.actionControl.ActionController;
 import it.polimi.ingsw.MVC.controller.SessionController;
 import it.polimi.ingsw.MVC.controller.states.TurnController;
 import it.polimi.ingsw.MVC.model.Session;

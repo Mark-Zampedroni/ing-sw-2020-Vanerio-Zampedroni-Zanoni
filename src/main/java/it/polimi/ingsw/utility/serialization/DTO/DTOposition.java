@@ -2,10 +2,12 @@ package it.polimi.ingsw.utility.serialization.DTO;
 
 import it.polimi.ingsw.MVC.model.map.Position;
 
+import java.io.Serializable;
+
 /**
  * DTO copy of the class {@link Position Position}
  */
-public class DTOposition {
+public class DTOposition implements Serializable {
     private final int x;
     private final int y;
 

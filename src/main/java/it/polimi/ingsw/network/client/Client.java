@@ -1,5 +1,6 @@
 package it.polimi.ingsw.network.client;
 
+import it.polimi.ingsw.network.messages.game.ActionRequestMessage;
 import it.polimi.ingsw.network.messages.lobby.RegistrationMessage;
 import it.polimi.ingsw.utility.enumerations.Colors;
 import it.polimi.ingsw.utility.enumerations.GameState;
@@ -87,6 +88,9 @@ public abstract class Client extends Thread implements Observer<Message>, View {
                 break;
             case ASK_PLAYER_GOD: // GOD_SELECTION
                 parseGodPlayerChoice(message);
+                break;
+            case ACTION_REQUEST:
+                parseStartTurn((ActionRequestMessage) message);
                 break;
             default: //
         }
@@ -265,6 +269,15 @@ public abstract class Client extends Thread implements Observer<Message>, View {
 
     protected List<Gods> getAvailableGods() {
         return Arrays.stream(Gods.values()).filter(god -> !chosenGods.contains(god.toString())).collect(Collectors.toList());
+    }
+
+    private void parseStartTurn(ActionRequestMessage message) {
+        if(username.equals(message.getInfo())) {
+            System.out.println("\nPossile actions: "+message.getPossibleActions());
+        }
+        else {
+            System.out.println("\nTurn of: "+message.getInfo());
+        }
     }
 
 }
