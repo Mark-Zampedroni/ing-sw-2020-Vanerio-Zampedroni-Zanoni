@@ -8,6 +8,7 @@ import it.polimi.ingsw.MVC.model.player.Worker;
 import it.polimi.ingsw.network.client.Client;
 import it.polimi.ingsw.network.messages.game.ActionMessage;
 import it.polimi.ingsw.MVC.view.View;
+import it.polimi.ingsw.utility.serialization.DTO.DTOposition;
 
 
 /*
@@ -171,9 +172,29 @@ public class Cli extends Client {
         while(!validatePlayer(requestInput()));
     }
 
-    //* GAME *//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    public void requestAction() { // Test
-        String content = requestInput();
-        sendMessage(new ActionMessage(username, content, Action.MOVE, new Position(0, 0), new Worker(new Position(0, 0))));
+    public void requestTurnAction(Map<Action, List<DTOposition>> possibleActions) {
+        System.out.println("Possible actions:\n");
+        possibleActions.keySet().forEach(action -> System.out.println(action + " on "+possibleActions.get(action)+"\n"));
+        System.out.println("\n");
+        Action action = requestAction(possibleActions.keySet());
+        DTOposition position = null;
+        if(action != Action.END_TURN) {
+            position = requestPosition(possibleActions.get(action));
+        }
+        sendMessage(new ActionMessage(username, "Action request", action, position));
+        System.out.println("\n");
     }
+
+    private Action requestAction(Set<Action> possibleActions) {
+        System.out.println("\nChoose an action (0, 1, 2, ...) on previous list:\n");
+        return new ArrayList<>(possibleActions).get(Integer.parseInt(requestInput()));
+    }
+    private DTOposition requestPosition(List<DTOposition> possiblePositions) {
+        System.out.println("\nChoose x:");
+        int x = Integer.parseInt(requestInput());
+        System.out.println("\nChoose y:");
+        int y = Integer.parseInt(requestInput());
+        return new DTOposition(new Position(x,y));
+    }
+
 }

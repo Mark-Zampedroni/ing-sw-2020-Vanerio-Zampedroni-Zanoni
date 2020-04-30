@@ -1,7 +1,11 @@
 package it.polimi.ingsw.MVC.view;
 
+import it.polimi.ingsw.utility.enumerations.Action;
 import it.polimi.ingsw.utility.enumerations.Colors;
+import it.polimi.ingsw.utility.serialization.DTO.DTOposition;
+
 import java.util.List;
+import java.util.Map;
 
 
 public interface View {
@@ -31,6 +35,6 @@ public interface View {
     void requestStarterPlayer(); // Chiede di scegliere lo starter player
     void showPlayer_God();
     //Richiesta azione durante il gioco
-    void requestAction();
+    void requestTurnAction(Map<Action, List<DTOposition>> possibleActions);
 
 }
