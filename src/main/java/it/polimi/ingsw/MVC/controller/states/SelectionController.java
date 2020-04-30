@@ -1,6 +1,7 @@
 package it.polimi.ingsw.MVC.controller.states;
 
 import it.polimi.ingsw.MVC.controller.SessionController;
+import it.polimi.ingsw.MVC.model.rules.GodRules;
 import it.polimi.ingsw.network.messages.FlagMessage;
 import it.polimi.ingsw.utility.enumerations.GameState;
 import it.polimi.ingsw.utility.enumerations.Gods;
@@ -118,7 +119,12 @@ public class SelectionController extends StateController {
         Player user = session.getPlayerByName(player);
         if (user != null && user.getGod() == null) {
             user.setGod(Gods.valueOf(god));
+            views.values().forEach(view -> connectModelView(view, user.getRules()));
         }
+    }
+
+    private void connectModelView(RemoteView view, GodRules rules) {
+        rules.addObserver(view);
     }
 
 }

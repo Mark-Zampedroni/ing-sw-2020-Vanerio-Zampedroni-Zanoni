@@ -12,7 +12,7 @@ import java.util.ArrayList;
  */
 public class DTOsession implements Serializable {
 
-    private  DTOboard board;
+    private DTOboard board;
     private ArrayList<DTOworker> workers;
 
     /**
@@ -46,6 +46,17 @@ public class DTOsession implements Serializable {
      */
     public DTOboard getBoard() {
         return board;
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder b = new StringBuilder();
+        if(board != null) {
+            b.append(board.toString());
+        }
+        workers.forEach(w -> b.append(w).append("\n"));
+        if(workers.isEmpty()) { b.append("No workers on board\n"); }
+        return b.toString();
     }
 
 }
