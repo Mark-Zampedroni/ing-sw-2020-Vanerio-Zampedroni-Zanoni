@@ -42,6 +42,7 @@ public abstract class GodRules extends Observable<DTOsession> implements Seriali
 
     public void executeAdd(Player player, Position position) {
         player.addWorker(position);
+        notify(new DTOsession(Session.getInstance()));
     }
 
     public void consentAdd(Position position) throws CantActException {

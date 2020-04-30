@@ -13,7 +13,7 @@ public class DTOboard implements Serializable {
     public static final int WIDTH = 5;
     public static final int HEIGHT = 5;
 
-    private final static DTOtile[][] tiles = new DTOtile[Board.WIDTH][Board.HEIGHT];
+    private final DTOtile[][] tiles = new DTOtile[Board.WIDTH][Board.HEIGHT];
 
     /**
      * Initializes the DTOboard
@@ -21,8 +21,8 @@ public class DTOboard implements Serializable {
      * @param board indicates his equivalent in server storage
      */
     public DTOboard(Board board) {
-        for (int x=0; x<Board.WIDTH; x++) {
-            for (int y=0; y<Board.HEIGHT; y++) {
+        for (int x=0; x<WIDTH; x++) {
+            for (int y=0; y<HEIGHT; y++) {
                 tiles[x][y] = new DTOtile(board.getTile(new Position(x,y)));
             }
         }
@@ -36,5 +36,18 @@ public class DTOboard implements Serializable {
      * @return the {@link DTOtile DTOtile} identified by the {@link DTOposition DTOposition}
      */
     public DTOtile getTile(DTOposition position) {
-        return tiles[position.getX()][position.getY()]; }
+        return tiles[position.getX()][position.getY()];
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder b = new StringBuilder();
+        for (int x=0; x<WIDTH; x++) {
+            for(int y=0; y<HEIGHT; y++) {
+                b.append("(").append(x).append(",").append(y).append(")").append(" : ").append(tiles[x][y].toString()).append("\n");
+            }
+        }
+        return b.toString();
+    }
+
 }
