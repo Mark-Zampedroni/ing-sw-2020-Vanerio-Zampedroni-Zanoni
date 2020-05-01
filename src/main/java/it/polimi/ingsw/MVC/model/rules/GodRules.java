@@ -31,7 +31,7 @@ public abstract class GodRules extends Observable<DTOsession> implements Seriali
     /**
      * Executes a movement {@link Action action}
      *
-     * @param worker selected {@link Worker worker}
+     * @param worker   selected {@link Worker worker}
      * @param position {@link Position position} the {@link Worker worker} will move to
      */
     public void executeMove(Worker worker, Position position) {
@@ -114,7 +114,7 @@ public abstract class GodRules extends Observable<DTOsession> implements Seriali
     /**
      * Checks if by the rules it's physically possible to perform a build {@link Action action}
      *
-     * @param worker worker that wants to build
+     * @param worker   worker that wants to build
      * @param position position where the worker wants to build
      * @throws CantActException when the worker can't build
      */
@@ -126,7 +126,7 @@ public abstract class GodRules extends Observable<DTOsession> implements Seriali
     /**
      * Checks if by the rules it's physically possible to perform a move {@link Action action}
      *
-     * @param worker worker that wants to move
+     * @param worker   worker that wants to move
      * @param position position to where the worker is moved
      * @throws CantActException when the worker can't move
      */
@@ -135,9 +135,10 @@ public abstract class GodRules extends Observable<DTOsession> implements Seriali
         Check.distance(worker, position);
         Check.dome(position);
         Check.height(worker, position);
-        for(EnemyRules enemy : enemyModifiers) { // Only Athena atm
-            if(this != enemy) {
-            enemy.consentEnemyMovement(worker, position); }
+        for (EnemyRules enemy : enemyModifiers) { // Only Athena atm
+            if (this != enemy) {
+                enemy.consentEnemyMovement(worker, position);
+            }
         }
     }
 
@@ -145,7 +146,7 @@ public abstract class GodRules extends Observable<DTOsession> implements Seriali
      * Method to evaluate if the {@link Worker worker}'s
      * {@link it.polimi.ingsw.MVC.model.player.Player master} wins the game
      *
-     * @param worker worker that moves
+     * @param worker   worker that moves
      * @param position position to where the worker is moved
      * @return {@code true} if the worker's {@link it.polimi.ingsw.MVC.model.player.Player master} could win the game
      */
@@ -157,13 +158,13 @@ public abstract class GodRules extends Observable<DTOsession> implements Seriali
     /**
      * Checks if by the rules it's possible to win the game
      *
-     * @param worker worker that moves
+     * @param worker   worker that moves
      * @param position position to where the worker is moved
      * @return {@code true} if the worker's {@link it.polimi.ingsw.MVC.model.player.Player master} wins the game
      */
     public boolean consentWin(Worker worker, Position position) {
-        for(EnemyRules enemy : enemyModifiers) { // Only Hera atm
-            if(this != enemy && !enemy.consentEnemyWin(position)) {
+        for (EnemyRules enemy : enemyModifiers) { // Only Hera atm
+            if (this != enemy && !enemy.consentEnemyWin(position)) {
                 return false;
             }
         }
@@ -174,7 +175,7 @@ public abstract class GodRules extends Observable<DTOsession> implements Seriali
      * States if the {@link Worker worker} can physically perform at least one
      * of the {@link Action actions} in list
      *
-     * @param worker worker the {@link it.polimi.ingsw.MVC.model.player.Player player} may want to select
+     * @param worker  worker the {@link it.polimi.ingsw.MVC.model.player.Player player} may want to select
      * @param actions list of {@link Action actions} the worker may be required to perform
      * @return {@code true} if the worker could do at least one {@link Action action}
      */
@@ -201,22 +202,37 @@ public abstract class GodRules extends Observable<DTOsession> implements Seriali
     }
 
     public static GodRules getInstance(Gods god) {
-        switch(god) {
-            case APOLLO: return new ApolloRules();
-            case ARTEMIS: return new ArtemisRules();
-            case ATHENA: return new AthenaRules();
-            case ATLAS: return new AtlasRules();
-            case DEMETER: return new DemeterRules();
-            case HEPHAESTUS: return new HephaestusRules();
-            case MINOTAUR: return new MinotaurRules();
-            case PAN: return new PanRules();
-            case PROMETHEUS: return new PrometheusRules();
-            case ZEUS: return new ZeusRules();
-            case TRITON: return new TritonRules();
-            case POSEIDON: return new PoseidonRules();
-            case HESTIA: return new HestiaRules();
-            case HERA: return new HeraRules();
-            default: return null;
+        switch (god) {
+            case APOLLO:
+                return new ApolloRules();
+            case ARTEMIS:
+                return new ArtemisRules();
+            case ATHENA:
+                return new AthenaRules();
+            case ATLAS:
+                return new AtlasRules();
+            case DEMETER:
+                return new DemeterRules();
+            case HEPHAESTUS:
+                return new HephaestusRules();
+            case MINOTAUR:
+                return new MinotaurRules();
+            case PAN:
+                return new PanRules();
+            case PROMETHEUS:
+                return new PrometheusRules();
+            case ZEUS:
+                return new ZeusRules();
+            case TRITON:
+                return new TritonRules();
+            case POSEIDON:
+                return new PoseidonRules();
+            case HESTIA:
+                return new HestiaRules();
+            case HERA:
+                return new HeraRules();
+            default:
+                return null;
         }
     }
 
@@ -224,4 +240,6 @@ public abstract class GodRules extends Observable<DTOsession> implements Seriali
      * Placeholder to make clear() callable from any {@link GodRules rules} set
      */
     public void clear() { /* Do nothing */ }
+
+    public void removeEffect(){}
 }

@@ -13,6 +13,7 @@ public abstract class EnemyRules extends CommonRules {
         enemyModifiers.add(this);
     }
 
+    @Override
     public void removeEffect() {
         enemyModifiers.remove(this);
     }

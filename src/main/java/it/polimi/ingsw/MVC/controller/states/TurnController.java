@@ -6,6 +6,7 @@ import it.polimi.ingsw.MVC.model.Session;
 import it.polimi.ingsw.MVC.view.RemoteView;
 import it.polimi.ingsw.network.messages.game.ActionMessage;
 import it.polimi.ingsw.utility.enumerations.Action;
+import it.polimi.ingsw.utility.enumerations.GameState;
 import it.polimi.ingsw.utility.exceptions.actions.WrongActionException;
 import it.polimi.ingsw.MVC.model.map.Position;
 import it.polimi.ingsw.MVC.model.player.Player;
@@ -33,6 +34,7 @@ public class TurnController extends StateController {
 
     int currentIndex;
     int turnCounter;
+    int counter;
 
     public TurnController(SessionController controller, Map<String, RemoteView> views, Logger LOG) {
         super(controller, views, LOG);
@@ -114,13 +116,12 @@ public class TurnController extends StateController {
         fixPossibleActions();
         if(possibleActions.containsKey(Action.WIN)){
             System.out.println("\nWon\n");
-            //controller.switchState(GameState.END_GAME);
+            controller.switchState(GameState.END_GAME);
         }
         else if(possibleActions.keySet().isEmpty()){
             currentPlayer.loss();
             System.out.println("\nLoser\n");
             passTurn();
-            //RIMOZIONE EFFETTI DEI SUI NEMICI
         }
         else {
             views.values().forEach(v -> v.updateActions(possibleActions, currentPlayer.getUsername()));
@@ -139,8 +140,13 @@ public class TurnController extends StateController {
         currentIndex++;
         currentIndex = currentIndex % players.size(); //0-2 or 0-3
         if (players.get(currentIndex).isLoser()) {
+            counter++;
             passTurn();
-        } else {
+        } else if(counter == players.size()-1){
+            controller.switchState(GameState.END_GAME);
+        }
+        else{
+            counter = 0;
             initTurn();
         }
     }
