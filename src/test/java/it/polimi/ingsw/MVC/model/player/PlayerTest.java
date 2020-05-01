@@ -5,6 +5,8 @@ import it.polimi.ingsw.utility.enumerations.Gods;
 import it.polimi.ingsw.MVC.model.map.Position;
 import it.polimi.ingsw.MVC.model.rules.GodRules;
 import it.polimi.ingsw.MVC.model.rules.gods.Setupper;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
@@ -14,15 +16,38 @@ import static org.junit.Assert.*;
 
 class PlayerTest {
 
+    Player player;
+
+    @BeforeEach
+    void setUp(){
+        player = new Player("Paolo", Colors.BLUE);
+    }
+
+    @AfterEach
+    void clear(){
+        player=null;
+    }
+
     @Test
     void correctlyFlagged() {
-        Player player = new Player("Paolo", Colors.BLUE);
         assertFalse(player.isChallenger());
         player.setChallenger();
         assertTrue(player.isChallenger());
         player.setStarter();
         assertTrue(player.isStarter());
         assertEquals(player.getColor(), Colors.BLUE);
+    }
+
+    @Test
+    void correctlyLooser(){
+        assertFalse(player.isLoser());
+        player.setLoser();
+        player.addWorker(new Position(1,1));
+        player.addWorker(new Position(2,2));
+        assertEquals(player.getWorkers().size(),2);
+        player.loss();
+        assertTrue(player.isLoser());
+        assertEquals(player.getWorkers().size(),0);
     }
 
     @Test
