@@ -2,9 +2,13 @@ package it.polimi.ingsw.MVC.controller;
 
 import it.polimi.ingsw.MVC.TestClient;
 import it.polimi.ingsw.MVC.model.Session;
+import it.polimi.ingsw.MVC.model.map.Position;
 import it.polimi.ingsw.network.client.Client;
 import it.polimi.ingsw.network.server.Server;
+import it.polimi.ingsw.utility.enumerations.Action;
 import it.polimi.ingsw.utility.enumerations.Colors;
+import it.polimi.ingsw.utility.enumerations.Gods;
+import it.polimi.ingsw.utility.serialization.DTO.DTOposition;
 import org.junit.jupiter.api.*;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -26,15 +30,19 @@ class FSMTest {
         request(() -> testClient.requestTwoPlayers());
         // [LOBBY] Register two players
         request(() -> testClient.requestRegister("TestClient", Colors.BLUE));
+        removePlayerDuringLogin();
+        wrongRequestLogin();
         request(() -> testClient2.requestRegister("TestClient2", Colors.WHITE));
         // [CHALLENGER SELECTION]
-        // -> Manda 2 messaggi da entrambi scegliendo 2 dei (non si sa chi sia il challenger, e così testi anche tutto)
+        challengerChooseGods();
         // [PLAYER GOD SELECTION]
-        // -> Entrambi i client mandando 2 volte 2 messaggi scegliendo il proprio dio (stessa parentesi di prima)
+        playersChooseGods();
         // [STARTER SELECTION]
-        // ...
-        // ...
-
+        starterPlayerSelection();
+        // [GAME MODE]
+        placeWorkerOnBoard();
+        turnFirstPlayer();
+        turnSecondPlayer();
         // Pulisce per gli altri test
         request(this::disconnectClients);
     }
@@ -66,5 +74,60 @@ class FSMTest {
             request.run();
         } catch(InterruptedException e) { e.printStackTrace(); }
 
+    }
+
+    private void starterPlayerSelection() {
+        request(() -> testClient.requestStarterPlayer("TestClient", "TestClient"));
+        request(() -> testClient2.requestStarterPlayer("TestClient2", "TestClient"));
+    }
+
+
+    private void wrongRequestLogin() {
+        request(() -> testClient2.requestRegister("TestClient", Colors.BLUE));
+        request(() -> testClient2.requestRegister("TestClient2", Colors.BLUE));
+    }
+
+    private void removePlayerDuringLogin() {
+        request(() -> testClient2.interrupt());
+        request(() -> testClient.requestRegister("TestClient", Colors.BLUE));
+    }
+
+    private void challengerChooseGods(){
+        request(() -> testClient.requestChallengerGod("TestClient", Gods.ATLAS.toString().toUpperCase()));
+        request(() -> testClient.requestChallengerGod("TestClient", Gods.ATHENA.toString().toUpperCase()));
+        request(() -> testClient2.requestChallengerGod("TestClient2", Gods.ATLAS.toString().toUpperCase()));
+        request(() -> testClient2.requestChallengerGod("TestClient2", Gods.ATHENA.toString().toUpperCase()));
+    }
+
+    private void playersChooseGods(){
+        request(() -> testClient.requestPlayerGod("TestClient", Gods.ATHENA.toString().toUpperCase()));
+        request(() -> testClient.requestPlayerGod("TestClient", Gods.ATLAS.toString().toUpperCase()));
+        request(() -> testClient2.requestPlayerGod("TestClient2", Gods.ATLAS.toString().toUpperCase()));
+        request(() -> testClient2.requestPlayerGod("TestClient2", Gods.ATHENA.toString().toUpperCase()));
+        request(() -> testClient.requestPlayerGod("TestClient", Gods.ATHENA.toString().toUpperCase()));
+        request(() -> testClient.requestPlayerGod("TestClient", Gods.ATLAS.toString().toUpperCase()));
+        request(() -> testClient2.requestPlayerGod("TestClient2", Gods.ATLAS.toString().toUpperCase()));
+        request(() -> testClient2.requestPlayerGod("TestClient2", Gods.ATHENA.toString().toUpperCase()));
+    }
+
+    private void placeWorkerOnBoard() {
+        request(() -> testClient.requestAction("TestClient", Action.ADD_WORKER, new DTOposition(new Position(1,1))));
+        request(() -> testClient.requestAction("TestClient", Action.ADD_WORKER, new DTOposition(new Position(2,2))));
+        request(() -> testClient2.requestAction("TestClient2", Action.ADD_WORKER, new DTOposition(new Position(3,3))));
+        request(() -> testClient2.requestAction("TestClient2", Action.ADD_WORKER, new DTOposition(new Position(4,4))));
+    }
+
+    private void turnSecondPlayer() {
+        request(() -> testClient2.requestAction("TestClient2", Action.SELECT_WORKER, new DTOposition(new Position(3,3))));
+        request(() -> testClient2.requestAction("TestClient2", Action.MOVE, new DTOposition(new Position(3,4))));
+        request(() -> testClient2.requestAction("TestClient2", Action.BUILD, new DTOposition(new Position(3,3))));
+        request(() -> testClient2.requestAction("TestClient2", Action.END_TURN, new DTOposition(new Position(4,4))));
+    }
+
+    private void turnFirstPlayer() {
+        request(() -> testClient.requestAction("TestClient", Action.SELECT_WORKER, new DTOposition(new Position(1,1))));
+        request(() -> testClient.requestAction("TestClient", Action.MOVE, new DTOposition(new Position(1,2))));
+        request(() -> testClient.requestAction("TestClient", Action.BUILD, new DTOposition(new Position(1,1))));
+        request(() -> testClient.requestAction("TestClient", Action.END_TURN, new DTOposition(new Position(1,1))));
     }
 }

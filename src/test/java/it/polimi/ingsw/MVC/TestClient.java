@@ -2,12 +2,11 @@ package it.polimi.ingsw.MVC;
 
 import it.polimi.ingsw.network.client.Client;
 import it.polimi.ingsw.network.client.ClientConnection;
+import it.polimi.ingsw.network.messages.FlagMessage;
 import it.polimi.ingsw.network.messages.Message;
+import it.polimi.ingsw.network.messages.game.ActionMessage;
 import it.polimi.ingsw.network.messages.lobby.RegistrationMessage;
-import it.polimi.ingsw.utility.enumerations.Action;
-import it.polimi.ingsw.utility.enumerations.Colors;
-import it.polimi.ingsw.utility.enumerations.GameState;
-import it.polimi.ingsw.utility.enumerations.MessageType;
+import it.polimi.ingsw.utility.enumerations.*;
 import it.polimi.ingsw.utility.serialization.DTO.DTOposition;
 import it.polimi.ingsw.utility.serialization.DTO.DTOsession;
 
@@ -24,8 +23,24 @@ public class TestClient extends Client {
         sendMessage(new RegistrationMessage(this.username, requestedUsername, color));
     }
 
+    public void requestChallengerGod(String requestedUsername, String god) {
+        sendMessage(new FlagMessage(MessageType.SELECTED_GODS_CHANGE, requestedUsername, god, true));
+    }
+
+    public void requestPlayerGod(String username, String god) {
+        sendMessage(new Message(MessageType.ASK_PLAYER_GOD, username, god));
+    }
+
+    public void requestAction(String username, Action action, DTOposition position) {
+        sendMessage(new ActionMessage(username, null, action, position));
+    }
+
     public void requestTwoPlayers() {
         sendMessage(new Message(MessageType.SLOTS_CHOICE, username, "2"));
+    }
+
+    public void requestStarterPlayer(String username, String starterPlayer) {
+        sendMessage(new Message (MessageType.STARTER_PLAYER, username, starterPlayer));
     }
 
     @Override
@@ -56,6 +71,7 @@ public class TestClient extends Client {
     public void updateChallengerGodSelection() { }
     @Override
     public void requestChallengerGod() { }
+
     @Override
     public void updatePlayerGodSelection() { }
     @Override
