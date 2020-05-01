@@ -25,7 +25,7 @@ class SessionTest {
         Session.getInstance().getBoard().clear();
         one = Setupper.addPlayer("Piero", Colors.BLUE,1);
         two = Setupper.addPlayer ("Sandro", Colors.WHITE,2);
-        three = Setupper.addPlayer ("Carmelo", Colors.GREEN,3);
+        three = Setupper.addPlayer ("Carmelo", Colors.BROWN,3);
         Session.getInstance().setStarted(true);
         assertTrue(Session.getInstance().isStarted());
         System.out.println(Session.getInstance().getPlayers());

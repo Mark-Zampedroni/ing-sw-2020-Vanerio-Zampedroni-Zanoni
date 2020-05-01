@@ -23,7 +23,7 @@ public class DTOsessionTest {
         Session.getInstance().getBoard().clear();
         one = Setupper.addPlayer("Piero", Colors.BLUE,1);
         two = Setupper.addPlayer ("Sandro", Colors.WHITE,2);
-        three = Setupper.addPlayer ("Carmelo", Colors.GREEN,3);
+        three = Setupper.addPlayer ("Carmelo", Colors.BROWN,3);
         three.addWorker(new Position(2,3));
         two.addWorker(new Position(1,1));
         Session.getInstance().getBoard().getTile(new Position (2,2)).increaseHeight();

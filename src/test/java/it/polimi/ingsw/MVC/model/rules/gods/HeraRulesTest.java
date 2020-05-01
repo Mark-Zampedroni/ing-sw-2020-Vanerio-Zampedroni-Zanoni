@@ -22,7 +22,7 @@ class HeraRulesTest {
     @BeforeEach
     void setUp() {
         player = Setupper.addPlayer("TestName1", Colors.BLUE,1);
-        player2 = Setupper.addPlayer("TestName2", Colors.RED,2);
+        player2 = Setupper.addPlayer("TestName2", Colors.BROWN,2);
         worker = player.getWorkers().get(0);
         worker2 = player2.getWorkers().get(0);
     }
