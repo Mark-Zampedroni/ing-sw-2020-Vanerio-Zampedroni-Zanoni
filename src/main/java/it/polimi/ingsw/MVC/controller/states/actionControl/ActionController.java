@@ -64,14 +64,14 @@ public class ActionController {
 
 
     private List<Action> actAddWorker(Position position) {
-        rules.executeAdd(controller.getCurrentPlayer(), position);
+        rules.executeAdd(player, position);
         return Collections.singletonList((player.getWorkers().size() < 2) ? Action.ADD_WORKER : Action.END_TURN);
     }
 
     private List<Action> actSelectWorker(Position position) {
         for (Player player : Session.getInstance().getPlayers()) {
             for (Worker w : player.getWorkers()) {
-                if (w.getPosition().equals(position)) {
+                if (w.getPosition().equals(position) && controller != null) {
                     controller.setCurrentWorker(w);
                     break;
                 }
@@ -86,7 +86,7 @@ public class ActionController {
         List<Action> afterMove = rules.afterMove();
         boolean victory = rules.consentWin(worker, position);
         rules.executeMove(worker, position);
-        return victory ?  Arrays.asList(Action.WIN) : afterMove;
+        return victory ? Collections.singletonList(Action.WIN) : afterMove;
         //return afterMove; // if only end_turn -> passa automatico
     }
 

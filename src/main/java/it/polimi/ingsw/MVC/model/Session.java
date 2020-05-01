@@ -129,8 +129,8 @@ public class Session implements Serializable {
      * @param player identifies the {@link Worker workers} master
      */
     private void removeWorkers(Player player) {
-        while(player.getWorkersSize() != 0) {
-            player.removeWorker(player.getWorkersSize()-1);
+        while(player.getWorkers().size() != 0) {
+            player.removeWorker(player.getWorkers().size()-1);
         }
     }
 

@@ -93,6 +93,11 @@
             <set />
           </value>
         </entry>
+        <entry key="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/MVC/model/Session.java">
+          <value>
+            <set />
+          </value>
+        </entry>
         <entry key="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/MVC/model/player/Player.java">
           <value>
             <set />
@@ -623,6 +628,41 @@
             <set />
           </value>
         </entry>
+        <entry key="$PROJECT_DIR$/src/test/java/it/polimi/ingsw/MVC/PseudoClient.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/src/test/java/it/polimi/ingsw/MVC/TestClient.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/src/test/java/it/polimi/ingsw/MVC/controller/ActionControllerTest.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/src/test/java/it/polimi/ingsw/MVC/controller/FSMTest.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/src/test/java/it/polimi/ingsw/MVC/controller/LobbyControllerTest.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/src/test/java/it/polimi/ingsw/MVC/controller/pseudoTurnController.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/src/test/java/it/polimi/ingsw/MVC/controller/states/LobbyControllerTest.java">
+          <value>
+            <set />
+          </value>
+        </entry>
         <entry key="$PROJECT_DIR$/src/test/java/it/polimi/ingsw/MVC/model/player/PlayerTest.java">
           <value>
             <set />
@@ -704,6 +744,11 @@
           </value>
         </entry>
         <entry key="$PROJECT_DIR$/src/test/java/it/polimi/ingsw/MVC/model/rules/gods/ZeusRulesTest.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/src/test/java/it/polimi/ingsw/MVC/pseudoClient.java">
           <value>
             <set />
           </value>

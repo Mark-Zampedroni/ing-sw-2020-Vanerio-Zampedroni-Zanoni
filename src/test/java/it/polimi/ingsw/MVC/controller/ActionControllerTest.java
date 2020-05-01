@@ -1,21 +1,17 @@
 package it.polimi.ingsw.MVC.controller;
 
-import it.polimi.ingsw.MVC.controller.states.TurnController;
 import it.polimi.ingsw.MVC.controller.states.actionControl.ActionController;
 
 import it.polimi.ingsw.MVC.model.Session;
 import it.polimi.ingsw.MVC.model.map.Position;
 import it.polimi.ingsw.MVC.model.player.Player;
 import it.polimi.ingsw.MVC.model.player.Worker;
-import it.polimi.ingsw.MVC.model.rules.gods.ApolloRules;
 
 import it.polimi.ingsw.MVC.model.rules.gods.AtlasRules;
 import it.polimi.ingsw.utility.enumerations.Action;
 import it.polimi.ingsw.utility.enumerations.Colors;
 
-import it.polimi.ingsw.utility.exceptions.actions.CantActException;
 import it.polimi.ingsw.utility.exceptions.actions.WrongActionException;
-import org.junit.experimental.theories.internal.SpecificDataPointsSupplier;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -37,8 +33,10 @@ public class ActionControllerTest {
                 player.setRules(new AtlasRules());
                 actionController = new ActionController(null, player);
                 Session.getInstance().addPlayer(player);
-                player.addWorker(new Position(2, 2));
-                player.addWorker(new Position(3, 4));
+                try {
+                        actionController.act(null, new Position(2, 2), Action.ADD_WORKER);
+                        actionController.act(null, new Position(3, 4), Action.ADD_WORKER);
+                } catch(WrongActionException e) { e.printStackTrace(); }
         }
 
         @AfterEach
@@ -51,6 +49,9 @@ public class ActionControllerTest {
 
         @Test
         void wrongAct() {
+                try {
+                        actionController.act(null, new Position(2, 2), Action.SELECT_WORKER);
+                } catch (WrongActionException e) { e.printStackTrace(); }
                 assertThrows(WrongActionException.class, ()
                         -> actionController.act(new Worker(new Position(2, 3)), new Position(2, 4), Action.WIN));
         }
@@ -107,30 +108,13 @@ public class ActionControllerTest {
 
         List<Position> fullListAddSelect(){
                 List<Position> temp = new ArrayList<>();
-
-                temp.add(new Position(0,0));
-                temp.add(new Position(0,1));
-                temp.add(new Position(0,2));
-                temp.add(new Position(0,3));
-                temp.add(new Position(0,4));
-                temp.add(new Position(1,0));
-                temp.add(new Position(1,1));
-                temp.add(new Position(1,2));
-                temp.add(new Position(1,3));
-                temp.add(new Position(1,4));
-                temp.add(new Position(2,0));
-                temp.add(new Position(2,1));
-                temp.add(new Position(2,3));
-                temp.add(new Position(2,4));
-                temp.add(new Position(3,0));
-                temp.add(new Position(3,1));
-                temp.add(new Position(3,2));
-                temp.add(new Position(3,3));
-                temp.add(new Position(4,0));
-                temp.add(new Position(4,1));
-                temp.add(new Position(4,2));
-                temp.add(new Position(4,3));
-                temp.add(new Position(4,4));
+                for(int x = 0; x < 5; x++) {
+                        for(int y = 0; y < 5; y++) {
+                                if(!((x == 2 && y == 2) || (x == 3 && y == 4))) {
+                                        temp.add(new Position(x,y));
+                                }
+                        }
+                }
                 return temp;
         }
 
