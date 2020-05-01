@@ -38,6 +38,7 @@ public class SessionControllerTest {
         sessionController.setGameCapacity(3);
         assertEquals(sessionController.getGameCapacity(),3);
         assertEquals(sessionController.getPlayers(), Session.getInstance().getPlayers());
-        System.out.println(sessionController.getFreeColors());
+        assertEquals(sessionController.getFreeColors().get(0), Colors.BLUE);
+        assertEquals(sessionController.getFreeColors().get(1), Colors.BROWN);
     }
 }
