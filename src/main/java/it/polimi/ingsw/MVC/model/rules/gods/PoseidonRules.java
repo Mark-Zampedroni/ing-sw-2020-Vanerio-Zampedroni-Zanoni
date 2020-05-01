@@ -77,6 +77,8 @@ public class PoseidonRules extends EventRules implements Serializable {
         super.consentSelect(username, worker);
     }
 
+
+
     @Override
     public List<Action> afterSelect() {
         return (getEvent()) ? Arrays.asList(Action.BUILD, Action.END_TURN) : super.afterSelect();
@@ -94,9 +96,11 @@ public class PoseidonRules extends EventRules implements Serializable {
     @Override
     public List<Action> afterBuild() {
         List<Action> list = super.afterBuild();
-        if (!getEvent() && Session.getInstance().getBoard().getTile(unmovedWorker.getPosition()).getHeight() == 0) {
-            setEvent(true);
-            list.add(Action.SELECT_WORKER);
+        if (!getEvent()) {
+            if (Session.getInstance().getBoard().getTile(unmovedWorker.getPosition()).getHeight() == 0) {
+                setEvent(true);
+                list.add(Action.SELECT_WORKER);
+            }
         }
         else if (counter < 2) {
             counter++;
