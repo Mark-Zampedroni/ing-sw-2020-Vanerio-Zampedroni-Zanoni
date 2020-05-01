@@ -39,6 +39,10 @@ public class DTOboard implements Serializable {
         return tiles[position.getX()][position.getY()];
     }
 
+
+    /**
+     * Implementation of toString method for the {@link DTOboard DTOboard}
+     */
     @Override
     public String toString() {
         StringBuilder b = new StringBuilder();

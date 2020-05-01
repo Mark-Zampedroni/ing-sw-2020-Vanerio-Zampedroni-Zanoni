@@ -48,6 +48,9 @@ public class DTOsession implements Serializable {
         return board;
     }
 
+    /**
+     * Implementation of toString method for the {@link DTOsession DTObsession}
+     */
     @Override
     public String toString() {
         StringBuilder b = new StringBuilder();

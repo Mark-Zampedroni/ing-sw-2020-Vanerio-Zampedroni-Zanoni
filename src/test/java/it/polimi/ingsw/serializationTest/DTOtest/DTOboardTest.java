@@ -19,6 +19,8 @@ public class DTOboardTest {
     @BeforeEach
     void setUp() {
         board = Session.getInstance().getBoard();
+        board.getTile(new Position(2,3)).increaseHeight();
+        board.getTile(new Position(4, 4)).putDome();
     }
 
     @AfterEach
@@ -32,10 +34,42 @@ public class DTOboardTest {
      */
     @Test
     void correctBoard() {
-        board.getTile(new Position(2,3)).increaseHeight();
-        board.getTile(new Position(4, 4)).putDome();
         DTOboard dtOboard = new DTOboard(board);
         assertEquals(board.getTile(new Position(2,3)).getHeight(), dtOboard.getTile(new DTOposition(new Position(2,3))).getHeight());
         assertEquals(board.getTile(new Position(4, 4)).hasDome(), dtOboard.getTile(new DTOposition(new Position(4,4))).hasDome());
     }
+
+    /**
+     * Testing if is correct toString method
+     */
+    @Test
+    void correctWrite() {
+        DTOboard dtOboard = new DTOboard(board);
+        assertEquals (dtOboard.toString(), "(0,0) : Tower, height: 0, dome: false\n" +
+                "(0,1) : Tower, height: 0, dome: false\n" +
+                "(0,2) : Tower, height: 0, dome: false\n" +
+                "(0,3) : Tower, height: 0, dome: false\n" +
+                "(0,4) : Tower, height: 0, dome: false\n" +
+                "(1,0) : Tower, height: 0, dome: false\n" +
+                "(1,1) : Tower, height: 0, dome: false\n" +
+                "(1,2) : Tower, height: 0, dome: false\n" +
+                "(1,3) : Tower, height: 0, dome: false\n" +
+                "(1,4) : Tower, height: 0, dome: false\n" +
+                "(2,0) : Tower, height: 0, dome: false\n" +
+                "(2,1) : Tower, height: 0, dome: false\n" +
+                "(2,2) : Tower, height: 0, dome: false\n" +
+                "(2,3) : Tower, height: 1, dome: false\n" +
+                "(2,4) : Tower, height: 0, dome: false\n" +
+                "(3,0) : Tower, height: 0, dome: false\n" +
+                "(3,1) : Tower, height: 0, dome: false\n" +
+                "(3,2) : Tower, height: 0, dome: false\n" +
+                "(3,3) : Tower, height: 0, dome: false\n" +
+                "(3,4) : Tower, height: 0, dome: false\n" +
+                "(4,0) : Tower, height: 0, dome: false\n" +
+                "(4,1) : Tower, height: 0, dome: false\n" +
+                "(4,2) : Tower, height: 0, dome: false\n" +
+                "(4,3) : Tower, height: 0, dome: false\n" +
+                "(4,4) : Tower, height: 0, dome: true\n");
+    }
+
 }

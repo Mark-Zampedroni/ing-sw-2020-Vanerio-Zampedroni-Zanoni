@@ -40,12 +40,21 @@ public class DTOpositionTest {
         assertEquals(position.getY(), dtOposition.getY());
         assertEquals(position.isBoundary(), dtOposition.isBoundary());
         assertEquals(position.isValid(), dtOposition.isValid());
-        assertEquals(position.toString(), position.toString());
-
     }
 
     /**
-     * Testing if equals method works, testing if distanceFrom works
+     * Testing if distanceFrom works
+     */
+    @Test
+    void correctDistanceFrom(){
+        DTOposition dtOposition = new DTOposition(position);
+        Position position2 = new Position(2,3);
+        DTOposition dtOposition2 = new DTOposition(position2);
+        assertEquals(dtOposition.getDistanceFrom(dtOposition2), position.getDistanceFrom(position2));
+    }
+
+    /**
+     * Testing if equals methods works
      */
     @Test
     void correctlyRelated(){
@@ -54,6 +63,16 @@ public class DTOpositionTest {
         DTOposition dtOposition2 = new DTOposition(position2);
         assertTrue(dtOposition.equals(dtOposition2));
         assertTrue(position.equals(position2));
-        assertEquals(dtOposition.getDistanceFrom(dtOposition2), position.getDistanceFrom(position2));
+        assertTrue(dtOposition.equals(position));
     }
+
+    /**
+     * Testing if is correct toString method
+     */
+    @Test
+    void correctWrite() {
+        DTOposition dtOposition = new DTOposition(position);
+        assertEquals (dtOposition.toString(), position.toString());
+    }
+
 }

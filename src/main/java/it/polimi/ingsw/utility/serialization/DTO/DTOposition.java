@@ -48,6 +48,13 @@ public class DTOposition implements Serializable {
     public boolean equals(DTOposition position) {
         return (x == position.getX() && y == position.getY());
     }
+
+    /**
+     * Method to check if a DTOpositions have the same coordinates of a Position
+     *
+     * @param position {@link Position position} to compare
+     * @return {@code true} if the coordinates match
+     */
     public boolean equals(Position position) {
         return (x == position.getX() && y == position.getY());
     }
