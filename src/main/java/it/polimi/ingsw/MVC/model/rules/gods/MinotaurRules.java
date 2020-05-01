@@ -25,7 +25,7 @@ public class MinotaurRules extends ApolloRules {
      */
     @Override
     public void executeMove(Worker worker, Position position) {
-        position.getWorker().setPosition(getPositionBackwards(worker.getPosition(),position));
+        if(position.getWorker() != null) { position.getWorker().setPosition(getPositionBackwards(worker.getPosition(),position)); }
         worker.setPosition(position);
         notify(new DTOsession(Session.getInstance()));
     }

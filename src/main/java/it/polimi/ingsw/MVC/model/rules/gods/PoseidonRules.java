@@ -8,6 +8,7 @@ import it.polimi.ingsw.MVC.model.player.Worker;
 import it.polimi.ingsw.MVC.model.rules.EventRules;
 
 import java.io.Serializable;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -38,38 +39,12 @@ public class PoseidonRules extends EventRules implements Serializable {
     }
 
     /**
-     * Increments the counter variable
-     *
-     */
-    private void increaseCounter() {
-        counter++;
-    }
-
-    /**
-     * Sets the counter variable to 0
-     *
-     */
-    private void clearCounter() {
-        counter = 0;
-    }
-
-    /**
-     * Getter for counter
-     *
-     * @return the integer value of the counter
-     */
-    private int getCounter(){ return counter; }
-
-    /**
      * Setter for unmovedWorker, called in {@link #executeMove(Worker, Position) executeMove} method
      *
      */
     private void setUnmovedWorker() {
-        if (movedWorker.getMaster().getWorkers().get(0) != getMovedWorker()) {
-            unmovedWorker = movedWorker.getMaster().getWorkers().get(0);
-        } else {
-            unmovedWorker = movedWorker.getMaster().getWorkers().get(1);
-        }
+        int index = (movedWorker.getMaster().getWorkers().get(0) != getMovedWorker()) ? 0 : 1;
+        unmovedWorker = movedWorker.getMaster().getWorkers().get(index);
     }
 
     /**
@@ -83,7 +58,7 @@ public class PoseidonRules extends EventRules implements Serializable {
     public void executeMove(Worker worker, Position position) {
         setMovedWorker(worker);
         setUnmovedWorker();
-        clearCounter();
+        counter = 0;
         super.executeMove(worker, position);
     }
 
@@ -96,11 +71,15 @@ public class PoseidonRules extends EventRules implements Serializable {
      */
     @Override
     public void consentSelect(String username, Worker worker) throws CantActException{
-        if (getEvent()) {
-        if (! worker.equals(unmovedWorker)) {
+        if (getEvent() && !worker.equals(unmovedWorker)) {
             throw new CantActException("This worker can't do any action");
-        }}
+        }
         super.consentSelect(username, worker);
+    }
+
+    @Override
+    public List<Action> afterSelect() {
+        return (getEvent()) ? Arrays.asList(Action.BUILD, Action.END_TURN) : super.afterSelect();
     }
 
     /**
@@ -115,20 +94,17 @@ public class PoseidonRules extends EventRules implements Serializable {
     @Override
     public List<Action> afterBuild() {
         List<Action> list = super.afterBuild();
-        if (!getEvent()) {
-            if (Session.getInstance().getBoard().getTile(unmovedWorker.getPosition()).getHeight() == 0) {
-                setEvent(true);
-                list.add(Action.SELECT_WORKER);}
-                return list;
+        if (!getEvent() && Session.getInstance().getBoard().getTile(unmovedWorker.getPosition()).getHeight() == 0) {
+            setEvent(true);
+            list.add(Action.SELECT_WORKER);
         }
-        else if (getCounter() < 2) {
-            increaseCounter();
+        else if (counter < 2) {
+            counter++;
             list.add(Action.BUILD);
-            return list;
         }
         else {
-            clearCounter();
-            return list;
+            counter = 0;
         }
+        return list;
     }
 }
