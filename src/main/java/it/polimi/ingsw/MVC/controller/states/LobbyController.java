@@ -45,7 +45,7 @@ public class LobbyController extends StateController {
         Colors requestedColor = message.getColor();
         RemoteView view = pendingConnections.get(message.getSender());
 
-        if (!view.getRegistered()) { // Anti-cheat
+        if (view != null && !view.getRegistered()) { // Anti-cheat
             if (views.containsKey(requestedUsername)) { // Anti-cheat
                 view.sendMessage(createRegistrationReply("This username is already in use", false));
                 LOG.warning("A player tried to register with the already in use username " + requestedUsername + "\n");

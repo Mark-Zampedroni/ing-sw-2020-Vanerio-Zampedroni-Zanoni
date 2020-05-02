@@ -131,7 +131,7 @@ public class ClientConnection extends Thread {
         }
     }
 
-    private void disconnect() {
+    public void disconnect() {
         try {
             if(!socket.isClosed()) {
                 socket.close();

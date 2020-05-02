@@ -7,6 +7,7 @@ import it.polimi.ingsw.MVC.view.RemoteView;
 import it.polimi.ingsw.network.messages.game.ActionMessage;
 import it.polimi.ingsw.utility.enumerations.Action;
 import it.polimi.ingsw.utility.enumerations.GameState;
+import it.polimi.ingsw.utility.enumerations.MessageType;
 import it.polimi.ingsw.utility.exceptions.actions.WrongActionException;
 import it.polimi.ingsw.MVC.model.map.Position;
 import it.polimi.ingsw.MVC.model.player.Player;
@@ -51,10 +52,8 @@ public class TurnController extends StateController {
     @Override
     public void parseMessage(Message message) {
         if(message.getSender().equals(controller.getTurnOwner())) {
-            switch (message.getType()) {
-                case ACTION:
-                    parseActionMessage((ActionMessage) message);
-                    break;
+            if(message.getType() == MessageType.ACTION) {
+                parseActionMessage((ActionMessage) message);
             }
         } else {
             LOG.warning("A player who is not the turn owner sent a message : "+message);
@@ -69,7 +68,7 @@ public class TurnController extends StateController {
             if(message.getPosition() != null) { requestedPosition = new Position(message.getPosition().getX(), message.getPosition().getY()); }
             try {
                 executeAction(requestedPosition, message.getAction());
-            } catch(WrongActionException e) { System.out.println(Arrays.toString(e.getStackTrace())); }
+            } catch(WrongActionException e) { LOG.severe(Arrays.toString(e.getStackTrace())); }
         }
         else {
             LOG.warning("Client sent impossible action: "+message.getAction()+" in "+message.getPosition());
@@ -84,21 +83,15 @@ public class TurnController extends StateController {
         this.currentWorker = newCurrentWorker;
     }
 
-    public Player getCurrentPlayer() {
-        return currentPlayer;
-    }
-
     /*
         Initializes new turn environment
      */
     public void initTurn() {
-        System.out.println("INIT TURN CALL");
         currentWorker = null;
         possibleActions = new HashMap<>();
         currentPlayer = players.get(currentIndex);
         controller.setTurnOwner(currentPlayer.getUsername());
         currentPlayer.getRules().clear();
-        System.out.println("New player turn! "+currentPlayer); // TEST
         actionControl = new ActionController(this, currentPlayer);
         if(turnCounter < controller.getGameCapacity()) {
             possibleActions.put(Action.ADD_WORKER, getCandidates(Action.ADD_WORKER));
@@ -115,12 +108,10 @@ public class TurnController extends StateController {
     public void sendUpdate() {
         fixPossibleActions();
         if(possibleActions.containsKey(Action.WIN)){
-            System.out.println("\nWon\n");
             controller.switchState(GameState.END_GAME);
         }
         else if(possibleActions.keySet().isEmpty()){
             currentPlayer.loss();
-            System.out.println("\nLoser\n");
             passTurn();
         }
         else {
@@ -172,7 +163,6 @@ public class TurnController extends StateController {
         if(type == Action.END_TURN) { passTurn(); }
         else {
             List<Action> candidates = actionControl.act(currentWorker, position, type);
-            System.out.println("Candidates: " + candidates);
             // CREATES NEW CANDIDATES FOR NEXT ACTION
             possibleActions.clear();
             candidates.forEach(action -> possibleActions.put(action, getCandidates(action)));

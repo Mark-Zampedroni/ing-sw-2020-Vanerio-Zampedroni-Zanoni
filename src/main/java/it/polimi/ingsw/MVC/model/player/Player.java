@@ -161,10 +161,9 @@ public class Player implements Serializable {
 
     public void loss(){
         setLoser();
-        workers.clear();
-        this.getRules().removeEffect();
+        if(workers != null) { workers.clear(); }
+        if(rules != null) { rules.removeEffect(); }
     }
-
 
 
     /**

@@ -6,6 +6,7 @@ import it.polimi.ingsw.network.messages.Message;
 import it.polimi.ingsw.network.messages.lobby.RegistrationMessage;
 import it.polimi.ingsw.utility.observer.Observable;
 
+import java.io.EOFException;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -89,11 +90,10 @@ public class ServerConnection extends Observable<Message> implements Runnable {
                 synchronized (readLock) {
                     if (msg != null) {
                         if (!inLobby) { // Message received by Server
-                            if(msg.getType() == MessageType.SLOTS_CHOICE) {
+                            if (msg.getType() == MessageType.SLOTS_CHOICE) {
                                 server.startLobby(this, msg.getInfo());
                             }
-                        }
-                        else { // Message received by View
+                        } else { // Message received by View
                             notify(msg); // Notify -> RemoteView -> SessionController
                         }
                     }

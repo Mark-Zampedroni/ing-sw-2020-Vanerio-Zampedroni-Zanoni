@@ -19,7 +19,7 @@ class SavedDataClass implements Serializable {
     //qualcosa che abbia i dati relativi alla connessione
 
     SavedDataClass(SessionController sessionController){
-        session=sessionController.getSession();
+        session = sessionController.getSession();
         this.sessionController = sessionController;
         //turnController = sessionController.getTurnController();
         //actionController = sessionController.getTurnController().getActionController();

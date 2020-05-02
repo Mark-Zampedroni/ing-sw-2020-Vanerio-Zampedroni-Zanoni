@@ -85,7 +85,6 @@ public class Server extends Thread {
                 Server.LOG.warning(e.getMessage());
             } catch (NullPointerException e) {
                 Server.LOG.severe("The connection port is alreaday occupied");
-                System.out.println("[!] The connection port is already occupied, check if a server is already open");
             }
 
         }

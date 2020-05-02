@@ -538,6 +538,11 @@
             <set />
           </value>
         </entry>
+        <entry key="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/utility/persistency/SavedDataClass.java">
+          <value>
+            <set />
+          </value>
+        </entry>
         <entry key="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/utility/serialization/DTO/DTOboard.java">
           <value>
             <set />
@@ -634,6 +639,11 @@
           </value>
         </entry>
         <entry key="$PROJECT_DIR$/src/test/java/it/polimi/ingsw/MVC/TestClient.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/src/test/java/it/polimi/ingsw/MVC/TestServer.java">
           <value>
             <set />
           </value>

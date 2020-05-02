@@ -61,7 +61,6 @@ public class RemoteView extends Observable<Message> implements Observer<DTOsessi
 
     @Override
     public void update(DTOsession dtoSession) {
-        System.out.println(username + " got dtoSession update");
         this.dtoSession = dtoSession;
     }
 

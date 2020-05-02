@@ -15,14 +15,14 @@ import java.io.IOException;
 import java.util.*;
 import java.util.stream.Collectors;
 
-public abstract class Client extends Thread implements Observer<Message>, View {
+public abstract class Client implements Observer<Message>, View {
 
     protected GameState state;
     protected String username;
 
     private List<Runnable> requests;
 
-    private ClientConnection connection;
+    protected ClientConnection connection;
 
     protected String challenger;
     protected List<String> chosenGods; // Si può usare solo la mappa gods qui sotto, usando delle key segnaposto che poi si tolgono
@@ -32,7 +32,6 @@ public abstract class Client extends Thread implements Observer<Message>, View {
     public Client(String ip, int port, int view) {
         chosenGods = new ArrayList<>();
         requests = new ArrayList<>();
-        this.start();
     }
 
     private void viewRequest(Runnable request) {

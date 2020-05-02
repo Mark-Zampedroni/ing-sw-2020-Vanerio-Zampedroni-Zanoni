@@ -31,7 +31,6 @@ public class SessionController implements Observer<Message>  {
 
     private static Logger LOG;
 
-    TurnController table;
     Session session;
 
     private final Map<String, RemoteView> views = new HashMap<>();
@@ -67,7 +66,6 @@ public class SessionController implements Observer<Message>  {
             case GAME:
                 assignFirstDTOSession();
                 stateController = new TurnController(this, views, LOG);
-                System.out.println("Inizia partita!");
                 break;
             default:
                 LOG.severe("Tried to switch to state "+state+", but the Server doesn't support it yet");
@@ -79,10 +77,6 @@ public class SessionController implements Observer<Message>  {
         }
 
         LOG.info("Server switch to new state: "+state); // TEST
-    }
-
-    public void tryNextState() {
-        stateController.tryNextState();
     }
 
     // Update ai client per notificarli che è cambiato lo stato, uguale per tutti gli stati

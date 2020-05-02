@@ -36,7 +36,6 @@ public class SelectionController extends StateController {
 
     @Override
     public void parseMessage(Message message) {
-        System.out.println(controller.getTurnOwner());
         if(message.getSender().equals(controller.getTurnOwner())) {
             switch (message.getType()) {
                 case SELECTED_GODS_CHANGE:

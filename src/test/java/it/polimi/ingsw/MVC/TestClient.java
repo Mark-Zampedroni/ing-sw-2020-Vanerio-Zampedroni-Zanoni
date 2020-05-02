@@ -1,7 +1,6 @@
 package it.polimi.ingsw.MVC;
 
 import it.polimi.ingsw.network.client.Client;
-import it.polimi.ingsw.network.client.ClientConnection;
 import it.polimi.ingsw.network.messages.FlagMessage;
 import it.polimi.ingsw.network.messages.Message;
 import it.polimi.ingsw.network.messages.game.ActionMessage;
@@ -15,45 +14,75 @@ import java.util.Map;
 
 public class TestClient extends Client {
 
+
+    private boolean printMessages = false; // <-------------- To print messages set True
+
+    String challenger;
+
     public TestClient(String ip, int port, int view) {
         super(ip, port, view);
+    }
+
+
+    public void interrupt() {
+        connection.disconnect();
     }
 
     public void requestRegister(String requestedUsername, Colors color) {
         sendMessage(new RegistrationMessage(this.username, requestedUsername, color));
     }
 
-    public void requestChallengerGod(String requestedUsername, String god) {
-        sendMessage(new FlagMessage(MessageType.SELECTED_GODS_CHANGE, requestedUsername, god, true));
+    public void requestRegister(String sender, String requestedUsername, Colors color) {
+        sendMessage(new RegistrationMessage(sender, requestedUsername, color));
     }
 
-    public void requestPlayerGod(String username, String god) {
+    public void requestChallengerGod(String god) {
+        sendMessage(new FlagMessage(MessageType.SELECTED_GODS_CHANGE, username, god, true));
+    }
+
+    public void requestPlayerGod(String god) {
         sendMessage(new Message(MessageType.ASK_PLAYER_GOD, username, god));
     }
 
-    public void requestAction(String username, Action action, DTOposition position) {
-        sendMessage(new ActionMessage(username, null, action, position));
+    public void requestAction(Action action, DTOposition position) {
+        sendMessage(new ActionMessage(username, "Test action request", action, position));
     }
 
     public void requestTwoPlayers() {
         sendMessage(new Message(MessageType.SLOTS_CHOICE, username, "2"));
     }
 
-    public void requestStarterPlayer(String username, String starterPlayer) {
+    public void requestStarterPlayer(String starterPlayer) {
         sendMessage(new Message (MessageType.STARTER_PLAYER, username, starterPlayer));
+    }
+
+    public boolean isChallenger() {
+        return username.equals(challenger);
+    }
+
+    public String getUsername() {
+        return username;
     }
 
     @Override
     public void update(Message message) {
-        System.out.println("RECEIVED FROM SERVER:\n"+message+"\n");
-        if(message.getType() == MessageType.CONNECTION_TOKEN) {
-            super.update(message); // REGISTRA TESTCLIENT
+        if(printMessages) { System.out.println(username+" RECEIVED FROM SERVER:\n"+message+"\n"); }
+        switch(message.getType()) {
+            case CONNECTION_TOKEN:
+                super.update(message); // REGISTRA TESTCLIENT
+                break;
+            case REGISTRATION:
+                if(((FlagMessage) message).getFlag()) { username = message.getInfo(); }
+                break;
+            case CHALLENGER_SELECTION:
+                challenger = message.getInfo();
+                break;
         }
     }
 
     @Override
     public void sendMessage(Message message) {
-        System.out.println("SENDING TO SERVER:\n"+message+"\n");
+        if(printMessages) { System.out.println(username+" SENDING TO SERVER:\n"+message+"\n"); }
         super.sendMessage(message);
     }
 
@@ -71,7 +100,6 @@ public class TestClient extends Client {
     public void updateChallengerGodSelection() { }
     @Override
     public void requestChallengerGod() { }
-
     @Override
     public void updatePlayerGodSelection() { }
     @Override
