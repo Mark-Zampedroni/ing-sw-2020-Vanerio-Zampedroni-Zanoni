@@ -3,7 +3,7 @@ package it.polimi.ingsw.MVC.model.player;
 import it.polimi.ingsw.utility.enumerations.Colors;
 import it.polimi.ingsw.MVC.model.Session;
 import it.polimi.ingsw.MVC.model.map.Position;
-import it.polimi.ingsw.MVC.model.rules.gods.Setupper;
+import it.polimi.ingsw.MVC.model.Setupper;
 import org.junit.jupiter.api.*;
 
 import static org.junit.Assert.assertTrue;

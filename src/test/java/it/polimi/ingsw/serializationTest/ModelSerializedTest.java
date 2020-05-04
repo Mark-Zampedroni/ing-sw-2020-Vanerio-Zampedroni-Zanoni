@@ -3,13 +3,6 @@ package it.polimi.ingsw.serializationTest;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
-import it.polimi.ingsw.MVC.model.Session;
-import it.polimi.ingsw.MVC.model.player.Player;
-import it.polimi.ingsw.MVC.model.rules.GodRules;
-import it.polimi.ingsw.MVC.model.rules.gods.Setupper;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
-
 
 public class ModelSerializedTest {
 

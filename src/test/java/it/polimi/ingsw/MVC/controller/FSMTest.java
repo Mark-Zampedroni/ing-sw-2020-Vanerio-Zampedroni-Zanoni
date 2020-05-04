@@ -15,8 +15,11 @@ class FSMTest {
 
     private final int testPort = 7357; // 7 3 5 7 = t e s t
     private TestServer server;
-    private TestClient testClient, testClient2;
+    private TestClient testClient, testClient2, testClient3, testClient4;
     private TestClient challengerClient, otherClient;
+
+    private final boolean showServerLog = false; // True to show server log
+    private final boolean showClientLog = false; // True to show client log
 
     @Test
     void completeGameTest() {
@@ -24,24 +27,27 @@ class FSMTest {
         openServer();
         startClients();
         // [PRE-LOBBY] Requests two players
-        request(() -> testClient.requestTwoPlayers());
+        createGame();
         // [LOBBY] Register two players
         request(() -> testClient.requestRegister("TestClient", Colors.BLUE));
-        removePlayerDuringLogin();
-        wrongRequestLogin();
+        removePlayerDuringLogin(); // Removes testClient
+        request(() -> testClient.requestRegister("TestClient", Colors.BLUE));
+        wrongRequestLogin(); // Tries to register with already in-use parameters
+        addOtherPlayers(); // Player try to connect when the lobby is full
         request(() -> testClient2.requestRegister("TestClient2", Colors.WHITE));
         // [CHALLENGER SELECTION]
-        challengerChooseGods();
+        challengerChooseGods(); // The challenger chooses which gods will be used
+        addPlayerDuringGame(); // Player tries to connect at game started
         // [PLAYER GOD SELECTION]
-        playersChooseGods();
+        playersChooseGods(); // Each player chooses his god
         // [STARTER SELECTION]
-        starterPlayerSelection();
+        starterPlayerSelection(); // The challenger chooses the starter player
         // [GAME MODE]
-        placeWorkerOnBoard();
-        firstTurnPoseidon();
-        secondTurnArtemis();
-        thirdTurnPoseidon();
-        fourthTurnArtemis();
+        placeWorkerOnBoard(); // Both players take turns to place the workers
+        firstTurnPoseidon(); // First turn for poseidon
+        secondTurnArtemis(); // First turn for artemis
+        thirdTurnPoseidon(); // Second turn for poseidon
+        fourthTurnArtemis(); // Second turn for artemis and victory
         // Checks if artemis won
         // -> Manca il metodo, appena si fa possiamo aggiungere l'assertTrue
         // Test clearUp
@@ -49,13 +55,18 @@ class FSMTest {
     }
 
     private void openServer() {
-        server = new TestServer(testPort);
+        server = new TestServer(testPort, showServerLog);
+    }
+
+    private void createGame() {
+        request(() -> testClient.requestPlayersNumber("5"));
+        request(() -> testClient.requestPlayersNumber("2"));
     }
 
     private void startClients() {
-        testClient = new TestClient("127.0.0.1", testPort,0);
+        testClient = new TestClient("127.0.0.1", testPort,0, showClientLog);
         testClient.createConnection("127.0.0.1", testPort);
-        testClient2 = new TestClient("127.0.0.1", testPort,0);
+        testClient2 = new TestClient("127.0.0.1", testPort,0, showClientLog);
         testClient2.createConnection("127.0.0.1", testPort);
     }
 
@@ -67,12 +78,25 @@ class FSMTest {
         server.interrupt();
         testClient.interrupt();
         testClient2.interrupt();
+        Session.getInstance().getBoard().clear();
+    }
+
+    private void addOtherPlayers() {
+        testClient3 = new TestClient("127.0.0.1", testPort,0, showClientLog);
+        testClient3.createConnection("127.0.0.1", testPort);
+        testClient4 = new TestClient("127.0.0.1", testPort,0, showClientLog);
+        testClient4.createConnection("127.0.0.1", testPort);
+    }
+
+    private void addPlayerDuringGame() {
+        testClient3 = new TestClient("127.0.0.1", testPort,0, showClientLog);
+        testClient3.createConnection("127.0.0.1", testPort);
     }
 
     // Aggiunge delay tra i messaggi
     private void request(Runnable request) {
         try {
-            Thread.sleep(180); // Time between messages
+            Thread.sleep(200); // Time between messages
             request.run();
         } catch(InterruptedException e) { e.printStackTrace(); }
 
@@ -83,16 +107,18 @@ class FSMTest {
     }
 
     private void wrongRequestLogin() {
-        request(() -> testClient2.requestRegister("TestClient","TestClient", Colors.BLUE));
+        // With fake username
+        request(() -> testClient2.requestRegister("TestClient","TestClient", Colors.WHITE));
+        // Already taken username
+        request(() -> testClient2.requestRegister("TestClient", Colors.WHITE));
+        // Already taken color
         request(() -> testClient2.requestRegister("TestClient2", Colors.BLUE));
     }
 
     private void removePlayerDuringLogin() {
         request(() -> testClient.interrupt()); // Disconnect connection
-        testClient = new TestClient("127.0.0.1", testPort,0); // Create new connection
+        testClient = new TestClient("127.0.0.1", testPort,0, showClientLog); // Create new connection
         testClient.createConnection("127.0.0.1", testPort);
-        request(() -> testClient.requestTwoPlayers());
-        request(() -> testClient.requestRegister("TestClient", Colors.BLUE));
     }
 
     private void challengerChooseGods(){
@@ -101,11 +127,13 @@ class FSMTest {
         otherClient = (testClient == challengerClient) ? testClient2 : testClient;
 
         request(() -> challengerClient.requestChallengerGod(Gods.POSEIDON.toString().toUpperCase()));
+        request(() -> challengerClient.requestChallengerGod(Gods.POSEIDON.toString().toUpperCase())); // Not available
         request(() -> challengerClient.requestChallengerGod(Gods.ARTEMIS.toString().toUpperCase()));
     }
 
     private void playersChooseGods(){
         request(() -> otherClient.requestPlayerGod(Gods.ARTEMIS.toString().toUpperCase()));
+        request(() -> challengerClient.requestPlayerGod(Gods.ARTEMIS.toString().toUpperCase())); // Not available
         request(() -> challengerClient.requestPlayerGod(Gods.POSEIDON.toString().toUpperCase()));
     }
 
@@ -142,6 +170,7 @@ class FSMTest {
     private void thirdTurnPoseidon() {
         // Poseidon places the last building
         request(() -> challengerClient.requestAction(Action.SELECT_WORKER, new DTOposition(new Position(2,2))));
+        request(() -> challengerClient.requestAction(Action.END_TURN, null)); // Impossible action!
         request(() -> challengerClient.requestAction(Action.MOVE, new DTOposition(new Position(2,3))));
         request(() -> challengerClient.requestAction(Action.BUILD, new DTOposition(new Position(1,3))));
         request(() -> challengerClient.requestAction(Action.END_TURN, null));

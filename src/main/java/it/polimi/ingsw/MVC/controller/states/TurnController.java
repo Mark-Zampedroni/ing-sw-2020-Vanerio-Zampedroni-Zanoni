@@ -77,7 +77,7 @@ public class TurnController extends StateController {
     }
 
     @Override
-    public void tryNextState() {/* END_GAME */}
+    public void tryNextState() { controller.switchState(GameState.END_GAME); }
 
     public void setCurrentWorker(Worker newCurrentWorker) {
         this.currentWorker = newCurrentWorker;
@@ -109,9 +109,12 @@ public class TurnController extends StateController {
         fixPossibleActions();
         if(possibleActions.containsKey(Action.WIN)){
             controller.switchState(GameState.END_GAME);
+            LOG.info(controller.getTurnOwner()+" won");
+            tryNextState();
         }
         else if(possibleActions.keySet().isEmpty()){
             currentPlayer.loss();
+            LOG.info(controller.getTurnOwner()+" lost");
             passTurn();
         }
         else {
@@ -134,7 +137,7 @@ public class TurnController extends StateController {
             counter++;
             passTurn();
         } else if(counter == players.size()-1){
-            controller.switchState(GameState.END_GAME);
+            tryNextState();
         }
         else{
             counter = 0;

@@ -1,5 +1,6 @@
 package it.polimi.ingsw.MVC.model.rules.gods;
 
+import it.polimi.ingsw.MVC.model.Setupper;
 import it.polimi.ingsw.MVC.model.rules.GodRules;
 import it.polimi.ingsw.utility.enumerations.Colors;
 import it.polimi.ingsw.utility.enumerations.Gods;
@@ -55,7 +56,7 @@ class HeraRulesTest {
         player.getRules().executeMove(worker2, new Position(0,2));
         assertTrue(player.getRules().consentWin(worker2, new Position(0,3)));
 
-        ((EnemyRules)player.getRules()).removeEffect();
+        (player.getRules()).removeEffect();
     }
 
 }

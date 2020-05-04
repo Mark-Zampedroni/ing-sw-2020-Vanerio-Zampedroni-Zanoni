@@ -1,4 +1,4 @@
-package it.polimi.ingsw.MVC.model.rules.gods;
+package it.polimi.ingsw.MVC.model;
 
 import it.polimi.ingsw.utility.enumerations.Colors;
 import it.polimi.ingsw.MVC.model.Session;

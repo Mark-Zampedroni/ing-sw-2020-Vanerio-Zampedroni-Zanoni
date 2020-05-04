@@ -2,10 +2,9 @@ package it.polimi.ingsw.serializationTest.DTOtest;
 
 import it.polimi.ingsw.MVC.model.Session;
 import it.polimi.ingsw.MVC.model.map.Position;
-import it.polimi.ingsw.MVC.model.rules.gods.Setupper;
+import it.polimi.ingsw.MVC.model.Setupper;
 import it.polimi.ingsw.utility.enumerations.Colors;
 import it.polimi.ingsw.utility.serialization.DTO.DTOposition;
-import it.polimi.ingsw.utility.serialization.DTO.DTOsession;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -26,7 +25,7 @@ public class DTOpositionTest {
 
     @AfterEach
     void clear() {
-        Setupper.removePlayer(Session.getInstance().getPlayers().get(0));
+        Setupper.removePlayer(Session.getInstance().getPlayerByName("Paolo"));
         position = null;
     }
 

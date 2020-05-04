@@ -58,7 +58,7 @@ public class SelectionController extends StateController {
 
     private void parseAddMessage(Message message) {
         if (state == GameState.CHALLENGER_SELECTION){
-            if (Gods.isValid(message.getInfo())) {
+            if (Gods.isValid(message.getInfo()) && !chosenGod.contains(message.getInfo())) {
                 chosenGod.add(message.getInfo());
                 sendBroadcastMessage(new FlagMessage(MessageType.SELECTED_GODS_CHANGE, "SERVER", message.getInfo(), true));
                 if (chosenGod.size() == controller.getPlayers().size()) {

@@ -3,7 +3,7 @@ package it.polimi.ingsw.utility.enumerations;
 import it.polimi.ingsw.MVC.model.Session;
 import it.polimi.ingsw.MVC.model.player.Player;
 import it.polimi.ingsw.MVC.model.player.Worker;
-import it.polimi.ingsw.MVC.model.rules.gods.Setupper;
+import it.polimi.ingsw.MVC.model.Setupper;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

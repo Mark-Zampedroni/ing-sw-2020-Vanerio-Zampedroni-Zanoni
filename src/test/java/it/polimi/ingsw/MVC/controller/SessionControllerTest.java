@@ -29,7 +29,7 @@ public class SessionControllerTest {
     }
 
     @Test
-    void withoutConnection(){
+    void offlineCallsTest(){
         assertEquals(Session.getInstance(), sessionController.getSession());
         assertEquals(sessionController.getState(), GameState.LOBBY);
         sessionController.setTurnOwner("tester");

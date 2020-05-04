@@ -1,19 +1,14 @@
 package it.polimi.ingsw.MVC.view;
 
-import it.polimi.ingsw.MVC.model.Session;
-import it.polimi.ingsw.MVC.model.map.Position;
 import it.polimi.ingsw.network.messages.game.ActionRequestMessage;
 import it.polimi.ingsw.utility.serialization.DTO.DTOposition;
 import it.polimi.ingsw.utility.serialization.DTO.DTOsession;
 import it.polimi.ingsw.utility.enumerations.Action;
 import it.polimi.ingsw.network.messages.Message;
-import it.polimi.ingsw.network.messages.game.ChangeMessage;
 import it.polimi.ingsw.network.server.ServerConnection;
 import it.polimi.ingsw.utility.observer.Observable;
 import it.polimi.ingsw.utility.observer.Observer;
 
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -27,7 +22,7 @@ public class RemoteView extends Observable<Message> implements Observer<DTOsessi
     private class MessageReceiver implements Observer<Message> {
         @Override
         public void update(Message message) {
-            if(message.getSender().equals(connection.getToken())) { //Anti-cheat
+            if(message.getSender() != null && message.getSender().equals(connection.getToken())) { //Anti-cheat
                 handleInput(message);
             }
         }

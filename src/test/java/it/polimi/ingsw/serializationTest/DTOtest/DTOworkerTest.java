@@ -2,7 +2,7 @@ package it.polimi.ingsw.serializationTest.DTOtest;
 
 import it.polimi.ingsw.MVC.model.Session;
 import it.polimi.ingsw.MVC.model.map.Position;
-import it.polimi.ingsw.MVC.model.rules.gods.Setupper;
+import it.polimi.ingsw.MVC.model.Setupper;
 import it.polimi.ingsw.utility.enumerations.Colors;
 import it.polimi.ingsw.utility.serialization.DTO.DTOposition;
 import org.junit.jupiter.api.AfterEach;

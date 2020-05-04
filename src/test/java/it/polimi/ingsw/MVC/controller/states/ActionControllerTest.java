@@ -1,4 +1,4 @@
-package it.polimi.ingsw.MVC.controller;
+package it.polimi.ingsw.MVC.controller.states;
 
 import it.polimi.ingsw.MVC.controller.states.actionControl.ActionController;
 
@@ -26,13 +26,15 @@ public class ActionControllerTest {
 
         ActionController actionController;
         Player player;
+        Session session;
 
         @BeforeEach
         void setUp() {
                 player = new Player("Tester", Colors.WHITE);
                 player.setRules(new AtlasRules());
                 actionController = new ActionController(null, player);
-                Session.getInstance().addPlayer(player);
+                session = Session.getInstance();
+                session.addPlayer(player);
                 try {
                         actionController.act(null, new Position(2, 2), Action.ADD_WORKER);
                         actionController.act(null, new Position(3, 4), Action.ADD_WORKER);
@@ -42,8 +44,8 @@ public class ActionControllerTest {
         @AfterEach
         void clearUp() {
                 actionController = null;
-                Session.getInstance().removePlayer(player);
-                Session.getInstance().getBoard().clear();
+                session.removePlayer(player);
+                session.getBoard().clear();
                 player = null;
         }
 
@@ -120,21 +122,15 @@ public class ActionControllerTest {
 
         List<Position> fullListMoveBuild(){
                 List<Position> temp = new ArrayList<>();
-                temp.add(new Position(1,2));
-                temp.add(new Position(1,3));
-                temp.add(new Position(1,4));
+                for(int y=2; y<5; y++) { temp.add(new Position(1,y)); }
                 temp.add(new Position(2,4));
-                temp.add(new Position(3,2));
-                temp.add(new Position(3,3));
+                for(int y=2; y<4; y++) { temp.add(new Position(3,y)); }
                 return temp;
         }
 
         void setWinCon(){
-                Session.getInstance().getBoard().getTile(new Position(3,4)).increaseHeight();
-                Session.getInstance().getBoard().getTile(new Position(3,4)).increaseHeight();
-                Session.getInstance().getBoard().getTile(new Position(4,4)).increaseHeight();
-                Session.getInstance().getBoard().getTile(new Position(4,4)).increaseHeight();
-                Session.getInstance().getBoard().getTile(new Position(4,4)).increaseHeight();
+                for(int times=0; times<2; times++) { session.getBoard().getTile(new Position(3,4)).increaseHeight(); }
+                for(int times=0; times<3; times++) { session.getBoard().getTile(new Position(4,4)).increaseHeight(); }
         }
 }
 

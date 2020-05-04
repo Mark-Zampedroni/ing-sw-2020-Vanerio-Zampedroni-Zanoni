@@ -3,7 +3,6 @@ package it.polimi.ingsw.MVC.controller.states;
 import it.polimi.ingsw.MVC.controller.SessionController;
 import it.polimi.ingsw.MVC.model.Session;
 import it.polimi.ingsw.MVC.model.Setupper;
-import it.polimi.ingsw.MVC.view.RemoteView;
 import it.polimi.ingsw.utility.enumerations.Colors;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -30,7 +29,8 @@ public class UnreachableMethodsTest {
         wrongState = new SelectionController(controller, new HashMap<>(), LOG);
     }
 
-    public void wrongCallsTest() {
+    @Test
+    public void impossibleCallsTest() {
         wrongState.sendUpdate();
         wrongState.addUnregisteredView(null);
         wrongState.addPlayer("UnTest", Colors.WHITE, null);

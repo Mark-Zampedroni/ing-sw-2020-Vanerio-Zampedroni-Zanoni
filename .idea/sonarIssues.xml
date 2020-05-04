@@ -693,6 +693,11 @@
             <set />
           </value>
         </entry>
+        <entry key="$PROJECT_DIR$/src/test/java/it/polimi/ingsw/MVC/controller/states/unreachableMethodsTest.java">
+          <value>
+            <set />
+          </value>
+        </entry>
         <entry key="$PROJECT_DIR$/src/test/java/it/polimi/ingsw/MVC/model/SessionTest.java">
           <value>
             <set />
@@ -899,6 +904,11 @@
           </value>
         </entry>
         <entry key="$PROJECT_DIR$/src/test/java/it/polimi/ingsw/rules/gods/ZeusRulesTest.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/src/test/java/it/polimi/ingsw/serializationTest/DTOtest/DTOpositionTest.java">
           <value>
             <set />
           </value>

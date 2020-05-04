@@ -15,12 +15,13 @@ import java.util.Map;
 public class TestClient extends Client {
 
 
-    private boolean printMessages = false; // <-------------- To print messages set True
+    private boolean printMessages;
 
     String challenger;
 
-    public TestClient(String ip, int port, int view) {
+    public TestClient(String ip, int port, int view, boolean showLog) {
         super(ip, port, view);
+        this.printMessages = showLog;
     }
 
 
@@ -48,8 +49,8 @@ public class TestClient extends Client {
         sendMessage(new ActionMessage(username, "Test action request", action, position));
     }
 
-    public void requestTwoPlayers() {
-        sendMessage(new Message(MessageType.SLOTS_CHOICE, username, "2"));
+    public void requestPlayersNumber(String number) {
+        sendMessage(new Message(MessageType.SLOTS_CHOICE, username, number));
     }
 
     public void requestStarterPlayer(String starterPlayer) {
@@ -57,7 +58,7 @@ public class TestClient extends Client {
     }
 
     public boolean isChallenger() {
-        return username.equals(challenger);
+            return (username != null) && username.equals(challenger);
     }
 
     public String getUsername() {
