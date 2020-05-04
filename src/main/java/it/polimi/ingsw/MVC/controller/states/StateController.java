@@ -38,12 +38,13 @@ public abstract class StateController {
     }
 
     public List<Colors> getFreeColors() {
-        LOG.warning("Free colors were asked outside LOBBY state, it shouldn't happen");
+        LOG.warning("getFreeColors called on wrong state");
         return new ArrayList<>(); // Empty, Override in Lobby
     }
 
+
     public void addUnregisteredView(ServerConnection connection) {
-        LOG.warning("View tried to register outside LOBBY state, it shouldn't happen");
+        LOG.warning("addUnregisteredView called on wrong state");
     }
 
     public void removePlayer(String username) {
@@ -56,7 +57,7 @@ public abstract class StateController {
 
     // Registra un player e lo aggiunge al gioco
     public void addPlayer(String username, Colors color, RemoteView view) {
-        LOG.warning("Game tried to add a player outside LOBBY state");
+        LOG.warning("addPlayer called on wrong state");
     }
 
 }
