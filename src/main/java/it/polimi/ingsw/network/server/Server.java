@@ -13,6 +13,8 @@ import java.net.Socket;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.*;
+import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.LinkedBlockingQueue;
 import java.util.logging.FileHandler;
 import java.util.logging.Logger;
 import java.util.logging.SimpleFormatter;
@@ -33,6 +35,22 @@ public class Server extends Thread {
 
     public static final Logger LOG = Logger.getLogger("Server");
 
+    private final BlockingQueue<Runnable> tasks = new LinkedBlockingQueue<>();
+    private Thread queueHandler;
+
+    private class QueueHandler implements Runnable {
+        @Override
+        public void run() {
+            while (!Thread.currentThread().isInterrupted()) {
+                try {
+                    tasks.take().run();
+                } catch (InterruptedException | NullPointerException e) {
+                    LOG.warning(e.getMessage());
+                }
+            }
+        }
+    }
+
     public Server(int port) {
         freshConnections = new ArrayList<>();
         allConnections = new ArrayList<>();
@@ -44,6 +62,8 @@ public class Server extends Thread {
             LOG.severe(e.getMessage());
         }
         this.start();
+        queueHandler = new Thread(new QueueHandler());
+        queueHandler.start();
     }
 
     private void startLogging() {
@@ -59,34 +79,36 @@ public class Server extends Thread {
     public void run() { // BLOCCA SE NON IN LOBBY
         while (!Thread.currentThread().isInterrupted()) {
             try {
-                LOG.info("Waiting for connection request");
                 token += 1;
                 String name = String.valueOf(token);
                 Socket client = serverSocket.accept();
-                ServerConnection c = new ServerConnection(this, client, name);
-                if(sessionController.isGameStarted()) { // DA SINCRONIZZARE SU LOCK
-                    c.denyConnection("The game has already started, you can't connect");
-                }
-                else {
-                    synchronized(connectionsLock) {
-                        freshConnections.add(c);
-                        allConnections.add(c);
-                        if (gameCreator == null) {
-                            setNewGameCreator();
-                        } // Se e' il primo player decide quante persone entreranno
-                    }
-                    if (isLobbyCreated()) {
-                        fillPlayersSlots();
-                    } // Fresh -> Pending se spazio e si sa quanti player giocano
-                    notifyFreshQueue(); // Aggiorna la coda Fresh sulla situazione
-                    LOG.info("Created new connection");
-                }
-            } catch (IOException e) {
-                Server.LOG.warning(e.getMessage());
-            } catch (NullPointerException e) {
-                Server.LOG.severe("The connection port is alreaday occupied");
+                tasks.add(() -> queueNewConnection(client,name));
+                } catch (IOException e) {
+                    Server.LOG.warning(e.getMessage());
+                } catch (NullPointerException e) {
+                    Server.LOG.severe("The connection port is alreaday occupied");
             }
+        }
+        queueHandler.interrupt();
+    }
 
+    private void queueNewConnection(Socket client, String name) {
+        ServerConnection c = new ServerConnection(this, client, name, tasks);
+        if(sessionController.isGameStarted()) { // DA SINCRONIZZARE SU LOCK
+            c.denyConnection("The game has already started, you can't connect");
+        }
+        else {
+            synchronized (connectionsLock) {
+                freshConnections.add(c);
+                allConnections.add(c);
+                if (gameCreator == null) {
+                    setNewGameCreator();
+                } // Se e' il primo player decide quante persone entreranno
+            }
+            if (isLobbyCreated()) {
+                fillPlayersSlots();
+            } // Fresh -> Pending se spazio e si sa quanti player giocano
+            notifyFreshQueue(); // Aggiorna la coda Fresh sulla situazione
         }
     }
 

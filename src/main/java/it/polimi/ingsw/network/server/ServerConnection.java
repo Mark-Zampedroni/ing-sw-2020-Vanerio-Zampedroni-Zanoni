@@ -1,16 +1,14 @@
 package it.polimi.ingsw.network.server;
 
-import it.polimi.ingsw.utility.enumerations.ConnectionLevel;
 import it.polimi.ingsw.utility.enumerations.MessageType;
 import it.polimi.ingsw.network.messages.Message;
-import it.polimi.ingsw.network.messages.lobby.RegistrationMessage;
 import it.polimi.ingsw.utility.observer.Observable;
 
-import java.io.EOFException;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
+import java.util.concurrent.BlockingQueue;
 
 public class ServerConnection extends Observable<Message> implements Runnable {
 
@@ -29,12 +27,15 @@ public class ServerConnection extends Observable<Message> implements Runnable {
     private ObjectInputStream input; // Not final because on error it may not initialize
     private ObjectOutputStream output;
 
+    private BlockingQueue<Runnable> tasks;
+
     private Thread listener;
 
-    public ServerConnection(Server server, Socket socket, String token) {
+    public ServerConnection(Server server, Socket socket, String token, BlockingQueue<Runnable> tasks) {
         Server.LOG.info("[CONNECTION] Creating virtual view");
         this.server = server;
         this.socket = socket;
+        this.tasks = tasks;
         try {
             this.input = new ObjectInputStream(socket.getInputStream());
             this.output = new ObjectOutputStream(socket.getOutputStream());
@@ -89,21 +90,25 @@ public class ServerConnection extends Observable<Message> implements Runnable {
                 Message msg = (Message) input.readObject();
                 synchronized (readLock) {
                     if (msg != null) {
-                        if (!inLobby) { // Message received by Server
-                            if (msg.getType() == MessageType.SLOTS_CHOICE) {
-                                server.startLobby(this, msg.getInfo());
-                            }
-                        } else { // Message received by View
-                            notify(msg); // Notify -> RemoteView -> SessionController
-                        }
+                        tasks.add(() -> queueMessage(msg));
                     }
                 }
-            } catch(ClassNotFoundException e){
+            } catch(ClassNotFoundException e) {
                 Server.LOG.severe("[CONNECTION] "+e.toString());
-            } catch(IOException e){
+            } catch(IOException e) {
                 Server.LOG.severe("[CONNECTION] "+e.toString());
                 disconnect();
             }
+        }
+    }
+
+    private void queueMessage(Message msg) {
+        if (!inLobby) { // Message received by Server
+            if (msg.getType() == MessageType.SLOTS_CHOICE) {
+                server.startLobby(this, msg.getInfo());
+            }
+        } else { // Message received by View
+            notify(msg); // Notify -> RemoteView -> SessionController
         }
     }
 

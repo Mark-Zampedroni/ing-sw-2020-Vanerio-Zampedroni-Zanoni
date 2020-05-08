@@ -75,7 +75,6 @@ public class SessionController implements Observer<Message>  {
             sendStateUpdate(); // Notify new state to clients
             //if(this.state != GameState.LOBBY) stateController.sendUpdate(); // Update clients info
         }
-
         LOG.info("Server switch to new state: "+state); // TEST
     }
 
