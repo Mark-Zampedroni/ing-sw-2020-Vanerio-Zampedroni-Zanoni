@@ -6,7 +6,7 @@ import java.util.Arrays;
 import java.util.List;
 
 /**
- * Playable gods, each {@link it.polimi.ingsw.MVC.model.player.Player player} can select one
+ * Playable gods, each {@link it.polimi.ingsw.mvc.model.player.Player player} can select one
  */
 public enum Gods implements Serializable {
     APOLLO("Your Move: Your Worker may move into an opponent Worker's space by forcing their Worker to the space yours just vacated."),
@@ -24,7 +24,7 @@ public enum Gods implements Serializable {
     HESTIA("Your Build: Your Worker may build one additional time, but this cannot be on a perimeter space."),
     HERA("Opponent's Turn: An opponent cannot win by moving into a perimeter space.");
 
-    String description;
+    private final String description;
     Gods (String description){
         this.description = description;
     }

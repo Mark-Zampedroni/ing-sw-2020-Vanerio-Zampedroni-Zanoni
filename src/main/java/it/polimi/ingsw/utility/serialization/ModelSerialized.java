@@ -1,11 +1,10 @@
 package it.polimi.ingsw.utility.serialization;
 
-import it.polimi.ingsw.MVC.model.Session;
-import it.polimi.ingsw.MVC.model.map.Board;
-import it.polimi.ingsw.MVC.model.player.Worker;
+import it.polimi.ingsw.mvc.model.Session;
+import it.polimi.ingsw.mvc.model.map.Board;
+import it.polimi.ingsw.mvc.model.player.Worker;
 
 import java.io.*;
-import java.util.ArrayList;
 import java.util.Base64;
 import java.util.List;
 
@@ -16,7 +15,7 @@ import java.util.List;
  */
 public class ModelSerialized implements Serializable {
 
-    private Session session;
+    private final Session session;
     private String fileName;
 
     /**

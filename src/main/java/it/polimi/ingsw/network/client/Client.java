@@ -8,8 +8,8 @@ import it.polimi.ingsw.network.messages.StateUpdateMessage;
 import it.polimi.ingsw.network.messages.lobby.LobbyUpdate;
 import it.polimi.ingsw.network.messages.Message;
 import it.polimi.ingsw.utility.observer.Observer;
-import it.polimi.ingsw.MVC.view.View;
-import it.polimi.ingsw.utility.serialization.DTO.DTOposition;
+import it.polimi.ingsw.mvc.view.View;
+import it.polimi.ingsw.utility.serialization.dto.DtoPosition;
 
 import java.io.IOException;
 import java.util.*;
@@ -20,16 +20,16 @@ public abstract class Client implements Observer<Message>, View {
     protected GameState state;
     protected String username;
 
-    private List<Runnable> requests;
+    private final List<Runnable> requests;
 
     protected ClientConnection connection;
 
     protected String challenger;
-    protected List<String> chosenGods; // Si può usare solo la mappa gods qui sotto, usando delle key segnaposto che poi si tolgono
+    protected final List<String> chosenGods; // Si può usare solo la mappa gods qui sotto, usando delle key segnaposto che poi si tolgono
     protected Map<String, Colors> players;
     protected Map<String, String> gods;
 
-    public Client(String ip, int port, int view) {
+    public Client() {
         chosenGods = new ArrayList<>();
         requests = new ArrayList<>();
     }
@@ -57,7 +57,7 @@ public abstract class Client implements Observer<Message>, View {
                 parseConnectionMessage(message);
                 break;
             case SLOTS_CHOICE: // PRE-LOBBY
-                parseSlotMessage(message);
+                parseSlotMessage();
                 break;
             case INFO: // PRE-LOBBY
                 parseInfoMessage(message);
@@ -100,7 +100,7 @@ public abstract class Client implements Observer<Message>, View {
     }
 
     /* CREAZIONE PARTITA */////////////////////////////////////////////////////////////////
-    private void parseSlotMessage(Message message) { // TEST CLI
+    private void parseSlotMessage() { // TEST CLI
         viewRequest(this::requestNumberOfPlayers);
     }
 
@@ -258,7 +258,7 @@ public abstract class Client implements Observer<Message>, View {
         return value >= 0 && value <= range;
     }
 
-    public boolean validatePosition(List<DTOposition> possiblePositions, int x, int y){
+    public boolean validatePosition(List<DtoPosition> possiblePositions, int x, int y){
         return possiblePositions.stream().anyMatch(p -> p.getX() == x && p.getY() == y);
     }
 

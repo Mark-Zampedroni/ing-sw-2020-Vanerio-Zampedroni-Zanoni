@@ -1,6 +1,6 @@
 package it.polimi.ingsw.utility.serialization;
 
-import it.polimi.ingsw.MVC.model.Session;
+import it.polimi.ingsw.mvc.model.Session;
 
 import java.io.*;
 

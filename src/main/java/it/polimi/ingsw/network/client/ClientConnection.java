@@ -1,9 +1,6 @@
 package it.polimi.ingsw.network.client;
 
-import it.polimi.ingsw.utility.enumerations.Colors;
-import it.polimi.ingsw.utility.exceptions.net.FailedConnectionException;
 import it.polimi.ingsw.network.messages.Message;
-import it.polimi.ingsw.network.messages.lobby.RegistrationMessage;
 import it.polimi.ingsw.utility.observer.Observable;
 
 import java.io.IOException;
@@ -33,11 +30,12 @@ public class ClientConnection extends Thread {
     private final List<Message> inQueue;
 
     private final Object queueLock = new Object();
+    private final ClientMessageReceiver messageReceiver;
 
-    private class ClientMessageReceiver extends Observable<Message> implements Runnable {
+    private static class ClientMessageReceiver extends Observable<Message> implements Runnable {
 
-        private Thread t;
-        private ClientConnection connection;
+        private final Thread t;
+        private final ClientConnection connection;
 
         public ClientMessageReceiver(ClientConnection connection, Client controller) {
             this.connection = connection;
@@ -75,7 +73,7 @@ public class ClientConnection extends Thread {
         inQueue = new ArrayList<>();
 
         startConnection();
-        new ClientMessageReceiver(this, controller);
+        messageReceiver = new ClientMessageReceiver(this, controller);
 
         LOG = Logger.getLogger("client");
         LOG.setUseParentHandlers(false);
@@ -126,6 +124,7 @@ public class ClientConnection extends Thread {
             }
             catch(IOException e) {
                 LOG.severe("Exception throw, connection closed");
+                messageReceiver.clear();
                 disconnect();
             }
         }

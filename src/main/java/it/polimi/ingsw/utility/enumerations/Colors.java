@@ -6,8 +6,8 @@ import java.util.Arrays;
 import java.util.List;
 
 /**
- * Colors that represent the {@link it.polimi.ingsw.MVC.model.player.Player player}'s
- * workers on the {@link it.polimi.ingsw.MVC.model.map.Board board}
+ * Colors that represent the {@link it.polimi.ingsw.mvc.model.player.Player player}'s
+ * workers on the {@link it.polimi.ingsw.mvc.model.map.Board board}
  */
 public enum Colors implements Serializable {
     BLUE, BROWN, WHITE;

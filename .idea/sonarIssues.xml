@@ -28,11 +28,6 @@
             <set />
           </value>
         </entry>
-        <entry key="$PROJECT_DIR$/pom.xml">
-          <value>
-            <set />
-          </value>
-        </entry>
         <entry key="$PROJECT_DIR$/src/main/java/MVC/controller/SessionController.java">
           <value>
             <set />
@@ -53,77 +48,12 @@
             <set />
           </value>
         </entry>
-        <entry key="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/ClientApp.java">
-          <value>
-            <set />
-          </value>
-        </entry>
         <entry key="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/MVC/controller/ActionController.java">
           <value>
             <set />
           </value>
         </entry>
-        <entry key="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/MVC/controller/SessionController.java">
-          <value>
-            <set />
-          </value>
-        </entry>
-        <entry key="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/MVC/controller/states/LobbyController.java">
-          <value>
-            <set />
-          </value>
-        </entry>
-        <entry key="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/MVC/controller/states/SelectionController.java">
-          <value>
-            <set />
-          </value>
-        </entry>
-        <entry key="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/MVC/controller/states/StateController.java">
-          <value>
-            <set />
-          </value>
-        </entry>
-        <entry key="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/MVC/controller/states/TurnController.java">
-          <value>
-            <set />
-          </value>
-        </entry>
-        <entry key="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/MVC/controller/states/actionControl/ActionController.java">
-          <value>
-            <set />
-          </value>
-        </entry>
         <entry key="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/MVC/model/Session.java">
-          <value>
-            <set />
-          </value>
-        </entry>
-        <entry key="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/MVC/model/player/Player.java">
-          <value>
-            <set />
-          </value>
-        </entry>
-        <entry key="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/MVC/model/rules/GodRules.java">
-          <value>
-            <set />
-          </value>
-        </entry>
-        <entry key="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/MVC/model/rules/gods/AthenaRules.java">
-          <value>
-            <set />
-          </value>
-        </entry>
-        <entry key="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/MVC/model/rules/gods/MinotaurRules.java">
-          <value>
-            <set />
-          </value>
-        </entry>
-        <entry key="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/MVC/model/rules/gods/PoseidonRules.java">
-          <value>
-            <set />
-          </value>
-        </entry>
-        <entry key="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/MVC/view/CLI/Ansi.java">
           <value>
             <set />
           </value>
@@ -134,26 +64,6 @@
           </value>
         </entry>
         <entry key="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/MVC/view/CLI/ScenarioBuilder.java">
-          <value>
-            <set />
-          </value>
-        </entry>
-        <entry key="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/MVC/view/CLI/SceneBuilder.java">
-          <value>
-            <set />
-          </value>
-        </entry>
-        <entry key="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/MVC/view/RemoteView.java">
-          <value>
-            <set />
-          </value>
-        </entry>
-        <entry key="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/MVC/view/View.java">
-          <value>
-            <set />
-          </value>
-        </entry>
-        <entry key="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/ServerApp.java">
           <value>
             <set />
           </value>
@@ -244,6 +154,11 @@
           </value>
         </entry>
         <entry key="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/model/serialization/ModelSerialized.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/mvc/view/CLI/Cli.java">
           <value>
             <set />
           </value>
@@ -413,32 +328,7 @@
             <set />
           </value>
         </entry>
-        <entry key="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/network/client/Client.java">
-          <value>
-            <set />
-          </value>
-        </entry>
-        <entry key="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/network/client/ClientConnection.java">
-          <value>
-            <set />
-          </value>
-        </entry>
         <entry key="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/network/client/ClientMessageReceiver.java">
-          <value>
-            <set />
-          </value>
-        </entry>
-        <entry key="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/network/messages/StateUpdateMessage.java">
-          <value>
-            <set />
-          </value>
-        </entry>
-        <entry key="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/network/messages/game/ActionMessage.java">
-          <value>
-            <set />
-          </value>
-        </entry>
-        <entry key="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/network/messages/game/ActionRequestMessage.java">
           <value>
             <set />
           </value>
@@ -463,22 +353,7 @@
             <set />
           </value>
         </entry>
-        <entry key="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/network/messages/lobby/LobbyUpdate.java">
-          <value>
-            <set />
-          </value>
-        </entry>
         <entry key="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/network/server/QueueHandler.java">
-          <value>
-            <set />
-          </value>
-        </entry>
-        <entry key="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/network/server/Server.java">
-          <value>
-            <set />
-          </value>
-        </entry>
-        <entry key="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/network/server/ServerConnection.java">
           <value>
             <set />
           </value>
@@ -523,62 +398,22 @@
             <set />
           </value>
         </entry>
-        <entry key="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/utility/enumerations/Action.java">
-          <value>
-            <set />
-          </value>
-        </entry>
-        <entry key="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/utility/enumerations/GameState.java">
-          <value>
-            <set />
-          </value>
-        </entry>
-        <entry key="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/utility/enumerations/Gods.java">
-          <value>
-            <set />
-          </value>
-        </entry>
-        <entry key="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/utility/enumerations/MessageType.java">
-          <value>
-            <set />
-          </value>
-        </entry>
-        <entry key="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/utility/persistency/SavedDataClass.java">
-          <value>
-            <set />
-          </value>
-        </entry>
-        <entry key="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/utility/serialization/DTO/DTOboard.java">
-          <value>
-            <set />
-          </value>
-        </entry>
         <entry key="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/utility/serialization/DTO/DTOplayer.java">
           <value>
             <set />
           </value>
         </entry>
-        <entry key="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/utility/serialization/DTO/DTOposition.java">
+        <entry key="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/utility/serialization/dto/DTOposition.java">
           <value>
             <set />
           </value>
         </entry>
-        <entry key="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/utility/serialization/DTO/DTOsession.java">
+        <entry key="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/utility/serialization/dto/DTOworker.java">
           <value>
             <set />
           </value>
         </entry>
-        <entry key="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/utility/serialization/DTO/DTOtile.java">
-          <value>
-            <set />
-          </value>
-        </entry>
-        <entry key="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/utility/serialization/DTO/DTOworker.java">
-          <value>
-            <set />
-          </value>
-        </entry>
-        <entry key="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/utility/serialization/ModelSerialized.java">
+        <entry key="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/utility/serialization/dto/dtoTile.java">
           <value>
             <set />
           </value>
@@ -643,32 +478,12 @@
             <set />
           </value>
         </entry>
-        <entry key="$PROJECT_DIR$/src/test/java/it/polimi/ingsw/MVC/TestClient.java">
-          <value>
-            <set />
-          </value>
-        </entry>
-        <entry key="$PROJECT_DIR$/src/test/java/it/polimi/ingsw/MVC/TestServer.java">
-          <value>
-            <set />
-          </value>
-        </entry>
         <entry key="$PROJECT_DIR$/src/test/java/it/polimi/ingsw/MVC/controller/ActionControllerTest.java">
           <value>
             <set />
           </value>
         </entry>
-        <entry key="$PROJECT_DIR$/src/test/java/it/polimi/ingsw/MVC/controller/FSMTest.java">
-          <value>
-            <set />
-          </value>
-        </entry>
         <entry key="$PROJECT_DIR$/src/test/java/it/polimi/ingsw/MVC/controller/LobbyControllerTest.java">
-          <value>
-            <set />
-          </value>
-        </entry>
-        <entry key="$PROJECT_DIR$/src/test/java/it/polimi/ingsw/MVC/controller/SessionControllerTest.java">
           <value>
             <set />
           </value>
@@ -683,17 +498,7 @@
             <set />
           </value>
         </entry>
-        <entry key="$PROJECT_DIR$/src/test/java/it/polimi/ingsw/MVC/controller/states/ActionControllerTest.java">
-          <value>
-            <set />
-          </value>
-        </entry>
         <entry key="$PROJECT_DIR$/src/test/java/it/polimi/ingsw/MVC/controller/states/LobbyControllerTest.java">
-          <value>
-            <set />
-          </value>
-        </entry>
-        <entry key="$PROJECT_DIR$/src/test/java/it/polimi/ingsw/MVC/controller/states/UnreachableMethodsTest.java">
           <value>
             <set />
           </value>
@@ -708,92 +513,7 @@
             <set />
           </value>
         </entry>
-        <entry key="$PROJECT_DIR$/src/test/java/it/polimi/ingsw/MVC/model/player/PlayerTest.java">
-          <value>
-            <set />
-          </value>
-        </entry>
-        <entry key="$PROJECT_DIR$/src/test/java/it/polimi/ingsw/MVC/model/player/WorkerTest.java">
-          <value>
-            <set />
-          </value>
-        </entry>
-        <entry key="$PROJECT_DIR$/src/test/java/it/polimi/ingsw/MVC/model/rules/CheckTest.java">
-          <value>
-            <set />
-          </value>
-        </entry>
-        <entry key="$PROJECT_DIR$/src/test/java/it/polimi/ingsw/MVC/model/rules/CommonRulesTest.java">
-          <value>
-            <set />
-          </value>
-        </entry>
-        <entry key="$PROJECT_DIR$/src/test/java/it/polimi/ingsw/MVC/model/rules/gods/ApolloRulesTest.java">
-          <value>
-            <set />
-          </value>
-        </entry>
-        <entry key="$PROJECT_DIR$/src/test/java/it/polimi/ingsw/MVC/model/rules/gods/ArtemisRulesTest.java">
-          <value>
-            <set />
-          </value>
-        </entry>
-        <entry key="$PROJECT_DIR$/src/test/java/it/polimi/ingsw/MVC/model/rules/gods/AthenaRulesTest.java">
-          <value>
-            <set />
-          </value>
-        </entry>
         <entry key="$PROJECT_DIR$/src/test/java/it/polimi/ingsw/MVC/model/rules/gods/AtlasRulesTest.java">
-          <value>
-            <set />
-          </value>
-        </entry>
-        <entry key="$PROJECT_DIR$/src/test/java/it/polimi/ingsw/MVC/model/rules/gods/DemeterRulesTest.java">
-          <value>
-            <set />
-          </value>
-        </entry>
-        <entry key="$PROJECT_DIR$/src/test/java/it/polimi/ingsw/MVC/model/rules/gods/HephaestusRulesTest.java">
-          <value>
-            <set />
-          </value>
-        </entry>
-        <entry key="$PROJECT_DIR$/src/test/java/it/polimi/ingsw/MVC/model/rules/gods/HeraRulesTest.java">
-          <value>
-            <set />
-          </value>
-        </entry>
-        <entry key="$PROJECT_DIR$/src/test/java/it/polimi/ingsw/MVC/model/rules/gods/HestiaRulesTest.java">
-          <value>
-            <set />
-          </value>
-        </entry>
-        <entry key="$PROJECT_DIR$/src/test/java/it/polimi/ingsw/MVC/model/rules/gods/MinotaurRulesTest.java">
-          <value>
-            <set />
-          </value>
-        </entry>
-        <entry key="$PROJECT_DIR$/src/test/java/it/polimi/ingsw/MVC/model/rules/gods/PanRulesTest.java">
-          <value>
-            <set />
-          </value>
-        </entry>
-        <entry key="$PROJECT_DIR$/src/test/java/it/polimi/ingsw/MVC/model/rules/gods/PoseidonRulesTest.java">
-          <value>
-            <set />
-          </value>
-        </entry>
-        <entry key="$PROJECT_DIR$/src/test/java/it/polimi/ingsw/MVC/model/rules/gods/PrometheusRulesTest.java">
-          <value>
-            <set />
-          </value>
-        </entry>
-        <entry key="$PROJECT_DIR$/src/test/java/it/polimi/ingsw/MVC/model/rules/gods/TritonRulesTest.java">
-          <value>
-            <set />
-          </value>
-        </entry>
-        <entry key="$PROJECT_DIR$/src/test/java/it/polimi/ingsw/MVC/model/rules/gods/ZeusRulesTest.java">
           <value>
             <set />
           </value>
@@ -909,16 +629,6 @@
           </value>
         </entry>
         <entry key="$PROJECT_DIR$/src/test/java/it/polimi/ingsw/rules/gods/ZeusRulesTest.java">
-          <value>
-            <set />
-          </value>
-        </entry>
-        <entry key="$PROJECT_DIR$/src/test/java/it/polimi/ingsw/serializationTest/DTOtest/DTOpositionTest.java">
-          <value>
-            <set />
-          </value>
-        </entry>
-        <entry key="$PROJECT_DIR$/src/test/java/it/polimi/ingsw/serializationTest/ModelSerializedTest.java">
           <value>
             <set />
           </value>

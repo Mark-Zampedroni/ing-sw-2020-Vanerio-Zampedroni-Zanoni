@@ -1,9 +1,9 @@
 package it.polimi.ingsw.utility.persistency;
 
-import it.polimi.ingsw.MVC.controller.states.actionControl.ActionController;
-import it.polimi.ingsw.MVC.controller.SessionController;
-import it.polimi.ingsw.MVC.controller.states.TurnController;
-import it.polimi.ingsw.MVC.model.Session;
+import it.polimi.ingsw.mvc.controller.states.actionControl.ActionController;
+import it.polimi.ingsw.mvc.controller.SessionController;
+import it.polimi.ingsw.mvc.controller.states.TurnController;
+import it.polimi.ingsw.mvc.model.Session;
 
 
 import java.io.Serializable;
@@ -12,8 +12,8 @@ class SavedDataClass implements Serializable {
 
     private static final long serialVersionUID= 4L;
 
-    private Session session;
-    private SessionController sessionController;
+    private final Session session;
+    private final SessionController sessionController;
     private TurnController turnController;
     private ActionController actionController;
     //qualcosa che abbia i dati relativi alla connessione

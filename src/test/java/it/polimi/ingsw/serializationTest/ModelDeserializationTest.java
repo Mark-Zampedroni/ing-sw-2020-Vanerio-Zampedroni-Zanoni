@@ -1,10 +1,7 @@
 package it.polimi.ingsw.serializationTest;
 
-import it.polimi.ingsw.MVC.model.player.Player;
-import it.polimi.ingsw.MVC.model.rules.GodRules;
-
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import it.polimi.ingsw.mvc.model.player.Player;
+import it.polimi.ingsw.mvc.model.rules.GodRules;
 
 public class ModelDeserializationTest {
 

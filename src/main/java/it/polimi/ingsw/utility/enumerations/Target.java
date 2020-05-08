@@ -1,9 +1,9 @@
 package it.polimi.ingsw.utility.enumerations;
 
-import it.polimi.ingsw.MVC.model.player.Worker;
+import it.polimi.ingsw.mvc.model.player.Worker;
 
 /**
- * Possible relationship between any two {@link it.polimi.ingsw.MVC.model.player.Worker workers}
+ * Possible relationship between any two {@link it.polimi.ingsw.mvc.model.player.Worker workers}
  */
 public enum Target {
     ALLY { public boolean compareWorkers(Worker worker, Worker that) {

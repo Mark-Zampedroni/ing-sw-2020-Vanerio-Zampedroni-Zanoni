@@ -27,7 +27,7 @@ public class ServerConnection extends Observable<Message> implements Runnable {
     private ObjectInputStream input; // Not final because on error it may not initialize
     private ObjectOutputStream output;
 
-    private BlockingQueue<Runnable> tasks;
+    private final BlockingQueue<Runnable> tasks;
 
     private Thread listener;
 

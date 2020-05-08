@@ -1,6 +1,6 @@
 package it.polimi.ingsw.utility.persistency;
 
-import it.polimi.ingsw.MVC.controller.SessionController;
+import it.polimi.ingsw.mvc.controller.SessionController;
 
 import java.io.*;
 

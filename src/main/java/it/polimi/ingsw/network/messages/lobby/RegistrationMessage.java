@@ -6,7 +6,7 @@ import it.polimi.ingsw.network.messages.Message;
 
 public class RegistrationMessage extends Message {
 
-    private Colors color;
+    private final Colors color;
 
     public RegistrationMessage(String sender, String info, Colors color) {
         super(MessageType.REGISTRATION, sender, info);

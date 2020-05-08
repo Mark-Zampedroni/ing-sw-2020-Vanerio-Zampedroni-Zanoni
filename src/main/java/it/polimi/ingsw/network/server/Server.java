@@ -1,7 +1,6 @@
 package it.polimi.ingsw.network.server;
 
-import it.polimi.ingsw.MVC.controller.SessionController;
-import it.polimi.ingsw.utility.enumerations.ConnectionLevel;
+import it.polimi.ingsw.mvc.controller.SessionController;
 import it.polimi.ingsw.utility.enumerations.GameState;
 import it.polimi.ingsw.utility.enumerations.MessageType;
 import it.polimi.ingsw.network.messages.Message;
@@ -28,7 +27,7 @@ public class Server extends Thread {
 
     private final Object connectionsLock = new Object();
 
-    private SessionController sessionController;
+    private final SessionController sessionController;
     private ServerConnection gameCreator;
 
     private int token = 0;
@@ -36,7 +35,7 @@ public class Server extends Thread {
     public static final Logger LOG = Logger.getLogger("Server");
 
     private final BlockingQueue<Runnable> tasks = new LinkedBlockingQueue<>();
-    private Thread queueHandler;
+    private final Thread queueHandler;
 
     private class QueueHandler implements Runnable {
         @Override

@@ -9,7 +9,6 @@ public enum MessageType {
     DISCONNECT,
     STATE_UPDATE,
     LOBBY_UPDATE,
-    READY,
     CHALLENGER_SELECTION,
     ASK_PLAYER_GOD,
     SELECTED_GODS_CHANGE,
