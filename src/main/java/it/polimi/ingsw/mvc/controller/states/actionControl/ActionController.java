@@ -10,10 +10,11 @@ import it.polimi.ingsw.mvc.model.player.Player;
 import it.polimi.ingsw.mvc.model.player.Worker;
 import it.polimi.ingsw.mvc.model.rules.GodRules;
 
+import java.io.Serializable;
 import java.util.*;
 
 /* Interfaccia con le azioni sul Model, controlla se sia eseguibile l'azione e l'effettua */
-public class ActionController {
+public class ActionController implements Serializable {
 
     private final Player player;
     private final GodRules rules;

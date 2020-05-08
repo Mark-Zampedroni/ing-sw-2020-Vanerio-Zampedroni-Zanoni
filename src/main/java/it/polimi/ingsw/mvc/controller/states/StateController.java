@@ -7,16 +7,17 @@ import it.polimi.ingsw.utility.enumerations.Colors;
 import it.polimi.ingsw.network.messages.Message;
 import it.polimi.ingsw.mvc.view.RemoteView;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.logging.Logger;
 
-public abstract class StateController {
+public abstract class StateController implements Serializable {
 
-    protected final Map<String, RemoteView> views;
-    protected final SessionController controller;
-    protected final Logger LOG;
+    protected transient final Map<String, RemoteView> views;
+    protected transient final SessionController controller;
+    protected transient final Logger LOG;
 
     public StateController(SessionController controller, Map<String, RemoteView> views, Logger LOG) {
         this.controller = controller;

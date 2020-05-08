@@ -13,14 +13,15 @@ import it.polimi.ingsw.network.server.ServerConnection;
 import it.polimi.ingsw.mvc.view.RemoteView;
 import it.polimi.ingsw.utility.enumerations.MessageType;
 
+import java.io.Serializable;
 import java.util.*;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
-public class LobbyController extends StateController {
+public class LobbyController extends StateController implements Serializable {
 
-    private final Map<String, RemoteView> pendingConnections;
-    private final List<ServerConnection> freshConnections;
+    private transient final Map<String, RemoteView> pendingConnections;
+    private transient final List<ServerConnection> freshConnections;
 
     public LobbyController(SessionController controller, Map<String, RemoteView> views, Logger LOG, List<ServerConnection> unregistered) {
         super(controller, views, LOG);

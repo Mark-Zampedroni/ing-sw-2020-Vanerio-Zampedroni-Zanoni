@@ -1,6 +1,8 @@
 package it.polimi.ingsw.utility.enumerations;
 
-public enum GameState {
+import java.io.Serializable;
+
+public enum GameState implements Serializable {
     CONNECTION,
     PRE_LOBBY,
     LOGIN,

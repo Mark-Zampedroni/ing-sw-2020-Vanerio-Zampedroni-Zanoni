@@ -11,10 +11,11 @@ import it.polimi.ingsw.mvc.model.player.Player;
 import it.polimi.ingsw.network.messages.Message;
 import it.polimi.ingsw.mvc.view.RemoteView;
 
+import java.io.Serializable;
 import java.util.*;
 import java.util.logging.Logger;
 
-public class SelectionController extends StateController {
+public class SelectionController extends StateController implements Serializable {
 
 
     private final List<String> chosenGod = new ArrayList<>();

@@ -56,6 +56,8 @@ public class SessionController implements Observer<Message>  {
 
     public boolean isGameStarted() { return (state != GameState.LOBBY); }
 
+    public StateController getStateController() {return stateController;}
+
     // Cambia stato
     public void switchState(GameState state) {
         this.state = state;

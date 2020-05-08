@@ -15,13 +15,14 @@ import it.polimi.ingsw.mvc.model.player.Worker;
 import it.polimi.ingsw.network.messages.Message;
 import it.polimi.ingsw.utility.serialization.dto.DtoPosition;
 
+import java.io.Serializable;
 import java.util.*;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
 /* Controller della sequenza delle azioni, invoca i metodi di ActionController per richiederne l'esecuzione */
 /* possibleActions = { WIN } => ha vinto ; possibleActions.isEmpty() => ha perso */
-public class TurnController extends StateController {
+public class TurnController extends StateController implements Serializable {
 
     private final List<Player> players;
     private Map<Action, List<DtoPosition>> possibleActions;
