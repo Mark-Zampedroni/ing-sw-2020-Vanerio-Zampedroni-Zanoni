@@ -15,6 +15,8 @@ import java.util.List;
  */
 public class ArtemisRules extends EventRules implements Serializable {
 
+    private static final long serialVersionUID = 513147746771236606L;
+
     /**
      * Returns a list of possible {@link Action actions} after the
      * {@link it.polimi.ingsw.mvc.model.player.Player player}

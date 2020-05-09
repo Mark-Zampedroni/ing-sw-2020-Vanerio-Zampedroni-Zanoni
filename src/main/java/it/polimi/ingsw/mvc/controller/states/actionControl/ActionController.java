@@ -16,6 +16,7 @@ import java.util.*;
 /* Interfaccia con le azioni sul Model, controlla se sia eseguibile l'azione e l'effettua */
 public class ActionController implements Serializable {
 
+    private static final long serialVersionUID = 4736242274347489291L;
     private final Player player;
     private final GodRules rules;
     private final TurnController controller;

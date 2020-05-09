@@ -6,6 +6,7 @@ import java.io.Serializable;
 
 public abstract class EventRules extends CommonRules implements Serializable {
 
+    private static final long serialVersionUID = -3930788283599303166L;
     private boolean event;
     private Position pos;
 

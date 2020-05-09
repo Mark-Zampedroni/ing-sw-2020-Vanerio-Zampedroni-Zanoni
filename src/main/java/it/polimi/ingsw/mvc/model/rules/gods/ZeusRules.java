@@ -8,7 +8,11 @@ import it.polimi.ingsw.mvc.model.player.Worker;
 import it.polimi.ingsw.mvc.model.rules.Check;
 import it.polimi.ingsw.mvc.model.rules.GodRules;
 
-public class ZeusRules extends GodRules {
+import java.io.Serializable;
+
+public class ZeusRules extends GodRules implements Serializable {
+    private static final long serialVersionUID = -1893676945355386524L;
+
     /**
      * Checks if by the rules it's physically possible to perform a build {@link Action action}
      *

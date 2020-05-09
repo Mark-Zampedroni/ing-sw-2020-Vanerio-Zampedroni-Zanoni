@@ -16,6 +16,7 @@ import java.util.List;
 
 public class Player implements Serializable {
 
+    private static final long serialVersionUID = 1606644735117861200L;
     private final String username;
     private GodRules rules;
     private final ArrayList<Worker> workers;

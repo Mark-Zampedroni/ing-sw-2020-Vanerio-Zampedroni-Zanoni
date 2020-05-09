@@ -16,6 +16,7 @@ import java.util.List;
  */
 public class PoseidonRules extends EventRules implements Serializable {
 
+    private static final long serialVersionUID = 6425590845136672804L;
     private int counter;
     private Worker movedWorker;
     private Worker unmovedWorker;

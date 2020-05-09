@@ -18,6 +18,7 @@ import java.util.logging.Logger;
 public class SelectionController extends StateController implements Serializable {
 
 
+    private static final long serialVersionUID = -1391531620876546345L;
     private final List<String> chosenGod = new ArrayList<>();
     private final Session session;
     private final Player challenger;

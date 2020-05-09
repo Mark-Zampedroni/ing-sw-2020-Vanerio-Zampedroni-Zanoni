@@ -16,6 +16,8 @@ import java.util.List;
 
 public class HestiaRules extends EventRules implements Serializable {
 
+    private static final long serialVersionUID = 6239381109670423644L;
+
     /**
      * Executes a build {@link Action action}, if it is the first build {@link Action action}
      * calls the {@link #setEvent setEvent} with {@code true} argument

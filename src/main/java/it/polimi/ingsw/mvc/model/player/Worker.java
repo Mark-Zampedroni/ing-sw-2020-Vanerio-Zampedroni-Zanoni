@@ -11,6 +11,7 @@ import java.io.Serializable;
  */
 public class Worker implements Serializable {
 
+    private static final long serialVersionUID = -2224684437398041041L;
     private Position position;
 
     /**

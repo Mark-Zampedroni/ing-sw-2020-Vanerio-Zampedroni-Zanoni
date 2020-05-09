@@ -27,6 +27,7 @@ import static it.polimi.ingsw.utility.constants.Height.TOP;
 public abstract class GodRules extends Observable<DtoSession> implements Serializable {
 
     static final List<EnemyRules> enemyModifiers = new ArrayList<>();
+    private static final long serialVersionUID = 5054362736166633442L;
 
     /**
      * Executes a movement {@link Action action}

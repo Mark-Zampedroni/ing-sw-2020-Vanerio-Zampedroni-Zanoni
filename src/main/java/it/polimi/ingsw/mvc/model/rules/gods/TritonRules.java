@@ -13,6 +13,8 @@ import java.util.List;
  */
 public class TritonRules extends EventRules implements Serializable {
 
+    private static final long serialVersionUID = -4240895679955654178L;
+
     /**
      * Executes a movement {@link Action action}, if the movement is on a boundary tile calls the {@link #setEvent setEvent} with {@code true}
      * argument else with {@code false} argument

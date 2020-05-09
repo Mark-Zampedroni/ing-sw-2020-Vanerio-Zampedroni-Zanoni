@@ -13,6 +13,8 @@ import java.io.Serializable;
  */
 public class AtlasRules extends EventRules implements Serializable {
 
+    private static final long serialVersionUID = 1782644679931349574L;
+
     /**
      * Executes a build {@link Action action}, if the {@link #getEvent() getEvent} flag
      * is {@code true} it {@link Action builds} a Dome

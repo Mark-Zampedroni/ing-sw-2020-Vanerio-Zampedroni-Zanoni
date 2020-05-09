@@ -12,6 +12,7 @@ public class Board implements Serializable {
     public static final int HEIGHT = 5;
 
     private final static Tile[][] tiles = new Tile[Board.WIDTH][Board.HEIGHT];
+    private static final long serialVersionUID = 30756855033943045L;
 
     /**
      * Initializes the board calling the method {@link #clear() clear}

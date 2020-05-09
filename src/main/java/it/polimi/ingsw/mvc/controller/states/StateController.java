@@ -15,6 +15,7 @@ import java.util.logging.Logger;
 
 public abstract class StateController implements Serializable {
 
+    private static final long serialVersionUID = -7974027435942352531L;
     protected transient final Map<String, RemoteView> views;
     protected transient final SessionController controller;
     protected transient final Logger LOG;

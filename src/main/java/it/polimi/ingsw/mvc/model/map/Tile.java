@@ -8,6 +8,7 @@ import static it.polimi.ingsw.utility.constants.Height.*;
  */
 public class Tile implements Serializable {
 
+    private static final long serialVersionUID = 326927623142205908L;
     private int height;
     private boolean dome;
 

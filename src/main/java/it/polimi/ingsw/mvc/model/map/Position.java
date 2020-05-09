@@ -11,6 +11,7 @@ import java.io.Serializable;
  */
 public class Position implements Serializable {
 
+    private static final long serialVersionUID = 4895645710384390980L;
     private final int x;
     private final int y;
 

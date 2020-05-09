@@ -24,6 +24,7 @@ import java.util.stream.Collectors;
 /* possibleActions = { WIN } => ha vinto ; possibleActions.isEmpty() => ha perso */
 public class TurnController extends StateController implements Serializable {
 
+    private static final long serialVersionUID = 3510638136440918631L;
     private final List<Player> players;
     private Map<Action, List<DtoPosition>> possibleActions;
 

@@ -11,10 +11,14 @@ import it.polimi.ingsw.mvc.model.rules.Check;
 import it.polimi.ingsw.mvc.model.rules.GodRules;
 import it.polimi.ingsw.utility.serialization.dto.DtoSession;
 
+import java.io.Serializable;
+
 /**
  * Rules for a player with Apollo as God
  */
-public class ApolloRules extends GodRules {
+public class ApolloRules extends GodRules implements Serializable {
+
+    private static final long serialVersionUID = 7507382338554029213L;
 
     /**
      * Executes a movement {@link Action action}, eventually switch the {@link Worker worker}'s {@link Position oldPosition}

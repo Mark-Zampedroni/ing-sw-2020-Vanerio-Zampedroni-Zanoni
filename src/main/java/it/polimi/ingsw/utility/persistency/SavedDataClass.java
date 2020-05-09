@@ -21,7 +21,7 @@ import java.util.logging.Logger;
 
 class SavedDataClass implements Serializable {
 
-    private static final long serialVersionUID= 4L;
+    private static final long serialVersionUID = -8284194909335487737L;
 
     private Session session;
     private StateController stateController;

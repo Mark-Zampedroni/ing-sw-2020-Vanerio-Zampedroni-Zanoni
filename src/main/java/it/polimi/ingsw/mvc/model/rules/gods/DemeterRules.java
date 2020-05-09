@@ -16,6 +16,8 @@ import java.util.List;
 
 public class DemeterRules extends EventRules implements Serializable {
 
+    private static final long serialVersionUID = -6737697310818572309L;
+
     /**
      * Executes a build {@link Action action}, if it is the first build {@link Action action}
      * calls the {@link #setEvent setEvent} with {@code true} argument and calls the

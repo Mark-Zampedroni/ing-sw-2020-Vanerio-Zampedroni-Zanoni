@@ -7,7 +7,11 @@ import it.polimi.ingsw.mvc.model.player.*;
 import it.polimi.ingsw.mvc.model.rules.Check;
 import it.polimi.ingsw.mvc.model.rules.EnemyRules;
 
-public class AthenaRules extends EnemyRules {
+import java.io.Serializable;
+
+public class AthenaRules extends EnemyRules implements Serializable {
+
+    private static final long serialVersionUID = -152466532092964491L;
 
     @Override
     public void executeMove(Worker worker, Position position) {

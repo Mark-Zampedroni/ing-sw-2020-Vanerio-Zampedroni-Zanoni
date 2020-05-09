@@ -5,7 +5,11 @@ import it.polimi.ingsw.mvc.model.map.Position;
 import it.polimi.ingsw.mvc.model.player.Worker;
 import it.polimi.ingsw.mvc.model.rules.CommonRules;
 
-public class PanRules extends CommonRules {
+import java.io.Serializable;
+
+public class PanRules extends CommonRules implements Serializable {
+    private static final long serialVersionUID = -4382896954451533930L;
+
     /**
      * Method to evaluate if the {@link Worker worker}'s
      * {@link it.polimi.ingsw.mvc.model.player.Player master} wins the game

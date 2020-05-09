@@ -13,6 +13,8 @@ import java.io.Serializable;
  */
 public abstract class CommonRules extends GodRules implements Serializable {
 
+    private static final long serialVersionUID = -7868858109759746638L;
+
     /**
      * Checks if by the rules it's physically possible to perform a build {@link Action action}
      *

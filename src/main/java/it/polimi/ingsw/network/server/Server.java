@@ -52,6 +52,24 @@ public class Server extends Thread {
         }
     }
 
+
+    public Server (int port, Boolean loadGame) {
+        freshConnections = new ArrayList<>();
+        allConnections = new ArrayList<>();
+        startLogging();
+        sessionController = new SessionController(freshConnections, LOG); // Controller
+        try {
+            serverSocket = new ServerSocket(port);
+        } catch(IOException e) {
+            LOG.severe(e.getMessage());
+        }
+        this.start();
+        queueHandler = new Thread(new QueueHandler());
+        queueHandler.start();
+        saveHandler = new SaveHandler(this, sessionController, true);
+        saveHandler.start();
+    }
+
     public Server(int port) {
         freshConnections = new ArrayList<>();
         allConnections = new ArrayList<>();

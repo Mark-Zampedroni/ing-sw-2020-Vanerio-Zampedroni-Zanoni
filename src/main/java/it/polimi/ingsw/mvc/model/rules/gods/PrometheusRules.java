@@ -15,6 +15,8 @@ import java.util.List;
  */
 public class PrometheusRules extends EventRules implements Serializable {
 
+    private static final long serialVersionUID = 6128545018299786443L;
+
     /**
      * Executes a build {@link Action action}, if is the first build {@link Action action}
      * calls the {@link #setEvent setEvent} with {@code true} argument

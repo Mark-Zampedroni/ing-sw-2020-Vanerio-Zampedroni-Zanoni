@@ -10,11 +10,15 @@ import it.polimi.ingsw.mvc.model.player.Worker;
 import it.polimi.ingsw.mvc.model.rules.Check;
 import it.polimi.ingsw.utility.serialization.dto.DtoSession;
 
+import java.io.Serializable;
+
 
 /**
  * Rules for a player with Minotaur as God
  */
-public class MinotaurRules extends ApolloRules {
+public class MinotaurRules extends ApolloRules implements Serializable {
+
+    private static final long serialVersionUID = -3906822084144057573L;
 
     /**
      * Executes a movement {@link Action action}, eventually push the {@link Worker worker} of an {@link Player opponent}

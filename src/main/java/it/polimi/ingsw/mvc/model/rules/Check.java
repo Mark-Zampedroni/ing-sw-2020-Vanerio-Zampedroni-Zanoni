@@ -8,9 +8,13 @@ import it.polimi.ingsw.mvc.model.map.Board;
 import it.polimi.ingsw.mvc.model.map.Position;
 import it.polimi.ingsw.mvc.model.player.Worker;
 
+import java.io.Serializable;
+
 import static it.polimi.ingsw.utility.constants.Height.*;
 
-public class Check {
+public class Check implements Serializable {
+
+    private static final long serialVersionUID = 6347275335033595844L;
 
     public Check() throws NotInstantiableClass {
         throw new NotInstantiableClass();

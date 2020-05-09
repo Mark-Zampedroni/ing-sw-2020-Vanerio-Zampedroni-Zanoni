@@ -16,6 +16,7 @@ import java.util.Random;
 public class Session implements Serializable {
     private static final ArrayList<Player> players = new ArrayList<>();
     private static final Board board = new Board();
+    private static final long serialVersionUID = 3969372125515778369L;
     private static boolean started;
     private static Session instance;
 

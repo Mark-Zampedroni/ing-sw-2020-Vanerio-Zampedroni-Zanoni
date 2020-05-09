@@ -15,6 +15,8 @@ import java.util.List;
  */
 public class HephaestusRules extends EventRules implements Serializable {
 
+    private static final long serialVersionUID = -1708343556340324002L;
+
     /**
      * Executes a build {@link Action action}, if it is the first build {@link Action action}
      * calls the {@link #setEvent setEvent} with {@code true} argument and calls the
