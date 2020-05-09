@@ -12,6 +12,7 @@ import java.util.ArrayList;
  */
 public class DtoSession implements Serializable {
 
+    private static final long serialVersionUID = 553656941565758029L;
     private final DtoBoard board;
     private final ArrayList<DtoWorker> workers;
 

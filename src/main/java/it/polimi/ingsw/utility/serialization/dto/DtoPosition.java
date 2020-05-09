@@ -8,6 +8,7 @@ import java.io.Serializable;
  * DTO copy of the class {@link Position Position}
  */
 public class DtoPosition implements Serializable {
+    private static final long serialVersionUID = -8141609635185613115L;
     private final int x;
     private final int y;
 

@@ -10,6 +10,7 @@ import java.io.Serializable;
 
 public class DtoWorker implements Serializable {
 
+    private static final long serialVersionUID = 5476611340980895309L;
     private final String masterUsername;
     private final DtoPosition position;
 

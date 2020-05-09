@@ -5,6 +5,7 @@ import it.polimi.ingsw.mvc.model.map.Tile;
 import java.io.Serializable;
 
 public class DtoTile implements Serializable {
+    private static final long serialVersionUID = -1540738678773220733L;
     private final int height;
     private final boolean dome;
 
