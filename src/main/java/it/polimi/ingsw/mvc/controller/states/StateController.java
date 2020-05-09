@@ -16,8 +16,9 @@ import java.util.logging.Logger;
 public abstract class StateController implements Serializable {
 
     private static final long serialVersionUID = -7974027435942352531L;
+
     protected transient final Map<String, RemoteView> views;
-    protected transient final SessionController controller;
+    protected transient SessionController controller;
     protected transient final Logger LOG;
 
     public StateController(SessionController controller, Map<String, RemoteView> views, Logger LOG) {
@@ -44,6 +45,13 @@ public abstract class StateController implements Serializable {
         return new ArrayList<>(); // Empty, Override in Lobby
     }
 
+    public SessionController getController() {
+        return controller;
+    }
+
+    public void setController(SessionController controller) {
+        this.controller= controller;
+    }
 
     public void addUnregisteredView(ServerConnection connection) {
         LOG.warning("addUnregisteredView called on wrong state");

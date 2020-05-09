@@ -1,9 +1,6 @@
 package it.polimi.ingsw.mvc.controller;
 
-import it.polimi.ingsw.mvc.controller.states.LobbyController;
-import it.polimi.ingsw.mvc.controller.states.SelectionController;
-import it.polimi.ingsw.mvc.controller.states.StateController;
-import it.polimi.ingsw.mvc.controller.states.TurnController;
+import it.polimi.ingsw.mvc.controller.states.*;
 import it.polimi.ingsw.utility.enumerations.Colors;
 import it.polimi.ingsw.utility.enumerations.GameState;
 import it.polimi.ingsw.utility.enumerations.MessageType;
@@ -35,6 +32,13 @@ public class SessionController implements Observer<Message>  {
 
     private final Map<String, RemoteView> views = new HashMap<>();
 
+    public SessionController(List<ServerConnection> connections, Logger LOG, Session session, GameState state, StateController stateController){
+        SessionController.LOG = LOG;
+        this.session = session;
+        this.state = state;
+        this.stateController = new DiffLobbyController(stateController, this, views, LOG, connections );
+    }
+
     public SessionController(List<ServerConnection> connections, Logger LOG) {
         SessionController.LOG = LOG;
         session = Session.getInstance();
@@ -57,6 +61,16 @@ public class SessionController implements Observer<Message>  {
     public boolean isGameStarted() { return (state != GameState.LOBBY); }
 
     public StateController getStateController() {return stateController;}
+
+    public void diffSwitchState(StateController stateController) {
+        if (stateController instanceof TurnController){
+            this.state = GameState.GAME;}
+        else {
+            this.state = GameState.GOD_SELECTION;
+        }
+        this.stateController = stateController;
+        stateController.setController(this);
+    }
 
     // Cambia stato
     public void switchState(GameState state) {
@@ -99,6 +113,19 @@ public class SessionController implements Observer<Message>  {
     // Registra un player e lo aggiunge al gioco
     public void addPlayer(String username, Colors color, RemoteView view) {
         synchronized(viewLock) {
+            stateController.addPlayer(username, color, view);
+        }
+    }
+
+    public void addPlayer(String username, RemoteView view) {
+        synchronized(viewLock) {
+            Colors color=null;
+
+        for(Player p : session.getPlayers()) {
+            if (p.getUsername().equals(username)){
+                color=p.getColor();
+            }
+        }
             stateController.addPlayer(username, color, view);
         }
     }

@@ -5,7 +5,9 @@ import it.polimi.ingsw.utility.enumerations.GameState;
 import it.polimi.ingsw.utility.enumerations.MessageType;
 import it.polimi.ingsw.network.messages.Message;
 import it.polimi.ingsw.network.messages.lobby.LobbyUpdate;
+import it.polimi.ingsw.utility.persistency.ReloadGame;
 import it.polimi.ingsw.utility.persistency.SaveHandler;
+import it.polimi.ingsw.utility.persistency.SavedDataClass;
 
 import java.io.IOException;
 import java.net.ServerSocket;
@@ -28,7 +30,7 @@ public class Server extends Thread {
 
     private final Object connectionsLock = new Object();
 
-    private final SessionController sessionController;
+    private /*final*/ SessionController sessionController;
     private ServerConnection gameCreator;
 
     private int token = 0;
@@ -53,21 +55,9 @@ public class Server extends Thread {
     }
 
 
-    public Server (int port, Boolean loadGame) {
-        freshConnections = new ArrayList<>();
-        allConnections = new ArrayList<>();
-        startLogging();
-        sessionController = new SessionController(freshConnections, LOG); // Controller
-        try {
-            serverSocket = new ServerSocket(port);
-        } catch(IOException e) {
-            LOG.severe(e.getMessage());
-        }
-        this.start();
-        queueHandler = new Thread(new QueueHandler());
-        queueHandler.start();
-        saveHandler = new SaveHandler(this, sessionController, true);
-        saveHandler.start();
+    public void reloadGame () {
+        ReloadGame.restartGame();
+        sessionController = ReloadGame.reloadSessionController(freshConnections, LOG);
     }
 
     public Server(int port) {

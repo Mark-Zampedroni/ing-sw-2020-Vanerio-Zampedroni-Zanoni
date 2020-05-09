@@ -30,12 +30,19 @@ public class SaveHandler extends Thread {
             Scanner input = new Scanner(System.in);
             String s = input.nextLine();
             if (s.equals("Save All")) {
-                break;
+                new SaveGame(sessionController);
+                server.interrupt();
+                this.interrupt();
+                System.out.println("Game Saved");
+                s= "null";
+            }
+            if (s.equals("Reload All")) {
+                server.reloadGame();
+                //mando alle connessioni che ho ricaricato la partita
+                System.out.println("Game Reloaded");
+                s="null";
             }
         }
-        new SaveGame(sessionController);
-        server.interrupt();
-        this.interrupt();
-        System.out.println("Game Saved");
+
     }
 }

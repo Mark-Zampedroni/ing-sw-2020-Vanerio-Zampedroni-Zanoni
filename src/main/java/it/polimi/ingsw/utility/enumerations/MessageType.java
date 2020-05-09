@@ -15,6 +15,8 @@ public enum MessageType {
     STARTER_PLAYER,
     TURN_UPDATE,
     ACTION,
+    RECONNECTION,
+    RECONNECTION_UPDATE,
 
     INFO
 }

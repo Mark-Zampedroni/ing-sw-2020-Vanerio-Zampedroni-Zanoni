@@ -19,13 +19,12 @@ import java.util.List;
 import java.util.Map;
 import java.util.logging.Logger;
 
-class SavedDataClass implements Serializable {
+public class SavedDataClass implements Serializable {
 
     private static final long serialVersionUID = -8284194909335487737L;
 
     private Session session;
     private StateController stateController;
-    private int state; //1 lobby, 2 turno, 3 selezione
 
     private GameState gameState;
 
@@ -40,24 +39,9 @@ class SavedDataClass implements Serializable {
         session = sessionController.getSession();
         stateController = sessionController.getStateController();
         saveSessionController(sessionController);
-        if (stateController instanceof LobbyController) {
-            //salvo le cose della lobby
-            state=1;
-        }
-        if (stateController instanceof TurnController) {
-            state=2;
-            //salvo le cose del turno
-            //salvo le cose dell'action controller
-        }
-        if (stateController instanceof SelectionController) {
-            state=3;
-            //salvo le cose della selezione
-        }
     }
 
     GameState getGameState() {return gameState;}
-
-    int getState() {return state;}
 
     Session getSession() { return session; }
 
@@ -75,4 +59,5 @@ class SavedDataClass implements Serializable {
         turnOwner = sessionController.getTurnOwner();
         views = sessionController.getPlayers();
     }
+
 }

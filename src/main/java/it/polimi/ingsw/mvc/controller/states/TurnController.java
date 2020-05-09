@@ -33,7 +33,6 @@ public class TurnController extends StateController implements Serializable {
     private Worker currentWorker;
 
     private ActionController actionControl;
-    private final SessionController controller;
 
     private int currentIndex;
     private int turnCounter;
