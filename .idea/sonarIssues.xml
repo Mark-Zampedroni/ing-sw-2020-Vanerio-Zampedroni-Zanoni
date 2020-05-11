@@ -28,6 +28,11 @@
             <set />
           </value>
         </entry>
+        <entry key="$PROJECT_DIR$/pom.xml">
+          <value>
+            <set />
+          </value>
+        </entry>
         <entry key="$PROJECT_DIR$/src/main/java/MVC/controller/SessionController.java">
           <value>
             <set />
@@ -154,6 +159,11 @@
           </value>
         </entry>
         <entry key="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/model/serialization/ModelSerialized.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/module-info.java">
           <value>
             <set />
           </value>
@@ -473,6 +483,11 @@
             <set />
           </value>
         </entry>
+        <entry key="$PROJECT_DIR$/src/main/java/module-info.java">
+          <value>
+            <set />
+          </value>
+        </entry>
         <entry key="$PROJECT_DIR$/src/test/java/it/polimi/ingsw/MVC/PseudoClient.java">
           <value>
             <set />
@@ -629,6 +644,31 @@
           </value>
         </entry>
         <entry key="$PROJECT_DIR$/src/test/java/it/polimi/ingsw/rules/gods/ZeusRulesTest.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/src/test/java/it/polimi/ingsw/serializationTest/dtoTest/DtoBoardTest.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/src/test/java/it/polimi/ingsw/serializationTest/dtoTest/DtoPositionTest.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/src/test/java/it/polimi/ingsw/serializationTest/dtoTest/DtoSessionTest.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/src/test/java/it/polimi/ingsw/serializationTest/dtoTest/DtoTileTest.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/src/test/java/it/polimi/ingsw/serializationTest/dtoTest/DtoWorkerTest.java">
           <value>
             <set />
           </value>

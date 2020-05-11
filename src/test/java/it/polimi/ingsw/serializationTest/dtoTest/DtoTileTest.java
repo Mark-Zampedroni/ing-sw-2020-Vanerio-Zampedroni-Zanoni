@@ -1,4 +1,4 @@
-package it.polimi.ingsw.serializationTest.dtoTest;
+package java.it.polimi.ingsw.serializationTest.dtoTest;
 
 import it.polimi.ingsw.mvc.model.map.Tile;
 import it.polimi.ingsw.utility.constants.Height;
@@ -7,7 +7,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
-public class dtoTileTest {
+public class DtoTileTest {
 
     Tile tile;
     DtoTile dtOtile;
