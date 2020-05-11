@@ -1,4 +1,4 @@
-package java.it.polimi.ingsw.serializationTest.dtoTest;
+package it.polimi.ingsw.serializationTest.dtoTest;
 
 import it.polimi.ingsw.mvc.model.Session;
 import it.polimi.ingsw.mvc.model.map.Position;
@@ -12,7 +12,8 @@ import org.junit.jupiter.api.Test;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
-public class DtoPositionTest {
+public class DtoWorkerTest {
+
 
     Position position;
 
@@ -25,7 +26,7 @@ public class DtoPositionTest {
 
     @AfterEach
     void clear() {
-        Setupper.removePlayer(Session.getInstance().getPlayerByName("Paolo"));
+        Setupper.removePlayer(Session.getInstance().getPlayers().get(0));
         position = null;
     }
 
@@ -39,20 +40,12 @@ public class DtoPositionTest {
         assertEquals(position.getY(), dtOposition.getY());
         assertEquals(position.isBoundary(), dtOposition.isBoundary());
         assertEquals(position.isValid(), dtOposition.isValid());
+        assertEquals(position.toString(), position.toString());
+
     }
 
     /**
-     * Testing if distanceFrom works
-     */
-    @Test
-    void correctDistanceFrom(){
-        DtoPosition dtOposition = new DtoPosition(position);
-        Position position2 = new Position(2,3);
-        DtoPosition dtoPosition2 = new DtoPosition(position2);
-    }
-
-    /**
-     * Testing if equals methods works
+     * Testing if equals method works, testing if distanceFrom works
      */
     @Test
     void correctlyRelated(){
@@ -61,16 +54,6 @@ public class DtoPositionTest {
         DtoPosition dtoPosition2 = new DtoPosition(position2);
         assertTrue(dtOposition.equals(dtoPosition2));
         assertTrue(position.equals(position2));
-        assertTrue(dtOposition.equals(position));
-    }
-
-    /**
-     * Testing if is correct toString method
-     */
-    @Test
-    void correctWrite() {
-        DtoPosition dtOposition = new DtoPosition(position);
-        assertEquals (dtOposition.toString(), position.toString());
     }
 
 }

@@ -488,6 +488,31 @@
             <set />
           </value>
         </entry>
+        <entry key="$PROJECT_DIR$/src/test/it/polimi/ingsw/serializationTest/dtoTest/DtoBoardTest.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/src/test/it/polimi/ingsw/serializationTest/dtoTest/DtoPositionTest.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/src/test/it/polimi/ingsw/serializationTest/dtoTest/DtoSessionTest.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/src/test/it/polimi/ingsw/serializationTest/dtoTest/DtoTileTest.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/src/test/it/polimi/ingsw/serializationTest/dtoTest/DtoWorkerTest.java">
+          <value>
+            <set />
+          </value>
+        </entry>
         <entry key="$PROJECT_DIR$/src/test/java/it/polimi/ingsw/MVC/PseudoClient.java">
           <value>
             <set />
