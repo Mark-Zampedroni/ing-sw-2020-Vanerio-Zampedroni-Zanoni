@@ -134,12 +134,17 @@ public abstract class Client implements Observer<Message>, View {
             viewRequest(this::requestLogin);
         }
         if(state == GameState.LOGIN || state == GameState.LOBBY) {
-            viewRequest(() -> updateLobby(message.getColors()));
+            viewRequest(() -> showLobby(message.getColors()));
         }
     }
 
     private void parseDisconnectMessage(Message message) {
-        viewRequest(() -> showInputText(message.getInfo()));
+        if(state == GameState.PRE_LOBBY) {
+            viewRequest(() -> showPreLobby(message.getInfo()));
+        }
+        else {
+            viewRequest(() -> showInputText(message.getInfo()));
+        }
     }
     //^^^ LOBBY ^^^////////////////////////////////////////////////////////////////////////////
 

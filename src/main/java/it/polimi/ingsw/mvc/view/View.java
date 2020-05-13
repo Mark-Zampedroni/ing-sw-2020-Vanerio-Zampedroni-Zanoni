@@ -15,9 +15,10 @@ public interface View {
     void showInputText(String text);
     void showInfo(String text);
     //Pre-Lobby
+    void showPreLobby(String text); // Aggiorna la PRE-LOBBY
     void requestNumberOfPlayers(); // Chiede al primo giocatore da quante persone fare la partita
     //Lobby
-    void updateLobby(List<Colors> availableColors); // Aggiorna la LOBBY
+    void showLobby(List<Colors> availableColors); // Aggiorna la LOBBY
     void requestLogin(); // Chiede al giocatore di scegliere un username e un colore
     //Scelta dei da parte del Challenger
     void updateChallengerGodSelection(); // Aggiorna i player durante la scelta del Challenger

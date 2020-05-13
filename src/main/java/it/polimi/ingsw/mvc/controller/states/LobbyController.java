@@ -78,7 +78,7 @@ public class LobbyController extends StateController implements Serializable {
 
     private void startGame() {
         List<ServerConnection> copy = new ArrayList<>(freshConnections);
-        copy.forEach(c -> c.denyConnection("The game has started, you were disconnected"));
+        copy.forEach(c -> c.denyConnection("The game has started, you were disconnected "));
         freshConnections.clear();
         tryNextState();
     }

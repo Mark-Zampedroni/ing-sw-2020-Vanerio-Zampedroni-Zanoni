@@ -97,7 +97,7 @@ public class Server extends Thread {
                 } catch (IOException e) {
                     Server.LOG.warning(e.getMessage());
                 } catch (NullPointerException e) {
-                    Server.LOG.severe("The connection port is alreaday occupied");
+                    Server.LOG.severe("The connection port is already occupied");
             }
         }
         queueHandler.interrupt();
@@ -106,8 +106,10 @@ public class Server extends Thread {
 
     private void queueNewConnection(Socket client, String name) {
         ServerConnection c = new ServerConnection(this, client, name, tasks);
-        if(sessionController.isGameStarted()) { // DA SINCRONIZZARE SU LOCK
-            c.denyConnection("The game has already started, you can't connect");
+        System.out.println("Creating connection");
+        if(sessionController.isGameStarted()) {
+            System.out.println("Denying connection");
+            c.denyConnection("The game has already started, you can't connect ");
         }
         else {
             synchronized (connectionsLock) {
@@ -211,13 +213,13 @@ public class Server extends Thread {
     // Crea un messaggio di info per la coda in pre-lobby in base alla situazione di gioco
     private Message createInfoUpdate(int position) {
         if(isLobbyCreated()) {
-            return new Message(MessageType.INFO, "SERVER", "The game is for " + sessionController.getGameCapacity() + " players ...\n"
+            return new Message(MessageType.INFO, "SERVER", "The game is for " + sessionController.getGameCapacity() + " players ... \n"
                     + "At the moment the Lobby is full and " + ((position == 0) ? "you are first in queue\n" : "there are " + position + " players in queue before you\n")
                     + "You will be disconnected if no slots are vacated and the game starts");
         }
         else {
             return new Message(MessageType.INFO, "SERVER", "A player is already creating a game!\nThere are "
-                    + position + " players before you in queue");
+                    + position + " players before you in queue ");
         }
     }
 
