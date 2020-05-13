@@ -14,15 +14,7 @@ import java.util.Map;
 public class CliScene {
 
 
-    private static PrintStream out;
-
-    static {
-        try {
-            out = new PrintStream(System.out, true, "IBM437");
-        } catch (UnsupportedEncodingException e) {
-            out = System.out;
-        }
-    }
+    private static PrintStream out = new PrintStream(System.out, true);
 
 
 
@@ -200,7 +192,8 @@ public class CliScene {
 
 
     //100
-    public static final String ROW = "──────────────────────────────────────────────────────────────────────────────────────────────────";
+    //public static final String ROW = "──────────────────────────────────────────────────────────────────────────────────────────────────";
+    public static final String ROW = new String(Character.toChars(196)).repeat(100);
     public static final String TOP_ROW = "┌"+ROW+"┐\n";
     public static final String BOTTOM_ROW = "└"+ROW+"┘\n";
     public static final String MIDDLE_ROW = "├"+ROW+"┤\n";
