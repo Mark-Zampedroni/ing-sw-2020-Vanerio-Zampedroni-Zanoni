@@ -32,19 +32,19 @@ public class Cli extends Client {
     }
 
     private void waitConnectionRequest(String ip, int port) {
-        CliScene.printStartScreen("Press [ENTER] when you are ready");
+        CliScene.printStartScreen("Press [ENTER] when you are ready",true);
         requestInput(); // waiting for [ENTER]
         while(!createConnection(ip, port)) {
-            CliScene.printStartScreen("Connection failed! The server is unreachable, press [ENTER] to try again");
+            CliScene.printStartScreen("Connection failed! The server is unreachable, press [ENTER] to try again",true);
             requestInput(); // waiting for [ENTER]
         }
     }
 
     /* CREAZIONE PARTITA *///////////////////////////////////////////////////////////////////////////////////////
     public void requestNumberOfPlayers() {
-        CliScene.printStartScreen("You are the first player to connect!\nchoose if you want to play as 2 or 3 people (Type 2 or 3) ");
+        CliScene.printStartScreen("You are the first player to connect!\nchoose if you want to play as 2 or 3 people (Type 2 or 3) ",true);
         while(!validateNumberOfPlayers(requestInput().toUpperCase())) {
-            CliScene.printStartScreen("The number you typed is not valid, please choose 2 or 3:");
+            CliScene.printStartScreen("The number you typed is not valid, please choose 2 or 3:",true);
         }
     }
 
@@ -53,13 +53,9 @@ public class Cli extends Client {
         //Scene.printScene();
     }
 
-    public void showPreLobby(String text) {
-        CliScene.printStartScreen(text);
-    }
-
     public void showInfo(String text) {
         if(state == GameState.PRE_LOBBY) {
-            CliScene.printStartScreen(text);
+            CliScene.printStartScreen(text,false);
         }
 
     }

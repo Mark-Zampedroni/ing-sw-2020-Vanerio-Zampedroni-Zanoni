@@ -11,11 +11,11 @@ import java.util.Map;
 
 public interface View {
 
+
     // Da togliere -> i testi vanno spostati in CLI
     void showInputText(String text);
     void showInfo(String text);
     //Pre-Lobby
-    void showPreLobby(String text); // Aggiorna la PRE-LOBBY
     void requestNumberOfPlayers(); // Chiede al primo giocatore da quante persone fare la partita
     //Lobby
     void showLobby(List<Colors> availableColors); // Aggiorna la LOBBY

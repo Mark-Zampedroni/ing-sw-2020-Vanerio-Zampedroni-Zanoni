@@ -140,7 +140,7 @@ public abstract class Client implements Observer<Message>, View {
 
     private void parseDisconnectMessage(Message message) {
         if(state == GameState.PRE_LOBBY) {
-            viewRequest(() -> showPreLobby(message.getInfo()));
+            viewRequest(() -> showInfo(message.getInfo()));
         }
         else {
             viewRequest(() -> showInputText(message.getInfo()));

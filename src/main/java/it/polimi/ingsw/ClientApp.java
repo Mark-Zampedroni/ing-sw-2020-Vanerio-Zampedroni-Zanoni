@@ -12,13 +12,7 @@ import java.util.stream.IntStream;
 
 public class ClientApp {
 
-    public static void main(String[] args) {
-        //new Cli("127.0.0.1", 7654);
-
-
-        IntStream.range(0, 1000)
-                .mapToObj(i -> "Char: " + i + " ==> " + new String(Character.toChars(i)))
-                .forEach(System.out::println);
-
+    public static void main(String[] args) throws UnsupportedEncodingException {
+        new Cli("127.0.0.1", 7654);
     }
 }

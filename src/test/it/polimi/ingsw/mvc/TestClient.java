@@ -89,8 +89,6 @@ public class TestClient extends Client {
     @Override
     public void showInfo(String text) { }
     @Override
-    public void showPreLobby(String text) { }
-    @Override
     public void requestNumberOfPlayers() { }
     @Override
     public void showLobby(List<Colors> availableColors) { }

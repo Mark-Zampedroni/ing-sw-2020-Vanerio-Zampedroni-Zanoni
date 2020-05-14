@@ -3,7 +3,6 @@ package it.polimi.ingsw.mvc.view.cli;
 import it.polimi.ingsw.utility.enumerations.Colors;
 
 import java.io.PrintStream;
-import java.io.UnsupportedEncodingException;
 import java.util.Arrays;
 import java.util.Map;
 
@@ -16,69 +15,55 @@ public class CliScene {
 
     private static PrintStream out = new PrintStream(System.out, true);
 
+    private static final int SCREEN_WIDTH = 192;
 
-
-    private static final int SCREEN_WIDTH = 205;
     private static int cursorOffset;
+    private static boolean enableInput;
+    private static String windowMessage;
 
 
     public static double getScreenCharSize() {
         return SCREEN_WIDTH;
     }
 
-    // Dato uno scenario in testo lo centra nello schermo del terminale // (non so se funzioni per tutti)
-    private static StringBuilder centerScreen(String text) {
-        StringBuilder temp = new StringBuilder();
-        String offset = getEmptyLength((int) ((getScreenCharSize()-getLongestLine(text))/2));
-        for(String line : text.split("\\r?\\n")) {
-            String newLine = offset + line + "\n";
-            temp.append(newLine);
+    public static void setMessage(String message, boolean input) {
+        windowMessage = message;
+        enableInput = input;
+    }
+
+    public static void inputOutputSlot(StringBuilder b, int width) {
+        b.append(ROW).append("\n");
+        appendEmptyRow(b, width, 1);
+        appendAllLinesCentered(b, windowMessage, width);
+        appendEmptyRow(b, width, 1);
+        if(enableInput) {
+            b.append(fixSlots("   >>> ", width)).append("\n");
+            appendEmptyRow(b, width, 1);
         }
-        cursorOffset = offset.length(); // <---------
-        return temp;
     }
 
-    // Restituisce una con "length" spazi vuoti
-    private static String getEmptyLength(int length) {
-        StringBuilder temp = new StringBuilder();
-        for(int x = 0; x < length; x++) { temp.append(" "); }
-        return temp.toString();
+    public static void setCursor() {
+        if(enableInput) {
+            out.print(Ansi.moveCursorE(cursorOffset+8));
+            out.print(Ansi.moveCursorN(5));
+        }
     }
 
-    public static void printStartScreen(String inputMessage) {
+    public static void printStartScreen(String message, boolean input) {
+        setMessage(message,input);
         StringBuilder b = new StringBuilder();
         int width = ROW.length();
-        appendEmptyRow(b,width,2);
-        appendAllLinesCentered(b,fixSlots(TITLE),width);
-        appendEmptyRow(b,width,3);
-        appendAllLinesCentered(b,CREDITS,width);
-        appendEmptyRow(b,width,2);
-        b.append(MIDDLE_ROW);
-        appendEmptyRow(b,width,1);
-        appendAllLinesCentered(b,inputMessage, width);
-        appendEmptyRow(b,width,1);
+        appendEmptyRow(b, width, 2);
+        appendAllLinesCentered(b, fixSlots(TITLE), width);
+        appendEmptyRow(b, width, 2);
+        appendAllLinesCentered(b, CREDITS, width);
+        appendEmptyRow(b, width, 1);
+        inputOutputSlot(b, width);
         b = decorateSquare(b);
-        out.println(centerScreen(Ansi.CLEAR_CONSOLE+ b ));
+        out.println(centerScreen(Ansi.CLEAR_CONSOLE + b));
+        setCursor();
+        out.flush();
     }
-
-
-
-
-    /*
-    // Stampa la schermata iniziale
-    public static void printStartScreen(String inputMessage) {
-        final StringBuilder b = new StringBuilder();
-        b.setLength(0);
-        int width = getLongestLine(TITLE);
-        appendEmptyLine(b,2);
-        b.append(TITLE);
-        appendEmptyLine(b,3);
-        appendAllLinesCentered(b,CREDITS,width);
-        appendEmptyLine(b);
-        appendAllLinesCentered(b,inputMessage, width);
-        System.out.println(centerScreen(Ansi.CLEAR_CONSOLE+b));
-        System.out.print(Ansi.moveCursorE(cursorOffset));
-    }*/
 
     public static void printLobbyScreen(String inputMessage, Map<String, Colors> players) {
         int defaultLength = 10;
@@ -109,17 +94,36 @@ public class CliScene {
         System.out.println(centerScreen(Ansi.CLEAR_CONSOLE+b));
     }
 
+    // Dato uno scenario in testo lo centra nello schermo del terminale // (non so se funzioni per tutti)
+    private static StringBuilder centerScreen(String text) {
+        StringBuilder temp = new StringBuilder();
+        String offset = getEmptyLength((int) ((getScreenCharSize()-getLongestLine(text))/2));
+        for(String line : text.split("\\r?\\n")) {
+            String newLine = offset + line + "\n";
+            temp.append(newLine);
+        }
+        cursorOffset = offset.length(); // <---------
+        return temp;
+    }
+
+    // Restituisce una con "length" spazi vuoti
+    private static String getEmptyLength(int length) {
+        return " ".repeat(Math.max(0, length));
+    }
+
     private static String fixSlots(String string) {
         StringBuilder temp = new StringBuilder();
         int width = getLongestLine(string);
         for(String s : string.split("\\r?\\n")) {
             temp.append(s);
-            for(int delta = width-s.length(); delta >= 0; delta--) {
-                temp.append(" ");
-            }
+            temp.append(" ".repeat(Math.max(0, width - s.length() + 1)));
             temp.append("\n");
         }
         return temp.toString();
+    }
+
+    private static String fixSlots(String string, int length) {
+        return string+" ".repeat(Math.max(0, length - string.length()));
     }
 
 
@@ -129,11 +133,7 @@ public class CliScene {
     }
     // Aggiunge un numero "number" di righe vuote
     private static void appendEmptyLine(StringBuilder b, int number) {
-        for(int x = 0; x < number; x++) { b.append("\n"); }
-    }
-
-    private static void appendEmptyRow(StringBuilder b, int width) {
-        b.append(getEmptyLength(width)).append("\n");
+        b.append("\n".repeat(Math.max(0, number)));
     }
 
     private static void appendEmptyRow(StringBuilder b, int width, int times) {
@@ -180,10 +180,7 @@ public class CliScene {
         appendEmptyLine(temp,3);
         temp.append(TOP_ROW);
         for (String string : b.toString().split("\\r?\\n")) {
-            String []t = string.split("(?!^)");
-            if(!t[0].equals("├")) { temp.append("│"); }
-            temp.append(string);
-            if(!t[t.length-1].equals("┤")) { temp.append("│"); }
+            temp.append("|").append(string).append("|");
             temp.append("\n");
         }
         temp.append(BOTTOM_ROW);
@@ -193,10 +190,9 @@ public class CliScene {
 
     //100
     //public static final String ROW = "──────────────────────────────────────────────────────────────────────────────────────────────────";
-    public static final String ROW = new String(Character.toChars(196)).repeat(100);
-    public static final String TOP_ROW = "┌"+ROW+"┐\n";
-    public static final String BOTTOM_ROW = "└"+ROW+"┘\n";
-    public static final String MIDDLE_ROW = "├"+ROW+"┤\n";
+    public static final String ROW = "-".repeat(100);
+    public static final String TOP_ROW = "."+ROW+".\n";
+    public static final String BOTTOM_ROW = "'"+ROW+"'\n";
 
     public static final String TITLE = "      .---.                                          ,___ \n" +
             "     / .-, .                   ________            .'  _  \\  [ ]          [ ]\n" +
@@ -210,7 +206,7 @@ public class CliScene {
             "  \\ '---'  /  | | | |  ._.   '--'| |   \\  '-' /    .-   \\ \\  | | ._.   '- | |\n" +
             "   '-.___.'   '-'  \\.)           '-'    '----'           '-' '-'          '-'";
 
-    public static final String CREDITS = "Game developed by Stefano vanerio, Mark Zampedroni and Marco Zanoni \n"+
+    public static final String CREDITS = "Game developed by Stefano Vanerio, Mark Zampedroni and Marco Zanoni \n"+
                                           "Original board version published by Roxley Games";
 
 

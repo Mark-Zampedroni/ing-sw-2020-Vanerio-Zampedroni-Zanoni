@@ -74,5 +74,9 @@ public class Ansi {
         return "\033["+rows+"B";
     }
 
+    public static String moveCursorN(int rows) {
+        return "\u001b["+rows+"A";
+    }
+
 
 }
