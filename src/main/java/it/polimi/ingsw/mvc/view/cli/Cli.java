@@ -75,7 +75,7 @@ public class Cli extends Client {
 
     private String requestLobbyInput(String request, String error, Function<String,Boolean> check) {
         inputSave = request;
-        CliScene.printLobbyScreen(inputSave, players);
+        CliScene.printLobbyScreen(inputSave, players,true);
         String someInput = requestInput();
         while(check.apply(someInput)) {
             someInput = showWrongInput(error);
@@ -85,15 +85,17 @@ public class Cli extends Client {
 
     private String showWrongInput(String text) {
         inputSave = text;
-        CliScene.printLobbyScreen(inputSave, players);
+        CliScene.printLobbyScreen(inputSave, players,true);
         return requestInput();
     }
 
     public void showLobby(List<Colors> availableColors) {
+        boolean input = true;
         if(players.containsKey(username)) {
             inputSave = "Waiting for other players to join ...";
+            input = false;
         }
-        CliScene.printLobbyScreen(inputSave, players);
+        CliScene.printLobbyScreen(inputSave, players,input);
     }
 
     //^^^ LOBBY ^^^//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

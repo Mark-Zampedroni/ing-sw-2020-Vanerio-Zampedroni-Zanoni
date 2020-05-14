@@ -3,12 +3,7 @@ package it.polimi.ingsw.mvc.view.cli;
 import it.polimi.ingsw.utility.enumerations.Colors;
 
 import java.io.PrintStream;
-import java.util.Arrays;
-import java.util.Map;
-
-
- /// Uso String.repeat(int) !
-
+import java.util.*;
 
 public class CliScene {
 
@@ -19,7 +14,7 @@ public class CliScene {
 
     private static int cursorOffset;
     private static boolean enableInput;
-    private static String windowMessage;
+    private static String windowMessage = " Empty Message ...";
 
 
     public static double getScreenCharSize() {
@@ -32,7 +27,7 @@ public class CliScene {
     }
 
     public static void inputOutputSlot(StringBuilder b, int width) {
-        b.append(ROW).append("\n");
+        b.append("-".repeat(width)).append("\n");
         appendEmptyRow(b, width, 1);
         appendAllLinesCentered(b, windowMessage, width);
         appendEmptyRow(b, width, 1);
@@ -42,10 +37,10 @@ public class CliScene {
         }
     }
 
-    public static void setCursor() {
+    public static void setCursor(int x, int y) {
         if(enableInput) {
-            out.print(Ansi.moveCursorE(cursorOffset+8));
-            out.print(Ansi.moveCursorN(5));
+            out.print(Ansi.moveCursorE(cursorOffset+x));
+            out.print(Ansi.moveCursorN(y));
         }
     }
 
@@ -54,50 +49,103 @@ public class CliScene {
         StringBuilder b = new StringBuilder();
         int width = ROW.length();
         appendEmptyRow(b, width, 2);
+        //Adds title
         appendAllLinesCentered(b, fixSlots(TITLE), width);
         appendEmptyRow(b, width, 2);
+        //Adds credits
         appendAllLinesCentered(b, CREDITS, width);
         appendEmptyRow(b, width, 1);
+        //Adds input box
         inputOutputSlot(b, width);
-        b = decorateSquare(b);
+        //Creates square
+        b = decorateSquare(b,100);
+
         out.println(centerScreen(Ansi.CLEAR_CONSOLE + b));
-        setCursor();
+        setCursor(8,5);
         out.flush();
     }
 
-    public static void printLobbyScreen(String inputMessage, Map<String, Colors> players) {
-        int defaultLength = 10;
-        int defaultSpace = 5;
-        final StringBuilder b = new StringBuilder();
-        appendEmptyLine(b,2);
-        b.append("Players in Lobby:\n");
+    public static void printLobbyScreen(String message, Map<String, Colors> players, boolean input) {
+        setMessage(message,input);
+        StringBuilder b = new StringBuilder();
+        int width = getLongestLine(TOP_LOBBY);
+        int innerWidth = 74;
+        appendEmptyRow(b, width, 2);
+        //Adds top fixed draw
+        appendAllLinesCentered(b, fixSlots(TOP_LOBBY), width);
+        //Adds registered players box
+        appendAllLinesCentered(b, createPlayersBox(players, innerWidth), width);
+        //Adds available colors box
+        b.append(createColorsBox(players,innerWidth));
+        //Adds bottom fixed draw
+        appendAllLinesCentered(b, fixSlots(BOTTOM_LOBBY), width);
+        //Adds input box
+        StringBuilder temp = new StringBuilder();
+        inputOutputSlot(temp, 96);
+        temp = decorateSquare(temp,96);
+        appendAllLinesCentered(b,fixSlots(removeLines(temp.toString(),5)),width+2);
+
+        out.println(centerScreen(Ansi.CLEAR_CONSOLE + b, 42));
+        setCursor(0,0);
+        out.flush();
+    }
+
+    private static String createColorsBox(Map<String, Colors> players, int width) {
+        StringBuilder b = new StringBuilder();
+        StringBuilder temp = new StringBuilder();
+        temp.append(" ");
+        int unusedColors = 0;
+        for(Colors color : Colors.values()) {
+            if(!players.containsValue(color)) {
+                temp.append(Ansi.decorateColorString(color.toString(),color.toString())).append(" ");
+                unusedColors += 1;
+            }
+        }
+        int usedColors = Colors.values().length-unusedColors;
+        b.append(centerLine(temp.toString(),
+                (usedColors*6+(width-18))/2 - ((usedColors == 0) ? 0 : 1),
+                (usedColors*6+(width-18)/2) - ((usedColors == 0) ? 0 : 3*usedColors)));
+        b = decorateColumns(b);
+        b.insert(0," ".repeat(6));
+        return b.toString();
+    }
+
+    private static String createPlayersBox(Map<String, Colors> players, int width) {
+        int nameMaxLength = 13; // max + 1
+        int colorMaxLength = 5;
+        StringBuilder b = new StringBuilder();
         if(!players.keySet().isEmpty()) {
-            appendEmptyLine(b,2);
-            b.append("Name:").append(getEmptyLength(defaultSpace)).append("Color:\n");
-            appendEmptyLine(b);
             players.keySet().forEach(p -> b
+                    .append("\n")
                     .append(p)
-                    .append(getEmptyLength(defaultLength-p.length()))
+                    .append(getEmptyLength(nameMaxLength-p.length()+(colorMaxLength-players.get(p).toString().length())))
                     .append(Ansi.decorateColorString(players.get(p).toString(),players.get(p).toString()))
                     .append("\n"));
+            b.append(" \n".repeat((3-players.keySet().size())*2));
         }
-        else {
-            appendEmptyLine(b,2);
-            b.append("No one registered yet");
-        }
-        appendEmptyLine(b,2);
-        b.append("Available colors: ");
-        Arrays.stream(Colors.values()).filter(c -> !players.containsValue(c)).map(Enum::toString).forEach(c -> b
-                .append(Ansi.decorateColorString(c,c))
-                .append(" "));
-        b.append("\n").append(inputMessage).append("\n");
-        System.out.println(centerScreen(Ansi.CLEAR_CONSOLE+b));
+        else { b.append("\n".repeat(2)).append("No one registered yet . . .").append("\n ".repeat(4)); }
+        b.append(" ".repeat(3)).append("- Available colors -");
+
+        String box = b.toString();
+        b.setLength(0);
+        appendAllLinesCentered(b,fixSlots(box),width);
+
+        return decorateColumns(b).toString();
+
     }
 
     // Dato uno scenario in testo lo centra nello schermo del terminale // (non so se funzioni per tutti)
     private static StringBuilder centerScreen(String text) {
+        return addOffset(text,(getScreenCharSize()-getLongestLine(text))/2);
+    }
+
+    private static StringBuilder centerScreen(String text, int width) {
+        return addOffset(text,width);
+    }
+
+    private static StringBuilder addOffset(String text, double o) {
         StringBuilder temp = new StringBuilder();
-        String offset = getEmptyLength((int) ((getScreenCharSize()-getLongestLine(text))/2));
+        String offset = " ".repeat((int)o);
         for(String line : text.split("\\r?\\n")) {
             String newLine = offset + line + "\n";
             temp.append(newLine);
@@ -111,6 +159,18 @@ public class CliScene {
         return " ".repeat(Math.max(0, length));
     }
 
+    private static String removeLines(String text, int number) {
+        StringBuilder b = new StringBuilder();
+        int i = 1;
+        for(String string : text.split("\\r?\\n")) {
+            if(i > number) {
+                b.append(string).append("\n");
+            }
+            i++;
+        }
+        return b.toString();
+    }
+
     private static String fixSlots(String string) {
         StringBuilder temp = new StringBuilder();
         int width = getLongestLine(string);
@@ -122,15 +182,22 @@ public class CliScene {
         return temp.toString();
     }
 
-    private static String fixSlots(String string, int length) {
-        return string+" ".repeat(Math.max(0, length - string.length()));
+    private static String fixSlots(String text, int length) {
+        return text+" ".repeat(Math.max(0, length - text.length()));
     }
 
-
-    // Aggiunge una riga vuota
-    private static void appendEmptyLine(StringBuilder b) {
-        b.append("\n");
+    private static String fixAnsi(String text) {
+        // if there are ansi
+        StringBuilder temp = new StringBuilder();
+        temp.append(text);
+        int squareBrackets = text.length() - text.replaceAll("\\[","").length();
+        if(squareBrackets > 1) {
+            temp.append(" ".repeat(2*squareBrackets));
+            temp.insert(0, " ".repeat(2*squareBrackets+1));
+        }
+        return temp.toString();
     }
+
     // Aggiunge un numero "number" di righe vuote
     private static void appendEmptyLine(StringBuilder b, int number) {
         b.append("\n".repeat(Math.max(0, number)));
@@ -149,8 +216,7 @@ public class CliScene {
     // Centra ogni riga a capo su un pezzo di lunghezza length (se non ci sta non funziona)
     private static void appendAllLinesCentered(StringBuilder b, String text, int length) {
         for(String line : text.split("\\r?\\n")) {
-            String temp = centerLine(line,length)+"\n";
-            b.append(temp);
+            b.append(centerLine(line,length)).append("\n");
         }
     }
 
@@ -162,6 +228,14 @@ public class CliScene {
             temp.insert(0," ");
             temp.append(" ");
         }
+        return fixAnsi(temp.toString());
+    }
+
+    private static String centerLine(String text, int left, int right) {
+        StringBuilder temp = new StringBuilder();
+        temp.append(text);
+        temp.insert(0," ".repeat(left));
+        temp.append(" ".repeat(right));
         return temp.toString();
     }
 
@@ -175,15 +249,24 @@ public class CliScene {
     }
 
 
-    private static StringBuilder decorateSquare(StringBuilder b) {
+    private static StringBuilder decorateSquare(StringBuilder b, int width) {
         StringBuilder temp = new StringBuilder();
         appendEmptyLine(temp,3);
-        temp.append(TOP_ROW);
+        temp.append(".").append("-".repeat(width)).append(".\n");
         for (String string : b.toString().split("\\r?\\n")) {
             temp.append("|").append(string).append("|");
             temp.append("\n");
         }
-        temp.append(BOTTOM_ROW);
+        temp.append("'").append("-".repeat(width)).append("'\n");
+        return temp;
+    }
+
+    private static StringBuilder decorateColumns(StringBuilder b) {
+        StringBuilder temp = new StringBuilder();
+        for (String string : b.toString().split("\\r?\\n")) {
+            temp.append(" | | | |").append(string).append("| | | |");
+            temp.append("\n");
+        }
         return temp;
     }
 
@@ -191,8 +274,22 @@ public class CliScene {
     //100
     //public static final String ROW = "──────────────────────────────────────────────────────────────────────────────────────────────────";
     public static final String ROW = "-".repeat(100);
-    public static final String TOP_ROW = "."+ROW+".\n";
-    public static final String BOTTOM_ROW = "'"+ROW+"'\n";
+
+    public static final String TOP_LOBBY = "    ______________________________________________________________________________________________   \n" +
+            "   /                                                                                              \\  \n" +
+            "  |________________________________________________________________________________________________| \n" +
+            "  |                                                                                                | \n" +
+            "  |'____'''''____'''''____'''''____'''''____'''''____'''''____'''''____'''''____'''''____'''''____'| \n" +
+            "   / _  \\---/  _ \\                                                                  / _  \\---/  _ \\  \n" +
+            "  ( (. \\     / .) )                                                                ( (. \\     / .) ) \n" +
+            "   \\___/-----\\___/                                                                  \\___/-----\\___/  \n" +
+            "       | | | |                            REGISTERED PLAYERS                            | | | |      ";
+
+    private static final String BOTTOM_LOBBY = "       | | | |                                                                          | | | |      \n" +
+            "      (0OUwUo0)                                                                        (0OUwUo0)     \n" +
+            "      #########                                                                        #########     \n" +
+            "   .zzzzzzzzzzzzz--------------------------------------------------------------------zzzzzzzzzzzzz.  \n" +
+            "  /________________________________________________________________________________________________\\ ";
 
     public static final String TITLE = "      .---.                                          ,___ \n" +
             "     / .-, .                   ________            .'  _  \\  [ ]          [ ]\n" +
@@ -209,45 +306,4 @@ public class CliScene {
     public static final String CREDITS = "Game developed by Stefano Vanerio, Mark Zampedroni and Marco Zanoni \n"+
                                           "Original board version published by Roxley Games";
 
-
-
-    public static final String LOBBY = "                                         __--_-_--__                                                  \n" +
-            "                                     __--__--   --__--__                                                   \n" +
-            "                                 __--__--           --__--__\n" +
-            "                             __--__--                   --__--__                                                                \n" +
-            "                         __--__--                           --__--__                                                          \n" +
-            "                     __--__--                                   --__--__                                                                                                                                         \n" +
-            "                 __--__--              LOBBY IN ASCII               --__--__                                          \n" +
-            "             __--__--                                                   --__--__                                  \n" +
-            "         __--__--                                                           --__--__                          \n" +
-            "     __--__--                                                                   --__--__              \n" +
-            " __--__--___________________________________________________________________________--__--__\n" +
-            " ═══════════════════════════════════════════════════════════════════════════════════════════\n" +
-            "  | | |                                                                               | | |\n" +
-            "  | | |                                                                               | | |  \n" +
-            "  |═══════════════════════════════════════════════════════════════════════════════════════|\n" +
-            "  |                                                                                       |\n" +
-            "  |'____'''''____'''''____'''''____'''''____'''''____'''''____'''''____'''''____'''''____'|\n" +
-            "   / _  \\═══/  _ \\                                                         / _  \\═══/  _ \\   \n" +
-            "  ( (. \\     / .) )                                                       ( (. \\     / .) ) \n" +
-            "   \\___/═════\\___/                                                         \\___/═════\\___/            \n" +
-            "       | | | |                                                                 | | | |               \n" +
-            "       | | | |                       REGISTERED PLAYERS                        | | | |       \n" +
-            "       | | | |                                                                 | | | |      \n" +
-            "       | | | |                      GIOCATORE 1 - COLORE                       | | | |         \n" +
-            "       | | | |                                                                 | | | |       \n" +
-            "       | | | |                      GIOCATORE 2 - COLORE                       | | | |        \n" +
-            "       | | | |                                                                 | | | |         \n" +
-            "       | | | |                                                                 | | | |       \n" +
-            "       | | | |                                                                 | | | |          \n" +
-            "       | | | |                                                                 | | | |      \n" +
-            "       | | | |                                                                 | | | |          \n" +
-            "       | | | |                                                                 | | | |       \n" +
-            "       | | | |                                                                 | | | |           \n" +
-            "       | | | |                                                                 | | | |         \n" +
-            "      (0O0o0o0)                                                               (0O0o0o0)                   \n" +
-            "      #########                                                               #########            \n" +
-            "    zzzzzzzzzzzzz                                                           zzzzzzzzzzzzz     \n" +
-            "  ══════════════════════════════════════════════════════════════════════════════════════════\n" +
-            " _|________________________________________________________________________________________|_   ";
 }
