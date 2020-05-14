@@ -20,8 +20,8 @@ public class ClientApp {
 
 
         Map<String, Colors> players = new HashMap<>();
-        players.put("Mark",Colors.BLUE);
-        //players.put("Marco",Colors.WHITE);
+        //players.put("Mark",Colors.BLUE);
+        players.put("Marco",Colors.WHITE);
         //players.put("Stefano",Colors.BROWN);
         CliScene.printLobbyScreen("Test",players,false);
     }

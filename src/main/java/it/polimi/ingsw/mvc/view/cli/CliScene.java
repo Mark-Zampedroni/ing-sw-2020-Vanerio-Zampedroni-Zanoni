@@ -29,7 +29,7 @@ public class CliScene {
     public static void inputOutputSlot(StringBuilder b, int width) {
         b.append("-".repeat(width)).append("\n");
         appendEmptyRow(b, width, 1);
-        appendAllLinesCentered(b, windowMessage, width);
+        appendAllLinesCentered(b, windowMessage, width, false);
         appendEmptyRow(b, width, 1);
         if(enableInput) {
             b.append(fixSlots("   >>> ", width)).append("\n");
@@ -50,10 +50,10 @@ public class CliScene {
         int width = ROW.length();
         appendEmptyRow(b, width, 2);
         //Adds title
-        appendAllLinesCentered(b, fixSlots(TITLE), width);
+        appendAllLinesCentered(b, fixSlots(TITLE), width,false);
         appendEmptyRow(b, width, 2);
         //Adds credits
-        appendAllLinesCentered(b, CREDITS, width);
+        appendAllLinesCentered(b, CREDITS, width,false);
         appendEmptyRow(b, width, 1);
         //Adds input box
         inputOutputSlot(b, width);
@@ -72,21 +72,21 @@ public class CliScene {
         int innerWidth = 74;
         appendEmptyRow(b, width, 2);
         //Adds top fixed draw
-        appendAllLinesCentered(b, fixSlots(TOP_LOBBY), width);
+        appendAllLinesCentered(b, fixSlots(TOP_LOBBY), width, false);
         //Adds registered players box
-        appendAllLinesCentered(b, createPlayersBox(players, innerWidth), width);
+        appendAllLinesCentered(b, createPlayersBox(players, innerWidth), width, true);
         //Adds available colors box
         b.append(createColorsBox(players,innerWidth));
         //Adds bottom fixed draw
-        appendAllLinesCentered(b, fixSlots(BOTTOM_LOBBY), width);
+        appendAllLinesCentered(b, fixSlots(BOTTOM_LOBBY), width, false);
         //Adds input box
         StringBuilder temp = new StringBuilder();
         inputOutputSlot(temp, 96);
         temp = decorateSquare(temp,96);
-        appendAllLinesCentered(b,fixSlots(removeLines(temp.toString(),5)),width+2);
+        appendAllLinesCentered(b,fixSlots(removeLines(temp.toString(),5)),width+2,false);
 
         out.println(centerScreen(Ansi.CLEAR_CONSOLE + b, 42));
-        setCursor(0,0);
+        setCursor(10,5);
         out.flush();
     }
 
@@ -124,11 +124,11 @@ public class CliScene {
             b.append(" \n".repeat((3-players.keySet().size())*2));
         }
         else { b.append("\n".repeat(2)).append("No one registered yet . . .").append("\n ".repeat(4)); }
-        b.append(" ".repeat(3)).append("- Available colors -");
+        b.append(" ".repeat(4)).append("- Available colors -");
 
         String box = b.toString();
         b.setLength(0);
-        appendAllLinesCentered(b,fixSlots(box),width);
+        appendAllLinesCentered(b,fixSlots(box),width, true);
 
         return decorateColumns(b).toString();
 
@@ -209,26 +209,22 @@ public class CliScene {
         }
     }
 
-    /*private static int getLongestWord(List<String> words) {
-        return words.stream().map(String::length).max(Integer::compareTo).get();
-    }*/
-
     // Centra ogni riga a capo su un pezzo di lunghezza length (se non ci sta non funziona)
-    private static void appendAllLinesCentered(StringBuilder b, String text, int length) {
+    private static void appendAllLinesCentered(StringBuilder b, String text, int length, boolean fixAnsi) {
         for(String line : text.split("\\r?\\n")) {
-            b.append(centerLine(line,length)).append("\n");
+            b.append(centerLine(line,length,fixAnsi)).append("\n");
         }
     }
 
     // Centra una stringa in un pezzo di lunghezza length (se non ci sta non funziona)
-    private static String centerLine(String text, int length) {
+    private static String centerLine(String text, int length, boolean fixAnsi) {
         StringBuilder temp = new StringBuilder();
         temp.append(text);
         for(int i = (length - text.length())/2; i>0; i--) {
             temp.insert(0," ");
             temp.append(" ");
         }
-        return fixAnsi(temp.toString());
+        return (fixAnsi) ? fixAnsi(temp.toString()) : temp.toString();
     }
 
     private static String centerLine(String text, int left, int right) {

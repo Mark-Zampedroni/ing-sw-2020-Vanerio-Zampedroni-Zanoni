@@ -64,8 +64,8 @@ public class Cli extends Client {
 
     /* LOBBY *///////////////////////////////////////////////////////////////////////////////////////
     public void requestLogin() {
-        String requestedUsername = requestLobbyInput("Input username:",
-                                                       "This username is already taken, choose a different one:",
+        String requestedUsername = requestLobbyInput("Input username: ",
+                                                       "This username is already taken, choose a different one: ",
                                                             (username) -> !validateUsername(username));
         String requestedColor = requestLobbyInput("Selected name: "+requestedUsername+", choose one of the available colors:",
                                                     "This color does not exist or was already chosen, select a different one:",
@@ -92,7 +92,7 @@ public class Cli extends Client {
     public void showLobby(List<Colors> availableColors) {
         boolean input = true;
         if(players.containsKey(username)) {
-            inputSave = "Waiting for other players to join ...";
+            inputSave = "Waiting for other players to join ... ";
             input = false;
         }
         CliScene.printLobbyScreen(inputSave, players,input);
