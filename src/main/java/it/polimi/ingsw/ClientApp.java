@@ -15,14 +15,14 @@ import java.util.stream.IntStream;
 
 public class ClientApp {
 
-    public static void main(String[] args) throws UnsupportedEncodingException {
-        //new Cli("127.0.0.1", 7654);
+    public static void main(String[] args) {
+        new Cli("127.0.0.1", 7654);
 
 
-        Map<String, Colors> players = new HashMap<>();
+        //Map<String, Colors> players = new HashMap<>();
         //players.put("Mark",Colors.BLUE);
-        players.put("Marco",Colors.WHITE);
+        //players.put("Marco",Colors.WHITE);
         //players.put("Stefano",Colors.BROWN);
-        CliScene.printLobbyScreen("Test",players,false);
+        //CliScene.printLobbyScreen("Test",players,false);
     }
 }

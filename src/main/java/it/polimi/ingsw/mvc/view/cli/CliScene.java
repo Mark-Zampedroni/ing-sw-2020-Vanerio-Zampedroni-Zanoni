@@ -91,6 +91,7 @@ public class CliScene {
     }
 
     private static String createColorsBox(Map<String, Colors> players, int width) {
+        int maxColorLength = 5;
         StringBuilder b = new StringBuilder();
         StringBuilder temp = new StringBuilder();
         temp.append(" ");
@@ -98,12 +99,13 @@ public class CliScene {
         for(Colors color : Colors.values()) {
             if(!players.containsValue(color)) {
                 temp.append(Ansi.decorateColorString(color.toString(),color.toString())).append(" ");
+                temp.insert(0," ".repeat(maxColorLength-color.toString().length()));
                 unusedColors += 1;
             }
         }
         int usedColors = Colors.values().length-unusedColors;
         b.append(centerLine(temp.toString(),
-                (usedColors*6+(width-18))/2 - ((usedColors == 0) ? 0 : 1),
+                (usedColors*6+(width-18))/2 - 1,
                 (usedColors*6+(width-18)/2) - ((usedColors == 0) ? 0 : 3*usedColors)));
         b = decorateColumns(b);
         b.insert(0," ".repeat(6));
@@ -123,8 +125,8 @@ public class CliScene {
                     .append("\n"));
             b.append(" \n".repeat((3-players.keySet().size())*2));
         }
-        else { b.append("\n".repeat(2)).append("No one registered yet . . .").append("\n ".repeat(4)); }
-        b.append(" ".repeat(4)).append("- Available colors -");
+        else { b.append("\n".repeat(2)).append("No one registered yet . . .").append("\n ".repeat(3)).append("\n"); }
+        b.append(" \n").append(" ".repeat(4)).append("- Available colors -");
 
         String box = b.toString();
         b.setLength(0);
