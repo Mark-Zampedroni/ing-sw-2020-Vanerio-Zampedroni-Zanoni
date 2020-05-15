@@ -65,9 +65,10 @@ public class Cli extends Client {
     /* LOBBY *///////////////////////////////////////////////////////////////////////////////////////
     public void requestLogin() {
         String requestedUsername = requestLobbyInput("Input username: ",
-                                                       "This username is already taken, choose a different one: ",
+                                                       "This username is invalid, choose a different one: ",
                                                             (username) -> !validateUsername(username));
-        String requestedColor = requestLobbyInput("Selected name: "+requestedUsername+", choose one of the available colors: ",
+        String requestedColor = requestLobbyInput("Selected name: "+requestedUsername+", choose one of the available colors: "
+                                                          +(requestedUsername.length()%2==0 ? " " : ""),
                                                     "This color does not exist or was already chosen, select a different one:",
                                                           (color) -> !validateColor(color.toUpperCase())).toUpperCase();
         requestLogin(requestedUsername, Colors.valueOf(requestedColor));

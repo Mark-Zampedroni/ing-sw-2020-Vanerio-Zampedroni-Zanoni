@@ -116,7 +116,7 @@ public abstract class Client implements Observer<Message>, View {
 
     /* LOBBY *////////////////////////////////////////////////////////////////////////////
     public boolean validateUsername(String requestedUsername) {
-        return !players.containsKey(requestedUsername);
+        return (!players.containsKey(requestedUsername) && requestedUsername.length()>0 && requestedUsername.length()<12);
     }
 
     public boolean validateColor(String requestedColor) {
