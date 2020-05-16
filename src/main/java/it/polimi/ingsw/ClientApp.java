@@ -11,7 +11,7 @@ import java.util.List;
 public class ClientApp {
 
     public static void main(String[] args) {
-        //new Cli("127.0.0.1", 7654);
+        new Cli("127.0.0.1", 7654);
 
 
         //Map<String, Colors> players = new HashMap<>();
@@ -20,8 +20,8 @@ public class ClientApp {
         //players.put("Stefano",Colors.BROWN);
         //CliScene.printLobbyScreen("Test",players,false);
 
-        List<String> chosen = new ArrayList<>();
+        //List<String> chosen = new ArrayList<>();
 
-        CliScene.printChallengerSelection("Select god: ", chosen, 4, 3,true);
+        //CliScene.printChallengerSelection("Select god: ", chosen, 4, 3,true);
     }
 }

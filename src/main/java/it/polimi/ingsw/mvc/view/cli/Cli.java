@@ -17,6 +17,7 @@ public class Cli extends Client {
     private final Scanner input;
 
     private String inputSave = "";
+    private int godPage;
 
     public Cli(String ip, int port) {
         input = new Scanner(System.in);
@@ -131,10 +132,19 @@ public class Cli extends Client {
         //gods.keySet().forEach(p -> Scene.addToScenario(p+" with "+gods.get(p)+"\n"));
     }
 
-    public void requestChallengerGod(){
+    public void requestChallengerGod(List<String> chosenGods) {
+        inputSave = "You are the challenger! Type the name of one god to select it";
         while(true) {
-            if(validateGods(requestInput().toUpperCase())) {
-                break;
+            CliScene.printChallengerSelection(inputSave, chosenGods, godPage, players.keySet().size(), true);
+            String choice = requestInput().toUpperCase();
+            if(choice.equals("1")) { godPage = (godPage == -3) ? 0 : godPage-1; }
+            else if(choice.equals("2")) { godPage = (godPage == 3) ? 0 : godPage+1; }
+            else {
+                if (validateGods(choice)) { break; }
+                else {
+                    inputSave = "God not available, choose a different one:";
+                    CliScene.printChallengerSelection(inputSave, chosenGods, godPage, players.keySet().size(), true);
+                }
             }
         }
     }

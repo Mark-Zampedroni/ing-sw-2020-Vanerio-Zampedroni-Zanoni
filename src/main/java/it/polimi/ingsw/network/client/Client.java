@@ -168,14 +168,16 @@ public abstract class Client implements Observer<Message>, View {
         gods = new HashMap<>();
         challenger = message.getInfo();
         if(message.getInfo().equals(username) && chosenGods.size() != players.size()) {
-            viewRequest(this::requestChallengerGod);
+            List<String> copy = new ArrayList<>(chosenGods);
+            viewRequest(() -> requestChallengerGod(copy));
         }
-        viewRequest(this::updateChallengerGodSelection);
+        else {
+            viewRequest(this::updateChallengerGodSelection);
+        }
     }
 
     public boolean validateGods(String requestedGod){
         if(!getStringAvailableGods().contains(requestedGod)){
-            showInputText("God not available, choose a different one:");
             return false;
         }
         sendMessage(new FlagMessage(MessageType.SELECTED_GODS_CHANGE, username, requestedGod, true));
@@ -195,7 +197,7 @@ public abstract class Client implements Observer<Message>, View {
         if(chosenGods.size() != players.size()) {
             viewRequest(this::updateChallengerGodSelection);
             if (challenger.equals(username)) {
-                viewRequest(this::requestChallengerGod);
+                viewRequest(() -> requestChallengerGod(new ArrayList<>(chosenGods)));
             }
         }
     }

@@ -40,7 +40,7 @@ public class CliScene {
 
     public static void setCursor(int x, int y) {
         if(enableInput) {
-            out.print(Ansi.moveCursorE(cursorOffset+x));
+            out.print(Ansi.moveCursorE(cursorOffset+x)); // Da togliere cursorOffset, a volte da problemi
             out.print(Ansi.moveCursorN(y));
         }
     }
@@ -64,7 +64,7 @@ public class CliScene {
         outputSlot = decorateSquare(outputSlot,outPutWidth);
         appendAllLinesCentered(b,removeLines(outputSlot.toString(),5),2,0);
         out.println(centerScreen(Ansi.CLEAR_CONSOLE +b)); //Ansi.CLEAR_CONSOLE +
-        //setCursor(10,5);
+        setCursor(10,5);
 
         out.flush();
     }
@@ -78,17 +78,17 @@ public class CliScene {
     }
 
     public static void addBrowseArrows(StringBuilder b, List<String> selectedGods, int numberOfPlayers) {
-        if(selectedGods.size() == 0) { selectedGods.add("None yet"); }
         String []arrow = ARROWS_CHALLENGER.split("\\r?\\n");
         String []godBox = b.toString().split("\\r?\\n");
         b.setLength(0);
-        b.append(godBox[0]).append("  You selected ").append(selectedGods.size()).append("/").append(numberOfPlayers).append(" gods    ").append("\n");
+        b.append(godBox[0]).append("  You selected ").append(selectedGods.size()).append("/").append(numberOfPlayers).append(" gods     ").append("\n");
         for(int row = 1; row<10; row++) {
             b.append(godBox[row]).append(fixSlots(arrow[row],28)).append("\n");
         }
         for(int row = 10; row < 13; row++) {
             b.append(godBox[row]).append(getEmptyLength(28)).append("\n");
         }
+        if(selectedGods.size() == 0) { selectedGods.add("None yet"); }
         b.append(godBox[13]).append(fixSlots("  Gods selected:",28)).append("\n");
         b.append(godBox[14]).append(getEmptyLength(28)).append("\n");
         for(int row = 15; row<godBox.length; row++) {
@@ -123,7 +123,8 @@ public class CliScene {
             temp.add(gods.subList(i, Math.min(i + subListSize, gods.size())));
         }
         gods = new ArrayList<>();
-        for(String god : temp.get((page%(temp.size())))) {
+        List<String> pageGods = (page>-1) ? temp.get((page%(temp.size()))) : temp.get((temp.size()-((-page)%temp.size())));
+        for(String god : pageGods) {
             gods.add(createGodWindow(god,length, height));
         }
         while(gods.size() < subListSize) {
@@ -298,7 +299,7 @@ public class CliScene {
         int width = getLongestLine(string);
         for(String s : string.split("\\r?\\n")) {
             temp.append(s);
-            temp.append("x".repeat(Math.max(0, width - s.length() + 1)));
+            temp.append(" ".repeat(Math.max(0, width - s.length() + 1)));
             temp.append("\n");
         }
         return temp.toString();

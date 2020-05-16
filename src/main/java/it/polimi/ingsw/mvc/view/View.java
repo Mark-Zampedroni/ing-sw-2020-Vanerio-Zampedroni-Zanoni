@@ -22,7 +22,7 @@ public interface View {
     void requestLogin(); // Chiede al giocatore di scegliere un username e un colore
     //Scelta dei da parte del Challenger
     void updateChallengerGodSelection(); // Aggiorna i player durante la scelta del Challenger
-    void requestChallengerGod(); //Chiede di scegliere un dio da aggiungere al gioco
+    void requestChallengerGod(List<String> chosenGods); //Chiede di scegliere un dio da aggiungere al gioco
     //Scelta dio di ogni giocatore
     void updatePlayerGodSelection(); // Aggiorna i player durante le scelte del dio di ogni giocatore
     void requestPlayerGod(); // Chiede di scegliere un dio da usare

@@ -97,7 +97,7 @@ public class TestClient extends Client {
     @Override
     public void updateChallengerGodSelection() { }
     @Override
-    public void requestChallengerGod() { }
+    public void requestChallengerGod(List<String> chosenGods) { }
     @Override
     public void updatePlayerGodSelection() { }
     @Override
