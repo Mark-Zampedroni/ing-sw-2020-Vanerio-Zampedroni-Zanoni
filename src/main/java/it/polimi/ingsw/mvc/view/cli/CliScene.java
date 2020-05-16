@@ -78,10 +78,11 @@ public class CliScene {
     }
 
     public static void addBrowseArrows(StringBuilder b, List<String> selectedGods, int numberOfPlayers) {
+        if(selectedGods.size() == 0) { selectedGods.add("None yet"); }
         String []arrow = ARROWS_CHALLENGER.split("\\r?\\n");
         String []godBox = b.toString().split("\\r?\\n");
         b.setLength(0);
-        b.append(godBox[0]).append("   You selected ").append(selectedGods.size()).append("/").append(numberOfPlayers).append(" gods    ").append("\n");
+        b.append(godBox[0]).append("  You selected ").append(selectedGods.size()).append("/").append(numberOfPlayers).append(" gods    ").append("\n");
         for(int row = 1; row<10; row++) {
             b.append(godBox[row]).append(fixSlots(arrow[row],28)).append("\n");
         }

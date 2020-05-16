@@ -21,8 +21,6 @@ public class ClientApp {
         //CliScene.printLobbyScreen("Test",players,false);
 
         List<String> chosen = new ArrayList<>();
-        chosen.add("MINOTAUR");
-        chosen.add("APOLLO");
 
         CliScene.printChallengerSelection("Select god: ", chosen, 4, 3,true);
     }
