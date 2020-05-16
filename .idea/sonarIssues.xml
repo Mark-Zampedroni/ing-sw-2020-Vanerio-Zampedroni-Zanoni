@@ -13,6 +13,11 @@
             <set />
           </value>
         </entry>
+        <entry key="$USER_HOME$/AppData/Local/Temp/tmp_1_Cli.class">
+          <value>
+            <set />
+          </value>
+        </entry>
         <entry key="$USER_HOME$/AppData/Local/Temp/tmp__Screen.class">
           <value>
             <set />
@@ -449,6 +454,11 @@
           </value>
         </entry>
         <entry key="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/serialization/DTO/DTOtile.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/utility/enumerations/Gods.java">
           <value>
             <set />
           </value>

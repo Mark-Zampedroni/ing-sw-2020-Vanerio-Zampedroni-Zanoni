@@ -1,6 +1,7 @@
 package it.polimi.ingsw.mvc.view.cli;
 
 import it.polimi.ingsw.utility.enumerations.Colors;
+import it.polimi.ingsw.utility.enumerations.Gods;
 
 import java.io.PrintStream;
 import java.util.*;
@@ -42,6 +43,124 @@ public class CliScene {
             out.print(Ansi.moveCursorE(cursorOffset+x));
             out.print(Ansi.moveCursorN(y));
         }
+    }
+
+    public static void printChallengerSelection(String message, List<String> chosenGods, int page, int numberOfPlayers, boolean input) {
+        int outPutWidth = 116;
+        int godsSlotsWidth = 28;
+        int godsSlotsHeight = 10;
+
+        setMessage(message,input);
+        StringBuilder b = new StringBuilder();
+        createGodsInfoBox(b,page,godsSlotsWidth,godsSlotsHeight);
+        addBrowseArrows(b,chosenGods,numberOfPlayers);
+        String temp = decorateColumns(b).toString();
+        b.setLength(0);
+        for(String line : temp.split("\\r?\\n")) { b.append(centerLine(line,6,0)).append("\n"); }
+        b.insert(0,"\n"+TOP_CHALLENGER+"\n");
+        b.append(BOTTOM_CHALLENGER).append("\n");
+        StringBuilder outputSlot = new StringBuilder();
+        inputOutputSlot(outputSlot, outPutWidth);
+        outputSlot = decorateSquare(outputSlot,outPutWidth);
+        appendAllLinesCentered(b,removeLines(outputSlot.toString(),5),2,0);
+        out.println(centerScreen(Ansi.CLEAR_CONSOLE +b)); //Ansi.CLEAR_CONSOLE +
+        //setCursor(10,5);
+
+        out.flush();
+    }
+
+    public static void createGodsInfoBox(StringBuilder b, int page, int length, int height) {
+        List<String> godBoxes = getGodPage(page,length,height);
+        addGodsRow(b,godBoxes,0,length,height);
+        b.append("-".repeat(2+length+2)).append("|").append("-".repeat(2+length+2)).append("|").append("\n");
+        b.append(" ".repeat(2+length+2)).append("|").append(" ".repeat(2+length+2)).append("|").append("\n");
+        addGodsRow(b,godBoxes,2,length,height);
+    }
+
+    public static void addBrowseArrows(StringBuilder b, List<String> selectedGods, int numberOfPlayers) {
+        String []arrow = ARROWS_CHALLENGER.split("\\r?\\n");
+        String []godBox = b.toString().split("\\r?\\n");
+        b.setLength(0);
+        b.append(godBox[0]).append("   You selected ").append(selectedGods.size()).append("/").append(numberOfPlayers).append(" gods    ").append("\n");
+        for(int row = 1; row<10; row++) {
+            b.append(godBox[row]).append(fixSlots(arrow[row],28)).append("\n");
+        }
+        for(int row = 10; row < 13; row++) {
+            b.append(godBox[row]).append(getEmptyLength(28)).append("\n");
+        }
+        b.append(godBox[13]).append(fixSlots("  Gods selected:",28)).append("\n");
+        b.append(godBox[14]).append(getEmptyLength(28)).append("\n");
+        for(int row = 15; row<godBox.length; row++) {
+            b.append(godBox[row]);
+            if(row-15<selectedGods.size()) {
+                b.append(fixSlots("  "+selectedGods.get(row-15),28));
+            }
+            else {
+                b.append(getEmptyLength(28));
+            }
+            b.append("\n");
+         }
+
+    }
+
+    public static void addGodsRow(StringBuilder b, List<String> godBoxes, int block, int length, int height) {
+        for(int h = 0; h<height; h++) {
+            b.append(" ".repeat(2));
+            b.append(godBoxes.get(block).split("\\r?\\n")[h]);
+            b.append(" ".repeat(2)).append("|").append(" ".repeat(2));
+            b.append(godBoxes.get(block+1).split("\\r?\\n")[h]);
+            b.append(" ".repeat(2)).append("|").append("\n");
+        }
+        b.append(" ".repeat(2+length+2)).append("|").append(" ".repeat(2+length+2)).append("|").append("\n");
+    }
+
+    public static List<String> getGodPage(int page, int length, int height) {
+        int subListSize = 4;
+        List<String> gods = Gods.getGodsStringList();
+        List<List<String>> temp = new ArrayList<>();
+        for (int i=0; i<gods.size(); i += subListSize) {
+            temp.add(gods.subList(i, Math.min(i + subListSize, gods.size())));
+        }
+        gods = new ArrayList<>();
+        for(String god : temp.get((page%(temp.size())))) {
+            gods.add(createGodWindow(god,length, height));
+        }
+        while(gods.size() < subListSize) {
+            gods.add(createEmptyWindow(length,height));
+        }
+        return gods;
+    }
+
+    public static String createGodWindow(String godName, int length, int height) {
+    StringBuilder temp = new StringBuilder();
+    String []description = Gods.valueOf(godName).getDescription().split(":");
+    temp.append(fixSlots("Name: "+godName,length)).append("\n");
+    appendEmptyRow(temp, length, 1);
+    temp.append(fixSlots("Effect ("+description[0]+"):",length)).append("\n");
+    appendEmptyRow(temp, length, 1);
+    for(String string : divideInRows(description[1].substring(1),length)) {
+        temp.append(fixSlots(string,length)).append("\n");
+    }
+    appendEmptyRow(temp,length,height-temp.toString().split("\\r?\\n").length+1);
+    return temp.toString();
+    }
+
+    public static String createEmptyWindow(int length, int height) {
+        return ("\n"+" ".repeat(length)).repeat(height).substring(1);
+    }
+
+    public static List<String> divideInRows(String message, int rowLength) {
+        List<String> temp = new ArrayList<>();
+        StringBuilder row = new StringBuilder();
+        for(String word : message.split(" ")) {
+            if(row.toString().length() + word.length() > rowLength) {
+                temp.add(row.toString());
+                row.setLength(0);
+            }
+                row.append(word).append((row.toString().length() == rowLength) ? "" : " ");
+        }
+        temp.add(row.toString());
+        return temp;
     }
 
     public static void printStartScreen(String message, boolean input) {
@@ -178,7 +297,7 @@ public class CliScene {
         int width = getLongestLine(string);
         for(String s : string.split("\\r?\\n")) {
             temp.append(s);
-            temp.append(" ".repeat(Math.max(0, width - s.length() + 1)));
+            temp.append("x".repeat(Math.max(0, width - s.length() + 1)));
             temp.append("\n");
         }
         return temp.toString();
@@ -215,6 +334,12 @@ public class CliScene {
     private static void appendAllLinesCentered(StringBuilder b, String text, int length, boolean fixAnsi) {
         for(String line : text.split("\\r?\\n")) {
             b.append(centerLine(line,length,fixAnsi)).append("\n");
+        }
+    }
+
+    private static void appendAllLinesCentered(StringBuilder b, String text, int left, int right) {
+        for(String line : text.split("\\r?\\n")) {
+            b.append(" ".repeat(left)).append(line).append(" ".repeat(right)).append("\n");
         }
     }
 
@@ -288,6 +413,30 @@ public class CliScene {
             "      #########                                                                        #########     \n" +
             "   .zzzzzzzzzzzzz--------------------------------------------------------------------zzzzzzzzzzzzz.  \n" +
             "  /________________________________________________________________________________________________\\ ";
+
+    private static final String TOP_CHALLENGER = "    __________________________________________________________________________________________________________________ \n" +
+            "   /                                                                                                                  \\ \n" +
+            "  |'____'''''____''''____''''___''''___''''_____''''____''''_____''''_____''''_____''''_____''''_____''''____'''''____'|   \n" +
+            "   /    \\---/    \\                           ( )                              ( )                       /    \\---/    \\\n" +
+            "  ( (. \\     / .) )                           |                                |                       ( (. \\     / .) )\n" +
+            "   \\___/-----\\___/                            |                                |                        \\___/-----\\___/ \n" +
+            "       | | | |                                |                                |                            | | | |     ";
+
+    private static final String BOTTOM_CHALLENGER = "      (0OUwUo0)                               |                                |                           (0OUwUo0)\n" +
+            "      #########                              ( )                              ( )                          #########    \n" +
+            "   .zzzzzzzzzzzzz----------------------------------------------------------------------------------------zzzzzzzzzzzzz.\n" +
+            "  /____________________________________________________________________________________________________________________\\";
+
+    private static final String ARROWS_CHALLENGER = "                          \n" +
+            "                          \n" +
+            "  Type 1 and 2 to browse  \n" +
+            "  more available gods     \n" +
+            "                          \n" +
+            "                          \n" +
+            "      /|__       __|\\      \n" +
+            "   1 /    |     |    \\ 2   \n" +
+            "     \\  __|     |__  /     \n" +
+            "      \\|           |/      ";
 
     public static final String TITLE = "      .---.                                          ,___ \n" +
             "     / .-, .                   ________            .'  _  \\  [ ]          [ ]\n" +

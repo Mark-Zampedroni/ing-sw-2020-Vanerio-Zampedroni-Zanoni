@@ -29,15 +29,17 @@ public enum Gods implements Serializable {
         this.description = description;
     }
 
-    public ArrayList<String> getDescription(){
-        ArrayList<String> arraydesc =  new ArrayList<>();
-        arraydesc.add(description);
-        return arraydesc;
+    public String getDescription(){
+        return description;
+    }
+
+    public static List<String> getGodsStringList() {
+        return new ArrayList<>(Arrays.asList("APOLLO","ARTEMIS","ATHENA","ATLAS","DEMETER","HEPHAESTUS","MINOTAUR",
+                "PAN","PROMETHEUS","ZEUS","TRITON","POSEIDON","HESTIA","HERA"));
     }
 
     public static boolean isValid(String god) {
-        List<String> valid = new ArrayList<>(Arrays.asList("APOLLO","ARTEMIS","ATHENA","ATLAS","DEMETER","HEPHAESTUS","MINOTAUR",
-                "PAN","PROMETHEUS","ZEUS","TRITON","POSEIDON","HESTIA","HERA"));
+        List<String> valid = getGodsStringList();
         return valid.contains(god);
     }
 }
