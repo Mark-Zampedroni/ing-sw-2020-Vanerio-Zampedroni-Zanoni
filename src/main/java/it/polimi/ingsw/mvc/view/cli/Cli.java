@@ -133,7 +133,7 @@ public class Cli extends Client {
     }
 
     public void requestChallengerGod(List<String> chosenGods) {
-        inputSave = "You are the challenger! Type the name of one god to select it";
+        inputSave = "You are the challenger! Type the name of one god to select it ";
         while(true) {
             CliScene.printChallengerSelection(inputSave, chosenGods, godPage, players.keySet().size(), true);
             String choice = requestInput().toUpperCase();
