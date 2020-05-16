@@ -168,8 +168,7 @@ public abstract class Client implements Observer<Message>, View {
         gods = new HashMap<>();
         challenger = message.getInfo();
         if(message.getInfo().equals(username) && chosenGods.size() != players.size()) {
-            List<String> copy = new ArrayList<>(chosenGods);
-            viewRequest(() -> requestChallengerGod(copy));
+            viewRequest(() -> requestChallengerGod(new ArrayList<>(chosenGods)));
         }
         else {
             viewRequest(this::updateChallengerGodSelection);
@@ -196,6 +195,7 @@ public abstract class Client implements Observer<Message>, View {
         chosenGods.add(message.getInfo());
         if(chosenGods.size() != players.size()) {
             viewRequest(this::updateChallengerGodSelection);
+
             if (challenger.equals(username)) {
                 viewRequest(() -> requestChallengerGod(new ArrayList<>(chosenGods)));
             }

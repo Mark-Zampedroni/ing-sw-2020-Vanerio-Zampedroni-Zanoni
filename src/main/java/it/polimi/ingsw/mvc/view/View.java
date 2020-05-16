@@ -14,15 +14,15 @@ public interface View {
 
     // Da togliere -> i testi vanno spostati in CLI
     void showInputText(String text);
-    void showInfo(String text);
+    void showInfo(String text); // Generico per mostrare testo nel box input XXXXXXXXXXXXXXXXX
     //Pre-Lobby
-    void requestNumberOfPlayers(); // Chiede al primo giocatore da quante persone fare la partita
+    void requestNumberOfPlayers(); // Chiede al primo giocatore da quante persone fare la partita XXXXXXXXXXXXX
     //Lobby
-    void showLobby(List<Colors> availableColors); // Aggiorna la LOBBY
-    void requestLogin(); // Chiede al giocatore di scegliere un username e un colore
+    void showLobby(List<Colors> availableColors); // Aggiorna la LOBBY XXXXXXXXXXXXXXXXX
+    void requestLogin(); // Chiede al giocatore di scegliere un username e un colore XXXXXXXXXXXXXXXXX
     //Scelta dei da parte del Challenger
     void updateChallengerGodSelection(); // Aggiorna i player durante la scelta del Challenger
-    void requestChallengerGod(List<String> chosenGods); //Visualizza schermata al challenger, chiede in input un dio
+    void requestChallengerGod(List<String> chosenGods); //Visualizza schermata al challenger, chiede in input un dio XXXXXXXXX
     //Scelta dio di ogni giocatore
     void updatePlayerGodSelection(); // Aggiorna i player durante le scelte del dio di ogni giocatore
     void requestPlayerGod(); // Chiede di scegliere un dio da usare

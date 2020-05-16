@@ -63,9 +63,46 @@ public class CliScene {
         inputOutputSlot(outputSlot, outPutWidth);
         outputSlot = decorateSquare(outputSlot,outPutWidth);
         appendAllLinesCentered(b,removeLines(outputSlot.toString(),5),2,0);
-        out.println(centerScreen(Ansi.CLEAR_CONSOLE +b)); //Ansi.CLEAR_CONSOLE +
+        out.println(centerScreen( Ansi.CLEAR_CONSOLE + b));
         setCursor(10,5);
 
+        out.flush();
+    }
+
+    public static void printStartScreen(String message, boolean input) {
+        setMessage(message,input);
+        StringBuilder b = new StringBuilder();
+        int width = ROW.length();
+        appendEmptyRow(b, width, 2);
+        appendAllLinesCentered(b, fixSlots(TITLE), width,false);
+        appendEmptyRow(b, width, 2);
+        appendAllLinesCentered(b, CREDITS, width,false);
+        appendEmptyRow(b, width, 1);
+        inputOutputSlot(b, width);
+        b = decorateSquare(b,100);
+
+        out.println(centerScreen(Ansi.CLEAR_CONSOLE + b));
+        setCursor(8,5);
+        out.flush();
+    }
+
+    public static void printLobbyScreen(String message, Map<String, Colors> players, boolean input) {
+        setMessage(message,input);
+        StringBuilder b = new StringBuilder();
+        int width = getLongestLine(TOP_LOBBY);
+        int innerWidth = 74;
+        appendEmptyRow(b, width, 2);
+        appendAllLinesCentered(b, fixSlots(TOP_LOBBY), width, false);
+        appendAllLinesCentered(b, createPlayersBox(players, innerWidth), width, true);
+        b.append(createColorsBox(players,innerWidth));
+        appendAllLinesCentered(b, fixSlots(BOTTOM_LOBBY), width, false);
+        StringBuilder temp = new StringBuilder();
+        inputOutputSlot(temp, 96);
+        temp = decorateSquare(temp,96);
+        appendAllLinesCentered(b,fixSlots(removeLines(temp.toString(),5)),width+2,false);
+
+        out.println(centerScreen(Ansi.CLEAR_CONSOLE + b, 42));
+        setCursor(10,5);
         out.flush();
     }
 
@@ -163,52 +200,6 @@ public class CliScene {
         }
         temp.add(row.toString());
         return temp;
-    }
-
-    public static void printStartScreen(String message, boolean input) {
-        setMessage(message,input);
-        StringBuilder b = new StringBuilder();
-        int width = ROW.length();
-        appendEmptyRow(b, width, 2);
-        //Adds title
-        appendAllLinesCentered(b, fixSlots(TITLE), width,false);
-        appendEmptyRow(b, width, 2);
-        //Adds credits
-        appendAllLinesCentered(b, CREDITS, width,false);
-        appendEmptyRow(b, width, 1);
-        //Adds input box
-        inputOutputSlot(b, width);
-        //Creates square
-        b = decorateSquare(b,100);
-
-        out.println(centerScreen(Ansi.CLEAR_CONSOLE + b));
-        setCursor(8,5);
-        out.flush();
-    }
-
-    public static void printLobbyScreen(String message, Map<String, Colors> players, boolean input) {
-        setMessage(message,input);
-        StringBuilder b = new StringBuilder();
-        int width = getLongestLine(TOP_LOBBY);
-        int innerWidth = 74;
-        appendEmptyRow(b, width, 2);
-        //Adds top fixed draw
-        appendAllLinesCentered(b, fixSlots(TOP_LOBBY), width, false);
-        //Adds registered players box
-        appendAllLinesCentered(b, createPlayersBox(players, innerWidth), width, true);
-        //Adds available colors box
-        b.append(createColorsBox(players,innerWidth));
-        //Adds bottom fixed draw
-        appendAllLinesCentered(b, fixSlots(BOTTOM_LOBBY), width, false);
-        //Adds input box
-        StringBuilder temp = new StringBuilder();
-        inputOutputSlot(temp, 96);
-        temp = decorateSquare(temp,96);
-        appendAllLinesCentered(b,fixSlots(removeLines(temp.toString(),5)),width+2,false);
-
-        out.println(centerScreen(Ansi.CLEAR_CONSOLE + b, 42));
-        setCursor(10,5);
-        out.flush();
     }
 
     private static String createColorsBox(Map<String, Colors> players, int width) {

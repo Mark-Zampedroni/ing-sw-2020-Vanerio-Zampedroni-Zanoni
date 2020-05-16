@@ -10,6 +10,7 @@ import it.polimi.ingsw.utility.serialization.dto.DtoPosition;
 import it.polimi.ingsw.utility.serialization.dto.DtoSession;
 import java.util.*;
 import java.util.function.Function;
+import java.util.stream.Collectors;
 
 public class Cli extends Client {
 
@@ -132,10 +133,10 @@ public class Cli extends Client {
         //gods.keySet().forEach(p -> Scene.addToScenario(p+" with "+gods.get(p)+"\n"));
     }
 
-    public void requestChallengerGod(List<String> chosenGods) {
+    public void requestChallengerGod(List<String> gods) {
         inputSave = "You are the challenger! Type the name of one god to select it ";
         while(true) {
-            CliScene.printChallengerSelection(inputSave, chosenGods, godPage, players.keySet().size(), true);
+            CliScene.printChallengerSelection(inputSave, new ArrayList<>(gods), godPage, players.keySet().size(), true);
             String choice = requestInput().toUpperCase();
             if(choice.equals("1")) { godPage = (godPage == -3) ? 0 : godPage-1; }
             else if(choice.equals("2")) { godPage = (godPage == 3) ? 0 : godPage+1; }
@@ -143,7 +144,7 @@ public class Cli extends Client {
                 if (validateGods(choice)) { break; }
                 else {
                     inputSave = "God not available, choose a different one:";
-                    CliScene.printChallengerSelection(inputSave, chosenGods, godPage, players.keySet().size(), true);
+                    CliScene.printChallengerSelection(inputSave, new ArrayList<>(gods), godPage, players.keySet().size(), true);
                 }
             }
         }
