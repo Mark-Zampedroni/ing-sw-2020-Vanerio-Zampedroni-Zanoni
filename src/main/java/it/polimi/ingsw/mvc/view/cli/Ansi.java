@@ -66,6 +66,10 @@ public class Ansi {
         return addColor(color, false, true);
     }
 
+    public static String addCode(String code, String string) {
+        return code+string+RESET;
+    }
+
     public static String moveCursorE(int columns) {
         return "\033["+columns+"C"+"\033[0B";
     }

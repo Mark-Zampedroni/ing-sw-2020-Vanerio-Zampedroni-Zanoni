@@ -11,8 +11,9 @@ import java.util.Map;
 public class ClientApp {
 
     public static void main(String[] args) {
-        new Cli("127.0.0.1", 7654);
+        //new Cli("127.0.0.1", 7654);
 
+        System.out.println(CliScene.BOARD);
 
         //Map<String, Colors> players = new HashMap<>();
         //players.put("Mark",Colors.BLUE);

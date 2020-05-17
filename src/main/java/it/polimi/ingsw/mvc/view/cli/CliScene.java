@@ -493,8 +493,53 @@ public class CliScene {
     }
 
 
-    //100
-    //public static final String ROW = "──────────────────────────────────────────────────────────────────────────────────────────────────";
+
+/*
+    public static final String b = "\u001b[48;5;246m";
+    public static final String zero = "\u001b[48;5;112m";
+    public static final String three = "\u001b[48;5;34m";
+    public static final String two = "\u001b[48;5;28m";
+    public static final String one = "\u001b[48;5;22m";*/
+public static final String b = "\u001b[48;5;240m";
+    public static final String zero = "\u001b[48;5;112m";
+    public static final String three = "\u001b[48;5;252m";
+    public static final String two = "\u001b[48;5;248m";
+    public static final String one = "\u001b[48;5;244m";
+
+    public static final String BOARD =
+            Ansi.addCode(b," .-----------------. ") + "\n" +
+            Ansi.addCode(b,"|")+Ansi.addCode(one,"  .-------------.  ")+Ansi.addCode(b,"|") + "\n" +
+            Ansi.addCode(b,"|")+Ansi.addCode(one," |               | ")+Ansi.addCode(b,"|") + "\n" +
+            Ansi.addCode(b,"|")+Ansi.addCode(one," |               | ")+Ansi.addCode(b,"|") + "\n" +
+            Ansi.addCode(b,"|")+Ansi.addCode(one," |               | ")+Ansi.addCode(b,"|") + "\n" +
+            Ansi.addCode(b,"|")+Ansi.addCode(one," |               | ")+Ansi.addCode(b,"|") + "\n" +
+            Ansi.addCode(b,"|")+Ansi.addCode(one," |               | ")+Ansi.addCode(b,"|") + "\n" +
+            Ansi.addCode(b,"|")+Ansi.addCode(one," |               | ")+Ansi.addCode(b,"|") + "\n" +
+            Ansi.addCode(b,"|")+Ansi.addCode(one,"  '-------------'  ")+Ansi.addCode(b,"|") + "\n" +
+            Ansi.addCode(b," '-----------------' ") + "\n" +
+            "\n" +
+            Ansi.addCode(b," .-----------------. ") + "\n" +
+            Ansi.addCode(b,"|")+Ansi.addCode(one,"  .-------------.  ")+Ansi.addCode(b,"|") + "\n" +
+            Ansi.addCode(b,"|")+Ansi.addCode(one," |")+Ansi.addCode(two, "  .---------.  ")+Ansi.addCode(one,"| ")+Ansi.addCode(b,"|") + "\n" +
+            Ansi.addCode(b,"|")+Ansi.addCode(one," |")+Ansi.addCode(two, " |           | ")+Ansi.addCode(one,"| ")+Ansi.addCode(b,"|") + "\n" +
+            Ansi.addCode(b,"|")+Ansi.addCode(one," |")+Ansi.addCode(two, " |           | ")+Ansi.addCode(one,"| ")+Ansi.addCode(b,"|") + "\n" +
+            Ansi.addCode(b,"|")+Ansi.addCode(one," |")+Ansi.addCode(two, " |           | ")+Ansi.addCode(one,"| ")+Ansi.addCode(b,"|") + "\n" +
+            Ansi.addCode(b,"|")+Ansi.addCode(one," |")+Ansi.addCode(two, " |           | ")+Ansi.addCode(one,"| ")+Ansi.addCode(b,"|") + "\n" +
+            Ansi.addCode(b,"|")+Ansi.addCode(one," |")+Ansi.addCode(two,"  '---------'  ")+Ansi.addCode(one,"| ")+Ansi.addCode(b,"|") + "\n" +
+            Ansi.addCode(b,"|")+Ansi.addCode(one,"  '-------------'  ")+Ansi.addCode(b,"|") + "\n" +
+            Ansi.addCode(b," '-----------------' ") + "\n" +
+            "\n" +
+            Ansi.addCode(b," .-----------------. ") + "\n" +
+            Ansi.addCode(b,"|")+Ansi.addCode(one,"  .-------------.  ")+Ansi.addCode(b,"|") + "\n" +
+            Ansi.addCode(b,"|")+Ansi.addCode(one," |")+Ansi.addCode(two, "  .---------.  ")+Ansi.addCode(one,"| ")+Ansi.addCode(b,"|") + "\n" +
+            Ansi.addCode(b,"|")+Ansi.addCode(one," |")+Ansi.addCode(two, " |")+Ansi.addCode(three,"  .-----.  ")+Ansi.addCode(two,"| ")+Ansi.addCode(one,"| ")+Ansi.addCode(b,"|") + "\n" +
+                    Ansi.addCode(b,"|")+Ansi.addCode(one," |")+Ansi.addCode(two, " |")+Ansi.addCode(three," |       | ")+Ansi.addCode(two,"| ")+Ansi.addCode(one,"| ")+Ansi.addCode(b,"|") + "\n" +
+                    Ansi.addCode(b,"|")+Ansi.addCode(one," |")+Ansi.addCode(two, " |")+Ansi.addCode(three," |       | ")+Ansi.addCode(two,"| ")+Ansi.addCode(one,"| ")+Ansi.addCode(b,"|") + "\n" +
+                    Ansi.addCode(b,"|")+Ansi.addCode(one," |")+Ansi.addCode(two, " |")+Ansi.addCode(three,"  '-----'  ")+Ansi.addCode(two,"| ")+Ansi.addCode(one,"| ")+Ansi.addCode(b,"|") + "\n" +
+            Ansi.addCode(b,"|")+Ansi.addCode(one," |")+Ansi.addCode(two,"  '---------'  ")+Ansi.addCode(one,"| ")+Ansi.addCode(b,"|") + "\n" +
+            Ansi.addCode(b,"|")+Ansi.addCode(one,"  '-------------'  ")+Ansi.addCode(b,"|") + "\n" +
+            Ansi.addCode(b," '-----------------' ");
+
     public static final String ROW = "-".repeat(100);
 
     public static final String TOP_LOBBY = "    ______________________________________________________________________________________________   \n" +
