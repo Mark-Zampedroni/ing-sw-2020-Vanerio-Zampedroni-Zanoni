@@ -83,6 +83,7 @@ public class TestClient extends Client {
         if(printMessages) { System.out.println(username+" SENDING TO SERVER:\n"+message+"\n"); }
         super.sendMessage(message);
     }
+	
 
     @Override
     public void showInputText(String text) { }
@@ -103,11 +104,9 @@ public class TestClient extends Client {
     @Override
     public void requestPlayerGod(List<String> chosenGods, Map<String,String> choices) { }
     @Override
-    public void showAvailablePlayers() { }
+    public void updateStarterPlayerSelection(Map<String,String> choices) { }
     @Override
-    public void requestStarterPlayer() { }
-    @Override
-    public void showPlayerGod() { }
+    public void requestStarterPlayer(Map<String,String> choices) { }
     @Override
     public void requestTurnAction(Map<Action, List<DtoPosition>> possibleActions) { }
     @Override

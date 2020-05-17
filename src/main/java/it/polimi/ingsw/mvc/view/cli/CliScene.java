@@ -47,16 +47,19 @@ public class CliScene {
 
 
     public static void printPlayerGodSelection(String message, Map<String,String> choices, List<String> chosenGods, int numberOfPlayers, boolean input) {
-
         int outPutWidth = (numberOfPlayers == 3) ? 118 : 93;
         int godsSlotsWidth = 26;
         int godsSlotsHeight = 14;
+
         setMessage(message,input);
         StringBuilder b = new StringBuilder();
         b.append(createSelectedGodsRow(chosenGods, choices, godsSlotsWidth, godsSlotsHeight, numberOfPlayers));
         b.append(createSelectedSlot(chosenGods,choices,godsSlotsWidth));
         b = closeSelectionWindow(b,numberOfPlayers,outPutWidth);
+
         out.println(centerScreen( Ansi.CLEAR_CONSOLE + b));
+        if(input) { setCursor(9,5); }
+        out.flush();
     }
 
     private static String createSelectedSlot(List<String> chosenGods, Map<String,String> choices, int length) {
@@ -109,6 +112,7 @@ public class CliScene {
         b.append(createPlayersChoiceBox(chosenGods, godsSlotsWidth, godsSlotsHeight, numberOfPlayers));
         b = closeSelectionWindow(b,numberOfPlayers,outPutWidth);
         out.println(centerScreen( Ansi.CLEAR_CONSOLE + b));
+        out.flush();
     }
 
     public static StringBuilder closeSelectionWindow(StringBuilder temp, int numberOfPlayers, int outPutWidth) {
@@ -144,14 +148,12 @@ public class CliScene {
 
     public static String createChoosingBox(int length, int height) {
         StringBuilder temp = new StringBuilder();
-        temp.append(centerLine("The challenger is", length, false)).append(" \n").append(centerLine("choosing ...",length,false)).append("\n");
+        temp.append(centerLine("The challenger is", length, false)).append("\n").append(centerLine("choosing ...",length,false)).append("\n");
         for(int row = 3; row < height; row ++) {
             temp.append(getEmptyLength(length)).append("\n");
         }
         return temp.toString();
     }
-
-
 
     public static void printChallengerSelection(String message, List<String> chosenGods, int page, int numberOfPlayers, boolean input) {
         int outPutWidth = 116;
@@ -171,9 +173,9 @@ public class CliScene {
         inputOutputSlot(outputSlot, outPutWidth);
         outputSlot = decorateSquare(outputSlot,outPutWidth);
         appendAllLinesCentered(b,removeLines(outputSlot.toString(),5),2,0);
-        out.println(centerScreen( Ansi.CLEAR_CONSOLE + b));
-        setCursor(10,5);
 
+        out.println(centerScreen( Ansi.CLEAR_CONSOLE + b));
+        if(input) { setCursor(10,5); }
         out.flush();
     }
 
@@ -190,7 +192,7 @@ public class CliScene {
         b = decorateSquare(b,100);
 
         out.println(centerScreen(Ansi.CLEAR_CONSOLE + b));
-        setCursor(8,5);
+        if(input) {  setCursor(8,5); }
         out.flush();
     }
 
@@ -210,7 +212,7 @@ public class CliScene {
         appendAllLinesCentered(b,fixSlots(removeLines(temp.toString(),5)),width+2,false);
 
         out.println(centerScreen(Ansi.CLEAR_CONSOLE + b, 42));
-        setCursor(10,5);
+        if(input) { setCursor(10,5); }
         out.flush();
     }
 
@@ -447,6 +449,7 @@ public class CliScene {
             temp.insert(0," ");
             temp.append(" ");
         }
+        if((length - text.length())%2 == 1) { temp.append(" "); }
         return (fixAnsi) ? fixAnsi(temp.toString()) : temp.toString();
     }
 

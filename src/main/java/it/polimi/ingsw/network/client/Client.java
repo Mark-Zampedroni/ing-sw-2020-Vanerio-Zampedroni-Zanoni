@@ -235,20 +235,16 @@ public abstract class Client implements Observer<Message>, View {
         }
         if(chosenGods.size() == 0) {
             if(challenger.equals(username)) {
-                inputRequest(this::requestStarterPlayer);
+                inputRequest(() -> requestStarterPlayer(new HashMap<>(gods)));
             }
             else {
-                viewRequest(() -> showInputText("The Challenger is choosing the starter player ..."));
+                viewRequest(() -> updateStarterPlayerSelection(new HashMap<>(gods)));
             }
-            viewRequest(this::showAvailablePlayers);
         }
     }
 
     public boolean validatePlayer(String string) {
-         if(!players.containsKey(string)) {
-             showInputText("This player doesn't exist, choose again: ");
-             return false;
-         }
+         if(!players.containsKey(string)) { return false; }
          sendMessage(new Message(MessageType.STARTER_PLAYER, username, string));
          return true;
     }

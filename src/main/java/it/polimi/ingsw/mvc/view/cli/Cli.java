@@ -119,18 +119,6 @@ public class Cli extends Client {
         CliScene.printPlayerGodSelection(inputSave, choices, allSelectedGods, players.size(),false);
     }
 
-    public void showAvailablePlayers() {
-        //Scene.clearScenario();
-        //Scene.addToScenario("Players:\n");
-        //players.keySet().forEach(p -> Scene.addToScenario(p+" with "+players.get(p).toString()+"\n"));
-        //Scene.printScene();
-    }
-
-    public void showPlayerGod() {
-        //Scene.addToScenario("Players with their Gods:\n");
-        //gods.keySet().forEach(p -> Scene.addToScenario(p+" with "+gods.get(p)+"\n"));
-    }
-
     public void requestChallengerGod(List<String> gods) {
         inputSave = "You are the challenger! Type the name of one god to select it ";
         while(true) {
@@ -148,16 +136,6 @@ public class Cli extends Client {
         }
     }
 
-    private void showAvailableGods() {
-        //Scene.addToScenario("Available gods:\n");
-        //getAvailableGods().forEach(g -> Scene.addToScenario("Name: " + g.toString() + ", Description: " + g.getDescription() + "\n"));
-    }
-
-    public void showChosenGods() {
-        //Scene.addToScenario("\nChosen gods: \n");
-        //chosenGods.stream().map(Gods::valueOf).forEach(g ->  Scene.addToScenario("Name: "+g.toString()+", Description: "+g.getDescription()+"\n"));
-    }
-
     public void requestPlayerGod(List<String> chosenGods, Map<String,String> choices){
         if(allSelectedGods.isEmpty()) { allSelectedGods = new ArrayList<>(chosenGods); }
         inputSave = "Choose one of the available gods:";
@@ -168,13 +146,18 @@ public class Cli extends Client {
         }
     }
 
-    public void requestStarterPlayer(){
-        showInputText("Choose the starting player: ");
-        while(true) {
-            if(validatePlayer(requestInput())) {
-                break;
-            }
+    public void requestStarterPlayer(Map<String,String> choices){
+        inputSave = "As the challenger type the name of the starter player:";
+        CliScene.printPlayerGodSelection(inputSave, choices, allSelectedGods, players.size(),true);
+        while(!validatePlayer(requestInput())) {
+            inputSave = "This player doesn't exist, choose again:";
+            CliScene.printPlayerGodSelection(inputSave, choices, allSelectedGods, players.size(),true);
         }
+    }
+
+    public void updateStarterPlayerSelection(Map<String,String> choices) {
+        inputSave = "The challenger "+challenger+" is choosing the starter player . . .";
+        CliScene.printPlayerGodSelection(inputSave, choices, allSelectedGods, players.size(),false);
     }
 
     public void requestTurnAction(Map<Action, List<DtoPosition>> possibleActions) {

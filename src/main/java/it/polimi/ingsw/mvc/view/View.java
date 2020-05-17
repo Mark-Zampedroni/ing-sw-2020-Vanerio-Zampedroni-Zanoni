@@ -27,9 +27,8 @@ public interface View {
     void updatePlayerGodSelection(String turnOwner, Map<String,String> choices, List<String> chosenGods); // Aggiorna i player durante le scelte del dio di ogni giocatore XXXXXX
     void requestPlayerGod(List<String> chosenGods, Map<String,String> choices); // Chiede di scegliere un dio da usare XXXXXX
     //Scelta starter player
-    void showAvailablePlayers(); // Mostra i giocatori disponibili con i loro dei
-    void requestStarterPlayer(); // Chiede di scegliere lo starter player
-    void showPlayerGod();
+    void updateStarterPlayerSelection(Map<String,String> choices); // Mostra i giocatori disponibili con i loro dei XXXXXXXXX
+    void requestStarterPlayer(Map<String,String> choices); // Chiede di scegliere lo starter player
     //Richiesta azione durante il gioco
     void requestTurnAction(Map<Action, List<DtoPosition>> possibleActions);
     void showBoard(DtoSession session);
