@@ -95,13 +95,13 @@ public class TestClient extends Client {
     @Override
     public void requestLogin() { }
     @Override
-    public void updateChallengerGodSelection() { }
+    public void updateChallengerGodSelection(List<String> chosenGods) { }
     @Override
     public void requestChallengerGod(List<String> chosenGods) { }
     @Override
-    public void updatePlayerGodSelection() { }
+    public void updatePlayerGodSelection(String turnOwner, Map<String,String> choices, List<String> chosenGods) { }
     @Override
-    public void requestPlayerGod() { }
+    public void requestPlayerGod(List<String> chosenGods, Map<String,String> choices) { }
     @Override
     public void showAvailablePlayers() { }
     @Override

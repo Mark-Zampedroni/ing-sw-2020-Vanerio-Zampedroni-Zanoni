@@ -21,11 +21,11 @@ public interface View {
     void showLobby(List<Colors> availableColors); // Aggiorna la LOBBY XXXXXXXXXXXXXXXXX
     void requestLogin(); // Chiede al giocatore di scegliere un username e un colore XXXXXXXXXXXXXXXXX
     //Scelta dei da parte del Challenger
-    void updateChallengerGodSelection(); // Aggiorna i player durante la scelta del Challenger
+    void updateChallengerGodSelection(List<String> chosenGods); // Aggiorna i player durante la scelta del Challenger XXXXXX
     void requestChallengerGod(List<String> chosenGods); //Visualizza schermata al challenger, chiede in input un dio XXXXXXXXX
     //Scelta dio di ogni giocatore
-    void updatePlayerGodSelection(); // Aggiorna i player durante le scelte del dio di ogni giocatore
-    void requestPlayerGod(); // Chiede di scegliere un dio da usare
+    void updatePlayerGodSelection(String turnOwner, Map<String,String> choices, List<String> chosenGods); // Aggiorna i player durante le scelte del dio di ogni giocatore XXXXXX
+    void requestPlayerGod(List<String> chosenGods, Map<String,String> choices); // Chiede di scegliere un dio da usare XXXXXX
     //Scelta starter player
     void showAvailablePlayers(); // Mostra i giocatori disponibili con i loro dei
     void requestStarterPlayer(); // Chiede di scegliere lo starter player

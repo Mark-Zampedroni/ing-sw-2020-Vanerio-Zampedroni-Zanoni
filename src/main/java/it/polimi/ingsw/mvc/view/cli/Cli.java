@@ -17,11 +17,14 @@ public class Cli extends Client {
 
     private final Scanner input;
 
-    private String inputSave = "";
+    private String inputSave;
     private int godPage;
+    private List<String> allSelectedGods;
 
     public Cli(String ip, int port) {
         input = new Scanner(System.in);
+        inputSave = "";
+        allSelectedGods = new ArrayList<>();
         waitConnectionRequest(ip, port);
     }
 
@@ -105,20 +108,15 @@ public class Cli extends Client {
 
     //*GOD SELECTION*//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-    public void updateChallengerGodSelection() {
-        //Scene.clearScenario();
-        showAvailableGods();
-        if(!chosenGods.isEmpty()) { showChosenGods(); }
-        showInputText((challenger.equals(username))
-                ? "You are the challenger! Choose "+players.size()+" gods\nType the name of 1 god:"
-                : "You are not the challenger, wait while " +challenger+" chooses "+players.size()+" gods");
+    public void updateChallengerGodSelection(List<String> gods) {
+        inputSave = "You are not the challenger, wait while " +challenger+" chooses "+players.size()+" gods";
+        CliScene.printChallengerGodsUpdate(inputSave, new ArrayList<>(gods), players.size());
     }
 
-    public void updatePlayerGodSelection() {
-        //Scene.clearScenario();
-        showChosenGods();
-        showPlayerGod();
-        //Scene.printScene();
+    public void updatePlayerGodSelection(String turnOwner, Map<String,String> choices, List<String> chosenGods) {
+        if(allSelectedGods.isEmpty()) { allSelectedGods = new ArrayList<>(chosenGods); }
+        inputSave = turnOwner+" is choosing his god, wait . . .";
+        CliScene.printPlayerGodSelection(inputSave, choices, allSelectedGods, players.size(),false);
     }
 
     public void showAvailablePlayers() {
@@ -160,12 +158,13 @@ public class Cli extends Client {
         //chosenGods.stream().map(Gods::valueOf).forEach(g ->  Scene.addToScenario("Name: "+g.toString()+", Description: "+g.getDescription()+"\n"));
     }
 
-    public void requestPlayerGod(){
-        showInputText("Choose one of the available gods:");
-        while(true) {
-            if(validatePlayerGodChoice(requestInput().toUpperCase())) {
-                break;
-            }
+    public void requestPlayerGod(List<String> chosenGods, Map<String,String> choices){
+        if(allSelectedGods.isEmpty()) { allSelectedGods = new ArrayList<>(chosenGods); }
+        inputSave = "Choose one of the available gods:";
+        CliScene.printPlayerGodSelection(inputSave, choices, allSelectedGods, players.size(),true);
+        while(!validatePlayerGodChoice(requestInput().toUpperCase())) {
+            inputSave = "This god isn't available, please choose a different one: ";
+            CliScene.printPlayerGodSelection(inputSave, choices, allSelectedGods, players.size(),true);
         }
     }
 

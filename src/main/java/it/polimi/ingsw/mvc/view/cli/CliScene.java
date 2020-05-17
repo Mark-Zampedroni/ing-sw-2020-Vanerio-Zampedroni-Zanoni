@@ -45,6 +45,114 @@ public class CliScene {
         }
     }
 
+
+    public static void printPlayerGodSelection(String message, Map<String,String> choices, List<String> chosenGods, int numberOfPlayers, boolean input) {
+
+        int outPutWidth = (numberOfPlayers == 3) ? 118 : 93;
+        int godsSlotsWidth = 26;
+        int godsSlotsHeight = 14;
+        setMessage(message,input);
+        StringBuilder b = new StringBuilder();
+        b.append(createSelectedGodsRow(chosenGods, choices, godsSlotsWidth, godsSlotsHeight, numberOfPlayers));
+        b.append(createSelectedSlot(chosenGods,choices,godsSlotsWidth));
+        b = closeSelectionWindow(b,numberOfPlayers,outPutWidth);
+        out.println(centerScreen( Ansi.CLEAR_CONSOLE + b));
+    }
+
+    private static String createSelectedSlot(List<String> chosenGods, Map<String,String> choices, int length) {
+        StringBuilder temp = new StringBuilder();
+        temp.append(" ".repeat((chosenGods.size() == 3) ? 1 : 0));
+        boolean found = false;
+        for(String god : chosenGods) {
+            temp.append(" ".repeat(chosenGods.size() == 3 ? 2 : 4));
+            for(String player : choices.keySet()) {
+                if(choices.get(player).equals(god)) {
+                    temp.append(fixSlots("Selected by "+player,length));
+                    found = true;
+                    break;
+                }
+            }
+            if(!found) { temp.append(fixSlots("Not selected",length)); }
+            temp.append(" ".repeat(chosenGods.size() == 3 ? 2 : 4)).append("|");
+            found = false;
+        }
+        return temp.toString().substring(0,temp.toString().length()-1)+" ".repeat((chosenGods.size() == 3) ? 1 : 0);
+    }
+
+    private static String createSelectedGodsRow(List<String> chosenGods, Map<String,String> choices, int length, int height, int numberOfPlayers) {
+        List<String> chosen = new ArrayList<>();
+        for(String god : chosenGods) {
+            chosen.add(createGodWindow(god,length,height));
+        }
+        return createRowOfGodsBoxes(chosen,height,numberOfPlayers);
+
+    }
+
+    public static String createPlayersChoiceBox(List<String> chosenGods, int length, int height, int numberOfPlayers) {
+        List<String> chosen = new ArrayList<>();
+        for(String god : chosenGods) {
+            chosen.add(createGodWindow(god,length,height));
+        }
+        while(chosen.size() < numberOfPlayers) {
+            chosen.add(createChoosingBox(length,height));
+        }
+        return createRowOfGodsBoxes(chosen,height,numberOfPlayers);
+    }
+
+
+    public static void printChallengerGodsUpdate(String message, List<String> chosenGods, int numberOfPlayers) {
+        int outPutWidth = (numberOfPlayers == 3) ? 118 : 93;
+        int godsSlotsWidth = 26;
+        int godsSlotsHeight = 14;
+        setMessage(message,false);
+        StringBuilder b = new StringBuilder();
+        b.append(createPlayersChoiceBox(chosenGods, godsSlotsWidth, godsSlotsHeight, numberOfPlayers));
+        b = closeSelectionWindow(b,numberOfPlayers,outPutWidth);
+        out.println(centerScreen( Ansi.CLEAR_CONSOLE + b));
+    }
+
+    public static StringBuilder closeSelectionWindow(StringBuilder temp, int numberOfPlayers, int outPutWidth) {
+        StringBuilder b = new StringBuilder();
+        temp = decorateColumns(temp);
+        appendAllLinesCentered(b,temp.toString(),6,0); //14
+        b.insert(0,"\n"+TOP_SELECTION[numberOfPlayers-2]+"\n");
+        b.append(BOTTOM_SELECTION[numberOfPlayers-2]).append("\n");
+        temp.setLength(0);
+        inputOutputSlot(temp, outPutWidth);
+        temp = decorateSquare(temp,outPutWidth);
+        appendAllLinesCentered(b,removeLines(temp.toString(),5),1,0);
+        return b;
+    }
+
+    private static String createRowOfGodsBoxes(List<String> chosen, int height, int numberOfPlayers) {
+        StringBuilder temp = new StringBuilder();
+        StringBuilder r = new StringBuilder();
+        for(int row = 0; row < height-1; row++) {
+            r.append(" ".repeat((numberOfPlayers == 3) ? 1 : 0));
+            for(String box : chosen) {
+                r.append(" ".repeat((numberOfPlayers == 3) ? 2 : 4))
+                        .append(box.split("\\r?\\n")[row])
+                        .append(" ".repeat((numberOfPlayers == 3) ? 2 : 4))
+                        .append("|");
+            }
+            temp.append(r.toString(), 0, r.toString().length()-1);
+            r.setLength(0);
+            temp.append(" ".repeat((numberOfPlayers == 3) ? 1 : 0)).append("\n");
+        }
+        return temp.toString();
+    }
+
+    public static String createChoosingBox(int length, int height) {
+        StringBuilder temp = new StringBuilder();
+        temp.append(centerLine("The challenger is", length, false)).append(" \n").append(centerLine("choosing ...",length,false)).append("\n");
+        for(int row = 3; row < height; row ++) {
+            temp.append(getEmptyLength(length)).append("\n");
+        }
+        return temp.toString();
+    }
+
+
+
     public static void printChallengerSelection(String message, List<String> chosenGods, int page, int numberOfPlayers, boolean input) {
         int outPutWidth = 116;
         int godsSlotsWidth = 28;
@@ -130,12 +238,7 @@ public class CliScene {
         b.append(godBox[14]).append(getEmptyLength(28)).append("\n");
         for(int row = 15; row<godBox.length; row++) {
             b.append(godBox[row]);
-            if(row-15<selectedGods.size()) {
-                b.append(fixSlots("  "+selectedGods.get(row-15),28));
-            }
-            else {
-                b.append(getEmptyLength(28));
-            }
+            b.append((row-15<selectedGods.size()) ? fixSlots("  "+selectedGods.get(row-15),28) : getEmptyLength(28));
             b.append("\n");
          }
 
@@ -259,7 +362,7 @@ public class CliScene {
 
     private static StringBuilder addOffset(String text, double o) {
         StringBuilder temp = new StringBuilder();
-        String offset = " ".repeat((int)o);
+        String offset = " ".repeat(Math.max(0,(int)o));
         for(String line : text.split("\\r?\\n")) {
             String newLine = offset + line + "\n";
             temp.append(newLine);
@@ -419,6 +522,44 @@ public class CliScene {
             "      #########                              ( )                              ( )                          #########    \n" +
             "   .zzzzzzzzzzzzz----------------------------------------------------------------------------------------zzzzzzzzzzzzz.\n" +
             "  /____________________________________________________________________________________________________________________\\";
+
+    private static final String TOP_SELECTION_3 = "    __________________________________________________________________________________________________________________ \n" +
+            "   /                                                                                                                  \\ \n" +
+            "  |'____'''''____'''____''''____''''____''''____'''____''''____''''____'''____''''____''''____''''____'''____'''''____'|\n" +
+            "   /    \\---/    \\                          ( )                            ( )                          /    \\---/    \\\n" +
+            "  ( (. \\     / .) )                          |                              |                          ( (. \\     / .) )\n" +
+            "   \\___/-----\\___/                           |                              |                           \\___/-----\\___/ \n" +
+            "       | | | |                               |                              |                               | | | |     \n" +
+            "       | | | |                               |                              |                               | | | |\n" +
+            "       | | | |                               |                              |                               | | | |";
+
+    private static final String BOTTOM_SELECTION_3 = "       | | | |                               |                              |                               | | | |\n" +
+            "       | | | |                               |                              |                               | | | |\n" +
+            "      (0OUwUo0)                              |                              |                              (0OUwUo0)\n" +
+            "      #########                             ( )                            ( )                             #########  \n" +
+            "   .zzzzzzzzzzzzz----------------------------------------------------------------------------------------zzzzzzzzzzzzz.\n" +
+            "  /____________________________________________________________________________________________________________________\\";
+
+    private static final String TOP_SELECTION_2 = "    _________________________________________________________________________________________ \n" +
+            "   /                                                                                         \\ \n" +
+            "  |'____'''''____''''____''''____''''____'''''_____'''''____''''____''''____''''____'''''____'|\n" +
+            "   /    \\---/    \\                             ( )                             /    \\---/    \\\n" +
+            "  ( (. \\     / .) )                             |                             ( (. \\     / .) )\n" +
+            "   \\___/-----\\___/                              |                              \\___/-----\\___/ \n" +
+            "       | | | |                                  |                                  | | | |     \n" +
+            "       | | | |                                  |                                  | | | |\n" +
+            "       | | | |                                  |                                  | | | |";
+
+    private static final String BOTTOM_SELECTION_2 = "       | | | |                                  |                                  | | | |\n" +
+            "       | | | |                                  |                                  | | | |\n" +
+            "       | | | |                                  |                                  | | | |\n" +
+            "      (0OUwUo0)                                 |                                 (0OUwUo0)\n" +
+            "      #########                                ( )                                #########\n" +
+            "   .zzzzzzzzzzzzz---------------------------------------------------------------zzzzzzzzzzzzz.\n" +
+            "  /___________________________________________________________________________________________\\";
+
+    private static final String []TOP_SELECTION = {TOP_SELECTION_2, TOP_SELECTION_3};
+    private static final String []BOTTOM_SELECTION = {BOTTOM_SELECTION_2, BOTTOM_SELECTION_3};
 
     private static final String ARROWS_CHALLENGER = "                          \n" +
             "                          \n" +

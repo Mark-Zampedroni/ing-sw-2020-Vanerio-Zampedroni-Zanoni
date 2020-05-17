@@ -20,7 +20,7 @@ public abstract class Client implements Observer<Message>, View {
     protected GameState state;
     protected String username;
 
-    private final List<Runnable> requests;
+    private final List<Runnable> requests, inputRequests; //// <-----
 
     protected ClientConnection connection;
 
@@ -32,15 +32,20 @@ public abstract class Client implements Observer<Message>, View {
     public Client() {
         chosenGods = new ArrayList<>();
         requests = new ArrayList<>();
+        inputRequests = new ArrayList<>(); //// <-----
     }
 
     private void viewRequest(Runnable request) {
         requests.add(request);
     }
+    private void inputRequest(Runnable request) { inputRequests.add(request); } //// <-----
 
     public void flushRequests() {
-        requests.forEach(r -> new Thread(r).start());
+        //requests.forEach(r -> new Thread(r).start()); //// <-----
+        requests.forEach(Runnable::run);
         requests.clear();
+        inputRequests.forEach(r -> new Thread(r).start());
+        inputRequests.clear();
     }
 
     public boolean createConnection(String ip, int port) {
@@ -131,7 +136,7 @@ public abstract class Client implements Observer<Message>, View {
         players = message.getPlayers();
         if(state == GameState.PRE_LOBBY) {
             state = GameState.LOGIN;
-            viewRequest(this::requestLogin);
+            inputRequest(this::requestLogin);
         }
         if(state == GameState.LOGIN || state == GameState.LOBBY) {
             viewRequest(() -> showLobby(message.getColors()));
@@ -159,7 +164,7 @@ public abstract class Client implements Observer<Message>, View {
                 state = GameState.LOBBY;
             }
             else {
-                viewRequest(this::requestLogin);
+                inputRequest(this::requestLogin);
             }
         }
     }
@@ -168,10 +173,10 @@ public abstract class Client implements Observer<Message>, View {
         gods = new HashMap<>();
         challenger = message.getInfo();
         if(message.getInfo().equals(username) && chosenGods.size() != players.size()) {
-            viewRequest(() -> requestChallengerGod(new ArrayList<>(chosenGods)));
+            inputRequest(() -> requestChallengerGod(new ArrayList<>(chosenGods)));
         }
         else {
-            viewRequest(this::updateChallengerGodSelection);
+            viewRequest(() -> updateChallengerGodSelection(new ArrayList<>(chosenGods)));
         }
     }
 
@@ -194,28 +199,27 @@ public abstract class Client implements Observer<Message>, View {
     private void addGod(Message message){
         chosenGods.add(message.getInfo());
         if(chosenGods.size() != players.size()) {
-            viewRequest(this::updateChallengerGodSelection);
-
             if (challenger.equals(username)) {
-                viewRequest(() -> requestChallengerGod(new ArrayList<>(chosenGods)));
+                inputRequest(() -> requestChallengerGod(new ArrayList<>(chosenGods)));
+            }
+            else {
+                viewRequest(() -> updateChallengerGodSelection(new ArrayList<>(chosenGods)));
             }
         }
     }
 
     private void parseGodPlayerChoice(Message message){
-        gods.put(message.getInfo(),""); // Adding player in map
-        viewRequest(this::updatePlayerGodSelection);
+        gods.put(message.getInfo(),"");
         if(username.equals(message.getInfo())){
-            viewRequest(this::requestPlayerGod);
+            inputRequest(() -> requestPlayerGod(new ArrayList<>(chosenGods), new HashMap<>(gods)));
         }
         else {
-            viewRequest(() -> showInputText(message.getInfo()+" is choosing ..."));
+            viewRequest(() -> updatePlayerGodSelection(message.getInfo(), new HashMap<>(gods), new ArrayList<>(chosenGods)));
         }
     }
 
     public boolean validatePlayerGodChoice(String requestedGod){
         if(!chosenGods.contains(requestedGod)){
-            showInputText("This god isn't available, please choose a different one: ");
             return false;
         }
         sendMessage(new Message(MessageType.ASK_PLAYER_GOD, username, requestedGod));
@@ -229,10 +233,9 @@ public abstract class Client implements Observer<Message>, View {
                 gods.replace(player, message.getInfo());
             }
         }
-        viewRequest(this::updatePlayerGodSelection);
         if(chosenGods.size() == 0) {
             if(challenger.equals(username)) {
-                viewRequest(this::requestStarterPlayer);
+                inputRequest(this::requestStarterPlayer);
             }
             else {
                 viewRequest(() -> showInputText("The Challenger is choosing the starter player ..."));
@@ -256,7 +259,7 @@ public abstract class Client implements Observer<Message>, View {
     private void parseTurnUpdate(ActionRequestMessage message) {
         System.out.println(message.getGameUpdate());
         if(username.equals(message.getInfo())) {
-            viewRequest(() -> requestTurnAction(message.getPossibleActions()));
+            inputRequest(() -> requestTurnAction(message.getPossibleActions()));
             //Aggiungere stampa board
         }
     }
