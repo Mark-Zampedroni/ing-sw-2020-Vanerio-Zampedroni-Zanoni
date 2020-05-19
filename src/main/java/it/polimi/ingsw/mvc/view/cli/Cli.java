@@ -163,7 +163,6 @@ public class Cli extends Client {
     //// ---- /////
     public void showBoard(DtoSession session, Map<String,Colors> colors, Map<String,String> gods){
         CliScene.printBoardScreen(session, new HashMap<>(colors), new HashMap<>(gods));
-        System.out.println(session);
     }
 
     public void requestTurnAction(Map<Action, List<DtoPosition>> possibleActions, DtoSession session, Map<String,Colors> colors, Map<String,String> gods) {
@@ -186,7 +185,7 @@ public class Cli extends Client {
             System.out.println("\nChoose an action (0, 1, 2, ...) on previous list:\n");
             x = requestInput();
         }
-        while(!validateAction(possibleActions.size()-1,Integer.parseInt(x)));
+        while(!x.matches("-?\\d+") || !validateAction(possibleActions.size()-1,Integer.parseInt(x)));
         return new ArrayList<>(possibleActions).get(Integer.parseInt(x));
     }
 
