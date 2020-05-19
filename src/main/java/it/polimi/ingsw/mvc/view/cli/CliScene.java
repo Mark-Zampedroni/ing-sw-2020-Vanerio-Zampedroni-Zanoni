@@ -45,6 +45,7 @@ public class CliScene {
         if(enableInput) {
             out.print(Ansi.moveCursorE(cursorOffset+x)); // Da togliere cursorOffset, a volte da problemi
             out.print(Ansi.moveCursorN(y));
+            out.flush();
         }
     }
 
@@ -72,7 +73,10 @@ public class CliScene {
                 board.append("\n");
             }
         }
-        return board.toString();
+        board.append("-".repeat(17*5+6)).append("\n");
+        out.println(Ansi.CLEAR_CONSOLE);
+        out.flush();
+        return Ansi.CLEAR_CONSOLE+board.toString();
     }
 
     public static void printPlayerGodSelection(String message, Map<String,String> choices, List<String> chosenGods, int numberOfPlayers, boolean input) {
@@ -85,7 +89,8 @@ public class CliScene {
         b.append(createSelectedGodsRow(chosenGods, choices, godsSlotsWidth, godsSlotsHeight, numberOfPlayers));
         b.append(createSelectedSlot(chosenGods,choices,godsSlotsWidth));
         b = closeSelectionWindow(b,numberOfPlayers,outPutWidth);
-
+        out.println(Ansi.CLEAR_CONSOLE);
+        out.flush();
         out.println(centerScreen( Ansi.CLEAR_CONSOLE + b));
         if(input) { setCursor(9,5); }
         out.flush();
@@ -140,6 +145,8 @@ public class CliScene {
         StringBuilder b = new StringBuilder();
         b.append(createPlayersChoiceBox(chosenGods, godsSlotsWidth, godsSlotsHeight, numberOfPlayers));
         b = closeSelectionWindow(b,numberOfPlayers,outPutWidth);
+        out.println(Ansi.CLEAR_CONSOLE);
+        out.flush();
         out.println(centerScreen( Ansi.CLEAR_CONSOLE + b));
         out.flush();
     }
@@ -202,7 +209,8 @@ public class CliScene {
         inputOutputSlot(outputSlot, outPutWidth);
         outputSlot = decorateSquare(outputSlot,outPutWidth);
         appendAllLinesCentered(b,removeLines(outputSlot.toString(),5),2,0);
-
+        out.println(Ansi.CLEAR_CONSOLE);
+        out.flush();
         out.println(centerScreen( Ansi.CLEAR_CONSOLE + b));
         if(input) { setCursor(10,5); }
         out.flush();
@@ -219,7 +227,8 @@ public class CliScene {
         appendEmptyRow(b, width, 1);
         inputOutputSlot(b, width);
         b = decorateSquare(b,100);
-
+        out.println(Ansi.CLEAR_CONSOLE);
+        out.flush();
         out.println(centerScreen(Ansi.CLEAR_CONSOLE + b));
         if(input) {  setCursor(8,5); }
         out.flush();
@@ -239,7 +248,8 @@ public class CliScene {
         inputOutputSlot(temp, 96);
         temp = decorateSquare(temp,96);
         appendAllLinesCentered(b,fixSlots(removeLines(temp.toString(),5)),width+2,false);
-
+        out.println(Ansi.CLEAR_CONSOLE);
+        out.flush();
         out.println(centerScreen(Ansi.CLEAR_CONSOLE + b, 42));
         if(input) { setCursor(10,5); }
         out.flush();

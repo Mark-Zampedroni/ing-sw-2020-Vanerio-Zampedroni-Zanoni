@@ -58,6 +58,6 @@ public class HestiaRules extends EventRules implements Serializable {
     @Override
     public void consentBuild(Worker worker, Position position) throws CantActException {
         super.consentBuild(worker, position);
-        Check.boundary(position);
+        if(getEvent()) { Check.boundary(position); }
     }
 }
