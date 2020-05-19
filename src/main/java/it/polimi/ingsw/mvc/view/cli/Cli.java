@@ -160,7 +160,14 @@ public class Cli extends Client {
         CliScene.printPlayerGodSelection(inputSave, choices, allSelectedGods, players.size(),false);
     }
 
-    public void requestTurnAction(Map<Action, List<DtoPosition>> possibleActions) {
+    //// ---- /////
+    public void showBoard(DtoSession session, Map<String,Colors> colors, Map<String,String> gods){
+        CliScene.printBoardScreen(session, new HashMap<>(colors), new HashMap<>(gods));
+        System.out.println(session);
+    }
+
+    public void requestTurnAction(Map<Action, List<DtoPosition>> possibleActions, DtoSession session, Map<String,Colors> colors, Map<String,String> gods) {
+        CliScene.printBoardScreen(session, new HashMap<>(colors), new HashMap<>(gods));
         System.out.println("Possible actions:\n");
         possibleActions.keySet().forEach(action -> System.out.println(action + " on "+possibleActions.get(action)+"\n"));
         System.out.println("\n");
@@ -193,11 +200,6 @@ public class Cli extends Client {
         }
         while(!validatePosition(possiblePositions, x, y));
         return new DtoPosition(new Position(x,y));
-    }
-
-
-    public void showBoard(DtoSession session){
-        System.out.println(session);
     }
 
 }

@@ -22,6 +22,11 @@ public class DtoPosition implements Serializable {
         this.y = position.getY();
     }
 
+    public DtoPosition(int x, int y) {
+        this.x = x;
+        this.y = y;
+    }
+
     /**
      * Getter for x coordinate
      *

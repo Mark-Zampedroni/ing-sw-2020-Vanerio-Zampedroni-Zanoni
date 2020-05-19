@@ -108,7 +108,7 @@ public class TestClient extends Client {
     @Override
     public void requestStarterPlayer(Map<String,String> choices) { }
     @Override
-    public void requestTurnAction(Map<Action, List<DtoPosition>> possibleActions) { }
+    public void requestTurnAction(Map<Action, List<DtoPosition>> possibleActions, DtoSession session, Map<String,Colors> colors, Map<String,String> gods) { }
     @Override
-    public void showBoard(DtoSession session) { }
+    public void showBoard(DtoSession session, Map<String,Colors> colors, Map<String,String> gods) { }
 }

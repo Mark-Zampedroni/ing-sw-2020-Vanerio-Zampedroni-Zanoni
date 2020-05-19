@@ -11,9 +11,20 @@ import java.util.Map;
 public class ClientApp {
 
     public static void main(String[] args) {
-        //new Cli("127.0.0.1", 7654);
+        new Cli("127.0.0.1", 7654);
 
-        System.out.println(CliScene.BOARD);
+        /*
+        for(int i = 0; i < 4; i++) {
+            System.out.println(CliScene.getLevelUpTo(i)+"\n");
+        }
+         */
+
+        /*
+        System.out.println(CliScene.colorLevels(CliScene.getLevelUpTo(3)+"\n",3));
+        System.out.println(CliScene.colorLevels(CliScene.getLevelUpTo(2)+"\n",2));
+        System.out.println(CliScene.colorLevels(CliScene.getLevelUpTo(1)+"\n",1));
+        System.out.println(CliScene.colorLevels(CliScene.getLevelUpTo(0)+"\n",0));
+        */
 
         //Map<String, Colors> players = new HashMap<>();
         //players.put("Mark",Colors.BLUE);

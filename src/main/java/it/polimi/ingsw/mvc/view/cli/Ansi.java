@@ -23,6 +23,10 @@ public class Ansi {
     private static final String CYAN = "36";
     private static final String WHITE = "37";
 
+    private static final int E_BROWN = 94;
+    private static final int E_WHITE = 231;
+    private static final int E_BLUE = 75;
+
     private static String addColor(String color, boolean bright, boolean background) {
         color = color.toUpperCase();
         String brightness = "m";
@@ -46,24 +50,39 @@ public class Ansi {
         return PRE+(Integer.parseInt(color)+backgroundOffset)+brightness;
     }
 
+
+    public static int colorToInt(String color) {
+        switch(color) {
+            case "BROWN" : return E_BROWN;
+            case "BLUE" : return E_BLUE;
+            default : return E_WHITE;
+        }
+    }
+
+    private static String addColor(String color, String string, boolean background) {
+        switch(color) {
+            case "BROWN" : return (background) ? addBg(E_BROWN, string) : addString(E_BROWN, string);
+            case "WHITE" : return (background) ? addBg(E_WHITE, string) : addString(E_WHITE, string);
+            case "BLUE"  : return (background) ? addBg(E_BLUE, string) : addString(E_BLUE,string);
+            default: return string;
+        }
+    }
+
+    private static String addString(int colorCode, String string) {
+        return "\u001b[38;5;"+colorCode+"m"+string+RESET;
+    }
+
+    public static String addBg(int colorCode, String string) {
+        return "\u001b[48;5;"+colorCode+"m"+string+RESET;
+    }
+
+
     public static String decorateColorString(String text, String color) {
         return addStringColor(color) + text + RESET;
     }
 
-    public static String addStringColor(String color, boolean bright) {
-        return addColor(color, bright,false);
-    }
-
     public static String addStringColor(String color) {
         return addColor(color, false,false);
-    }
-
-    public static String addBackgroundColor(String color, boolean bright) {
-        return addColor(color, bright, true);
-    }
-
-    public static String addBackgroundColor(String color) {
-        return addColor(color, false, true);
     }
 
     public static String addCode(String code, String string) {
@@ -72,10 +91,6 @@ public class Ansi {
 
     public static String moveCursorE(int columns) {
         return "\033["+columns+"C"+"\033[0B";
-    }
-
-    public static String moveCursorS(int rows) {
-        return "\033["+rows+"B";
     }
 
     public static String moveCursorN(int rows) {

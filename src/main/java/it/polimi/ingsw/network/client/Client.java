@@ -10,6 +10,7 @@ import it.polimi.ingsw.network.messages.Message;
 import it.polimi.ingsw.utility.observer.Observer;
 import it.polimi.ingsw.mvc.view.View;
 import it.polimi.ingsw.utility.serialization.dto.DtoPosition;
+import it.polimi.ingsw.utility.serialization.dto.DtoSession;
 
 import java.io.IOException;
 import java.util.*;
@@ -255,8 +256,10 @@ public abstract class Client implements Observer<Message>, View {
     private void parseTurnUpdate(ActionRequestMessage message) {
         System.out.println(message.getGameUpdate());
         if(username.equals(message.getInfo())) {
-            inputRequest(() -> requestTurnAction(message.getPossibleActions()));
-            //Aggiungere stampa board
+            inputRequest(() -> requestTurnAction(message.getPossibleActions(), message.getGameUpdate(), players, gods));
+        }
+        else {
+            viewRequest(() -> showBoard(message.getGameUpdate(), players, gods));
         }
     }
 

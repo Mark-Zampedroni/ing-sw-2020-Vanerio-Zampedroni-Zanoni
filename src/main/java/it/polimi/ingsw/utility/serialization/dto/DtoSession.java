@@ -63,4 +63,10 @@ public class DtoSession implements Serializable {
         return b.toString();
     }
 
+    public String getWorkerMasterOn(int x, int y) {
+        for(DtoWorker worker : workers) {
+            if(worker.isOn(x,y)) { return worker.getMasterUsername(); }
+        }
+        return "";
+    }
 }

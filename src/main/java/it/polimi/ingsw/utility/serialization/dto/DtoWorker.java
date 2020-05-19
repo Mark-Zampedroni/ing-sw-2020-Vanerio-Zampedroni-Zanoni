@@ -40,6 +40,10 @@ public class DtoWorker implements Serializable {
      */
     public DtoPosition getPosition() { return position; }
 
+    public boolean isOn(int x, int y) {
+        return position.equals(new DtoPosition(x,y));
+    }
+
 
     /**
      * Generates a String which contains the DTOworker's variables values
