@@ -40,6 +40,9 @@ public class DtoBoard implements Serializable {
         return tiles[position.getX()][position.getY()];
     }
 
+    public DtoTile getTile(int x, int y) {
+        return tiles[x][y];
+    }
 
     /**
      * Implementation of toString method for the {@link DtoBoard DTOboard}

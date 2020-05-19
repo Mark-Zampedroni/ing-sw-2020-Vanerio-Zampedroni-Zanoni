@@ -30,7 +30,7 @@ public interface View {
     void updateStarterPlayerSelection(Map<String,String> choices); // Mostra i giocatori disponibili con i loro dei XXXXXXXXX
     void requestStarterPlayer(Map<String,String> choices); // Chiede di scegliere lo starter player
     //Richiesta azione durante il gioco
-    void requestTurnAction(Map<Action, List<DtoPosition>> possibleActions);
-    void showBoard(DtoSession session);
+    void requestTurnAction(Map<Action, List<DtoPosition>> possibleActions, DtoSession session, Map<String,Colors> colors, Map<String,String> gods);
+    void showBoard(DtoSession session, Map<String,Colors> colors, Map<String,String> gods);
 
 }

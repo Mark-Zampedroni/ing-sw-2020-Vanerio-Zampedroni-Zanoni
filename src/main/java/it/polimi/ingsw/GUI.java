@@ -23,8 +23,8 @@ public class GUI extends Application {
 
     private final String BACKGROUND = "/texture/background_color.png";
 
-    private static final float WIDTH = 1000;
-    private static final float HEIGHT = 600;
+    private static final float WIDTH = 840;
+    private static final float HEIGHT = 700;
 
     @Override
     public void start(Stage primaryStage) throws Exception {
@@ -85,8 +85,9 @@ public class GUI extends Application {
         CheckBox checkBox = new CheckBox("Line");
         ToolBar toolBar = new ToolBar(button, checkBox); //button, checkBox
         toolBar.setOrientation(Orientation.VERTICAL);
+        toolBar.setMinWidth(200);
         pane.setRight(toolBar);
-        pane.setPrefSize(300,300);
+        pane.setPrefSize(600,600);
         Scene scene1 = new Scene(pane);
 
         button.setOnMouseClicked(event -> {

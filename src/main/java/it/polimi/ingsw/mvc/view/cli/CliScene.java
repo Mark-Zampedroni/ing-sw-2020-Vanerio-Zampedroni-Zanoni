@@ -2,6 +2,9 @@ package it.polimi.ingsw.mvc.view.cli;
 
 import it.polimi.ingsw.utility.enumerations.Colors;
 import it.polimi.ingsw.utility.enumerations.Gods;
+import it.polimi.ingsw.utility.serialization.dto.DtoPosition;
+import it.polimi.ingsw.utility.serialization.dto.DtoSession;
+import it.polimi.ingsw.utility.serialization.dto.DtoTile;
 
 import java.io.PrintStream;
 import java.util.*;
@@ -45,6 +48,32 @@ public class CliScene {
         }
     }
 
+
+    public static void printBoardScreen(DtoSession session, Map<String,Colors> colors, Map<String,String> gods) {
+        out.println(createBoard(session,colors));
+        out.flush();
+    }
+
+    private static String  createBoard(DtoSession session, Map<String,Colors> colors) {
+        StringBuilder board = new StringBuilder();
+        for(int y = 0; y<5; y++) {
+            List<String>[] line = new List[5];
+            for(int x = 0; x<5; x++) {
+                DtoTile tile = session.getBoard().getTile(x,y);
+                String master = session.getWorkerMasterOn(x,y);
+                line[x] = Arrays.asList(createTile(tile.getHeight(), tile.hasDome(), master == null ? "" : colors.get(master).toString()).split("\\r?\\n"));
+            }
+            board.append("-".repeat(17*5+6)).append("\n");
+            for(int r = 0; r < line[0].size(); r++) {
+                board.append("|");
+                for(int x = 0; x < 5; x ++) {
+                    board.append(line[x].get(r)).append("|");
+                }
+                board.append("\n");
+            }
+        }
+        return board.toString();
+    }
 
     public static void printPlayerGodSelection(String message, Map<String,String> choices, List<String> chosenGods, int numberOfPlayers, boolean input) {
         int outPutWidth = (numberOfPlayers == 3) ? 118 : 93;
@@ -493,8 +522,155 @@ public class CliScene {
     }
 
 
-    //100
-    //public static final String ROW = "──────────────────────────────────────────────────────────────────────────────────────────────────";
+
+    private static int []LEVEL_LENGTH = {17,13,9,5}; //-4 ad ogni lvl
+    private static int []LEVEL_HEIGHT = {8,6,4,2}; //-2 ad ogni lvl
+
+    private static String createTile(int height, boolean hasDome, String occupant) { // WHITE, BROWN, BLUE -> da cambiare negli ANSI se cambiamo
+        String tile = getLevelUpTo(height);
+        if(!occupant.equals("")) {
+            tile = addWorker(tile);
+        } else if(hasDome) {
+            tile = addDome(tile);
+        }
+        return colorLevels(tile,height,occupant);
+    }
+
+    private static String addDome(String oldTile) {
+        return addTowerElem(oldTile,7,12,"/   \\","\\   /");
+    }
+
+    private static String addWorker(String oldTile) {
+        return addTowerElem(oldTile, 8,11,"(W)","\\_/");
+    }
+
+    private static String addTowerElem(String oldTile, int pos1, int pos2, String firstElem, String secondElem) {
+        StringBuilder tile = new StringBuilder();
+        List<String> tempRow = Arrays.asList(oldTile.split("\\r?\\n"));
+        for(int r = 0; r < tempRow.size(); r++) {
+            if(r == 4 || r == 5) {
+                tile.append(tempRow.get(r), 0, pos1).append((r==4) ? firstElem : secondElem).append(tempRow.get(r).substring(pos2)).append("\n");
+            } else {
+                tile.append(tempRow.get(r)).append("\n");
+            }
+        }
+        return tile.toString();
+    }
+
+    private static String colorLevels(String oldTile, int height, String occupant) {
+        StringBuilder tile = new StringBuilder();
+        List<String> temp = Arrays.asList(oldTile.split("\\r?\\n"));
+        List<String> overBase = new ArrayList<>();
+        for(int row = 1; row < temp.size()-1; row++) {
+            overBase.add(temp.get(row).substring(1,temp.get(row).length()-1));
+        }
+
+        for(String string : overBase) {
+            List<String> row = Arrays.asList(string.split(""));
+            tile.append(insertColors(row, height, occupant));
+        }
+        return tile.toString();
+    }
+
+    private static String insertColors(List<String> row, int height, String occupant) {
+        StringBuilder newRow = new StringBuilder();
+        List<Integer> match = new ArrayList<>();
+        for(int i = 0; i < row.size(); i++) {
+            if(row.get(i).equals("|")) { match.add(i); }
+        }
+        if(height == 0) { addLastFloor(row,match,height,newRow,occupant); }
+        else if(match.size() == 0) { newRow.append(Ansi.addBg(244,String.join("",row))); }
+        else { recursiveAdd(row,match,height,newRow,0,occupant); }
+        newRow.append("\n");
+        return newRow.toString();
+    }
+
+    private static void recursiveAdd(List<String> row, List<Integer> match, int height, StringBuilder newRow, int callNumber, String occupant) {
+        if(callNumber > match.size()/2-1) {
+            if(callNumber - height == 0) {
+                addLastFloor(row,match,height,newRow,occupant);
+            } else {
+                newRow.append(Ansi.addBg(244 + match.size() * 2, String.join("", row.subList(match.get(match.size() / 2 - 1) + 1, match.get(match.size() / 2)))));
+            }
+        }
+        else if(callNumber == 0) {
+            newRow.append(Ansi.addBg(244+4*callNumber, String.join("",row.subList(0,match.get(callNumber)+1))));
+            recursiveAdd(row,match,height,newRow,callNumber+1,occupant);
+            newRow.append(Ansi.addBg(244+4*callNumber, String.join("",row.subList(match.get(match.size()-1-callNumber),row.size()))));
+        } else {
+            newRow.append(Ansi.addBg(244+4*callNumber, String.join("", row.subList(match.get(callNumber - 1) + 1, match.get(callNumber) + 1))));
+            recursiveAdd(row, match, height, newRow, callNumber + 1,occupant);
+            newRow.append(Ansi.addBg(244+4*callNumber, String.join("", row.subList(match.get(match.size() - 1 - callNumber), match.get(match.size() - callNumber)))));
+        }
+    }
+
+    private static void addLastFloor(List<String> row, List<Integer> match, int height, StringBuilder newRow, String occupant) {
+            String nextRow = (height == 0) ? String.join("",row) : String.join("", row.subList(match.get(match.size() / 2 - 1) + 1, match.get(match.size() / 2)));
+            if (nextRow.contains("/   \\") || nextRow.contains("\\   /")) {
+                colorLastFloorElem(newRow,nextRow,6,11,19,height);
+            } else if (nextRow.contains("(W)") || nextRow.contains("\\_/")) {
+                colorLastFloorElem(newRow,nextRow,7,10,Ansi.colorToInt(occupant),height);
+            } else {
+                newRow.append(Ansi.addBg((height == 0) ? 112 : 240 + height * 4, nextRow));
+            }
+    }
+
+    private static void colorLastFloorElem(StringBuilder b, String row, int start, int end, int color, int height) {
+        b.append(Ansi.addBg((height == 0) ? 112 : 240 + height * 4, row.substring(0, start - height * 2)))
+                .append(Ansi.addBg(color, row.substring(start - height * 2, end - height * 2)))
+                .append(Ansi.addBg((height == 0) ? 112 : 240 + height * 4, row.substring(end - height * 2)));
+
+    }
+
+    private static String getLevelUpTo(int height) {
+        StringBuilder tile = new StringBuilder();
+        tile.append(getLevel(0));
+        int yPos = 1;
+        int xPos = 1;
+        for (int h = 1; h < height + 1; h++) {
+            String []oldTile = tile.toString().split("\\r?\\n");
+            tile.setLength(0);
+            for(int r = 0; r < yPos; r++) { tile.append(oldTile[r]).append("\n"); }
+            String []newLevel = getLevel(h).split("\\r?\\n");
+            for(int n = 0; n<newLevel.length; n++) {
+                tile.append(oldTile[n+yPos], 0, xPos)
+                    .append(newLevel[n])
+                    .append(oldTile[n+yPos], xPos+newLevel[n].length(), oldTile[n+yPos].length()).append("\n");
+            }
+            for(int r = yPos+newLevel.length; r < oldTile.length; r++) { tile.append(oldTile[r]).append("\n"); }
+            xPos += 2;
+            yPos++;
+
+        }
+        return tile.toString();
+    }
+
+    private static String getLevel(int height) {
+        StringBuilder temp = new StringBuilder();
+        temp.append(addTileLine(" .",". ","-",height,2)).append("\n");
+        for(int r = 0; r < LEVEL_HEIGHT[height]; r++) {
+            temp.append(addTileLine("|","|"," ",height)).append("\n");
+        }
+        temp.append(addTileLine(" '","' ","-",height,2)).append("\n");
+        return temp.toString();
+    }
+
+    private static String addTileLine(String leftBorder, String rightBorder, String inner, int height, int offset) {
+        return  " ".repeat((height > 0) ? 1 : 0) +
+                leftBorder +
+                inner.repeat(LEVEL_LENGTH[height] - offset) +
+                ((height > 0 && rightBorder.equals(". ")) ? "." + height : rightBorder) +
+                " ".repeat((height > 0) ? 1 : 0);
+    }
+
+    private static String addTileLine(String leftBorder, String rightBorder, String inner, int height) {
+        return addTileLine(leftBorder,rightBorder,inner,height,0);
+    }
+
+    private static String decorateColor(String string, int height) {
+        return Ansi.addBg(240+4*height,string);
+    }
+
     public static final String ROW = "-".repeat(100);
 
     public static final String TOP_LOBBY = "    ______________________________________________________________________________________________   \n" +
