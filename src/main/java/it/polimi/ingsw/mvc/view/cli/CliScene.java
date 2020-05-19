@@ -50,13 +50,29 @@ public class CliScene {
 
 
     public static void printBoardScreen(DtoSession session, Map<String,Colors> colors, Map<String,String> gods) {
-        for(int x = 0; x<5; x++) {
-            for(int y = 0; y<5; y++) {
+        out.println(createBoard(session,colors));
+        out.flush();
+    }
+
+    private static String  createBoard(DtoSession session, Map<String,Colors> colors) {
+        StringBuilder board = new StringBuilder();
+        for(int y = 0; y<5; y++) {
+            List<String>[] line = new List[5];
+            for(int x = 0; x<5; x++) {
                 DtoTile tile = session.getBoard().getTile(x,y);
                 String master = session.getWorkerMasterOn(x,y);
-                System.out.println(createTile(tile.getHeight(), tile.hasDome(), master.equals("") ? "" : colors.get(master).toString()));
+                line[x] = Arrays.asList(createTile(tile.getHeight(), tile.hasDome(), master == null ? "" : colors.get(master).toString()).split("\\r?\\n"));
+            }
+            board.append("-".repeat(17*5+6)).append("\n");
+            for(int r = 0; r < line[0].size(); r++) {
+                board.append("|");
+                for(int x = 0; x < 5; x ++) {
+                    board.append(line[x].get(r)).append("|");
+                }
+                board.append("\n");
             }
         }
+        return board.toString();
     }
 
     public static void printPlayerGodSelection(String message, Map<String,String> choices, List<String> chosenGods, int numberOfPlayers, boolean input) {
