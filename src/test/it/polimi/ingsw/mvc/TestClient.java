@@ -27,31 +27,31 @@ public class TestClient extends Client {
     }
 
     public void requestRegister(String requestedUsername, Colors color) {
-        sendMessage(new RegistrationMessage(this.username, requestedUsername, color));
+        sendMessage(new RegistrationMessage(this.username, requestedUsername, color,"SERVER"));
     }
 
     public void requestRegister(String sender, String requestedUsername, Colors color) {
-        sendMessage(new RegistrationMessage(sender, requestedUsername, color));
+        sendMessage(new RegistrationMessage(sender, requestedUsername, color,"SERVER"));
     }
 
     public void requestChallengerGod(String god) {
-        sendMessage(new FlagMessage(MessageType.SELECTED_GODS_CHANGE, username, god, true));
+        sendMessage(new FlagMessage(MessageType.SELECTED_GODS_CHANGE, username, god, true,"SERVER"));
     }
 
     public void requestPlayerGod(String god) {
-        sendMessage(new Message(MessageType.ASK_PLAYER_GOD, username, god));
+        sendMessage(new Message(MessageType.ASK_PLAYER_GOD, username, god,"SERVER"));
     }
 
     public void requestAction(Action action, DtoPosition position) {
-        sendMessage(new ActionMessage(username, "Test action request", action, position));
+        sendMessage(new ActionMessage(username, "Test action request", action, position,"SERVER"));
     }
 
     public void requestPlayersNumber(String number) {
-        sendMessage(new Message(MessageType.SLOTS_CHOICE, username, number));
+        sendMessage(new Message(MessageType.SLOTS_CHOICE, username, number,"SERVER"));
     }
 
     public void requestStarterPlayer(String starterPlayer) {
-        sendMessage(new Message (MessageType.STARTER_PLAYER, username, starterPlayer));
+        sendMessage(new Message (MessageType.STARTER_PLAYER, username, starterPlayer, "SERVER"));
     }
 
     public boolean isChallenger() {

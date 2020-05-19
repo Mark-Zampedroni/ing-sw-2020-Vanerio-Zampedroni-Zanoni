@@ -30,7 +30,7 @@ public class SelectionController extends StateController implements Serializable
         session = Session.getInstance();
         challenger = session.getPlayerByName(session.getChallenger());
         state = GameState.CHALLENGER_SELECTION;
-        sendBroadcastMessage(new Message(MessageType.CHALLENGER_SELECTION, "SERVER", challenger.getUsername()));
+        notifyMessage(new Message(MessageType.CHALLENGER_SELECTION, "SERVER", challenger.getUsername(), "ALL"));
         turn = session.getPlayers().indexOf(challenger);
         controller.setTurnOwner(challenger.getUsername());
     }
@@ -61,13 +61,13 @@ public class SelectionController extends StateController implements Serializable
         if (state == GameState.CHALLENGER_SELECTION){
             if (Gods.isValid(message.getInfo()) && !chosenGod.contains(message.getInfo())) {
                 chosenGod.add(message.getInfo());
-                sendBroadcastMessage(new FlagMessage(MessageType.SELECTED_GODS_CHANGE, "SERVER", message.getInfo(), true));
+                notifyMessage(new FlagMessage(MessageType.SELECTED_GODS_CHANGE, "SERVER", message.getInfo(), true, "ALL"));
                 if (chosenGod.size() == controller.getPlayers().size()) {
                     state = GameState.GOD_SELECTION;
                     askNextSelection();
                 }
             } else {
-                sendBroadcastMessage(new Message(MessageType.CHALLENGER_SELECTION, "SERVER", challenger.getUsername()));
+                notifyMessage(new Message(MessageType.CHALLENGER_SELECTION, "SERVER", challenger.getUsername(), "ALL"));
             }
         }
     }
@@ -77,15 +77,15 @@ public class SelectionController extends StateController implements Serializable
                 chosenGod.remove(message.getInfo());
                 assignGod(message.getSender(), message.getInfo());
                 if (!chosenGod.isEmpty()) {
-                    sendBroadcastMessage(new FlagMessage(MessageType.SELECTED_GODS_CHANGE, "SERVER", message.getInfo(), false));
+                    notifyMessage(new FlagMessage(MessageType.SELECTED_GODS_CHANGE, "SERVER", message.getInfo(), false, "ALL"));
                     askNextSelection();
                 } else {
                     state = GameState.STARTER_SELECTION;
                     controller.setTurnOwner(challenger.getUsername());
-                    sendBroadcastMessage(new FlagMessage(MessageType.SELECTED_GODS_CHANGE, "SERVER", message.getInfo(), false));
+                    notifyMessage(new FlagMessage(MessageType.SELECTED_GODS_CHANGE, "SERVER", message.getInfo(), false, "ALL"));
                 }
             } else {
-                views.get(message.getSender()).sendMessage(new Message(MessageType.ASK_PLAYER_GOD, "SERVER", "choice"));
+                notifyMessage(new Message(MessageType.ASK_PLAYER_GOD, "SERVER", "choice",message.getSender()));
             }
         }
     }
@@ -111,7 +111,7 @@ public class SelectionController extends StateController implements Serializable
         Player turnOwner = session.getPlayers().get(turn);
         controller.setTurnOwner(turnOwner.getUsername());
         if (turnOwner.getGod() == null) {
-            sendBroadcastMessage(new Message(MessageType.ASK_PLAYER_GOD, "SERVER", turnOwner.getUsername()));
+            notifyMessage(new Message(MessageType.ASK_PLAYER_GOD, "SERVER", turnOwner.getUsername(), "ALL"));
         }
     }
 

@@ -34,15 +34,9 @@ public abstract class StateController implements Serializable {
     public abstract void parseMessage(Message message);
     public abstract void tryNextState();
 
-    public void sendBroadcastMessage(Message message) {
-        for (String player : views.keySet()) {
-            views.get(player).sendMessage(message);
-        }
-    }
-
     public List<Colors> getFreeColors() {
         LOG.warning("getFreeColors called on wrong state");
-        return new ArrayList<>(); // Empty, Override in Lobby
+        return new ArrayList<>();
     }
 
     public SessionController getController() {
@@ -57,6 +51,10 @@ public abstract class StateController implements Serializable {
         LOG.warning("addUnregisteredView called on wrong state");
     }
 
+    public void notifyMessage(Message message) {
+        views.values().forEach(w -> w.sendMessage(message));
+    }
+
     public void removePlayer(String username) {
         if(views.containsKey(username)) {
             Session.getInstance().removePlayer(username);
@@ -65,7 +63,6 @@ public abstract class StateController implements Serializable {
         }
     }
 
-    // Registra un player e lo aggiunge al gioco
     public void addPlayer(String username, Colors color, RemoteView view) {
         LOG.warning("addPlayer called on wrong state");
     }

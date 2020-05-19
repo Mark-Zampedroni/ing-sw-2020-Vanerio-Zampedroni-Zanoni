@@ -8,8 +8,8 @@ public class RegistrationMessage extends Message {
 
     private final Colors color;
 
-    public RegistrationMessage(String sender, String info, Colors color) {
-        super(MessageType.REGISTRATION, sender, info);
+    public RegistrationMessage(String sender, String info, Colors color, String recipient) {
+        super(MessageType.REGISTRATION, sender, info, recipient);
         this.color = color;
     }
 

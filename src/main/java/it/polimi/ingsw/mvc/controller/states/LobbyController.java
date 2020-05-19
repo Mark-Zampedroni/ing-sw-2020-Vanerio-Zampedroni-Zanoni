@@ -47,14 +47,14 @@ public class LobbyController extends StateController implements Serializable {
 
         if (view != null && !view.getRegistered()) { // Anti-cheat
             if (views.containsKey(requestedUsername)) { // Anti-cheat
-                view.sendMessage(createRegistrationReply("This username is already in use", false));
+                notifyMessage(createRegistrationReply("This username is already in use", false, message.getSender()));
                 LOG.warning("A player tried to register with the already in use username " + requestedUsername + "\n");
             } else if (!getFreeColors().contains(requestedColor)) { // Anti-cheat
-                view.sendMessage(createRegistrationReply("Color " + requestedColor + " is not available", false));
+                notifyMessage(createRegistrationReply("Color " + requestedColor + " is not available", false, message.getSender()));
                 LOG.warning("A player tried to register with the already in use color " + requestedColor + "\n");
             } else {
                 confirmRegistration(message.getSender(), requestedUsername, requestedColor, view);
-                view.sendMessage(createRegistrationReply(requestedUsername, true));
+                notifyMessage(createRegistrationReply(requestedUsername, true, message.getSender()));
                 sendUpdate();
                 if (views.size() == controller.getGameCapacity()) {
                     startGame();
@@ -65,8 +65,8 @@ public class LobbyController extends StateController implements Serializable {
         }
     }
 
-    private Message createRegistrationReply(String info, boolean success) {
-        return new FlagMessage(MessageType.REGISTRATION, "SERVER", info, success);
+    private Message createRegistrationReply(String info, boolean success, String recipient) {
+        return new FlagMessage(MessageType.REGISTRATION, "SERVER", info, success, recipient);
     }
 
     private void confirmRegistration(String token, String user, Colors color, RemoteView view) {
@@ -84,14 +84,14 @@ public class LobbyController extends StateController implements Serializable {
     }
 
     @Override
-    public void sendUpdate() { // Invece di controller.getPlayers() un DTO
-        sendBroadcastMessage(new LobbyUpdate("SERVER", "Update", controller.getFreeColors(), controller.getPlayers()));
+    public void sendUpdate() {
+        notifyMessage(new LobbyUpdate("SERVER", "Update", controller.getFreeColors(), controller.getPlayers(), "ALL"));
     }
 
 
     @Override
-    public void sendBroadcastMessage(Message message) {
-        super.sendBroadcastMessage(message);
+    public void notifyMessage(Message message) {
+        super.notifyMessage(message);
         sendAllPending(message);
     }
 

@@ -175,7 +175,7 @@ public class Cli extends Client {
         if(action != Action.END_TURN) {
             position = requestPosition(possibleActions.get(action));
         }
-        sendMessage(new ActionMessage(username, "Action request", action, position));
+        sendMessage(new ActionMessage(username, "Action request", action, position,"SERVER"));
         System.out.println("\n");
     }
 

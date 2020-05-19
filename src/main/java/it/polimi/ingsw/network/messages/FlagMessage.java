@@ -6,8 +6,8 @@ public class FlagMessage extends Message {
 
     private final boolean flag;
 
-    public FlagMessage(MessageType type, String sender, String info, boolean flag) {
-        super(type, sender, info);
+    public FlagMessage(MessageType type, String sender, String info, boolean flag, String recipient) {
+        super(type, sender, info, recipient);
         this.flag = flag;
     }
 

@@ -9,13 +9,13 @@ import it.polimi.ingsw.utility.serialization.dto.DtoSession;
 import java.util.List;
 import java.util.Map;
 
-public class ActionRequestMessage extends Message {
+public class ActionUpdateMessage extends Message {
 
     private final Map<Action, List<DtoPosition>> possibleActions;
     private final DtoSession gameUpdate;
 
-    public ActionRequestMessage(String sender, String turnOwner, Map<Action, List<DtoPosition>> possibleActions, DtoSession gameUpdate) {
-        super(MessageType.TURN_UPDATE, sender, turnOwner);
+    public ActionUpdateMessage(String sender, String turnOwner, Map<Action, List<DtoPosition>> possibleActions, DtoSession gameUpdate, String recipient) {
+        super(MessageType.TURN_UPDATE, sender, turnOwner, recipient);
         this.possibleActions = possibleActions;
         this.gameUpdate = gameUpdate;
     }

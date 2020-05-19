@@ -40,9 +40,10 @@ public class ReloadGame {
         ReloadGame.savedData = savedData;
     }
 
+    /*
     public static SessionController reloadSessionController(List<ServerConnection> connections, Logger LOG) {
         sessionController = new SessionController(connections, LOG, savedData.getSession(), savedData.getGameState(), savedData.getStateController());
         return sessionController;
         //quando riprendo turno o selezione assegnargli il sessionController giusto
-    }
+    }*/
 }

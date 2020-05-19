@@ -9,11 +9,13 @@ public class Message implements Serializable {
     private final MessageType type;
     private final String sender;
     private final String info;
+    private final String recipient;
 
-    public Message(MessageType type, String sender, String info) {
+    public Message(MessageType type, String sender, String info, String recipient) {
         this.type = type;
         this.sender = sender;
         this.info = info;
+        this.recipient = recipient;
     }
 
     public MessageType getType() {
@@ -24,6 +26,8 @@ public class Message implements Serializable {
         return sender;
     }
 
+    public String getRecipient() { return recipient; }
+
     public String getInfo() {
         return info;
     }
@@ -31,8 +35,9 @@ public class Message implements Serializable {
     @Override
     public String toString() {
     return "From: "+sender+"\n"+
+           "To: "+recipient+"\n"+
            "Type: "+type+"\n"+
-           "Info: "+info;
+           "Info: "+info+"\n";
     }
 
 }

@@ -51,7 +51,7 @@ public class ServerConnection extends Observable<Message> implements Runnable {
 
     private void sendToken(String token) {
         this.token = token;
-        sendMessage(new Message(MessageType.CONNECTION_TOKEN, "SERVER", token));
+        sendMessage(new Message(MessageType.CONNECTION_TOKEN, "SERVER", token,token));
     }
 
     public void sendMessage(Message msg) {
@@ -125,7 +125,7 @@ public class ServerConnection extends Observable<Message> implements Runnable {
     }
 
     public void denyConnection(String message) {
-        sendMessage(new Message(MessageType.DISCONNECT, "SERVER", message));
+        sendMessage(new Message(MessageType.DISCONNECT, "SERVER", message, token));
         disconnect();
     }
 

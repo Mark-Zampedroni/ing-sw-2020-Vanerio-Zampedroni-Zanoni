@@ -8,6 +8,7 @@ import java.util.Scanner;
 
 public class SaveHandler extends Thread {
 
+
     Server server;
     SessionController sessionController;
     Boolean input;
@@ -37,7 +38,7 @@ public class SaveHandler extends Thread {
                 s= "null";
             }
             if (s.equals("Reload All")) {
-                server.reloadGame();
+                //server.reloadGame(); // <--------------------------------- COMMENTATO
                 //mando alle connessioni che ho ricaricato la partita
                 System.out.println("Game Reloaded");
                 s="null";

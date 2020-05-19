@@ -11,8 +11,8 @@ public class ReconnectionUpdate extends Message {
 
     private final List<Player> playerList;
 
-    public ReconnectionUpdate(String sender, String info, List<Player> players) {
-        super(MessageType.RECONNECTION_UPDATE, sender, info);
+    public ReconnectionUpdate(String sender, String info, List<Player> players, String recipient) {
+        super(MessageType.RECONNECTION_UPDATE, sender, info, recipient);
         playerList=players;
     }
 

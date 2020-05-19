@@ -1,6 +1,6 @@
 package it.polimi.ingsw.mvc.view;
 
-import it.polimi.ingsw.network.messages.game.ActionRequestMessage;
+import it.polimi.ingsw.network.messages.game.ActionUpdateMessage;
 import it.polimi.ingsw.utility.serialization.dto.DtoPosition;
 import it.polimi.ingsw.utility.serialization.dto.DtoSession;
 import it.polimi.ingsw.utility.enumerations.Action;
@@ -43,9 +43,8 @@ public class RemoteView extends Observable<Message> implements Observer<DtoSessi
         return registered;
     }
 
-    // RICEVE INPUT DEL GIOCATORE - RICHIESTA AZIONE
     private void handleInput(Message message) {
-        notify(message); // LA GIRA AL SESSIONCONTROLLER
+        notify(message);
     }
 
     public void sendMessage(Message message) {
@@ -64,7 +63,7 @@ public class RemoteView extends Observable<Message> implements Observer<DtoSessi
     }
 
     public void updateActions(Map<Action, List<DtoPosition>> actionCandidates, String turnOwner) {
-        sendMessage(new ActionRequestMessage("SERVER",turnOwner,actionCandidates,dtoSession));
+        sendMessage(new ActionUpdateMessage("SERVER",turnOwner,actionCandidates,dtoSession,"ALL"));
     }
 
 }
