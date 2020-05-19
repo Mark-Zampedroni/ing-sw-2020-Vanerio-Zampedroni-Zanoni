@@ -12,7 +12,7 @@ public class ClientApp {
 
     public static void main(String[] args) {
         //new Cli("127.0.0.1", 7654); //79.50.167.55:7654
-        new Cli("79.50.167.55", 7654); //79.50.167.55:7654
+        new Cli(args[0], 7654); //79.50.167.55:7654
 
         /*
         for(int i = 0; i < 4; i++) {
