@@ -1,7 +1,7 @@
-package it.polimi.ingsw.objects3D;
+package it.polimi.ingsw.mvc.view.gui.objects3D;
 
-import it.polimi.ingsw.objects3D.utils.BoardCoords3D;
-import it.polimi.ingsw.objects3D.utils.NodeOperation;
+import it.polimi.ingsw.mvc.view.gui.objects3D.utils.BoardCoords3D;
+import it.polimi.ingsw.mvc.view.gui.objects3D.utils.NodeOperation;
 import javafx.scene.Group;
 
 public abstract class TrackedGroup extends Group {

@@ -8,7 +8,7 @@ public class ReconnectionMessage extends Message {
 
     //Inviare solo il nome del player
 
-    public ReconnectionMessage(String sender, String playerName) {
-        super(MessageType.RECONNECTION, sender, playerName);
+    public ReconnectionMessage(String sender, String playerName, String recipient) {
+        super(MessageType.RECONNECTION, sender, playerName, recipient);
     }
 }

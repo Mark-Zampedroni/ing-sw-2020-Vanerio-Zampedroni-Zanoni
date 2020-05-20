@@ -56,7 +56,7 @@ public class ActionController implements Serializable {
             case WIN:
             case END_TURN: return new ArrayList<>();
         }
-        return null; // ERROR
+        return null;
     }
 
 
@@ -79,12 +79,10 @@ public class ActionController implements Serializable {
 
 
     private List<Action> actMove(Worker worker, Position position) {
-
         List<Action> afterMove = rules.afterMove();
         boolean victory = rules.consentWin(worker, position);
         rules.executeMove(worker, position);
         return victory ? Collections.singletonList(Action.WIN) : afterMove;
-        //return afterMove; // if only end_turn -> passa automatico
     }
 
 

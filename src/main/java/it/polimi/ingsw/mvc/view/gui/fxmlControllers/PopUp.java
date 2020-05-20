@@ -1,11 +1,8 @@
-package it.polimi.ingsw.fxmlControllers;
+package it.polimi.ingsw.mvc.view.gui.fxmlControllers;
 
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
-import javafx.scene.image.Image;
-import javafx.scene.layout.Background;
-import javafx.scene.layout.BackgroundImage;
 import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;

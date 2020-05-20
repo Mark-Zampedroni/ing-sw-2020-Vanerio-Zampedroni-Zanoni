@@ -1,6 +1,6 @@
 package it.polimi.ingsw.network.client;
 
-import it.polimi.ingsw.network.messages.game.ActionRequestMessage;
+import it.polimi.ingsw.network.messages.game.ActionUpdateMessage;
 import it.polimi.ingsw.network.messages.lobby.RegistrationMessage;
 import it.polimi.ingsw.utility.enumerations.*;
 import it.polimi.ingsw.network.messages.FlagMessage;
@@ -10,7 +10,6 @@ import it.polimi.ingsw.network.messages.Message;
 import it.polimi.ingsw.utility.observer.Observer;
 import it.polimi.ingsw.mvc.view.View;
 import it.polimi.ingsw.utility.serialization.dto.DtoPosition;
-import it.polimi.ingsw.utility.serialization.dto.DtoSession;
 
 import java.io.IOException;
 import java.util.*;
@@ -21,28 +20,27 @@ public abstract class Client implements Observer<Message>, View {
     protected GameState state;
     protected String username;
 
-    private final List<Runnable> requests, inputRequests; //// <-----
+    private final List<Runnable> requests, inputRequests;
 
     protected ClientConnection connection;
 
     protected String challenger;
-    protected final List<String> chosenGods; // Si può usare solo la mappa gods qui sotto, usando delle key segnaposto che poi si tolgono
+    protected final List<String> chosenGods;
     protected Map<String, Colors> players;
     protected Map<String, String> gods;
 
     public Client() {
         chosenGods = new ArrayList<>();
         requests = new ArrayList<>();
-        inputRequests = new ArrayList<>(); //// <-----
+        inputRequests = new ArrayList<>();
     }
 
     private void viewRequest(Runnable request) {
         requests.add(request);
     }
-    private void inputRequest(Runnable request) { inputRequests.add(request); } //// <-----
+    private void inputRequest(Runnable request) { inputRequests.add(request); }
 
     public void flushRequests() {
-        //requests.forEach(r -> new Thread(r).start()); //// <-----
         requests.forEach(Runnable::run);
         requests.clear();
         inputRequests.forEach(r -> new Thread(r).start());
@@ -58,43 +56,48 @@ public abstract class Client implements Observer<Message>, View {
     }
 
     public void update(Message message) {
-        switch (message.getType()) {
-            case CONNECTION_TOKEN: // CONNECTION
-                parseConnectionMessage(message);
-                break;
-            case SLOTS_CHOICE: // PRE-LOBBY
-                parseSlotMessage();
-                break;
-            case INFO: // PRE-LOBBY
-                parseInfoMessage(message);
-                break;
-            case DISCONNECT: // PRE-LOBBY / LOBBY (tutte)
-                parseDisconnectMessage(message);
-                break;
-            case REGISTRATION: // LOBBY (pendente)
-                parseRegistrationReply((FlagMessage) message);
-                break;
-            case LOBBY_UPDATE: // LOBBY (tutte)
-                parseLobbyUpdate((LobbyUpdate) message);
-                break;
-            case STATE_UPDATE: // TUTTE
-                parseStateUpdate((StateUpdateMessage) message);
-                break;
-            case CHALLENGER_SELECTION:
-                parseChallengerSelection(message);
-                break;
-            case SELECTED_GODS_CHANGE: // GOD_SELECTION
-                parseManagementMessage((FlagMessage) message);
-                break;
-            case ASK_PLAYER_GOD: // GOD_SELECTION
-                parseGodPlayerChoice(message);
-                break;
-            case TURN_UPDATE:
-                parseTurnUpdate((ActionRequestMessage) message);
-                break;
-            default: //
+        System.out.println(message);
+        if(message.getType() == MessageType.CONNECTION_TOKEN ||
+           message.getRecipient().equals(username) ||
+           message.getRecipient().equals("ALL")) {
+            switch (message.getType()) {
+                case CONNECTION_TOKEN: // CONNECTION
+                    parseConnectionMessage(message);
+                    break;
+                case SLOTS_UPDATE: // PRE-LOBBY
+                    parseSlotMessage();
+                    break;
+                case INFO_UPDATE: // PRE-LOBBY
+                    parseInfoMessage(message);
+                    break;
+                case DISCONNECTION_UPDATE: // PRE-LOBBY / LOBBY (tutte)
+                    parseDisconnectMessage(message);
+                    break;
+                case REGISTRATION_UPDATE: // LOBBY (pendente)
+                    parseRegistrationReply((FlagMessage) message);
+                    break;
+                case LOBBY_UPDATE: // LOBBY (tutte)
+                    parseLobbyUpdate((LobbyUpdate) message);
+                    break;
+                case STATE_UPDATE: // TUTTE
+                    parseStateUpdate((StateUpdateMessage) message);
+                    break;
+                case SELECTION_UPDATE:
+                    parseChallengerSelection(message);
+                    break;
+                case GODS_UPDATE: // GOD_SELECTION
+                    parseManagementMessage((FlagMessage) message);
+                    break;
+                case GODS_SELECTION_UPDATE: // GOD_SELECTION
+                    parseGodPlayerChoice(message);
+                    break;
+                case TURN_UPDATE:
+                    parseTurnUpdate((ActionUpdateMessage) message);
+                    break;
+                default: //
+            }
+            flushRequests();
         }
-        flushRequests();
     }
 
     /* Connection */
@@ -112,7 +115,7 @@ public abstract class Client implements Observer<Message>, View {
 
     public boolean validateNumberOfPlayers(String number) {
         if(number.equals("2") || number.equals("3")) { // Controllo su client - implementato anti-cheat su server
-            sendMessage(new Message(MessageType.SLOTS_CHOICE, username, number));
+            sendMessage(new Message(MessageType.SLOTS_UPDATE, username, number, "SERVER"));
             return true;
         }
         return false;
@@ -130,7 +133,7 @@ public abstract class Client implements Observer<Message>, View {
     }
 
     public void requestLogin(String requestedUsername, Colors color) {
-        sendMessage(new RegistrationMessage(username, requestedUsername, color));
+        sendMessage(new RegistrationMessage(username, requestedUsername, color, "SERVER"));
     }
 
     private void parseLobbyUpdate(LobbyUpdate message) {
@@ -185,7 +188,7 @@ public abstract class Client implements Observer<Message>, View {
         if(!getStringAvailableGods().contains(requestedGod)){
             return false;
         }
-        sendMessage(new FlagMessage(MessageType.SELECTED_GODS_CHANGE, username, requestedGod, true));
+        sendMessage(new FlagMessage(MessageType.GODS_UPDATE, username, requestedGod, true, "SERVER"));
         return true;
     }
 
@@ -223,7 +226,7 @@ public abstract class Client implements Observer<Message>, View {
         if(!chosenGods.contains(requestedGod)){
             return false;
         }
-        sendMessage(new Message(MessageType.ASK_PLAYER_GOD, username, requestedGod));
+        sendMessage(new Message(MessageType.GODS_SELECTION_UPDATE, username, requestedGod, "SERVER"));
         return true;
     }
 
@@ -246,14 +249,14 @@ public abstract class Client implements Observer<Message>, View {
 
     public boolean validatePlayer(String string) {
          if(!players.containsKey(string)) { return false; }
-         sendMessage(new Message(MessageType.STARTER_PLAYER, username, string));
+         sendMessage(new Message(MessageType.STARTER_PLAYER, username, string, "SERVER"));
          return true;
     }
 
 
     /*GAME*//////////////////////////////////////////////////////////////////////////////////////////
 
-    private void parseTurnUpdate(ActionRequestMessage message) {
+    private void parseTurnUpdate(ActionUpdateMessage message) {
         if(username.equals(message.getInfo())) {
             inputRequest(() -> requestTurnAction(message.getPossibleActions(), message.getGameUpdate(), players, gods));
         }

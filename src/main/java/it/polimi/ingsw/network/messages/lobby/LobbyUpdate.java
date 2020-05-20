@@ -14,8 +14,8 @@ public class LobbyUpdate extends Message { // Anche per quando un player si flag
     private final List<Colors> colors;
     private final Map<String, Colors> registeredPlayers;
 
-    public LobbyUpdate(String sender, String info, List<Colors> colors, List<Player> players) {
-        super(MessageType.LOBBY_UPDATE, sender, info);
+    public LobbyUpdate(String sender, String info, List<Colors> colors, List<Player> players, String recipient) {
+        super(MessageType.LOBBY_UPDATE, sender, info, recipient);
         this.colors = colors;
         registeredPlayers = new HashMap<>();
         for(Player p : players) {

@@ -19,7 +19,10 @@ import java.util.Map;
 import java.util.logging.Logger;
 
 public class DiffLobbyController extends LobbyController {
-
+    public DiffLobbyController(SessionController controller, Map<String, RemoteView> views, Logger LOG, List<ServerConnection> unregistered) {
+        super(controller, views, LOG, unregistered);
+    } // Altrimenti con il resto commentato non compila
+/*
     StateController nextStateController;
     List<Player> playerList;
 
@@ -128,4 +131,5 @@ public class DiffLobbyController extends LobbyController {
         view.register(username);
         views.put(username, view);
     }
+    */
 }

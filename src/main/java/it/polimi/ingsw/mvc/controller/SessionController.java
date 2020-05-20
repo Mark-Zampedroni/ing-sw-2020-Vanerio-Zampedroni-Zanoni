@@ -32,12 +32,13 @@ public class SessionController implements Observer<Message>  {
 
     private final Map<String, RemoteView> views = new HashMap<>();
 
+    /*
     public SessionController(List<ServerConnection> connections, Logger LOG, Session session, GameState state, StateController stateController){
         SessionController.LOG = LOG;
         this.session = session;
         this.state = state;
         this.stateController = new DiffLobbyController(stateController, this, views, LOG, connections );
-    }
+    }*/
 
     public SessionController(List<ServerConnection> connections, Logger LOG) {
         SessionController.LOG = LOG;
@@ -62,6 +63,7 @@ public class SessionController implements Observer<Message>  {
 
     public StateController getStateController() {return stateController;}
 
+    /*
     public void diffSwitchState(StateController stateController) {
         if (stateController instanceof TurnController){
             this.state = GameState.GAME;}
@@ -70,7 +72,7 @@ public class SessionController implements Observer<Message>  {
         }
         this.stateController = stateController;
         stateController.setController(this);
-    }
+    }*/
 
     // Cambia stato
     public void switchState(GameState state) {
@@ -88,15 +90,14 @@ public class SessionController implements Observer<Message>  {
                 // Altri stati
         }
         synchronized(viewLock) {
-            sendStateUpdate(); // Notify new state to clients
-            //if(this.state != GameState.LOBBY) stateController.sendUpdate(); // Update clients info
+            sendStateUpdate();
         }
         LOG.info("Server switch to new state: "+state); // TEST
     }
 
     // Update ai client per notificarli che è cambiato lo stato, uguale per tutti gli stati
     private void sendStateUpdate() {
-        stateController.sendBroadcastMessage(new StateUpdateMessage(MessageType.STATE_UPDATE,"SERVER","Nuovo stato", state));
+        stateController.notifyMessage(new StateUpdateMessage(MessageType.STATE_UPDATE,"SERVER","New state", state, "ALL"));
     }
 
     // Update sulla situazione in base allo stato in cui si trova
@@ -117,6 +118,7 @@ public class SessionController implements Observer<Message>  {
         }
     }
 
+    /*
     public void addPlayer(String username, RemoteView view) {
         synchronized(viewLock) {
             Colors color=null;
@@ -128,7 +130,7 @@ public class SessionController implements Observer<Message>  {
         }
             stateController.addPlayer(username, color, view);
         }
-    }
+    }*/
 
     // Rimuove un player registrato e lo de-registra
     public void removePlayer(String username) {

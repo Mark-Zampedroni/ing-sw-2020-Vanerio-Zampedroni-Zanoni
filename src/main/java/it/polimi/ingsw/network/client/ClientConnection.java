@@ -19,6 +19,8 @@ import java.util.logging.SimpleFormatter;
 
 public class ClientConnection extends Thread {
 
+    private final boolean logMessages = false;
+
     private final String ip;
     private final int port;
 
@@ -76,7 +78,7 @@ public class ClientConnection extends Thread {
         messageReceiver = new ClientMessageReceiver(this, controller);
 
         LOG = Logger.getLogger("client");
-        LOG.setUseParentHandlers(false);
+        if(!logMessages) { LOG.setUseParentHandlers(false); }
         startLogging();
     }
 

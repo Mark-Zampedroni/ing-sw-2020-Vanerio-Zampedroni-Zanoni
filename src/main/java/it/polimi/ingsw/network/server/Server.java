@@ -5,9 +5,7 @@ import it.polimi.ingsw.utility.enumerations.GameState;
 import it.polimi.ingsw.utility.enumerations.MessageType;
 import it.polimi.ingsw.network.messages.Message;
 import it.polimi.ingsw.network.messages.lobby.LobbyUpdate;
-import it.polimi.ingsw.utility.persistency.ReloadGame;
 import it.polimi.ingsw.utility.persistency.SaveHandler;
-import it.polimi.ingsw.utility.persistency.SavedDataClass;
 
 import java.io.IOException;
 import java.net.ServerSocket;
@@ -55,10 +53,11 @@ public class Server extends Thread {
     }
 
 
+    /*
     public void reloadGame () {
         ReloadGame.restartGame();
         sessionController = ReloadGame.reloadSessionController(freshConnections, LOG);
-    }
+    }*/
 
     public Server(int port) {
         freshConnections = new ArrayList<>();
@@ -163,7 +162,7 @@ public class Server extends Thread {
                 fillPlayersSlots();
             }
             else { // Anti-cheat
-                gameCreator.sendMessage(new Message(MessageType.SLOTS_CHOICE, "SERVER", "Create game"));
+                gameCreator.sendMessage(new Message(MessageType.SLOTS_UPDATE, "SERVER", "Create game",gameCreator.getUsername()));
             }
         }
     }
@@ -175,7 +174,7 @@ public class Server extends Thread {
                           allConnections.stream().filter(ServerConnection::isInLobby).collect(Collectors.toList()).get(0) :
                           allConnections.get(0); // Oldest connection
             if(!isLobbyCreated()) {
-                gameCreator.sendMessage(new Message(MessageType.SLOTS_CHOICE, "SERVER", "Create game"));
+                gameCreator.sendMessage(new Message(MessageType.SLOTS_UPDATE, "SERVER", "Create game",gameCreator.getUsername()));
             }
         }
         else { sessionController.setGameCapacity(0); }
@@ -206,25 +205,25 @@ public class Server extends Thread {
     // Notifica la coda in pre-lobby sulla posizione in cui sono
     private void notifyFreshQueue() {
         for(ServerConnection connection : freshConnections) {
-            if(gameCreator != connection) { connection.sendMessage(createInfoUpdate(freshConnections.indexOf(connection))); }
+            if(gameCreator != connection) { connection.sendMessage(createInfoUpdate(freshConnections.indexOf(connection),connection.getUsername())); }
         }
     }
 
     // Crea un messaggio di info per la coda in pre-lobby in base alla situazione di gioco
-    private Message createInfoUpdate(int position) {
+    private Message createInfoUpdate(int position, String username) {
         if(isLobbyCreated()) {
-            return new Message(MessageType.INFO, "SERVER", "The game is for " + sessionController.getGameCapacity() + " players ... \n"
+            return new Message(MessageType.INFO_UPDATE, "SERVER", "The game is for " + sessionController.getGameCapacity() + " players ... \n"
                     + "At the moment the Lobby is full and " + ((position == 0) ? "you are first in queue\n" : "there are " + position + " players in queue before you\n")
-                    + "You will be disconnected if no slots are vacated and the game starts");
+                    + "You will be disconnected if no slots are vacated and the game starts",username);
         }
         else {
-            return new Message(MessageType.INFO, "SERVER", "A player is already creating a game!\nThere are "
-                    + position + " players before you in queue ");
+            return new Message(MessageType.INFO_UPDATE, "SERVER", "A player is already creating a game!\nThere are "
+                    + position + " players before you in queue ",username);
         }
     }
 
     private Message createLobbyUpdate() {
-        return new LobbyUpdate("SERVER", "Update", sessionController.getFreeColors(), sessionController.getPlayers());
+        return new LobbyUpdate("SERVER", "Update", sessionController.getFreeColors(), sessionController.getPlayers(),"ALL");
     }
 
 

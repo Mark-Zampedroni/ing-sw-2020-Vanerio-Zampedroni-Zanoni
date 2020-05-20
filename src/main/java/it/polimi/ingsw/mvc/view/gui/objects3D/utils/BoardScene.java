@@ -1,4 +1,4 @@
-package it.polimi.ingsw.objects3D.utils;
+package it.polimi.ingsw.mvc.view.gui.objects3D.utils;
 
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;

@@ -2,13 +2,11 @@ package it.polimi.ingsw.mvc.controller.states;
 
 import it.polimi.ingsw.mvc.controller.SessionController;
 import it.polimi.ingsw.mvc.model.Session;
-import it.polimi.ingsw.network.messages.FlagMessage;
 import it.polimi.ingsw.network.messages.lobby.RegistrationMessage;
 import it.polimi.ingsw.utility.enumerations.Colors;
 import it.polimi.ingsw.utility.enumerations.GameState;
 import it.polimi.ingsw.mvc.model.player.Player;
 import it.polimi.ingsw.network.messages.Message;
-import it.polimi.ingsw.network.messages.lobby.LobbyUpdate;
 import it.polimi.ingsw.network.server.ServerConnection;
 import it.polimi.ingsw.mvc.view.RemoteView;
 import it.polimi.ingsw.utility.enumerations.MessageType;
@@ -33,7 +31,7 @@ public class LobbyController extends StateController implements Serializable {
 
     @Override
     public void parseMessage(Message message) {
-        if(message.getType() == MessageType.REGISTRATION) {
+        if(message.getType() == MessageType.REGISTRATION_UPDATE) {
             registerConnection((RegistrationMessage) message);
         }
     }
@@ -47,14 +45,14 @@ public class LobbyController extends StateController implements Serializable {
 
         if (view != null && !view.getRegistered()) { // Anti-cheat
             if (views.containsKey(requestedUsername)) { // Anti-cheat
-                view.sendMessage(createRegistrationReply("This username is already in use", false));
+                notifyMessage(messageBuilder(MessageType.REGISTRATION_UPDATE,"This username is already in use", false, message.getSender()));
                 LOG.warning("A player tried to register with the already in use username " + requestedUsername + "\n");
             } else if (!getFreeColors().contains(requestedColor)) { // Anti-cheat
-                view.sendMessage(createRegistrationReply("Color " + requestedColor + " is not available", false));
+                notifyMessage(messageBuilder(MessageType.REGISTRATION_UPDATE,"Color " + requestedColor + " is not available", false, message.getSender()));
                 LOG.warning("A player tried to register with the already in use color " + requestedColor + "\n");
             } else {
                 confirmRegistration(message.getSender(), requestedUsername, requestedColor, view);
-                view.sendMessage(createRegistrationReply(requestedUsername, true));
+                notifyMessage(messageBuilder(MessageType.REGISTRATION_UPDATE,requestedUsername, true, message.getSender()));
                 sendUpdate();
                 if (views.size() == controller.getGameCapacity()) {
                     startGame();
@@ -65,10 +63,6 @@ public class LobbyController extends StateController implements Serializable {
         }
     }
 
-    private Message createRegistrationReply(String info, boolean success) {
-        return new FlagMessage(MessageType.REGISTRATION, "SERVER", info, success);
-    }
-
     private void confirmRegistration(String token, String user, Colors color, RemoteView view) {
         view.register(user);
         LOG.info(user + " registered\n");
@@ -77,21 +71,20 @@ public class LobbyController extends StateController implements Serializable {
     }
 
     private void startGame() {
-        List<ServerConnection> copy = new ArrayList<>(freshConnections);
-        copy.forEach(c -> c.denyConnection("The game has started, you were disconnected "));
+        new ArrayList<>(freshConnections).forEach(c -> c.denyConnection("The game has started, you were disconnected "));
         freshConnections.clear();
         tryNextState();
     }
 
     @Override
-    public void sendUpdate() { // Invece di controller.getPlayers() un DTO
-        sendBroadcastMessage(new LobbyUpdate("SERVER", "Update", controller.getFreeColors(), controller.getPlayers()));
+    public void sendUpdate() {
+        notifyMessage(messageBuilder("Lobby update"));
     }
 
 
     @Override
-    public void sendBroadcastMessage(Message message) {
-        super.sendBroadcastMessage(message);
+    public void notifyMessage(Message message) {
+        super.notifyMessage(message);
         sendAllPending(message);
     }
 

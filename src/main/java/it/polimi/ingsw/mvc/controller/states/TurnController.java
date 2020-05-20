@@ -46,10 +46,6 @@ public class TurnController extends StateController implements Serializable {
         initTurn();
     }
 
-    public List<DtoPosition> dtoConversion(List<Position> positions) {
-        return positions.stream().map(DtoPosition::new).collect(Collectors.toList());
-    }
-
     @Override
     public void parseMessage(Message message) {
         if(message.getSender().equals(controller.getTurnOwner())) {
@@ -73,7 +69,7 @@ public class TurnController extends StateController implements Serializable {
         }
         else {
             LOG.warning("Client sent impossible action: "+message.getAction()+" in "+message.getPosition());
-            views.get(message.getSender()).updateActions(possibleActions, message.getSender());
+            notifyBoardUpdate(possibleActions, message.getSender());
         }
     }
 
@@ -119,7 +115,7 @@ public class TurnController extends StateController implements Serializable {
             passTurn();
         }
         else {
-            views.values().forEach(v -> v.updateActions(possibleActions, currentPlayer.getUsername()));
+            notifyBoardUpdate(possibleActions,currentPlayer.getUsername());
         }
     }
 
@@ -127,6 +123,9 @@ public class TurnController extends StateController implements Serializable {
         return dtoConversion(actionControl.getCandidates(currentWorker, type));
     }
 
+    public List<DtoPosition> dtoConversion(List<Position> positions) {
+        return positions.stream().map(DtoPosition::new).collect(Collectors.toList());
+    }
 
     /*
         Passes Turn to next Player in list
@@ -163,15 +162,17 @@ public class TurnController extends StateController implements Serializable {
         If possible, executes action on model
      */
     public void executeAction(Position position, Action type) throws WrongActionException {
-        // WORKS ON PREVIOUS CANDIDATES
         if(type == Action.END_TURN) { passTurn(); }
         else {
             List<Action> candidates = actionControl.act(currentWorker, position, type);
-            // CREATES NEW CANDIDATES FOR NEXT ACTION
             possibleActions.clear();
             candidates.forEach(action -> possibleActions.put(action, getCandidates(action)));
             sendUpdate();
         }
+    }
+
+    private void notifyBoardUpdate(Map<Action, List<DtoPosition>> actionCandidates, String turnOwner) {
+        views.values().forEach(w -> w.updateActions(actionCandidates,turnOwner));
     }
 
 
