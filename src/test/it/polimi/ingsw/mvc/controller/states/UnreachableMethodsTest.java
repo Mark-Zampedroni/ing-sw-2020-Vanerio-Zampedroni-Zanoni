@@ -26,7 +26,7 @@ public class UnreachableMethodsTest {
         LOG.setUseParentHandlers(false);
         controller = new SessionController(new ArrayList<>(), LOG);
         Setupper.addPlayer("UnTest",Colors.BLUE, 0);
-        wrongState = new SelectionController(controller, new HashMap<>(), LOG);
+        wrongState = new SelectionController(controller, new ArrayList<>(), LOG);
     }
 
     @Test

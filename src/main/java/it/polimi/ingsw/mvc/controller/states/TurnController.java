@@ -38,7 +38,7 @@ public class TurnController extends StateController implements Serializable {
     private int turnCounter;
     private int counter;
 
-    public TurnController(SessionController controller, Map<String, RemoteView> views, Logger LOG) {
+    public TurnController(SessionController controller, List<RemoteView> views, Logger LOG) {
         super(controller, views, LOG);
         this.controller = controller;
         currentIndex = controller.getPlayers().indexOf(Session.getInstance().getPlayerByName(controller.getTurnOwner()));
@@ -172,7 +172,7 @@ public class TurnController extends StateController implements Serializable {
     }
 
     private void notifyBoardUpdate(Map<Action, List<DtoPosition>> actionCandidates, String turnOwner) {
-        views.values().forEach(w -> w.updateActions(actionCandidates,turnOwner));
+        views.forEach(w -> w.updateActions(actionCandidates,turnOwner));
     }
 
 

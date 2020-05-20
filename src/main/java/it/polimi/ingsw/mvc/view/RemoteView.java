@@ -39,6 +39,10 @@ public class RemoteView extends Observable<Message> implements Observer<DtoSessi
         }
     }
 
+    public boolean hasName(String name) {
+        return connection.getUsername().equals(name);
+    }
+
     public boolean getRegistered() {
         return registered;
     }

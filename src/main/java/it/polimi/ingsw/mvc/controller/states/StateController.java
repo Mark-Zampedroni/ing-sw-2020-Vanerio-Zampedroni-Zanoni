@@ -21,11 +21,11 @@ public abstract class StateController implements Serializable {
 
     private static final long serialVersionUID = -7974027435942352531L;
 
-    protected transient final Map<String, RemoteView> views;
+    protected transient final List<RemoteView> views;
     protected transient SessionController controller;
     protected transient final Logger LOG;
 
-    public StateController(SessionController controller, Map<String, RemoteView> views, Logger LOG) {
+    public StateController(SessionController controller, List<RemoteView> views, Logger LOG) {
         this.controller = controller;
         this.views = views;
         this.LOG = LOG;
@@ -56,14 +56,14 @@ public abstract class StateController implements Serializable {
     }
 
     public void notifyMessage(Message message) {
-        views.values().forEach(w -> w.sendMessage(message));
+        views.forEach(w -> w.sendMessage(message));
     }
 
     public void removePlayer(String username) {
-        if(views.containsKey(username)) {
+        if(Session.getInstance().getPlayerByName(username) != null) {
             Session.getInstance().removePlayer(username);
-            views.remove(username);
-            // Logica chiusura gioco
+            views.removeIf(v -> v.hasName(username));
+            // Logica chiusura gioco <-----------------------------------------------------------------------
         }
     }
 

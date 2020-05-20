@@ -19,12 +19,12 @@ import java.util.stream.Collectors;
 public class LobbyController extends StateController implements Serializable {
 
     private static final long serialVersionUID = 6213786388958970675L;
-    transient final Map<String, RemoteView> pendingConnections;
+    transient final List<RemoteView> pendingConnections;
     transient final List<ServerConnection> freshConnections;
 
-    public LobbyController(SessionController controller, Map<String, RemoteView> views, Logger LOG, List<ServerConnection> unregistered) {
+    public LobbyController(SessionController controller, List<RemoteView> views, Logger LOG, List<ServerConnection> unregistered) {
         super(controller, views, LOG);
-        this.pendingConnections = new HashMap<>();
+        this.pendingConnections = new ArrayList<>();
         this.freshConnections = unregistered;
     }
 
@@ -41,17 +41,17 @@ public class LobbyController extends StateController implements Serializable {
 
         String requestedUsername = message.getInfo();
         Colors requestedColor = message.getColor();
-        RemoteView view = pendingConnections.get(message.getSender());
+        RemoteView sender = pendingConnections.stream().filter(v -> v.hasName(message.getSender())).findFirst().orElse(null);
 
-        if (view != null && !view.getRegistered()) { // Anti-cheat
-            if (views.containsKey(requestedUsername)) { // Anti-cheat
+        if (sender != null && !sender.getRegistered()) { // Anti-cheat
+            if (Session.getInstance().getPlayerByName(requestedUsername) != null) { // Anti-cheat
                 notifyMessage(messageBuilder(MessageType.REGISTRATION_UPDATE,"This username is already in use", false, message.getSender()));
                 LOG.warning("A player tried to register with the already in use username " + requestedUsername + "\n");
             } else if (!getFreeColors().contains(requestedColor)) { // Anti-cheat
                 notifyMessage(messageBuilder(MessageType.REGISTRATION_UPDATE,"Color " + requestedColor + " is not available", false, message.getSender()));
                 LOG.warning("A player tried to register with the already in use color " + requestedColor + "\n");
             } else {
-                confirmRegistration(message.getSender(), requestedUsername, requestedColor, view);
+                confirmRegistration(message.getSender(), requestedUsername, requestedColor, sender);
                 notifyMessage(messageBuilder(MessageType.REGISTRATION_UPDATE,requestedUsername, true, message.getSender()));
                 sendUpdate();
                 if (views.size() == controller.getGameCapacity()) {
@@ -67,7 +67,7 @@ public class LobbyController extends StateController implements Serializable {
         view.register(user);
         LOG.info(user + " registered\n");
         controller.addPlayer(user, color, view);
-        pendingConnections.remove(token);
+        pendingConnections.removeIf(v -> v.hasName(token));
     }
 
     private void startGame() {
@@ -89,8 +89,8 @@ public class LobbyController extends StateController implements Serializable {
     }
 
     private void sendAllPending(Message message) {
-        for (String player : pendingConnections.keySet()) {
-            pendingConnections.get(player).sendMessage(message);
+        for (RemoteView customer : pendingConnections) {
+            customer.sendMessage(message);
         }
     }
 
@@ -110,20 +110,15 @@ public class LobbyController extends StateController implements Serializable {
     public void addUnregisteredView(ServerConnection connection) {
         RemoteView newView = new RemoteView(connection);
         newView.addObserver(controller);
-        pendingConnections.put(connection.getToken(), newView);
+        pendingConnections.add(newView);
     }
 
-    @Override
-    public void removePlayer(String username) {
-        super.removePlayer(username);
-        pendingConnections.remove(username);
-    }
 
     @Override
     public void addPlayer(String username, Colors color, RemoteView view) {
         Session.getInstance().addPlayer(username, color);
         view.register(username);
-        views.put(username, view);
+        views.add(view);
     }
 
 }

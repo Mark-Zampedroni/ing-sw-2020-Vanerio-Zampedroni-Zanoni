@@ -718,6 +718,11 @@
             <set />
           </value>
         </entry>
+        <entry key="$PROJECT_DIR$/src/test/it/polimi/ingsw/mvc/controller/states/UnreachableMethodsTest.java">
+          <value>
+            <set />
+          </value>
+        </entry>
         <entry key="$PROJECT_DIR$/src/test/it/polimi/ingsw/serializationTest/dtoTest/DtoBoardTest.java">
           <value>
             <set />

@@ -30,7 +30,7 @@ public class SessionController implements Observer<Message>  {
 
     private final Session session;
 
-    private final Map<String, RemoteView> views = new HashMap<>();
+    private final List<RemoteView> views = new ArrayList<>();
 
     /*
     public SessionController(List<ServerConnection> connections, Logger LOG, Session session, GameState state, StateController stateController){
@@ -165,7 +165,7 @@ public class SessionController implements Observer<Message>  {
 
     private void assignFirstDTOSession() {
         DtoSession dto = new DtoSession(session);
-        views.values().forEach(v -> v.getFirstDTOSession(dto));
+        views.forEach(v -> v.getFirstDTOSession(dto));
     }
 
 }

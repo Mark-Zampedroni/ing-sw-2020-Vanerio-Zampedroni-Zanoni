@@ -19,7 +19,7 @@ import java.util.Map;
 import java.util.logging.Logger;
 
 public class DiffLobbyController extends LobbyController {
-    public DiffLobbyController(SessionController controller, Map<String, RemoteView> views, Logger LOG, List<ServerConnection> unregistered) {
+    public DiffLobbyController(SessionController controller, List<RemoteView> views, Logger LOG, List<ServerConnection> unregistered) {
         super(controller, views, LOG, unregistered);
     } // Altrimenti con il resto commentato non compila
 /*
