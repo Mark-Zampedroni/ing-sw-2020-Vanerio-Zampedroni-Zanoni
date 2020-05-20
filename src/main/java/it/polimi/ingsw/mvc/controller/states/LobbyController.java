@@ -52,7 +52,7 @@ public class LobbyController extends StateController implements Serializable {
                 LOG.warning("A player tried to register with the already in use color " + requestedColor + "\n");
             } else {
                 confirmRegistration(message.getSender(), requestedUsername, requestedColor, sender);
-                notifyMessage(messageBuilder(MessageType.REGISTRATION_UPDATE,requestedUsername, true, message.getSender()));
+                notifyMessage(messageBuilder(MessageType.REGISTRATION_UPDATE,requestedUsername, true,message.getSender()));
                 sendUpdate();
                 if (views.size() == controller.getGameCapacity()) {
                     startGame();

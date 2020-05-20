@@ -151,7 +151,7 @@ public class Server extends Thread {
             sessionController.sendUpdate();
         }
         else {
-            System.out.println("CHIUSURA PARTITA! USCITO PLAYER");
+            System.out.println("CHIUSURA PARTITA! USCITO PLAYER"); // <------------ Da gestire via controller
         }
     }
 

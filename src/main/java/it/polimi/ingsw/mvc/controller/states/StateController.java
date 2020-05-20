@@ -43,14 +43,6 @@ public abstract class StateController implements Serializable {
         return new ArrayList<>();
     }
 
-    public SessionController getController() {
-        return controller;
-    }
-
-    public void setController(SessionController controller) {
-        this.controller= controller;
-    }
-
     public void addUnregisteredView(ServerConnection connection) {
         LOG.warning("addUnregisteredView called on wrong state");
     }

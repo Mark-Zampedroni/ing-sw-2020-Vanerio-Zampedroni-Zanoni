@@ -17,7 +17,7 @@ class FSMTest {
     private TestClient testClient, testClient2, testClient3;
     private TestClient challengerClient, otherClient;
 
-    private final boolean showClientLog = false; // True to show client log
+    private final boolean showLog = false; // True to show client log
 
     @Test
     void completeGameTest() {
@@ -53,7 +53,7 @@ class FSMTest {
     }
 
     private void openServer() {
-        server = new TestServer(testPort, false); // True to show server log
+        server = new TestServer(testPort, showLog); // True to show server log
     }
 
     private void createGame() {
@@ -62,9 +62,9 @@ class FSMTest {
     }
 
     private void startClients() {
-        testClient = new TestClient("127.0.0.1", testPort,showClientLog);
+        testClient = new TestClient("127.0.0.1", testPort, showLog);
         testClient.createConnection("127.0.0.1", testPort);
-        testClient2 = new TestClient("127.0.0.1", testPort,showClientLog);
+        testClient2 = new TestClient("127.0.0.1", testPort, showLog);
         testClient2.createConnection("127.0.0.1", testPort);
     }
 
@@ -80,21 +80,21 @@ class FSMTest {
     }
 
     private void addOtherPlayers() {
-        testClient3 = new TestClient("127.0.0.1", testPort,showClientLog);
+        testClient3 = new TestClient("127.0.0.1", testPort, showLog);
         testClient3.createConnection("127.0.0.1", testPort);
-        TestClient testClient4 = new TestClient("127.0.0.1", testPort,showClientLog);
+        TestClient testClient4 = new TestClient("127.0.0.1", testPort, showLog);
         testClient4.createConnection("127.0.0.1", testPort);
     }
 
     private void addPlayerDuringGame() {
-        testClient3 = new TestClient("127.0.0.1", testPort,showClientLog);
+        testClient3 = new TestClient("127.0.0.1", testPort, showLog);
         testClient3.createConnection("127.0.0.1", testPort);
     }
 
     // Aggiunge delay tra i messaggi
     private void request(Runnable request) {
         try {
-            Thread.sleep(200); // Time between messages
+            Thread.sleep(   180); // Time between messages
             request.run();
         } catch(InterruptedException e) { e.printStackTrace(); }
 
@@ -105,17 +105,17 @@ class FSMTest {
     }
 
     private void wrongRequestLogin() {
-        // With fake username
+        if(showLog) { System.out.println("\nTest fake username\n"); }
         request(() -> testClient2.requestRegister("TestClient","TestClient", Colors.WHITE));
-        // Already taken username
+        if(showLog) { System.out.println("\nTest already taken username\n"); }
         request(() -> testClient2.requestRegister("TestClient", Colors.WHITE));
-        // Already taken color
+        if(showLog) { System.out.println("\nTest already chosen color\n"); }
         request(() -> testClient2.requestRegister("TestClient2", Colors.BLUE));
     }
 
     private void removePlayerDuringLogin() {
         request(() -> testClient.interrupt()); // Disconnect connection
-        testClient = new TestClient("127.0.0.1", testPort,showClientLog); // Create new connection
+        testClient = new TestClient("127.0.0.1", testPort, showLog); // Create new connection
         testClient.createConnection("127.0.0.1", testPort);
     }
 

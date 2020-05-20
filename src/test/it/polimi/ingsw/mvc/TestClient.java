@@ -65,16 +65,22 @@ public class TestClient extends Client {
     @Override
     public void update(Message message) {
         if(printMessages) { System.out.println(username+" RECEIVED FROM SERVER:\n"+message+"\n"); }
-        switch(message.getType()) {
-            case CONNECTION_TOKEN:
-                super.update(message); // REGISTRA TESTCLIENT
-                break;
-            case REGISTRATION_UPDATE:
-                if(((FlagMessage) message).getFlag()) { username = message.getInfo(); }
-                break;
-            case SELECTION_UPDATE:
-                challenger = message.getInfo();
-                break;
+        if(message.getType() == MessageType.CONNECTION_TOKEN ||
+                message.getRecipient().equals(username) ||
+                message.getRecipient().equals("ALL")) {
+            switch (message.getType()) {
+                case CONNECTION_TOKEN:
+                    super.update(message); // REGISTRA TESTCLIENT
+                    break;
+                case REGISTRATION_UPDATE:
+                    if (((FlagMessage) message).getFlag()) {
+                        username = message.getInfo();
+                    }
+                    break;
+                case SELECTION_UPDATE:
+                    challenger = message.getInfo();
+                    break;
+            }
         }
     }
 

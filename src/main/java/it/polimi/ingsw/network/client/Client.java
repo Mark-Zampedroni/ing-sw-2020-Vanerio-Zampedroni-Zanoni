@@ -56,7 +56,6 @@ public abstract class Client implements Observer<Message>, View {
     }
 
     public void update(Message message) {
-        System.out.println(message);
         if(message.getType() == MessageType.CONNECTION_TOKEN ||
            message.getRecipient().equals(username) ||
            message.getRecipient().equals("ALL")) {

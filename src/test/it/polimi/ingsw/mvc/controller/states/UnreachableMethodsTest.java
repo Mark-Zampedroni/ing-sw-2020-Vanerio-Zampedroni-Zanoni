@@ -40,7 +40,6 @@ public class UnreachableMethodsTest {
     @AfterEach
     public void clearUp() {
         wrongState.removePlayer("UnTest");
-        Setupper.removePlayer(Session.getInstance().getPlayerByName("UnTest"));
         Session.getInstance().getBoard().clear();
     }
 

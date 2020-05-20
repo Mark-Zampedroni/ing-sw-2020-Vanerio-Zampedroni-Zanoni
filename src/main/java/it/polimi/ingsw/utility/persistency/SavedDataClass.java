@@ -37,7 +37,7 @@ public class SavedDataClass implements Serializable {
 
     SavedDataClass(SessionController sessionController){
         session = sessionController.getSession();
-        stateController = sessionController.getStateController();
+        //stateController = sessionController.getStateController();
         saveSessionController(sessionController);
     }
 
