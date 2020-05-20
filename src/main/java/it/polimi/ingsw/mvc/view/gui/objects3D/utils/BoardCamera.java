@@ -1,4 +1,4 @@
-package it.polimi.ingsw.objects3D.utils;
+package it.polimi.ingsw.mvc.view.gui.objects3D.utils;
 
 import javafx.scene.PerspectiveCamera;
 import javafx.scene.SubScene;
@@ -17,8 +17,7 @@ public class BoardCamera extends PerspectiveCamera {
 
         scene.addEventHandler(ScrollEvent.SCROLL, event -> {
             double zoom = (event.getDeltaY() > 0) ? 0.95 : 1.05;
-            //System.out.println(getTranslateZ() + " ZOOM: "+zoom);
-            if(!(zoom < 1 && getTranslateZ() > -20) && !(zoom > 1 && getTranslateZ() < -95)) { // Limite zoom! se superato non fa nulla
+            if(!(zoom < 1 && getTranslateZ() > -20) && !(zoom > 1 && getTranslateZ() < -95)) {
                 translateZProperty().set((getTranslateZ()) * zoom);
             }
         });

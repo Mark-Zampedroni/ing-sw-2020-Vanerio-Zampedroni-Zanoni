@@ -104,7 +104,7 @@ public class ServerConnection extends Observable<Message> implements Runnable {
 
     private void queueMessage(Message msg) {
         if (!inLobby) { // Message received by Server
-            if (msg.getType() == MessageType.SLOTS_CHOICE) {
+            if (msg.getType() == MessageType.SLOTS_UPDATE) {
                 server.startLobby(this, msg.getInfo());
             }
         } else { // Message received by View
@@ -125,7 +125,7 @@ public class ServerConnection extends Observable<Message> implements Runnable {
     }
 
     public void denyConnection(String message) {
-        sendMessage(new Message(MessageType.DISCONNECT, "SERVER", message, token));
+        sendMessage(new Message(MessageType.DISCONNECTION_UPDATE, "SERVER", message, token));
         disconnect();
     }
 

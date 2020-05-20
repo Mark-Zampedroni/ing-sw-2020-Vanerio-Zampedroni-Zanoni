@@ -1,10 +1,8 @@
-package it.polimi.ingsw.objects3D.obj;
+package it.polimi.ingsw.mvc.view.gui.objects3D.obj;
 
-import it.polimi.ingsw.objects3D.utils.NodeOperation;
+import it.polimi.ingsw.mvc.view.gui.objects3D.utils.NodeOperation;
 import javafx.scene.Group;
 import javafx.scene.Node;
-
-import java.io.IOException;
 
 public class BoardObj extends Group {
 

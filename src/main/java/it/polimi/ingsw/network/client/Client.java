@@ -64,16 +64,16 @@ public abstract class Client implements Observer<Message>, View {
                 case CONNECTION_TOKEN: // CONNECTION
                     parseConnectionMessage(message);
                     break;
-                case SLOTS_CHOICE: // PRE-LOBBY
+                case SLOTS_UPDATE: // PRE-LOBBY
                     parseSlotMessage();
                     break;
-                case INFO: // PRE-LOBBY
+                case INFO_UPDATE: // PRE-LOBBY
                     parseInfoMessage(message);
                     break;
-                case DISCONNECT: // PRE-LOBBY / LOBBY (tutte)
+                case DISCONNECTION_UPDATE: // PRE-LOBBY / LOBBY (tutte)
                     parseDisconnectMessage(message);
                     break;
-                case REGISTRATION: // LOBBY (pendente)
+                case REGISTRATION_UPDATE: // LOBBY (pendente)
                     parseRegistrationReply((FlagMessage) message);
                     break;
                 case LOBBY_UPDATE: // LOBBY (tutte)
@@ -82,13 +82,13 @@ public abstract class Client implements Observer<Message>, View {
                 case STATE_UPDATE: // TUTTE
                     parseStateUpdate((StateUpdateMessage) message);
                     break;
-                case CHALLENGER_SELECTION:
+                case SELECTION_UPDATE:
                     parseChallengerSelection(message);
                     break;
-                case SELECTED_GODS_CHANGE: // GOD_SELECTION
+                case GODS_UPDATE: // GOD_SELECTION
                     parseManagementMessage((FlagMessage) message);
                     break;
-                case ASK_PLAYER_GOD: // GOD_SELECTION
+                case GODS_SELECTION_UPDATE: // GOD_SELECTION
                     parseGodPlayerChoice(message);
                     break;
                 case TURN_UPDATE:
@@ -115,7 +115,7 @@ public abstract class Client implements Observer<Message>, View {
 
     public boolean validateNumberOfPlayers(String number) {
         if(number.equals("2") || number.equals("3")) { // Controllo su client - implementato anti-cheat su server
-            sendMessage(new Message(MessageType.SLOTS_CHOICE, username, number, "SERVER"));
+            sendMessage(new Message(MessageType.SLOTS_UPDATE, username, number, "SERVER"));
             return true;
         }
         return false;
@@ -188,7 +188,7 @@ public abstract class Client implements Observer<Message>, View {
         if(!getStringAvailableGods().contains(requestedGod)){
             return false;
         }
-        sendMessage(new FlagMessage(MessageType.SELECTED_GODS_CHANGE, username, requestedGod, true, "SERVER"));
+        sendMessage(new FlagMessage(MessageType.GODS_UPDATE, username, requestedGod, true, "SERVER"));
         return true;
     }
 
@@ -226,7 +226,7 @@ public abstract class Client implements Observer<Message>, View {
         if(!chosenGods.contains(requestedGod)){
             return false;
         }
-        sendMessage(new Message(MessageType.ASK_PLAYER_GOD, username, requestedGod, "SERVER"));
+        sendMessage(new Message(MessageType.GODS_SELECTION_UPDATE, username, requestedGod, "SERVER"));
         return true;
     }
 

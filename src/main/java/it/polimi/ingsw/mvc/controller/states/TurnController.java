@@ -46,10 +46,6 @@ public class TurnController extends StateController implements Serializable {
         initTurn();
     }
 
-    public List<DtoPosition> dtoConversion(List<Position> positions) {
-        return positions.stream().map(DtoPosition::new).collect(Collectors.toList());
-    }
-
     @Override
     public void parseMessage(Message message) {
         if(message.getSender().equals(controller.getTurnOwner())) {
@@ -127,6 +123,9 @@ public class TurnController extends StateController implements Serializable {
         return dtoConversion(actionControl.getCandidates(currentWorker, type));
     }
 
+    public List<DtoPosition> dtoConversion(List<Position> positions) {
+        return positions.stream().map(DtoPosition::new).collect(Collectors.toList());
+    }
 
     /*
         Passes Turn to next Player in list

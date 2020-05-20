@@ -1,8 +1,8 @@
-package it.polimi.ingsw.objects3D.obj;
+package it.polimi.ingsw.mvc.view.gui.objects3D.obj;
 
-import it.polimi.ingsw.objects3D.TrackedGroup;
-import it.polimi.ingsw.objects3D.utils.BoardCoords3D;
-import it.polimi.ingsw.objects3D.utils.NodeOperation;
+import it.polimi.ingsw.mvc.view.gui.objects3D.TrackedGroup;
+import it.polimi.ingsw.mvc.view.gui.objects3D.utils.BoardCoords3D;
+import it.polimi.ingsw.mvc.view.gui.objects3D.utils.NodeOperation;
 import javafx.scene.Node;
 
 
@@ -27,9 +27,8 @@ public class TowerObj extends TrackedGroup {
     }
 
     public TowerObj(BoardCoords3D coords, int height) throws Exception {
-        super(-11.95, 12.53,0.5, // Position offset
-        //super(-12.2, 22.7,0.5, // Position offset
-                0,0,0); // Floors height offset (locked to 0)
+        super(-11.95, 12.53,0.5,
+                0,0,0);
         getChildren().addAll(
                     bottom = NodeOperation.getModel(BOTTOM_OBJ, BOTTOM_TEXTURE),
                     middle = NodeOperation.getModel(MIDDLE_OBJ, MIDDLE_TEXTURE),
@@ -44,7 +43,7 @@ public class TowerObj extends TrackedGroup {
         middle.setTranslateY(-3.85);
         top.setTranslateY(-7.7);
 
-        NodeOperation.setTranslate(this, zeroX, zeroZ, zeroY); //0.6,9.9
+        NodeOperation.setTranslate(this, zeroX, zeroZ, zeroY);
 
         setCoords(coords);
 
@@ -56,7 +55,6 @@ public class TowerObj extends TrackedGroup {
 
         this.height = height;
         setHeight(height);
-        //placeDome();
     }
 
     public void placeDome() {
@@ -86,7 +84,4 @@ public class TowerObj extends TrackedGroup {
     @Override
     public void setFloor(int height) { /*Ignore, towers cant float */ }
 
-    // dome -9.8 -> top
-    // dome -8 circa -> middle
-    // dome -4.3 -> bottom
 }

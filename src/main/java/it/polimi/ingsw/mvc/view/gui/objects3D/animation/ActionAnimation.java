@@ -1,8 +1,8 @@
-package it.polimi.ingsw.objects3D.animation;
+package it.polimi.ingsw.mvc.view.gui.objects3D.animation;
 
-import it.polimi.ingsw.objects3D.TrackedGroup;
-import it.polimi.ingsw.objects3D.utils.BoardCoords3D;
-import it.polimi.ingsw.objects3D.utils.NodeOperation;
+import it.polimi.ingsw.mvc.view.gui.objects3D.TrackedGroup;
+import it.polimi.ingsw.mvc.view.gui.objects3D.utils.BoardCoords3D;
+import it.polimi.ingsw.mvc.view.gui.objects3D.utils.NodeOperation;
 import it.polimi.ingsw.utility.enumerations.Action;
 import javafx.animation.Interpolator;
 import javafx.animation.KeyFrame;
@@ -36,9 +36,8 @@ public class ActionAnimation extends TrackedGroup {
 
     public ActionAnimation(Action type, BoardCoords3D coords) {
 
-        super(-268.3,-243.4,0.3, // Position offset
-        // super(-268.6,-233.3,0.3, // Position offset
-                -3.6,-7.4,-9.7); // Floors height offset
+        super(-268.3,-243.4,0.3,
+                -3.6,-7.4,-9.7);
 
         switch(type) {
             case MOVE:
@@ -94,8 +93,6 @@ public class ActionAnimation extends TrackedGroup {
         double startPosition = offset*number;
         double endOpacity = (double)(numberOfSquares-number-1)/(double)numberOfSquares;
         double endPosition = startPosition+offset;
-        //System.out.println("START: "+startOpacity+" in "+startPosition);
-        //System.out.println("END: "+endOpacity+" in "+endPosition+"\n");
 
         Timeline animation = new Timeline(
                 new KeyFrame(Duration.ZERO,

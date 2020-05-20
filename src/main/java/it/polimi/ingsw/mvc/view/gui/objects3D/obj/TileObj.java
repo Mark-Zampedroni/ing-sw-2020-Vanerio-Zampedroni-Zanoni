@@ -1,9 +1,8 @@
-package it.polimi.ingsw.objects3D.obj;
+package it.polimi.ingsw.mvc.view.gui.objects3D.obj;
 
-import it.polimi.ingsw.objects3D.TrackedGroup;
-import it.polimi.ingsw.objects3D.animation.ActionAnimation;
-import it.polimi.ingsw.objects3D.utils.BoardCoords3D;
-import it.polimi.ingsw.objects3D.utils.NodeOperation;
+import it.polimi.ingsw.mvc.view.gui.objects3D.TrackedGroup;
+import it.polimi.ingsw.mvc.view.gui.objects3D.animation.ActionAnimation;
+import it.polimi.ingsw.mvc.view.gui.objects3D.utils.BoardCoords3D;
 import it.polimi.ingsw.utility.enumerations.Action;
 import javafx.scene.Node;
 import javafx.scene.paint.Color;
@@ -86,12 +85,12 @@ public class TileObj extends TrackedGroup {
         object.setMaterial(texture);
     }
 
-    private void convertShape(Shape3D object) { //
+    private void convertShape(Shape3D object) {
         getChildren().remove(tileSquare);
         tileSquare = object;
         printRed(tileSquare);
         getChildren().add(tileSquare);
-        if(!VISIBLE) { object.setOpacity(0); }// Invisible but keeps mouse events
+        if(!VISIBLE) { object.setOpacity(0); }
         addClickEvent(tileSquare);
     }
 

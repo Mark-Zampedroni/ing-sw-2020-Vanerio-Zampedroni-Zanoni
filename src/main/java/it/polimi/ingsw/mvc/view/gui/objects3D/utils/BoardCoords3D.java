@@ -1,4 +1,4 @@
-package it.polimi.ingsw.objects3D.utils;
+package it.polimi.ingsw.mvc.view.gui.objects3D.utils;
 
 public class BoardCoords3D {
 

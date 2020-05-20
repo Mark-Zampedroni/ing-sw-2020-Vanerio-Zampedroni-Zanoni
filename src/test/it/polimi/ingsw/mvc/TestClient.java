@@ -35,11 +35,11 @@ public class TestClient extends Client {
     }
 
     public void requestChallengerGod(String god) {
-        sendMessage(new FlagMessage(MessageType.SELECTED_GODS_CHANGE, username, god, true,"SERVER"));
+        sendMessage(new FlagMessage(MessageType.GODS_UPDATE, username, god, true,"SERVER"));
     }
 
     public void requestPlayerGod(String god) {
-        sendMessage(new Message(MessageType.ASK_PLAYER_GOD, username, god,"SERVER"));
+        sendMessage(new Message(MessageType.GODS_SELECTION_UPDATE, username, god,"SERVER"));
     }
 
     public void requestAction(Action action, DtoPosition position) {
@@ -47,7 +47,7 @@ public class TestClient extends Client {
     }
 
     public void requestPlayersNumber(String number) {
-        sendMessage(new Message(MessageType.SLOTS_CHOICE, username, number,"SERVER"));
+        sendMessage(new Message(MessageType.SLOTS_UPDATE, username, number,"SERVER"));
     }
 
     public void requestStarterPlayer(String starterPlayer) {
@@ -69,10 +69,10 @@ public class TestClient extends Client {
             case CONNECTION_TOKEN:
                 super.update(message); // REGISTRA TESTCLIENT
                 break;
-            case REGISTRATION:
+            case REGISTRATION_UPDATE:
                 if(((FlagMessage) message).getFlag()) { username = message.getInfo(); }
                 break;
-            case CHALLENGER_SELECTION:
+            case SELECTION_UPDATE:
                 challenger = message.getInfo();
                 break;
         }

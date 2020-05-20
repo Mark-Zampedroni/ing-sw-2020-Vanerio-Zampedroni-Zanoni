@@ -1,15 +1,13 @@
 package it.polimi.ingsw;
 
-import it.polimi.ingsw.objects3D.animation.ActionAnimation;
-import it.polimi.ingsw.objects3D.obj.BoardObj;
-import it.polimi.ingsw.objects3D.obj.WorkerObj;
-import it.polimi.ingsw.objects3D.utils.BoardCamera;
-import it.polimi.ingsw.objects3D.utils.BoardCoords3D;
-import it.polimi.ingsw.objects3D.utils.BoardGrid;
-import it.polimi.ingsw.objects3D.utils.BoardScene;
+import it.polimi.ingsw.mvc.view.gui.objects3D.obj.BoardObj;
+import it.polimi.ingsw.mvc.view.gui.objects3D.obj.WorkerObj;
+import it.polimi.ingsw.mvc.view.gui.objects3D.utils.BoardCamera;
+import it.polimi.ingsw.mvc.view.gui.objects3D.utils.BoardCoords3D;
+import it.polimi.ingsw.mvc.view.gui.objects3D.utils.BoardGrid;
+import it.polimi.ingsw.mvc.view.gui.objects3D.utils.BoardScene;
 import it.polimi.ingsw.utility.enumerations.Action;
 import javafx.application.Application;
-import javafx.beans.property.SimpleBooleanProperty;
 import javafx.geometry.Orientation;
 import javafx.scene.*;
 import javafx.scene.control.Button;

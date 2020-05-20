@@ -1,6 +1,6 @@
-package it.polimi.ingsw.objects3D.utils;
+package it.polimi.ingsw.mvc.view.gui.objects3D.utils;
 
-import it.polimi.ingsw.objects3D.TrackedGroup;
+import it.polimi.ingsw.mvc.view.gui.objects3D.TrackedGroup;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.image.Image;
@@ -35,19 +35,7 @@ public class NodeOperation {
         return model;
     }
 
-    /*
-    public static Node getModel(String objRelativePath, Color color) throws IOException {
-        MeshView model = FXMLLoader.load(NodeOperation.class.getResource(objRelativePath));
-        if(color != null) {
-            PhongMaterial texture = new PhongMaterial();
-            texture.setDiffuseColor(color);
-            model.setMaterial(texture);
-        }
-        return model;
-    }*/
-
     public static void putOnCorrectTile(TrackedGroup node, BoardCoords3D coords) {
-        //System.out.println("Done: "+(node.getTranslateX() + TILES_OFFSET*xBoard)+","+(node.getTranslateY() - TILES_OFFSET*yBoard)+"\n");
         node.setTranslateX(node.getZeroX() + TILES_OFFSET*coords.getValueX());
         node.setTranslateZ(node.getZeroZ() - TILES_OFFSET*coords.getValueY());
         node.setFloor(coords.getValueZ());

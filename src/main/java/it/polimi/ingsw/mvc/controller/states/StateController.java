@@ -2,10 +2,14 @@ package it.polimi.ingsw.mvc.controller.states;
 
 import it.polimi.ingsw.mvc.controller.SessionController;
 import it.polimi.ingsw.mvc.model.Session;
+import it.polimi.ingsw.mvc.model.player.Player;
+import it.polimi.ingsw.network.messages.FlagMessage;
+import it.polimi.ingsw.network.messages.lobby.LobbyUpdate;
 import it.polimi.ingsw.network.server.ServerConnection;
 import it.polimi.ingsw.utility.enumerations.Colors;
 import it.polimi.ingsw.network.messages.Message;
 import it.polimi.ingsw.mvc.view.RemoteView;
+import it.polimi.ingsw.utility.enumerations.MessageType;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -65,6 +69,30 @@ public abstract class StateController implements Serializable {
 
     public void addPlayer(String username, Colors color, RemoteView view) {
         LOG.warning("addPlayer called on wrong state");
+    }
+
+    protected Message messageBuilder(MessageType type, String info, String recipient) {
+        return new Message(type,"SERVER",info,recipient);
+    }
+
+    protected Message messageBuilder(MessageType type, String info) {
+        return messageBuilder(type,info,"ALL");
+    }
+
+    protected Message messageBuilder(MessageType type, String info, boolean flag, String recipient) {
+        return new FlagMessage(type,"SERVER",info,flag,recipient);
+    }
+
+    protected Message messageBuilder(MessageType type, String info, boolean flag) {
+        return messageBuilder(type,info,flag,"ALL");
+    }
+
+    protected Message messageBuilder(String info,String recipient) {
+        return new LobbyUpdate("SERVER",info,controller.getFreeColors(), controller.getPlayers(),recipient);
+    }
+
+    protected Message messageBuilder(String info) {
+        return messageBuilder(info,"ALL");
     }
 
 }
