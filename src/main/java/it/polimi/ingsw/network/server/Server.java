@@ -86,6 +86,10 @@ public class Server extends Thread {
         queueHandler.start();
     }*/
 
+    protected void handleReconnection(Message message) {
+        System.out.println(message);
+    }
+
     private void startLogging() {
         DateFormat dateFormat = new SimpleDateFormat("MM_dd_HH-mm-ss");
         Date date = new Date();

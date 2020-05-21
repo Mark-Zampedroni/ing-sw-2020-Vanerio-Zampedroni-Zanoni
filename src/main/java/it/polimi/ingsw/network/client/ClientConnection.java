@@ -1,6 +1,8 @@
 package it.polimi.ingsw.network.client;
 
+import it.polimi.ingsw.network.messages.FlagMessage;
 import it.polimi.ingsw.network.messages.Message;
+import it.polimi.ingsw.utility.enumerations.MessageType;
 import it.polimi.ingsw.utility.observer.Observable;
 
 import java.io.IOException;
@@ -33,14 +35,18 @@ public class ClientConnection extends Thread {
 
     private final Object queueLock = new Object();
     private final ClientMessageReceiver messageReceiver;
+    private boolean reconnect = false;
+    private String name = "";
 
     private static class ClientMessageReceiver extends Observable<Message> implements Runnable {
 
+        private final Client controller;
         private final Thread t;
         private final ClientConnection connection;
 
         public ClientMessageReceiver(ClientConnection connection, Client controller) {
             this.connection = connection;
+            this.controller = controller;
             this.addObserver(controller);
 
             t = new Thread(this);
@@ -61,6 +67,9 @@ public class ClientConnection extends Thread {
                     notify(msg);
                 }
             }
+            notify(new Message(MessageType.RECONNECTION_UPDATE,"SELF","Server disconnected","ALL"));
+            System.out.println("Receiver disconnected");
+            this.removeObserver(controller);
         }
 
         public void clear() {
@@ -130,6 +139,9 @@ public class ClientConnection extends Thread {
                 disconnect();
             }
         }
+        System.out.println("\nServer \"crashato\"\n"); // <---- TEST
+        if(reconnect) { startReconnectionRequests(); }
+        else { System.out.println("Ma non è ancora iniziato il game quindi non riconnetto!"); } // <---- TEST
     }
 
     public void disconnect() {
@@ -151,5 +163,37 @@ public class ClientConnection extends Thread {
             inQueue.clear();
         }
         return copy;
+    }
+
+    private void startReconnectionRequests() {
+        while(!reconnectRequest()) {
+            try {
+                System.out.println("Riconnessione fallita, riprovando in 2 secondi");
+                sleep(2000);
+            } catch (InterruptedException e) {
+                LOG.warning("Reconnection wait interrupted");
+            }
+        }
+        sendMessage(new Message(MessageType.RECONNECTION_UPDATE,name,"Reconnecting","SERVER"));
+    }
+
+    private boolean reconnectRequest() {
+        try {
+            socket = new Socket(ip, port);
+            output = new ObjectOutputStream(socket.getOutputStream());
+            input = new ObjectInputStream(socket.getInputStream());
+            System.out.println("Reconnected!");
+            return true;
+        } catch (IOException e) {
+            return false;
+        }
+    }
+
+    protected void setReconnect(boolean value) {
+        reconnect = value;
+    }
+
+    protected void setConnectionName(String name) {
+        this.name = name;
     }
 }

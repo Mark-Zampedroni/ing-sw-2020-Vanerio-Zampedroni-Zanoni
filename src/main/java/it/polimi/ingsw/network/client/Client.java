@@ -56,7 +56,7 @@ public abstract class Client implements Observer<Message>, View {
     }
 
     public void update(Message message) {
-        if(message.getType() == MessageType.CONNECTION_TOKEN ||
+        if((message.getType() == MessageType.CONNECTION_TOKEN && state==GameState.CONNECTION) ||
            message.getRecipient().equals(username) ||
            message.getRecipient().equals("ALL")) {
             switch (message.getType()) {
@@ -164,6 +164,7 @@ public abstract class Client implements Observer<Message>, View {
         if(state == GameState.LOGIN) {
             if(message.getFlag()) {
                 username = message.getInfo(); // View registrata su Server
+                connection.setConnectionName(username);
                 state = GameState.LOBBY;
             }
             else {
@@ -275,6 +276,9 @@ public abstract class Client implements Observer<Message>, View {
 
     private void parseStateUpdate(StateUpdateMessage message) {
         state = message.getState();
+        if(state == GameState.GOD_SELECTION) {
+            connection.setReconnect(true);
+        }
         //viewUpdate.add(() -> view.switchState(state));
     }
 
