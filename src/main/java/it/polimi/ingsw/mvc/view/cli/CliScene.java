@@ -1,5 +1,6 @@
 package it.polimi.ingsw.mvc.view.cli;
 
+import it.polimi.ingsw.utility.enumerations.Action;
 import it.polimi.ingsw.utility.enumerations.Colors;
 import it.polimi.ingsw.utility.enumerations.Gods;
 import it.polimi.ingsw.utility.serialization.dto.DtoPosition;
@@ -49,34 +50,68 @@ public class CliScene {
         }
     }
 
-
     public static void printBoardScreen(DtoSession session, Map<String,Colors> colors, Map<String,String> gods) {
-        out.println(createBoard(session,colors));
+        printBoardScreen(session,colors,gods,null);
+    }
+
+    public static void printBoardScreen(DtoSession session, Map<String,Colors> colors, Map<String,String> gods, Map<Action,List<DtoPosition>> possibleActions) {
+        out.println(createBoard(session,colors,possibleActions));
         out.flush();
     }
 
-    private static String  createBoard(DtoSession session, Map<String,Colors> colors) {
+    private static String createBoard(DtoSession session, Map<String,Colors> colors, Map<Action,List<DtoPosition>> possibleActions) {
         StringBuilder board = new StringBuilder();
+        Map<Integer,Boolean> positions;
         for(int y = 0; y<5; y++) {
             List<String>[] line = new List[5];
             for(int x = 0; x<5; x++) {
-                DtoTile tile = session.getBoard().getTile(x,y);
-                String master = session.getWorkerMasterOn(x,y);
+                DtoTile tile = session.getBoard().getTile(x, y);
+                String master = session.getWorkerMasterOn(x, y);
                 line[x] = Arrays.asList(createTile(tile.getHeight(), tile.hasDome(), master == null ? "" : colors.get(master).toString()).split("\\r?\\n"));
             }
-            board.append("-".repeat(17*5+6)).append("\n");
+            positions = createBorder(possibleActions,y,board);
             for(int r = 0; r < line[0].size(); r++) {
-                board.append("|");
+                board.append(positions.get(0) ? Ansi.addBg(111,"|") : "|");
                 for(int x = 0; x < 5; x ++) {
-                    board.append(line[x].get(r)).append("|");
+                    board.append(line[x].get(r)).append((positions.get(x) | positions.get(x+1)) ? Ansi.addBg(111,"|") : "|");
                 }
                 board.append("\n");
             }
         }
-        board.append("-".repeat(17*5+6)).append("\n");
+        createBorder(possibleActions,5,board); /// <------- alla fine crea ultima riga
         out.println(Ansi.CLEAR_CONSOLE);
         out.flush();
         return Ansi.CLEAR_CONSOLE+board.toString();
+    }
+
+    private static Map<Integer,Boolean> createBorder(Map<Action,List<DtoPosition>> possibleActions, int row, StringBuilder b) {
+        Map<Integer,Boolean> candidates = new HashMap<>();
+        Map<Integer,Boolean> candidatesNext;
+        if(possibleActions != null && possibleActions.size() == 1 && possibleActions.keySet().iterator().next() != Action.ADD_WORKER) {
+            List<DtoPosition> positions = possibleActions.values().iterator().next();
+            candidates = getRowCandidatePositions(positions,row);
+            candidatesNext = getRowCandidatePositions(positions,row-1);
+            b.append((candidates.get(0) || candidatesNext.get(0)) ? Ansi.addBg(111,"-") : "-");
+            for(int x = 0; x < 5; x++) {
+                b.append((candidates.get(x) || (candidatesNext.get(x))) ? Ansi.addBg(111, "-".repeat(17)) : "-".repeat(17));
+                b.append((candidates.get(x) || candidates.get(x+1) ||
+                        ((candidatesNext.get(x) || candidatesNext.get(x+1)))) ? Ansi.addBg(111,"-") : "-");
+            }
+            b.append("\n");
+        }
+        else {
+            b.append("-".repeat(17*5+6)).append("\n");
+            for(int x = -1; x<6; x++) { candidates.put(x,false); }}
+        return candidates;
+    }
+
+    private static Map<Integer,Boolean> getRowCandidatePositions(List<DtoPosition> positions, int row) {
+        Map<Integer,Boolean> temp = new HashMap<>();
+        for(int x = -1; x<6; x++) { temp.put(x,false); }
+        for(DtoPosition position : positions) {
+            if(position.getY() == row) { temp.put(position.getX(),true); }
+        }
+        return temp;
     }
 
     public static void printPlayerGodSelection(String message, Map<String,String> choices, List<String> chosenGods, int numberOfPlayers, boolean input) {
@@ -89,8 +124,6 @@ public class CliScene {
         b.append(createSelectedGodsRow(chosenGods, choices, godsSlotsWidth, godsSlotsHeight, numberOfPlayers));
         b.append(createSelectedSlot(chosenGods,choices,godsSlotsWidth));
         b = closeSelectionWindow(b,numberOfPlayers,outPutWidth);
-        out.println(Ansi.CLEAR_CONSOLE);
-        out.flush();
         out.println(centerScreen( Ansi.CLEAR_CONSOLE + b));
         if(input) { setCursor(9,5); }
         out.flush();
@@ -145,8 +178,6 @@ public class CliScene {
         StringBuilder b = new StringBuilder();
         b.append(createPlayersChoiceBox(chosenGods, godsSlotsWidth, godsSlotsHeight, numberOfPlayers));
         b = closeSelectionWindow(b,numberOfPlayers,outPutWidth);
-        out.println(Ansi.CLEAR_CONSOLE);
-        out.flush();
         out.println(centerScreen( Ansi.CLEAR_CONSOLE + b));
         out.flush();
     }
@@ -209,8 +240,6 @@ public class CliScene {
         inputOutputSlot(outputSlot, outPutWidth);
         outputSlot = decorateSquare(outputSlot,outPutWidth);
         appendAllLinesCentered(b,removeLines(outputSlot.toString(),5),2,0);
-        out.println(Ansi.CLEAR_CONSOLE);
-        out.flush();
         out.println(centerScreen( Ansi.CLEAR_CONSOLE + b));
         if(input) { setCursor(10,5); }
         out.flush();
@@ -227,8 +256,6 @@ public class CliScene {
         appendEmptyRow(b, width, 1);
         inputOutputSlot(b, width);
         b = decorateSquare(b,100);
-        out.println(Ansi.CLEAR_CONSOLE);
-        out.flush();
         out.println(centerScreen(Ansi.CLEAR_CONSOLE + b));
         if(input) {  setCursor(8,5); }
         out.flush();
@@ -248,8 +275,6 @@ public class CliScene {
         inputOutputSlot(temp, 96);
         temp = decorateSquare(temp,96);
         appendAllLinesCentered(b,fixSlots(removeLines(temp.toString(),5)),width+2,false);
-        out.println(Ansi.CLEAR_CONSOLE);
-        out.flush();
         out.println(centerScreen(Ansi.CLEAR_CONSOLE + b, 42));
         if(input) { setCursor(10,5); }
         out.flush();
