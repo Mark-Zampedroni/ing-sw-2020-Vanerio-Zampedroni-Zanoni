@@ -19,7 +19,7 @@ import java.util.logging.Logger;
 import java.util.logging.SimpleFormatter;
 
 
-public class ClientConnection extends Thread {
+public class ClientConnection implements Runnable {
 
     private final boolean logMessages = false;
 
@@ -32,9 +32,10 @@ public class ClientConnection extends Thread {
     private Socket socket;
     public final Logger LOG;
     private final List<Message> inQueue;
+    private Thread t;
 
     private final Object queueLock = new Object();
-    private final ClientMessageReceiver messageReceiver;
+    private ClientMessageReceiver messageReceiver;
     private boolean reconnect = false;
     private String name = "";
 
@@ -67,13 +68,11 @@ public class ClientConnection extends Thread {
                     notify(msg);
                 }
             }
-            notify(new Message(MessageType.RECONNECTION_UPDATE,"SELF","Server disconnected","ALL"));
-            System.out.println("Receiver disconnected");
             this.removeObserver(controller);
         }
 
-        public void clear() {
-            t.interrupt();
+        public Client getController() {
+            return controller;
         }
 
     }
@@ -107,7 +106,8 @@ public class ClientConnection extends Thread {
         socket = new Socket(ip, port);
         output = new ObjectOutputStream(socket.getOutputStream());
         input = new ObjectInputStream(socket.getInputStream());
-        this.start();
+        t = new Thread(this);
+        t.start();
     }
 
     public void sendMessage(Message msg) {
@@ -135,12 +135,13 @@ public class ClientConnection extends Thread {
             }
             catch(IOException e) {
                 LOG.severe("Exception throw, connection closed");
-                messageReceiver.clear();
                 disconnect();
             }
         }
         System.out.println("\nServer \"crashato\"\n"); // <---- TEST
-        if(reconnect) { startReconnectionRequests(); }
+        inQueue.add(new Message(MessageType.RECONNECTION_UPDATE,"SELF","Server disconnected","ALL"));
+        Client controller = messageReceiver.getController();
+        if(reconnect) { startReconnectionRequests(controller); }
         else { System.out.println("Ma non è ancora iniziato il game quindi non riconnetto!"); } // <---- TEST
     }
 
@@ -150,7 +151,7 @@ public class ClientConnection extends Thread {
                 socket.close();
                 LOG.info("Connection closed");
             }
-            this.interrupt();
+            t.interrupt();
         } catch(IOException e) {
             LOG.severe(e.getMessage());
         }
@@ -165,11 +166,11 @@ public class ClientConnection extends Thread {
         return copy;
     }
 
-    private void startReconnectionRequests() {
+    private void startReconnectionRequests(Client controller) {
         while(!reconnectRequest()) {
             try {
                 System.out.println("Riconnessione fallita, riprovando in 2 secondi");
-                sleep(2000);
+                Thread.sleep(2000);
             } catch (InterruptedException e) {
                 LOG.warning("Reconnection wait interrupted");
             }
@@ -179,9 +180,7 @@ public class ClientConnection extends Thread {
 
     private boolean reconnectRequest() {
         try {
-            socket = new Socket(ip, port);
-            output = new ObjectOutputStream(socket.getOutputStream());
-            input = new ObjectInputStream(socket.getInputStream());
+            startConnection();
             System.out.println("Reconnected!");
             return true;
         } catch (IOException e) {

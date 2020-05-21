@@ -93,6 +93,8 @@ public abstract class Client implements Observer<Message>, View {
                 case TURN_UPDATE:
                     parseTurnUpdate((ActionUpdateMessage) message);
                     break;
+                case RECONNECTION_UPDATE:
+                    parseReconnectionUpdate(message);
                 default: //
             }
             flushRequests();
@@ -105,6 +107,10 @@ public abstract class Client implements Observer<Message>, View {
             username = message.getInfo();
             state = GameState.PRE_LOBBY;
         }
+    }
+
+    private void parseReconnectionUpdate(Message message) {
+        System.out.println("--- CLIENT MOSTRA FINESTRA DISCONNESSIONE E TENTATIVO RICOLLEGAMENTO ---");
     }
 
     /* CREAZIONE PARTITA */////////////////////////////////////////////////////////////////
