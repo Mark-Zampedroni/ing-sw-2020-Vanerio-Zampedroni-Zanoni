@@ -30,17 +30,19 @@ public class SessionController implements Observer<Message>  {
 
     private final Session session;
 
-    private final List<RemoteView> views = new ArrayList<>();
+    private final List<RemoteView> views;
 
-    /*
-    public SessionController(List<ServerConnection> connections, Logger LOG, Session session, GameState state, StateController stateController){
+    //costruttore necessario per il ripristino, non toccare:
+    public SessionController(Logger LOG, Session session, GameState state, StateController stateController, List<RemoteView> views){
         SessionController.LOG = LOG;
         this.session = session;
         this.state = state;
-        this.stateController = new DiffLobbyController(stateController, this, views, LOG, connections );
-    }*/
+        this.stateController = stateController;
+        this.views= views;
+    }
 
     public SessionController(List<ServerConnection> connections, Logger LOG) {
+        views = new ArrayList<>();
         SessionController.LOG = LOG;
         session = Session.getInstance();
         state = GameState.LOBBY;
@@ -60,19 +62,6 @@ public class SessionController implements Observer<Message>  {
     }
 
     public boolean isGameStarted() { return (state != GameState.LOBBY); }
-
-    //public StateController getStateController() {return stateController;}
-
-    /*
-    public void diffSwitchState(StateController stateController) {
-        if (stateController instanceof TurnController){
-            this.state = GameState.GAME;}
-        else {
-            this.state = GameState.GOD_SELECTION;
-        }
-        this.stateController = stateController;
-        stateController.setController(this);
-    }*/
 
     // Cambia stato
     public void switchState(GameState state) {
@@ -117,20 +106,6 @@ public class SessionController implements Observer<Message>  {
             stateController.addPlayer(username, color, view);
         }
     }
-
-    /*
-    public void addPlayer(String username, RemoteView view) {
-        synchronized(viewLock) {
-            Colors color=null;
-
-        for(Player p : session.getPlayers()) {
-            if (p.getUsername().equals(username)){
-                color=p.getColor();
-            }
-        }
-            stateController.addPlayer(username, color, view);
-        }
-    }*/
 
     // Rimuove un player registrato e lo de-registra
     public void removePlayer(String username) {

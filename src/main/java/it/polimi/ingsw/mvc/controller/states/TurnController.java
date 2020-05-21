@@ -13,6 +13,7 @@ import it.polimi.ingsw.mvc.model.map.Position;
 import it.polimi.ingsw.mvc.model.player.Player;
 import it.polimi.ingsw.mvc.model.player.Worker;
 import it.polimi.ingsw.network.messages.Message;
+import it.polimi.ingsw.utility.persistency.SaveGame;
 import it.polimi.ingsw.utility.serialization.dto.DtoPosition;
 
 import java.io.Serializable;
@@ -172,6 +173,7 @@ public class TurnController extends StateController implements Serializable {
     }
 
     private void notifyBoardUpdate(Map<Action, List<DtoPosition>> actionCandidates, String turnOwner) {
+        new SaveGame(controller, this, null);
         views.forEach(w -> w.updateActions(actionCandidates,turnOwner));
     }
 

@@ -1,6 +1,6 @@
 package it.polimi.ingsw.utility.persistency;
 
-
+/*
 import it.polimi.ingsw.mvc.controller.SessionController;
 import it.polimi.ingsw.network.server.Server;
 
@@ -31,7 +31,7 @@ public class SaveHandler extends Thread {
             Scanner input = new Scanner(System.in);
             String s = input.nextLine();
             if (s.equals("Save All")) {
-                new SaveGame(sessionController);
+                //new SaveGame(sessionController);
                 server.interrupt();
                 this.interrupt();
                 System.out.println("Game Saved");
@@ -47,3 +47,4 @@ public class SaveHandler extends Thread {
 
     }
 }
+*/

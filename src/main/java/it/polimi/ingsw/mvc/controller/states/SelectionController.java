@@ -36,6 +36,7 @@ public class SelectionController extends StateController implements Serializable
 
     @Override
     public void parseMessage(Message message) {
+        super.parseMessage(message);
         if(message.getSender().equals(controller.getTurnOwner())) {
             switch (message.getType()) {
                 case GODS_UPDATE:

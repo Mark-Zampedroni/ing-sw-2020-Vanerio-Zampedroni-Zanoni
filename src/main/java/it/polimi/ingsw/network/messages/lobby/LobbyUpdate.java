@@ -5,11 +5,13 @@ import it.polimi.ingsw.utility.enumerations.MessageType;
 import it.polimi.ingsw.mvc.model.player.Player;
 import it.polimi.ingsw.network.messages.Message;
 
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class LobbyUpdate extends Message { // Anche per quando un player si flagga ready
+public class LobbyUpdate extends Message implements Serializable {
+    private static final long serialVersionUID = 6088218796433616304L; // Anche per quando un player si flagga ready
 
     private final List<Colors> colors;
     private final Map<String, Colors> registeredPlayers;

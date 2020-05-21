@@ -5,7 +5,8 @@ import it.polimi.ingsw.utility.enumerations.GameState;
 import it.polimi.ingsw.utility.enumerations.MessageType;
 import it.polimi.ingsw.network.messages.Message;
 import it.polimi.ingsw.network.messages.lobby.LobbyUpdate;
-import it.polimi.ingsw.utility.persistency.SaveHandler;
+import it.polimi.ingsw.utility.persistency.ReconnectionHandler;
+//import it.polimi.ingsw.utility.persistency.SaveHandler;
 
 import java.io.IOException;
 import java.net.ServerSocket;
@@ -37,7 +38,6 @@ public class Server extends Thread {
 
     private final BlockingQueue<Runnable> tasks = new LinkedBlockingQueue<>();
     private final Thread queueHandler;
-    private SaveHandler saveHandler;
 
     private class QueueHandler implements Runnable {
         @Override
@@ -52,13 +52,6 @@ public class Server extends Thread {
         }
     }
 
-
-    /*
-    public void reloadGame () {
-        ReloadGame.restartGame();
-        sessionController = ReloadGame.reloadSessionController(freshConnections, LOG);
-    }*/
-
     public Server(int port) {
         freshConnections = new ArrayList<>();
         allConnections = new ArrayList<>();
@@ -72,9 +65,26 @@ public class Server extends Thread {
         this.start();
         queueHandler = new Thread(new QueueHandler());
         queueHandler.start();
-        saveHandler = new SaveHandler(this, sessionController, true);
-        saveHandler.start();
     }
+ /*
+    public Server(int port, ReconnectionHandler reconnectionHandler) {
+        reconnectionHandler.setLOG(LOG);
+
+        //da qui tramite i ping mi serve che veda i player e li associ a
+
+        freshConnections = new ArrayList<>();
+        allConnections = new ArrayList<>();
+        startLogging();
+        sessionController = new SessionController(freshConnections, LOG); // Controller
+        try {
+            serverSocket = new ServerSocket(port);
+        } catch(IOException e) {
+            LOG.severe(e.getMessage());
+        }
+        this.start();
+        queueHandler = new Thread(new QueueHandler());
+        queueHandler.start();
+    }*/
 
     private void startLogging() {
         DateFormat dateFormat = new SimpleDateFormat("MM_dd_HH-mm-ss");
@@ -100,7 +110,6 @@ public class Server extends Thread {
             }
         }
         queueHandler.interrupt();
-        saveHandler.setInput(false);
     }
 
     private void queueNewConnection(Socket client, String name) {

@@ -6,11 +6,13 @@ import it.polimi.ingsw.utility.enumerations.MessageType;
 import it.polimi.ingsw.utility.serialization.dto.DtoPosition;
 import it.polimi.ingsw.utility.serialization.dto.DtoSession;
 
+import java.io.Serializable;
 import java.util.List;
 import java.util.Map;
 
-public class ActionUpdateMessage extends Message {
+public class ActionUpdateMessage extends Message implements Serializable {
 
+    private static final long serialVersionUID = 3928828614516772694L;
     private final Map<Action, List<DtoPosition>> possibleActions;
     private final DtoSession gameUpdate;
 
