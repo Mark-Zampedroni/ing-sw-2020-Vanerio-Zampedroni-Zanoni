@@ -5,6 +5,8 @@ import it.polimi.ingsw.mvc.controller.SessionController;
 import it.polimi.ingsw.mvc.view.RemoteView;
 import it.polimi.ingsw.network.messages.Message;
 import it.polimi.ingsw.network.messages.game.ActionMessage;
+import it.polimi.ingsw.network.server.Server;
+import it.polimi.ingsw.utility.enumerations.GameState;
 import it.polimi.ingsw.utility.enumerations.MessageType;
 
 import java.io.FileInputStream;
@@ -23,6 +25,7 @@ public class ReloadGame {
     static boolean restartable;
 
     public static void restartGame() {
+        if (! savedData.getGameState().equals(GameState.LOBBY)){
         ReconnectionHandler reconnectionHandler = new ReconnectionHandler();
         views = reconnectionHandler.getViews();
         LOG = reconnectionHandler.getLOG();
@@ -41,7 +44,8 @@ public class ReloadGame {
             //messaggi passivi rimando l'ultimo messaggio a tutti, refresh
             //faccio partire la notify anche manualmente poi mi metto in attesa di messaggi dal client
             savedData.getStateController().notifyMessage(savedData.getMessage());
-            }
+            }} else {
+        new Server(7654);}
     }
 
     public static boolean isRestartable() {
@@ -89,7 +93,7 @@ public class ReloadGame {
     //
     // 2° RICARICA:
     // Elementi: dati sessioncontroller (gamestate, turnowner, gamecapacity, session, statecontroller, lista dei nomi),
-    //           statecontroller, ultimo messaggio (se nullo allora avevo svolto ultima azione)
+    //           statecontroller, ultimo messaggio (se risposta allora avevo svolto ultima azione)
     // Mancanti: lista delle view (ho solo lista dei nomi dei player), LOGGER, viewLock (che si ricrea)
     // -> (A) Se sono in lobby controller, nuovo gioco e segnalo di tornare al primo passo del client
     // -> (B) Da selection in poi invece ripristino il game
@@ -100,12 +104,12 @@ public class ReloadGame {
     // (B) Da selection in poi, recupero tutti i dati,
     //      1) A questo punto gli faccio riconnettere tutti i client che stanno pingando verso il server {il loro nome,
     //         non necessario perchè mando tutto in broadcast, va bene generico ping}, controllando la lista
-    //         dei nomi che è memorizzata, creo delle nuove
+    //         dei nomi che è memorizzata, creo delle nuove remote-view
     //      2) Creo un nuovo session controller, gli associo lo state controller relativo (salvato)
     //         dopo gli assegno i dati relativi al sessioncontroller appena creato (coprendo le variabili non salvabili)
-    //      3) Controllo se l'ultimo messaggio è null allora sono in attesa di messaggi quindi mando un messaggio dicendo "mandate"
-    //         e il tutto torna tranquillamente in esecuzione.
-    //         se invece l'ultimo messaggio non è nullo allora faccio l'elaborazione legata a quel messaggio poi vado avanti
+    //      3) Controllo se l'ultimo messaggio è di risposta dal server allora sono in attesa di messaggi quindi
+    //         mando un messaggio con l'ultima risposta e il tutto torna tranquillamente in esecuzione.
+    //         se invece l'ultimo messaggio è esegui allora faccio l'elaborazione legata a quel messaggio poi vado avanti
     //         e il tutto torna in esecuzione
     //      4) Fine del ripristino, i salvataggi si svolgono tranquillamente come prima
     //      5) A fine della partita CANCELLARE il file dei salvataggi
