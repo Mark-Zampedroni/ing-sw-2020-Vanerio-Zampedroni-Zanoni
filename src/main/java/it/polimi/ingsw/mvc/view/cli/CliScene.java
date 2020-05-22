@@ -1228,4 +1228,3 @@ public class CliScene {
                                           "Original board version published by Roxley Games";
 
 }
-                                        
