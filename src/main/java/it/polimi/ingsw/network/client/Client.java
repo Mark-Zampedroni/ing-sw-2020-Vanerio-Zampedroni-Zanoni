@@ -56,8 +56,7 @@ public abstract class Client implements Observer<Message>, View {
     }
 
     public void update(Message message) {
-        System.out.println(message);
-        if(message.getType() == MessageType.CONNECTION_TOKEN ||
+        if((message.getType() == MessageType.CONNECTION_TOKEN && state==GameState.CONNECTION) ||
            message.getRecipient().equals(username) ||
            message.getRecipient().equals("ALL")) {
             switch (message.getType()) {
@@ -94,6 +93,8 @@ public abstract class Client implements Observer<Message>, View {
                 case TURN_UPDATE:
                     parseTurnUpdate((ActionUpdateMessage) message);
                     break;
+                case RECONNECTION_UPDATE:
+                    parseReconnectionUpdate(message);
                 default: //
             }
             flushRequests();
@@ -106,6 +107,10 @@ public abstract class Client implements Observer<Message>, View {
             username = message.getInfo();
             state = GameState.PRE_LOBBY;
         }
+    }
+
+    private void parseReconnectionUpdate(Message message) {
+        System.out.println("--- CLIENT MOSTRA FINESTRA DISCONNESSIONE E TENTATIVO RICOLLEGAMENTO ---");
     }
 
     /* CREAZIONE PARTITA */////////////////////////////////////////////////////////////////
@@ -165,6 +170,7 @@ public abstract class Client implements Observer<Message>, View {
         if(state == GameState.LOGIN) {
             if(message.getFlag()) {
                 username = message.getInfo(); // View registrata su Server
+                connection.setConnectionName(username);
                 state = GameState.LOBBY;
             }
             else {
@@ -276,6 +282,9 @@ public abstract class Client implements Observer<Message>, View {
 
     private void parseStateUpdate(StateUpdateMessage message) {
         state = message.getState();
+        if(state == GameState.GOD_SELECTION) {
+            connection.setReconnect(true);
+        }
         //viewUpdate.add(() -> view.switchState(state));
     }
 

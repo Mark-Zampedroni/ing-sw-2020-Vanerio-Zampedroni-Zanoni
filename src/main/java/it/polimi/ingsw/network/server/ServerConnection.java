@@ -107,6 +107,9 @@ public class ServerConnection extends Observable<Message> implements Runnable {
             if (msg.getType() == MessageType.SLOTS_UPDATE) {
                 server.startLobby(this, msg.getInfo());
             }
+            else if(msg.getType() == MessageType.RECONNECTION_UPDATE) {
+                server.handleReconnection(msg);
+            }
         } else { // Message received by View
             notify(msg); // Notify -> RemoteView -> SessionController
         }

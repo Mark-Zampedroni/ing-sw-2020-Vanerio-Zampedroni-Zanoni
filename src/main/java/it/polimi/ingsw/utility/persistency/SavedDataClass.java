@@ -10,6 +10,7 @@ import it.polimi.ingsw.mvc.model.Session;
 import it.polimi.ingsw.mvc.model.player.Player;
 import it.polimi.ingsw.mvc.view.RemoteView;
 import it.polimi.ingsw.mvc.controller.states.StateController;
+import it.polimi.ingsw.network.messages.Message;
 import it.polimi.ingsw.utility.enumerations.GameState;
 
 
@@ -24,7 +25,8 @@ public class SavedDataClass implements Serializable {
     private static final long serialVersionUID = -8284194909335487737L;
 
     private Session session;
-    private StateController stateController;
+    private StateController state;
+    private Message message;
 
     private GameState gameState;
 
@@ -32,32 +34,31 @@ public class SavedDataClass implements Serializable {
 
     private String turnOwner;
 
-    private List<Player> views;
     //qualcosa che abbia i dati relativi alla connessione
 
-    SavedDataClass(SessionController sessionController){
+    SavedDataClass(SessionController sessionController, StateController stateController, Message lastMessage){
         session = sessionController.getSession();
-        stateController = sessionController.getStateController();
+        state = stateController;
         saveSessionController(sessionController);
+        message = lastMessage;
     }
 
     GameState getGameState() {return gameState;}
 
     Session getSession() { return session; }
 
-    StateController getStateController() {return stateController;}
-
-    List<Player> getPlayersNames() {return views;}
+    StateController getStateController() {return state;}
 
     int getGameCapacity() {return gameCapacity;}
 
     String getTurnOwner() {return turnOwner;}
 
+    Message getMessage() {return message;}
+
     void saveSessionController(SessionController sessionController) {
         gameState = sessionController.getState();
         gameCapacity = sessionController.getGameCapacity();
         turnOwner = sessionController.getTurnOwner();
-        views = sessionController.getPlayers();
     }
 
 }

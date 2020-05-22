@@ -613,6 +613,11 @@
             <set />
           </value>
         </entry>
+        <entry key="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/utility/persistency/SavedDataClass.java">
+          <value>
+            <set />
+          </value>
+        </entry>
         <entry key="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/utility/serialization/DTO/DTOplayer.java">
           <value>
             <set />
@@ -714,6 +719,16 @@
           </value>
         </entry>
         <entry key="$PROJECT_DIR$/src/test/it/polimi/ingsw/mvc/TestClient.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/src/test/it/polimi/ingsw/mvc/controller/FSMTest.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/src/test/it/polimi/ingsw/mvc/controller/states/UnreachableMethodsTest.java">
           <value>
             <set />
           </value>

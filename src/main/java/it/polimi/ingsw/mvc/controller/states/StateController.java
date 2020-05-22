@@ -10,6 +10,7 @@ import it.polimi.ingsw.utility.enumerations.Colors;
 import it.polimi.ingsw.network.messages.Message;
 import it.polimi.ingsw.mvc.view.RemoteView;
 import it.polimi.ingsw.utility.enumerations.MessageType;
+import it.polimi.ingsw.utility.persistency.SaveGame;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -21,11 +22,11 @@ public abstract class StateController implements Serializable {
 
     private static final long serialVersionUID = -7974027435942352531L;
 
-    protected transient final Map<String, RemoteView> views;
+    protected transient List<RemoteView> views;
     protected transient SessionController controller;
-    protected transient final Logger LOG;
+    protected transient Logger LOG;
 
-    public StateController(SessionController controller, Map<String, RemoteView> views, Logger LOG) {
+    public StateController(SessionController controller, List<RemoteView> views, Logger LOG) {
         this.controller = controller;
         this.views = views;
         this.LOG = LOG;
@@ -35,7 +36,9 @@ public abstract class StateController implements Serializable {
         LOG.warning("This state can't send updates");
     }
 
-    public abstract void parseMessage(Message message);
+    public void parseMessage(Message message){
+        new SaveGame(controller, this, message);
+    };
     public abstract void tryNextState();
 
     public List<Colors> getFreeColors() {
@@ -43,27 +46,20 @@ public abstract class StateController implements Serializable {
         return new ArrayList<>();
     }
 
-    public SessionController getController() {
-        return controller;
-    }
-
-    public void setController(SessionController controller) {
-        this.controller= controller;
-    }
-
     public void addUnregisteredView(ServerConnection connection) {
         LOG.warning("addUnregisteredView called on wrong state");
     }
 
     public void notifyMessage(Message message) {
-        views.values().forEach(w -> w.sendMessage(message));
+        new SaveGame(controller, this, message);
+        views.forEach(w -> w.sendMessage(message));
     }
 
     public void removePlayer(String username) {
-        if(views.containsKey(username)) {
+        if(Session.getInstance().getPlayerByName(username) != null) {
             Session.getInstance().removePlayer(username);
-            views.remove(username);
-            // Logica chiusura gioco
+            views.removeIf(v -> v.hasName(username));
+            // Logica chiusura gioco <-----------------------------------------------------------------------
         }
     }
 
@@ -93,6 +89,13 @@ public abstract class StateController implements Serializable {
 
     protected Message messageBuilder(String info) {
         return messageBuilder(info,"ALL");
+    }
+
+    //sembra uguale al costruttore ma non toccare, serve per il ripristino dei dati non serializzabili
+    public void resetPreviousState(List<RemoteView> views,SessionController sessionController, Logger LOG) {
+        this.LOG = LOG;
+        this.views = views;
+        controller = sessionController;
     }
 
 }

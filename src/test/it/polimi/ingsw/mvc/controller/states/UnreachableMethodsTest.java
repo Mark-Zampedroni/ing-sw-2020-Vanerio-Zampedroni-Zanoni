@@ -26,7 +26,7 @@ public class UnreachableMethodsTest {
         LOG.setUseParentHandlers(false);
         controller = new SessionController(new ArrayList<>(), LOG);
         Setupper.addPlayer("UnTest",Colors.BLUE, 0);
-        wrongState = new SelectionController(controller, new HashMap<>(), LOG);
+        wrongState = new SelectionController(controller, new ArrayList<>(), LOG);
     }
 
     @Test
@@ -40,7 +40,6 @@ public class UnreachableMethodsTest {
     @AfterEach
     public void clearUp() {
         wrongState.removePlayer("UnTest");
-        Setupper.removePlayer(Session.getInstance().getPlayerByName("UnTest"));
         Session.getInstance().getBoard().clear();
     }
 

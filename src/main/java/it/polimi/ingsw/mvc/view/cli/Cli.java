@@ -20,6 +20,7 @@ public class Cli extends Client {
     private String inputSave;
     private int godPage;
     private List<String> allSelectedGods;
+    private DtoSession currentBoard;
 
     public Cli(String ip, int port) {
         input = new Scanner(System.in);
@@ -162,25 +163,30 @@ public class Cli extends Client {
 
     //// ---- /////
     public void showBoard(DtoSession session, Map<String,Colors> colors, Map<String,String> gods){
+        currentBoard = session;
         CliScene.printBoardScreen(session, new HashMap<>(colors), new HashMap<>(gods));
     }
 
     public void requestTurnAction(Map<Action, List<DtoPosition>> possibleActions, DtoSession session, Map<String,Colors> colors, Map<String,String> gods) {
-        CliScene.printBoardScreen(session, new HashMap<>(colors), new HashMap<>(gods));
-        System.out.println("Possible actions:\n");
-        possibleActions.keySet().forEach(action -> System.out.println(action + " on "+possibleActions.get(action)+"\n"));
-        System.out.println("\n");
+        currentBoard = session;
+        CliScene.printBoardScreen(session, new HashMap<>(colors), new HashMap<>(gods), possibleActions);
+        // TEST DA QUI SOTTO ---
         Action action = requestAction(possibleActions.keySet());
+        List<DtoPosition> positions = possibleActions.get(action);
         DtoPosition position = null;
         if(action != Action.END_TURN) {
+            possibleActions = new HashMap<>();
+            possibleActions.put(action,positions);
+            CliScene.printBoardScreen(session, new HashMap<>(colors), new HashMap<>(gods), possibleActions);
             position = requestPosition(possibleActions.get(action));
         }
         sendMessage(new ActionMessage(username, "Action request", action, position,"SERVER"));
-        System.out.println("\n");
+
     }
 
     private Action requestAction(Set<Action> possibleActions) {
         String x;
+        System.out.println(possibleActions);
         do{
             System.out.println("\nChoose an action (0, 1, 2, ...) on previous list:\n");
             x = requestInput();

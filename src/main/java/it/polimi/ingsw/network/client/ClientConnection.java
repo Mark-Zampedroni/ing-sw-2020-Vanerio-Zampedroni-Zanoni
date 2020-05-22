@@ -1,6 +1,8 @@
 package it.polimi.ingsw.network.client;
 
+import it.polimi.ingsw.network.messages.FlagMessage;
 import it.polimi.ingsw.network.messages.Message;
+import it.polimi.ingsw.utility.enumerations.MessageType;
 import it.polimi.ingsw.utility.observer.Observable;
 
 import java.io.IOException;
@@ -17,7 +19,7 @@ import java.util.logging.Logger;
 import java.util.logging.SimpleFormatter;
 
 
-public class ClientConnection extends Thread {
+public class ClientConnection implements Runnable {
 
     private final boolean logMessages = false;
 
@@ -30,17 +32,22 @@ public class ClientConnection extends Thread {
     private Socket socket;
     public final Logger LOG;
     private final List<Message> inQueue;
+    private Thread t;
 
     private final Object queueLock = new Object();
-    private final ClientMessageReceiver messageReceiver;
+    private ClientMessageReceiver messageReceiver;
+    private boolean reconnect = false;
+    private String name = "";
 
     private static class ClientMessageReceiver extends Observable<Message> implements Runnable {
 
+        private final Client controller;
         private final Thread t;
         private final ClientConnection connection;
 
         public ClientMessageReceiver(ClientConnection connection, Client controller) {
             this.connection = connection;
+            this.controller = controller;
             this.addObserver(controller);
 
             t = new Thread(this);
@@ -61,10 +68,11 @@ public class ClientConnection extends Thread {
                     notify(msg);
                 }
             }
+            this.removeObserver(controller);
         }
 
-        public void clear() {
-            t.interrupt();
+        public Client getController() {
+            return controller;
         }
 
     }
@@ -98,7 +106,8 @@ public class ClientConnection extends Thread {
         socket = new Socket(ip, port);
         output = new ObjectOutputStream(socket.getOutputStream());
         input = new ObjectInputStream(socket.getInputStream());
-        this.start();
+        t = new Thread(this);
+        t.start();
     }
 
     public void sendMessage(Message msg) {
@@ -126,10 +135,14 @@ public class ClientConnection extends Thread {
             }
             catch(IOException e) {
                 LOG.severe("Exception throw, connection closed");
-                messageReceiver.clear();
                 disconnect();
             }
         }
+        System.out.println("\nServer \"crashato\"\n"); // <---- TEST
+        inQueue.add(new Message(MessageType.RECONNECTION_UPDATE,"SELF","Server disconnected","ALL"));
+        Client controller = messageReceiver.getController();
+        if(reconnect) { startReconnectionRequests(controller); }
+        else { System.out.println("Ma non è ancora iniziato il game quindi non riconnetto!"); } // <---- TEST
     }
 
     public void disconnect() {
@@ -138,7 +151,7 @@ public class ClientConnection extends Thread {
                 socket.close();
                 LOG.info("Connection closed");
             }
-            this.interrupt();
+            t.interrupt();
         } catch(IOException e) {
             LOG.severe(e.getMessage());
         }
@@ -151,5 +164,35 @@ public class ClientConnection extends Thread {
             inQueue.clear();
         }
         return copy;
+    }
+
+    private void startReconnectionRequests(Client controller) {
+        while(!reconnectRequest()) {
+            try {
+                System.out.println("Riconnessione fallita, riprovando in 2 secondi");
+                Thread.sleep(2000);
+            } catch (InterruptedException e) {
+                LOG.warning("Reconnection wait interrupted");
+            }
+        }
+        sendMessage(new Message(MessageType.RECONNECTION_UPDATE,name,"Reconnecting","SERVER"));
+    }
+
+    private boolean reconnectRequest() {
+        try {
+            startConnection();
+            System.out.println("Reconnected!");
+            return true;
+        } catch (IOException e) {
+            return false;
+        }
+    }
+
+    protected void setReconnect(boolean value) {
+        reconnect = value;
+    }
+
+    protected void setConnectionName(String name) {
+        this.name = name;
     }
 }

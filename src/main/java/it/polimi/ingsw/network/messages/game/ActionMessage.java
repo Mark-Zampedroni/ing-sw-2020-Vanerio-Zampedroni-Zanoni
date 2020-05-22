@@ -5,8 +5,11 @@ import it.polimi.ingsw.utility.enumerations.MessageType;
 import it.polimi.ingsw.network.messages.Message;
 import it.polimi.ingsw.utility.serialization.dto.DtoPosition;
 
-public class ActionMessage extends Message {
+import java.io.Serializable;
 
+public class ActionMessage extends Message implements Serializable {
+
+    private static final long serialVersionUID = 1392822996168131758L;
     private final Action action;
     private final DtoPosition position;
 
