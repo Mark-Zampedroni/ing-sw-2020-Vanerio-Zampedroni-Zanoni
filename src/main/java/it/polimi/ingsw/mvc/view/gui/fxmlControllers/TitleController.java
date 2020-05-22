@@ -1,5 +1,6 @@
 package it.polimi.ingsw.mvc.view.gui.fxmlControllers;
 
+import it.polimi.ingsw.mvc.view.gui.GuiManager;
 import javafx.application.Application;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -13,9 +14,17 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
+import java.io.IOException;
 
-public class santoriniTitleController extends Application{
 
+public class TitleController {
+    private GuiManager gui;
+    private static String connectionIp;
+    private static int connectionPort;
+
+
+        @FXML
+        public Pane mainPane;
         @FXML
          public Button playButton;
         @FXML
@@ -27,29 +36,18 @@ public class santoriniTitleController extends Application{
 
         double level=0;
 
+    public void initialize() {
+        gui = GuiManager.getInstance();
 
-        public static void main(String[] args) {
-            launch(args);
-        }
-
-        @Override
-        public void start(Stage primaryStage) throws Exception{
-            Parent root = FXMLLoader.load(getClass().getResource("/fxmlFiles/01_Santorini_title.fxml"));
-            AnchorPane anchorPane= (AnchorPane) root.getChildrenUnmodifiable().get(0);
-            Pane pane = (Pane) anchorPane.getChildren().get(0);
-
-            primaryStage.setTitle("Santorini Game");
-            Scene scene = new Scene(root, 1040, 700);
-
-            primaryStage.setScene(scene);
-            primaryStage.show();
-
-
-        }
+    }
 
         @FXML
-        public void handleClickPlay(){
-            PopUp.show();
+        public void handleClickPlay() throws IOException {
+        if(!gui.createConnection(connectionIp, connectionPort)){
+            GuiManager.showDialog((Stage) mainPane.getScene().getWindow(), "Connection Error", "Connection failed! The server is unreachable, try again");
+        }
+        else{
+            GuiManager.setLayout(mainPane.getScene(), "/fxmlFiles/NumberOfPlayers.fxml"); }
         }
 
         @FXML
@@ -79,6 +77,9 @@ public class santoriniTitleController extends Application{
             menuButtonImageView.setImage(new Image("/Texture2D_sorted/Pulsanti/menu_button.png"));
         }
 
-
+    public static void setConnectionConfig(String ip, int port){
+        connectionPort = port;
+        connectionIp = ip;
+    }
 }
 
