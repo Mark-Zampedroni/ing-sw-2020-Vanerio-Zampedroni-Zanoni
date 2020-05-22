@@ -12,7 +12,12 @@ import it.polimi.ingsw.mvc.view.View;
 import it.polimi.ingsw.utility.serialization.dto.DtoPosition;
 
 import java.io.IOException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.*;
+import java.util.logging.FileHandler;
+import java.util.logging.Logger;
+import java.util.logging.SimpleFormatter;
 import java.util.stream.Collectors;
 
 public abstract class Client implements Observer<Message>, View {
@@ -21,6 +26,9 @@ public abstract class Client implements Observer<Message>, View {
     protected String username;
 
     private final List<Runnable> requests, inputRequests;
+
+    public final Logger LOG;
+    private final boolean logMessages = false;
 
     protected ClientConnection connection;
 
@@ -33,6 +41,21 @@ public abstract class Client implements Observer<Message>, View {
         chosenGods = new ArrayList<>();
         requests = new ArrayList<>();
         inputRequests = new ArrayList<>();
+        LOG = Logger.getLogger("client");
+        if(!logMessages) { LOG.setUseParentHandlers(false); }
+        startLogging();
+    }
+
+    private void startLogging() {
+        DateFormat dateFormat = new SimpleDateFormat("MM_dd_HH-mm-ss");
+        Date date = new Date();
+        try {
+            FileHandler fileHandler = new FileHandler("log/client/" + dateFormat.format(date) + ".log");
+            fileHandler.setFormatter(new SimpleFormatter());
+            LOG.addHandler(fileHandler);
+        } catch (IOException e) {
+            LOG.severe(e.getMessage() + " couldn't be opened\n");
+        }
     }
 
     private void viewRequest(Runnable request) {
@@ -56,6 +79,7 @@ public abstract class Client implements Observer<Message>, View {
     }
 
     public void update(Message message) {
+        LOG.info("Received message:\n"+message+"\n");
         if((message.getType() == MessageType.CONNECTION_TOKEN && state==GameState.CONNECTION) ||
            message.getRecipient().equals(username) ||
            message.getRecipient().equals("ALL")) {
@@ -157,10 +181,9 @@ public abstract class Client implements Observer<Message>, View {
             viewRequest(() -> showInfo(message.getInfo()));
         }
         else {
-            viewRequest(() -> showInputText(message.getInfo()));
+            // Da gestire <---------------
         }
     }
-    //^^^ LOBBY ^^^////////////////////////////////////////////////////////////////////////////
 
     private void parseInfoMessage(Message message) {
         viewRequest(() -> showInfo(message.getInfo()));
@@ -169,7 +192,7 @@ public abstract class Client implements Observer<Message>, View {
     private void parseRegistrationReply(FlagMessage message) {
         if(state == GameState.LOGIN) {
             if(message.getFlag()) {
-                username = message.getInfo(); // View registrata su Server
+                username = message.getInfo();
                 connection.setConnectionName(username);
                 state = GameState.LOBBY;
             }
@@ -178,7 +201,7 @@ public abstract class Client implements Observer<Message>, View {
             }
         }
     }
-    //* GOD SELECTION *///////////////////uwu/////////OwO/////////UwU/////////////owo////////////////////////
+
     private void parseChallengerSelection(Message message) {
         gods = new HashMap<>();
         challenger = message.getInfo();

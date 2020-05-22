@@ -59,6 +59,195 @@ public class CliScene {
         out.flush();
     }
 
+    private static StringBuilder centerScreen(String text) {
+        return addOffset(text,(getScreenCharSize()-getLongestLine(text))/2);
+    }
+
+    private static StringBuilder centerScreen(String text, int width) {
+        return addOffset(text,width);
+    }
+
+    private static StringBuilder addOffset(String text, double o) {
+        StringBuilder temp = new StringBuilder();
+        String offset = " ".repeat(Math.max(0,(int)o));
+        for(String line : text.split("\\r?\\n")) {
+            String newLine = offset + line + "\n";
+            temp.append(newLine);
+        }
+        cursorOffset = offset.length(); // <---------
+        return temp;
+    }
+
+    // Restituisce una con "length" spazi vuoti
+    private static String getEmptyLength(int length) {
+        return " ".repeat(Math.max(0, length));
+    }
+
+    private static String removeLines(String text, int number) {
+        StringBuilder b = new StringBuilder();
+        int i = 1;
+        for(String string : text.split("\\r?\\n")) {
+            if(i > number) {
+                b.append(string).append("\n");
+            }
+            i++;
+        }
+        return b.toString();
+    }
+
+    private static String fixSlots(String string) {
+        StringBuilder temp = new StringBuilder();
+        int width = getLongestLine(string);
+        for(String s : string.split("\\r?\\n")) {
+            temp.append(s);
+            temp.append(" ".repeat(Math.max(0, width - s.length() + 1)));
+            temp.append("\n");
+        }
+        return temp.toString();
+    }
+
+    private static String fixSlots(String text, int length) {
+        return text+" ".repeat(Math.max(0, length - text.length()));
+    }
+
+    private static String fixAnsi(String text) {
+        // if there are ansi
+        StringBuilder temp = new StringBuilder();
+        temp.append(text);
+        int squareBrackets = text.length() - text.replaceAll("\\[","").length();
+        if(squareBrackets > 1) {
+            temp.append(" ".repeat(2*squareBrackets));
+            temp.insert(0, " ".repeat(2*squareBrackets+1));
+        }
+        return temp.toString();
+    }
+
+    // Aggiunge un numero "number" di righe vuote
+    private static void appendEmptyLine(StringBuilder b, int number) {
+        b.append("\n".repeat(Math.max(0, number)));
+    }
+
+    private static void appendEmptyRow(StringBuilder b, int width, int times) {
+        for(int x = 0; x<times; x++) {
+            b.append(getEmptyLength(width)).append("\n");
+        }
+    }
+
+    // Centra ogni riga a capo su un pezzo di lunghezza length (se non ci sta non funziona)
+    private static void appendAllLinesCentered(StringBuilder b, String text, int length, boolean fixAnsi) {
+        for(String line : text.split("\\r?\\n")) {
+            b.append(centerLine(line,length,fixAnsi)).append("\n");
+        }
+    }
+
+    private static void appendAllLinesCentered(StringBuilder b, String text, int left, int right) {
+        for(String line : text.split("\\r?\\n")) {
+            b.append(" ".repeat(left)).append(line).append(" ".repeat(right)).append("\n");
+        }
+    }
+
+    // Centra una stringa in un pezzo di lunghezza length (se non ci sta non funziona)
+    private static String centerLine(String text, int length, boolean fixAnsi) {
+        StringBuilder temp = new StringBuilder();
+        temp.append(text);
+        for(int i = (length - text.length())/2; i>0; i--) {
+            temp.insert(0," ");
+            temp.append(" ");
+        }
+        if((length - text.length())%2 == 1) { temp.append(" "); }
+        return (fixAnsi) ? fixAnsi(temp.toString()) : temp.toString();
+    }
+
+    private static String centerLine(String text, int left, int right) {
+        StringBuilder temp = new StringBuilder();
+        temp.append(text);
+        temp.insert(0," ".repeat(left));
+        temp.append(" ".repeat(right));
+        return temp.toString();
+    }
+
+    // Restituisce la lunghezza maggiore tra tutte le linee in "text" (divise da \n)
+    private static int getLongestLine(String text) {
+        int max = 0;
+        for(String line : text.split("\\r?\\n")) {
+            if(line.length() > max) { max = line.length(); }
+        }
+        return max;
+    }
+
+
+    private static StringBuilder decorateSquare(StringBuilder b, int width) {
+        StringBuilder temp = new StringBuilder();
+        appendEmptyLine(temp,3);
+        temp.append(".").append("-".repeat(width)).append(".\n");
+        for (String string : b.toString().split("\\r?\\n")) {
+            temp.append("|").append(string).append("|");
+            temp.append("\n");
+        }
+        temp.append("'").append("-".repeat(width)).append("'\n");
+        return temp;
+    }
+
+    private static StringBuilder decorateColumns(StringBuilder b) {
+        StringBuilder temp = new StringBuilder();
+        for (String string : b.toString().split("\\r?\\n")) {
+            temp.append(" | | | |").append(string).append("| | | |");
+            temp.append("\n");
+        }
+        return temp;
+    }
+
+
+
+    private static int []LEVEL_LENGTH = {17,13,9,5}; //-4 ad ogni lvl
+    private static int []LEVEL_HEIGHT = {8,6,4,2}; //-2 ad ogni lvl
+
+    private static String createTile(int height, boolean hasDome, String occupant) { // WHITE, BROWN, BLUE -> da cambiare negli ANSI se cambiamo
+        String tile = getLevelUpTo(height);
+        if(!occupant.equals("")) {
+            tile = addWorker(tile);
+        } else if(hasDome) {
+            tile = addDome(tile);
+        }
+        return colorLevels(tile,height,occupant);
+    }
+
+    private static String addDome(String oldTile) {
+        return addTowerElem(oldTile,7,12,"/   \\","\\   /");
+    }
+
+    private static String addWorker(String oldTile) {
+        return addTowerElem(oldTile, 8,11,"(W)","\\_/");
+    }
+
+    private static String addTowerElem(String oldTile, int pos1, int pos2, String firstElem, String secondElem) {
+        StringBuilder tile = new StringBuilder();
+        List<String> tempRow = Arrays.asList(oldTile.split("\\r?\\n"));
+        for(int r = 0; r < tempRow.size(); r++) {
+            if(r == 4 || r == 5) {
+                tile.append(tempRow.get(r), 0, pos1).append((r==4) ? firstElem : secondElem).append(tempRow.get(r).substring(pos2)).append("\n");
+            } else {
+                tile.append(tempRow.get(r)).append("\n");
+            }
+        }
+        return tile.toString();
+    }
+
+    private static String colorLevels(String oldTile, int height, String occupant) {
+        StringBuilder tile = new StringBuilder();
+        List<String> temp = Arrays.asList(oldTile.split("\\r?\\n"));
+        List<String> overBase = new ArrayList<>();
+        for(int row = 1; row < temp.size()-1; row++) {
+            overBase.add(temp.get(row).substring(1,temp.get(row).length()-1));
+        }
+
+        for(String string : overBase) {
+            List<String> row = Arrays.asList(string.split(""));
+            tile.append(insertColors(row, height, occupant));
+        }
+        return tile.toString();
+    }
+
     private static String createBoard(DtoSession session, Map<String,Colors> colors, Map<Action,List<DtoPosition>> possibleActions) {
         StringBuilder board = new StringBuilder();
         Map<Integer,Boolean> positions;
@@ -417,196 +606,6 @@ public class CliScene {
 
     }
 
-    // Dato uno scenario in testo lo centra nello schermo del terminale // (non so se funzioni per tutti)
-    private static StringBuilder centerScreen(String text) {
-        return addOffset(text,(getScreenCharSize()-getLongestLine(text))/2);
-    }
-
-    private static StringBuilder centerScreen(String text, int width) {
-        return addOffset(text,width);
-    }
-
-    private static StringBuilder addOffset(String text, double o) {
-        StringBuilder temp = new StringBuilder();
-        String offset = " ".repeat(Math.max(0,(int)o));
-        for(String line : text.split("\\r?\\n")) {
-            String newLine = offset + line + "\n";
-            temp.append(newLine);
-        }
-        cursorOffset = offset.length(); // <---------
-        return temp;
-    }
-
-    // Restituisce una con "length" spazi vuoti
-    private static String getEmptyLength(int length) {
-        return " ".repeat(Math.max(0, length));
-    }
-
-    private static String removeLines(String text, int number) {
-        StringBuilder b = new StringBuilder();
-        int i = 1;
-        for(String string : text.split("\\r?\\n")) {
-            if(i > number) {
-                b.append(string).append("\n");
-            }
-            i++;
-        }
-        return b.toString();
-    }
-
-    private static String fixSlots(String string) {
-        StringBuilder temp = new StringBuilder();
-        int width = getLongestLine(string);
-        for(String s : string.split("\\r?\\n")) {
-            temp.append(s);
-            temp.append(" ".repeat(Math.max(0, width - s.length() + 1)));
-            temp.append("\n");
-        }
-        return temp.toString();
-    }
-
-    private static String fixSlots(String text, int length) {
-        return text+" ".repeat(Math.max(0, length - text.length()));
-    }
-
-    private static String fixAnsi(String text) {
-        // if there are ansi
-        StringBuilder temp = new StringBuilder();
-        temp.append(text);
-        int squareBrackets = text.length() - text.replaceAll("\\[","").length();
-        if(squareBrackets > 1) {
-            temp.append(" ".repeat(2*squareBrackets));
-            temp.insert(0, " ".repeat(2*squareBrackets+1));
-        }
-        return temp.toString();
-    }
-
-    // Aggiunge un numero "number" di righe vuote
-    private static void appendEmptyLine(StringBuilder b, int number) {
-        b.append("\n".repeat(Math.max(0, number)));
-    }
-
-    private static void appendEmptyRow(StringBuilder b, int width, int times) {
-        for(int x = 0; x<times; x++) {
-            b.append(getEmptyLength(width)).append("\n");
-        }
-    }
-
-    // Centra ogni riga a capo su un pezzo di lunghezza length (se non ci sta non funziona)
-    private static void appendAllLinesCentered(StringBuilder b, String text, int length, boolean fixAnsi) {
-        for(String line : text.split("\\r?\\n")) {
-            b.append(centerLine(line,length,fixAnsi)).append("\n");
-        }
-    }
-
-    private static void appendAllLinesCentered(StringBuilder b, String text, int left, int right) {
-        for(String line : text.split("\\r?\\n")) {
-            b.append(" ".repeat(left)).append(line).append(" ".repeat(right)).append("\n");
-        }
-    }
-
-    // Centra una stringa in un pezzo di lunghezza length (se non ci sta non funziona)
-    private static String centerLine(String text, int length, boolean fixAnsi) {
-        StringBuilder temp = new StringBuilder();
-        temp.append(text);
-        for(int i = (length - text.length())/2; i>0; i--) {
-            temp.insert(0," ");
-            temp.append(" ");
-        }
-        if((length - text.length())%2 == 1) { temp.append(" "); }
-        return (fixAnsi) ? fixAnsi(temp.toString()) : temp.toString();
-    }
-
-    private static String centerLine(String text, int left, int right) {
-        StringBuilder temp = new StringBuilder();
-        temp.append(text);
-        temp.insert(0," ".repeat(left));
-        temp.append(" ".repeat(right));
-        return temp.toString();
-    }
-
-    // Restituisce la lunghezza maggiore tra tutte le linee in "text" (divise da \n)
-    private static int getLongestLine(String text) {
-        int max = 0;
-        for(String line : text.split("\\r?\\n")) {
-            if(line.length() > max) { max = line.length(); }
-        }
-        return max;
-    }
-
-
-    private static StringBuilder decorateSquare(StringBuilder b, int width) {
-        StringBuilder temp = new StringBuilder();
-        appendEmptyLine(temp,3);
-        temp.append(".").append("-".repeat(width)).append(".\n");
-        for (String string : b.toString().split("\\r?\\n")) {
-            temp.append("|").append(string).append("|");
-            temp.append("\n");
-        }
-        temp.append("'").append("-".repeat(width)).append("'\n");
-        return temp;
-    }
-
-    private static StringBuilder decorateColumns(StringBuilder b) {
-        StringBuilder temp = new StringBuilder();
-        for (String string : b.toString().split("\\r?\\n")) {
-            temp.append(" | | | |").append(string).append("| | | |");
-            temp.append("\n");
-        }
-        return temp;
-    }
-
-
-
-    private static int []LEVEL_LENGTH = {17,13,9,5}; //-4 ad ogni lvl
-    private static int []LEVEL_HEIGHT = {8,6,4,2}; //-2 ad ogni lvl
-
-    private static String createTile(int height, boolean hasDome, String occupant) { // WHITE, BROWN, BLUE -> da cambiare negli ANSI se cambiamo
-        String tile = getLevelUpTo(height);
-        if(!occupant.equals("")) {
-            tile = addWorker(tile);
-        } else if(hasDome) {
-            tile = addDome(tile);
-        }
-        return colorLevels(tile,height,occupant);
-    }
-
-    private static String addDome(String oldTile) {
-        return addTowerElem(oldTile,7,12,"/   \\","\\   /");
-    }
-
-    private static String addWorker(String oldTile) {
-        return addTowerElem(oldTile, 8,11,"(W)","\\_/");
-    }
-
-    private static String addTowerElem(String oldTile, int pos1, int pos2, String firstElem, String secondElem) {
-        StringBuilder tile = new StringBuilder();
-        List<String> tempRow = Arrays.asList(oldTile.split("\\r?\\n"));
-        for(int r = 0; r < tempRow.size(); r++) {
-            if(r == 4 || r == 5) {
-                tile.append(tempRow.get(r), 0, pos1).append((r==4) ? firstElem : secondElem).append(tempRow.get(r).substring(pos2)).append("\n");
-            } else {
-                tile.append(tempRow.get(r)).append("\n");
-            }
-        }
-        return tile.toString();
-    }
-
-    private static String colorLevels(String oldTile, int height, String occupant) {
-        StringBuilder tile = new StringBuilder();
-        List<String> temp = Arrays.asList(oldTile.split("\\r?\\n"));
-        List<String> overBase = new ArrayList<>();
-        for(int row = 1; row < temp.size()-1; row++) {
-            overBase.add(temp.get(row).substring(1,temp.get(row).length()-1));
-        }
-
-        for(String string : overBase) {
-            List<String> row = Arrays.asList(string.split(""));
-            tile.append(insertColors(row, height, occupant));
-        }
-        return tile.toString();
-    }
-
     private static String insertColors(List<String> row, int height, String occupant) {
         StringBuilder newRow = new StringBuilder();
         List<Integer> match = new ArrayList<>();
@@ -615,12 +614,12 @@ public class CliScene {
         }
         if(height == 0) { addLastFloor(row,match,height,newRow,occupant); }
         else if(match.size() == 0) { newRow.append(Ansi.addBg(244,String.join("",row))); }
-        else { recursiveAdd(row,match,height,newRow,0,occupant); }
+        else { recursiveColorsAdd(row,match,height,newRow,0,occupant); }
         newRow.append("\n");
         return newRow.toString();
     }
 
-    private static void recursiveAdd(List<String> row, List<Integer> match, int height, StringBuilder newRow, int callNumber, String occupant) {
+    private static void recursiveColorsAdd(List<String> row, List<Integer> match, int height, StringBuilder newRow, int callNumber, String occupant) {
         if(callNumber > match.size()/2-1) {
             if(callNumber - height == 0) {
                 addLastFloor(row,match,height,newRow,occupant);
@@ -630,11 +629,11 @@ public class CliScene {
         }
         else if(callNumber == 0) {
             newRow.append(Ansi.addBg(244+4*callNumber, String.join("",row.subList(0,match.get(callNumber)+1))));
-            recursiveAdd(row,match,height,newRow,callNumber+1,occupant);
+            recursiveColorsAdd(row,match,height,newRow,callNumber+1,occupant);
             newRow.append(Ansi.addBg(244+4*callNumber, String.join("",row.subList(match.get(match.size()-1-callNumber),row.size()))));
         } else {
             newRow.append(Ansi.addBg(244+4*callNumber, String.join("", row.subList(match.get(callNumber - 1) + 1, match.get(callNumber) + 1))));
-            recursiveAdd(row, match, height, newRow, callNumber + 1,occupant);
+            recursiveColorsAdd(row, match, height, newRow, callNumber + 1,occupant);
             newRow.append(Ansi.addBg(244+4*callNumber, String.join("", row.subList(match.get(match.size() - 1 - callNumber), match.get(match.size() - callNumber)))));
         }
     }

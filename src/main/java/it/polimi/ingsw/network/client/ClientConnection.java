@@ -21,7 +21,9 @@ import java.util.logging.SimpleFormatter;
 
 public class ClientConnection implements Runnable {
 
-    private final boolean logMessages = false;
+
+
+    public final Logger LOG;
 
     private final String ip;
     private final int port;
@@ -30,7 +32,6 @@ public class ClientConnection implements Runnable {
     private ObjectOutputStream output;
 
     private Socket socket;
-    public final Logger LOG;
     private final List<Message> inQueue;
     private Thread t;
 
@@ -81,26 +82,12 @@ public class ClientConnection implements Runnable {
         this.ip = ip;
         this.port = port;
         inQueue = new ArrayList<>();
-
+        LOG = controller.LOG;
         startConnection();
         messageReceiver = new ClientMessageReceiver(this, controller);
-
-        LOG = Logger.getLogger("client");
-        if(!logMessages) { LOG.setUseParentHandlers(false); }
-        startLogging();
     }
 
-    private void startLogging() {
-        DateFormat dateFormat = new SimpleDateFormat("MM_dd_HH-mm-ss");
-        Date date = new Date();
-        try {
-            FileHandler fileHandler = new FileHandler("log/client/" + dateFormat.format(date) + ".log");
-            fileHandler.setFormatter(new SimpleFormatter());
-            LOG.addHandler(fileHandler);
-        } catch (IOException e) {
-            LOG.severe(e.getMessage() + " couldn't be opened\n");
-        }
-    }
+
 
     public void startConnection() throws IOException {
         socket = new Socket(ip, port);

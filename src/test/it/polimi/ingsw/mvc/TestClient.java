@@ -92,8 +92,6 @@ public class TestClient extends Client {
 	
 
     @Override
-    public void showInputText(String text) { }
-    @Override
     public void showInfo(String text) { }
     @Override
     public void requestNumberOfPlayers() { }
