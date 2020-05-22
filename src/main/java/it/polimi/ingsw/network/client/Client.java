@@ -137,7 +137,6 @@ public abstract class Client implements Observer<Message>, View {
         System.out.println("--- CLIENT MOSTRA FINESTRA DISCONNESSIONE E TENTATIVO RICOLLEGAMENTO ---");
     }
 
-    /* CREAZIONE PARTITA */////////////////////////////////////////////////////////////////
     private void parseSlotMessage() { // TEST CLI
         viewRequest(this::requestNumberOfPlayers);
     }
@@ -149,10 +148,7 @@ public abstract class Client implements Observer<Message>, View {
         }
         return false;
     }
-    //^^^ CREAZIONE PARTITA ^^^////uwu/////////////////////////////////////////////////////////////////////////
 
-
-    /* LOBBY *////////////////////////////////////////////////////////////////////////////
     public boolean validateUsername(String requestedUsername) {
         return (!players.containsKey(requestedUsername) && requestedUsername.length()>0 && requestedUsername.length()<12);
     }
@@ -282,8 +278,6 @@ public abstract class Client implements Observer<Message>, View {
          return true;
     }
 
-
-    /*GAME*//////////////////////////////////////////////////////////////////////////////////////////
 
     private void parseTurnUpdate(ActionUpdateMessage message) {
         if(username.equals(message.getInfo())) {

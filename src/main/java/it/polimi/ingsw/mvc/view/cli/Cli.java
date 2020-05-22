@@ -48,7 +48,6 @@ public class Cli extends Client {
         }
     }
 
-    /* CREAZIONE PARTITA *///////////////////////////////////////////////////////////////////////////////////////
     public void requestNumberOfPlayers() {
         CliScene.printStartScreen("You are the first player to connect!\nchoose if you want to play as 2 or 3 people (Type 2 or 3) ",true);
         while(!validateNumberOfPlayers(requestInput().toUpperCase())) {
@@ -63,9 +62,6 @@ public class Cli extends Client {
 
     }
 
-    //^^^ CREAZIONE PARTITA ^^^///////////////////////////////////
-
-    /* LOBBY *///////////////////////////////////////////////////////////////////////////////////////
     public void requestLogin() {
         String requestedUsername = requestLobbyInput("Input username: ",
                                                        "This username is invalid, choose a different one: ",
@@ -101,10 +97,6 @@ public class Cli extends Client {
         }
         CliScene.printLobbyScreen(inputSave, players,input);
     }
-
-    //^^^ LOBBY ^^^//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-    //*GOD SELECTION*//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     public void updateChallengerGodSelection(List<String> gods) {
         inputSave = "You are not the challenger, wait while " +challenger+" chooses "+players.size()+" gods";
@@ -158,7 +150,6 @@ public class Cli extends Client {
         CliScene.printPlayerGodSelection(inputSave, choices, allSelectedGods, players.size(),false);
     }
 
-    //// ---- /////
     public void showBoard(DtoSession session, Map<String,Colors> colors, Map<String,String> gods){
         currentBoard = session;
         CliScene.printBoardScreen(session, new HashMap<>(colors), new HashMap<>(gods));
