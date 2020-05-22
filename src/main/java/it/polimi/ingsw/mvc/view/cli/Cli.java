@@ -8,9 +8,10 @@ import it.polimi.ingsw.network.client.Client;
 import it.polimi.ingsw.network.messages.game.ActionMessage;
 import it.polimi.ingsw.utility.serialization.dto.DtoPosition;
 import it.polimi.ingsw.utility.serialization.dto.DtoSession;
+import javafx.application.Application;
+
 import java.util.*;
 import java.util.function.Function;
-import java.util.stream.Collectors;
 
 public class Cli extends Client {
 
@@ -28,6 +29,7 @@ public class Cli extends Client {
         allSelectedGods = new ArrayList<>();
         waitConnectionRequest(ip, port);
     }
+
 
     private String requestInput() {
         while(true) {
@@ -52,11 +54,6 @@ public class Cli extends Client {
         while(!validateNumberOfPlayers(requestInput().toUpperCase())) {
             CliScene.printStartScreen("The number you typed is not valid, please choose 2 or 3:",true);
         }
-    }
-
-    public void showInputText(String text) {
-        //Scene.putOutputRequest("\n"+text);
-        //Scene.printScene();
     }
 
     public void showInfo(String text) {
