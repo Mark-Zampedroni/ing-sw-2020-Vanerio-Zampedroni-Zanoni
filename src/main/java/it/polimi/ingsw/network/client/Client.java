@@ -317,7 +317,9 @@ public abstract class Client implements Observer<Message>, View {
         return Arrays.stream(Gods.values()).filter(god -> !chosenGods.contains(god.toString())).collect(Collectors.toList());
     }
 
-
+    public void disconnectClient() {
+        connection.disconnect();
+    }
 
 
 }

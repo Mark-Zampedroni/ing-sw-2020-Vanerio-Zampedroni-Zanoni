@@ -1,0 +1,9 @@
+.bodybg{
+    -fx-background-image: url("../Texture2D_sorted/Backgrounds/bg_modeselect.png");
+    -fx-background-size: 100% 100%;
+}
+
+.background{
+    -fx-background-color: grey;
+    -fx-opacity: 0.8 7;
+}

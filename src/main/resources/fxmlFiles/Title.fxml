@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane fx:id="mainPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="1040.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.mvc.view.gui.fxmlControllers.TitleController">
+   <children>
+      <AnchorPane prefHeight="700.0" prefWidth="1040.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="30.0">
+         <children>
+            <Pane prefHeight="700.0" prefWidth="1040.0">
+               <children>
+                  <ImageView fitHeight="701.0" fitWidth="1041.0" layoutY="-30.0">
+                     <image>
+                        <Image url="@../Texture2D_sorted/Title/title_sky.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fitHeight="200.0" fitWidth="386.0" layoutX="504.0" layoutY="-4.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../Texture2D_sorted/Title/title_cloud_back_right.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fitHeight="432.0" fitWidth="1047.0" layoutX="-5.0" layoutY="159.0">
+                     <image>
+                        <Image url="@../Texture2D_sorted/Title/title_water.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fitHeight="220.0" fitWidth="137.0" layoutX="587.0" layoutY="86.0">
+                     <image>
+                        <Image url="@../Texture2D_sorted/Title/title_aphrodite.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fitHeight="318.0" fitWidth="1048.0" layoutX="-5.0" layoutY="357.0">
+                     <image>
+                        <Image url="@../Texture2D_sorted/Title/title_FG_grass.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fitHeight="173.0" fitWidth="293.0" layoutX="-23.0" layoutY="-15.0">
+                     <image>
+                        <Image url="@../Texture2D_sorted/Title/title_cloud_back_horizon.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fitHeight="134.0" fitWidth="51.0" layoutX="203.0" layoutY="163.0">
+                     <image>
+                        <Image url="@../Texture2D_sorted/Title/title_far_island.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fitHeight="232.0" fitWidth="151.0" layoutX="311.0" layoutY="61.0">
+                     <image>
+                        <Image url="@../Texture2D_sorted/Title/title_poseidon.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fitHeight="280.0" fitWidth="271.0" layoutX="382.0" layoutY="113.0">
+                     <image>
+                        <Image url="@../Texture2D_sorted/Title/title_island.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fitHeight="39.0" fitWidth="42.0" layoutX="263.0" layoutY="369.0">
+                     <image>
+                        <Image url="@../Texture2D_sorted/Title/title_boat_right.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fitHeight="220.0" fitWidth="265.0" layoutX="806.0" layoutY="492.0">
+                     <image>
+                        <Image url="@../Texture2D_sorted/Title/title_FG_cloud.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fitHeight="29.0" fitWidth="38.0" layoutX="437.0" layoutY="183.0">
+                     <image>
+                        <Image url="@../Texture2D_sorted/Title/title_poseidon_hand.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fitHeight="191.0" fitWidth="291.0" layoutX="-40.0" layoutY="506.0">
+                     <image>
+                        <Image url="@../Texture2D_sorted/Title/title_FG_cloud2.png" />
+                     </image>
+                  </ImageView>
+                  <Button fx:id="playButton" layoutX="439.0" layoutY="416.0" mnemonicParsing="false" onMouseClicked="#changeButton" onMouseEntered="#glowButton" onMouseExited="#switchOffGlow" onMouseReleased="#handleClickPlay" prefHeight="199.0" prefWidth="173.0" style="-fx-background-color: Transparent;">
+                     <graphic>
+                        <ImageView fx:id="playButtonImageView" fitHeight="191.0" fitWidth="154.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../Texture2D_sorted/Pulsanti/button-play-normal.png" />
+                           </image>
+                        </ImageView>
+                     </graphic></Button>
+                  <Button fx:id="menuButton" layoutX="967.0" layoutY="-24.0" mnemonicParsing="false" onMouseEntered="#changeButtonMenu" onMouseExited="#restoreMenuButton" prefHeight="39.0" prefWidth="31.0" style="-fx-background-color: Transparent;">
+                     <graphic>
+                        <ImageView fx:id="menuButtonImageView" fitHeight="45.0" fitWidth="72.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../Texture2D_sorted/Pulsanti/menu_button.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                  </Button>
+                  <ImageView fitHeight="159.0" fitWidth="357.0" layoutX="344.0" layoutY="276.0">
+                     <image>
+                        <Image url="@../Texture2D_sorted/Title/title-from-web.png" />
+                     </image>
+                  </ImageView>
+               </children>
+            </Pane>
+         </children>
+      </AnchorPane>
+      <AmbientLight color="CHARTREUSE" lightOn="true" />
+   </children>
+</AnchorPane>
