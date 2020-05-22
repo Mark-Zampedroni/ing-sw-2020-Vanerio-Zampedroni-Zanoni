@@ -20,15 +20,19 @@ import javafx.stage.StageStyle;
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;
+import java.util.logging.Logger;
 
 public class GuiManager extends Client {
     private static GuiManager instance = null;
-    private String ip;
-    private int port;
+    private static Logger GUI_LOG;
 
     private TitleController titleController;
     private NumberOfPlayersController numberOfPlayersController;
 
+    private GuiManager() {
+        super();
+        GUI_LOG = LOG;
+    }
 
     public static GuiManager getInstance() {
         if (instance == null)
@@ -39,24 +43,15 @@ public class GuiManager extends Client {
     /*SET A SCENE*/
 
     public static void setLayout(Scene scene, String path) throws IOException {
-        try {
-        Pane pane =  FXMLLoader.load(GuiManager.class.getResource(path));
+        Pane pane =  loadFxmlPane(path);
         scene.setRoot(pane);
-        } catch (IOException e) {
-           System.out.println("error"); //LOGGER
-        }
     }
 
     /*CREATE A DIALOG */
-     public static void showDialog(Stage window, String title, String text) {
-        FXMLLoader loader = new FXMLLoader(GuiManager.class.getClassLoader().getResource("fxmlFiles/Dialog.fxml"));
-
-        Scene dialogScene = null;
-        try {
-            dialogScene = new Scene(loader.load(), 600, 300);
-        } catch (IOException e) {
-            //Logger
-        }
+     public static void showDialog(Stage window, String title, String text) throws IOException {
+        String path = "/fxmlFiles/Dialog.fxml";
+        Pane dialogPane = loadFxmlPane(path);
+        Scene dialogScene = new Scene(dialogPane, 600, 300);
 
         Stage dialog = new Stage();
         dialog.setScene(dialogScene);
@@ -65,15 +60,13 @@ public class GuiManager extends Client {
         dialog.initModality(Modality.APPLICATION_MODAL);
         dialog.setAlwaysOnTop(true);
 
-         assert dialogScene != null;
-         dialogScene.lookup("#okButton").addEventHandler(MouseEvent.MOUSE_CLICKED, event -> dialog.close());
+        dialogScene.lookup("#okButton").addEventHandler(MouseEvent.MOUSE_CLICKED, event -> dialog.close());
 
         ((Label) dialogScene.lookup("#dialogTitle")).setText(title);
         ((Label) dialogScene.lookup("#dialogText")).setText(text);
 
         dialog.showAndWait();
     }
-
 
     void setTitleController(TitleController titleController){
          this.titleController = titleController;
@@ -83,10 +76,19 @@ public class GuiManager extends Client {
          this.numberOfPlayersController = numberOfPlayersController;
     }
 
+    private static Pane loadFxmlPane(String path) throws IOException {
+         try{
+            return FXMLLoader.load(GuiManager.class.getResource(path));
+         } catch (final IOException e) {
+             String errorText = "Resource at "+path+" couldn't be loaded";
+             GUI_LOG.severe(errorText);
+             throw new IOException(errorText);
+         }
+    }
+
 
     @Override
     public void showInfo(String text) {
-
     }
 
     @Override

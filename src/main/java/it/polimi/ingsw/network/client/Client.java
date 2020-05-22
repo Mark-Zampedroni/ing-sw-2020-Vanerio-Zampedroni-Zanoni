@@ -176,9 +176,6 @@ public abstract class Client implements Observer<Message>, View {
         if(state == GameState.PRE_LOBBY) {
             viewRequest(() -> showInfo(message.getInfo()));
         }
-        else {
-            // Da gestire <---------------
-        }
     }
 
     private void parseInfoMessage(Message message) {
@@ -318,7 +315,9 @@ public abstract class Client implements Observer<Message>, View {
     }
 
     public void disconnectClient() {
-        connection.disconnect();
+        if(connection != null) {
+            connection.disconnect();
+        }
     }
 
 

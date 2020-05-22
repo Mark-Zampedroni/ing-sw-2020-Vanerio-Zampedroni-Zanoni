@@ -8,7 +8,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class ClientApp {
+public class ClientAppCli {
 
     public static void main(String[] args) {
         //new Cli("127.0.0.1", 7654); //79.50.167.55:7654

@@ -26,9 +26,9 @@ public class TitleController {
         @FXML
         public Pane mainPane;
         @FXML
-         public Button playButton;
+        public Button playButton;
         @FXML
-         public ImageView playButtonImageView;
+        public ImageView playButtonImageView;
         @FXML
         public Button menuButton;
         @FXML

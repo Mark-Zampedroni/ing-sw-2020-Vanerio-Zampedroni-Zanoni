@@ -12,6 +12,7 @@ import java.io.IOException;
 public class Gui extends Application {
     private static Gui instance = null;
 
+
     public static Gui getInstance() {
         if (instance == null)
             instance = new Gui();
@@ -20,10 +21,11 @@ public class Gui extends Application {
 
     @Override
     public void start(Stage stage) throws IOException {
-
         stage.setScene(new Scene(new Pane()));
+
         GuiManager.setLayout(stage.getScene(), "/fxmlFiles/Title.fxml");
         stage.show();
+
     }
 
     public void init(String ip, int port) {

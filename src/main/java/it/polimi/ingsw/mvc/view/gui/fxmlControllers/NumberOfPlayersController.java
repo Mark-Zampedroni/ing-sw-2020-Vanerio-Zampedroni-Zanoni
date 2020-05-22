@@ -33,7 +33,7 @@ public class NumberOfPlayersController {
 
     public void handleClick() throws IOException {
         if (twoButton.isSelected() || threeButton.isSelected()) {
-            GuiManager.setLayout(mainPane.getScene(), "fxmlFiles/Lobby.fxml");
+            GuiManager.setLayout(mainPane.getScene(), "/fxmlFiles/Lobby.fxml");
         } else {
             GuiManager.showDialog((Stage) mainPane.getScene().getWindow(),"Error", "Field can't be empty");
         }

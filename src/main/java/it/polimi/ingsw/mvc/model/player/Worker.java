@@ -83,9 +83,5 @@ public class Worker implements Serializable {
                 " X: "+getPosition().getX()+
                 " Y: "+getPosition().getY()+"}";
     }
-/*
-    public boolean equals(Worker worker) {
-        return (position.equals(worker.getPosition()));
-    }*/
 
 }
