@@ -12,8 +12,6 @@ import java.util.Map;
 public interface View {
 
 
-    // Da togliere -> i testi vanno spostati in CLI
-    void showInputText(String text);
     void showInfo(String text); // Generico per mostrare testo nel box input XXXXXXXXXXXXXXXXX
     //Pre-Lobby
     void requestNumberOfPlayers(); // Chiede al primo giocatore da quante persone fare la partita XXXXXXXXXXXXX
