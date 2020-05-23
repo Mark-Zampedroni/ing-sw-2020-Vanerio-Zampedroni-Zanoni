@@ -35,6 +35,10 @@ public class SessionController implements Observer<Message>  {
 
     private final List<RemoteView> views;
 
+
+    // Va spostato come metodo dentro ad una delle classi di caricamento.
+    // qui diventa solo ReloadGame.load(this); con this (SessionController) che ha tutti gli attributi da ricaricare protected
+    // mettiamo ReloadGame in questo stesso package e nel metodo assegnamo a this i valori dei vari campi
     public SessionController (Logger LOG,  SavedDataClass savedData,  Map<String, ServerConnection> map) {
         SessionController.LOG = LOG;
         session = savedData.getSession();
@@ -47,6 +51,7 @@ public class SessionController implements Observer<Message>  {
 
         System.out.println("Reloaded data"); // TEST <<-------
 
+        // >> Dentro a ReloadGame metodo privato a parte per sto pezzo, è la logica caricamento views
         for (String name : map.keySet()){
             System.out.println("Creating view of "+name); // TEST <<-------
             map.get(name).putInLobby();
@@ -56,6 +61,7 @@ public class SessionController implements Observer<Message>  {
             if(state == GameState.GAME) { view.getFirstDTOSession(new DtoSession(savedData.getSession())); }
             view.addObserver(this);
         }
+        // <<
 
         System.out.println("All views created"); // TEST <<-------
         System.out.println("Session has state: "+state+", views: "+views);

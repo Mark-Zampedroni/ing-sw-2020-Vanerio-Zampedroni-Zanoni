@@ -27,12 +27,11 @@ public class SaveGame {
                 outputStream.close();
 
                 outputStream.flush();
-
+                System.out.println("Save done ..."); // TEST <<-----
             } catch (IOException e) {
                 System.out.println("IOException is caught, during saving");
                 e.printStackTrace();
             }
-            System.out.println("Save done ..."); // TEST <<-----
         }
     }
 }

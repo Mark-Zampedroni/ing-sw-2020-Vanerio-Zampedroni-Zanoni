@@ -1,4 +1,5 @@
 package it.polimi.ingsw.mvc.model;
+import it.polimi.ingsw.mvc.model.rules.EnemyRules;
 import it.polimi.ingsw.utility.enumerations.Colors;
 import it.polimi.ingsw.utility.enumerations.Gods;
 import it.polimi.ingsw.mvc.model.map.Board;
@@ -7,6 +8,7 @@ import it.polimi.ingsw.mvc.model.player.Worker;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 /**
@@ -14,11 +16,14 @@ import java.util.Random;
  * the {@link Board board} and the {@link java.util.List list} of the {@link Gods gods}
  */
 public class Session implements Serializable {
+
+    private static final long serialVersionUID = 3969372125515778369L;
+
     private final ArrayList<Player> players = new ArrayList<>();
     private final Board board = new Board();
-    private static final long serialVersionUID = 3969372125515778369L;
     private boolean started;
     private static Session instance;
+    private final List<EnemyRules> enemyModifiers = new ArrayList<>();
 
     /**
      * Singleton instance
@@ -28,7 +33,7 @@ public class Session implements Serializable {
     }
 
     public void loadInstance(){
-        instance=this;
+        instance = this;
     }
 
     /**
@@ -193,6 +198,10 @@ public class Session implements Serializable {
         Player p = players.get(challengerNumber);
         p.setChallenger();
         return p.getUsername();
+    }
+
+    public List<EnemyRules> getEnemyModifiers() {
+        return enemyModifiers;
     }
 
 }

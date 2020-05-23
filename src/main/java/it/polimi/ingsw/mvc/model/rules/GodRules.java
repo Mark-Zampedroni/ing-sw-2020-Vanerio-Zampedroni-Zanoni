@@ -26,8 +26,12 @@ import static it.polimi.ingsw.utility.constants.Height.TOP;
  */
 public abstract class GodRules extends Observable<DtoSession> implements Serializable {
 
-    static final List<EnemyRules> enemyModifiers = new ArrayList<>();
+
     private static final long serialVersionUID = 5054362736166633442L;
+
+    protected List<EnemyRules> getEnemyModifiers() {
+        return Session.getInstance().getEnemyModifiers();
+    }
 
     /**
      * Executes a movement {@link Action action}
@@ -136,7 +140,7 @@ public abstract class GodRules extends Observable<DtoSession> implements Seriali
         Check.distance(worker, position);
         Check.dome(position);
         Check.height(worker, position);
-        for (EnemyRules enemy : enemyModifiers) { // Only Athena atm
+        for (EnemyRules enemy : getEnemyModifiers()) { // Only Athena atm
             if (this != enemy) {
                 enemy.consentEnemyMovement(worker, position);
             }
@@ -164,7 +168,7 @@ public abstract class GodRules extends Observable<DtoSession> implements Seriali
      * @return {@code true} if the worker's {@link it.polimi.ingsw.mvc.model.player.Player master} wins the game
      */
     public boolean consentWin(Worker worker, Position position) {
-        for (EnemyRules enemy : enemyModifiers) { // Only Hera atm
+        for (EnemyRules enemy : getEnemyModifiers()) { // Only Hera atm
             if (this != enemy && !enemy.consentEnemyWin(position)) {
                 return false;
             }

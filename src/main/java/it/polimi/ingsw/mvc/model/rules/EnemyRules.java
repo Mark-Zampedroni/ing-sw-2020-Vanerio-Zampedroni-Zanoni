@@ -14,12 +14,12 @@ public abstract class EnemyRules extends CommonRules implements Serializable {
     public boolean consentEnemyWin(Position position) { return true; /* Default */ }
 
     protected void applyEffect() {
-        enemyModifiers.add(this);
+        getEnemyModifiers().add(this);
     }
 
     @Override
     public void removeEffect() {
-        enemyModifiers.remove(this);
+        getEnemyModifiers().remove(this);
     }
 
 }
