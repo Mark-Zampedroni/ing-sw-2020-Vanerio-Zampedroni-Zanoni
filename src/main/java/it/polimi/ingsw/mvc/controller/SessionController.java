@@ -37,6 +37,7 @@ public class SessionController implements Observer<Message>  {
     public SessionController (Logger LOG,  SavedDataClass savedData,  Map<String, ServerConnection> map) {
         SessionController.LOG = LOG;
         this.session = savedData.getSession();
+        this.session.loadInstance();
         this.state = savedData.getGameState();
         this.stateController = savedData.getStateController();
         views = new ArrayList<>();
@@ -57,7 +58,7 @@ public class SessionController implements Observer<Message>  {
         stateController.resetPreviousState(views, this, LOG);
         stateController.notifyMessage(new Message(MessageType.RECONNECTION_UPDATE, "Server",
             "Reconnection is started, be patient!", "ALL"));
-        if(savedData.getActionDone()) {
+        if(!savedData.getActionDone()) {
             stateController.parseMessage(savedData.getMessage());
         }
     }
