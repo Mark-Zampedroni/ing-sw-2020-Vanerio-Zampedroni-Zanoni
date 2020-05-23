@@ -24,6 +24,7 @@ public class RemoteView extends Observable<Message> implements Observer<DtoSessi
             if(message.getSender() != null && message.getSender().equals(connection.getToken())) { //Anti-cheat
                 handleInput(message);
             }
+            else { System.out.println("Received message from wrong name "+message.getSender()+" expected: "+connection.getUsername()); }
         }
     }
 

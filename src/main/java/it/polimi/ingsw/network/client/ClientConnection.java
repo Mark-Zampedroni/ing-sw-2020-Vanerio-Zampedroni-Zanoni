@@ -100,6 +100,7 @@ public class ClientConnection implements Runnable {
             if (output != null) {
                 output.writeObject(msg);
                 output.reset();
+                System.out.println("Wrote msg on output (clientConnection:103)");
             }
         } catch(IOException e) { LOG.severe(e.getMessage()); }
     }

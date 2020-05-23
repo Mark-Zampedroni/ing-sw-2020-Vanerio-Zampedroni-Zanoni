@@ -59,7 +59,9 @@ public class Player implements Serializable {
      */
     public void setGod(Gods god) {
         this.god = god;
+        System.out.println("Player:62 , before setting god");
         setRules(GodRules.getInstance(god));
+        System.out.println("Player:64 , after setting god");
     }
 
     /**

@@ -28,7 +28,7 @@ public abstract class Client implements Observer<Message>, View {
     private final List<Runnable> requests, inputRequests;
 
     public final Logger LOG;
-    private final boolean logMessages = false;
+    private final boolean logMessages = true; // True to show logs on terminal
 
     protected ClientConnection connection;
 
@@ -85,10 +85,10 @@ public abstract class Client implements Observer<Message>, View {
            message.getRecipient().equals("ALL")) {
             switch (message.getType()) {
                 case CONNECTION_TOKEN: // CONNECTION
-                    parseConnectionMessage(message);
+                    if(state == GameState.CONNECTION) { parseConnectionMessage(message); }
                     break;
                 case SLOTS_UPDATE: // PRE-LOBBY
-                    parseSlotMessage();
+                    if(state == GameState.PRE_LOBBY) { parseSlotMessage(); }
                     break;
                 case INFO_UPDATE: // PRE-LOBBY
                     parseInfoMessage(message);
@@ -118,7 +118,7 @@ public abstract class Client implements Observer<Message>, View {
                     parseTurnUpdate((ActionUpdateMessage) message);
                     break;
                 case RECONNECTION_REPLY:
-                    parseReconnection((FlagMessage) message);
+                    parseReconnectionReply((FlagMessage) message);
                 case RECONNECTION_UPDATE:
                     if(connection.getReconnect()) { parseReconnectionUpdate(message); }
                 default: //
@@ -129,17 +129,15 @@ public abstract class Client implements Observer<Message>, View {
 
     /* Connection */
     private void parseConnectionMessage(Message message) {
-        if(state == GameState.CONNECTION) {
-            username = message.getInfo();
-            state = GameState.PRE_LOBBY;
-        }
+        username = message.getInfo();
+        state = GameState.PRE_LOBBY;
     }
 
     private void parseReconnectionUpdate(Message message) {
         System.out.println("--- CLIENT MOSTRA FINESTRA DISCONNESSIONE E TENTATIVO RICOLLEGAMENTO ---");
     }
 
-    private void parseReconnection(FlagMessage message) {
+    private void parseReconnectionReply(FlagMessage message) {
         if(!message.getFlag()) {
             connection.setReconnect(false);
             System.out.println("Couldn't reconnect because: "+message.getInfo()); // Quits game
@@ -315,6 +313,7 @@ public abstract class Client implements Observer<Message>, View {
     }
 
     public void sendMessage(Message message) {
+        System.out.println("Sending message "+message.getType());
         connection.sendMessage(message);
     }
 

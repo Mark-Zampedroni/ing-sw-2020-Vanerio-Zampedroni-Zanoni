@@ -1,6 +1,7 @@
 package it.polimi.ingsw.mvc.controller;
 
 import it.polimi.ingsw.mvc.controller.states.*;
+import it.polimi.ingsw.network.messages.FlagMessage;
 import it.polimi.ingsw.utility.enumerations.Colors;
 import it.polimi.ingsw.utility.enumerations.GameState;
 import it.polimi.ingsw.utility.enumerations.MessageType;
@@ -36,29 +37,33 @@ public class SessionController implements Observer<Message>  {
 
     public SessionController (Logger LOG,  SavedDataClass savedData,  Map<String, ServerConnection> map) {
         SessionController.LOG = LOG;
-        this.session = savedData.getSession();
-        this.session.loadInstance();
-        this.state = savedData.getGameState();
-        this.stateController = savedData.getStateController();
+        session = savedData.getSession();
+        session.loadInstance();
+        state = savedData.getGameState();
+        turnOwner = savedData.getTurnOwner();
+        gameCapacity = savedData.getGameCapacity();
+        stateController = savedData.getStateController();
         views = new ArrayList<>();
 
         System.out.println("Reloaded data"); // TEST <<-------
 
         for (String name : map.keySet()){
             System.out.println("Creating view of "+name); // TEST <<-------
+            map.get(name).putInLobby();
             RemoteView view = new RemoteView(map.get(name));
             view.register(name);
             views.add(view);
-            view.getFirstDTOSession(new DtoSession(savedData.getSession()));
+            if(state == GameState.GAME) { view.getFirstDTOSession(new DtoSession(savedData.getSession())); }
             view.addObserver(this);
         }
 
         System.out.println("All views created"); // TEST <<-------
+        System.out.println("Session has state: "+state+", views: "+views);
 
         stateController.resetPreviousState(views, this, LOG);
-        stateController.notifyMessage(new Message(MessageType.RECONNECTION_UPDATE, "Server",
-            "Reconnection is started, be patient!", "ALL"));
+        stateController.notifyMessage(new FlagMessage(MessageType.RECONNECTION_REPLY, "Server", "Reconnected successfully",true, "ALL"));
         if(!savedData.getActionDone()) {
+            LOG.info("Last message before save needs to be re-parsed, on it ...");
             stateController.parseMessage(savedData.getMessage());
         }
     }

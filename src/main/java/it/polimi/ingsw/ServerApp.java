@@ -7,7 +7,7 @@ public class ServerApp {
     //questo è qui per ora per non far bloccare tutto mentre sistemo
     //feature=false -> non ho attiva la fault tolerance
     //feature=true -> la ho attiva
-    static boolean feature = true;
+    static boolean feature = false;
 
     public static void main(String []args) {
          new Server(7654);

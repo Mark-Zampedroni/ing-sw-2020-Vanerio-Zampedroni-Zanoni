@@ -242,5 +242,5 @@ public abstract class GodRules extends Observable<DtoSession> implements Seriali
      */
     public void clear() { /* Do nothing */ }
 
-    public void removeEffect(){}
+    public void removeEffect() { /* Do nothing */ }
 }

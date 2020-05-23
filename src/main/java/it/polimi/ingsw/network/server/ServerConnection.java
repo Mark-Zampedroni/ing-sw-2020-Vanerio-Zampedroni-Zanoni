@@ -89,10 +89,9 @@ public class ServerConnection extends Observable<Message> implements Runnable {
         while (!Thread.currentThread().isInterrupted()) {
             try {
                 Message msg = (Message) input.readObject();
+                System.out.println("Message read at connection, type "+msg.getType());
                 synchronized (readLock) {
-                    if (msg != null) {
-                        tasks.add(() -> queueMessage(msg));
-                    }
+                    tasks.add(() -> queueMessage(msg));
                 }
             } catch(ClassNotFoundException e) {
                 Server.LOG.severe("[CONNECTION] "+e.toString());
@@ -104,6 +103,7 @@ public class ServerConnection extends Observable<Message> implements Runnable {
     }
 
     private void queueMessage(Message msg) {
+        System.out.println("Reading queue message for "+token);
         if (!inLobby) { // Message received by Server
             if (msg.getType() == MessageType.SLOTS_UPDATE) {
                 server.startLobby(this, msg.getInfo());
@@ -112,7 +112,9 @@ public class ServerConnection extends Observable<Message> implements Runnable {
                 server.handleReconnection(msg,this);
             }
         } else { // Message received by View
+            System.out.println("Doing queue task notifying controller ...");
             notify(msg); // Notify -> RemoteView -> SessionController
+            System.out.println("Notifying ! connection:117");
         }
     }
 
