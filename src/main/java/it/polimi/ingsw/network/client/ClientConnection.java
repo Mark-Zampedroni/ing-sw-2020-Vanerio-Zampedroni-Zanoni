@@ -87,8 +87,6 @@ public class ClientConnection implements Runnable {
         messageReceiver = new ClientMessageReceiver(this, controller);
     }
 
-
-
     public void startConnection() throws IOException {
         socket = new Socket(ip, port);
         output = new ObjectOutputStream(socket.getOutputStream());
@@ -113,7 +111,7 @@ public class ClientConnection implements Runnable {
                 Message msg = (Message) input.readObject();
                 if(msg != null) {
                     synchronized(queueLock) {
-                        inQueue.add(msg); // Messages read in Client
+                        inQueue.add(msg);
                     }
                 }
             }
@@ -125,11 +123,20 @@ public class ClientConnection implements Runnable {
                 disconnect();
             }
         }
+        if(reconnect) {
+            initReconnection();
+        }
+    }
+
+    private void initReconnection() {
         System.out.println("\nServer \"crashato\"\n"); // <---- TEST
-        inQueue.add(new Message(MessageType.RECONNECTION_UPDATE,"SELF","Server disconnected","ALL"));
+        if (reconnect) {
+        inQueue.add(new Message(MessageType.RECONNECTION_UPDATE, "SELF", "Server disconnected", "ALL"));
         Client controller = messageReceiver.getController();
-        if(reconnect) { startReconnectionRequests(controller); }
-        else { System.out.println("Ma non è ancora iniziato il game quindi non riconnetto!"); } // <---- TEST
+        startReconnectionRequests(controller);
+        } else {
+            System.out.println("Ma non è ancora iniziato il game quindi non riconnetto!");
+        } // <---- TEST
     }
 
     public void disconnect() {
@@ -162,13 +169,12 @@ public class ClientConnection implements Runnable {
                 LOG.warning("Reconnection wait interrupted");
             }
         }
-        sendMessage(new Message(MessageType.RECONNECTION_UPDATE,name,"Reconnecting","SERVER"));
+        if(reconnect) { sendMessage(new Message(MessageType.RECONNECTION_UPDATE,name,"Reconnecting","SERVER")); }
     }
 
     private boolean reconnectRequest() {
         try {
             startConnection();
-            System.out.println("Reconnected!");
             return true;
         } catch (IOException e) {
             return false;
@@ -177,6 +183,11 @@ public class ClientConnection implements Runnable {
 
     protected void setReconnect(boolean value) {
         reconnect = value;
+        if(!reconnect) { disconnect(); }
+    }
+
+    protected boolean getReconnect() {
+        return reconnect;
     }
 
     protected void setConnectionName(String name) {

@@ -36,9 +36,7 @@ public abstract class StateController implements Serializable {
         LOG.warning("This state can't send updates");
     }
 
-    public void parseMessage(Message message){
-        SaveGame.saveGame(controller, this, message, false);
-    };
+    public abstract void parseMessage(Message message);
     public abstract void tryNextState();
 
     public List<Colors> getFreeColors() {
@@ -51,7 +49,7 @@ public abstract class StateController implements Serializable {
     }
 
     public void notifyMessage(Message message) {
-        SaveGame.saveGame(controller, this, message, true);
+        controller.saveGame(message,true);
         views.forEach(w -> w.sendMessage(message));
     }
 

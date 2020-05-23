@@ -16,42 +16,50 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.util.List;
 import java.util.logging.Logger;
+import java.util.stream.Collectors;
 
 public class ReloadGame {
 
-    static SavedDataClass savedData;
-    static SessionController sessionController;
-    static List<RemoteView> views;
-    static Logger LOG;
-    static boolean restartable;
+    private static SavedDataClass savedData;
+    private static boolean isAlreadyLoaded;
 
     public static boolean isRestartable() {
-        return deserializeFile();
+        return (isAlreadyLoaded) || deserializeFile();
     }
 
-    public static List<Player> getPlayers(){
-        return savedData.getSession().getPlayers();
+    public static List<String> getPlayersNames(){
+        System.out.println("Querying for players, reply: "+savedData.getSession().getPlayers()); // TEST <<------
+        return savedData.getSession().getPlayers().stream().map(Player::getUsername).collect(Collectors.toList());
     }
 
-    static boolean deserializeFile() {
+    private static boolean deserializeFile() {
         if (ServerApp.isFeature()) {
+            System.out.println("Reloading in ReloadGame");  // TEST <<-------
             String filename = "santorini.game.ser";
             try {
                 FileInputStream file = new FileInputStream(filename);
                 ObjectInputStream input = new ObjectInputStream(file);
-
                 ReloadGame.savedData = (SavedDataClass) input.readObject();
-
                 input.close();
                 file.close();
-                restartable = true;
+                isAlreadyLoaded = true;
+                System.out.println("Done with reload");  // TEST <<-------
             } catch (IOException | ClassNotFoundException e) {
-                System.out.println("IOException is caught");
+                System.out.println("Exception is caught in ReloadGame : deserializeFile");
                 return false;
             }
         }
         return true;
     }
+
+    public static SavedDataClass load() {
+        return savedData;
+    }
+
+    public static void setFinishedLoad() {
+        isAlreadyLoaded = false;
+    }
+
 }
 
 

@@ -117,8 +117,10 @@ public abstract class Client implements Observer<Message>, View {
                 case TURN_UPDATE:
                     parseTurnUpdate((ActionUpdateMessage) message);
                     break;
+                case RECONNECTION_REPLY:
+                    parseReconnection((FlagMessage) message);
                 case RECONNECTION_UPDATE:
-                    parseReconnectionUpdate(message);
+                    if(connection.getReconnect()) { parseReconnectionUpdate(message); }
                 default: //
             }
             flushRequests();
@@ -135,6 +137,16 @@ public abstract class Client implements Observer<Message>, View {
 
     private void parseReconnectionUpdate(Message message) {
         System.out.println("--- CLIENT MOSTRA FINESTRA DISCONNESSIONE E TENTATIVO RICOLLEGAMENTO ---");
+    }
+
+    private void parseReconnection(FlagMessage message) {
+        if(!message.getFlag()) {
+            connection.setReconnect(false);
+            System.out.println("Couldn't reconnect because: "+message.getInfo()); // Quits game
+        }
+        else {
+            System.out.println("Reconnected!");
+        }
     }
 
     private void parseSlotMessage() { // TEST CLI

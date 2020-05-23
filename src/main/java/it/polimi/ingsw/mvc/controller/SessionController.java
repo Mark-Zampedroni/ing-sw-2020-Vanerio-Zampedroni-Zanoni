@@ -11,6 +11,7 @@ import it.polimi.ingsw.network.messages.Message;
 import it.polimi.ingsw.network.server.ServerConnection;
 import it.polimi.ingsw.utility.observer.Observer;
 import it.polimi.ingsw.mvc.view.RemoteView;
+import it.polimi.ingsw.utility.persistency.SaveGame;
 import it.polimi.ingsw.utility.persistency.SavedDataClass;
 import it.polimi.ingsw.utility.serialization.dto.DtoSession;
 
@@ -34,20 +35,24 @@ public class SessionController implements Observer<Message>  {
     private final List<RemoteView> views;
 
     public SessionController (Logger LOG,  SavedDataClass savedData,  Map<String, ServerConnection> map) {
-
         SessionController.LOG = LOG;
         this.session = savedData.getSession();
         this.state = savedData.getGameState();
         this.stateController = savedData.getStateController();
         views = new ArrayList<>();
 
+        System.out.println("Reloaded data"); // TEST <<-------
+
         for (String name : map.keySet()){
+            System.out.println("Creating view of "+name); // TEST <<-------
             RemoteView view = new RemoteView(map.get(name));
             view.register(name);
             views.add(view);
             view.getFirstDTOSession(new DtoSession(savedData.getSession()));
             view.addObserver(this);
         }
+
+        System.out.println("All views created"); // TEST <<-------
 
         stateController.resetPreviousState(views, this, LOG);
         stateController.notifyMessage(new Message(MessageType.RECONNECTION_UPDATE, "Server",
@@ -137,6 +142,7 @@ public class SessionController implements Observer<Message>  {
     // Notifica da parte di una view che è arrivato un messaggio, come viene gestito cambia in base allo stato (parseMessage)
     public void update(Message message) {
         synchronized(viewLock) {
+            saveGame(message,false);
             LOG.info("SessionController received RemoteView message: "+message);
             stateController.parseMessage(message);
         }
@@ -157,6 +163,13 @@ public class SessionController implements Observer<Message>  {
     private void assignFirstDTOSession() {
         DtoSession dto = new DtoSession(session);
         views.forEach(v -> v.getFirstDTOSession(dto));
+    }
+
+    public void saveGame(Message message, boolean isParseCompleted) {
+        if(state != GameState.LOBBY) {
+            System.out.println("Saving from sessionController"); // TEST <<-----
+            SaveGame.saveGame(this, stateController, message, isParseCompleted);
+        }
     }
 
 }

@@ -13,24 +13,26 @@ public class SaveGame {
     //lo faccio statico
     // salvo su doppio file
 
-    public static void saveGame(SessionController sessionController, StateController stateController, Message lastmessage, Boolean flag) {
+    public static void saveGame(SessionController sessionController, StateController stateController, Message lastMessage, Boolean flag) {
         if (ServerApp.isFeature()) {
-        SavedDataClass savedDataClass = new SavedDataClass(sessionController, stateController, lastmessage, flag);
+            System.out.println("Saving game..."); // TEST <<-----
+            SavedDataClass savedDataClass = new SavedDataClass(sessionController, stateController, lastMessage, flag);
 
-        try (FileOutputStream game = new FileOutputStream(new File("santorini.game.ser"))) {
+            try (FileOutputStream game = new FileOutputStream(new File("santorini.game.ser"))) {
 
-            ObjectOutputStream outputStream = new ObjectOutputStream(game);
+                ObjectOutputStream outputStream = new ObjectOutputStream(game);
 
-            outputStream.writeObject(savedDataClass);
+                outputStream.writeObject(savedDataClass);
 
-            outputStream.close();
+                outputStream.close();
 
-            outputStream.flush();
+                outputStream.flush();
 
-        } catch (IOException e) {
-            System.out.println("IOException is caught, during saving");
-            e.printStackTrace();
-        }
+            } catch (IOException e) {
+                System.out.println("IOException is caught, during saving");
+                e.printStackTrace();
+            }
+            System.out.println("Save done ..."); // TEST <<-----
         }
     }
 }

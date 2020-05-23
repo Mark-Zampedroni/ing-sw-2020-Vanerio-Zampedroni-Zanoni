@@ -31,7 +31,6 @@ public class LobbyController extends StateController implements Serializable {
 
     @Override
     public void parseMessage(Message message) {
-        super.parseMessage(message);
         if(message.getType() == MessageType.REGISTRATION_UPDATE) {
             registerConnection((RegistrationMessage) message);
         }

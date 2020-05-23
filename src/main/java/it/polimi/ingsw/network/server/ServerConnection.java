@@ -1,5 +1,6 @@
 package it.polimi.ingsw.network.server;
 
+import it.polimi.ingsw.network.messages.FlagMessage;
 import it.polimi.ingsw.utility.enumerations.MessageType;
 import it.polimi.ingsw.network.messages.Message;
 import it.polimi.ingsw.utility.observer.Observable;
@@ -108,7 +109,7 @@ public class ServerConnection extends Observable<Message> implements Runnable {
                 server.startLobby(this, msg.getInfo());
             }
             else if(msg.getType() == MessageType.RECONNECTION_UPDATE) {
-                server.handleReconnection(msg);
+                server.handleReconnection(msg,this);
             }
         } else { // Message received by View
             notify(msg); // Notify -> RemoteView -> SessionController
@@ -130,6 +131,10 @@ public class ServerConnection extends Observable<Message> implements Runnable {
     public void denyConnection(String message) {
         sendMessage(new Message(MessageType.DISCONNECTION_UPDATE, "SERVER", message, token));
         disconnect();
+    }
+
+    public void denyReconnection(String name, String reason) {
+        sendMessage(new FlagMessage(MessageType.RECONNECTION_REPLY,"SERVER",reason,false,name));
     }
 
     public void setName(String username) {
