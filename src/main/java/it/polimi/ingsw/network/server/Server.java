@@ -5,8 +5,6 @@ import it.polimi.ingsw.utility.enumerations.GameState;
 import it.polimi.ingsw.utility.enumerations.MessageType;
 import it.polimi.ingsw.network.messages.Message;
 import it.polimi.ingsw.network.messages.lobby.LobbyUpdate;
-import it.polimi.ingsw.utility.persistency.ReconnectionHandler;
-//import it.polimi.ingsw.utility.persistency.SaveHandler;
 
 import java.io.IOException;
 import java.net.ServerSocket;
@@ -66,25 +64,6 @@ public class Server extends Thread {
         queueHandler = new Thread(new QueueHandler());
         queueHandler.start();
     }
- /*
-    public Server(int port, ReconnectionHandler reconnectionHandler) {
-        reconnectionHandler.setLOG(LOG);
-
-        //da qui tramite i ping mi serve che veda i player e li associ a
-
-        freshConnections = new ArrayList<>();
-        allConnections = new ArrayList<>();
-        startLogging();
-        sessionController = new SessionController(freshConnections, LOG); // Controller
-        try {
-            serverSocket = new ServerSocket(port);
-        } catch(IOException e) {
-            LOG.severe(e.getMessage());
-        }
-        this.start();
-        queueHandler = new Thread(new QueueHandler());
-        queueHandler.start();
-    }*/
 
     protected void handleReconnection(Message message) {
         System.out.println(message);

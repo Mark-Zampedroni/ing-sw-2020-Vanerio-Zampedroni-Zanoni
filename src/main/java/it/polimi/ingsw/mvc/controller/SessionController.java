@@ -11,6 +11,7 @@ import it.polimi.ingsw.network.messages.Message;
 import it.polimi.ingsw.network.server.ServerConnection;
 import it.polimi.ingsw.utility.observer.Observer;
 import it.polimi.ingsw.mvc.view.RemoteView;
+import it.polimi.ingsw.utility.persistency.SavedDataClass;
 import it.polimi.ingsw.utility.serialization.dto.DtoSession;
 
 import java.util.*;
@@ -32,13 +33,28 @@ public class SessionController implements Observer<Message>  {
 
     private final List<RemoteView> views;
 
-    //costruttore necessario per il ripristino, non toccare:
-    public SessionController(Logger LOG, Session session, GameState state, StateController stateController, List<RemoteView> views){
+    public SessionController (Logger LOG,  SavedDataClass savedData,  Map<String, ServerConnection> map) {
+
         SessionController.LOG = LOG;
-        this.session = session;
-        this.state = state;
-        this.stateController = stateController;
-        this.views= views;
+        this.session = savedData.getSession();
+        this.state = savedData.getGameState();
+        this.stateController = savedData.getStateController();
+        views = new ArrayList<>();
+
+        for (String name : map.keySet()){
+            RemoteView view = new RemoteView(map.get(name));
+            view.register(name);
+            views.add(view);
+            view.getFirstDTOSession(new DtoSession(savedData.getSession()));
+            view.addObserver(this);
+        }
+
+        stateController.resetPreviousState(views, this, LOG);
+        stateController.notifyMessage(new Message(MessageType.RECONNECTION_UPDATE, "Server",
+            "Reconnection is started, be patient!", "ALL"));
+        if(savedData.getActionDone()) {
+            stateController.parseMessage(savedData.getMessage());
+        }
     }
 
     public SessionController(List<ServerConnection> connections, Logger LOG) {

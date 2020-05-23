@@ -37,7 +37,7 @@ public abstract class StateController implements Serializable {
     }
 
     public void parseMessage(Message message){
-        new SaveGame(controller, this, message);
+        SaveGame.saveGame(controller, this, message, false);
     };
     public abstract void tryNextState();
 
@@ -51,7 +51,7 @@ public abstract class StateController implements Serializable {
     }
 
     public void notifyMessage(Message message) {
-        new SaveGame(controller, this, message);
+        SaveGame.saveGame(controller, this, message, true);
         views.forEach(w -> w.sendMessage(message));
     }
 

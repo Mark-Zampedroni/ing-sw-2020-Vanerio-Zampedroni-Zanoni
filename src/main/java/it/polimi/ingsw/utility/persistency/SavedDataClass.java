@@ -24,6 +24,8 @@ public class SavedDataClass implements Serializable {
 
     private static final long serialVersionUID = -8284194909335487737L;
 
+    private boolean actionDone;
+
     private Session session;
     private StateController state;
     private Message message;
@@ -36,24 +38,27 @@ public class SavedDataClass implements Serializable {
 
     //qualcosa che abbia i dati relativi alla connessione
 
-    SavedDataClass(SessionController sessionController, StateController stateController, Message lastMessage){
+    SavedDataClass(SessionController sessionController, StateController stateController, Message lastMessage, Boolean flag){
+        actionDone=flag;
         session = sessionController.getSession();
         state = stateController;
         saveSessionController(sessionController);
         message = lastMessage;
     }
 
-    GameState getGameState() {return gameState;}
+    public GameState getGameState() {return gameState;}
 
-    Session getSession() { return session; }
+    public Session getSession() { return session; }
 
-    StateController getStateController() {return state;}
+    public StateController getStateController() {return state;}
 
-    int getGameCapacity() {return gameCapacity;}
+    public int getGameCapacity() {return gameCapacity;}
 
-    String getTurnOwner() {return turnOwner;}
+    public String getTurnOwner() {return turnOwner;}
 
-    Message getMessage() {return message;}
+    public Message getMessage() {return message;}
+
+    public boolean getActionDone() {return actionDone;}
 
     void saveSessionController(SessionController sessionController) {
         gameState = sessionController.getState();

@@ -1,8 +1,6 @@
 package it.polimi.ingsw;
 
 import it.polimi.ingsw.network.server.Server;
-import it.polimi.ingsw.utility.persistency.ReconnectionHandler;
-import it.polimi.ingsw.utility.persistency.ReloadGame;
 
 public class ServerApp {
 
@@ -12,9 +10,7 @@ public class ServerApp {
     static boolean feature=false;
 
     public static void main(String []args) {
-        if(! ReloadGame.isRestartable()){
          new Server(7654);
-        } else { ReloadGame.restartGame();}
     }
 
     public static boolean isFeature() {

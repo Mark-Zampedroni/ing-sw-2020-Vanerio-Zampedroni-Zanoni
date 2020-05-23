@@ -2,6 +2,7 @@ package it.polimi.ingsw.utility.persistency;
 
 import it.polimi.ingsw.ServerApp;
 import it.polimi.ingsw.mvc.controller.SessionController;
+import it.polimi.ingsw.mvc.model.player.Player;
 import it.polimi.ingsw.mvc.view.RemoteView;
 import it.polimi.ingsw.network.messages.Message;
 import it.polimi.ingsw.network.messages.game.ActionMessage;
@@ -24,60 +25,34 @@ public class ReloadGame {
     static Logger LOG;
     static boolean restartable;
 
-    public static void restartGame() {
-        if (! savedData.getGameState().equals(GameState.LOBBY)){
-        ReconnectionHandler reconnectionHandler = new ReconnectionHandler();
-        views = reconnectionHandler.getViews();
-        LOG = reconnectionHandler.getLOG();
-        sessionController = new SessionController(LOG, savedData.getSession(),savedData.getGameState(), savedData.getStateController(), views);
-        savedData.getStateController().resetPreviousState(views, sessionController, LOG);
-
-        //mando messaggio a tutti che server in esecuzione, ancora un attimo di pazienza
-        savedData.getStateController().notifyMessage(new Message(MessageType.RECONNECTION_UPDATE, "Server",
-                "Reconnection is started, be patient!", "ALL"));
-
-        if (savedData.getMessage() instanceof ActionMessage/*o qualsiasi altro messaggio attivo*/ ) {
-            //svolgo azione e mando a tutti quello che è successo
-            //simulando l'arrivo di quel messaggio al controller
-            savedData.getStateController().parseMessage(savedData.getMessage());
-        } else {
-            //messaggi passivi rimando l'ultimo messaggio a tutti, refresh
-            //faccio partire la notify anche manualmente poi mi metto in attesa di messaggi dal client
-            savedData.getStateController().notifyMessage(savedData.getMessage());
-            }} else {
-        new Server(7654);}
-    }
-
     public static boolean isRestartable() {
-        deserializeFile();
-        return restartable;
+        return deserializeFile();
     }
 
-    static void deserializeFile() {
+    public static List<Player> getPlayers(){
+        return savedData.getSession().getPlayers();
+    }
+
+    static boolean deserializeFile() {
         if (ServerApp.isFeature()) {
             String filename = "santorini.game.ser";
-            SavedDataClass savedData = null;
             try {
                 FileInputStream file = new FileInputStream(filename);
                 ObjectInputStream input = new ObjectInputStream(file);
 
-                savedData = (SavedDataClass) input.readObject();
+                ReloadGame.savedData = (SavedDataClass) input.readObject();
 
                 input.close();
                 file.close();
                 restartable = true;
-            } catch (FileNotFoundException ex) {
-                restartable = false;
-            } catch (IOException ex) {
+            } catch (IOException | ClassNotFoundException e) {
                 System.out.println("IOException is caught");
-                restartable = false;
-            } catch (ClassNotFoundException ex) {
-                System.out.println("ClassNotFoundException is caught");
-                restartable = false;
+                return false;
             }
-            ReloadGame.savedData = savedData;
-        } else {restartable=false;}
+        }
+        return true;
     }
+}
 
 
     //non posso avere lista delle connessioni quindi:
@@ -114,4 +89,3 @@ public class ReloadGame {
     //      4) Fine del ripristino, i salvataggi si svolgono tranquillamente come prima
     //      5) A fine della partita CANCELLARE il file dei salvataggi
     //
-}

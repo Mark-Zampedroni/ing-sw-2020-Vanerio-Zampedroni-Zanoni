@@ -10,9 +10,12 @@ import java.io.*;
 
 public class SaveGame {
 
-    public SaveGame(SessionController sessionController, StateController stateController, Message lastmessage) {
+    //lo faccio statico
+    // salvo su doppio file
+
+    public static void saveGame(SessionController sessionController, StateController stateController, Message lastmessage, Boolean flag) {
         if (ServerApp.isFeature()) {
-        SavedDataClass savedDataClass = new SavedDataClass(sessionController, stateController, lastmessage);
+        SavedDataClass savedDataClass = new SavedDataClass(sessionController, stateController, lastmessage, flag);
 
         try (FileOutputStream game = new FileOutputStream(new File("santorini.game.ser"))) {
 
