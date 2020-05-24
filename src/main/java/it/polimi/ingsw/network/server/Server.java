@@ -114,10 +114,10 @@ public class Server extends Thread {
                 String name = String.valueOf(token);
                 Socket client = serverSocket.accept();
                 tasks.add(() -> queueNewConnection(client,name));
-                } catch (IOException e) {
-                    Server.LOG.warning(e.getMessage());
-                } catch (NullPointerException e) {
-                    Server.LOG.severe("The connection port is already occupied");
+            } catch (IOException e) {
+                Server.LOG.warning(e.getMessage());
+            } catch (NullPointerException e) {
+                Server.LOG.severe("The connection port is already occupied");
             }
         }
         queueHandler.interrupt();
@@ -191,8 +191,8 @@ public class Server extends Thread {
         gameCreator = null;
         if(!allConnections.isEmpty()) {
             gameCreator = (freshConnections.size() != allConnections.size()) ?
-                          allConnections.stream().filter(ServerConnection::isInLobby).collect(Collectors.toList()).get(0) :
-                          allConnections.get(0); // Oldest connection
+                    allConnections.stream().filter(ServerConnection::isInLobby).collect(Collectors.toList()).get(0) :
+                    allConnections.get(0); // Oldest connection
             if(!isLobbyCreated()) {
                 gameCreator.sendMessage(new Message(MessageType.SLOTS_UPDATE, "SERVER", "Create game",gameCreator.getUsername()));
             }

@@ -81,8 +81,8 @@ public abstract class Client implements Observer<Message>, View {
     public void update(Message message) {
         LOG.info("Received message:\n"+message+"\n");
         if((message.getType() == MessageType.CONNECTION_TOKEN && state==GameState.CONNECTION) ||
-           message.getRecipient().equals(username) ||
-           message.getRecipient().equals("ALL")) {
+                message.getRecipient().equals(username) ||
+                message.getRecipient().equals("ALL")) {
             switch (message.getType()) {
                 case CONNECTION_TOKEN: // CONNECTION
                     if(state == GameState.CONNECTION) { parseConnectionMessage(message); }
@@ -280,9 +280,9 @@ public abstract class Client implements Observer<Message>, View {
     }
 
     public boolean validatePlayer(String string) {
-         if(!players.containsKey(string)) { return false; }
-         sendMessage(new Message(MessageType.STARTER_PLAYER, username, string, "SERVER"));
-         return true;
+        if(!players.containsKey(string)) { return false; }
+        sendMessage(new Message(MessageType.STARTER_PLAYER, username, string, "SERVER"));
+        return true;
     }
 
 

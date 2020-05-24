@@ -132,9 +132,9 @@ public class ClientConnection implements Runnable {
     private void initReconnection() {
         System.out.println("\nServer \"crashato\"\n"); // <---- TEST
         if (reconnect) {
-        inQueue.add(new Message(MessageType.RECONNECTION_UPDATE, "SELF", "Server disconnected", "ALL"));
-        Client controller = messageReceiver.getController();
-        startReconnectionRequests(controller);
+            inQueue.add(new Message(MessageType.RECONNECTION_UPDATE, "SELF", "Server disconnected", "ALL"));
+            Client controller = messageReceiver.getController();
+            startReconnectionRequests(controller);
         } else {
             System.out.println("Ma non è ancora iniziato il game quindi non riconnetto!");
         } // <---- TEST

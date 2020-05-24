@@ -61,9 +61,9 @@ public class SessionController implements Observer<Message>  {
             views.add(view);
             if(state == GameState.GAME) { view.getFirstDTOSession(new DtoSession(savedData.getSession())); }
             view.addObserver(this);
-            for (Player player : savedData.getSession().getPlayers()){
-                player.getRules().addObserver(view);
-            }
+            savedData.getSession().getPlayers().stream()
+                    .filter(p -> p.getRules() != null)
+                    .forEach(p -> p.getRules().addObserver(view));
         }
         // <<
 
