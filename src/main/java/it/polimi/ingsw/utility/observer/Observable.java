@@ -10,17 +10,16 @@ import java.util.List;
  */
 public class Observable<T> implements Serializable {
 
-    private transient final List<Observer<T>> observers = new ArrayList<>();
+    private transient List<Observer<T>> observers;
 
     /**
      * Adds an {@link Observer observer} to the list of {@link Observer observers}
      *
      * @param observer identifies the {@link Observer observer}
      */
-    public void addObserver(Observer<T> observer){
-        synchronized (observers) {
-            observers.add(observer);
-        }
+    synchronized public void addObserver(Observer<T> observer){
+        if(observers == null) { observers = new ArrayList<>(); }
+        observers.add(observer);
     }
 
     /**
@@ -28,8 +27,8 @@ public class Observable<T> implements Serializable {
      *
      * @param observer identifies the {@link Observer observer}
      */
-    public void removeObserver(Observer<T> observer){
-        synchronized (observers) {
+    synchronized public void removeObserver(Observer<T> observer){
+        if(observers != null) {
             observers.remove(observer);
         }
     }
@@ -39,7 +38,7 @@ public class Observable<T> implements Serializable {
      *
      * @param message identifies information about the change
      */
-    public void notify(T message){
+    synchronized public void notify(T message){
         for(Observer<T> observer: observers){
             observer.update(message);
         }
