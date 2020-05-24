@@ -1,6 +1,7 @@
 package it.polimi.ingsw.mvc.controller;
 
 import it.polimi.ingsw.mvc.controller.states.*;
+import it.polimi.ingsw.mvc.model.rules.GodRules;
 import it.polimi.ingsw.network.messages.FlagMessage;
 import it.polimi.ingsw.utility.enumerations.Colors;
 import it.polimi.ingsw.utility.enumerations.GameState;
@@ -60,6 +61,9 @@ public class SessionController implements Observer<Message>  {
             views.add(view);
             if(state == GameState.GAME) { view.getFirstDTOSession(new DtoSession(savedData.getSession())); }
             view.addObserver(this);
+            for (Player player : savedData.getSession().getPlayers()){
+                player.getRules().addObserver(view);
+            }
         }
         // <<
 

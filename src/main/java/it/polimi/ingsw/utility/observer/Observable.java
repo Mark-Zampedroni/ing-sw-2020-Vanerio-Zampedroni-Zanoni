@@ -10,7 +10,7 @@ import java.util.List;
  */
 public class Observable<T> implements Serializable {
 
-    private final List<Observer<T>> observers = new ArrayList<>();
+    private transient final List<Observer<T>> observers = new ArrayList<>();
 
     /**
      * Adds an {@link Observer observer} to the list of {@link Observer observers}
