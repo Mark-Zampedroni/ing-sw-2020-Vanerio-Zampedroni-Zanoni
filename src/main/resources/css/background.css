@@ -1,9 +1,157 @@
+
+@font-face {
+    font-family: 'PDNSFW';
+    src: url('../fonts/PDNSFW.otf');
+}
+
 .bodybg{
     -fx-background-image: url("../Texture2D_sorted/Backgrounds/bg_modeselect.png");
     -fx-background-size: 100% 100%;
 }
 
-.background{
-    -fx-background-color: grey;
-    -fx-opacity: 0.8 7;
+
+.background {
+    -fx-background-color: transparent;
+    -fx-background: transparent;
+}
+
+
+#scroll1 {
+    -fx-background: transparent;
+    -fx-control-inner-background: transparent;
+    -fx-background-color: transparent;
+    -fx-text-fill: black;
+}
+
+#scroll2 {
+    -fx-background: transparent;
+    -fx-control-inner-background: transparent;
+    -fx-background-color: transparent;
+}
+
+
+.label {
+    -fx-font-family: 'PDNSFW';
+}
+
+.godselection{
+    -fx-background-image: url("../Texture2D_sorted/Backgrounds/bg_panelEdgeRight2.png");
+    -fx-background-size: 100% 100%;
+}
+
+.godselection2{
+    -fx-background-image: url("../Texture2D_sorted/Backgrounds/fg_panel2.png");
+    -fx-background-size: 100% 100%;
+}
+
+.godselection3{
+    -fx-background-image: url("../Texture2D_sorted/Backgrounds/bg_panelEdgeLeft2.png");
+    -fx-background-size: 100% 100%;
+}
+
+.godselection4{
+    -fx-background-image: url("../Texture2D_sorted/Backgrounds/bg_modeselect.png");
+    -fx-background-size: 100% 100%;
+}
+
+.godselection5{
+    -fx-background-image: url("../Texture2D_sorted/Backgrounds/PlayerUIPanel2.png");
+    -fx-background-size: 100% 100%;
+}
+
+.godselection6{
+    -fx-background-image: url("../Texture2D_sorted/Backgrounds/bg_panelMid.png");
+    -fx-background-size: 100% 100%;
+}
+.godselection7{
+    -fx-background-image: url("../Texture2D_sorted/Backgrounds/gameGodFrameName2.png");
+    -fx-background-size: 100% 100%;
+}
+.godselection8{
+    -fx-background-image: url("../Texture2D_sorted/Backgrounds/bg_panelEdgeRight3.png");
+    -fx-background-size: 100% 100%;
+}
+
+#APOLLO{
+    -fx-background-image: url("../Texture2D_sorted/Icone_dei/FullBody_con_sfondo/APOLLO.png");
+    -fx-background-size: 100% 100%;
+
+}
+
+#DEMETER{
+    -fx-background-image: url("../Texture2D_sorted/Icone_dei/FullBody_con_sfondo/DEMETER.png");
+    -fx-background-size: 100% 100%;
+
+}
+
+#ATHENA{
+    -fx-background-image: url("../Texture2D_sorted/Icone_dei/FullBody_con_sfondo/ATHENA.png");
+    -fx-background-size: 100% 100%;
+
+}
+
+#ATLAS{
+    -fx-background-image: url("../Texture2D_sorted/Icone_dei/FullBody_con_sfondo/ATLAS.png");
+    -fx-background-size: 100% 100%;
+
+}
+
+#HEPHAESTUS{
+    -fx-background-image: url("../Texture2D_sorted/Icone_dei/FullBody_con_sfondo/HEPHAESTUS.png");
+    -fx-background-size: 100% 100%;
+
+}
+
+#MINOTAUR{
+    -fx-background-image: url("../Texture2D_sorted/Icone_dei/FullBody_con_sfondo/MINOTAUR.png");
+    -fx-background-size: 100% 100%;
+
+}
+
+#ARTEMIS{
+    -fx-background-image: url("../Texture2D_sorted/Icone_dei/FullBody_con_sfondo/ARTEMIS.png");
+    -fx-background-size: 100% 100%;
+
+}
+
+#PAN{
+    -fx-background-image: url("../Texture2D_sorted/Icone_dei/FullBody_con_sfondo/PAN.png");
+    -fx-background-size: 100% 100%;
+
+}
+
+#PROMETHEUS{
+    -fx-background-image: url("../Texture2D_sorted/Icone_dei/FullBody_con_sfondo/PROMETHEUS.png");
+    -fx-background-size: 100% 100%;
+
+}
+
+#POSEIDON{
+    -fx-background-image: url("../Texture2D_sorted/Icone_dei/FullBody_con_sfondo/POSEIDON.png");
+    -fx-background-size: 100% 100%;
+
+}
+
+#HERA{
+    -fx-background-image: url("../Texture2D_sorted/Icone_dei/FullBody_con_sfondo/HERA.png");
+    -fx-background-size: 100% 100%;
+
+}
+
+#TRITON{
+    -fx-background-image: url("../Texture2D_sorted/Icone_dei/FullBody_con_sfondo/TRITON.png");
+    -fx-background-size: 100% 100%;
+
+}
+
+#HESTIA{
+    -fx-background-image: url("../Texture2D_sorted/Icone_dei/FullBody_con_sfondo/HESTIA.png");
+    -fx-background-size: 100% 100%;
+
+}
+
+#ZEUS{
+    -fx-background-image: url("../Texture2D_sorted/Icone_dei/FullBody_con_sfondo/ZEUS.png");
+    -fx-background-size: 100% 100%;
+
 }
