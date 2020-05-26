@@ -317,11 +317,11 @@ public abstract class Client implements Observer<Message>, View {
         connection.sendMessage(message);
     }
 
-    protected List<String> getStringAvailableGods() {
+    private List<String> getStringAvailableGods() {
         return getAvailableGods().stream().map(Enum::toString).collect(Collectors.toList());
     }
 
-    protected List<Gods> getAvailableGods() {
+    private List<Gods> getAvailableGods() {
         return Arrays.stream(Gods.values()).filter(god -> !chosenGods.contains(god.toString())).collect(Collectors.toList());
     }
 

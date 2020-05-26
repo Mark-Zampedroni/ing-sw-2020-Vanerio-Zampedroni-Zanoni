@@ -72,8 +72,13 @@
     -fx-background-size: 100% 100%;
 }
 
+.selectbutton{
+    -fx-background-image: url("../Texture2D_sorted/Pulsanti/btn_blue.png");
+    -fx-background-size: 100% 100%;
+}
+
 #APOLLO{
-    -fx-background-image: url("../Texture2D_sorted/Icone_dei/FullBody_con_sfondo/APOLLO.png");
+    -fx-background-image: url("../Texture2D_sorted/Icone_dei/APOLLO.png");
     -fx-background-size: 100% 100%;
 
 }

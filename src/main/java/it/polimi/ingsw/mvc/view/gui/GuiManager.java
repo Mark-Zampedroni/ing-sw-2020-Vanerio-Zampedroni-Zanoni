@@ -1,5 +1,6 @@
 package it.polimi.ingsw.mvc.view.gui;
 
+import it.polimi.ingsw.mvc.view.gui.fxmlControllers.GodSelectionController;
 import it.polimi.ingsw.mvc.view.gui.fxmlControllers.NumberOfPlayersController;
 import it.polimi.ingsw.mvc.view.gui.fxmlControllers.TitleController;
 import it.polimi.ingsw.network.client.Client;
@@ -7,6 +8,7 @@ import it.polimi.ingsw.utility.enumerations.Action;
 import it.polimi.ingsw.utility.enumerations.Colors;
 import it.polimi.ingsw.utility.serialization.dto.DtoPosition;
 import it.polimi.ingsw.utility.serialization.dto.DtoSession;
+import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Scene;
@@ -113,7 +115,10 @@ public class GuiManager extends Client {
 
     @Override
     public void requestChallengerGod(List<String> chosenGods) {
+       /* Platform.runLater(() ->
+                GodSelectionController.displayGods(chosenGods));
 
+        */
     }
 
     @Override
