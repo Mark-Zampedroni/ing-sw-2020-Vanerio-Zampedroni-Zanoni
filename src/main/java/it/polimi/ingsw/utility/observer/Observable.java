@@ -39,8 +39,10 @@ public class Observable<T> implements Serializable {
      * @param message identifies information about the change
      */
     synchronized public void notify(T message){
-        for(Observer<T> observer: observers){
-            observer.update(message);
+        if(observers != null) {
+            for (Observer<T> observer : observers) {
+                observer.update(message);
+            }
         }
     }
 

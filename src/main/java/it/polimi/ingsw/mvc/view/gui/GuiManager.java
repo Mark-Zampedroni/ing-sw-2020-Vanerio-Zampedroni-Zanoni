@@ -115,10 +115,9 @@ public class GuiManager extends Client {
 
     @Override
     public void requestChallengerGod(List<String> chosenGods) {
-       /* Platform.runLater(() ->
-                GodSelectionController.displayGods(chosenGods));
+        Platform.runLater(() ->
+                GodSelectionController.challengerChoice(chosenGods));
 
-        */
     }
 
     @Override
