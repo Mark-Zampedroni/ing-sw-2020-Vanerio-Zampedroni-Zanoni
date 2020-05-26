@@ -94,7 +94,7 @@ class FSMTest {
     // Aggiunge delay tra i messaggi
     private void request(Runnable request) {
         try {
-            Thread.sleep(   180); // Time between messages
+            Thread.sleep(   300); // Time between messages
             request.run();
         } catch(InterruptedException e) { e.printStackTrace(); }
 

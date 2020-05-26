@@ -34,7 +34,13 @@ public class Cli extends Client {
     private String requestInput() {
         while(true) {
             try {
-                return input.nextLine();
+                String in = input.nextLine();
+                if(!reconnecting) {
+                    return in;
+                }
+                else {
+                    LOG.info("[CLI] Input refused because client lost connection to server");
+                }
             } catch (IndexOutOfBoundsException e) { /* nothing */ }
         }
     }
@@ -193,6 +199,10 @@ public class Cli extends Client {
         }
         while(!validatePosition(possiblePositions, x, y));
         return new DtoPosition(new Position(x,y));
+    }
+
+    public void showReconnection() {
+        System.out.println("Server crashed, reconnecting ...");
     }
 
 }

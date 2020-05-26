@@ -1,6 +1,5 @@
 package it.polimi.ingsw.network.client;
 
-import it.polimi.ingsw.network.messages.FlagMessage;
 import it.polimi.ingsw.network.messages.Message;
 import it.polimi.ingsw.utility.enumerations.MessageType;
 import it.polimi.ingsw.utility.observer.Observable;
@@ -9,14 +8,9 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
-import java.util.logging.FileHandler;
 import java.util.logging.Logger;
-import java.util.logging.SimpleFormatter;
 
 
 public class ClientConnection implements Runnable {
@@ -43,7 +37,6 @@ public class ClientConnection implements Runnable {
     private static class ClientMessageReceiver extends Observable<Message> implements Runnable {
 
         private final Client controller;
-        private final Thread t;
         private final ClientConnection connection;
 
         public ClientMessageReceiver(ClientConnection connection, Client controller) {
@@ -51,8 +44,7 @@ public class ClientConnection implements Runnable {
             this.controller = controller;
             this.addObserver(controller);
 
-            t = new Thread(this);
-            t.start();
+            new Thread(this).start();
         }
 
         @Override
@@ -63,7 +55,7 @@ public class ClientConnection implements Runnable {
                     messages = connection.getQueue(); // Consumer
                     try {
                         Thread.sleep(50);
-                    } catch(InterruptedException e) { connection.LOG.warning("ClientReceiver wait time Exception"); }
+                    } catch(InterruptedException e) { connection.LOG.warning("[CONNECTION_RECEIVER] ClientReceiver wait time Exception"); }
                 } while(messages.isEmpty());
                 for(Message msg : messages) {
                     notify(msg);
@@ -100,7 +92,6 @@ public class ClientConnection implements Runnable {
             if (output != null) {
                 output.writeObject(msg);
                 output.reset();
-                System.out.println("Wrote msg on output (clientConnection:103)");
             }
         } catch(IOException e) { LOG.severe(e.getMessage()); }
     }
@@ -120,31 +111,30 @@ public class ClientConnection implements Runnable {
                 LOG.severe(e.getMessage());
             }
             catch(IOException e) {
-                LOG.severe("Exception throw, connection closed");
+                LOG.severe("[CONNECTION] Exception throw, connection closed");
                 disconnect();
             }
         }
+        LOG.info("[CONNECTION] Server crashed");
         if(reconnect) {
             initReconnection();
         }
     }
 
     private void initReconnection() {
-        System.out.println("\nServer \"crashato\"\n"); // <---- TEST
-        if (reconnect) {
+        synchronized(queueLock) {
+            LOG.info("[CONNECTION] Trying to reconnect ...");
             inQueue.add(new Message(MessageType.RECONNECTION_UPDATE, "SELF", "Server disconnected", "ALL"));
-            Client controller = messageReceiver.getController();
-            startReconnectionRequests(controller);
-        } else {
-            System.out.println("Ma non è ancora iniziato il game quindi non riconnetto!");
-        } // <---- TEST
+        }
+        Client controller = messageReceiver.getController();
+        startReconnectionRequests(controller);
     }
 
     public void disconnect() {
         try {
             if(!socket.isClosed()) {
                 socket.close();
-                LOG.info("Connection closed");
+                LOG.info("[CONNECTION] Connection closed");
             }
             t.interrupt();
         } catch(IOException e) {
@@ -164,13 +154,13 @@ public class ClientConnection implements Runnable {
     private void startReconnectionRequests(Client controller) {
         while(!reconnectRequest()) {
             try {
-                System.out.println("Riconnessione fallita, riprovando in 2 secondi");
                 Thread.sleep(2000);
             } catch (InterruptedException e) {
-                LOG.warning("Reconnection wait interrupted");
+                LOG.warning("[CONNECTION] Reconnection wait interrupted");
             }
         }
-        if(reconnect) { sendMessage(new Message(MessageType.RECONNECTION_UPDATE,name,"Reconnecting","SERVER")); }
+        if(reconnect) {
+            sendMessage(new Message(MessageType.RECONNECTION_UPDATE,name,"Reconnecting","SERVER")); }
     }
 
     private boolean reconnectRequest() {

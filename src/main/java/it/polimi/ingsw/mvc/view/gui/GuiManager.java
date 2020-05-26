@@ -149,4 +149,9 @@ public class GuiManager extends Client {
     public void showBoard(DtoSession session, Map<String, Colors> colors, Map<String, String> gods) {
 
     }
+
+    @Override
+    public void showReconnection() {
+
+    }
 }

@@ -22,8 +22,8 @@ public class ServerConnection extends Observable<Message> implements Runnable {
 
     private boolean inLobby;
 
-    private final Object readLock = new Object(); // static?
-    private final Object sendLock = new Object(); // static?
+    private final Object readLock = new Object();
+    private final Object sendLock = new Object();
 
     private ObjectInputStream input; // Not final because on error it may not initialize
     private ObjectOutputStream output;
@@ -89,7 +89,6 @@ public class ServerConnection extends Observable<Message> implements Runnable {
         while (!Thread.currentThread().isInterrupted()) {
             try {
                 Message msg = (Message) input.readObject();
-                System.out.println("Message read at connection, type "+msg.getType());
                 synchronized (readLock) {
                     tasks.add(() -> queueMessage(msg));
                 }
@@ -103,18 +102,15 @@ public class ServerConnection extends Observable<Message> implements Runnable {
     }
 
     private void queueMessage(Message msg) {
-        System.out.println("Reading queue message for "+token);
-        if (!inLobby) { // Message received by Server
+        if (!inLobby) {
             if (msg.getType() == MessageType.SLOTS_UPDATE) {
                 server.startLobby(this, msg.getInfo());
             }
             else if(msg.getType() == MessageType.RECONNECTION_UPDATE) {
                 server.handleReconnection(msg,this);
             }
-        } else { // Message received by View
-            System.out.println("Doing queue task notifying controller ...");
+        } else {
             notify(msg); // Notify -> RemoteView -> SessionController
-            System.out.println("Notifying ! connection:117");
         }
     }
 

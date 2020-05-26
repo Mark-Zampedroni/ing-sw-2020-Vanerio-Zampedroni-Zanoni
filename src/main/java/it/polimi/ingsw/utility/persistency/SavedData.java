@@ -1,5 +1,6 @@
 package it.polimi.ingsw.utility.persistency;
 
+import it.polimi.ingsw.ServerApp;
 import it.polimi.ingsw.mvc.controller.states.LobbyController;
 import it.polimi.ingsw.mvc.controller.states.SelectionController;
 import it.polimi.ingsw.mvc.controller.states.StateController;
@@ -14,13 +15,13 @@ import it.polimi.ingsw.network.messages.Message;
 import it.polimi.ingsw.utility.enumerations.GameState;
 
 
-import java.io.Serializable;
+import java.io.*;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.logging.Logger;
 
-public class SavedDataClass implements Serializable {
+public class SavedData implements Serializable {
 
     private static final long serialVersionUID = -8284194909335487737L;
 
@@ -36,10 +37,8 @@ public class SavedDataClass implements Serializable {
 
     private String turnOwner;
 
-    //qualcosa che abbia i dati relativi alla connessione
-
-    SavedDataClass(SessionController sessionController, StateController stateController, Message lastMessage, Boolean flag){
-        actionDone=flag;
+    SavedData(SessionController sessionController, StateController stateController, Message lastMessage, Boolean flag){
+        actionDone = flag;
         session = sessionController.getSession();
         state = stateController;
         saveSessionController(sessionController);
@@ -64,6 +63,20 @@ public class SavedDataClass implements Serializable {
         gameState = sessionController.getState();
         gameCapacity = sessionController.getGameCapacity();
         turnOwner = sessionController.getTurnOwner();
+    }
+
+    public static void saveGame(SessionController sessionController, StateController stateController, Message lastMessage, Boolean flag) {
+        if (ServerApp.isFeature()) {
+            SavedData savedData = new SavedData(sessionController, stateController, lastMessage, flag);
+            try (FileOutputStream game = new FileOutputStream(new File("santorini.game.ser"))) {
+                ObjectOutputStream outputStream = new ObjectOutputStream(game);
+                outputStream.writeObject(savedData);
+                outputStream.close();
+                outputStream.flush();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
 }

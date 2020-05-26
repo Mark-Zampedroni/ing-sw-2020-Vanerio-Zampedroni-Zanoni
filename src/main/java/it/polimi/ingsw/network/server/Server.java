@@ -72,28 +72,8 @@ public class Server extends Thread {
 
     protected void handleReconnection(Message message, ServerConnection connection) {
         synchronized (reconnecting) {
-            System.out.println(message.getSender()+" reconnecting ..."); // TEST <<-------
-            if(!sessionController.isGameStarted() && ReloadGame.isRestartable()) {
-                System.out.println("Game can be loaded"); // TEST <<-------
-                List<String> previousPlayers = ReloadGame.getPlayersNames();
-                System.out.println("Players in last game: "+previousPlayers); // TEST <<-------
-                if(previousPlayers.contains(message.getSender()) && !reconnecting.containsKey(message.getSender())) {
-                    LOG.info("Player "+message.getSender()+" asked to reconnect to the previous game");
-                    reconnecting.put(message.getSender(), connection);
-                    if(reconnecting.size() == previousPlayers.size()) {
-                        sessionController = new SessionController(LOG,ReloadGame.load(),reconnecting);
-                        ReloadGame.setFinishedLoad();
-                    }
-                }
-                else {
-                    connection.denyReconnection(message.getSender(),"You are not a player of the game being loaded");
-                    LOG.info("Unknown player "+message.getInfo()+" tried to reconnect to previous game");
-                }
-            }
-            else {
-                connection.denyReconnection(message.getSender(),"No game files that can be loaded exist");
-                LOG.info("Player "+message.getInfo()+" tried to reconnect but no saved game exists");
-            }
+            SessionController newController = ReloadGame.reloadConnection(sessionController,reconnecting,connection,LOG,message);
+            if(newController != null) { sessionController = newController; }
         }
     }
 
@@ -104,7 +84,7 @@ public class Server extends Thread {
             FileHandler fileHandler = new FileHandler("log/server/"+dateFormat.format(date)+".log");
             fileHandler.setFormatter(new SimpleFormatter());
             LOG.addHandler(fileHandler);
-        } catch(IOException e) { LOG.severe(e.getMessage() + " couldn't be opened\n"); }
+        } catch(IOException e) { LOG.severe("[SERVER] "+e.getMessage() + " couldn't be opened\n"); }
     }
 
     public void run() {
@@ -117,7 +97,7 @@ public class Server extends Thread {
             } catch (IOException e) {
                 Server.LOG.warning(e.getMessage());
             } catch (NullPointerException e) {
-                Server.LOG.severe("The connection port is already occupied");
+                Server.LOG.severe("[SERVER] The connection port is already occupied");
             }
         }
         queueHandler.interrupt();
@@ -125,9 +105,9 @@ public class Server extends Thread {
 
     private void queueNewConnection(Socket client, String name) {
         ServerConnection c = new ServerConnection(this, client, name, tasks);
-        System.out.println("Creating connection");
+        Server.LOG.info("[SERVER] Opening connection "+name);
         if(sessionController.isGameStarted()) {
-            System.out.println("Denying connection");
+            Server.LOG.info("[SERVER] Denying connection "+name);
             c.denyConnection("The game has already started, you can't connect ");
         }
         else {
@@ -155,7 +135,7 @@ public class Server extends Thread {
             allConnections.remove(connection);
 
             if (gameCreator == connection) {
-                Server.LOG.info("Removed current game Creator");
+                Server.LOG.info("[SERVER] Removed current game Creator");
                 setNewGameCreator();
             }
             fillPlayersSlots();
@@ -164,9 +144,9 @@ public class Server extends Thread {
 
     private void disconnectInLobby(ServerConnection connection) {
         String user = connection.getUsername();
-        LOG.info(user + " disconnected\n");
+        LOG.info("[SERVER] "+user + " disconnected\n");
         if(sessionController.getState() == GameState.LOBBY) {
-            LOG.info(user + " removed from lobby\n");
+            LOG.info("[SERVER] "+user + " removed from lobby\n");
             sessionController.removePlayer(user);
             sessionController.sendUpdate();
         }

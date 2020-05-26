@@ -28,7 +28,9 @@ public abstract class Client implements Observer<Message>, View {
     private final List<Runnable> requests, inputRequests;
 
     public final Logger LOG;
-    private final boolean logMessages = true; // True to show logs on terminal
+    private final boolean logMessages = false; // True to show logs on terminal
+
+    protected boolean reconnecting = false;
 
     protected ClientConnection connection;
 
@@ -42,7 +44,7 @@ public abstract class Client implements Observer<Message>, View {
         requests = new ArrayList<>();
         inputRequests = new ArrayList<>();
         LOG = Logger.getLogger("client");
-        if(!logMessages) { LOG.setUseParentHandlers(false); }
+        LOG.setUseParentHandlers(logMessages);
         startLogging();
     }
 
@@ -79,10 +81,10 @@ public abstract class Client implements Observer<Message>, View {
     }
 
     public void update(Message message) {
-        LOG.info("Received message:\n"+message+"\n");
         if((message.getType() == MessageType.CONNECTION_TOKEN && state==GameState.CONNECTION) ||
                 message.getRecipient().equals(username) ||
                 message.getRecipient().equals("ALL")) {
+            LOG.info("[CLIENT] Received message "+message);
             switch (message.getType()) {
                 case CONNECTION_TOKEN: // CONNECTION
                     if(state == GameState.CONNECTION) { parseConnectionMessage(message); }
@@ -119,6 +121,7 @@ public abstract class Client implements Observer<Message>, View {
                     break;
                 case RECONNECTION_REPLY:
                     parseReconnectionReply((FlagMessage) message);
+                    break;
                 case RECONNECTION_UPDATE:
                     if(connection.getReconnect()) { parseReconnectionUpdate(message); }
                 default: //
@@ -134,16 +137,18 @@ public abstract class Client implements Observer<Message>, View {
     }
 
     private void parseReconnectionUpdate(Message message) {
-        System.out.println("--- CLIENT MOSTRA FINESTRA DISCONNESSIONE E TENTATIVO RICOLLEGAMENTO ---");
+        reconnecting = true;
+        viewRequest(this::showReconnection);
     }
 
     private void parseReconnectionReply(FlagMessage message) {
+        reconnecting = false;
         if(!message.getFlag()) {
             connection.setReconnect(false);
-            System.out.println("Couldn't reconnect because: "+message.getInfo()); // Quits game
+            LOG.info("[CLIENT] Couldn't reconnect because: "+message.getInfo()); // Quits game
         }
         else {
-            System.out.println("Reconnected!");
+            LOG.info("[CLIENT] Reconnected!");
         }
     }
 
@@ -313,8 +318,8 @@ public abstract class Client implements Observer<Message>, View {
     }
 
     public void sendMessage(Message message) {
-        System.out.println("Sending message "+message.getType());
         connection.sendMessage(message);
+        LOG.info("[CLIENT] Sent message "+message);
     }
 
     private List<String> getStringAvailableGods() {

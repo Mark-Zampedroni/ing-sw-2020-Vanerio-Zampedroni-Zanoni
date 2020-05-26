@@ -27,9 +27,6 @@ public class ActionController implements Serializable {
         this.controller = controller;
     }
 
-
-    // CONTROLLO SU POSIZIONE ! IN TURNCONTROLLER
-
     /*
         Applies action [MOVE/BUILD] changes to model
      */

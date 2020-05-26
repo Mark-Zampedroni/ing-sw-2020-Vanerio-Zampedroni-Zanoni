@@ -13,7 +13,6 @@ import it.polimi.ingsw.mvc.model.map.Position;
 import it.polimi.ingsw.mvc.model.player.Player;
 import it.polimi.ingsw.mvc.model.player.Worker;
 import it.polimi.ingsw.network.messages.Message;
-import it.polimi.ingsw.utility.persistency.SaveGame;
 import it.polimi.ingsw.utility.serialization.dto.DtoPosition;
 
 import java.io.Serializable;
@@ -107,11 +106,13 @@ public class TurnController extends StateController implements Serializable {
         fixPossibleActions();
         if(possibleActions.containsKey(Action.WIN)){
             controller.switchState(GameState.END_GAME);
+            System.out.println(controller.getTurnOwner()+" won!"); // <--- TEST
             LOG.info(controller.getTurnOwner()+" won");
             tryNextState();
         }
         else if(possibleActions.keySet().isEmpty()){
             currentPlayer.loss();
+            System.out.println(controller.getTurnOwner()+" lost!"); // <--- TEST
             LOG.info(controller.getTurnOwner()+" lost");
             passTurn();
         }

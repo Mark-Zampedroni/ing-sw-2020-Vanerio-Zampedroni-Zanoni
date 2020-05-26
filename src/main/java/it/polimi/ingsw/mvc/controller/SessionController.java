@@ -1,8 +1,6 @@
 package it.polimi.ingsw.mvc.controller;
 
 import it.polimi.ingsw.mvc.controller.states.*;
-import it.polimi.ingsw.mvc.model.rules.GodRules;
-import it.polimi.ingsw.network.messages.FlagMessage;
 import it.polimi.ingsw.utility.enumerations.Colors;
 import it.polimi.ingsw.utility.enumerations.GameState;
 import it.polimi.ingsw.utility.enumerations.MessageType;
@@ -13,8 +11,8 @@ import it.polimi.ingsw.network.messages.Message;
 import it.polimi.ingsw.network.server.ServerConnection;
 import it.polimi.ingsw.utility.observer.Observer;
 import it.polimi.ingsw.mvc.view.RemoteView;
-import it.polimi.ingsw.utility.persistency.SaveGame;
-import it.polimi.ingsw.utility.persistency.SavedDataClass;
+import it.polimi.ingsw.utility.persistency.ReloadGame;
+import it.polimi.ingsw.utility.persistency.SavedData;
 import it.polimi.ingsw.utility.serialization.dto.DtoSession;
 
 import java.util.*;
@@ -36,54 +34,32 @@ public class SessionController implements Observer<Message>  {
 
     private final List<RemoteView> views;
 
-
-    // Va spostato come metodo dentro ad una delle classi di caricamento.
-    // qui diventa solo ReloadGame.load(this); con this (SessionController) che ha tutti gli attributi da ricaricare protected
-    // mettiamo ReloadGame in questo stesso package e nel metodo assegnamo a this i valori dei vari campi
-    public SessionController (Logger LOG,  SavedDataClass savedData,  Map<String, ServerConnection> map) {
-        SessionController.LOG = LOG;
-        session = savedData.getSession();
-        session.loadInstance();
-        state = savedData.getGameState();
-        turnOwner = savedData.getTurnOwner();
-        gameCapacity = savedData.getGameCapacity();
-        stateController = savedData.getStateController();
-        views = new ArrayList<>();
-
-        System.out.println("Reloaded data"); // TEST <<-------
-
-        // >> Dentro a ReloadGame metodo privato a parte per sto pezzo, è la logica caricamento views
-        for (String name : map.keySet()){
-            System.out.println("Creating view of "+name); // TEST <<-------
-            map.get(name).putInLobby();
-            RemoteView view = new RemoteView(map.get(name));
-            view.register(name);
-            views.add(view);
-            if(state == GameState.GAME) { view.getFirstDTOSession(new DtoSession(savedData.getSession())); }
-            view.addObserver(this);
-            savedData.getSession().getPlayers().stream()
-                    .filter(p -> p.getRules() != null)
-                    .forEach(p -> p.getRules().addObserver(view));
-        }
-        // <<
-
-        System.out.println("All views created"); // TEST <<-------
-        System.out.println("Session has state: "+state+", views: "+views);
-
-        stateController.resetPreviousState(views, this, LOG);
-        stateController.notifyMessage(new FlagMessage(MessageType.RECONNECTION_REPLY, "Server", "Reconnected successfully",true, "ALL"));
-        if(!savedData.getActionDone()) {
-            LOG.info("Last message before save needs to be re-parsed, on it ...");
-            stateController.parseMessage(savedData.getMessage());
-        }
-    }
-
     public SessionController(List<ServerConnection> connections, Logger LOG) {
         views = new ArrayList<>();
         SessionController.LOG = LOG;
         session = Session.getInstance();
         state = GameState.LOBBY;
         stateController = new LobbyController(this, views, LOG, connections);
+    }
+
+    public SessionController (Logger LOG, SavedData savedData, Map<String, ServerConnection> map) {
+        LOG.info("Reloading game data");
+        views = new ArrayList<>();
+        session = savedData.getSession();
+        reloadValues(LOG, savedData, map);
+        ReloadGame.reloadViews(this,map,views,state);
+        stateController.reloadState(this,savedData,views,LOG);
+        LOG.info("Done with reload");
+    }
+
+    private void reloadValues(Logger LOG, SavedData savedData, Map<String, ServerConnection> map) {
+        SessionController.LOG = LOG;
+        session.loadInstance();
+        state = savedData.getGameState();
+        turnOwner = savedData.getTurnOwner();
+        gameCapacity = savedData.getGameCapacity();
+        stateController = savedData.getStateController();
+
     }
 
     public Session getSession() { return session; }
@@ -183,8 +159,7 @@ public class SessionController implements Observer<Message>  {
 
     public void saveGame(Message message, boolean isParseCompleted) {
         if(state != GameState.LOBBY) {
-            System.out.println("Saving from sessionController"); // TEST <<-----
-            SaveGame.saveGame(this, stateController, message, isParseCompleted);
+            SavedData.saveGame(this, stateController, message, isParseCompleted);
         }
     }
 

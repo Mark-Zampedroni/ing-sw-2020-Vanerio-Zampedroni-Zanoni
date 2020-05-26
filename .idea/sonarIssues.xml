@@ -198,6 +198,21 @@
             <set />
           </value>
         </entry>
+        <entry key="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/mvc/controller/ControllerLoader.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/mvc/controller/ControllerReloader.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/mvc/controller/ReloadedController.java">
+          <value>
+            <set />
+          </value>
+        </entry>
         <entry key="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/mvc/controller/SessionController.java">
           <value>
             <set />
@@ -234,6 +249,11 @@
           </value>
         </entry>
         <entry key="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/mvc/model/Session.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/mvc/model/map/Board.java">
           <value>
             <set />
           </value>
@@ -679,6 +699,11 @@
           </value>
         </entry>
         <entry key="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/utility/persistency/SaveHandler.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/utility/persistency/SavedData.java">
           <value>
             <set />
           </value>

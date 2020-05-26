@@ -115,4 +115,7 @@ public class TestClient extends Client {
     public void requestTurnAction(Map<Action, List<DtoPosition>> possibleActions, DtoSession session, Map<String,Colors> colors, Map<String,String> gods) { }
     @Override
     public void showBoard(DtoSession session, Map<String,Colors> colors, Map<String,String> gods) { }
+    @Override
+    public void showReconnection() { }
+
 }

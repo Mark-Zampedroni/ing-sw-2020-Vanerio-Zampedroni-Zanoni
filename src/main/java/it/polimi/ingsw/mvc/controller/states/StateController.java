@@ -2,7 +2,6 @@ package it.polimi.ingsw.mvc.controller.states;
 
 import it.polimi.ingsw.mvc.controller.SessionController;
 import it.polimi.ingsw.mvc.model.Session;
-import it.polimi.ingsw.mvc.model.player.Player;
 import it.polimi.ingsw.network.messages.FlagMessage;
 import it.polimi.ingsw.network.messages.lobby.LobbyUpdate;
 import it.polimi.ingsw.network.server.ServerConnection;
@@ -10,12 +9,11 @@ import it.polimi.ingsw.utility.enumerations.Colors;
 import it.polimi.ingsw.network.messages.Message;
 import it.polimi.ingsw.mvc.view.RemoteView;
 import it.polimi.ingsw.utility.enumerations.MessageType;
-import it.polimi.ingsw.utility.persistency.SaveGame;
+import it.polimi.ingsw.utility.persistency.SavedData;
 
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import java.util.logging.Logger;
 
 public abstract class StateController implements Serializable {
@@ -30,6 +28,22 @@ public abstract class StateController implements Serializable {
         this.controller = controller;
         this.views = views;
         this.LOG = LOG;
+    }
+
+    public void reloadState(SessionController controller, SavedData savedData, List<RemoteView> views, Logger LOG) {
+        resetPreviousState(views, controller, LOG);
+        LOG.info("[CONTROLLER] Notifying successfull reconnection to "+views);
+        notifyMessage(new FlagMessage(MessageType.RECONNECTION_REPLY, "Server", "Reconnected successfully",true, "ALL"));
+        if(!savedData.getActionDone()) {
+            LOG.info("Last message before save is being re-parsed");
+            parseMessage(savedData.getMessage());
+        }
+    }
+
+    private void resetPreviousState(List<RemoteView> views,SessionController sessionController, Logger LOG) {
+        this.LOG = LOG;
+        this.views = views;
+        controller = sessionController;
     }
 
     public void sendUpdate() {
@@ -87,13 +101,6 @@ public abstract class StateController implements Serializable {
 
     protected Message messageBuilder(String info) {
         return messageBuilder(info,"ALL");
-    }
-
-    //sembra uguale al costruttore ma non toccare, serve per il ripristino dei dati non serializzabili
-    public void resetPreviousState(List<RemoteView> views,SessionController sessionController, Logger LOG) {
-        this.LOG = LOG;
-        this.views = views;
-        controller = sessionController;
     }
 
 }
