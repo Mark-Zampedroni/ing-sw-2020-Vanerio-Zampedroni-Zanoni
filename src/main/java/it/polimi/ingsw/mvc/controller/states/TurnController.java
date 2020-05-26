@@ -173,6 +173,7 @@ public class TurnController extends StateController implements Serializable {
     }
 
     private void notifyBoardUpdate(Map<Action, List<DtoPosition>> actionCandidates, String turnOwner) {
+        controller.saveGame(null,true);
         views.forEach(w -> w.updateActions(actionCandidates,turnOwner));
     }
 
