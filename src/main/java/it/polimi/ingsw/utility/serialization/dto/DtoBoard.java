@@ -10,11 +10,11 @@ import java.io.Serializable;
  */
 
 public class DtoBoard implements Serializable {
-    public static final int WIDTH = 5;
-    public static final int HEIGHT = 5;
+    public final int WIDTH = 5;
+    public final int HEIGHT = 5;
     private static final long serialVersionUID = 2479300674565274263L;
 
-    private final DtoTile[][] tiles = new DtoTile[Board.WIDTH][Board.HEIGHT];
+    private final DtoTile[][] tiles = new DtoTile[WIDTH][HEIGHT];
 
     /**
      * Initializes the DTOboard
