@@ -57,13 +57,18 @@ public class GodSelectionController {
     public void handleGodSelection(BorderPane godPane){
         god = godPane.getId();
         displayDescription(god);
+        changeBorder(godPane);
     }
 
     private void displayDescription(String godName){
         godNameTitle.setText(godName);
-        Gods.valueOf(godName).getDescription();
-
+        String[] temp = Gods.valueOf(godName).getDescription().split(":");
+        conditionLabel.setText(temp[0]);
+        descriptionLabel.setText(temp[1]);
     }
 
+    private void changeBorder(BorderPane godPane){
+
+    }
 
 }
