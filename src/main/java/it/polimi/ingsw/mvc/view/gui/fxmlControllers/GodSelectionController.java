@@ -2,50 +2,99 @@ package it.polimi.ingsw.mvc.view.gui.fxmlControllers;
 
 import it.polimi.ingsw.mvc.view.gui.GuiManager;
 import it.polimi.ingsw.utility.enumerations.Gods;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
+import javafx.geometry.Insets;
+import javafx.scene.Node;
 import javafx.scene.control.Label;
-import javafx.scene.layout.Border;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.Pane;
+import javafx.scene.control.ScrollPane;
+import javafx.scene.image.Image;
+import javafx.scene.layout.*;
 import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Iterator;
 import java.util.List;
+import java.util.function.Consumer;
 
 public class GodSelectionController {
-    private static int counter;
-    private GuiManager gui;
+
+    private class GodWindow extends GridPane {
+
+        private Pane god;
+        private Pane border;
+
+        public GodWindow(String godName) {
+            border = new Pane();
+            border.getStyleClass().add("fullbackground");
+            border.setId("whiteborder");
+
+            god = new Pane();
+            god.getStyleClass().add("fullbackground");
+            GridPane.setMargin(god, new Insets(5,5,5,5));
+            god.setId(godName);
+
+            addColumnConstraint();
+            addRowConstraint();
+
+            this.add(god,0,0);
+            this.add(border,0,0);
+        }
+
+        public void setCornice(String id) {
+            border.setId(id);
+        }
+
+        public String getGod() {
+            return god.getId();
+        }
+
+        private void addColumnConstraint() {
+            ColumnConstraints c = new ColumnConstraints();
+            c.setMinWidth(10);
+            c.setPrefWidth(100);
+            c.setHgrow(Priority.SOMETIMES);
+            this.getColumnConstraints().add(c);
+        }
+
+        private void addRowConstraint() {
+            RowConstraints r = new RowConstraints();
+            r.setMinHeight(10);
+            r.setPrefHeight(30);
+            r.setVgrow(Priority.SOMETIMES);
+            this.getRowConstraints().add(r);
+        }
+    }
 
     @FXML
     public Pane mainPane;
     @FXML
     public BorderPane selectButton;
+
     @FXML
-    public Label godNameTitle;
+    public Label godNameLabel;
     @FXML
     public Label descriptionLabel;
     @FXML
     public Label conditionLabel;
     @FXML
-    public static BorderPane firstGod;
-    @FXML
-    public static BorderPane secondGod;
-    @FXML
-    public static BorderPane thirdGod;
-
-    @FXML
     public BorderPane godsPane;
+    @FXML
+    public ScrollPane godsScroll;
+    @FXML
+    public GridPane godsGrid;
 
-
-    private String god;
-
+    private int godRow, godColumn;
+    private GuiManager gui;
+    private double godsRatio;
+    private String selectedGod;
 
 
     public void initialize() {
         gui = GuiManager.getInstance();
-        displayGods();
+        manageGodsSelectionWindow();
     }
 
 
@@ -57,26 +106,58 @@ public class GodSelectionController {
         }
     }*/
 
-    public void displayGods(){
-        System.out.println("yey");
-        System.out.println("");
+
+    private void manageGodsSelectionWindow() {
+        Platform.runLater(this::loadGods);
+        Platform.runLater(this::getGodsRatio);
+        Platform.runLater(this::resizeGods);
+    }
+
+    private void loadGods() {
+        for(String godName : Gods.getGodsStringList()) {
+            GodWindow godWindow = new GodWindow(godName);
+            godsGrid.add(godWindow,godColumn,godRow);
+            godRow = (godColumn == 2) ? godRow+1 : godRow;
+            godColumn = (godColumn == 2) ? 0 : godColumn+1;
+            addGodClickEvent(godWindow);
+        }
+        godWindowConsumer((GodWindow) godsGrid.getChildren().get(0));
+    }
+
+    private void addGodClickEvent(GodWindow godWindow) {
+        godWindow.setOnMouseClicked(event -> godWindowConsumer(godWindow));
+    }
+
+    private void godWindowConsumer(GodWindow godWindow) {
+        godWindow.setCornice("blueborder");
+        selectedGod = godWindow.getGod();
+        godsGrid.getChildren().stream()
+                .filter(god -> god != godWindow)
+                .forEach(god -> ((GodWindow) god).setCornice("whiteborder"));
+        System.out.println(selectedGod);
+        displayDescription(selectedGod);
+    }
+
+    private void displayDescription(String godName){
+        godNameLabel.setText(godName);
+        String[] temp = Gods.valueOf(godName).getDescription().split(":");
+        conditionLabel.setText("Effect ("+temp[0]+")");
+        descriptionLabel.setText(temp[1]);
+    }
+
+    private void getGodsRatio() {
+        godsRatio = godsScroll.getHeight()/godsPane.getHeight();
+    }
+
+    private void resizeGods() {
+        godsPane.minHeightProperty().bind(godsScroll.heightProperty().divide(godsRatio));
+        godsPane.maxHeightProperty().bind(godsScroll.heightProperty().divide(godsRatio));
     }
 
     public static void challengerChoice(List<String> chosenGods){
-       switch (counter) {
-           case 0:
-               firstGod.getStyleClass().add(chosenGods.get(counter));
-               break;
-           case 1:
-               secondGod.getStyleClass().add(chosenGods.get(counter));
-               break;
-           case 2:
-               thirdGod.getStyleClass().add(chosenGods.get(counter));
-               break;
+        //firstGod.getStyleClass().add(chosenGods.get(counter));
+
        }
-       counter++;
-       //Con una lista di border pane meglio. me disable!
-    }
 
     /*
     @FXML
@@ -85,82 +166,8 @@ public class GodSelectionController {
         displayDescription(god);
     }*/
 
-    private void displayDescription(String godName){
-        godNameTitle.setText(godName);
-        String[] temp = Gods.valueOf(godName).getDescription().split(":");
-        conditionLabel.setText(temp[0]);
-        descriptionLabel.setText(temp[1]);
-    }
-
     private void changeBorder(BorderPane godPane){
 
     }
 
-    /*
-    #ATLAS{
-    -fx-background-image: url("../Texture2D_sorted/Icone_dei/FullBody_con_sfondo/ATLAS.png");
-    -fx-background-size: 100% 100%;
-
-}
-
-#HEPHAESTUS{
-    -fx-background-image: url("../Texture2D_sorted/Icone_dei/FullBody_con_sfondo/HEPHAESTUS.png");
-    -fx-background-size: 100% 100%;
-
-}
-
-#MINOTAUR{
-    -fx-background-image: url("../Texture2D_sorted/Icone_dei/FullBody_con_sfondo/MINOTAUR.png");
-    -fx-background-size: 100% 100%;
-
-}
-
-#ARTEMIS{
-    -fx-background-image: url("../Texture2D_sorted/Icone_dei/FullBody_con_sfondo/ARTEMIS.png");
-    -fx-background-size: 100% 100%;
-
-}
-
-#PAN{
-    -fx-background-image: url("../Texture2D_sorted/Icone_dei/FullBody_con_sfondo/PAN.png");
-    -fx-background-size: 100% 100%;
-
-}
-
-#PROMETHEUS{
-    -fx-background-image: url("../Texture2D_sorted/Icone_dei/FullBody_con_sfondo/PROMETHEUS.png");
-    -fx-background-size: 100% 100%;
-
-}
-
-#POSEIDON{
-    -fx-background-image: url("../Texture2D_sorted/Icone_dei/FullBody_con_sfondo/POSEIDON.png");
-    -fx-background-size: 100% 100%;
-
-}
-
-#HERA{
-    -fx-background-image: url("../Texture2D_sorted/Icone_dei/FullBody_con_sfondo/HERA.png");
-    -fx-background-size: 100% 100%;
-
-}
-
-#TRITON{
-    -fx-background-image: url("../Texture2D_sorted/Icone_dei/FullBody_con_sfondo/TRITON.png");
-    -fx-background-size: 100% 100%;
-
-}
-
-#HESTIA{
-    -fx-background-image: url("../Texture2D_sorted/Icone_dei/FullBody_con_sfondo/HESTIA.png");
-    -fx-background-size: 100% 100%;
-
-}
-
-#ZEUS{
-    -fx-background-image: url("../Texture2D_sorted/Icone_dei/FullBody_con_sfondo/ZEUS.png");
-    -fx-background-size: 100% 100%;
-
-}
-     */
 }

@@ -9,21 +9,24 @@
     -fx-background-color: transparent;
 }
 
+#whiteborder {
+ -fx-background-image: url("../Texture2D_sorted/Icone_dei/contorni/white_c_frame.png");
+}
+
+#blueborder {
+ -fx-background-image: url("../Texture2D_sorted/Icone_dei/contorni/blue_c_frame.png");
+}
+
 
 #rightpane {
     -fx-background-image: url("../Texture2D_sorted/Backgrounds/bg_panelEdgeRight2.png");
 }
 
-#topcenterpane {
-    -fx-background-image: url("../Texture2D_sorted/Backgrounds/fg_panel2.png");
+#leftcentralpane {
+    -fx-background-image: url("../Texture2D_sorted/Backgrounds/lr_bg.png");
 }
 
-#leftpane{
-    -fx-background-image: url("../Texture2D_sorted/Backgrounds/left_nobg.png");
-}
-
-
-#centralpane{
+#bgpane{
     -fx-background-image: url("../Texture2D_sorted/Backgrounds/bg_panelMid.png");
 }
 
@@ -37,7 +40,7 @@
 }
 
 #APOLLO{
-    -fx-background-image: url("../Texture2D_sorted/Icone_dei/APOLLO.png");
+    -fx-background-image: url("../Texture2D_sorted/Icone_dei/FullBody_con_sfondo/APOLLO.png");
 }
 
 #DEMETER{
@@ -46,5 +49,49 @@
 
 #ATHENA{
     -fx-background-image: url("../Texture2D_sorted/Icone_dei/FullBody_con_sfondo/ATHENA.png");
+}
+
+#ATLAS{
+    -fx-background-image: url("../Texture2D_sorted/Icone_dei/FullBody_con_sfondo/ATLAS.png");
+}
+
+#HEPHAESTUS{
+    -fx-background-image: url("../Texture2D_sorted/Icone_dei/FullBody_con_sfondo/HEPHAESTUS.png");
+}
+
+#MINOTAUR{
+    -fx-background-image: url("../Texture2D_sorted/Icone_dei/FullBody_con_sfondo/MINOTAUR.png");
+}
+
+#ARTEMIS{
+    -fx-background-image: url("../Texture2D_sorted/Icone_dei/FullBody_con_sfondo/ARTEMIS.png");
+}
+
+#PAN{
+    -fx-background-image: url("../Texture2D_sorted/Icone_dei/FullBody_con_sfondo/PAN.png");
+}
+
+#PROMETHEUS{
+    -fx-background-image: url("../Texture2D_sorted/Icone_dei/FullBody_con_sfondo/PROMETHEUS.png");
+}
+
+#POSEIDON{
+    -fx-background-image: url("../Texture2D_sorted/Icone_dei/FullBody_con_sfondo/POSEIDON.png");
+}
+
+#HERA{
+    -fx-background-image: url("../Texture2D_sorted/Icone_dei/FullBody_con_sfondo/HERA.png");
+}
+
+#TRITON{
+    -fx-background-image: url("../Texture2D_sorted/Icone_dei/FullBody_con_sfondo/TRITON.png");
+}
+
+#HESTIA{
+    -fx-background-image: url("../Texture2D_sorted/Icone_dei/FullBody_con_sfondo/HESTIA.png");
+}
+
+#ZEUS{
+    -fx-background-image: url("../Texture2D_sorted/Icone_dei/FullBody_con_sfondo/ZEUS.png");
 }
 
