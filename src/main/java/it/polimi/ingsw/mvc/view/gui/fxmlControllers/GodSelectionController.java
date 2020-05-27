@@ -35,6 +35,9 @@ public class GodSelectionController {
     @FXML
     public static BorderPane thirdGod;
 
+    @FXML
+    public BorderPane godsPane;
+
 
     private String god;
 
@@ -46,15 +49,17 @@ public class GodSelectionController {
     }
 
 
+    /*
     @FXML
     public void handleSelectButton() throws IOException {
         if(!gui.validatePlayerGodChoice(god)){
             GuiManager.showDialog((Stage) mainPane.getScene().getWindow(),"Error", "God can't be selected");
         }
-    }
+    }*/
 
-    public static void displayGods(){
-
+    public void displayGods(){
+        System.out.println("yey");
+        System.out.println("");
     }
 
     public static void challengerChoice(List<String> chosenGods){
@@ -73,12 +78,12 @@ public class GodSelectionController {
        //Con una lista di border pane meglio. me disable!
     }
 
+    /*
     @FXML
     public void handleGodSelection(BorderPane godPane){
         god = godPane.getId();
         displayDescription(god);
-
-    }
+    }*/
 
     private void displayDescription(String godName){
         godNameTitle.setText(godName);

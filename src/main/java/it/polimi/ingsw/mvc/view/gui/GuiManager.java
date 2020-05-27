@@ -45,8 +45,9 @@ public class GuiManager extends Client {
     /*SET A SCENE*/
 
     public static void setLayout(Scene scene, String path) throws IOException {
-        Pane pane =  loadFxmlPane(path);
+        Pane pane = loadFxmlPane(path);
         scene.setRoot(pane);
+
     }
 
     /*CREATE A DIALOG */

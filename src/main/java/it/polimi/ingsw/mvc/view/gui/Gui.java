@@ -10,7 +10,9 @@ import java.io.IOException;
 
 
 public class Gui extends Application {
+
     private static Gui instance = null;
+    private static Stage stage;
 
 
     public static Gui getInstance() {
@@ -21,9 +23,10 @@ public class Gui extends Application {
 
     @Override
     public void start(Stage stage) throws IOException {
+        this.stage = stage;
         stage.setScene(new Scene(new Pane()));
 
-        GuiManager.setLayout(stage.getScene(), "/fxmlFiles/Title.fxml");
+        GuiManager.setLayout(stage.getScene(), "/fxmlFiles/GodSelection.fxml");
         stage.show();
 
     }
@@ -38,4 +41,10 @@ public class Gui extends Application {
         GuiManager.getInstance().disconnectClient();
         System.exit(0);
     }
+
+    public void bindScene(Scene scene) {
+        stage.minWidthProperty().bind(scene.heightProperty().multiply(2));
+        stage.minHeightProperty().bind(scene.widthProperty().divide(2));
+    }
+
 }
