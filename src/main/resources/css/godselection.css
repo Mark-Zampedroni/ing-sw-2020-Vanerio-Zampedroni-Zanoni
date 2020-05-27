@@ -1,4 +1,7 @@
-
+.root { 
+   -fx-focus-color: transparent;
+   -fx-faint-focus-color: transparent;
+}
 
 .fullbackground {
     -fx-background-size: 100% 100%;
@@ -34,9 +37,17 @@
     -fx-background-image: url("../Texture2D_sorted/Backgrounds/gameGodFrameName2.png");
 }
 
-
-#selectbutton{
+#selectbutton {
     -fx-background-image: url("../Texture2D_sorted/Pulsanti/btn_blue.png");
+}
+
+#selectbutton:disabled, #selectbutton:disabled > * {
+  -fx-opacity: 1.0 ;
+  -fx-background-image: url("../Texture2D_sorted/Pulsanti/btn_small_gray.png");
+}
+
+#selectbuttonpressed {
+    -fx-background-image: url("../Texture2D_sorted/Pulsanti/btn_blue_pressed.png");
 }
 
 #APOLLO{

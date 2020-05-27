@@ -30,6 +30,7 @@ public class GuiManager extends Client {
 
     private TitleController titleController;
     private NumberOfPlayersController numberOfPlayersController;
+    private GodSelectionController godSelectionController;
 
     private GuiManager() {
         super();
@@ -111,14 +112,11 @@ public class GuiManager extends Client {
 
     @Override
     public void updateChallengerGodSelection(List<String> chosenGods) {
-
     }
 
     @Override
     public void requestChallengerGod(List<String> chosenGods) {
-        Platform.runLater(() ->
-                GodSelectionController.challengerChoice(chosenGods));
-
+        Platform.runLater(() -> godSelectionController.requestChallengerGod(chosenGods));
     }
 
     @Override

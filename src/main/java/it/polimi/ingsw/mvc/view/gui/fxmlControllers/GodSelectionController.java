@@ -6,6 +6,7 @@ import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
 import javafx.scene.Node;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.image.Image;
@@ -27,20 +28,25 @@ public class GodSelectionController {
         private Pane border;
 
         public GodWindow(String godName) {
+            initBorder();
+            initGodPane(godName);
+            addColumnConstraint();
+            addRowConstraint();
+            this.add(god,0,0);
+            this.add(border,0,0);
+        }
+
+        private void initBorder() {
             border = new Pane();
             border.getStyleClass().add("fullbackground");
             border.setId("whiteborder");
+        }
 
+        private void initGodPane(String godName) {
             god = new Pane();
             god.getStyleClass().add("fullbackground");
             GridPane.setMargin(god, new Insets(5,5,5,5));
             god.setId(godName);
-
-            addColumnConstraint();
-            addRowConstraint();
-
-            this.add(god,0,0);
-            this.add(border,0,0);
         }
 
         public void setCornice(String id) {
@@ -71,8 +77,7 @@ public class GodSelectionController {
     @FXML
     public Pane mainPane;
     @FXML
-    public BorderPane selectButton;
-
+    public Button selectButton;
     @FXML
     public Label godNameLabel;
     @FXML
@@ -90,24 +95,25 @@ public class GodSelectionController {
     private GuiManager gui;
     private double godsRatio;
     private String selectedGod;
+    private List<String> chosenGods = new ArrayList<>(Arrays.asList("ATHENA")); // Una volta collegato al resto sarà null
 
 
     public void initialize() {
         gui = GuiManager.getInstance();
-        manageGodsSelectionWindow();
+        initGodsSelectionWindow();
+        initSelectionButton();
     }
 
+    private void initSelectionButton() {
+        selectButton.setOnMousePressed(event -> selectButton.setId("selectbuttonpressed"));
 
-    /*
-    @FXML
-    public void handleSelectButton() throws IOException {
-        if(!gui.validatePlayerGodChoice(god)){
-            GuiManager.showDialog((Stage) mainPane.getScene().getWindow(),"Error", "God can't be selected");
-        }
-    }*/
+        selectButton.setOnMouseReleased(event -> {
+            selectButton.setId("selectbutton");
+            gui.validateGods(selectedGod);
+        });
+    }
 
-
-    private void manageGodsSelectionWindow() {
+    private void initGodsSelectionWindow() {
         Platform.runLater(this::loadGods);
         Platform.runLater(this::getGodsRatio);
         Platform.runLater(this::resizeGods);
@@ -131,11 +137,13 @@ public class GodSelectionController {
     private void godWindowConsumer(GodWindow godWindow) {
         godWindow.setCornice("blueborder");
         selectedGod = godWindow.getGod();
-        godsGrid.getChildren().stream()
-                .filter(god -> god != godWindow)
-                .forEach(god -> ((GodWindow) god).setCornice("whiteborder"));
-        System.out.println(selectedGod);
+        godsGrid.getChildren().stream().filter(god -> god != godWindow).forEach(god -> ((GodWindow) god).setCornice("whiteborder"));
         displayDescription(selectedGod);
+        selectButtonChange(selectedGod);
+    }
+
+    private void selectButtonChange(String selectedGod) {
+        selectButton.setDisable(chosenGods.contains(selectedGod));
     }
 
     private void displayDescription(String godName){
@@ -154,20 +162,12 @@ public class GodSelectionController {
         godsPane.maxHeightProperty().bind(godsScroll.heightProperty().divide(godsRatio));
     }
 
-    public static void challengerChoice(List<String> chosenGods){
-        //firstGod.getStyleClass().add(chosenGods.get(counter));
-
-       }
-
-    /*
-    @FXML
-    public void handleGodSelection(BorderPane godPane){
-        god = godPane.getId();
-        displayDescription(god);
-    }*/
-
-    private void changeBorder(BorderPane godPane){
-
+    public void requestChallengerGod(List<String> chosenGods) {
+        chosenGods.stream()
+                .filter(god -> !this.chosenGods.contains(god))
+                .forEach(newGod -> System.out.println("Qui verrà aggiunto agli dei scelti "+newGod+" sapendo che e' in posizione "+chosenGods.size()));
+        this.chosenGods = chosenGods;
+        // Aggiunge nella posizione corretta il nuovo dio dal .foreach ^
     }
 
 }
