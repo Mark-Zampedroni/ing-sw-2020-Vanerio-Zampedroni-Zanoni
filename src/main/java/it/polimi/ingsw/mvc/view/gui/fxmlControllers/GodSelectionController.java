@@ -91,4 +91,71 @@ public class GodSelectionController {
 
     }
 
+    /*
+    #ATLAS{
+    -fx-background-image: url("../Texture2D_sorted/Icone_dei/FullBody_con_sfondo/ATLAS.png");
+    -fx-background-size: 100% 100%;
+
+}
+
+#HEPHAESTUS{
+    -fx-background-image: url("../Texture2D_sorted/Icone_dei/FullBody_con_sfondo/HEPHAESTUS.png");
+    -fx-background-size: 100% 100%;
+
+}
+
+#MINOTAUR{
+    -fx-background-image: url("../Texture2D_sorted/Icone_dei/FullBody_con_sfondo/MINOTAUR.png");
+    -fx-background-size: 100% 100%;
+
+}
+
+#ARTEMIS{
+    -fx-background-image: url("../Texture2D_sorted/Icone_dei/FullBody_con_sfondo/ARTEMIS.png");
+    -fx-background-size: 100% 100%;
+
+}
+
+#PAN{
+    -fx-background-image: url("../Texture2D_sorted/Icone_dei/FullBody_con_sfondo/PAN.png");
+    -fx-background-size: 100% 100%;
+
+}
+
+#PROMETHEUS{
+    -fx-background-image: url("../Texture2D_sorted/Icone_dei/FullBody_con_sfondo/PROMETHEUS.png");
+    -fx-background-size: 100% 100%;
+
+}
+
+#POSEIDON{
+    -fx-background-image: url("../Texture2D_sorted/Icone_dei/FullBody_con_sfondo/POSEIDON.png");
+    -fx-background-size: 100% 100%;
+
+}
+
+#HERA{
+    -fx-background-image: url("../Texture2D_sorted/Icone_dei/FullBody_con_sfondo/HERA.png");
+    -fx-background-size: 100% 100%;
+
+}
+
+#TRITON{
+    -fx-background-image: url("../Texture2D_sorted/Icone_dei/FullBody_con_sfondo/TRITON.png");
+    -fx-background-size: 100% 100%;
+
+}
+
+#HESTIA{
+    -fx-background-image: url("../Texture2D_sorted/Icone_dei/FullBody_con_sfondo/HESTIA.png");
+    -fx-background-size: 100% 100%;
+
+}
+
+#ZEUS{
+    -fx-background-image: url("../Texture2D_sorted/Icone_dei/FullBody_con_sfondo/ZEUS.png");
+    -fx-background-size: 100% 100%;
+
+}
+     */
 }

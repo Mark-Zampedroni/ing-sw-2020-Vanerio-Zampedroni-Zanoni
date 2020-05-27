@@ -7,7 +7,7 @@
 
 <Pane fx:id="mainPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="1040.0" styleClass="bodybg" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.mvc.view.gui.fxmlControllers.NumberOfPlayersController">
     <stylesheets>
-        <URL value="@../css/background.css" />
+        <URL value="@../css/godselection.css" />
     </stylesheets>
    <children>
       <AnchorPane layoutX="312.0" layoutY="74.0" prefHeight="553.0" prefWidth="417.0">

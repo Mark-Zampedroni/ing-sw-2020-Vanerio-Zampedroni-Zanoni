@@ -1,0 +1,50 @@
+
+
+.fullbackground {
+    -fx-background-size: 100% 100%;
+}
+
+.invisiblebackground {
+    -fx-background: transparent;
+    -fx-background-color: transparent;
+}
+
+
+#rightpane {
+    -fx-background-image: url("../Texture2D_sorted/Backgrounds/bg_panelEdgeRight2.png");
+}
+
+#topcenterpane {
+    -fx-background-image: url("../Texture2D_sorted/Backgrounds/fg_panel2.png");
+}
+
+#leftpane{
+    -fx-background-image: url("../Texture2D_sorted/Backgrounds/left_nobg.png");
+}
+
+
+#centralpane{
+    -fx-background-image: url("../Texture2D_sorted/Backgrounds/bg_panelMid.png");
+}
+
+#godframename {
+    -fx-background-image: url("../Texture2D_sorted/Backgrounds/gameGodFrameName2.png");
+}
+
+
+#selectbutton{
+    -fx-background-image: url("../Texture2D_sorted/Pulsanti/btn_blue.png");
+}
+
+#APOLLO{
+    -fx-background-image: url("../Texture2D_sorted/Icone_dei/APOLLO.png");
+}
+
+#DEMETER{
+    -fx-background-image: url("../Texture2D_sorted/Icone_dei/FullBody_con_sfondo/DEMETER.png");
+}
+
+#ATHENA{
+    -fx-background-image: url("../Texture2D_sorted/Icone_dei/FullBody_con_sfondo/ATHENA.png");
+}
+

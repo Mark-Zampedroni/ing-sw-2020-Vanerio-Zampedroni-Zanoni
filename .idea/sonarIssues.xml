@@ -328,6 +328,11 @@
             <set />
           </value>
         </entry>
+        <entry key="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/mvc/view/gui/fxmlControllers/GodSelectionController.java">
+          <value>
+            <set />
+          </value>
+        </entry>
         <entry key="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/mvc/view/gui/fxmlControllers/NumberOfPlayersController.java">
           <value>
             <set />
@@ -809,6 +814,21 @@
           </value>
         </entry>
         <entry key="$PROJECT_DIR$/src/main/java/module-info.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/src/main/resources/css/godselection.css">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/src/main/resources/fxmlFiles/GodSelection.fxml">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/src/main/resources/fxmlFiles/NumberOfPlayers.fxml">
           <value>
             <set />
           </value>
