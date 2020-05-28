@@ -23,11 +23,11 @@ public class Gui extends Application {
 
     @Override
     public void start(Stage stage) throws IOException {
-        this.stage = stage;
+        Gui.stage = stage;
         stage.setScene(new Scene(new Pane()));
 
-        GuiManager.setLayout(stage.getScene(), "/fxmlFiles/Title.fxml");
-        //GuiManager.setLayout(stage.getScene(), "/fxmlFiles/GodSelection.fxml");
+        //GuiManager.setLayout(stage.getScene(), "/fxmlFiles/Title.fxml");
+        GuiManager.setLayout(stage.getScene(), "/fxmlFiles/GodSelection.fxml");
         stage.show();
 
     }

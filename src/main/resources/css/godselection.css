@@ -20,13 +20,17 @@
  -fx-background-image: url("../Texture2D_sorted/Icone_dei/contorni/blue_c_frame.png");
 }
 
+#yellowborder {
+ -fx-background-image: url("../Texture2D_sorted/Icone_dei/contorni/yellow_c_frame.png");
+}
+
 
 #rightpane {
     -fx-background-image: url("../Texture2D_sorted/Backgrounds/bg_panelEdgeRight2.png");
 }
 
-#leftcentralpane {
-    -fx-background-image: url("../Texture2D_sorted/Backgrounds/lr_bg.png");
+#wholepane {
+    -fx-background-image: url("../Texture2D_sorted/Backgrounds/allselection.png");
 }
 
 #bgpane{
@@ -35,6 +39,10 @@
 
 #godframename {
     -fx-background-image: url("../Texture2D_sorted/Backgrounds/gameGodFrameName2.png");
+}
+
+#selectedframename {
+    -fx-background-image: url("../Texture2D_sorted/Backgrounds/gameGodFrameName1.png");
 }
 
 #selectbutton {

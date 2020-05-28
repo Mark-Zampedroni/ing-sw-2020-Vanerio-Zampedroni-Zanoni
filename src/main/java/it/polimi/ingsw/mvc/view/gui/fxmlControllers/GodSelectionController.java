@@ -5,20 +5,14 @@ import it.polimi.ingsw.utility.enumerations.Gods;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
-import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
-import javafx.scene.image.Image;
 import javafx.scene.layout.*;
-import javafx.stage.Stage;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Iterator;
 import java.util.List;
-import java.util.function.Consumer;
 
 public class GodSelectionController {
 
@@ -85,23 +79,41 @@ public class GodSelectionController {
     @FXML
     public Label conditionLabel;
     @FXML
+    public Label challengerLabel;
+    @FXML
+    public Label infoLabel;
+    @FXML
+    public Label emptySelectedLabel;
+    @FXML
     public BorderPane godsPane;
     @FXML
     public ScrollPane godsScroll;
     @FXML
     public GridPane godsGrid;
+    @FXML
+    public GridPane selectedGrid;
 
     private int godRow, godColumn;
     private GuiManager gui;
     private double godsRatio;
     private String selectedGod;
-    private List<String> chosenGods = new ArrayList<>(Arrays.asList("ATHENA")); // Una volta collegato al resto sarà null
+    private List<String> chosenGods = new ArrayList<>(); // Una volta collegato al resto sarà null
 
 
     public void initialize() {
         gui = GuiManager.getInstance();
         initGodsSelectionWindow();
         initSelectionButton();
+        initSelectLabel();
+        // TEST 4 casi - 2 challenger (con e senza selected) 2 non challenger (con e senza selected)
+        //requestChallengerGod(new ArrayList<>());
+        //requestChallengerGod(Arrays.asList("ATHENA"));
+        //updateChallengerGodSelection(new ArrayList<>());
+        //updateChallengerGodSelection(Arrays.asList("APOLLO"));
+    }
+
+    private void initSelectLabel() {
+        emptySelectedLabel.setText("No gods selected yet");
     }
 
     private void initSelectionButton() {
@@ -110,6 +122,10 @@ public class GodSelectionController {
         selectButton.setOnMouseReleased(event -> {
             selectButton.setId("selectbutton");
             gui.validateGods(selectedGod);
+            /* SE SI VOGLIONO AGGIUNGERE GLI DEI SENZA MANDARE IL MESSAGGIO COMMENTARE LA RIGA QUI SOPRA E SCOMMENTARE QUESTE
+            List<String> newGods = new ArrayList<>(chosenGods); // <-------------------------------------- TEST
+            newGods.add(selectedGod); // <-------------------------------------- TEST
+            requestChallengerGod(newGods); // <-------------------------------------- TEST*/
         });
     }
 
@@ -127,7 +143,8 @@ public class GodSelectionController {
             godColumn = (godColumn == 2) ? 0 : godColumn+1;
             addGodClickEvent(godWindow);
         }
-        godWindowConsumer((GodWindow) godsGrid.getChildren().get(0));
+        godsGrid.getChildren().removeIf(c -> !(c instanceof GodWindow));
+        godWindowConsumer((GodWindow) godsGrid.getChildren().get(0)); // Selects first god
     }
 
     private void addGodClickEvent(GodWindow godWindow) {
@@ -163,11 +180,41 @@ public class GodSelectionController {
     }
 
     public void requestChallengerGod(List<String> chosenGods) {
+        loadSelectedGods(chosenGods);
+        setChallengerInfo();
+    }
+
+    public void updateChallengerGodSelection(List<String> chosenGods) {
+        loadSelectedGods(chosenGods);
+        setOthersInfo();
+    }
+
+    private void setChallengerInfo() {
+        selectButtonChange(selectedGod);
+        challengerLabel.setText("You are the challenger.");
+        infoLabel.setText("Choose "+gui.getNumberOfPlayers()+" gods, everyone will select their from the ones you choose. You will be the last one to select yours.");
+    }
+
+    private void setOthersInfo() {
+        selectButton.setVisible(false);
+        selectButton.setManaged(false);
+        challengerLabel.setText("You are not the challenger.");
+        infoLabel.setText("Wait while the challenger chooses "+gui.getNumberOfPlayers()+" gods! Everyone will select their own from the ones chosen by the challenger.");
+    }
+
+    private void loadSelectedGods(List<String> chosenGods) {
         chosenGods.stream()
                 .filter(god -> !this.chosenGods.contains(god))
-                .forEach(newGod -> System.out.println("Qui verrà aggiunto agli dei scelti "+newGod+" sapendo che e' in posizione "+chosenGods.size()));
+                .forEach(newGod -> {
+                    GodWindow newWindow = new GodWindow(newGod);
+                    newWindow.setCornice("yellowborder");
+                    selectedGrid.add(newWindow,chosenGods.size()-1,0);
+                });
+        if(chosenGods.size() > 0) {
+            emptySelectedLabel.setVisible(false);
+            emptySelectedLabel.setManaged(false);
+        }
         this.chosenGods = chosenGods;
-        // Aggiunge nella posizione corretta il nuovo dio dal .foreach ^
     }
 
 }

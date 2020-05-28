@@ -48,7 +48,6 @@ public class GuiManager extends Client {
     public static void setLayout(Scene scene, String path) throws IOException {
         Pane pane = loadFxmlPane(path);
         scene.setRoot(pane);
-
     }
 
     /*CREATE A DIALOG */
@@ -90,6 +89,10 @@ public class GuiManager extends Client {
          }
     }
 
+    public String getNumberOfPlayers() {
+         return (players == null) ? "X" : Integer.toString(players.size());
+    }
+
 
     @Override
     public void showInfo(String text) {
@@ -112,6 +115,7 @@ public class GuiManager extends Client {
 
     @Override
     public void updateChallengerGodSelection(List<String> chosenGods) {
+         Platform.runLater(() -> godSelectionController.updateChallengerGodSelection(chosenGods));
     }
 
     @Override
