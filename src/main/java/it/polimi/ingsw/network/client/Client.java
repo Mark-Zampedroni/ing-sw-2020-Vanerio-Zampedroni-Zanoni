@@ -138,7 +138,7 @@ public abstract class Client implements Observer<Message>, View {
 
     private void parseReconnectionUpdate(Message message) {
         reconnecting = true;
-        viewRequest(this::showReconnection);
+        //viewRequest(this::showReconnection);
     }
 
     private void parseReconnectionReply(FlagMessage message) {

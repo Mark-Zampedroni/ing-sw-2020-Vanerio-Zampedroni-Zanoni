@@ -1,0 +1,28 @@
+.root { 
+   -fx-focus-color: transparent;
+   -fx-faint-focus-color: transparent;
+}
+
+.fullbackground {
+    -fx-background-size: 100% 100%;
+}
+
+.invisiblebackground {
+    -fx-background: transparent;
+    -fx-background-color: transparent;
+}
+
+.bodybg {
+	-fx-background-size: 100% 100%;
+	-fx-background-image: url("../Texture2D_sorted/Title/titleBack.png");
+}
+
+.labelBack {
+	-fx-background-size: 100% 100%;
+	-fx-background-image: url("../Texture2D_sorted/Backgrounds/clp_textbar.png");
+}
+
+.buttonBack {
+	-fx-background-size: 100% 100%;
+	-fx-background-image: url("../Texture2D_sorted/Pulsanti/button-play-normal.png");
+}
