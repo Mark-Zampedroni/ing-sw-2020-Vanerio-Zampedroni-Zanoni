@@ -14,7 +14,6 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.text.Font?>
 
-
 <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="1040.0" style="-fx-background-color: #d7ccbe;" styleClass="otherBack" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
     <stylesheets>
         <URL value="@../css/lobby.css" />
@@ -69,7 +68,7 @@
             </BorderPane>
             <BorderPane prefHeight="88.0" prefWidth="570.0" GridPane.columnIndex="1" GridPane.columnSpan="8" GridPane.rowIndex="2">
                <center>
-                  <Label maxWidth="610.0" prefHeight="88.0" prefWidth="610.0" styleClass="labelBack" text="           Insert your Nickname and choose a color!" textAlignment="CENTER" textFill="WHITE" BorderPane.alignment="CENTER">
+                  <Label maxWidth="610.0" prefHeight="88.0" prefWidth="606.0" styleClass="labelBack" text="           Insert your Nickname and choose a color!" textAlignment="CENTER" textFill="WHITE" BorderPane.alignment="CENTER">
                      <font>
                         <Font name="Comic Sans MS" size="23.0" />
                      </font>
