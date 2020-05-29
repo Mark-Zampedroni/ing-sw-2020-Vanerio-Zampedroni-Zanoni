@@ -1,6 +1,7 @@
 package it.polimi.ingsw.mvc.view.gui.fxmlControllers;
 
 import it.polimi.ingsw.mvc.view.gui.GuiManager;
+import it.polimi.ingsw.mvc.view.gui.music.Music;
 import javafx.application.Application;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -75,6 +76,11 @@ public class TitleController {
         @FXML
         public void restoreMenuButton(){
             menuButtonImageView.setImage(new Image("/Texture2D_sorted/Pulsanti/menu_button.png"));
+        }
+
+        @FXML
+        public void music(){
+            Music.playMusic();
         }
 
     public static void setConnectionConfig(String ip, int port){
