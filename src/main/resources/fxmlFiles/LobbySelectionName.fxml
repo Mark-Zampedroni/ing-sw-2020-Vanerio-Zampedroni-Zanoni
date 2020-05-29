@@ -14,7 +14,10 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="1040.0" style="-fx-background-color: #d7ccbe;" styleClass="otherBack" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0"
+            prefWidth="1040.0" style="-fx-background-color: #d7ccbe;" styleClass="otherBack"
+            xmlns="http://javafx.com/javafx/11.0.1"
+            fx:controller="it.polimi.ingsw.mvc.view.gui.fxmlControllers.LobbyController" xmlns:fx="http://javafx.com/fxml/1">
     <stylesheets>
         <URL value="@../css/lobby.css" />
     </stylesheets>

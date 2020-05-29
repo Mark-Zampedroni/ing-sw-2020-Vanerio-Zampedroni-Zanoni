@@ -2,16 +2,11 @@ package it.polimi.ingsw.mvc.view.gui.fxmlControllers;
 
 import it.polimi.ingsw.mvc.view.gui.GuiManager;
 import it.polimi.ingsw.mvc.view.gui.music.Music;
-import javafx.application.Application;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.effect.Glow;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
@@ -22,6 +17,7 @@ public class TitleController {
     private GuiManager gui;
     private static String connectionIp;
     private static int connectionPort;
+    private static boolean music;
 
 
         @FXML
@@ -64,23 +60,15 @@ public class TitleController {
         }
 
         @FXML
-        public void changeButton(){
-
-        }
-
-        @FXML
-        public void changeButtonMenu(){
-            menuButtonImageView.setImage(new Image("/Texture2D_sorted/Pulsanti/menu_button_pressed.png"));
-        }
-
-        @FXML
-        public void restoreMenuButton(){
-            menuButtonImageView.setImage(new Image("/Texture2D_sorted/Pulsanti/menu_button.png"));
-        }
-
-        @FXML
         public void music(){
+            if (music==false){
             Music.playMusic();
+            menuButtonImageView.setImage(new Image("/Texture2D_sorted/Pulsanti/pngfuel.com.png"));
+            music=true;}
+            else { Music.turnOffMusic();
+                    music=false;
+                    menuButtonImageView.setImage(new Image("/Texture2D_sorted/Pulsanti/sound-off-icon-40963.png"));
+            }
         }
 
     public static void setConnectionConfig(String ip, int port){
