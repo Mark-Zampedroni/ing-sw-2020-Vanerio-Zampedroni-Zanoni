@@ -1,5 +1,6 @@
-package it.polimi.ingsw.mvc.view.gui.fxmlControllers;
+package it.polimi.ingsw.mvc.view.gui;
 
+import it.polimi.ingsw.mvc.view.gui.fxmlControllers.GenericController;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
@@ -8,7 +9,7 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 
-public class PopUp {
+public class PopUp extends GenericController {
 
 
     public static void show(){

@@ -12,17 +12,44 @@
     -fx-background-color: transparent;
 }
 
-.bodybg {
-	-fx-background-size: 100% 100%;
+#bodybg {
 	-fx-background-image: url("../Texture2D_sorted/Title/titleBack.png");
 }
 
-.labelBack {
-	-fx-background-size: 100% 100%;
+#labelBack {
 	-fx-background-image: url("../Texture2D_sorted/Backgrounds/clp_textbar.png");
 }
 
-.buttonBack {
-	-fx-background-size: 100% 100%;
+#buttonBack {
 	-fx-background-image: url("../Texture2D_sorted/Pulsanti/button-play-normal.png");
+}
+
+#releasedStart {
+	-fx-background-image: url("../Texture2D_sorted/Pulsanti/button-play-normal.png");
+}
+
+#pressedStart {
+    -fx-background-image: url("../Texture2D_sorted/Pulsanti/button-play-down.png");
+}
+
+#musicOn {
+    -fx-background-image: url("../Texture2D_sorted/Pulsanti/pngfuel.com.png");
+}
+
+#musicOff {
+    -fx-background-image: url("../Texture2D_sorted/Pulsanti/sound-off-icon-40963.png");
+}
+
+#labelBar {
+	-fx-background-image: url("../Texture2D_sorted/Backgrounds/clp_textbar.png");
+}
+
+#buttonReleased {
+    -fx-background-image: url("../Texture2D_sorted/Pulsanti/btn_blue.png");
+}
+
+#buttonPressed {
+    -fx-background-image: url("../Texture2D_sorted/Pulsanti/btn_blue_pressed.png");
+}
+
 }

@@ -1,16 +1,14 @@
 package it.polimi.ingsw.mvc.view.gui;
 
-import it.polimi.ingsw.mvc.view.gui.fxmlControllers.GodSelectionController;
-import it.polimi.ingsw.mvc.view.gui.fxmlControllers.NumberOfPlayersController;
-import it.polimi.ingsw.mvc.view.gui.fxmlControllers.TitleController;
+import it.polimi.ingsw.mvc.view.gui.fxmlControllers.*;
 import it.polimi.ingsw.network.client.Client;
 import it.polimi.ingsw.utility.enumerations.Action;
 import it.polimi.ingsw.utility.enumerations.Colors;
+import it.polimi.ingsw.utility.enumerations.GuiWindow;
 import it.polimi.ingsw.utility.serialization.dto.DtoPosition;
 import it.polimi.ingsw.utility.serialization.dto.DtoSession;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
@@ -25,12 +23,11 @@ import java.util.Map;
 import java.util.logging.Logger;
 
 public class GuiManager extends Client {
+
     private static GuiManager instance = null;
     private static Logger GUI_LOG;
 
-    private TitleController titleController;
-    private NumberOfPlayersController numberOfPlayersController;
-    private GodSelectionController godSelectionController;
+    private GenericController currentController;
 
     private GuiManager() {
         super();
@@ -43,11 +40,20 @@ public class GuiManager extends Client {
         return instance;
     }
 
+    public void setCurrentController(GenericController currentController) {
+        this.currentController = currentController;
+    }
+
     /*SET A SCENE*/
 
-    public static void setLayout(Scene scene, String path) throws IOException {
-        Pane pane = loadFxmlPane(path);
-        scene.setRoot(pane);
+    public static void setLayout(Scene scene, String path) {
+        try {
+            Pane pane = loadFxmlPane(path);
+            scene.setRoot(pane);
+        } catch(IOException e) {
+            GUI_LOG.severe("Can't load "+path);
+        }
+
     }
 
     /*CREATE A DIALOG */
@@ -71,14 +77,6 @@ public class GuiManager extends Client {
         dialog.showAndWait();
     }
 
-    void setTitleController(TitleController titleController){
-         this.titleController = titleController;
-    }
-
-    void setNumberOfPlayersController(NumberOfPlayersController numberOfPlayersController){
-         this.numberOfPlayersController = numberOfPlayersController;
-    }
-
     private static Pane loadFxmlPane(String path) throws IOException {
          try{
             return FXMLLoader.load(GuiManager.class.getResource(path));
@@ -94,34 +92,42 @@ public class GuiManager extends Client {
     }
 
 
+    private void runUpdate(Class c, Runnable request) {
+        if(!(currentController.getWindowName() == GuiWindow.getInstanceName(c))) {
+            setLayout(currentController.getScene(), GuiWindow.getFxmlPath(c));
+        }
+        Platform.runLater(request);
+    }
+
     @Override
     public void showInfo(String text) {
+        runUpdate(TitleController.class, () -> ((TitleController)currentController).showInfo(text));
     }
 
     @Override
     public void requestNumberOfPlayers() {
-
+        runUpdate(TitleController.class, () -> ((TitleController)currentController).requestNumberOfPlayers());
     }
 
     @Override
     public void showLobby(List<Colors> availableColors) {
-
+        runUpdate(LobbyController.class, () -> ((LobbyController)currentController).showLobby(availableColors));
     }
 
     @Override
     public void requestLogin() {
-
     }
 
     @Override
     public void updateChallengerGodSelection(List<String> chosenGods) {
-         Platform.runLater(() -> godSelectionController.updateChallengerGodSelection(chosenGods));
+        runUpdate(ChallengerSelectionController.class, () ->((ChallengerSelectionController)currentController).updateChallengerGodSelection(chosenGods));
     }
 
     @Override
     public void requestChallengerGod(List<String> chosenGods) {
-        Platform.runLater(() -> godSelectionController.requestChallengerGod(chosenGods));
+        runUpdate(ChallengerSelectionController.class, () ->((ChallengerSelectionController)currentController).requestChallengerGod(chosenGods));
     }
+
 
     @Override
     public void updatePlayerGodSelection(String turnOwner, Map<String, String> choices, List<String> chosenGods) {

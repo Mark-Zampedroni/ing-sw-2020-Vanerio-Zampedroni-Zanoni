@@ -3,4 +3,5 @@ open module it.polimi.ingsw {
     requires javafx.fxml;
     requires javafx.graphics;
     requires java.logging;
+    requires java.desktop;
 }

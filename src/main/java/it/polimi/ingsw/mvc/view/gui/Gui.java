@@ -1,12 +1,16 @@
 package it.polimi.ingsw.mvc.view.gui;
 
+import it.polimi.ingsw.mvc.view.gui.fxmlControllers.ChallengerSelectionController;
 import it.polimi.ingsw.mvc.view.gui.fxmlControllers.TitleController;
+import it.polimi.ingsw.utility.enumerations.GuiWindow;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.util.Arrays;
+import java.util.List;
 
 
 public class Gui extends Application {
@@ -22,12 +26,13 @@ public class Gui extends Application {
     }
 
     @Override
-    public void start(Stage stage) throws IOException {
+    public void start(Stage stage) {
         Gui.stage = stage;
+
         stage.setScene(new Scene(new Pane()));
 
-        GuiManager.setLayout(stage.getScene(), "/fxmlFiles/Title.fxml");
-        //GuiManager.setLayout(stage.getScene(), "/fxmlFiles/GodSelection.fxml");
+        GuiManager.setLayout(stage.getScene(), GuiWindow.getFxmlPath(TitleController.class));
+        //GuiManager.setLayout(stage.getScene(), GuiWindow.getFxmlPath(ChallengerSelectionController.class));
         stage.show();
 
     }
