@@ -58,6 +58,27 @@
     -fx-background-image: url("../Texture2D_sorted/Pulsanti/btn_blue_pressed.png");
 }
 
+#borderGod{
+    -fx-background-image: url("../Texture2D_sorted/Backgrounds/PlayerUIPanel2.png");
+}
+
+#borderGod2{
+    -fx-background-image: url("../Texture2D_sorted/Backgrounds/PlayerUIPanel2v2.png");
+}
+
+#borderGod3{
+    -fx-background-image: url("../Texture2D_sorted/Backgrounds/PlayerUIPanel2v3.png");
+}
+
+#borderGod4{
+    -fx-background-image: url("../Texture2D_sorted/Backgrounds/PlayerUIPanel2v4.png");
+}
+
+#borderGod5{
+    -fx-background-image: url("../Texture2D_sorted/Backgrounds/PlayerUIPanel2v5.png");
+}
+
+
 #APOLLO{
     -fx-background-image: url("../Texture2D_sorted/Icone_dei/FullBody_con_sfondo/APOLLO.png");
 }
@@ -114,3 +135,58 @@
     -fx-background-image: url("../Texture2D_sorted/Icone_dei/FullBody_con_sfondo/ZEUS.png");
 }
 
+#apollopower{
+    -fx-background-image: url("../Texture2D_sorted/Icone_dei/GodPowerv2/APOLLO.png");
+}
+
+#demeterpower{
+    -fx-background-image: url("../Texture2D_sorted/Icone_dei/GodPowerv2/DEMETER.png");
+}
+
+#athenapower{
+    -fx-background-image: url("../Texture2D_sorted/Icone_dei/GodPowerv2/ATHENA.png");
+}
+
+#atlaspower{
+    -fx-background-image: url("../Texture2D_sorted/Icone_dei/GodPowerv2/ATLAS.png");
+}
+
+#tritonpower{
+    -fx-background-image: url("../Texture2D_sorted/Icone_dei/GodPowerv2/TRITON.png");
+}
+
+#artemispower{
+    -fx-background-image: url("../Texture2D_sorted/Icone_dei/GodPowerv2/ARTEMIS.png");
+}
+
+#zeuspower{
+    -fx-background-image: url("../Texture2D_sorted/Icone_dei/GodPowerv2/ZEUS.png");
+}
+
+#herapower{
+    -fx-background-image: url("../Texture2D_sorted/Icone_dei/GodPowerv2/HERA.png");
+}
+
+#hestiapower{
+    -fx-background-image: url("../Texture2D_sorted/Icone_dei/GodPowerv2/HESTIA.png");
+}
+
+#hephaestuspower{
+    -fx-background-image: url("../Texture2D_sorted/Icone_dei/GodPowerv2/EFESTO.png");
+}
+
+#prometheuspower{
+    -fx-background-image: url("../Texture2D_sorted/Icone_dei/GodPowerv2/PROMETHEUS.png");
+}
+
+#poseidonpower{
+    -fx-background-image: url("../Texture2D_sorted/Icone_dei/GodPowerv2/POSEIDON.png");
+}
+
+#minotaurpower{
+    -fx-background-image: url("../Texture2D_sorted/Icone_dei/GodPowerv2/MINOTAUR.png");
+}
+
+#panpower{
+    -fx-background-image: url("../Texture2D_sorted/Icone_dei/GodPowerv2/PAN.png");
+}
