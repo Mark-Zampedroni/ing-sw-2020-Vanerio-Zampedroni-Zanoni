@@ -76,6 +76,9 @@ public class TitleController extends GenericController {
 
     private void handleButtonReleased(Button button) {
         button.setId("buttonReleased");
+        if (button.equals(p3)) {gui.setNumber(3);} else {
+            gui.setNumber(2);
+        }
         gui.validateNumberOfPlayers(Arrays.asList(button.getText().split(" ")).get(0));
     }
 

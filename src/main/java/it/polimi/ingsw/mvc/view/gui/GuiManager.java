@@ -26,6 +26,7 @@ public class GuiManager extends Client {
 
     private static GuiManager instance = null;
     private static Logger GUI_LOG;
+    private int number;
 
     private GenericController currentController;
 
@@ -87,6 +88,8 @@ public class GuiManager extends Client {
          }
     }
 
+    public Map<String,Colors> getPlayers(){ return players;}
+
     public String getNumberOfPlayers() {
          return (players == null) ? "X" : Integer.toString(players.size());
     }
@@ -98,6 +101,9 @@ public class GuiManager extends Client {
         }
         Platform.runLater(request);
     }
+
+    public int getNumber() {return number;}
+    public void setNumber(int number) {this.number=number;}
 
     @Override
     public void showInfo(String text) {
@@ -116,6 +122,7 @@ public class GuiManager extends Client {
 
     @Override
     public void requestLogin() {
+
     }
 
     @Override

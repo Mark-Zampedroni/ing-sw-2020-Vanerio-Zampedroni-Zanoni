@@ -6,4 +6,8 @@ public class GodSelectionController extends GenericController {
         super.initialize(this);
     }
 
+    public void nowU(){
+
+    }
+
 }
