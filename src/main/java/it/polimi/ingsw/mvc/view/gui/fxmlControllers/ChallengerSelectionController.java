@@ -100,17 +100,11 @@ public class ChallengerSelectionController extends GenericController {
     private String selectedGod;
     private List<String> chosenGods = new ArrayList<>(); // Una volta collegato al resto sarà null
 
-
     public void initialize() {
         super.initialize(this);
-        initGodsSelectionWindow();
+        Platform.runLater(this::initGodsSelectionWindow);
         initSelectionButton();
         initSelectLabel();
-        // TEST 4 casi - 2 challenger (con e senza selected) 2 non challenger (con e senza selected)
-        //requestChallengerGod(new ArrayList<>());
-        //requestChallengerGod(Arrays.asList("ATHENA"));
-        //updateChallengerGodSelection(new ArrayList<>());
-        //updateChallengerGodSelection(Arrays.asList("APOLLO"));
     }
 
     private void initSelectLabel() {
@@ -123,10 +117,6 @@ public class ChallengerSelectionController extends GenericController {
         selectButton.setOnMouseReleased(event -> {
             selectButton.setId("selectbutton");
             gui.validateGods(selectedGod);
-            /* SE SI VOGLIONO AGGIUNGERE GLI DEI SENZA MANDARE IL MESSAGGIO COMMENTARE LA RIGA QUI SOPRA E SCOMMENTARE QUESTE
-            List<String> newGods = new ArrayList<>(chosenGods); // <-------------------------------------- TEST
-            newGods.add(selectedGod); // <-------------------------------------- TEST
-            requestChallengerGod(newGods); // <-------------------------------------- TEST*/
         });
     }
 

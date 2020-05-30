@@ -26,7 +26,6 @@ public class GuiManager extends Client {
 
     private static GuiManager instance = null;
     private static Logger GUI_LOG;
-    private int number;
 
     private GenericController currentController;
 
@@ -94,16 +93,21 @@ public class GuiManager extends Client {
          return (players == null) ? "X" : Integer.toString(players.size());
     }
 
+    public String getUsername() { return username; }
+
 
     private void runUpdate(Class c, Runnable request) {
         if(!(currentController.getWindowName() == GuiWindow.getInstanceName(c))) {
-            setLayout(currentController.getScene(), GuiWindow.getFxmlPath(c));
+            Platform.runLater(() -> setLayout(currentController.getScene(), GuiWindow.getFxmlPath(c)));
         }
         Platform.runLater(request);
     }
 
+    /*
+    Vale solo per il primo player, gli altri non avrebbero la variabile
     public int getNumber() {return number;}
     public void setNumber(int number) {this.number=number;}
+     */
 
     @Override
     public void showInfo(String text) {
@@ -121,11 +125,6 @@ public class GuiManager extends Client {
     }
 
     @Override
-    public void requestLogin() {
-
-    }
-
-    @Override
     public void updateChallengerGodSelection(List<String> chosenGods) {
         runUpdate(ChallengerSelectionController.class, () ->((ChallengerSelectionController)currentController).updateChallengerGodSelection(chosenGods));
     }
@@ -138,36 +137,39 @@ public class GuiManager extends Client {
 
     @Override
     public void updatePlayerGodSelection(String turnOwner, Map<String, String> choices, List<String> chosenGods) {
-
+        runUpdate(GodSelectionController.class, () ->((GodSelectionController)currentController).updatePlayerGodSelection(turnOwner,choices,chosenGods));
     }
 
     @Override
     public void requestPlayerGod(List<String> chosenGods, Map<String, String> choices) {
-
+        runUpdate(GodSelectionController.class, () ->((GodSelectionController)currentController).requestPlayerGod(chosenGods,choices));
     }
 
     @Override
     public void updateStarterPlayerSelection(Map<String, String> choices) {
-
+        runUpdate(GodSelectionController.class, () ->((GodSelectionController)currentController).updateStarterPlayerSelection(choices));
     }
 
     @Override
     public void requestStarterPlayer(Map<String, String> choices) {
-
+        runUpdate(GodSelectionController.class, () ->((GodSelectionController)currentController).requestStarterPlayer(choices));
     }
 
     @Override
     public void requestTurnAction(Map<Action, List<DtoPosition>> possibleActions, DtoSession session, Map<String, Colors> colors, Map<String, String> gods) {
-
+        runUpdate(BoardController.class, () ->((BoardController)currentController).requestTurnAction(possibleActions,session,colors,gods));
     }
 
     @Override
     public void showBoard(DtoSession session, Map<String, Colors> colors, Map<String, String> gods) {
-
+        runUpdate(BoardController.class, () ->((BoardController)currentController).showBoard(session,colors,gods));
     }
 
     @Override
     public void showReconnection() {
-
+        Platform.runLater(() -> currentController.showReconnection());
     }
+
+    @Override
+    public void requestLogin() { /* Logic already implemented within showLobby */ }
 }

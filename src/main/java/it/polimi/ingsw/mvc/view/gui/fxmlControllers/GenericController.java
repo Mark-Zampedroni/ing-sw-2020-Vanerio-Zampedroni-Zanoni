@@ -38,5 +38,10 @@ public abstract class GenericController {
         node.setVisible(true);
     }
 
+    public void showReconnection() {
+        // update da view che notifica la perdita di connessione
+        // dovremmo coprire tutto con una tendina nera opaca e scrivere di aspettare
+    }
+
 
 }

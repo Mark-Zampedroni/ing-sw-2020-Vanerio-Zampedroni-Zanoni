@@ -1,25 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.net.URL?>
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.control.TextField?>
-<?import javafx.scene.control.ToggleButton?>
-<?import javafx.scene.effect.Bloom?>
-<?import javafx.scene.image.Image?>
-<?import javafx.scene.image.ImageView?>
-<?import javafx.scene.layout.BorderPane?>
-<?import javafx.scene.layout.ColumnConstraints?>
-<?import javafx.scene.layout.GridPane?>
-<?import javafx.scene.layout.RowConstraints?>
-<?import javafx.scene.text.Font?>
+<?import java.lang.*?>
+<?import javafx.geometry.*?>
+<?import java.net.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.effect.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 
-<BorderPane fx:id="main" id="otherBack"  maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="1040.0" style="-fx-background-color: #d7ccbe;" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.mvc.view.gui.fxmlControllers.LobbyController">
+<BorderPane id="otherBack" fx:id="main" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="1.0" minWidth="1.0" prefHeight="700.0" prefWidth="1040.0" styleClass="fullbackground" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.mvc.view.gui.fxmlControllers.LobbyController">
     <stylesheets>
         <URL value="@../css/lobby.css" />
     </stylesheets>
     <center>
-      <GridPane id="bodybg" stylesheets="../css/lobby.css" BorderPane.alignment="CENTER">
+      <GridPane id="bodybg" minHeight="1.0" minWidth="1.0" pickOnBounds="false" styleClass="fullbackground" BorderPane.alignment="CENTER">
         <columnConstraints>
             <ColumnConstraints hgrow="SOMETIMES" maxWidth="105.86663665771485" minWidth="10.0" prefWidth="100.0" />
             <ColumnConstraints hgrow="SOMETIMES" maxWidth="105.86663665771485" minWidth="10.0" prefWidth="100.0" />
@@ -46,38 +41,42 @@
           <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
-            <BorderPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="3" GridPane.columnSpan="3" GridPane.rowIndex="5">
+            <BorderPane minHeight="1.0" minWidth="1.0" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="3" GridPane.columnSpan="3" GridPane.rowIndex="5">
                <center>
-                  <Button  id="confirmButtonBg" fx:id="confirmButton" mnemonicParsing="false" prefHeight="50.0" prefWidth="158.0" style="-fx-background-color: transparent;" text="Confirm" textAlignment="CENTER" textFill="WHITE" BorderPane.alignment="CENTER">
+                  <Button id="confirmButtonBg" fx:id="confirmButton" mnemonicParsing="false" prefHeight="50.0" prefWidth="158.0" style="-fx-background-color: transparent;" styleClass="fullbackground" text="Confirm" textAlignment="CENTER" textFill="WHITE" BorderPane.alignment="CENTER">
                      <font>
                         <Font name="Comic Sans MS" size="26.0" />
                      </font>
+                     <padding>
+                        <Insets bottom="10.0" />
+                     </padding>
                   </Button>
                </center>
             </BorderPane>
-            <BorderPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="8" GridPane.rowIndex="3" />
-            <BorderPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="7" GridPane.rowIndex="2" />
-            <BorderPane prefHeight="200.0" prefWidth="311.0" GridPane.columnIndex="2" GridPane.columnSpan="5" GridPane.rowIndex="3">
+            <BorderPane minHeight="1.0" minWidth="1.0" prefHeight="200.0" prefWidth="311.0" GridPane.columnIndex="2" GridPane.columnSpan="5" GridPane.rowIndex="3">
                <center>
-                  <TextField fx:id="nameTextField" id="textBack" maxWidth="292.0" prefHeight="50.0" prefWidth="292.0" promptText="  Insert here your nickname!" style="-fx-background-color: transparent;" BorderPane.alignment="CENTER">
+                  <TextField id="textBack" fx:id="nameTextField" alignment="CENTER" maxWidth="292.0" prefHeight="50.0" prefWidth="292.0" promptText="Insert here your nickname!" style="-fx-background-color: transparent;" styleClass="fullbackground" BorderPane.alignment="CENTER">
                      <font>
                         <Font size="20.0" />
                      </font>
                   </TextField>
                </center>
             </BorderPane>
-            <BorderPane prefHeight="88.0" prefWidth="559.0" GridPane.columnIndex="1" GridPane.columnSpan="7" GridPane.rowIndex="2">
+            <BorderPane minHeight="1.0" minWidth="1.0" prefHeight="88.0" prefWidth="559.0" GridPane.columnIndex="1" GridPane.columnSpan="7" GridPane.rowIndex="2">
                <center>
-                  <Label id="labelBack" maxWidth="610.0" prefHeight="88.0" prefWidth="557.0" text="         Insert your Nickname and choose a color!" textFill="WHITE" BorderPane.alignment="CENTER">
+                  <Label id="labelBack" fx:id="infoLabel" alignment="CENTER" maxWidth="610.0" prefHeight="88.0" prefWidth="557.0" styleClass="fullbackground" text="Insert your Nickname and choose a color" textFill="WHITE" BorderPane.alignment="CENTER">
                      <font>
                         <Font name="Comic Sans MS" size="23.0" />
                      </font>
+                     <padding>
+                        <Insets bottom="5.0" />
+                     </padding>
                   </Label>
                </center>
             </BorderPane>
-            <BorderPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.columnSpan="2" GridPane.rowIndex="4">
+            <BorderPane minHeight="1.0" minWidth="1.0" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.columnSpan="2" GridPane.rowIndex="4">
                <center>
-                  <ToggleButton fx:id="blueButton" id="colorBackground"  mnemonicParsing="false" prefHeight="74.0" prefWidth="146.0" style="-fx-background-color: transparent;" styleClass="fullbackground" text="Blue" textFill="#faf8f8" BorderPane.alignment="CENTER">
+                  <ToggleButton id="colorBackground" fx:id="blueButton" mnemonicParsing="false" prefHeight="74.0" prefWidth="146.0" style="-fx-background-color: transparent;" styleClass="fullbackground" text="Blue" textFill="#faf8f8" BorderPane.alignment="CENTER">
                      <font>
                         <Font size="22.0" />
                      </font>
@@ -91,12 +90,15 @@
                            </effect>
                         </ImageView>
                      </graphic>
+                     <padding>
+                        <Insets bottom="5.0" />
+                     </padding>
                   </ToggleButton>
                </center>
             </BorderPane>
-            <BorderPane prefHeight="88.0" prefWidth="207.0" GridPane.columnIndex="3" GridPane.columnSpan="3" GridPane.rowIndex="4">
+            <BorderPane minHeight="1.0" minWidth="1.0" prefHeight="88.0" prefWidth="207.0" GridPane.columnIndex="3" GridPane.columnSpan="3" GridPane.rowIndex="4">
                <center>
-                  <ToggleButton fx:id="whiteButton" id="colorBackground" mnemonicParsing="false" prefHeight="74.0" prefWidth="146.0" style="-fx-background-color: transparent;" styleClass="fullbackground" text="White" textFill="#faf8f8" BorderPane.alignment="CENTER">
+                  <ToggleButton id="colorBackground" fx:id="whiteButton" mnemonicParsing="false" prefHeight="74.0" prefWidth="146.0" style="-fx-background-color: transparent;" styleClass="fullbackground" text="White" textFill="#faf8f8" BorderPane.alignment="CENTER">
                      <font>
                         <Font size="19.0" />
                      </font>
@@ -107,12 +109,15 @@
                            </image>
                         </ImageView>
                      </graphic>
+                     <padding>
+                        <Insets bottom="5.0" />
+                     </padding>
                   </ToggleButton>
                </center>
             </BorderPane>
-            <BorderPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="6" GridPane.columnSpan="2" GridPane.rowIndex="4">
+            <BorderPane minHeight="1.0" minWidth="1.0" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="6" GridPane.columnSpan="2" GridPane.rowIndex="4">
                <center>
-                  <ToggleButton fx:id="brownButton" id="colorBackground" mnemonicParsing="false" prefHeight="74.0" prefWidth="146.0" style="-fx-background-color: transparent;" styleClass="fullbackground" text="Brown" textFill="#fff9f9" BorderPane.alignment="CENTER">
+                  <ToggleButton id="colorBackground" fx:id="brownButton" mnemonicParsing="false" prefHeight="74.0" prefWidth="146.0" style="-fx-background-color: transparent;" styleClass="fullbackground" text="Brown" textFill="#fff9f9" BorderPane.alignment="CENTER">
                      <font>
                         <Font size="18.0" />
                      </font>
@@ -123,10 +128,13 @@
                            </image>
                         </ImageView>
                      </graphic>
+                     <padding>
+                        <Insets bottom="5.0" />
+                     </padding>
                   </ToggleButton>
                </center>
             </BorderPane>
-            <BorderPane prefHeight="70.0" prefWidth="69.0" GridPane.columnIndex="9" GridPane.rowIndex="2">
+            <BorderPane minHeight="1.0" minWidth="1.0" prefHeight="70.0" prefWidth="69.0" GridPane.columnIndex="9" GridPane.rowIndex="2">
                <center>
                   <GridPane BorderPane.alignment="CENTER">
                     <columnConstraints>
@@ -146,29 +154,29 @@
                         <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                     </rowConstraints>
                      <children>
-                        <BorderPane fx:id="colorPlayerOne" id="head" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.columnSpan="4" GridPane.rowIndex="1" GridPane.rowSpan="4" />
+                        <BorderPane id="head" fx:id="colorPlayerOne" prefHeight="200.0" prefWidth="200.0" styleClass="fullbackground" GridPane.columnIndex="1" GridPane.columnSpan="4" GridPane.rowIndex="1" GridPane.rowSpan="4" />
                      </children>
                   </GridPane>
                </center></BorderPane>
             <BorderPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="10" GridPane.columnSpan="2" GridPane.rowIndex="2">
                <top>
-                  <Label fx:id="playerNameOne" id="labelBack" prefHeight="88.0" prefWidth="594.0" text="      Waiting..." textAlignment="CENTER" textFill="WHITE" BorderPane.alignment="CENTER">
+                  <Label id="labelBack" fx:id="playerNameOne" alignment="CENTER" prefHeight="88.0" prefWidth="594.0" styleClass="fullbackground" text="Waiting..." textAlignment="CENTER" textFill="WHITE" BorderPane.alignment="CENTER">
                      <font>
                         <Font name="Comic Sans MS" size="16.0" />
                      </font>
                   </Label>
                </top>
             </BorderPane>
-            <BorderPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="10" GridPane.columnSpan="2" GridPane.rowIndex="3">
+            <BorderPane minHeight="1.0" minWidth="1.0" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="10" GridPane.columnSpan="2" GridPane.rowIndex="3">
                <center>
-                  <Label fx:id="playerNameTwo" id="labelBack" prefHeight="88.0" prefWidth="594.0" styleClass="labelBack" text="      Waiting..." textAlignment="CENTER" textFill="WHITE" BorderPane.alignment="CENTER">
+                  <Label id="labelBack" fx:id="playerNameTwo" alignment="CENTER" prefHeight="88.0" prefWidth="594.0" styleClass="fullbackground" text="Waiting..." textAlignment="CENTER" textFill="WHITE" BorderPane.alignment="CENTER">
                      <font>
                         <Font name="Comic Sans MS" size="16.0" />
                      </font>
                   </Label>
                </center>
             </BorderPane>
-            <BorderPane layoutX="730.0" layoutY="184.0" prefHeight="70.0" prefWidth="69.0" GridPane.columnIndex="9" GridPane.rowIndex="3">
+            <BorderPane layoutX="730.0" layoutY="184.0" minHeight="1.0" minWidth="1.0" prefHeight="70.0" prefWidth="69.0" GridPane.columnIndex="9" GridPane.rowIndex="3">
                <center>
                   <GridPane BorderPane.alignment="CENTER">
                      <columnConstraints>
@@ -188,7 +196,7 @@
                         <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                      </rowConstraints>
                      <children>
-                        <BorderPane fx:id="colorPlayerTwo" id="head" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.columnSpan="4" GridPane.rowIndex="1" GridPane.rowSpan="4" />
+                        <BorderPane id="head" fx:id="colorPlayerTwo" prefHeight="200.0" prefWidth="200.0" styleClass="fullbackground" GridPane.columnIndex="1" GridPane.columnSpan="4" GridPane.rowIndex="1" GridPane.rowSpan="4" />
                      </children>
                   </GridPane>
                </center>

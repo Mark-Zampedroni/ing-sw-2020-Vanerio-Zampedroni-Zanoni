@@ -13,39 +13,34 @@
 }
 
 #bodybg {
-	-fx-background-size: 100% 100%;
 	-fx-background-image: url("../Texture2D_sorted/Backgrounds/lobby_1040x700.png");
 }
 
 #textBack {
-	-fx-background-size: 100% 100%;
 	-fx-background-image: url("../Texture2D_sorted/Backgrounds/clp_textbarv2.png");
+    -fx-text-inner-color: white;
+    -fx-background-color: transparent;
 }
 
 #otherBack {
-	-fx-background-size: 100% 100%;
 	-fx-background-image: url("../Texture2D_sorted/Backgrounds/bg_panelMid.png");
 }
 
 #head {
-	-fx-background-size: 100% 100%;
 	-fx-background-image: url("../Texture2D_sorted/Misti/icon_player.png");
 }
 
 #confirmButtonBg {
     -fx-background-image: url("../Texture2D_sorted/Pulsanti/btn_blue.png");
-	-fx-background-size: 100% 100%;
 }
 
 #labelBack {
 	-fx-background-image: url("../Texture2D_sorted/Backgrounds/Santorini_GenericPopup.png");
-	-fx-background-size: 100% 100%;
 }
 
 
 #colorBackground {
 	-fx-background-image: url("../Texture2D_sorted/Pulsanti/Santorini_GenericPopup_okbtn.png");
-	-fx-background-size: 100% 100%;
 }
 
 #colorBlue {
@@ -62,22 +57,23 @@
 
 #buttonReleased {
     -fx-background-image: url("../Texture2D_sorted/Pulsanti/btn_blue.png");
-	-fx-background-size: 100% 100%;
 }
 
 #buttonPressed {
     -fx-background-image: url("../Texture2D_sorted/Pulsanti/btn_blue_pressed.png");
-	-fx-background-size: 100% 100%;
 }
 
 #buttonReleasedColor {
     -fx-background-image: url("../Texture2D_sorted/Pulsanti/Santorini_GenericPopup_okbtn.png");
-	-fx-background-size: 100% 100%;
 }
 
 #buttonPressedColor {
     -fx-background-image: url("../Texture2D_sorted/Pulsanti/Santorini_GenericPopup_okbtn_pressed.png");
-	-fx-background-size: 100% 100%;
+}
+
+#confirmButtonBg:disabled, #confirmButtonBg:disabled > * {
+  -fx-opacity: 1.0 ;
+  -fx-background-image: url("../Texture2D_sorted/Pulsanti/btn_small_gray.png");
 }
 
 

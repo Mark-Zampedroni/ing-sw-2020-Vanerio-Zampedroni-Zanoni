@@ -1,29 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.net.*?>
-<?import javafx.geometry.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.effect.*?>
-<?import javafx.scene.image.*?>
-<?import javafx.scene.layout.*?>
-<?import javafx.scene.text.*?>
+<?import java.lang.String?>
 <?import java.net.URL?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.effect.ColorAdjust?>
-<?import javafx.scene.effect.Glow?>
-<?import javafx.scene.effect.SepiaTone?>
-<?import javafx.scene.image.Image?>
-<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane fx:id="main" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="1.0" minWidth="1.0" prefHeight="700.0" prefWidth="1040.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.mvc.view.gui.fxmlControllers.TitleController">
+<BorderPane fx:id="main" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="1.0" minWidth="1.0" prefHeight="700.0" prefWidth="1040.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.mvc.view.gui.fxmlControllers.TitleController">
     <stylesheets>
         <URL value="@../css/title.css" />
     </stylesheets>
@@ -92,7 +80,7 @@
                <children>
                   <BorderPane prefHeight="50.0" prefWidth="50.0" GridPane.columnSpan="2" GridPane.rowIndex="1" GridPane.rowSpan="2">
                      <center>
-                        <Button id="musicOff" fx:id="musicButton" mnemonicParsing="false" onMousePressed="#handleMusic" prefHeight="830.0" prefWidth="536.0" textFill="WHITE" BorderPane.alignment="CENTER">
+                        <Button id="musicOff" fx:id="musicButton" mnemonicParsing="false" onMousePressed="#handleMusic" prefHeight="60.0" prefWidth="66.0" textFill="WHITE" BorderPane.alignment="CENTER">
                            <styleClass>
                               <String fx:value="fullbackground" />
                               <String fx:value="invisiblebackground" />
@@ -151,7 +139,7 @@
                   </BorderPane>
                   <BorderPane minHeight="1.0" minWidth="1.0" prefHeight="50.0" prefWidth="100.0" GridPane.columnIndex="5" GridPane.columnSpan="3" GridPane.rowIndex="8" GridPane.rowSpan="2">
                      <center>
-                        <Button id="buttonReleased" fx:id="p2" mnemonicParsing="false" pickOnBounds="false" prefHeight="275.0" prefWidth="1166.0" styleClass="fullbackground" text="2 Players" textFill="WHITE" BorderPane.alignment="CENTER">
+                        <Button id="buttonReleased" fx:id="p2" mnemonicParsing="false" pickOnBounds="false" prefHeight="275.0" prefWidth="1166.0" style="-fx-background-color: transparent;" styleClass="fullbackground" text="2 Players" textFill="WHITE" BorderPane.alignment="CENTER">
                            <font>
                               <Font size="24.0" />
                            </font>
@@ -163,7 +151,7 @@
                   </BorderPane>
                   <BorderPane layoutX="315.0" layoutY="230.0" minHeight="1.0" minWidth="1.0" prefHeight="50.0" prefWidth="100.0" GridPane.columnIndex="9" GridPane.columnSpan="3" GridPane.rowIndex="8" GridPane.rowSpan="2">
                      <center>
-                        <Button id="buttonReleased" fx:id="p3" mnemonicParsing="false" pickOnBounds="false" prefHeight="283.0" prefWidth="920.0" styleClass="fullbackground" text="3 Players" textFill="WHITE" BorderPane.alignment="CENTER">
+                        <Button id="buttonReleased" fx:id="p3" mnemonicParsing="false" pickOnBounds="false" prefHeight="283.0" prefWidth="920.0" style="-fx-background-color: transparent;" styleClass="fullbackground" text="3 Players" textFill="WHITE" BorderPane.alignment="CENTER">
                            <padding>
                               <Insets bottom="10.0" />
                            </padding>
