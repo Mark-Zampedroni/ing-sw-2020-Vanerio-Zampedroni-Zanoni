@@ -24,11 +24,11 @@ public class Gui extends Application {
     @Override
     public void start(Stage stage) {
         Gui.stage = stage;
-
-        stage.setScene(new Scene(new Pane()));
-
-        //GuiManager.setLayout(stage.getScene(), GuiWindow.getFxmlPath(TitleController.class)); // start screen
-        GuiManager.setLayout(stage.getScene(), GuiWindow.getFxmlPath(GodSelectionController.class));
+        Scene scene = new Scene(new Pane());
+        scene.getStylesheets().add("/css/connection.css");
+        stage.setScene(scene);
+        GuiManager.setLayout(stage.getScene(), GuiWindow.getFxmlPath(TitleController.class)); // start screen
+        //GuiManager.setLayout(stage.getScene(), GuiWindow.getFxmlPath(GodSelectionController.class));
         stage.show();
 
     }

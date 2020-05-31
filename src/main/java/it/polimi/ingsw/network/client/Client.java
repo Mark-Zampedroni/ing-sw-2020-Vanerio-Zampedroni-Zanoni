@@ -138,7 +138,7 @@ public abstract class Client implements Observer<Message>, View {
 
     private void parseReconnectionUpdate(Message message) {
         reconnecting = true;
-        //viewRequest(this::showReconnection);
+        viewRequest(() -> showReconnection(true));
     }
 
     private void parseReconnectionReply(FlagMessage message) {
@@ -146,9 +146,12 @@ public abstract class Client implements Observer<Message>, View {
         if(!message.getFlag()) {
             connection.setReconnect(false);
             LOG.info("[CLIENT] Couldn't reconnect because: "+message.getInfo()); // Quits game
+            // viewRequest -> finestra disconnessione <- questo però da drop connessione, altrimenti lo chiama due volte
+            // ancora da fare il metodo in view
         }
         else {
             LOG.info("[CLIENT] Reconnected!");
+            viewRequest(() -> showReconnection(false));
         }
     }
 
@@ -165,11 +168,11 @@ public abstract class Client implements Observer<Message>, View {
     }
 
     public boolean validateUsername(String requestedUsername) {
-        return (!players.containsKey(requestedUsername) && requestedUsername.length()>0 && requestedUsername.length()<12);
+        return (players.containsKey(requestedUsername) || requestedUsername.length() <= 0 || requestedUsername.length() >= 12);
     }
 
     public boolean validateColor(String requestedColor) {
-        return !(!Colors.isValid(requestedColor) || players.containsValue(Colors.valueOf(requestedColor)));
+        return !Colors.isValid(requestedColor) || players.containsValue(Colors.valueOf(requestedColor));
     }
 
     public void requestLogin(String requestedUsername, Colors color) {

@@ -8,7 +8,6 @@ import it.polimi.ingsw.network.client.Client;
 import it.polimi.ingsw.network.messages.game.ActionMessage;
 import it.polimi.ingsw.utility.serialization.dto.DtoPosition;
 import it.polimi.ingsw.utility.serialization.dto.DtoSession;
-import javafx.application.Application;
 
 import java.util.*;
 import java.util.function.Function;
@@ -71,11 +70,11 @@ public class Cli extends Client {
     public void requestLogin() {
         String requestedUsername = requestLobbyInput("Input username: ",
                                                        "This username is invalid, choose a different one: ",
-                                                            (username) -> !validateUsername(username));
+                                                            (username) -> validateUsername(username));
         String requestedColor = requestLobbyInput("Selected name: "+requestedUsername+", choose one of the available colors: "
                                                           +(requestedUsername.length()%2==0 ? " " : ""),
                                                     "This color does not exist or was already chosen, select a different one:",
-                                                          (color) -> !validateColor(color.toUpperCase())).toUpperCase();
+                                                          (color) -> validateColor(color.toUpperCase())).toUpperCase();
         requestLogin(requestedUsername, Colors.valueOf(requestedColor));
     }
 
@@ -201,8 +200,8 @@ public class Cli extends Client {
         return new DtoPosition(new Position(x,y));
     }
 
-    public void showReconnection() {
-        System.out.println("Server crashed, reconnecting ...");
+    public void showReconnection(boolean isReconnecting) {
+        System.out.println(isReconnecting ? "Server crashed, reconnecting ..." : "Reconnected!");
     }
 
 }

@@ -31,6 +31,6 @@ public interface View {
     void requestTurnAction(Map<Action, List<DtoPosition>> possibleActions, DtoSession session, Map<String,Colors> colors, Map<String,String> gods);
     void showBoard(DtoSession session, Map<String,Colors> colors, Map<String,String> gods);
     //In caso di crash
-    void showReconnection();
+    void showReconnection(boolean isReconnecting);
 
 }

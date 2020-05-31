@@ -116,6 +116,6 @@ public class TestClient extends Client {
     @Override
     public void showBoard(DtoSession session, Map<String,Colors> colors, Map<String,String> gods) { }
     @Override
-    public void showReconnection() { }
+    public void showReconnection(boolean isReconnecting) { }
 
 }

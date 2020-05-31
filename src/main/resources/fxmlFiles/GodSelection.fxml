@@ -13,7 +13,7 @@
       <URL value="@../css/godselection.css" />
    </stylesheets>
    <center>
-      <GridPane id="bggodselection" hgap="5.0" minHeight="1.0" minWidth="1.0" styleClass="fullbackground" BorderPane.alignment="CENTER">
+      <GridPane id="bggodselection" fx:id="mainGrid" hgap="5.0" minHeight="1.0" minWidth="1.0" styleClass="fullbackground" BorderPane.alignment="CENTER">
          <columnConstraints>
             <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
             <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />

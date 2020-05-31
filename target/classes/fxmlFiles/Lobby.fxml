@@ -14,7 +14,7 @@
         <URL value="@../css/lobby.css" />
     </stylesheets>
     <center>
-      <GridPane id="bodybg" minHeight="1.0" minWidth="1.0" pickOnBounds="false" styleClass="fullbackground" BorderPane.alignment="CENTER">
+      <GridPane id="bodybg" fx:id="mainGrid" minHeight="1.0" minWidth="1.0" pickOnBounds="false" styleClass="fullbackground" BorderPane.alignment="CENTER">
         <columnConstraints>
             <ColumnConstraints hgrow="SOMETIMES" maxWidth="105.86663665771485" minWidth="10.0" prefWidth="100.0" />
             <ColumnConstraints hgrow="SOMETIMES" maxWidth="105.86663665771485" minWidth="10.0" prefWidth="100.0" />

@@ -77,7 +77,7 @@ public class LobbyController extends GenericController {
 
     private void handleButtonReleased(Button button) throws IOException {
         button.setId("buttonReleased");
-        if(!gui.validateUsername(nameTextField.getText()) || !gui.validateColor(color.toString()) ) {
+        if(gui.validateUsername(nameTextField.getText()) || gui.validateColor(color.toString())) {
             GuiManager.showDialog((Stage) main.getScene().getWindow(), "Input Error!", "You must Insert a valid username and color! ");
         } else {
             gui.requestLogin(nameTextField.getText(), color);

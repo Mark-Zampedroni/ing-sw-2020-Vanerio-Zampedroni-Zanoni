@@ -1,0 +1,18 @@
+
+#bgConnection {
+    -fx-background-color: black;
+    -fx-opacity: 0.6;
+}
+
+#wifiSymbol {
+    -fx-background-image: url("../Texture2D_sorted/misti/wifi.png");
+    -fx-background-size: 100% 100%;
+    -fx-opacity: 1;
+}
+
+
+
+
+
+
+

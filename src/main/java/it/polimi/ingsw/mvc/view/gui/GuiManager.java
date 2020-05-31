@@ -96,7 +96,7 @@ public class GuiManager extends Client {
     public String getUsername() { return username; }
 
 
-    private void runUpdate(Class c, Runnable request) {
+    private void runUpdate(Class<?> c, Runnable request) {
         if(!(currentController.getWindowName() == GuiWindow.getInstanceName(c))) {
             Platform.runLater(() -> setLayout(currentController.getScene(), GuiWindow.getFxmlPath(c)));
         }
@@ -166,8 +166,8 @@ public class GuiManager extends Client {
     }
 
     @Override
-    public void showReconnection() {
-        Platform.runLater(() -> currentController.showReconnection());
+    public void showReconnection(boolean isReconnecting) {
+        Platform.runLater(() -> currentController.showReconnection(isReconnecting));
     }
 
     @Override
