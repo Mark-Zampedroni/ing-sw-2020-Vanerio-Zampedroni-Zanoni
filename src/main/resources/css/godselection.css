@@ -190,3 +190,27 @@
 #panpower{
     -fx-background-image: url("../Texture2D_sorted/Icone_dei/GodPowerv2/PAN.png");
 }
+
+#labelBack {
+	-fx-background-image: url("../Texture2D_sorted/Backgrounds/popupnoborder.png");
+}
+
+#godNameLabel{
+	-fx-background-image: url("../Texture2D_sorted/Backgrounds/godnametag.png");
+}
+
+#infoButton {
+    -fx-background-image: url("../Texture2D_sorted/Backgrounds/info.png");
+}
+
+#infoPressed {
+    -fx-background-image: url("../Texture2D_sorted/Backgrounds/infopressed.png");
+}
+
+#bggodselection {
+    -fx-background-image: url("../Texture2D_sorted/Backgrounds/bggod.png");
+}
+
+#backbutton {
+    -fx-background-image: url("../Texture2D_sorted/Pulsanti/btn_brown.png");
+}

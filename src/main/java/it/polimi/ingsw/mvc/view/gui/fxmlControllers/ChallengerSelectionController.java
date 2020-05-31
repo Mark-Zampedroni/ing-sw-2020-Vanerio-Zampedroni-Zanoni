@@ -70,8 +70,6 @@ public class ChallengerSelectionController extends GenericController {
     }
 
     @FXML
-    public Pane mainPane;
-    @FXML
     public Button selectButton;
     @FXML
     public Label godNameLabel;
