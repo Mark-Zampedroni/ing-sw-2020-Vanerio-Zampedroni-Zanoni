@@ -4,9 +4,8 @@ import it.polimi.ingsw.mvc.view.gui.fxmlControllers.*;
 import it.polimi.ingsw.network.client.Client;
 import it.polimi.ingsw.utility.enumerations.Action;
 import it.polimi.ingsw.utility.enumerations.Colors;
-import it.polimi.ingsw.utility.enumerations.GuiWindow;
-import it.polimi.ingsw.utility.serialization.dto.DtoPosition;
-import it.polimi.ingsw.utility.serialization.dto.DtoSession;
+import it.polimi.ingsw.utility.dto.DtoPosition;
+import it.polimi.ingsw.utility.dto.DtoSession;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -18,6 +17,7 @@ import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.logging.Logger;
@@ -95,10 +95,15 @@ public class GuiManager extends Client {
 
     public String getUsername() { return username; }
 
+    public static String getFxmlPath(Class<?> c) {
+        List<String> s = Arrays.asList(c.toString().split("\\."));
+        String name = s.get(s.size()-1);
+        return "/fxmlFiles/"+name.substring(0,name.length()-10)+".fxml";
+    }
 
     private void runUpdate(Class<?> c, Runnable request) {
-        if(!(currentController.getWindowName() == GuiWindow.getInstanceName(c))) {
-            Platform.runLater(() -> setLayout(currentController.getScene(), GuiWindow.getFxmlPath(c)));
+        if(!(currentController.getWindowName() == c)) {
+            Platform.runLater(() -> setLayout(currentController.getScene(), GuiManager.getFxmlPath(c)));
         }
         Platform.runLater(request);
     }

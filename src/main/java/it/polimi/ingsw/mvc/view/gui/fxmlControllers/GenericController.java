@@ -1,30 +1,32 @@
 package it.polimi.ingsw.mvc.view.gui.fxmlControllers;
 
 import it.polimi.ingsw.mvc.view.gui.GuiManager;
-import it.polimi.ingsw.utility.enumerations.GuiWindow;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.layout.*;
 
+import java.util.Arrays;
+import java.util.List;
+
 public abstract class GenericController {
 
     private BorderPane reconnectionLayer;
-    protected GuiWindow windowName;
+    protected GenericController windowName;
     protected GuiManager gui;
     @FXML
     public Pane main;
     @FXML
     public GridPane mainGrid;
 
-    public GuiWindow getWindowName() {
-        return windowName;
+    public Class<?> getWindowName() {
+        return windowName.getClass();
     }
 
     public void initialize(GenericController controller) {
         gui = GuiManager.getInstance();
         gui.setCurrentController(controller);
-        windowName = GuiWindow.getInstanceName(controller.getClass());
+        windowName = controller;
     }
 
     public Scene getScene() {

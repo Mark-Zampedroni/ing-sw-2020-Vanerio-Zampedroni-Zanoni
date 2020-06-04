@@ -5,10 +5,9 @@ import it.polimi.ingsw.mvc.controller.SessionController;
 import it.polimi.ingsw.mvc.model.player.Player;
 import it.polimi.ingsw.mvc.view.RemoteView;
 import it.polimi.ingsw.network.messages.Message;
-import it.polimi.ingsw.network.server.Server;
 import it.polimi.ingsw.network.server.ServerConnection;
 import it.polimi.ingsw.utility.enumerations.GameState;
-import it.polimi.ingsw.utility.serialization.dto.DtoSession;
+import it.polimi.ingsw.utility.dto.DtoSession;
 
 import java.io.FileInputStream;
 import java.io.IOException;

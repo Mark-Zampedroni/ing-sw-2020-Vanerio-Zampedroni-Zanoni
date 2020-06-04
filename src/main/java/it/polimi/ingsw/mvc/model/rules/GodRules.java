@@ -2,7 +2,7 @@ package it.polimi.ingsw.mvc.model.rules;
 
 import it.polimi.ingsw.mvc.model.rules.gods.*;
 import it.polimi.ingsw.utility.enumerations.Gods;
-import it.polimi.ingsw.utility.serialization.dto.DtoSession;
+import it.polimi.ingsw.utility.dto.DtoSession;
 import it.polimi.ingsw.utility.enumerations.Action;
 import it.polimi.ingsw.utility.exceptions.actions.CantActException;
 import it.polimi.ingsw.mvc.model.Session;

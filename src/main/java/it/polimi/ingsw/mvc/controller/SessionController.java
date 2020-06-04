@@ -13,7 +13,7 @@ import it.polimi.ingsw.utility.observer.Observer;
 import it.polimi.ingsw.mvc.view.RemoteView;
 import it.polimi.ingsw.utility.persistency.ReloadGame;
 import it.polimi.ingsw.utility.persistency.SavedData;
-import it.polimi.ingsw.utility.serialization.dto.DtoSession;
+import it.polimi.ingsw.utility.dto.DtoSession;
 
 import java.util.*;
 import java.util.logging.Logger;

@@ -1,8 +1,7 @@
 package it.polimi.ingsw.mvc.view.gui;
 
-import it.polimi.ingsw.mvc.view.gui.fxmlControllers.GodSelectionController;
+import it.polimi.ingsw.mvc.view.gui.fxmlControllers.GenericController;
 import it.polimi.ingsw.mvc.view.gui.fxmlControllers.TitleController;
-import it.polimi.ingsw.utility.enumerations.GuiWindow;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
@@ -27,7 +26,7 @@ public class Gui extends Application {
         Scene scene = new Scene(new Pane());
         scene.getStylesheets().add("/css/connection.css");
         stage.setScene(scene);
-        GuiManager.setLayout(stage.getScene(), GuiWindow.getFxmlPath(TitleController.class)); // start screen
+        GuiManager.setLayout(stage.getScene(), GuiManager.getFxmlPath(TitleController.class)); // start screen
         //GuiManager.setLayout(stage.getScene(), GuiWindow.getFxmlPath(GodSelectionController.class));
         stage.show();
 

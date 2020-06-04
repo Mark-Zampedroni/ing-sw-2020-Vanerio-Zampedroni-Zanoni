@@ -2,7 +2,7 @@ package it.polimi.ingsw.serializationTest.dtoTest;
 
 import it.polimi.ingsw.mvc.model.map.Tile;
 import it.polimi.ingsw.utility.constants.Height;
-import it.polimi.ingsw.utility.serialization.dto.DtoTile;
+import it.polimi.ingsw.utility.dto.DtoTile;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;

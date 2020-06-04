@@ -1,8 +1,6 @@
 package it.polimi.ingsw.mvc.view.gui.fxmlControllers;
 
-import it.polimi.ingsw.mvc.view.gui.GuiManager;
 import it.polimi.ingsw.utility.enumerations.Gods;
-import it.polimi.ingsw.utility.enumerations.GuiWindow;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
@@ -12,7 +10,6 @@ import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.*;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 public class ChallengerSelectionController extends GenericController {

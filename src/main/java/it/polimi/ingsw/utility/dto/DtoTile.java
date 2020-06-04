@@ -1,4 +1,4 @@
-package it.polimi.ingsw.utility.serialization.dto;
+package it.polimi.ingsw.utility.dto;
 
 import it.polimi.ingsw.mvc.model.map.Tile;
 

@@ -15,14 +15,14 @@ public class Music {
             File music = new File("src/main/resources/music/musicname.wav");
             AudioInputStream audio = AudioSystem.getAudioInputStream(music);
             clipper = AudioSystem.getClip();
-            System.out.println("Playing background music...");
+            //System.out.println("Playing background music...");
             clipper.open(audio);
             clipper.start();
             clipper.loop(Clip.LOOP_CONTINUOUSLY);
 
         }
         catch (Exception e) {
-            System.out.println("ERROR [MUSIC]");
+            //System.out.println("ERROR [MUSIC]");
             e.printStackTrace();
         }
     }

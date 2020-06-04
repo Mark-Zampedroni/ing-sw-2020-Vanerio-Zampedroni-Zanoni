@@ -7,7 +7,7 @@ import it.polimi.ingsw.mvc.model.map.Position;
 import it.polimi.ingsw.utility.enumerations.Action;
 import it.polimi.ingsw.utility.enumerations.Colors;
 import it.polimi.ingsw.utility.enumerations.Gods;
-import it.polimi.ingsw.utility.serialization.dto.DtoPosition;
+import it.polimi.ingsw.utility.dto.DtoPosition;
 import org.junit.jupiter.api.*;
 
 class FSMTest {

@@ -6,8 +6,8 @@ import it.polimi.ingsw.mvc.model.player.Player;
 import it.polimi.ingsw.mvc.model.Setupper;
 import it.polimi.ingsw.utility.enumerations.Colors;
 
-import it.polimi.ingsw.utility.serialization.dto.DtoPosition;
-import it.polimi.ingsw.utility.serialization.dto.DtoSession;
+import it.polimi.ingsw.utility.dto.DtoPosition;
+import it.polimi.ingsw.utility.dto.DtoSession;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

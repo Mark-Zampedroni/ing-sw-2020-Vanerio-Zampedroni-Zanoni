@@ -13,7 +13,7 @@ import it.polimi.ingsw.mvc.model.map.Position;
 import it.polimi.ingsw.mvc.model.player.Player;
 import it.polimi.ingsw.mvc.model.player.Worker;
 import it.polimi.ingsw.network.messages.Message;
-import it.polimi.ingsw.utility.serialization.dto.DtoPosition;
+import it.polimi.ingsw.utility.dto.DtoPosition;
 
 import java.io.Serializable;
 import java.util.*;

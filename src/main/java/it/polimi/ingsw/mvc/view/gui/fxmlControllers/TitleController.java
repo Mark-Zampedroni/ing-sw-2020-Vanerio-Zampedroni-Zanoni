@@ -2,17 +2,11 @@ package it.polimi.ingsw.mvc.view.gui.fxmlControllers;
 
 import it.polimi.ingsw.mvc.view.gui.GuiManager;
 import it.polimi.ingsw.mvc.view.gui.music.Music;
-import it.polimi.ingsw.utility.enumerations.GuiWindow;
-import javafx.application.Platform;
 import javafx.fxml.FXML;
-import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.effect.Glow;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
 import java.io.IOException;

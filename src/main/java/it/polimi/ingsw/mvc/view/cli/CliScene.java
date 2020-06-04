@@ -3,9 +3,9 @@ package it.polimi.ingsw.mvc.view.cli;
 import it.polimi.ingsw.utility.enumerations.Action;
 import it.polimi.ingsw.utility.enumerations.Colors;
 import it.polimi.ingsw.utility.enumerations.Gods;
-import it.polimi.ingsw.utility.serialization.dto.DtoPosition;
-import it.polimi.ingsw.utility.serialization.dto.DtoSession;
-import it.polimi.ingsw.utility.serialization.dto.DtoTile;
+import it.polimi.ingsw.utility.dto.DtoPosition;
+import it.polimi.ingsw.utility.dto.DtoSession;
+import it.polimi.ingsw.utility.dto.DtoTile;
 
 import java.io.PrintStream;
 import java.util.*;

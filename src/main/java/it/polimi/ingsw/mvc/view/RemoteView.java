@@ -1,8 +1,8 @@
 package it.polimi.ingsw.mvc.view;
 
 import it.polimi.ingsw.network.messages.game.ActionUpdateMessage;
-import it.polimi.ingsw.utility.serialization.dto.DtoPosition;
-import it.polimi.ingsw.utility.serialization.dto.DtoSession;
+import it.polimi.ingsw.utility.dto.DtoPosition;
+import it.polimi.ingsw.utility.dto.DtoSession;
 import it.polimi.ingsw.utility.enumerations.Action;
 import it.polimi.ingsw.network.messages.Message;
 import it.polimi.ingsw.network.server.ServerConnection;

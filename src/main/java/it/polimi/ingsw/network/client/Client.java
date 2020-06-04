@@ -9,7 +9,7 @@ import it.polimi.ingsw.network.messages.lobby.LobbyUpdate;
 import it.polimi.ingsw.network.messages.Message;
 import it.polimi.ingsw.utility.observer.Observer;
 import it.polimi.ingsw.mvc.view.View;
-import it.polimi.ingsw.utility.serialization.dto.DtoPosition;
+import it.polimi.ingsw.utility.dto.DtoPosition;
 
 import java.io.IOException;
 import java.text.DateFormat;

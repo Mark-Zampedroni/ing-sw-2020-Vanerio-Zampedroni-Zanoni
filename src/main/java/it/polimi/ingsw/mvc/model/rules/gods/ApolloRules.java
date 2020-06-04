@@ -9,7 +9,7 @@ import it.polimi.ingsw.mvc.model.player.Player;
 import it.polimi.ingsw.mvc.model.player.Worker;
 import it.polimi.ingsw.mvc.model.rules.Check;
 import it.polimi.ingsw.mvc.model.rules.GodRules;
-import it.polimi.ingsw.utility.serialization.dto.DtoSession;
+import it.polimi.ingsw.utility.dto.DtoSession;
 
 import java.io.Serializable;
 

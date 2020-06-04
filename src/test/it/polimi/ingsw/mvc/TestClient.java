@@ -6,8 +6,8 @@ import it.polimi.ingsw.network.messages.Message;
 import it.polimi.ingsw.network.messages.game.ActionMessage;
 import it.polimi.ingsw.network.messages.lobby.RegistrationMessage;
 import it.polimi.ingsw.utility.enumerations.*;
-import it.polimi.ingsw.utility.serialization.dto.DtoPosition;
-import it.polimi.ingsw.utility.serialization.dto.DtoSession;
+import it.polimi.ingsw.utility.dto.DtoPosition;
+import it.polimi.ingsw.utility.dto.DtoSession;
 
 import java.util.List;
 import java.util.Map;
