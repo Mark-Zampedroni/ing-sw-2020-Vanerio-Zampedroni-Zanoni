@@ -1,9 +1,9 @@
-package it.polimi.ingsw.serializationTest.dtoTest;
+package serializationTest.dtoTest;
 
 import it.polimi.ingsw.mvc.model.Session;
 import it.polimi.ingsw.mvc.model.map.Position;
 import it.polimi.ingsw.mvc.model.player.Player;
-import it.polimi.ingsw.mvc.model.Setupper;
+import mvc.model.Setupper;
 import it.polimi.ingsw.utility.enumerations.Colors;
 
 import it.polimi.ingsw.utility.dto.DtoPosition;

@@ -66,8 +66,8 @@ public class RemoteView extends Observable<Message> implements Observer<DtoSessi
         }
     }
 
-    public void updateActions(Map<Action, List<DtoPosition>> actionCandidates, String turnOwner) {
-        sendMessage(new ActionUpdateMessage("SERVER",turnOwner,actionCandidates,dtoSession,"ALL"));
+    public void updateActions(Map<Action, List<DtoPosition>> actionCandidates, String turnOwner, boolean isSpecialPowerActive) {
+        sendMessage(new ActionUpdateMessage("SERVER",turnOwner,actionCandidates,dtoSession,isSpecialPowerActive,"ALL"));
     }
 
 }

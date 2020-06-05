@@ -28,7 +28,7 @@ public class HephaestusRules extends EventRules implements Serializable {
     @Override
     public void executeBuild(Position position) {
         if(!getEvent()) {
-            setEvent(true);
+            //setEvent(true);
             setPos(position);
         }
         super.executeBuild(position);
@@ -46,7 +46,8 @@ public class HephaestusRules extends EventRules implements Serializable {
     @Override
     public List<Action> afterBuild() {
         List<Action> actions = super.afterBuild();
-        if(!getEvent()) { actions.add(Action.BUILD); }
+        if(!getEvent()) { actions.add(Action.BUILD);
+        setEvent(true);}
         return actions;
     }
 

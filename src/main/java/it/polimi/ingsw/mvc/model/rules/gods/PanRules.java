@@ -21,6 +21,6 @@ public class PanRules extends CommonRules implements Serializable {
     @Override
     public boolean isWinner(Worker worker, Position position){
         return(super.isWinner(worker,position) ||
-                Session.getInstance().getBoard().getTile(worker.getPosition()).getHeight() >= Session.getInstance().getBoard().getTile(position).getHeight() + 2);
+                Session.getInstance().getBoard().getTile(oldPosition).getHeight() >= Session.getInstance().getBoard().getTile(position).getHeight() + 2);
     }
 }

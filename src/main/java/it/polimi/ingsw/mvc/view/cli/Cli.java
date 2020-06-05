@@ -14,7 +14,6 @@ import java.util.function.Function;
 
 public class Cli extends Client {
 
-
     private final Scanner input;
 
     private String inputSave;
@@ -70,7 +69,7 @@ public class Cli extends Client {
     public void requestLogin() {
         String requestedUsername = requestLobbyInput("Input username: ",
                                                        "This username is invalid, choose a different one: ",
-                                                            this::validateUsername);
+                                                        this::validateUsername);
         String requestedColor = requestLobbyInput("Selected name: "+requestedUsername+", choose one of the available colors: "
                                                           +(requestedUsername.length()%2==0 ? " " : ""),
                                                     "This color does not exist or was already chosen, select a different one:",
@@ -160,27 +159,28 @@ public class Cli extends Client {
         CliScene.printBoardScreen(session, new HashMap<>(colors), new HashMap<>(gods));
     }
 
-    public void requestTurnAction(Map<Action, List<DtoPosition>> possibleActions, DtoSession session, Map<String,Colors> colors, Map<String,String> gods) {
+    public void requestTurnAction(Map<Action, List<DtoPosition>> possibleActions, DtoSession session, Map<String,Colors> colors, Map<String,String> gods, boolean isSpecialPowerActive) {
         currentBoard = session;
         CliScene.printBoardScreen(session, new HashMap<>(colors), new HashMap<>(gods), possibleActions);
         // TEST DA QUI SOTTO ---
+        if(possibleActions.containsKey(Action.SPECIAL_POWER)) { System.out.println("Special power: "+((isSpecialPowerActive) ? "ON" : "OFF")); }
         Action action = requestAction(possibleActions.keySet());
         List<DtoPosition> positions = possibleActions.get(action);
         DtoPosition position = null;
-        if(action != Action.END_TURN) {
+        if(action != Action.END_TURN && action != Action.SPECIAL_POWER) {
             possibleActions = new HashMap<>();
             possibleActions.put(action,positions);
             CliScene.printBoardScreen(session, new HashMap<>(colors), new HashMap<>(gods), possibleActions);
             position = requestPosition(possibleActions.get(action));
         }
-        sendMessage(new ActionMessage(username, "Action request", action, position,"SERVER"));
+        sendMessage(new ActionMessage(username, "Action request", action, position, "SERVER"));
 
     }
 
     private Action requestAction(Set<Action> possibleActions) {
         String x;
         System.out.println(possibleActions);
-        do{
+        do {
             System.out.println("\nChoose an action (0, 1, 2, ...) on previous list:\n");
             x = requestInput();
         }

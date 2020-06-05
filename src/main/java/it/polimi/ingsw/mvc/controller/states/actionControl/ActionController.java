@@ -50,8 +50,7 @@ public class ActionController implements Serializable {
             case BUILD:
                 if(worker == null) { break; } // ERROR
                 return getMoveBuildCandidates(worker,action);
-            case WIN:
-            case END_TURN: return new ArrayList<>();
+            default: return new ArrayList<>();
         }
         return null;
     }
@@ -76,17 +75,16 @@ public class ActionController implements Serializable {
 
 
     private List<Action> actMove(Worker worker, Position position) {
+        rules.executeMove(worker, position);
         List<Action> afterMove = rules.afterMove();
         boolean victory = rules.consentWin(worker, position);
-        rules.executeMove(worker, position);
         return victory ? Collections.singletonList(Action.WIN) : afterMove;
     }
 
 
     private List<Action> actBuild(Position position) {
-        List<Action> afterBuild = rules.afterBuild();
         rules.executeBuild(position);
-        return afterBuild;
+        return rules.afterBuild();
     }
 
 

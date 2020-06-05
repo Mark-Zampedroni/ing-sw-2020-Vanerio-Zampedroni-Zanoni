@@ -1,5 +1,6 @@
-package it.polimi.ingsw.mvc.controller;
+package mvc.controller;
 
+import it.polimi.ingsw.mvc.controller.SessionController;
 import it.polimi.ingsw.mvc.model.Session;
 import it.polimi.ingsw.utility.enumerations.Colors;
 import it.polimi.ingsw.utility.enumerations.GameState;

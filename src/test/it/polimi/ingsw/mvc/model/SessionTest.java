@@ -1,5 +1,6 @@
-package it.polimi.ingsw.mvc.model;
+package mvc.model;
 
+import it.polimi.ingsw.mvc.model.Session;
 import it.polimi.ingsw.utility.enumerations.Colors;
 import it.polimi.ingsw.utility.enumerations.Gods;
 import it.polimi.ingsw.mvc.model.player.Player;

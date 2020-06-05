@@ -1,6 +1,7 @@
-package it.polimi.ingsw.mvc.model.rules.gods;
+package mvc.model.rules.gods;
 
-import it.polimi.ingsw.mvc.model.Setupper;
+import mvc.model.Setupper;
+import it.polimi.ingsw.mvc.model.rules.gods.MinotaurRules;
 import it.polimi.ingsw.utility.enumerations.Colors;
 import it.polimi.ingsw.utility.enumerations.Gods;
 import it.polimi.ingsw.utility.exceptions.actions.CantActException;

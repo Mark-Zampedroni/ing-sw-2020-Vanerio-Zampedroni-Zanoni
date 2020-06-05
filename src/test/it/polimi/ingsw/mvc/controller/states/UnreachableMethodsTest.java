@@ -1,8 +1,9 @@
-package it.polimi.ingsw.mvc.controller.states;
+package mvc.controller.states;
 
 import it.polimi.ingsw.mvc.controller.SessionController;
+import it.polimi.ingsw.mvc.controller.states.SelectionController;
 import it.polimi.ingsw.mvc.model.Session;
-import it.polimi.ingsw.mvc.model.Setupper;
+import mvc.model.Setupper;
 import it.polimi.ingsw.utility.enumerations.Colors;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;

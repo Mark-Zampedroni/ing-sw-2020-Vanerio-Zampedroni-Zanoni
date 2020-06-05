@@ -346,10 +346,6 @@ public class CliScene {
         return temp;
     }
 
-    // Arrays containing the floors offset on height and length
-    private static int []LEVEL_LENGTH = {17,13,9,5}; //-4 for each level
-    private static int []LEVEL_HEIGHT = {8,6,4,2}; //-2 for each level
-
     /**
      * Creates a tile
      *
@@ -462,8 +458,6 @@ public class CliScene {
             }
         }
         createBorder(possibleActions,5,board);
-        out.println(Ansi.CLEAR_CONSOLE);
-        out.flush();
         return Ansi.CLEAR_CONSOLE+board.toString();
     }
 
@@ -1084,6 +1078,9 @@ public class CliScene {
         }
         return tile.toString();
     }
+
+    private static int []LEVEL_LENGTH = {17,13,9,5}; //-4 for each level
+    private static int []LEVEL_HEIGHT = {8,6,4,2}; //-2 for each level
 
     /**
      * Creates the tower level at height

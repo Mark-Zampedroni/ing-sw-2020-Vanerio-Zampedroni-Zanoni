@@ -1,4 +1,4 @@
-package it.polimi.ingsw.mvc.controller.states;
+package mvc.controller.states;
 
 import it.polimi.ingsw.mvc.controller.states.actionControl.ActionController;
 
@@ -7,7 +7,8 @@ import it.polimi.ingsw.mvc.model.map.Position;
 import it.polimi.ingsw.mvc.model.player.Player;
 import it.polimi.ingsw.mvc.model.player.Worker;
 
-import it.polimi.ingsw.mvc.model.rules.gods.AtlasRules;
+import it.polimi.ingsw.mvc.model.rules.GodRules;
+import it.polimi.ingsw.mvc.model.rules.gods.*;
 import it.polimi.ingsw.utility.enumerations.Action;
 import it.polimi.ingsw.utility.enumerations.Colors;
 
@@ -31,7 +32,7 @@ public class ActionControllerTest {
         @BeforeEach
         void setUp() {
                 player = new Player("Tester", Colors.WHITE);
-                player.setRules(new AtlasRules());
+                player.setRules(new PanRules());
                 actionController = new ActionController(null, player);
                 session = Session.getInstance();
                 session.addPlayer(player);

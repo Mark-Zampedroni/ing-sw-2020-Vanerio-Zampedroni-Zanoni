@@ -32,6 +32,7 @@ public abstract class GodRules extends Observable<DtoSession> implements Seriali
     protected List<EnemyRules> getEnemyModifiers() {
         return Session.getInstance().getEnemyModifiers();
     }
+    protected Position oldPosition;
 
     /**
      * Executes a movement {@link Action action}
@@ -40,6 +41,7 @@ public abstract class GodRules extends Observable<DtoSession> implements Seriali
      * @param position {@link Position position} the {@link Worker worker} will move to
      */
     public void executeMove(Worker worker, Position position) {
+        oldPosition = worker.getPosition();
         worker.setPosition(position);
         notify(new DtoSession(Session.getInstance()));
     }
@@ -157,7 +159,7 @@ public abstract class GodRules extends Observable<DtoSession> implements Seriali
      */
     public boolean isWinner(Worker worker, Position position) {
         Board board = Session.getInstance().getBoard();
-        return ((board.getTile(worker.getPosition()).getHeight() == MID && board.getTile(position).getHeight() == TOP));
+        return ((board.getTile(oldPosition).getHeight() == MID && board.getTile(position).getHeight() == TOP));
     }
 
     /**
@@ -247,4 +249,8 @@ public abstract class GodRules extends Observable<DtoSession> implements Seriali
     public void clear() { /* Do nothing */ }
 
     public void removeEffect() { /* Do nothing */ }
+
+    public boolean hasSpecialPower() {
+        return false;
+    }
 }

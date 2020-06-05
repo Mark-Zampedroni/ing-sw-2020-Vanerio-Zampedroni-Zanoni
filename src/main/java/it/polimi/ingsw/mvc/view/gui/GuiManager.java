@@ -161,7 +161,7 @@ public class GuiManager extends Client {
     }
 
     @Override
-    public void requestTurnAction(Map<Action, List<DtoPosition>> possibleActions, DtoSession session, Map<String, Colors> colors, Map<String, String> gods) {
+    public void requestTurnAction(Map<Action, List<DtoPosition>> possibleActions, DtoSession session, Map<String, Colors> colors, Map<String, String> gods, boolean specialPower) {
         runUpdate(BoardController.class, () ->((BoardController)currentController).requestTurnAction(possibleActions,session,colors,gods));
     }
 

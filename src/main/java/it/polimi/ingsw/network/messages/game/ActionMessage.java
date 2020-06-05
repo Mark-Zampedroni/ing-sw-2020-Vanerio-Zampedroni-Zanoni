@@ -1,5 +1,6 @@
 package it.polimi.ingsw.network.messages.game;
 
+import it.polimi.ingsw.network.messages.FlagMessage;
 import it.polimi.ingsw.utility.enumerations.Action;
 import it.polimi.ingsw.utility.enumerations.MessageType;
 import it.polimi.ingsw.network.messages.Message;
@@ -26,5 +27,6 @@ public class ActionMessage extends Message implements Serializable {
     public Action getAction() {
         return action;
     }
+
 }
 

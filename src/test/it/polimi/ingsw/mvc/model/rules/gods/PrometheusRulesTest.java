@@ -1,7 +1,8 @@
-package it.polimi.ingsw.mvc.model.rules.gods;
+package mvc.model.rules.gods;
 
-import it.polimi.ingsw.mvc.model.Setupper;
+import mvc.model.Setupper;
 import it.polimi.ingsw.mvc.model.rules.GodRules;
+import it.polimi.ingsw.mvc.model.rules.gods.PrometheusRules;
 import it.polimi.ingsw.utility.enumerations.Action;
 import it.polimi.ingsw.utility.enumerations.Colors;
 import it.polimi.ingsw.utility.enumerations.Gods;
@@ -14,6 +15,7 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -62,18 +64,41 @@ class PrometheusRulesTest {
         test.executeBuild(position);
         assertTrue(test.getEvent());
         assertEquals(Session.getInstance().getBoard().getTile(position).getHeight(),1);
+        test.setEvent(true);
+        test.executeBuild(position);
+        assertFalse(test.getEvent());
     }
 
     @Test
     void afterBuild(){
-        assert test != null;
-        test.setEvent(false);
-        List<Action> list = test.afterBuild();
-        assertEquals(list.get(0), Action.MOVE);
-        assertEquals(list.size(),1);
+        test.clear();
         test.setEvent(true);
-        list= test.afterBuild();
-        assertEquals(list.get(0), Action.END_TURN);
+        List<Action> list= test.afterBuild();
+        assertEquals(list.get(0), Action.MOVE);
         assertEquals(list.size(), 1);
+        worker.setPosition(0,0);
+        test.executeMove(worker, new Position(0,1));
+        list = test.afterBuild();
+        assertEquals(list.get(0), Action.END_TURN);
+        assertEquals(list.size(),1);
+    }
+
+    @Test
+    void clear(){
+        test.clear();
+        assertFalse(test.getEvent());
+    }
+
+    @Test
+    void afterSelect(){
+        ArrayList<Action> action = (ArrayList<Action>) test.afterSelect();
+        assertEquals(action.get(0), Action.SELECT_WORKER);
+        assertEquals(action.get(1), Action.MOVE);
+        assertEquals(action.get(2), Action.BUILD);
+    }
+
+    @Test
+    void executeMove(){
+
     }
 }

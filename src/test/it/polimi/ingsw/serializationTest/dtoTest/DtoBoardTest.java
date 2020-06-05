@@ -1,4 +1,4 @@
-package it.polimi.ingsw.serializationTest.dtoTest;
+package serializationTest.dtoTest;
 
 import it.polimi.ingsw.mvc.model.Session;
 import it.polimi.ingsw.mvc.model.map.Board;

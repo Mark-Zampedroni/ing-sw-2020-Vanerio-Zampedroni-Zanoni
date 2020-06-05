@@ -3,6 +3,8 @@ package it.polimi.ingsw.mvc.controller.states;
 import it.polimi.ingsw.mvc.controller.states.actionControl.ActionController;
 import it.polimi.ingsw.mvc.controller.SessionController;
 import it.polimi.ingsw.mvc.model.Session;
+import it.polimi.ingsw.mvc.model.rules.EventRules;
+import it.polimi.ingsw.mvc.model.rules.SpecialPower;
 import it.polimi.ingsw.mvc.view.RemoteView;
 import it.polimi.ingsw.network.messages.game.ActionMessage;
 import it.polimi.ingsw.utility.enumerations.Action;
@@ -27,6 +29,7 @@ public class TurnController extends StateController implements Serializable {
     private static final long serialVersionUID = 3510638136440918631L;
     private final List<Player> players;
     private Map<Action, List<DtoPosition>> possibleActions;
+    private final List<Action> ignoredActions;
 
     private Player currentPlayer;
 
@@ -34,12 +37,15 @@ public class TurnController extends StateController implements Serializable {
 
     private ActionController actionControl;
 
+    private boolean isSpecialPowerActive;
+
     private int currentIndex;
     private int turnCounter;
     private int counter;
 
     public TurnController(SessionController controller, List<RemoteView> views, Logger LOG) {
         super(controller, views, LOG);
+        ignoredActions = new ArrayList<>(Arrays.asList(Action.END_TURN,Action.WIN,Action.SPECIAL_POWER));
         this.controller = controller;
         currentIndex = controller.getPlayers().indexOf(Session.getInstance().getPlayerByName(controller.getTurnOwner()));
         this.players = controller.getPlayers();
@@ -49,7 +55,7 @@ public class TurnController extends StateController implements Serializable {
     @Override
     public void parseMessage(Message message) {
         if(message.getSender().equals(controller.getTurnOwner())) {
-            if(message.getType() == MessageType.ACTION) {
+            if(message.getType() == MessageType.ACTION && !checkSpecialPowerRequest(message)) {
                 parseActionMessage((ActionMessage) message);
             }
         } else {
@@ -57,18 +63,35 @@ public class TurnController extends StateController implements Serializable {
         }
     }
 
+    private boolean checkSpecialPowerRequest(Message message) {
+        if(((ActionMessage) message).getAction() == Action.SPECIAL_POWER) {
+            try {
+                ((SpecialPower) currentPlayer.getRules()).toggleSpecialPower();
+                isSpecialPowerActive = ((EventRules) currentPlayer.getRules()).getEvent();
+                sendUpdate();
+                return true;
+            } catch (ClassCastException e) {
+                LOG.warning("Player " + currentPlayer.getUsername() + " requested special power but " + currentPlayer.getGod() + " doesn't have one");
+            }
+        }
+        return false;
+
+    }
+
     public void parseActionMessage(ActionMessage message) {
         if(possibleActions.containsKey(message.getAction()) &&
           (possibleActions.get(message.getAction()).stream().anyMatch(p -> message.getPosition().equals(p)) ||
-           message.getAction() == Action.END_TURN)) {
+           message.getAction() == Action.END_TURN) && message.getAction() != Action.SPECIAL_POWER) {
             Position requestedPosition = null;
-            if(message.getPosition() != null) { requestedPosition = new Position(message.getPosition().getX(), message.getPosition().getY()); }
+            if(message.getPosition() != null) {
+                requestedPosition = new Position(message.getPosition().getX(), message.getPosition().getY());
+            }
             try {
                 executeAction(requestedPosition, message.getAction());
             } catch(WrongActionException e) { LOG.severe(Arrays.toString(e.getStackTrace())); }
         }
         else {
-            LOG.warning("Client sent impossible action: "+message.getAction()+" in "+message.getPosition());
+            LOG.warning("Client sent impossible action request: "+message.getAction()+" on "+message.getPosition());
             notifyBoardUpdate(possibleActions, message.getSender());
         }
     }
@@ -83,13 +106,8 @@ public class TurnController extends StateController implements Serializable {
     /*
         Initializes new turn environment
      */
-    public void initTurn() {
-        currentWorker = null;
-        possibleActions = new HashMap<>();
-        currentPlayer = players.get(currentIndex);
-        controller.setTurnOwner(currentPlayer.getUsername());
-        currentPlayer.getRules().clear();
-        actionControl = new ActionController(this, currentPlayer);
+    private void initTurn() {
+        initValues();
         if(turnCounter < controller.getGameCapacity()) {
             possibleActions.put(Action.ADD_WORKER, getCandidates(Action.ADD_WORKER));
         }
@@ -100,10 +118,20 @@ public class TurnController extends StateController implements Serializable {
         turnCounter++;
     }
 
+    private void initValues() {
+        isSpecialPowerActive = false;
+        currentWorker = null;
+        possibleActions = new HashMap<>();
+        currentPlayer = players.get(currentIndex);
+        controller.setTurnOwner(currentPlayer.getUsername());
+        currentPlayer.getRules().clear();
+        actionControl = new ActionController(this, currentPlayer);
+    }
+
 
     @Override
     public void sendUpdate() {
-        fixPossibleActions();
+        removePreventedActions();
         if(possibleActions.containsKey(Action.WIN)){
             controller.switchState(GameState.END_GAME);
             System.out.println(controller.getTurnOwner()+" won!"); // <--- TEST
@@ -150,20 +178,16 @@ public class TurnController extends StateController implements Serializable {
      /*
         Deletes Actions with empty candidates List
      */
-    public void fixPossibleActions() { // Checks only move and build actions
-        List<Action> impossibleActions = new ArrayList<>();
-        for(Action action : possibleActions.keySet()) {
-            if(possibleActions.get(action).isEmpty() && action != Action.END_TURN && action != Action.WIN) {
-                impossibleActions.add(action);
-            }
-        }
-        impossibleActions.forEach(action -> possibleActions.remove(action));
+    private void removePreventedActions() { // Checks only move and build actions
+        possibleActions.keySet().stream()
+                .filter(action -> possibleActions.get(action).isEmpty() && !ignoredActions.contains(action))
+                .forEach(action -> possibleActions.remove(action));
     }
 
      /*
         If possible, executes action on model
      */
-    public void executeAction(Position position, Action type) throws WrongActionException {
+    private void executeAction(Position position, Action type) throws WrongActionException {
         if(type == Action.END_TURN) { passTurn(); }
         else {
             List<Action> candidates = actionControl.act(currentWorker, position, type);
@@ -175,7 +199,7 @@ public class TurnController extends StateController implements Serializable {
 
     private void notifyBoardUpdate(Map<Action, List<DtoPosition>> actionCandidates, String turnOwner) {
         controller.saveGame(null,true);
-        views.forEach(w -> w.updateActions(actionCandidates,turnOwner));
+        views.forEach(w -> w.updateActions(actionCandidates,turnOwner,isSpecialPowerActive));
     }
 
 

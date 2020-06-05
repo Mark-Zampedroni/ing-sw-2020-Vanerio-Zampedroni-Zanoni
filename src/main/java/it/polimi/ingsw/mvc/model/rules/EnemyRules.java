@@ -11,7 +11,10 @@ public abstract class EnemyRules extends CommonRules implements Serializable {
     private static final long serialVersionUID = 2360689823147364189L;
 
     public void consentEnemyMovement(Worker worker, Position position) throws CantActException { /* Nothing on default */ }
-    public boolean consentEnemyWin(Position position) { return true; /* Default */ }
+
+    public boolean consentEnemyWin(Position position) {
+        return true; /* Default */
+    }
 
     protected void applyEffect() {
         getEnemyModifiers().add(this);

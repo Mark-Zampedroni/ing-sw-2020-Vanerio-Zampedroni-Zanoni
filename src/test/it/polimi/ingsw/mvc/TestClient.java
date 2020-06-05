@@ -1,4 +1,4 @@
-package it.polimi.ingsw.mvc;
+package mvc;
 
 import it.polimi.ingsw.network.client.Client;
 import it.polimi.ingsw.network.messages.FlagMessage;
@@ -112,7 +112,7 @@ public class TestClient extends Client {
     @Override
     public void requestStarterPlayer(Map<String,String> choices) { }
     @Override
-    public void requestTurnAction(Map<Action, List<DtoPosition>> possibleActions, DtoSession session, Map<String,Colors> colors, Map<String,String> gods) { }
+    public void requestTurnAction(Map<Action, List<DtoPosition>> possibleActions, DtoSession session, Map<String,Colors> colors, Map<String,String> gods, boolean  isSpecialPowerActive) { }
     @Override
     public void showBoard(DtoSession session, Map<String,Colors> colors, Map<String,String> gods) { }
     @Override

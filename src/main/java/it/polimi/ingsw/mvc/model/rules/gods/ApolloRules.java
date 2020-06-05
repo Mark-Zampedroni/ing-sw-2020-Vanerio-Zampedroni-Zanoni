@@ -31,6 +31,7 @@ public class ApolloRules extends GodRules implements Serializable {
     @Override
     public void executeMove(Worker worker, Position position) {
         if(position.getWorker() != null) {
+            oldPosition=worker.getPosition();
             worker.switchPosition(position.getWorker());
             notify(new DtoSession(Session.getInstance()));
         }

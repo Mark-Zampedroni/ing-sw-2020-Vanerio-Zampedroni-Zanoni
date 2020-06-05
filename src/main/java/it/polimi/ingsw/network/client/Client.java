@@ -296,7 +296,7 @@ public abstract class Client implements Observer<Message>, View {
 
     private void parseTurnUpdate(ActionUpdateMessage message) {
         if(username.equals(message.getInfo())) {
-            inputRequest(() -> requestTurnAction(message.getPossibleActions(), message.getGameUpdate(), players, gods));
+            inputRequest(() -> requestTurnAction(message.getPossibleActions(), message.getGameUpdate(), players, gods, message.getFlag()));
         }
         else {
             viewRequest(() -> showBoard(message.getGameUpdate(), players, gods));

@@ -19,20 +19,6 @@ public class HestiaRules extends EventRules implements Serializable {
     private static final long serialVersionUID = 6239381109670423644L;
 
     /**
-     * Executes a build {@link Action action}, if it is the first build {@link Action action}
-     * calls the {@link #setEvent setEvent} with {@code true} argument
-     *
-     * @param position {@link Position position} where to build
-     */
-    @Override
-    public void executeBuild(Position position) {
-        if(!getEvent()) {
-            setEvent(true);
-        }
-        super.executeBuild(position);
-    }
-
-    /**
      * Returns a list of possible {@link Action actions} after the
      * {@link it.polimi.ingsw.mvc.model.player.Player player}
      * {@link Action built} with a {@link Worker worker},
@@ -44,7 +30,8 @@ public class HestiaRules extends EventRules implements Serializable {
     @Override
     public List<Action> afterBuild() {
         List<Action> actions = super.afterBuild();
-        if(!getEvent()) { actions.add(Action.BUILD); }
+        if(!getEvent()) { actions.add(Action.BUILD);
+        setEvent(true);}
         return actions;
     }
 

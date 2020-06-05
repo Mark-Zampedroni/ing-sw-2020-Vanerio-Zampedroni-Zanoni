@@ -15,32 +15,42 @@ public abstract class EventRules extends CommonRules implements Serializable {
      *
      * @return a copy of {@link Boolean event}
      */
-    public boolean getEvent() {return event;}
+    public boolean getEvent() {
+        return event;
+    }
 
     /**
      * Setter for event
      *
      * @param event {@link Boolean boolean} variable used as a trigger for some god's powers
      */
-    public void setEvent(boolean event) {this.event = event;}
+    public void setEvent(boolean event) {
+        this.event = event;
+    }
 
     /**
      * Getter for pos
      *
      * @return a copy of {@link Position pos}
      */
-    public Position getPos() {return pos;}
+    public Position getPos() {
+        return pos;
+    }
 
     /**
      * Setter for pos
      *
      * @param pos copy of a {@link Position parameter} with the purpose of keeping track of the worker's previous position
      */
-    public void setPos(Position pos) {this.pos = pos;}
+    public void setPos(Position pos) {
+        this.pos = pos;
+    }
 
     /**
      * Method used for clearing previous value of {@link Boolean event}
      */
     @Override
-    public void clear() { event = false; }
+    public void clear() {
+        event = false;
+    }
 }

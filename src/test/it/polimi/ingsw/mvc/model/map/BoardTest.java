@@ -1,6 +1,7 @@
-package it.polimi.ingsw.mvc.model.map;
+package mvc.model.map;
 
 import it.polimi.ingsw.mvc.model.Session;
+import it.polimi.ingsw.mvc.model.map.Position;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

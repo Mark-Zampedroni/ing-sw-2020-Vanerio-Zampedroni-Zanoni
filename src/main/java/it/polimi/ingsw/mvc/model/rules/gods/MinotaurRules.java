@@ -29,6 +29,7 @@ public class MinotaurRules extends ApolloRules implements Serializable {
      */
     @Override
     public void executeMove(Worker worker, Position position) {
+        oldPosition=worker.getPosition();
         if(position.getWorker() != null) { position.getWorker().setPosition(getPositionBackwards(worker.getPosition(),position)); }
         worker.setPosition(position);
         notify(new DtoSession(Session.getInstance()));

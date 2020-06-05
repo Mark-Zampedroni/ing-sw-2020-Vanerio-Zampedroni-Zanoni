@@ -28,7 +28,9 @@ public class ArtemisRules extends EventRules implements Serializable {
     @Override
     public List<Action> afterMove() {
         List<Action> actions = super.afterMove();
-        if(!getEvent()) { actions.add(Action.MOVE); }
+        if(!getEvent()) {
+            setEvent(true); //aggiunto ora
+            actions.add(Action.MOVE); }
         return actions;
     }
 
@@ -41,7 +43,7 @@ public class ArtemisRules extends EventRules implements Serializable {
      */
     @Override
     public void executeMove(Worker worker, Position position) {
-        setEvent(true);
+        //setEvent(true);
         setPos(worker.getPosition());
         super.executeMove(worker, position);
     }

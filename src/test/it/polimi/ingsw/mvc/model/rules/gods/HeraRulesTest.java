@@ -1,6 +1,6 @@
-package it.polimi.ingsw.mvc.model.rules.gods;
+package mvc.model.rules.gods;
 
-import it.polimi.ingsw.mvc.model.Setupper;
+import mvc.model.Setupper;
 import it.polimi.ingsw.mvc.model.rules.GodRules;
 import it.polimi.ingsw.utility.enumerations.Colors;
 import it.polimi.ingsw.utility.enumerations.Gods;
@@ -36,23 +36,27 @@ class HeraRulesTest {
     @Test
     void applyEffect() {
         player2.setRules(GodRules.getInstance(Gods.APOLLO)); // Any god
-        player2.getRules().executeBuild(new Position(0,1));
+        player2.getRules().executeBuild(new Position(0,1)); //altezza 1
         player2.getRules().executeBuild(new Position(0,2));
-        player2.getRules().executeBuild(new Position(0,2));
+        player2.getRules().executeBuild(new Position(0,2)); //altezza 2
         player2.getRules().executeBuild(new Position(0,3));
         player2.getRules().executeBuild(new Position(0,3));
-        player2.getRules().executeBuild(new Position(0,3));
+        player2.getRules().executeBuild(new Position(0,3)); //altezza 3
+        worker2.setPosition(0,1);
         player2.getRules().executeMove(worker2, new Position(0,2));
-        assertFalse(player2.getRules().consentWin(worker2, new Position(0,1)));
+        assertFalse(player2.getRules().consentWin(worker2, new Position(0,2)));
+        player2.getRules().executeMove(worker2, new Position(0,3));
         assertTrue(player2.getRules().consentWin(worker2, new Position(0,3)));
         // Test Hera.consentWin block
         player.setRules(GodRules.getInstance(Gods.HERA));
         assertFalse(player2.getRules().consentWin(worker2, new Position(0,3)));
+        worker2.setPosition(0,2);
         // Test consentEnemyPosition
         assertDoesNotThrow(()->player2.getRules().consentMovement(worker2, new Position(0,3)));
-        player2.getRules().executeMove(worker2, new Position(1,0));
-        player.getRules().executeMove(worker2, new Position(0,2));
-        assertTrue(player.getRules().consentWin(worker2, new Position(0,3)));
+        player2.getRules().executeBuild(new Position(1,3));
+        player2.getRules().executeBuild(new Position(1,3));
+        player2.getRules().executeBuild(new Position(1,3));
+        assertTrue(player2.getRules().consentWin(worker2, new Position(1,3)));
 
         (player.getRules()).removeEffect();
     }

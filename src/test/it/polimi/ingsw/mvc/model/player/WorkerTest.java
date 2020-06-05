@@ -1,9 +1,11 @@
-package it.polimi.ingsw.mvc.model.player;
+package mvc.model.player;
 
+import it.polimi.ingsw.mvc.model.player.Player;
+import it.polimi.ingsw.mvc.model.player.Worker;
 import it.polimi.ingsw.utility.enumerations.Colors;
 import it.polimi.ingsw.mvc.model.Session;
 import it.polimi.ingsw.mvc.model.map.Position;
-import it.polimi.ingsw.mvc.model.Setupper;
+import mvc.model.Setupper;
 import org.junit.jupiter.api.*;
 
 import static org.junit.Assert.assertTrue;

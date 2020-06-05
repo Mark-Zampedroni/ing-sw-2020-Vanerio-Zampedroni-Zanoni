@@ -39,7 +39,7 @@ public class TritonRules extends EventRules implements Serializable {
     @Override
     public List<Action> afterMove() {
         List<Action> actions = super.afterMove();
-        if(getEvent()) { actions.add(Action.MOVE); }
+        if(getEvent()) { actions.add(Action.MOVE);}
         return actions;
     }
 
