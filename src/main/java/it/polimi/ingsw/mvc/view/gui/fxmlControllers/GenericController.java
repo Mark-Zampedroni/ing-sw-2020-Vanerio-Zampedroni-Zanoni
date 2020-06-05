@@ -76,7 +76,14 @@ public abstract class GenericController {
         return layer;
     }
 
-    private void addColumns(GridPane grid, int quantity) {
+    public static GridPane createGrid(int rows, int columns) {
+        GridPane out = new GridPane();
+        GenericController.addRows(out,rows);
+        GenericController.addColumns(out,columns);
+        return out;
+    }
+
+    public static void addColumns(GridPane grid, int quantity) {
         for(int column = 0; column < quantity; column++) {
             ColumnConstraints c = new ColumnConstraints();
             c.setMinWidth(1);
@@ -86,7 +93,7 @@ public abstract class GenericController {
         }
     }
 
-    private void addRows(GridPane grid, int quantity) {
+    public static void addRows(GridPane grid, int quantity) {
         for(int row = 0; row < quantity; row++) {
             RowConstraints r = new RowConstraints();
             r.setMinHeight(1);
