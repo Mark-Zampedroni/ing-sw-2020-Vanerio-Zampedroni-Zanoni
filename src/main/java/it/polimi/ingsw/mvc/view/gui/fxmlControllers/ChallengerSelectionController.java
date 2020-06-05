@@ -22,8 +22,8 @@ public class ChallengerSelectionController extends GenericController {
         public GodWindow(String godName) {
             initBorder();
             initGodPane(godName);
-            addColumnConstraint();
-            addRowConstraint();
+            GenericController.addColumns(this,1);
+            GenericController.addRows(this,1);
             this.add(god,0,0);
             this.add(border,0,0);
         }
@@ -49,21 +49,6 @@ public class ChallengerSelectionController extends GenericController {
             return god.getId();
         }
 
-        private void addColumnConstraint() {
-            ColumnConstraints c = new ColumnConstraints();
-            c.setMinWidth(10);
-            c.setPrefWidth(100);
-            c.setHgrow(Priority.SOMETIMES);
-            this.getColumnConstraints().add(c);
-        }
-
-        private void addRowConstraint() {
-            RowConstraints r = new RowConstraints();
-            r.setMinHeight(10);
-            r.setPrefHeight(30);
-            r.setVgrow(Priority.SOMETIMES);
-            this.getRowConstraints().add(r);
-        }
     }
 
     @FXML
