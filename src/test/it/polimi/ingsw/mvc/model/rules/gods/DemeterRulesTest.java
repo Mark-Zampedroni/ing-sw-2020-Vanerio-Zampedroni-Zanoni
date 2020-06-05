@@ -1,6 +1,7 @@
-package it.polimi.ingsw.mvc.model.rules.gods;
+package mvc.model.rules.gods;
 
-import it.polimi.ingsw.mvc.model.Setupper;
+import it.polimi.ingsw.mvc.model.rules.gods.DemeterRules;
+import mvc.model.Setupper;
 import it.polimi.ingsw.mvc.model.rules.GodRules;
 import it.polimi.ingsw.utility.enumerations.Action;
 import it.polimi.ingsw.utility.enumerations.Colors;
@@ -56,10 +57,7 @@ class DemeterRulesTest {
     @Test
     void executeBuild() {
         Position position = new Position(1,2);
-        assert test != null;
-        test.setEvent(false);
         test.executeBuild(position);
-        assertTrue(test.getEvent());
         assertTrue(position.equals(test.getPos()));
         assertEquals(Session.getInstance().getBoard().getTile(position).getHeight(),1);
     }

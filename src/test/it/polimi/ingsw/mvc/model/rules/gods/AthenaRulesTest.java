@@ -1,6 +1,6 @@
-package it.polimi.ingsw.mvc.model.rules.gods;
+package mvc.model.rules.gods;
 
-import it.polimi.ingsw.mvc.model.Setupper;
+import mvc.model.Setupper;
 import it.polimi.ingsw.mvc.model.rules.GodRules;
 import it.polimi.ingsw.utility.enumerations.Colors;
 import it.polimi.ingsw.utility.enumerations.Gods;
@@ -73,6 +73,7 @@ class AthenaRulesTest {
         player2.getRules().executeBuild(new Position(0,3)); // Height 3
 
         player.getRules().executeMove(worker, new Position(1,0)); // Athena activates effect
+        player2.getRules().executeMove(worker2, new Position(0,2));
         assertFalse(player2.getRules().consentWin(worker2, new Position(0,2))); // Height 2
         player2.getRules().executeMove(worker2, new Position(0,2)); // Height 2
         assertTrue(player2.getRules().consentWin(worker2, new Position(0,3))); // Height 3

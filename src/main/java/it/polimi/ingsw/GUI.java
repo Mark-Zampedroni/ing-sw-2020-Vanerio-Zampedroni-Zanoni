@@ -8,12 +8,14 @@ import it.polimi.ingsw.mvc.view.gui.objects3D.utils.BoardGrid;
 import it.polimi.ingsw.mvc.view.gui.objects3D.utils.BoardScene;
 import it.polimi.ingsw.utility.enumerations.Action;
 import javafx.application.Application;
+import javafx.fxml.FXMLLoader;
 import javafx.geometry.Orientation;
 import javafx.scene.*;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ToolBar;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
 public class GUI extends Application {
@@ -77,22 +79,31 @@ public class GUI extends Application {
         });
 
         // 2D
+        BorderPane generalPane = new BorderPane();
+
+        FXMLLoader loader = new FXMLLoader();
+        BorderPane pane = loader.load(getClass().getResource("/fxmlFiles/sidebar.fxml"));
+        generalPane.setCenter(scene);
+        generalPane.setRight(pane);
+        /*
         BorderPane pane = new BorderPane();
+
         pane.setCenter(scene);
-        Button button = new Button("Show lines");
+
+        /*Button button = new Button("Show lines");
         CheckBox checkBox = new CheckBox("Line");
         ToolBar toolBar = new ToolBar(button, checkBox); //button, checkBox
         toolBar.setOrientation(Orientation.VERTICAL);
         toolBar.setMinWidth(200);
         pane.setRight(toolBar);
-        pane.setPrefSize(600,600);
-        Scene scene1 = new Scene(pane);
-
+        pane.setPrefSize(600,600);*/
+        Scene scene1 = new Scene(generalPane);
+        /*
         button.setOnMouseClicked(event -> {
                 grid.switchVisibility();
                 button.setText(grid.visibleProperty().getValue() ? "Hide lines" : "Show lines");
         });
-
+        */
         // Crea una finestra e visualizza la schermata
         primaryStage.setTitle("Santorini test gioco 3D");
         primaryStage.setScene(scene1);

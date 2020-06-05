@@ -1,6 +1,7 @@
-package it.polimi.ingsw.mvc.model.rules.gods;
+package mvc.model.rules.gods;
 
-import it.polimi.ingsw.mvc.model.Setupper;
+import it.polimi.ingsw.mvc.model.rules.gods.ArtemisRules;
+import mvc.model.Setupper;
 import it.polimi.ingsw.mvc.model.rules.GodRules;
 import it.polimi.ingsw.utility.enumerations.Action;
 import it.polimi.ingsw.utility.enumerations.Colors;
@@ -72,9 +73,7 @@ class ArtemisRulesTest {
         //correct double move
         worker.setPosition(1,1);
         Position oldPosition = worker.getPosition();
-        assert test != null;
         test.executeMove(worker, new Position(1,2));
-        assertTrue(test.getEvent());
         assertTrue(oldPosition.equals(test.getPos()));
         test.executeMove(worker, new Position(1,3));
         assertTrue(worker.getPosition().equals(new Position(1,3)));
