@@ -117,29 +117,7 @@ public class GUI extends Application {
         scene.widthProperty().bind(generalPane.widthProperty().multiply(0.78));
 
         Scene scene1 = new Scene(generalPane);
-
-        //Timer timer = new Timer();
-        //timer.wait(5000);
-
-        /*
-        BorderPane pane = new BorderPane();
-
-        pane.setCenter(scene);
-
-        /*Button button = new Button("Show lines");
-        CheckBox checkBox = new CheckBox("Line");
-        ToolBar toolBar = new ToolBar(button, checkBox); //button, checkBox
-        toolBar.setOrientation(Orientation.VERTICAL);
-        toolBar.setMinWidth(200);
-        pane.setRight(toolBar);
-        pane.setPrefSize(600,600);*/
-        /*
-        button.setOnMouseClicked(event -> {
-                grid.switchVisibility();
-                button.setText(grid.visibleProperty().getValue() ? "Hide lines" : "Show lines");
-        });
-        */
-        // Crea una finestra e visualizza la schermata
+        
         primaryStage.setWidth(1040);
         primaryStage.setHeight(700);
         primaryStage.setTitle("Santorini test gioco 3D");
