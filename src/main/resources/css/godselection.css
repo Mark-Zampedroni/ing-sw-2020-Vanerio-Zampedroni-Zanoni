@@ -70,11 +70,11 @@
     -fx-background-image: url("../Texture2D_sorted/Backgrounds/PlayerUIPanel2v3.png");
 }
 
-#borderGod4{
+#cardBackground{
     -fx-background-image: url("../Texture2D_sorted/Backgrounds/PlayerUIPanel2v4.png");
 }
 
-#borderGod5{
+#godBackground{
     -fx-background-image: url("../Texture2D_sorted/Backgrounds/PlayerUIPanel2v5.png");
 }
 
