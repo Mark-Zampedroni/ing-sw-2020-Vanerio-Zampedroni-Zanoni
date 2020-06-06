@@ -66,7 +66,7 @@ public class GodSelectionController extends GenericController {
             godNameLabel.setId("godNameLabel");
             godNameLabel.setPrefSize(200,50);
             String[] temp = Gods.valueOf(godName).getDescription().split(":");
-            conditionLabel.setText("      Effect\n ("+temp[0]+")");
+            conditionLabel.setText("Effect\n("+temp[0]+")");
             conditionLabel.setPrefSize(200,100);
             conditionLabel.setId("conditionLabel");
             descriptionLabel.setText(temp[1]);
@@ -135,8 +135,8 @@ public class GodSelectionController extends GenericController {
         public void enableActionButton() {
             if (!actionPane.getId().equals("playerNameLabel")) {
                 actionPane.setDisable((false));
-                actionPane.setOnMouseEntered(event -> actionPane.setId("selectbuttonpressed"));
-                actionPane.setOnMouseExited(event -> actionPane.setId("selectbutton"));
+                actionPane.setId("selectbutton");
+                actionPane.setOnMouseClicked(event -> actionPane.setId("selectbuttonpressed"));
                 actionPane.setOnMouseReleased(event -> gui.validatePlayerGodChoice(getGod()));
             }
         }
@@ -151,15 +151,14 @@ public class GodSelectionController extends GenericController {
             actionPane.setId("playerNameLabel");
             actionText.setOpacity(1);
             actionText.setPadding(new Insets(0,0,2,0));
-            // could setDisable
+
         }
 
         public void starterPlayer(){
             actionPane.setDisable(false);
             actionPane.setId("playerbutton");
             actionText.setPadding(new Insets(0,0,7,0));
-            actionPane.setOnMouseEntered(event -> actionPane.setId("playerbuttonpressed"));
-            actionPane.setOnMouseExited(event -> actionPane.setId("playerbutton"));
+            actionPane.setOnMouseClicked(event -> actionPane.setId("playerbuttonpressed"));
             actionPane.setOnMouseReleased(event -> gui.validatePlayer(getPlayerName()));
 
         }
@@ -212,15 +211,16 @@ public class GodSelectionController extends GenericController {
     public void updateStarterPlayerSelection(Map<String, String> choices) {
         // update da view a tutti i giocatori notificando che il challenger sta scegliendo lo starter player
         titleLabel.setText("The Challenger is choosing the starter player");
+        nameUpdate(choices);
         for(GodCard godCard: cards){godCard.NotstarterPlayer();}
     }
 
     public void requestStarterPlayer(Map<String, String> choices) {
         // update da view al challenger avvertendolo che deve scegliere lo starter player
         titleLabel.setText("Choose the starter player");
+        nameUpdate(choices);
         for(GodCard godCard: cards){godCard.starterPlayer();}
     }
-
 
 
     private void loadSelectedGods(List<String> chosenGods, Map<String, String> choices) {
@@ -245,11 +245,15 @@ public class GodSelectionController extends GenericController {
             }
          }
         else{
-            choices.keySet().stream()
-                    .filter(nome -> !nome.equals(""))
-                    .forEach(key -> {for(GodCard god: cards){
-                        if(god.getGod().equals(choices.get(key))){god.setPlayerName(key);}
-                    }});
+                nameUpdate(choices);
             }
+    }
+
+    public void nameUpdate(Map<String, String> choices){
+        choices.keySet().stream()
+                .filter(nome -> !nome.equals(""))
+                .forEach(key -> {for(GodCard god: cards){
+                    if(god.getGod().equals(choices.get(key))){god.setPlayerName(key);}
+                }});
     }
 }
