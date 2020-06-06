@@ -7,11 +7,11 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.layout.Border;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class GodSelectionController extends GenericController {
 
@@ -19,7 +19,8 @@ public class GodSelectionController extends GenericController {
 
     private class GodCard extends BorderPane {
         private BorderPane god;
-        private Button actionButton;
+        private BorderPane actionPane;
+        private Label actionText;
         private GridPane firstGrid;
         private GridPane initGrid;
         private GridPane infoPowerGrid;
@@ -35,13 +36,15 @@ public class GodSelectionController extends GenericController {
 
         private void initInit(){
             BorderPane borderTemp = new BorderPane();
-            firstGrid = createGrid(1, 6);
+            firstGrid = createGrid(6, 1);
             borderTemp.setPrefSize(100,100);
-            firstGrid.add(borderTemp, 0,0, 4, 0);
+            firstGrid.add(borderTemp, 0,0, 1, 5);
             initGrid = createGrid(1,1);
             initGrid.getStyleClass().add("fullbackground");
             initGrid.setId("cardBackground");
             borderTemp.setCenter(initGrid);
+
+
         }
 
         private void initDescription(String god){
@@ -50,22 +53,27 @@ public class GodSelectionController extends GenericController {
             Label conditionLabel = new Label();
 
             GridPane gridPreDescription = createGrid(1,1);
-            gridPreDescription.setPadding(new Insets(0,20,20,15));
+            gridPreDescription.setPadding(new Insets(15,20,0,20));
             initGrid.add(gridPreDescription,0,0);
-            GridPane gridLabel = createGrid(10,16);
+            GridPane gridLabel = createGrid(16,10);
             gridPreDescription.add(gridLabel,0,0);
             godNameLabel.setText(god);
             godNameLabel.getStyleClass().add("fullbackground");
             godNameLabel.setId("godNameLabel");
             godNameLabel.setAlignment(Pos.CENTER);
+            godNameLabel.setPrefSize(200,50);
             String[] temp = Gods.valueOf(god).getDescription().split(":");
-            conditionLabel.setText("Effect \n("+temp[0]+")");
+            conditionLabel.setText("      Effect\n ("+temp[0]+")");
             conditionLabel.setAlignment(Pos.CENTER);
+            conditionLabel.setPrefSize(200,100);
             descriptionLabel.setText(temp[1]);
+            descriptionLabel.setWrapText(true);
             descriptionLabel.setAlignment(Pos.TOP_LEFT);
-            gridLabel.add(godNameLabel,0,0,1,9);
-            gridLabel.add(descriptionLabel,2,0,4,9);
-            gridLabel.add(conditionLabel,5,0,13,9);
+            descriptionLabel.setPrefSize(200,200);
+            gridLabel.add(godNameLabel,0,0,10,2);
+            gridLabel.add(conditionLabel,0,2,10,3);
+            gridLabel.add(descriptionLabel,0,5,10,9);
+
 
         }
 
@@ -79,32 +87,42 @@ public class GodSelectionController extends GenericController {
             borderGod.getStyleClass().add("fullbackground");
             borderGod.setId("godBackground");
             god.setCenter(borderGod);
-            infoPowerGrid = createGrid(2,4);
+            infoPowerGrid = createGrid(4,2);
             borderGod.add(infoPowerGrid,0,0);
         }
 
         private void initInfoGodPower(String godPower){
-            GridPane infoGrid = createGrid(6,5);
-            GridPane godPowerGrid = createGrid(6,7);
-            Button info = new Button();
+            GridPane infoGrid = createGrid(5,6);
+            GridPane godPowerGrid = createGrid(7,6);
+            BorderPane infoBorder = new BorderPane();
             BorderPane godPowerPane = new BorderPane();
-            info.getStyleClass().add("fullbackground");
-            info.setId("infoButton");
+            infoPowerGrid.add(infoGrid,1,0);
+            infoPowerGrid.add(godPowerGrid,0,3, 2,1);
+            infoBorder.getStyleClass().add("fullbackground");
+            infoBorder.getStyleClass().add("invisiblebackground");
+            infoBorder.setId("infoButton");
             godPowerPane.getStyleClass().add("fullbackground");
             godPowerPane.setId(godPower);
-            infoGrid.add(info, 1,3, 2,4);
-            godPowerGrid.add(godPowerPane,0,1, 5, 4);
+            infoGrid.add(infoBorder,3,1,2,2);
+            godPowerGrid.add(godPowerPane,1,0, 4, 6);
+            infoBorder.setOnMouseEntered(event -> toggleVisibility());
+            infoBorder.setOnMouseExited(event -> toggleVisibility());
 
         }
 
         private void initSelectButton(){
-            GridPane actionButtonGrid = createGrid(7,5);
-            actionButton = new Button();
-            actionButton.getStyleClass().add("fullbackground");
-            actionButton.getStyleClass().add("invisiblebackground");
-            actionButton.setId("selectbutton");
-            actionButton.setText("SELECT");
-            actionButtonGrid.add(actionButton,1,1,4,5);
+            GridPane actionButtonGrid = createGrid(5,7);
+             actionPane = new BorderPane();
+             actionText = new Label();
+            actionPane.setCenter(actionText);
+            firstGrid.add(actionButtonGrid,0,5);
+            actionPane.getStyleClass().add("fullbackground");
+            actionPane.getStyleClass().add("invisiblebackground");
+            actionPane.setId("selectbutton");
+            actionText.setText("SELECT");
+            actionText.setPadding(new Insets(0,0,10,0));
+            actionButtonGrid.add(actionPane,1,1,5,4);
+
         }
 
         public void toggleVisibility(){
@@ -112,38 +130,67 @@ public class GodSelectionController extends GenericController {
         }
 
         public String getGod() {return god.getId();}
+
+        public void disableActionButton(){
+            actionPane.setDisable(true);
+        }
+
+        public void enableActionButton() {
+            actionPane.setDisable((false));
+            actionPane.setOnMouseEntered(event -> actionPane.setId("selectbuttonpressed"));
+            actionPane.setOnMouseExited(event -> actionPane.setId("selectbutton"));
+        }
+
+        public boolean isSelect(){
+            return actionText.getText().equals("SELECT");
+        }
     }
+
+
 
     @FXML
     GridPane mainGrid;
     @FXML
-    Button info;
-    @FXML
     Label titleLabel;
     @FXML
-    GridPane gridTwoPlayer;
+    GridPane twoPlayerFirstGrid;
+    @FXML
+    GridPane twoPlayerSecondGrid;
     @FXML
     GridPane gridThreePlayer;
 
+    List<String> gods = new ArrayList<>();
+    Map<String, String> god = new HashMap<>();
+    List<GodCard> cards = new ArrayList<>();
 
+   // validatePlayerGodChoice for choosing gods
+    // validatePlayer for starter player
 
     public void initialize() {
         super.initialize(this);
-        info.setOnMouseEntered(event -> info.setId("infoPressed"));
+        gods.add("APOLLO");
+        gods.add("ATHENA");
+        //gods.add("PAN");
+        requestPlayerGod(gods,god);
+        initTitleLabel();
 
-        info.setOnMouseExited(event -> info.setId("infoButton"));
 
     }
 
     public void updatePlayerGodSelection(String turnOwner, Map<String, String> choices, List<String> chosenGods) {
         // update da view quando è il turno di un altro client
+        loadSelectedGods(chosenGods, choices);
+
     }
+
 
     public void requestPlayerGod(List<String> chosenGods, Map<String, String> choices) {
         // update da view quando tocca a questo client
+        loadSelectedGods(chosenGods, choices);
     }
 
-    public void updateStarterPlayerSelection(Map<String, String> choices) {
+
+    public void updateStarterPlayerSelection(Map<String, String> choices) { //DIO,PLAYER
         // update da view a tutti i giocatori notificando che il challenger sta scegliendo lo starter player
     }
 
@@ -151,11 +198,33 @@ public class GodSelectionController extends GenericController {
         // update da view al challenger avvertendolo che deve scegliere lo starter player
     }
 
-    private void initGodsSelectionWindow() {
-
-    }
 
     private void initTitleLabel() {
         titleLabel.setText("Choose your god");
+    }
+
+    private void loadSelectedGods(List<String> chosenGods, Map<String, String> choices) {
+       // if (chosenGods.size() == Integer.parseInt(gui.getNumberOfPlayers())) {
+            int i = 0;
+            for (String god : chosenGods) {
+                GodCard newGodCard = new GodCard(god);
+                //if (Integer.parseInt(gui.getNumberOfPlayers()) == 3) {
+                if(chosenGods.size() == 3){
+                    gridThreePlayer.add(newGodCard, i, 0);
+                    i++;
+                } else {
+                    if (i == 0) {
+                        twoPlayerFirstGrid.add(newGodCard, 0, 0);
+                        i++;
+                    } else {
+                        twoPlayerSecondGrid.add(newGodCard, 0, 0);
+                    }
+                }
+            }
+       /* }
+        else{
+            Update
+        }
+        */
     }
 }
