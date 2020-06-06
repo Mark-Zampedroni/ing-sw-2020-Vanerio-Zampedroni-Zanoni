@@ -1,5 +1,6 @@
 package it.polimi.ingsw.mvc.view.gui;
 
+import it.polimi.ingsw.mvc.view.gui.fxmlControllers.DisconnectionController;
 import it.polimi.ingsw.mvc.view.gui.fxmlControllers.GenericController;
 import it.polimi.ingsw.mvc.view.gui.fxmlControllers.TitleController;
 import javafx.application.Application;
@@ -27,7 +28,7 @@ public class Gui extends Application {
         scene.getStylesheets().add("/css/connection.css");
         stage.setScene(scene);
         GuiManager.setLayout(stage.getScene(), GuiManager.getFxmlPath(TitleController.class)); // start screen
-        //GuiManager.setLayout(stage.getScene(), GuiWindow.getFxmlPath(GodSelectionController.class));
+        //GuiManager.setLayout(stage.getScene(), GuiManager.getFxmlPath(DisconnectionController.class));
         stage.show();
 
     }

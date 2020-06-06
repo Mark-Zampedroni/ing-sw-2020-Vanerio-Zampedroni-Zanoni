@@ -358,6 +358,11 @@
             <set />
           </value>
         </entry>
+        <entry key="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/mvc/view/gui/fxmlControllers/DisconnectionController.java">
+          <value>
+            <set />
+          </value>
+        </entry>
         <entry key="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/mvc/view/gui/fxmlControllers/GenericController.java">
           <value>
             <set />
@@ -904,6 +909,11 @@
           </value>
         </entry>
         <entry key="$PROJECT_DIR$/src/main/resources/fxmlFiles/Dialog.fxml">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/src/main/resources/fxmlFiles/Disconnection.fxml">
           <value>
             <set />
           </value>

@@ -204,6 +204,13 @@ public class Session implements Serializable {
         return enemyModifiers;
     }
 
+    public void clear() {
+        players.clear();
+        enemyModifiers.clear();
+        board.clear();
+        started = false;
+    }
+
 }
 
 

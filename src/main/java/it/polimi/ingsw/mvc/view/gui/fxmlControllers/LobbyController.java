@@ -76,7 +76,7 @@ public class LobbyController extends GenericController {
 
     private void initColorButton(ToggleButton button) {
         button.setOnMousePressed(event -> {
-            color = buttons.keySet().stream().filter(key -> buttons.get(key) == button).findFirst().get();
+            color = buttons.keySet().stream().filter(key -> buttons.get(key) == button).findFirst().orElse(Colors.WHITE);
             confirmButton.setDisable(false);
             button.setId("buttonPressedColor");
             button.setEffect(new Glow(0.3));
@@ -93,12 +93,22 @@ public class LobbyController extends GenericController {
     }
 
     private void updatePlayers() {
-        if(Integer.parseInt(gui.getNumberOfPlayers()) > 0) { addPlayer(playerNameOne,colorPlayerOne,0); }
-        if(Integer.parseInt(gui.getNumberOfPlayers()) > 1) { addPlayer(playerNameTwo,colorPlayerTwo,1); }
+        handlePlayerSlot(playerNameOne,colorPlayerOne,0, Integer.parseInt(gui.getNumberOfPlayers()) > 0);
+        handlePlayerSlot(playerNameTwo,colorPlayerTwo,1, Integer.parseInt(gui.getNumberOfPlayers()) > 1);
+
         if(gui.getPlayers().containsKey(gui.getUsername())) {
             hideNode(confirmButton);
             nameTextField.setDisable(true);
             infoLabel.setText("Wait for other players to log ...");
+        }
+    }
+
+    private void handlePlayerSlot(Label name, BorderPane color, int number, boolean hasPlayer) {
+        if(hasPlayer) {
+            addPlayer(name,color,number);
+        }
+        else {
+            hideSlot(name,color,number);
         }
     }
 
@@ -109,6 +119,15 @@ public class LobbyController extends GenericController {
         color.setId("color" + playerColor.substring(0, 1).toUpperCase() + playerColor.substring(1));
         showNode(name);
         showNode(color);
+    }
+
+    private void hideSlot(Label name, BorderPane color, int number) {
+        name.setText((number == 0) ? "Waiting..." : "");
+        color.setId((number == 0) ? "head" : "");
+        if(number != 0) {
+            hideNode(name);
+            hideNode(color);
+        }
     }
 
 }

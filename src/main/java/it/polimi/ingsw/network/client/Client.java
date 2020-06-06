@@ -25,27 +25,33 @@ public abstract class Client implements Observer<Message>, View {
     protected GameState state;
     protected String username;
 
-    private final List<Runnable> requests, inputRequests;
+    private List<Runnable> requests, inputRequests;
 
     public final Logger LOG;
-    private final boolean logMessages = false; // True to show logs on terminal
+    private final boolean logMessages = true; // True to show logs on terminal
 
     protected boolean reconnecting = false;
 
     protected ClientConnection connection;
 
     protected String challenger;
-    protected final List<String> chosenGods;
+    protected List<String> chosenGods;
     protected Map<String, Colors> players;
     protected Map<String, String> gods;
 
     public Client() {
-        chosenGods = new ArrayList<>();
-        requests = new ArrayList<>();
-        inputRequests = new ArrayList<>();
+        init();
         LOG = Logger.getLogger("client");
         LOG.setUseParentHandlers(logMessages);
         startLogging();
+    }
+
+    protected void init() {
+        chosenGods = new ArrayList<>();
+        requests = new ArrayList<>();
+        inputRequests = new ArrayList<>();
+        reconnecting = false;
+        clearSessionVars();
     }
 
     private void startLogging() {
@@ -145,6 +151,10 @@ public abstract class Client implements Observer<Message>, View {
         reconnecting = false;
         if(!message.getFlag()) {
             connection.setReconnect(false);
+            try {
+                Thread.sleep(1000);
+            } catch(InterruptedException e) { LOG.warning("[CLIENT] Wait time for disconnection interrupted"); }
+            connection.disconnect();
             LOG.info("[CLIENT] Couldn't reconnect because: "+message.getInfo()); // Quits game
         }
         else {
@@ -189,10 +199,14 @@ public abstract class Client implements Observer<Message>, View {
     }
 
     private void parseDisconnectMessage(Message message) {
+        System.out.println("DISCONNECT UPDATE"); // <------------------------------- TEST
+        connection.setReconnect(false);
         if(state == GameState.PRE_LOBBY) {
+            System.out.println("DISCONNECT IN PRE_LOBBY"); // <------------------------------- TEST
             viewRequest(() -> showInfo(message.getInfo()));
         }
-        else if(connection.getReconnect()) {
+        else {
+            connection.disconnect();
             viewRequest(() -> showDisconnected(message.getInfo()));
         }
     }
@@ -338,6 +352,15 @@ public abstract class Client implements Observer<Message>, View {
         if(connection != null) {
             connection.disconnect();
         }
+    }
+
+    private void clearSessionVars() {
+        connection = null;
+        challenger = null;
+        players = null;
+        gods = null;
+        username = null;
+        state = null;
     }
 
 

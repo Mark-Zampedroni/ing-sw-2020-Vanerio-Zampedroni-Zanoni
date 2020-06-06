@@ -9,6 +9,7 @@ import it.polimi.ingsw.network.server.ServerConnection;
 import it.polimi.ingsw.utility.enumerations.GameState;
 import it.polimi.ingsw.utility.dto.DtoSession;
 
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -97,6 +98,11 @@ public class ReloadGame {
             ReloadGame.setFinishedLoad();
         }
         return newController;
+    }
+
+    public static boolean clearSavedFile() {
+        File save = new File("santorini.game.ser");
+        return save.delete();
     }
 
 }

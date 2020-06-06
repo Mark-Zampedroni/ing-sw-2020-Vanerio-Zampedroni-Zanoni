@@ -46,7 +46,7 @@ public class ServerConnection extends Observable<Message> implements Runnable {
             sendToken(token);
             Server.LOG.info("[CONNECTION] Successful creation of Connection");
         } catch(IOException e) {
-            Server.LOG.severe("[CONNECTION] "+e.toString());
+            Server.LOG.severe("[CONNECTION] In Server constructor");
         }
     }
 
@@ -63,7 +63,7 @@ public class ServerConnection extends Observable<Message> implements Runnable {
                     output.reset();
                 }
             } catch(IOException e) {
-                Server.LOG.severe("[CONNECTION] "+e.toString());
+                Server.LOG.severe("[CONNECTION] IOE on sending message");
                 disconnect();
             }
         }
@@ -79,7 +79,7 @@ public class ServerConnection extends Observable<Message> implements Runnable {
                     open = false;
                 }
             } catch(IOException e) {
-                Server.LOG.severe("[CONNECTION] "+e.toString());
+                Server.LOG.severe("[CONNECTION] IOE on disconnection");
             }
         }
     }
@@ -93,10 +93,11 @@ public class ServerConnection extends Observable<Message> implements Runnable {
                     tasks.add(() -> queueMessage(msg));
                 }
             } catch(ClassNotFoundException e) {
-                Server.LOG.severe("[CONNECTION] "+e.toString());
+                Server.LOG.severe("[CONNECTION] classNotFound on run of ServerConnection");
             } catch(IOException e) {
-                Server.LOG.severe("[CONNECTION] "+e.toString());
+                Server.LOG.severe("[CONNECTION] IOE on run of ServerConnection");
                 disconnect();
+                break;
             }
         }
     }
@@ -141,6 +142,10 @@ public class ServerConnection extends Observable<Message> implements Runnable {
 
     public String getUsername() {
         return token;
+    }
+
+    public void interrupt() {
+        listener.interrupt();
     }
 
 }

@@ -6,6 +6,6 @@ import javafx.application.Application;
 
 public class ClientAppGui {
     public static void main(String[] args){
-        Gui.getInstance().init((args.length == 0) ? "127.0.0.1" : args[0], 7654);
+        Gui.getInstance().init((args.length == 0) ? "127.0.0.1" : args[0], 7655);
             }
 }

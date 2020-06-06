@@ -87,6 +87,10 @@ public class GuiManager extends Client {
          }
     }
 
+    public void resetClient() {
+         init();
+    }
+
     public Map<String,Colors> getPlayers(){ return players;}
 
     public String getNumberOfPlayers() {
@@ -177,7 +181,7 @@ public class GuiManager extends Client {
 
     @Override
     public void showDisconnected(String info) {
-        // Controller fine gioco mancante
+        runUpdate(DisconnectionController.class, () -> ((DisconnectionController)currentController).showDisconnected(info));
     }
 
     @Override

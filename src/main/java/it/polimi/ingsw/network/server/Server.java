@@ -1,7 +1,6 @@
 package it.polimi.ingsw.network.server;
 
 import it.polimi.ingsw.mvc.controller.SessionController;
-import it.polimi.ingsw.network.messages.FlagMessage;
 import it.polimi.ingsw.utility.enumerations.GameState;
 import it.polimi.ingsw.utility.enumerations.MessageType;
 import it.polimi.ingsw.network.messages.Message;
@@ -23,6 +22,8 @@ import java.util.stream.Collectors;
 
 public class Server extends Thread {
 
+    private static Server instance = null;
+
     private ServerSocket serverSocket;
     private final List<ServerConnection> allConnections;
     private final List<ServerConnection> freshConnections;
@@ -39,7 +40,7 @@ public class Server extends Thread {
     public static final Logger LOG = Logger.getLogger("Server");
 
     private final BlockingQueue<Runnable> tasks = new LinkedBlockingQueue<>();
-    private final Thread queueHandler;
+    private Thread queueHandler;
 
     private class QueueHandler implements Runnable {
         @Override
@@ -55,6 +56,7 @@ public class Server extends Thread {
     }
 
     public Server(int port) {
+        if(instance == null) { instance = this; }
         reconnecting = new HashMap<>();
         freshConnections = new ArrayList<>();
         allConnections = new ArrayList<>();
@@ -151,7 +153,7 @@ public class Server extends Thread {
             sessionController.sendUpdate();
         }
         else {
-            System.out.println("CHIUSURA PARTITA! USCITO PLAYER"); // <------------ Da gestire via controller
+            sessionController.removePlayer(user);
         }
     }
 
@@ -224,6 +226,19 @@ public class Server extends Thread {
 
     private Message createLobbyUpdate() {
         return new LobbyUpdate("SERVER", "Update", sessionController.getFreeColors(), sessionController.getPlayers(),"ALL");
+    }
+
+    protected void restart() {
+        allConnections.forEach(ServerConnection::interrupt);
+        reconnecting.clear();
+        freshConnections.clear();
+        allConnections.clear();
+        startLogging();
+        sessionController = new SessionController(freshConnections, LOG); // Controller
+    }
+
+    public static void restartSession() {
+        instance.restart();
     }
 
 

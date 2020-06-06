@@ -10,7 +10,7 @@ public class ServerApp {
     static boolean feature = true;
 
     public static void main(String []args) {
-         new Server(7654);
+         new Server(7655);
     }
 
     public static boolean isFeature() {

@@ -49,7 +49,7 @@
     -fx-background-image: url("../Texture2D_sorted/Pulsanti/btn_blue.png");
 }
 
-#selectbutton:disabled, #selectbutton:disabled > * {
+#selectbutton:disabled {
   -fx-opacity: 1.0 ;
   -fx-background-image: url("../Texture2D_sorted/Pulsanti/btn_small_gray.png");
 }

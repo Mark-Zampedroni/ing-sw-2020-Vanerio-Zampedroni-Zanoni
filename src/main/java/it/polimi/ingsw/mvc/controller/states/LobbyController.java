@@ -121,4 +121,12 @@ public class LobbyController extends StateController implements Serializable {
         views.add(view);
     }
 
+    @Override
+    public synchronized void removePlayer(String username) {
+        if(Session.getInstance().getPlayerByName(username) != null) {
+            Session.getInstance().removePlayer(username);
+            views.removeIf(v -> v.hasName(username));
+        }
+    }
+
 }
