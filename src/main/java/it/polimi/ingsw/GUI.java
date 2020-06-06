@@ -117,7 +117,7 @@ public class GUI extends Application {
         scene.widthProperty().bind(generalPane.widthProperty().multiply(0.78));
 
         Scene scene1 = new Scene(generalPane);
-        
+
         primaryStage.setWidth(1040);
         primaryStage.setHeight(700);
         primaryStage.setTitle("Santorini test gioco 3D");
