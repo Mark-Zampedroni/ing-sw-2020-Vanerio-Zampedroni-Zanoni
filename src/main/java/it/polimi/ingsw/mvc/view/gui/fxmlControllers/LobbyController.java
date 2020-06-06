@@ -1,14 +1,10 @@
 package it.polimi.ingsw.mvc.view.gui.fxmlControllers;
 
-import it.polimi.ingsw.mvc.view.gui.GuiManager;
 import it.polimi.ingsw.utility.enumerations.Colors;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.effect.Glow;
 import javafx.scene.layout.BorderPane;
-import javafx.stage.Stage;
-
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -61,13 +57,7 @@ public class LobbyController extends GenericController {
 
     private void initConfirmButton(Button button) {
         button.setOnMousePressed(event -> handleButtonPressed(button));
-        button.setOnMouseReleased(event -> {
-            try {
-                handleButtonReleased(button);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        });
+        button.setOnMouseReleased(event -> handleButtonReleased(button));
         button.setDisable(true);
     }
 
@@ -75,10 +65,10 @@ public class LobbyController extends GenericController {
         button.setId("buttonPressed");
     }
 
-    private void handleButtonReleased(Button button) throws IOException {
+    private void handleButtonReleased(Button button) {
         button.setId("buttonReleased");
         if(gui.validateUsername(nameTextField.getText()) || gui.validateColor(color.toString())) {
-            GuiManager.showDialog((Stage) main.getScene().getWindow(), "Input Error!", "You must Insert a valid username and color! ");
+            infoLabel.setText("Insert a valid username and color!");
         } else {
             gui.requestLogin(nameTextField.getText(), color);
         }
