@@ -58,18 +58,6 @@
     -fx-background-image: url("../Texture2D_sorted/Pulsanti/btn_blue_pressed.png");
 }
 
-#borderGod{
-    -fx-background-image: url("../Texture2D_sorted/Backgrounds/PlayerUIPanel2.png");
-}
-
-#borderGod2{
-    -fx-background-image: url("../Texture2D_sorted/Backgrounds/PlayerUIPanel2v2.png");
-}
-
-#borderGod3{
-    -fx-background-image: url("../Texture2D_sorted/Backgrounds/PlayerUIPanel2v3.png");
-}
-
 #cardBackground{
     -fx-background-image: url("../Texture2D_sorted/Backgrounds/PlayerUIPanel2v4.png");
 }
@@ -197,6 +185,14 @@
 
 #godNameLabel{
 	-fx-background-image: url("../Texture2D_sorted/Backgrounds/godnametag.png");
+    -fx-font-size: 22;
+    -fx-text-fill: white;
+    -fx-alignment: center;
+}
+
+#playerNameLabel{
+    -fx-background-image: url("../Texture2D_sorted/Backgrounds/om_nameTagActiveGreen.png");
+    -fx-font-size: 13;
 }
 
 #infoButton {
@@ -211,6 +207,26 @@
     -fx-background-image: url("../Texture2D_sorted/Backgrounds/bggod.png");
 }
 
+/*
 #backbutton {
     -fx-background-image: url("../Texture2D_sorted/Pulsanti/btn_brown.png");
+}
+ */
+
+#descriptionLabel{
+    -fx-font-size: 14;
+    -fx-text-alignment: center;
+    -fx-wrap-text: true;
+}
+#conditionLabel{
+    -fx-font-size: 19;
+    -fx-alignment: center;
+}
+
+#playerbuttonpressed {
+    -fx-background-image: url("../Texture2D_sorted/Pulsanti/btn_green_pressed.png");
+}
+
+#playerbutton {
+    -fx-background-image: url("../Texture2D_sorted/Pulsanti/btn_green.png");
 }

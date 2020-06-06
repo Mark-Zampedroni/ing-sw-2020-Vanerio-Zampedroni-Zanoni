@@ -94,7 +94,7 @@ public class GuiManager extends Client {
     public Map<String,Colors> getPlayers(){ return players;}
 
     public String getNumberOfPlayers() {
-         return (players == null) ? "X" : Integer.toString(players.size());
+         return (players == null) ? String.valueOf(0) : Integer.toString(players.size());
     }
 
     public String getUsername() { return username; }
