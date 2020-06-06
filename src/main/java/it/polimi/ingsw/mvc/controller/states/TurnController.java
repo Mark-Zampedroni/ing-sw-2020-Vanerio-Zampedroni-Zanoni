@@ -136,12 +136,18 @@ public class TurnController extends StateController implements Serializable {
             controller.switchState(GameState.END_GAME);
             System.out.println(controller.getTurnOwner()+" won!"); // <--- TEST
             LOG.info(controller.getTurnOwner()+" won");
+            //vanno informati tutti con un messaggio generico che dice chi ha vinto
+            //loro poi controllano se sono loro o no e switchano scena di conseguenza
+            //nuovo tipo di messaggio che contiene vincitore e dice cosa sta succedendo
             tryNextState();
+            //stato successivo attende messaggio di ok o usa timer di 30 secondi, poi ri-istanzia il server da capo
+            //a livello client viene dato il tasto per rigiocare che rimanda alla prima schermata, oppure si esce con tasto che chiude finestra
         }
         else if(possibleActions.keySet().isEmpty()){
             currentPlayer.loss();
             System.out.println(controller.getTurnOwner()+" lost!"); // <--- TEST
             LOG.info(controller.getTurnOwner()+" lost");
+            //vanno informati tutti, rimossi i WORKER dalla board e a livello grafico ingrigire nome e immagine
             passTurn();
         }
         else {
