@@ -8,15 +8,21 @@ import it.polimi.ingsw.mvc.view.gui.objects3D.utils.BoardGrid;
 import it.polimi.ingsw.mvc.view.gui.objects3D.utils.BoardScene;
 import it.polimi.ingsw.utility.enumerations.Action;
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Orientation;
 import javafx.scene.*;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ToolBar;
+import javafx.scene.layout.Border;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
+
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class GUI extends Application {
 
@@ -79,12 +85,42 @@ public class GUI extends Application {
         });
 
         // 2D
-        BorderPane generalPane = new BorderPane();
-
         FXMLLoader loader = new FXMLLoader();
         BorderPane pane = loader.load(getClass().getResource("/fxmlFiles/sidebar.fxml"));
-        generalPane.setCenter(scene);
-        generalPane.setRight(pane);
+        BorderPane loadingPane = loader.load(getClass().getResource("/fxmlFiles/loading.fxml"));
+
+        SubScene sideScene = new SubScene(pane, 200, 700);
+        BorderPane generalPane = new BorderPane();
+        BorderPane insidePane = new BorderPane();
+
+
+        generalPane.setLeft(insidePane);
+        generalPane.setRight(sideScene);
+        generalPane.setCenter(loadingPane);
+        loadingPane.setVisible(true);
+        Timer timer = new Timer ();
+        timer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                loadingPane.setVisible(false);
+            }
+        }, 8000);
+
+        insidePane.setLeft(scene); //prima center
+
+
+        scene.setManaged(false);
+
+        sideScene.heightProperty().bind(generalPane.heightProperty());
+        sideScene.widthProperty().bind(generalPane.widthProperty().multiply(0.22));
+        scene.heightProperty().bind((generalPane.heightProperty()));
+        scene.widthProperty().bind(generalPane.widthProperty().multiply(0.78));
+
+        Scene scene1 = new Scene(generalPane);
+
+        //Timer timer = new Timer();
+        //timer.wait(5000);
+
         /*
         BorderPane pane = new BorderPane();
 
@@ -97,7 +133,6 @@ public class GUI extends Application {
         toolBar.setMinWidth(200);
         pane.setRight(toolBar);
         pane.setPrefSize(600,600);*/
-        Scene scene1 = new Scene(generalPane);
         /*
         button.setOnMouseClicked(event -> {
                 grid.switchVisibility();
@@ -105,6 +140,8 @@ public class GUI extends Application {
         });
         */
         // Crea una finestra e visualizza la schermata
+        primaryStage.setWidth(1040);
+        primaryStage.setHeight(700);
         primaryStage.setTitle("Santorini test gioco 3D");
         primaryStage.setScene(scene1);
         primaryStage.show();
