@@ -33,7 +33,7 @@ public class ServerConnection extends Observable<Message> implements Runnable {
     private Thread listener;
 
     public ServerConnection(Server server, Socket socket, String token, BlockingQueue<Runnable> tasks) {
-        Server.LOG.info("[CONNECTION] Creating virtual view");
+        Server.LOG.info("[CONNECTION] Creating virtual view, token: "+token);
         this.server = server;
         this.socket = socket;
         this.tasks = tasks;
@@ -44,9 +44,9 @@ public class ServerConnection extends Observable<Message> implements Runnable {
             listener.start();
             open = true;
             sendToken(token);
-            Server.LOG.info("[CONNECTION] Successful creation of Connection");
+            Server.LOG.info("[CONNECTION] Successful creation of Connection, token: "+token);
         } catch(IOException e) {
-            Server.LOG.severe("[CONNECTION] In Server constructor");
+            Server.LOG.severe("[CONNECTION] In Server constructor, token: "+token);
         }
     }
 
@@ -63,7 +63,7 @@ public class ServerConnection extends Observable<Message> implements Runnable {
                     output.reset();
                 }
             } catch(IOException e) {
-                Server.LOG.severe("[CONNECTION] IOE on sending message");
+                Server.LOG.severe("[CONNECTION] IOE on sending message, token: "+token);
                 disconnect();
             }
         }
@@ -79,7 +79,7 @@ public class ServerConnection extends Observable<Message> implements Runnable {
                     open = false;
                 }
             } catch(IOException e) {
-                Server.LOG.severe("[CONNECTION] IOE on disconnection");
+                Server.LOG.severe("[CONNECTION] IOE on disconnection, token: "+token);
             }
         }
     }
@@ -93,9 +93,9 @@ public class ServerConnection extends Observable<Message> implements Runnable {
                     tasks.add(() -> queueMessage(msg));
                 }
             } catch(ClassNotFoundException e) {
-                Server.LOG.severe("[CONNECTION] classNotFound on run of ServerConnection");
+                Server.LOG.severe("[CONNECTION] classNotFound on run of ServerConnection, token: "+token);
             } catch(IOException e) {
-                Server.LOG.severe("[CONNECTION] IOE on run of ServerConnection");
+                Server.LOG.severe("[CONNECTION] IOE on run of ServerConnection, token: "+token);
                 disconnect();
                 break;
             }
