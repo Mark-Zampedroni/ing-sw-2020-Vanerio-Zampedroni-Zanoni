@@ -32,5 +32,6 @@ public interface View {
     void showBoard(DtoSession session, Map<String,Colors> colors, Map<String,String> gods);
     //In caso di crash
     void showReconnection(boolean isReconnecting);
+    void showDisconnected(String info);
 
 }

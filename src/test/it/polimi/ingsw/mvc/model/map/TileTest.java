@@ -1,8 +1,7 @@
-package mvc.model.map;
+package it.polimi.ingsw.mvc.model.map;
 
 import static it.polimi.ingsw.utility.constants.Height.*;
 
-import it.polimi.ingsw.mvc.model.map.Tile;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

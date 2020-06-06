@@ -1,16 +1,14 @@
-package mvc.controller.states;
+package it.polimi.ingsw.mvc.controller.states;
 
 import it.polimi.ingsw.mvc.controller.SessionController;
-import it.polimi.ingsw.mvc.controller.states.SelectionController;
 import it.polimi.ingsw.mvc.model.Session;
-import mvc.model.Setupper;
+import it.polimi.ingsw.mvc.model.Setupper;
 import it.polimi.ingsw.utility.enumerations.Colors;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.logging.Logger;
 
 import static org.junit.Assert.assertEquals;

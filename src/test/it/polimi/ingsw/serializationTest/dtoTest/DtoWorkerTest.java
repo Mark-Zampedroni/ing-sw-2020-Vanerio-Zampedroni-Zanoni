@@ -1,10 +1,10 @@
-package serializationTest.dtoTest;
+package it.polimi.ingsw.serializationTest.dtoTest;
 
 import it.polimi.ingsw.mvc.model.Session;
 import it.polimi.ingsw.mvc.model.map.Position;
 import it.polimi.ingsw.utility.enumerations.Colors;
 import it.polimi.ingsw.utility.dto.DtoPosition;
-import mvc.model.Setupper;
+import it.polimi.ingsw.mvc.model.Setupper;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

@@ -928,12 +928,142 @@
             <set />
           </value>
         </entry>
+        <entry key="$PROJECT_DIR$/src/test/it/polimi/ingsw/mvc/TestServer.java">
+          <value>
+            <set />
+          </value>
+        </entry>
         <entry key="$PROJECT_DIR$/src/test/it/polimi/ingsw/mvc/controller/FSMTest.java">
           <value>
             <set />
           </value>
         </entry>
+        <entry key="$PROJECT_DIR$/src/test/it/polimi/ingsw/mvc/controller/SessionControllerTest.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/src/test/it/polimi/ingsw/mvc/controller/states/ActionControllerTest.java">
+          <value>
+            <set />
+          </value>
+        </entry>
         <entry key="$PROJECT_DIR$/src/test/it/polimi/ingsw/mvc/controller/states/UnreachableMethodsTest.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/src/test/it/polimi/ingsw/mvc/model/SessionTest.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/src/test/it/polimi/ingsw/mvc/model/Setupper.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/src/test/it/polimi/ingsw/mvc/model/map/BoardTest.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/src/test/it/polimi/ingsw/mvc/model/map/PositionTest.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/src/test/it/polimi/ingsw/mvc/model/map/TileTest.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/src/test/it/polimi/ingsw/mvc/model/player/PlayerTest.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/src/test/it/polimi/ingsw/mvc/model/player/WorkerTest.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/src/test/it/polimi/ingsw/mvc/model/rules/CheckTest.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/src/test/it/polimi/ingsw/mvc/model/rules/CommonRulesTest.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/src/test/it/polimi/ingsw/mvc/model/rules/gods/ApolloRulesTest.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/src/test/it/polimi/ingsw/mvc/model/rules/gods/ArtemisRulesTest.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/src/test/it/polimi/ingsw/mvc/model/rules/gods/AthenaRulesTest.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/src/test/it/polimi/ingsw/mvc/model/rules/gods/AtlasRulesTest.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/src/test/it/polimi/ingsw/mvc/model/rules/gods/DemeterRulesTest.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/src/test/it/polimi/ingsw/mvc/model/rules/gods/HephaestusRulesTest.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/src/test/it/polimi/ingsw/mvc/model/rules/gods/HeraRulesTest.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/src/test/it/polimi/ingsw/mvc/model/rules/gods/HestiaRulesTest.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/src/test/it/polimi/ingsw/mvc/model/rules/gods/MinotaurRulesTest.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/src/test/it/polimi/ingsw/mvc/model/rules/gods/PanRulesTest.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/src/test/it/polimi/ingsw/mvc/model/rules/gods/PoseidonRulesTest.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/src/test/it/polimi/ingsw/mvc/model/rules/gods/PrometheusRulesTest.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/src/test/it/polimi/ingsw/mvc/model/rules/gods/TritonRulesTest.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/src/test/it/polimi/ingsw/mvc/model/rules/gods/ZeusRulesTest.java">
           <value>
             <set />
           </value>
@@ -959,6 +1089,11 @@
           </value>
         </entry>
         <entry key="$PROJECT_DIR$/src/test/it/polimi/ingsw/serializationTest/dtoTest/DtoWorkerTest.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/src/test/it/polimi/ingsw/utility/enumerations/TargetTest.java">
           <value>
             <set />
           </value>

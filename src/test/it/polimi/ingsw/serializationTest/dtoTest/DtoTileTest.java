@@ -1,4 +1,4 @@
-package serializationTest.dtoTest;
+package it.polimi.ingsw.serializationTest.dtoTest;
 
 import it.polimi.ingsw.mvc.model.map.Tile;
 import it.polimi.ingsw.utility.constants.Height;

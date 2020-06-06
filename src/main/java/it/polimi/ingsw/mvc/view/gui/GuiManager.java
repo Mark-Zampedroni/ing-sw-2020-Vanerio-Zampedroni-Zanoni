@@ -176,5 +176,10 @@ public class GuiManager extends Client {
     }
 
     @Override
+    public void showDisconnected(String info) {
+        // Controller fine gioco mancante
+    }
+
+    @Override
     public void requestLogin() { /* Logic already implemented within showLobby */ }
 }

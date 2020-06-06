@@ -131,6 +131,9 @@ public class ClientConnection implements Runnable {
     }
 
     public void disconnect() {
+        synchronized(queueLock) {
+            inQueue.add(new Message(MessageType.DISCONNECTION_UPDATE, "SELF", "Connection lost", "ALL"));
+        }
         try {
             if(!socket.isClosed()) {
                 socket.close();

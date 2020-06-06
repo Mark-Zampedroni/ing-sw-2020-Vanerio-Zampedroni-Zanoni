@@ -1,7 +1,7 @@
-package mvc.controller;
+package it.polimi.ingsw.mvc.controller;
 
-import mvc.TestClient;
-import mvc.TestServer;
+import it.polimi.ingsw.mvc.TestClient;
+import it.polimi.ingsw.mvc.TestServer;
 import it.polimi.ingsw.mvc.model.Session;
 import it.polimi.ingsw.mvc.model.map.Position;
 import it.polimi.ingsw.utility.enumerations.Action;

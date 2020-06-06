@@ -192,16 +192,31 @@ public class Cli extends Client {
         int x, y;
         do {
             System.out.println("\nChoose x:");
-            x = Integer.parseInt(requestInput());
+            while(true) {
+                try {
+                    x = Integer.parseInt(requestInput());
+                    break;
+                } catch(Exception e) { /**/ }
+            }
             System.out.println("\nChoose y:");
-            y = Integer.parseInt(requestInput());
+            while(true) {
+                try {
+                    y = Integer.parseInt(requestInput());
+                    break;
+                } catch(Exception e) { /**/ }
+            }
         }
         while(!validatePosition(possiblePositions, x, y));
         return new DtoPosition(new Position(x,y));
     }
 
     public void showReconnection(boolean isReconnecting) {
-        System.out.println(isReconnecting ? "Server crashed, reconnecting ..." : "Reconnected!");
+        System.out.println(isReconnecting ? "-> FINESTRA RICONNESSIONE IN CORSO" : "-> RICARICAMENTO FINESTRA PRECEDENTE");
+    }
+
+    @Override
+    public void showDisconnected(String info) {
+        System.out.println(" -> FINESTRA DISCONNECTED");
     }
 
 }

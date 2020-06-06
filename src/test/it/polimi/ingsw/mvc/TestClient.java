@@ -1,4 +1,4 @@
-package mvc;
+package it.polimi.ingsw.mvc;
 
 import it.polimi.ingsw.network.client.Client;
 import it.polimi.ingsw.network.messages.FlagMessage;
@@ -117,5 +117,7 @@ public class TestClient extends Client {
     public void showBoard(DtoSession session, Map<String,Colors> colors, Map<String,String> gods) { }
     @Override
     public void showReconnection(boolean isReconnecting) { }
+    @Override
+    public void showDisconnected(String info) { }
 
 }

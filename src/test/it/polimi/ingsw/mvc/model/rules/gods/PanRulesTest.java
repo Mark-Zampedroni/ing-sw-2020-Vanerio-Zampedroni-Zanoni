@@ -1,6 +1,6 @@
-package mvc.model.rules.gods;
+package it.polimi.ingsw.mvc.model.rules.gods;
 
-import mvc.model.Setupper;
+import it.polimi.ingsw.mvc.model.Setupper;
 import it.polimi.ingsw.utility.enumerations.Colors;
 import it.polimi.ingsw.utility.enumerations.Gods;
 import it.polimi.ingsw.mvc.model.Session;
@@ -40,6 +40,7 @@ class PanRulesTest {
         Board board = Session.getInstance().getBoard();
         worker.setPosition(2,2);
         Position position = new Position(1, 2);
+        assert test != null;
         test.executeMove(worker, new Position(1,2));
         assertFalse(test.isWinner(worker, position));
 

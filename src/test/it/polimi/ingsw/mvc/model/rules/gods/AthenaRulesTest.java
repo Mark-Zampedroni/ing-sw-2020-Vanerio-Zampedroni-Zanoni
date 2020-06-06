@@ -1,6 +1,6 @@
-package mvc.model.rules.gods;
+package it.polimi.ingsw.mvc.model.rules.gods;
 
-import mvc.model.Setupper;
+import it.polimi.ingsw.mvc.model.Setupper;
 import it.polimi.ingsw.mvc.model.rules.GodRules;
 import it.polimi.ingsw.utility.enumerations.Colors;
 import it.polimi.ingsw.utility.enumerations.Gods;

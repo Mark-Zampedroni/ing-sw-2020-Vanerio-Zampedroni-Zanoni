@@ -1,4 +1,4 @@
-package mvc.controller.states;
+package it.polimi.ingsw.mvc.controller.states;
 
 import it.polimi.ingsw.mvc.controller.states.actionControl.ActionController;
 
@@ -7,7 +7,6 @@ import it.polimi.ingsw.mvc.model.map.Position;
 import it.polimi.ingsw.mvc.model.player.Player;
 import it.polimi.ingsw.mvc.model.player.Worker;
 
-import it.polimi.ingsw.mvc.model.rules.GodRules;
 import it.polimi.ingsw.mvc.model.rules.gods.*;
 import it.polimi.ingsw.utility.enumerations.Action;
 import it.polimi.ingsw.utility.enumerations.Colors;

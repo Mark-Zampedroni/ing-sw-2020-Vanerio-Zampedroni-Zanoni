@@ -1,12 +1,10 @@
-package mvc.model.player;
+package it.polimi.ingsw.mvc.model.player;
 
-import it.polimi.ingsw.mvc.model.player.Player;
-import it.polimi.ingsw.mvc.model.player.Worker;
 import it.polimi.ingsw.utility.enumerations.Colors;
 import it.polimi.ingsw.utility.enumerations.Gods;
 import it.polimi.ingsw.mvc.model.map.Position;
 import it.polimi.ingsw.mvc.model.rules.GodRules;
-import mvc.model.Setupper;
+import it.polimi.ingsw.mvc.model.Setupper;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

@@ -1,11 +1,9 @@
-package utility.enumerations;
+package it.polimi.ingsw.utility.enumerations;
 
 import it.polimi.ingsw.mvc.model.Session;
 import it.polimi.ingsw.mvc.model.player.Player;
 import it.polimi.ingsw.mvc.model.player.Worker;
-import it.polimi.ingsw.utility.enumerations.Colors;
-import it.polimi.ingsw.utility.enumerations.Target;
-import mvc.model.Setupper;
+import it.polimi.ingsw.mvc.model.Setupper;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

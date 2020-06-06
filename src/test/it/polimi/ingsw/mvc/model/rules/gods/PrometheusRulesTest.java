@@ -1,8 +1,7 @@
-package mvc.model.rules.gods;
+package it.polimi.ingsw.mvc.model.rules.gods;
 
-import mvc.model.Setupper;
+import it.polimi.ingsw.mvc.model.Setupper;
 import it.polimi.ingsw.mvc.model.rules.GodRules;
-import it.polimi.ingsw.mvc.model.rules.gods.PrometheusRules;
 import it.polimi.ingsw.utility.enumerations.Action;
 import it.polimi.ingsw.utility.enumerations.Colors;
 import it.polimi.ingsw.utility.enumerations.Gods;
@@ -71,6 +70,7 @@ class PrometheusRulesTest {
 
     @Test
     void afterBuild(){
+        assert test != null;
         test.clear();
         test.setEvent(true);
         List<Action> list= test.afterBuild();
@@ -85,12 +85,14 @@ class PrometheusRulesTest {
 
     @Test
     void clear(){
+        assert test != null;
         test.clear();
         assertFalse(test.getEvent());
     }
 
     @Test
     void afterSelect(){
+        assert test != null;
         ArrayList<Action> action = (ArrayList<Action>) test.afterSelect();
         assertEquals(action.get(0), Action.SELECT_WORKER);
         assertEquals(action.get(1), Action.MOVE);

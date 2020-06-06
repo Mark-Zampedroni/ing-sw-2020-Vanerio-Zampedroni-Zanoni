@@ -1,4 +1,4 @@
-package mvc;
+package it.polimi.ingsw.mvc;
 
 import it.polimi.ingsw.network.server.Server;
 

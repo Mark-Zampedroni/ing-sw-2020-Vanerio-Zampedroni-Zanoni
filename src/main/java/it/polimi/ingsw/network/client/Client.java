@@ -146,8 +146,6 @@ public abstract class Client implements Observer<Message>, View {
         if(!message.getFlag()) {
             connection.setReconnect(false);
             LOG.info("[CLIENT] Couldn't reconnect because: "+message.getInfo()); // Quits game
-            // viewRequest -> finestra disconnessione <- questo però da drop connessione, altrimenti lo chiama due volte
-            // ancora da fare il metodo in view
         }
         else {
             LOG.info("[CLIENT] Reconnected!");
@@ -193,6 +191,9 @@ public abstract class Client implements Observer<Message>, View {
     private void parseDisconnectMessage(Message message) {
         if(state == GameState.PRE_LOBBY) {
             viewRequest(() -> showInfo(message.getInfo()));
+        }
+        else if(connection.getReconnect()) {
+            viewRequest(() -> showDisconnected(message.getInfo()));
         }
     }
 
