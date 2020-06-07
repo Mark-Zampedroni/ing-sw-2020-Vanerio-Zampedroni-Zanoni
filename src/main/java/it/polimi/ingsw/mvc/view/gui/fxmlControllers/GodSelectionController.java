@@ -14,113 +14,94 @@ import java.util.*;
 public class GodSelectionController extends GenericController {
 
 
-
     private class GodCard extends BorderPane {
+
         private BorderPane god;
         private BorderPane actionPane;
         private Label actionText;
-        private GridPane firstGrid;
         private GridPane initGrid;
-        private GridPane infoPowerGrid;
         private GridPane preGod;
 
         private String playerName;
 
         public GodCard(String godName) {
-            initInit();
+            GridPane firstGrid = initInit();
             initDescription(godName);
-            initGodPane(godName);
-            initInfoGodPower(godName.toLowerCase()+"power");
-            initSelectButton();
+            GridPane infoPowerGrid = initGodPane(godName);
+            initInfoGodPower(godName.toLowerCase()+"power", infoPowerGrid);
+            initSelectButton(firstGrid);
             this.setCenter(firstGrid);
         }
 
-        private void initInit(){
+        private GridPane initInit() {
             BorderPane borderTemp = new BorderPane();
-            firstGrid = createGrid(6, 1);
+            GridPane firstGrid = createGrid(6, 1);
             borderTemp.setPrefSize(100,100);
             firstGrid.add(borderTemp, 0,0, 1, 5);
             initGrid = createGrid(1,1);
-            //decorateNode(initGrid,"cardBackground", Arrays.asList("fullbackground"), null);
-            initGrid.getStyleClass().add("fullbackground");
-            initGrid.setId("cardBackground");
+            decorateNode(initGrid,"cardBackground", Collections.singletonList("fullbackground"), null);
             borderTemp.setCenter(initGrid);
-
-
+            return firstGrid;
         }
 
-        private void initDescription(String godName){
-            Label godNameLabel = new Label();
-            Label descriptionLabel = new Label();
-            Label conditionLabel = new Label();
-
+        private void initDescription(String godName) {
+            String[] temp = Gods.valueOf(godName).getDescription().split(":");
             GridPane gridPreDescription = createGrid(1,1);
             gridPreDescription.setPadding(new Insets(15,20,0,20));
             initGrid.add(gridPreDescription,0,0);
             GridPane gridLabel = createGrid(16,10);
             gridPreDescription.add(gridLabel,0,0);
-            godNameLabel.setText(godName);
-            godNameLabel.getStyleClass().add("fullbackground");
-            godNameLabel.setId("godNameLabel");
-            godNameLabel.setPrefSize(200,50);
-            String[] temp = Gods.valueOf(godName).getDescription().split(":");
-            conditionLabel.setText("Effect\n("+temp[0]+")");
-            conditionLabel.setPrefSize(200,100);
-            conditionLabel.setId("conditionLabel");
-            descriptionLabel.setText(temp[1]);
-            descriptionLabel.setAlignment(Pos.TOP_LEFT);
-            descriptionLabel.setPrefSize(200,200);
-            descriptionLabel.setId("descriptionLabel");
-            gridLabel.add(godNameLabel,0,0,10,2);
-            gridLabel.add(conditionLabel,0,2,10,3);
-            gridLabel.add(descriptionLabel,0,5,10,9);
+            gridLabel.add(createLabel("conditionLabel",null,"Effect\n("+temp[0]+")", 100,null),0,2,10,3);
+            gridLabel.add(createLabel("descriptionLabel",null,temp[1], 200,Pos.TOP_LEFT),0,5,10,9);
+            gridLabel.add(createLabel("godNameLabel",Collections.singletonList("fullbackground"),godName, 50,null),0,0,10,2);
             gridPreDescription.setOnMouseExited(event -> showNode(preGod));
-
         }
 
+        private Label createLabel(String id, List<String> classes, String text, int v1, Pos position) {
+            Label temp = new Label();
+            decorateNode(temp, id, classes, text);
+            temp.setPrefSize(200,v1);
+            if(position != null) {
+                temp.setAlignment(position);
+            }
+            return temp;
+        }
 
-        private void initGodPane(String godName){
+        private GridPane initGodPane(String godName) {
             preGod = createGrid(5,1);
             god = new BorderPane();
-            god.getStyleClass().add("fullbackground");
-            god.setId(godName);
+            decorateNode(god,godName, Collections.singletonList("fullbackground"), null);
             preGod.add(god,0,0,1,4);
             initGrid.add(preGod,0,0);
             GridPane borderGod = createGrid(1,1);
-            borderGod.getStyleClass().add("fullbackground");
-            borderGod.setId("godBackground");
+            decorateNode(borderGod,"godBackground", Collections.singletonList("fullbackground"), null);
             preGod.add(borderGod,0,0,1,5);
-            infoPowerGrid = createGrid(4,2);
+            GridPane infoPowerGrid = createGrid(4,2);
             borderGod.add(infoPowerGrid,0,0);
+            return infoPowerGrid;
         }
 
-        private void initInfoGodPower(String godPower){
+        private void initInfoGodPower(String godPower, GridPane infoPowerGrid) {
             GridPane infoGrid = createGrid(5,6);
             GridPane godPowerGrid = createGrid(7,6);
             BorderPane infoBorder = new BorderPane();
             BorderPane godPowerPane = new BorderPane();
             infoPowerGrid.add(infoGrid,1,0);
             infoPowerGrid.add(godPowerGrid,0,3, 2,1);
-            infoBorder.getStyleClass().add("fullbackground");
-            infoBorder.getStyleClass().add("invisiblebackground");
-            infoBorder.setId("infoButton");
-            godPowerPane.getStyleClass().add("fullbackground");
-            godPowerPane.setId(godPower);
+            decorateNode(infoBorder,"infoButton", Arrays.asList("fullbackground","invisiblebackground"), null);
+            decorateNode(godPowerPane,godPower, Collections.singletonList("fullbackground"), null);
             infoGrid.add(infoBorder,3,1,2,2);
             godPowerGrid.add(godPowerPane,1,0, 4, 6);
             infoBorder.setOnMouseEntered(event -> hideNode(preGod));
-
         }
 
-        private void initSelectButton(){
+        private void initSelectButton(GridPane firstGrid) {
             GridPane actionButtonGrid = createGrid(5,7);
-             actionPane = new BorderPane();
-             actionText = new Label();
+            actionPane = new BorderPane();
+            actionText = new Label();
             actionPane.setCenter(actionText);
             firstGrid.add(actionButtonGrid,0,5);
-            actionPane.getStyleClass().add("fullbackground");
-            actionPane.getStyleClass().add("invisiblebackground");
-            actionPane.setId("selectbutton");
+            decorateNode(actionPane, "selectbutton", Arrays.asList("fullbackground","invisiblebackground"), null);
             actionText.setText("SELECT");
             actionText.setPadding(new Insets(0,0,7,0));
             actionButtonGrid.add(actionPane,1,1,5,4);
@@ -144,8 +125,10 @@ public class GodSelectionController extends GenericController {
             if (!actionPane.getId().equals("playerNameLabel")) {
                 actionPane.setDisable((false));
                 actionPane.setId("selectbutton");
-                actionPane.setOnMouseClicked(event -> actionPane.setId("selectbuttonpressed"));
-                actionPane.setOnMouseReleased(event -> gui.validatePlayerGodChoice(getGod()));
+                setButtonState(() -> actionPane.setId("selectbuttonpressed"), () -> {
+                            actionPane.setId("selectButton");
+                            gui.validatePlayerGodChoice(getGod());
+                });
             }
         }
 
@@ -155,8 +138,8 @@ public class GodSelectionController extends GenericController {
 
         public void setPlayerName(String playerName) {
             this.playerName = playerName;
-            actionText.setText(playerName);
             actionPane.setId("playerNameLabel");
+            actionText.setText(playerName);
             actionText.setOpacity(1);
             actionText.setPadding(new Insets(0,0,2,0));
 
@@ -166,9 +149,7 @@ public class GodSelectionController extends GenericController {
             actionPane.setDisable(false);
             actionPane.setId("playerbutton");
             actionText.setPadding(new Insets(0,0,7,0));
-            actionPane.setOnMouseClicked(event -> actionPane.setId("playerbuttonpressed"));
-            actionPane.setOnMouseReleased(event -> gui.validatePlayer(getPlayerName()));
-
+            setButtonState(() -> actionPane.setId("playerbuttonpressed"), () -> gui.validatePlayer(getPlayerName()));
         }
 
         public void setActionButtonDisabled() {
@@ -176,9 +157,12 @@ public class GodSelectionController extends GenericController {
             actionText.setPadding(new Insets(0,0,7,0));
             disableButton();
         }
+
+        public void setButtonState(Runnable onPress, Runnable onRelease) {
+            actionPane.setOnMousePressed(event -> onPress.run());
+            actionPane.setOnMouseReleased(event -> onRelease.run());
+        }
     }
-
-
 
     @FXML
     GridPane mainGrid;
@@ -190,7 +174,6 @@ public class GodSelectionController extends GenericController {
     GridPane twoPlayerSecondGrid;
     @FXML
     GridPane gridThreePlayer;
-
 
     List<GodCard> cards = new ArrayList<>();
     List<GridPane> gridsTwoPlayer;
