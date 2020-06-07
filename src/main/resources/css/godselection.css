@@ -207,11 +207,9 @@
     -fx-background-image: url("../Texture2D_sorted/Backgrounds/bggod.png");
 }
 
-/*
-#backbutton {
-    -fx-background-image: url("../Texture2D_sorted/Pulsanti/btn_brown.png");
+#mark{
+    -fx-background-image: url("../Texture2D_sorted/Pulsanti/btn_featuredGod.png");
 }
- */
 
 #descriptionLabel{
     -fx-font-size: 14;
@@ -221,6 +219,7 @@
 #conditionLabel{
     -fx-font-size: 19;
     -fx-alignment: center;
+    -fx-text-alignment: center;
 }
 
 #playerbuttonpressed {

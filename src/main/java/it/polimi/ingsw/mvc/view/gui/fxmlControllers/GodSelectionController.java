@@ -51,16 +51,16 @@ public class GodSelectionController extends GenericController {
             initGrid.add(gridPreDescription,0,0);
             GridPane gridLabel = createGrid(16,10);
             gridPreDescription.add(gridLabel,0,0);
-            gridLabel.add(createLabel("conditionLabel",null,"Effect\n("+temp[0]+")", 100,null),0,2,10,3);
-            gridLabel.add(createLabel("descriptionLabel",null,temp[1], 200,Pos.TOP_LEFT),0,5,10,9);
-            gridLabel.add(createLabel("godNameLabel",Collections.singletonList("fullbackground"),godName, 50,null),0,0,10,2);
+            gridLabel.add(createLabel("conditionLabel",null,"Effect\n("+temp[0]+")", null),0,2,10,3);
+            gridLabel.add(createLabel("descriptionLabel",null,temp[1], Pos.TOP_LEFT),0,5,10,9);
+            gridLabel.add(createLabel("godNameLabel",Collections.singletonList("fullbackground"),godName, null),0,0,10,2);
             gridPreDescription.setOnMouseExited(event -> showNode(preGod));
         }
 
-        private Label createLabel(String id, List<String> classes, String text, int v1, Pos position) {
+        private Label createLabel(String id, List<String> classes, String text,  Pos position) {
             Label temp = new Label();
             decorateNode(temp, id, classes, text);
-            temp.setPrefSize(200,v1);
+            temp.setPrefSize(500,500);
             if(position != null) {
                 temp.setAlignment(position);
             }
@@ -147,7 +147,12 @@ public class GodSelectionController extends GenericController {
 
         public void setStarterPlayerButton() {
             actionPane.setDisable(false);
-            actionPane.setId("playerbutton");
+            if(getPlayerName().equalsIgnoreCase("mark")){
+                actionPane.setId("mark");
+            }
+            else {
+                actionPane.setId("playerbutton");
+            }
             actionText.setPadding(new Insets(0,0,7,0));
             setButtonState(() -> actionPane.setId("playerbuttonpressed"), () -> gui.validatePlayer(getPlayerName()));
         }
@@ -259,4 +264,5 @@ public class GodSelectionController extends GenericController {
                     }
                 });
     }
+    //150ish
 }
