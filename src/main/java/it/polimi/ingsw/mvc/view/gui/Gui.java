@@ -1,5 +1,6 @@
 package it.polimi.ingsw.mvc.view.gui;
 
+import it.polimi.ingsw.mvc.view.gui.fxmlControllers.BoardController;
 import it.polimi.ingsw.mvc.view.gui.fxmlControllers.TitleController;
 import javafx.application.Application;
 import javafx.application.Platform;
@@ -26,9 +27,10 @@ public class Gui extends Application {
         Scene scene = new Scene(new Pane());
         scene.getStylesheets().add("/css/connection.css");
         stage.setScene(scene);
-        GuiManager.setLayout(stage.getScene(), GuiManager.getFxmlPath(TitleController.class)); // start screen
+        //GuiManager.setLayout(stage.getScene(), GuiManager.getFxmlPath(TitleController.class)); // start screen
         Platform.runLater(() -> bindScene(stage.getScene()));
         //GuiManager.setLayout(stage.getScene(), GuiManager.getFxmlPath(DisconnectionController.class));
+        GuiManager.setLayout(stage.getScene(), GuiManager.getFxmlPath(BoardController.class)); // start screen
         stage.show();
         GuiManager.getInstance().setDefaultWidth(stage.getWidth());
     }

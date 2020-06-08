@@ -7,6 +7,7 @@ import it.polimi.ingsw.mvc.model.rules.EventRules;
 import it.polimi.ingsw.mvc.model.rules.SpecialPower;
 import it.polimi.ingsw.mvc.view.RemoteView;
 import it.polimi.ingsw.network.messages.game.ActionMessage;
+import it.polimi.ingsw.network.server.Server;
 import it.polimi.ingsw.utility.enumerations.Action;
 import it.polimi.ingsw.utility.enumerations.GameState;
 import it.polimi.ingsw.utility.enumerations.MessageType;
@@ -136,10 +137,10 @@ public class TurnController extends StateController implements Serializable {
             controller.switchState(GameState.END_GAME);
             System.out.println(controller.getTurnOwner()+" won!"); // <--- TEST
             LOG.info(controller.getTurnOwner()+" won");
-            //vanno informati tutti con un messaggio generico che dice chi ha vinto
+            messageBuilder(MessageType.END_GAME, currentPlayer.getUsername(), true);
             //loro poi controllano se sono loro o no e switchano scena di conseguenza
-            //nuovo tipo di messaggio che contiene vincitore e dice cosa sta succedendo
             tryNextState();
+            Server.restartSession();
             //stato successivo attende messaggio di ok o usa timer di 30 secondi, poi ri-istanzia il server da capo
             //a livello client viene dato il tasto per rigiocare che rimanda alla prima schermata, oppure si esce con tasto che chiude finestra
         }
@@ -147,6 +148,7 @@ public class TurnController extends StateController implements Serializable {
             currentPlayer.loss();
             System.out.println(controller.getTurnOwner()+" lost!"); // <--- TEST
             LOG.info(controller.getTurnOwner()+" lost");
+            messageBuilder(MessageType.END_GAME, currentPlayer.getUsername(), false);
             //vanno informati tutti, rimossi i WORKER dalla board e a livello grafico ingrigire nome e immagine
             passTurn();
         }

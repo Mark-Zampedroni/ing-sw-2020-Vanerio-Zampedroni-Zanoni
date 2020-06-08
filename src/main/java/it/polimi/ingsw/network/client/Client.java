@@ -130,11 +130,19 @@ public abstract class Client implements Observer<Message>, View {
                     break;
                 case RECONNECTION_UPDATE:
                     if(connection.getReconnect()) { parseReconnectionUpdate(message); }
-                default: //
+                case END_GAME:
+                    //parseEndGame(message);
+                    default: //
             }
             flushRequests();
         }
     }
+
+    /*
+    protected abstract void parseEndGame(Message message);{
+        closeGame();
+    }
+    */
 
     /* Connection */
     private void parseConnectionMessage(Message message) {

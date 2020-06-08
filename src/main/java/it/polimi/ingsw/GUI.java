@@ -9,7 +9,9 @@ import it.polimi.ingsw.mvc.view.gui.objects3D.utils.BoardScene;
 import it.polimi.ingsw.utility.enumerations.Action;
 import javafx.application.Application;
 import javafx.application.Platform;
+import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
 import javafx.geometry.Orientation;
 import javafx.scene.*;
 import javafx.scene.control.Button;
@@ -21,6 +23,8 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
+import java.net.URL;
+import java.util.ResourceBundle;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -93,7 +97,7 @@ public class GUI extends Application {
         BorderPane generalPane = new BorderPane();
         BorderPane insidePane = new BorderPane();
 
-
+        insidePane.setLeft(scene); //prima center
         generalPane.setLeft(insidePane);
         generalPane.setRight(sideScene);
         generalPane.setCenter(loadingPane);
@@ -106,9 +110,6 @@ public class GUI extends Application {
             }
         }, 8000);
 
-        insidePane.setLeft(scene); //prima center
-
-
         scene.setManaged(false);
 
         sideScene.heightProperty().bind(generalPane.heightProperty());
@@ -117,14 +118,10 @@ public class GUI extends Application {
         scene.widthProperty().bind(generalPane.widthProperty().multiply(0.78));
 
         Scene scene1 = new Scene(generalPane);
-
         primaryStage.setWidth(1040);
         primaryStage.setHeight(700);
         primaryStage.setTitle("Santorini test gioco 3D");
         primaryStage.setScene(scene1);
         primaryStage.show();
     }
-
-
-
 }
