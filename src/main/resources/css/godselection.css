@@ -39,6 +39,11 @@
 
 #godframename {
     -fx-background-image: url("../Texture2D_sorted/Backgrounds/gameGodFrameName2.png");
+    -fx-text-fill: black;
+}
+
+#condLabel {
+    -fx-text-fill: black;
 }
 
 #selectedframename {
@@ -205,10 +210,6 @@
 
 #bggodselection {
     -fx-background-image: url("../Texture2D_sorted/Backgrounds/bggod.png");
-}
-
-#mark{
-    -fx-background-image: url("../Texture2D_sorted/Pulsanti/btn_featuredGod.png");
 }
 
 #descriptionLabel{

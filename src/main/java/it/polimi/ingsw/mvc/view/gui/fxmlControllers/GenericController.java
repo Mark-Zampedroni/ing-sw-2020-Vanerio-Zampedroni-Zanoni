@@ -1,10 +1,17 @@
 package it.polimi.ingsw.mvc.view.gui.fxmlControllers;
 
+import it.polimi.ingsw.mvc.view.gui.Gui;
 import it.polimi.ingsw.mvc.view.gui.GuiManager;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
+import javafx.geometry.Insets;
 import javafx.scene.Node;
 import javafx.scene.Scene;
+import javafx.scene.control.*;
 import javafx.scene.layout.*;
+import javafx.scene.paint.Paint;
+import javafx.scene.text.Font;
+import org.w3c.dom.Text;
 
 import java.util.Arrays;
 import java.util.List;
@@ -41,6 +48,56 @@ public abstract class GenericController {
     protected void showNode(Node node) {
         node.setManaged(true);
         node.setVisible(true);
+    }
+
+    protected void setFontRatio(Control node) {
+        Platform.runLater(() -> handleResizableElement(node));
+    }
+
+    protected void handleResizableElement(Control node) {
+        double defaultWidth = GuiManager.getInstance().getDefaultWidth();
+        Insets defaultPadding = node.getPadding();
+        if(Labeled.class.isAssignableFrom(node.getClass())) {
+            setFontSize((Labeled) node, defaultWidth, defaultPadding);
+        } else if(TextInputControl.class.isAssignableFrom(node.getClass())) {
+            setFontSize((TextInputControl) node, defaultWidth, defaultPadding);
+        }
+    }
+
+    private void setFontSize(Labeled node, double defaultWidth, Insets defaultPadding) {
+        setResizeEvent(node,defaultWidth,defaultPadding,node.getFont());
+    }
+
+    private void setFontSize(TextInputControl node, double defaultWidth, Insets defaultPadding) {
+        setResizeEvent(node,defaultWidth,defaultPadding,node.getFont());
+    }
+
+    private void setResizeEvent(Control node, double defaultWidth, Insets defaultPadding,Font font) {
+        double defaultFontSize = font.getSize();
+        String defaultFamily = font.getFamily();
+        String defaultStyle = font.getStyle();
+        changeFontParameters(node,GuiManager.getInstance().getStage().getWidth(),defaultWidth,defaultFontSize,defaultFamily,defaultStyle,defaultPadding);
+        GuiManager.getInstance().getStage().widthProperty().addListener((o, oldWidth, newWidth) -> changeFontParameters(node,newWidth.doubleValue(),defaultWidth,defaultFontSize,defaultFamily,defaultStyle,defaultPadding));
+    }
+
+    private void changeFontParameters(Control node, double newWidth, double defaultWidth, double defaultFontSize, String defaultFamily, String defaultStyle, Insets defaultPadding) {
+        double widthRatio = newWidth/defaultWidth;
+        //-fx-text-fill: greenyellow;
+        node.setStyle("-fx-font-size: " + (int) (defaultFontSize*widthRatio) +";"+
+                "-fx-font-family: '"+defaultFamily+"';"+
+                (defaultStyle.equals("Bold") ? "-fx-font-weight: bold;" : "")+
+                "-fx-background: transparent;"+
+                "-fx-background-color: transparent;");
+        setPadding(node, defaultPadding, widthRatio);
+    }
+
+    private void setPadding(Control node, Insets defaultPadding, double ratio) {
+        node.setPadding(new Insets(
+                defaultPadding.getTop()*ratio,
+                defaultPadding.getRight()*ratio,
+                defaultPadding.getBottom()*ratio,
+                defaultPadding.getLeft()*ratio
+        ));
     }
 
     public void showReconnection(boolean isReconnecting) {

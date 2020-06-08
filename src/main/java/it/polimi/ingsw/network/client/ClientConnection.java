@@ -131,7 +131,7 @@ public class ClientConnection implements Runnable {
     }
 
     public void disconnect() {
-        waitTime(2000);
+        //waitTime();
         try {
             if(!socket.isClosed()) {
                 socket.close();
@@ -154,7 +154,7 @@ public class ClientConnection implements Runnable {
 
     private void startReconnectionRequests(Client controller) {
         while(!reconnectRequest()) {
-            waitTime(2000);
+            waitTime();
         }
         if(reconnect) {
             sendMessage(new Message(MessageType.RECONNECTION_UPDATE,name,"Reconnecting","SERVER")); }
@@ -181,11 +181,11 @@ public class ClientConnection implements Runnable {
         this.name = name;
     }
 
-    private void waitTime(int mills) {
+    private void waitTime() {
         try {
-            Thread.sleep(mills);
+            Thread.sleep(2000);
         } catch(InterruptedException e) {
-            LOG.warning("[CONNECTION] Wait time of "+mills+"ms interrupted");
+            LOG.warning("[CONNECTION] Wait time of "+ 2000 +"ms interrupted");
         }
     }
 }

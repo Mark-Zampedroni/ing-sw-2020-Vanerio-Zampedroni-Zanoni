@@ -933,6 +933,11 @@
             <set />
           </value>
         </entry>
+        <entry key="$PROJECT_DIR$/src/main/resources/fxmlFiles/Title.fxml">
+          <value>
+            <set />
+          </value>
+        </entry>
         <entry key="$PROJECT_DIR$/src/test/it/polimi/ingsw/mvc/TestClient.java">
           <value>
             <set />

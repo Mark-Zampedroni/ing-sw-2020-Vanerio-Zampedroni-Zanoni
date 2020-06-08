@@ -150,17 +150,10 @@ public abstract class Client implements Observer<Message>, View {
     private void parseReconnectionReply(FlagMessage message) {
         reconnecting = false;
         if(!message.getFlag()) {
-            connection.setReconnect(false);
-            try {
-                Thread.sleep(1000);
-            } catch(InterruptedException e) { LOG.warning("[CLIENT] Wait time for disconnection interrupted"); }
-            connection.disconnect();
+            closeGame();
             LOG.info("[CLIENT] Couldn't reconnect because: "+message.getInfo()); // Quits game
         }
-        else {
-            LOG.info("[CLIENT] Reconnected!");
-            viewRequest(() -> showReconnection(false));
-        }
+        viewRequest((!message.getFlag()) ? () -> showDisconnected(message.getInfo()) : () -> showReconnection(false));
     }
 
     private void parseSlotMessage() { // TEST CLI
@@ -176,7 +169,16 @@ public abstract class Client implements Observer<Message>, View {
     }
 
     public boolean validateUsername(String requestedUsername) {
-        return (players.containsKey(requestedUsername) || requestedUsername.length() <= 0 || requestedUsername.length() >= 12);
+        return (players.containsKey(requestedUsername) || requestedUsername.length() <= 0 || requestedUsername.length() >= 12 || isNumeric(requestedUsername));
+    }
+
+    private boolean isNumeric(String string) {
+        try {
+            Integer.valueOf(string);
+            return true;
+        } catch(Exception e) {
+            return false;
+        }
     }
 
     public boolean validateColor(String requestedColor) {
@@ -199,16 +201,10 @@ public abstract class Client implements Observer<Message>, View {
     }
 
     private void parseDisconnectMessage(Message message) {
-        System.out.println("DISCONNECT UPDATE"); // <------------------------------- TEST
-        connection.setReconnect(false);
-        if(state == GameState.PRE_LOBBY) {
-            System.out.println("DISCONNECT IN PRE_LOBBY"); // <------------------------------- TEST
-            viewRequest(() -> showInfo(message.getInfo()));
+        if(state != GameState.PRE_LOBBY) {
+            closeGame();
         }
-        else {
-            connection.disconnect();
-            viewRequest(() -> showDisconnected(message.getInfo()));
-        }
+        viewRequest((state == GameState.PRE_LOBBY) ? () -> showInfo(message.getInfo()) : () -> showDisconnected(message.getInfo()));
     }
 
     private void parseInfoMessage(Message message) {
@@ -332,7 +328,6 @@ public abstract class Client implements Observer<Message>, View {
         if(state == GameState.GOD_SELECTION) {
             connection.setReconnect(true);
         }
-        //viewUpdate.add(() -> view.switchState(state));
     }
 
     public void sendMessage(Message message) {
@@ -348,8 +343,9 @@ public abstract class Client implements Observer<Message>, View {
         return Arrays.stream(Gods.values()).filter(god -> !chosenGods.contains(god.toString())).collect(Collectors.toList());
     }
 
-    public void disconnectClient() {
+    protected void disconnectClient() {
         if(connection != null) {
+            connection.setReconnect(false);
             connection.disconnect();
         }
     }
@@ -361,6 +357,11 @@ public abstract class Client implements Observer<Message>, View {
         gods = null;
         username = null;
         state = null;
+    }
+
+    protected void closeGame() {
+        disconnectClient();
+        init();
     }
 
 

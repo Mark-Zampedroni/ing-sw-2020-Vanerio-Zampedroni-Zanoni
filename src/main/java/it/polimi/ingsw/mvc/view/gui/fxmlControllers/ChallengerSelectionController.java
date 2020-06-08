@@ -4,11 +4,15 @@ import it.polimi.ingsw.utility.enumerations.Gods;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
+import javafx.scene.Node;
 import javafx.scene.control.Button;
+import javafx.scene.control.Control;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.*;
+import javafx.scene.paint.Paint;
 
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -54,7 +58,7 @@ public class ChallengerSelectionController extends GenericController {
     @FXML
     public Button selectButton;
     @FXML
-    public Label godNameLabel;
+    public Label godNameBanner;
     @FXML
     public Label descriptionLabel;
     @FXML
@@ -73,10 +77,11 @@ public class ChallengerSelectionController extends GenericController {
     public GridPane godsGrid;
     @FXML
     public GridPane selectedGrid;
+    @FXML
+    public Label selectedNameLabel;
 
     private int godRow, godColumn;
 
-    private double godsRatio;
     private String selectedGod;
     private List<String> chosenGods = new ArrayList<>(); // Una volta collegato al resto sarà null
 
@@ -85,6 +90,18 @@ public class ChallengerSelectionController extends GenericController {
         Platform.runLater(this::initGodsSelectionWindow);
         initSelectionButton();
         initSelectLabel();
+        initFonts();
+    }
+
+    private void initFonts() {
+        setFontRatio(selectButton);
+        setFontRatio(godNameBanner);
+        setFontRatio(descriptionLabel);
+        setFontRatio(conditionLabel);
+        setFontRatio(challengerLabel);
+        setFontRatio(infoLabel);
+        setFontRatio(emptySelectedLabel);
+        setFontRatio(selectedNameLabel);
     }
 
     private void initSelectLabel() {
@@ -102,7 +119,6 @@ public class ChallengerSelectionController extends GenericController {
 
     private void initGodsSelectionWindow() {
         Platform.runLater(this::loadGods);
-        Platform.runLater(this::getGodsRatio);
         Platform.runLater(this::resizeGods);
     }
 
@@ -135,19 +151,15 @@ public class ChallengerSelectionController extends GenericController {
     }
 
     private void displayDescription(String godName){
-        godNameLabel.setText(godName);
+        godNameBanner.setText(godName);
         String[] temp = Gods.valueOf(godName).getDescription().split(":");
         conditionLabel.setText("Effect ("+temp[0]+")");
         descriptionLabel.setText(temp[1]);
     }
 
-    private void getGodsRatio() {
-        godsRatio = godsScroll.getHeight()/godsPane.getHeight();
-    }
-
     private void resizeGods() {
-        godsPane.minHeightProperty().bind(godsScroll.heightProperty().divide(godsRatio));
-        godsPane.maxHeightProperty().bind(godsScroll.heightProperty().divide(godsRatio));
+        godsPane.minHeightProperty().bind(godsScroll.heightProperty().divide(0.5297560975609756));
+        godsPane.maxHeightProperty().bind(godsScroll.heightProperty().divide(0.5297560975609756));
     }
 
     public void requestChallengerGod(List<String> chosenGods) {

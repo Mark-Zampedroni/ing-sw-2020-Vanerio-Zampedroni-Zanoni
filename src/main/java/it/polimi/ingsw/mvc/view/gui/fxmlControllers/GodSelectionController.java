@@ -126,7 +126,7 @@ public class GodSelectionController extends GenericController {
                 actionPane.setDisable((false));
                 actionPane.setId("selectbutton");
                 setButtonState(() -> actionPane.setId("selectbuttonpressed"), () -> {
-                            actionPane.setId("selectButton");
+                            actionPane.setId("selectbutton");
                             gui.validatePlayerGodChoice(getGod());
                 });
             }

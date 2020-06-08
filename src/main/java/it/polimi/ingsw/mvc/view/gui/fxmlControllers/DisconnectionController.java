@@ -22,7 +22,6 @@ public class DisconnectionController extends GenericController {
         okButton.setOnMouseClicked(event -> okButton.setId("buttonPressed"));
         okButton.setOnMouseReleased(event -> {
             okButton.setId("buttonReleased");
-            gui.resetClient();
             Platform.runLater(() -> GuiManager.setLayout(this.getScene(), GuiManager.getFxmlPath(TitleController.class)));
         });
     }

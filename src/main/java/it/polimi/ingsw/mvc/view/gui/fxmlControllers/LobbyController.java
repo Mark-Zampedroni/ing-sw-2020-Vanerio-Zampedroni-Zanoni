@@ -45,6 +45,16 @@ public class LobbyController extends GenericController {
         hideNode(playerNameTwo);
         hideNode(colorPlayerTwo);
         initConfirmButton(confirmButton);
+        initFonts();
+    }
+
+    private void initFonts() {
+        setFontRatio(nameTextField);
+        setFontRatio(confirmButton);
+        setFontRatio(playerNameOne);
+        setFontRatio(playerNameTwo);
+        setFontRatio(infoLabel);
+        buttons.values().forEach(this::setFontRatio);
     }
 
     private void initButtons(Map<Colors,ToggleButton> buttons) {
