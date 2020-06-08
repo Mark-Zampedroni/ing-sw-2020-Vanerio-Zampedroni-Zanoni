@@ -24,9 +24,9 @@ public class BoardController extends GenericController {
     @FXML
     public SubScene sidebarSub;
     public SubScene gameSub;
-    public BorderPane main;
     public BorderPane gamePane;
     public GridPane sidebarGrid;
+    public BorderPane main;
 
     BoardObj board;
     BoardGrid grid;

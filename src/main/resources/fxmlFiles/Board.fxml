@@ -13,15 +13,12 @@
 
 <BorderPane id="loading" fx:id="main" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="1.0" minWidth="1.0" prefHeight="700.0" prefWidth="1040.0" styleClass="fullbackground" stylesheets="@../css/board.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.mvc.view.gui.fxmlControllers.BoardController">
     <left>
-      <GridPane GridPane.columnSpan="2" GridPane.rowSpan="3">
+      <GridPane prefHeight="700.0" prefWidth="1065.0" GridPane.columnSpan="2" GridPane.rowSpan="3">
          <columnConstraints>
             <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" />
-            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
          </columnConstraints>
          <rowConstraints>
             <RowConstraints maxHeight="678.5999755859375" minHeight="10.0" prefHeight="353.26666259765625" vgrow="SOMETIMES" />
-            <RowConstraints maxHeight="355.6666625976562" minHeight="10.0" prefHeight="347.1333374023437" vgrow="SOMETIMES" />
          </rowConstraints>
          <children>
               <BorderPane id="loading" fx:id="gamePane" minHeight="1.0" minWidth="1.0" prefHeight="700.0" prefWidth="840.0" styleClass="fullbackground" stylesheets="@../css/board.css" GridPane.columnSpan="3" GridPane.rowSpan="2">
