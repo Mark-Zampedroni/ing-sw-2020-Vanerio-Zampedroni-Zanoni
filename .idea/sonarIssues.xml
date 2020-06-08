@@ -358,6 +358,11 @@
             <set />
           </value>
         </entry>
+        <entry key="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/mvc/view/gui/fxmlControllers/DisconnectionController.java">
+          <value>
+            <set />
+          </value>
+        </entry>
         <entry key="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/mvc/view/gui/fxmlControllers/GenericController.java">
           <value>
             <set />
@@ -908,6 +913,11 @@
             <set />
           </value>
         </entry>
+        <entry key="$PROJECT_DIR$/src/main/resources/fxmlFiles/Disconnection.fxml">
+          <value>
+            <set />
+          </value>
+        </entry>
         <entry key="$PROJECT_DIR$/src/main/resources/fxmlFiles/GodSelection.fxml">
           <value>
             <set />
@@ -919,6 +929,11 @@
           </value>
         </entry>
         <entry key="$PROJECT_DIR$/src/main/resources/fxmlFiles/NumberOfPlayers.fxml">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/src/main/resources/fxmlFiles/Title.fxml">
           <value>
             <set />
           </value>

@@ -34,9 +34,16 @@ public class TitleController extends GenericController {
 
     public void initialize() {
         super.initialize(this);
+        initFonts();
         initChoiceButton(p2);
         initChoiceButton(p3);
         hideNode(textPane);
+    }
+
+    private void initFonts() {
+        setFontRatio(textLabel); //<--- TEST
+        setFontRatio(p2); //<--- TEST
+        setFontRatio(p3); //<--- TEST
     }
 
     @FXML
@@ -99,7 +106,6 @@ public class TitleController extends GenericController {
         hideNode(playButton);
         showNode(textPane);
         textLabel.setText(text);
-        textLabel.setStyle("-fx-font-size: 12;");
     }
 
     public static void setConnectionConfig(String ip, int port){

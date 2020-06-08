@@ -1,8 +1,6 @@
 package it.polimi.ingsw;
 
-import it.polimi.ingsw.mvc.view.cli.Cli;
 import it.polimi.ingsw.mvc.view.gui.Gui;
-import javafx.application.Application;
 
 public class ClientAppGui {
     public static void main(String[] args){

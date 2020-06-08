@@ -25,27 +25,33 @@ public abstract class Client implements Observer<Message>, View {
     protected GameState state;
     protected String username;
 
-    private final List<Runnable> requests, inputRequests;
+    private List<Runnable> requests, inputRequests;
 
     public final Logger LOG;
-    private final boolean logMessages = false; // True to show logs on terminal
+    private final boolean logMessages = true; // True to show logs on terminal
 
     protected boolean reconnecting = false;
 
     protected ClientConnection connection;
 
     protected String challenger;
-    protected final List<String> chosenGods;
+    protected List<String> chosenGods;
     protected Map<String, Colors> players;
     protected Map<String, String> gods;
 
     public Client() {
-        chosenGods = new ArrayList<>();
-        requests = new ArrayList<>();
-        inputRequests = new ArrayList<>();
+        init();
         LOG = Logger.getLogger("client");
         LOG.setUseParentHandlers(logMessages);
         startLogging();
+    }
+
+    protected void init() {
+        chosenGods = new ArrayList<>();
+        requests = new ArrayList<>();
+        inputRequests = new ArrayList<>();
+        reconnecting = false;
+        clearSessionVars();
     }
 
     private void startLogging() {
@@ -144,13 +150,10 @@ public abstract class Client implements Observer<Message>, View {
     private void parseReconnectionReply(FlagMessage message) {
         reconnecting = false;
         if(!message.getFlag()) {
-            connection.setReconnect(false);
+            closeGame();
             LOG.info("[CLIENT] Couldn't reconnect because: "+message.getInfo()); // Quits game
         }
-        else {
-            LOG.info("[CLIENT] Reconnected!");
-            viewRequest(() -> showReconnection(false));
-        }
+        viewRequest((!message.getFlag()) ? () -> showDisconnected(message.getInfo()) : () -> showReconnection(false));
     }
 
     private void parseSlotMessage() { // TEST CLI
@@ -166,7 +169,16 @@ public abstract class Client implements Observer<Message>, View {
     }
 
     public boolean validateUsername(String requestedUsername) {
-        return (players.containsKey(requestedUsername) || requestedUsername.length() <= 0 || requestedUsername.length() >= 12);
+        return (players.containsKey(requestedUsername) || requestedUsername.length() <= 0 || requestedUsername.length() >= 12 || isNumeric(requestedUsername));
+    }
+
+    private boolean isNumeric(String string) {
+        try {
+            Integer.valueOf(string);
+            return true;
+        } catch(Exception e) {
+            return false;
+        }
     }
 
     public boolean validateColor(String requestedColor) {
@@ -189,12 +201,10 @@ public abstract class Client implements Observer<Message>, View {
     }
 
     private void parseDisconnectMessage(Message message) {
-        if(state == GameState.PRE_LOBBY) {
-            viewRequest(() -> showInfo(message.getInfo()));
+        if(state != GameState.PRE_LOBBY) {
+            closeGame();
         }
-        else if(connection.getReconnect()) {
-            viewRequest(() -> showDisconnected(message.getInfo()));
-        }
+        viewRequest((state == GameState.PRE_LOBBY) ? () -> showInfo(message.getInfo()) : () -> showDisconnected(message.getInfo()));
     }
 
     private void parseInfoMessage(Message message) {
@@ -318,7 +328,6 @@ public abstract class Client implements Observer<Message>, View {
         if(state == GameState.GOD_SELECTION) {
             connection.setReconnect(true);
         }
-        //viewUpdate.add(() -> view.switchState(state));
     }
 
     public void sendMessage(Message message) {
@@ -334,10 +343,25 @@ public abstract class Client implements Observer<Message>, View {
         return Arrays.stream(Gods.values()).filter(god -> !chosenGods.contains(god.toString())).collect(Collectors.toList());
     }
 
-    public void disconnectClient() {
+    protected void disconnectClient() {
         if(connection != null) {
+            connection.setReconnect(false);
             connection.disconnect();
         }
+    }
+
+    private void clearSessionVars() {
+        connection = null;
+        challenger = null;
+        players = null;
+        gods = null;
+        username = null;
+        state = null;
+    }
+
+    protected void closeGame() {
+        disconnectClient();
+        init();
     }
 
 

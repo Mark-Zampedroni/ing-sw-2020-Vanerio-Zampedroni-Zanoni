@@ -111,7 +111,7 @@ public class ClientConnection implements Runnable {
                 LOG.severe(e.getMessage());
             }
             catch(IOException e) {
-                LOG.severe("[CONNECTION] Exception throw, connection closed");
+                LOG.severe("[CONNECTION] Socket closed");
                 disconnect();
             }
         }
@@ -131,9 +131,7 @@ public class ClientConnection implements Runnable {
     }
 
     public void disconnect() {
-        synchronized(queueLock) {
-            inQueue.add(new Message(MessageType.DISCONNECTION_UPDATE, "SELF", "Connection lost", "ALL"));
-        }
+        //waitTime();
         try {
             if(!socket.isClosed()) {
                 socket.close();
@@ -156,11 +154,7 @@ public class ClientConnection implements Runnable {
 
     private void startReconnectionRequests(Client controller) {
         while(!reconnectRequest()) {
-            try {
-                Thread.sleep(2000);
-            } catch (InterruptedException e) {
-                LOG.warning("[CONNECTION] Reconnection wait interrupted");
-            }
+            waitTime();
         }
         if(reconnect) {
             sendMessage(new Message(MessageType.RECONNECTION_UPDATE,name,"Reconnecting","SERVER")); }
@@ -177,7 +171,6 @@ public class ClientConnection implements Runnable {
 
     protected void setReconnect(boolean value) {
         reconnect = value;
-        if(!reconnect) { disconnect(); }
     }
 
     protected boolean getReconnect() {
@@ -186,5 +179,13 @@ public class ClientConnection implements Runnable {
 
     protected void setConnectionName(String name) {
         this.name = name;
+    }
+
+    private void waitTime() {
+        try {
+            Thread.sleep(2000);
+        } catch(InterruptedException e) {
+            LOG.warning("[CONNECTION] Wait time of "+ 2000 +"ms interrupted");
+        }
     }
 }

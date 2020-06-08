@@ -7,6 +7,7 @@ import it.polimi.ingsw.utility.enumerations.Colors;
 import it.polimi.ingsw.utility.dto.DtoPosition;
 import it.polimi.ingsw.utility.dto.DtoSession;
 import javafx.application.Platform;
+import javafx.beans.property.ReadOnlyDoubleProperty;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
@@ -27,6 +28,8 @@ public class GuiManager extends Client {
     private static GuiManager instance = null;
     private static Logger GUI_LOG;
 
+    private static double width;
+
     private GenericController currentController;
 
     private GuiManager() {
@@ -40,8 +43,25 @@ public class GuiManager extends Client {
         return instance;
     }
 
+    public Stage getStage() {
+        return Gui.getStage();
+    }
+
+    public double getDefaultWidth() {
+        return width;
+    }
+
+    public void setDefaultWidth(double w) {
+        width = w;
+    }
+
     public void setCurrentController(GenericController currentController) {
         this.currentController = currentController;
+    }
+
+    @Override
+    protected void disconnectClient() {
+        super.disconnectClient();
     }
 
     /*SET A SCENE*/
@@ -90,7 +110,7 @@ public class GuiManager extends Client {
     public Map<String,Colors> getPlayers(){ return players;}
 
     public String getNumberOfPlayers() {
-         return (players == null) ? "X" : Integer.toString(players.size());
+         return (players == null) ? String.valueOf(0) : Integer.toString(players.size());
     }
 
     public String getUsername() { return username; }
@@ -107,12 +127,6 @@ public class GuiManager extends Client {
         }
         Platform.runLater(request);
     }
-
-    /*
-    Vale solo per il primo player, gli altri non avrebbero la variabile
-    public int getNumber() {return number;}
-    public void setNumber(int number) {this.number=number;}
-     */
 
     @Override
     public void showInfo(String text) {
@@ -177,7 +191,7 @@ public class GuiManager extends Client {
 
     @Override
     public void showDisconnected(String info) {
-        // Controller fine gioco mancante
+        runUpdate(DisconnectionController.class, () -> ((DisconnectionController)currentController).showDisconnected(info));
     }
 
     @Override

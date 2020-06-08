@@ -1,8 +1,8 @@
 package it.polimi.ingsw.mvc.view.gui;
 
-import it.polimi.ingsw.mvc.view.gui.fxmlControllers.GenericController;
 import it.polimi.ingsw.mvc.view.gui.fxmlControllers.TitleController;
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
@@ -27,9 +27,14 @@ public class Gui extends Application {
         scene.getStylesheets().add("/css/connection.css");
         stage.setScene(scene);
         GuiManager.setLayout(stage.getScene(), GuiManager.getFxmlPath(TitleController.class)); // start screen
-        //GuiManager.setLayout(stage.getScene(), GuiWindow.getFxmlPath(GodSelectionController.class));
+        Platform.runLater(() -> bindScene(stage.getScene()));
+        //GuiManager.setLayout(stage.getScene(), GuiManager.getFxmlPath(DisconnectionController.class));
         stage.show();
+        GuiManager.getInstance().setDefaultWidth(stage.getWidth());
+    }
 
+    protected static Stage getStage() {
+        return stage;
     }
 
     public void init(String ip, int port) {
@@ -44,8 +49,11 @@ public class Gui extends Application {
     }
 
     public void bindScene(Scene scene) {
-        stage.minWidthProperty().bind(scene.heightProperty().multiply(2));
-        stage.minHeightProperty().bind(scene.widthProperty().divide(2));
+        double h = scene.getHeight();
+        double w = scene.getWidth();
+        stage.heightProperty().addListener((obs, oldVal, newVal) -> stage.setWidth(newVal.doubleValue()*w/h));
+        stage.minWidthProperty().bind(stage.heightProperty().multiply(w/h));
+        stage.maxWidthProperty().bind(stage.heightProperty().multiply(w/h));
     }
 
 }

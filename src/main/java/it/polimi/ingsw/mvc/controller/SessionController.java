@@ -1,6 +1,7 @@
 package it.polimi.ingsw.mvc.controller;
 
 import it.polimi.ingsw.mvc.controller.states.*;
+import it.polimi.ingsw.network.server.Server;
 import it.polimi.ingsw.utility.enumerations.Colors;
 import it.polimi.ingsw.utility.enumerations.GameState;
 import it.polimi.ingsw.utility.enumerations.MessageType;
@@ -43,13 +44,13 @@ public class SessionController implements Observer<Message>  {
     }
 
     public SessionController (Logger LOG, SavedData savedData, Map<String, ServerConnection> map) {
-        LOG.info("Reloading game data");
+        LOG.info("[CONTROLLER] Reloading game data");
         views = new ArrayList<>();
         session = savedData.getSession();
         reloadValues(LOG, savedData, map);
         ReloadGame.reloadViews(this,map,views,state);
         stateController.reloadState(this,savedData,views,LOG);
-        LOG.info("Done with reload");
+        LOG.info("[CONTROLLER] Done with reload");
     }
 
     private void reloadValues(Logger LOG, SavedData savedData, Map<String, ServerConnection> map) {
@@ -59,7 +60,6 @@ public class SessionController implements Observer<Message>  {
         turnOwner = savedData.getTurnOwner();
         gameCapacity = savedData.getGameCapacity();
         stateController = savedData.getStateController();
-
     }
 
     public Session getSession() { return session; }
@@ -88,13 +88,13 @@ public class SessionController implements Observer<Message>  {
                 stateController = new TurnController(this, views, LOG);
                 break;
             default:
-                LOG.severe("Tried to switch to state "+state+", but the Server doesn't support it yet");
+                LOG.severe("[CONTROLLER] Tried to switch to state "+state+", but the Server doesn't support it");
                 // Altri stati
         }
         synchronized(viewLock) {
             sendStateUpdate();
         }
-        LOG.info("Server switch to new state: "+state); // TEST
+        LOG.info("[CONTROLLER] Server switch to new state: "+state); // TEST
     }
 
     // Update ai client per notificarli che è cambiato lo stato, uguale per tutti gli stati
@@ -161,6 +161,13 @@ public class SessionController implements Observer<Message>  {
         if(state != GameState.LOBBY) {
             SavedData.saveGame(this, stateController, message, isParseCompleted);
         }
+    }
+
+    public void restartGame() {
+        LOG.info("[CONTROLLER] Game restarted from scratch");
+        ReloadGame.clearSavedFile();
+        Session.getInstance().clear();
+        Server.restartSession();
     }
 
 }
