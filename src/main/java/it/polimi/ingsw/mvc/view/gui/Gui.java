@@ -29,8 +29,8 @@ public class Gui extends Application {
         stage.setScene(scene);
         //GuiManager.setLayout(stage.getScene(), GuiManager.getFxmlPath(TitleController.class)); // start screen
         Platform.runLater(() -> bindScene(stage.getScene()));
-        //GuiManager.setLayout(stage.getScene(), GuiManager.getFxmlPath(DisconnectionController.class));
-        GuiManager.setLayout(stage.getScene(), GuiManager.getFxmlPath(BoardController.class)); // start screen
+        GuiManager.setLayout(stage.getScene(), GuiManager.getFxmlPath(BoardController.class));
+        //GuiManager.setLayout(stage.getScene(), GuiManager.getFxmlPath(BoardController.class)); // start screen
         stage.show();
         GuiManager.getInstance().setDefaultWidth(stage.getWidth());
     }

@@ -6,15 +6,14 @@ import it.polimi.ingsw.mvc.view.gui.objects3D.utils.BoardCamera;
 import it.polimi.ingsw.mvc.view.gui.objects3D.utils.BoardCoords3D;
 import it.polimi.ingsw.mvc.view.gui.objects3D.utils.BoardGrid;
 import it.polimi.ingsw.mvc.view.gui.objects3D.utils.BoardScene;
-import it.polimi.ingsw.utility.enumerations.Action;
-import it.polimi.ingsw.utility.enumerations.Colors;
 import it.polimi.ingsw.utility.dto.DtoPosition;
 import it.polimi.ingsw.utility.dto.DtoSession;
+import it.polimi.ingsw.utility.enumerations.Action;
+import it.polimi.ingsw.utility.enumerations.Colors;
 import javafx.fxml.FXML;
 import javafx.scene.Group;
 import javafx.scene.SubScene;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.GridPane;
 
 import java.io.IOException;
 import java.util.*;
@@ -22,45 +21,44 @@ import java.util.*;
 public class BoardController extends GenericController {
 
     @FXML
-    public SubScene sidebarSub;
-    public SubScene gameSub;
-    public BorderPane gamePane;
-    public GridPane sidebarGrid;
+    //public SubScene sidebarSub;
+    public SubScene gameScene;
+    public BorderPane sceneContainer;
     public BorderPane main;
+    //public GridPane sidebarGrid;
 
-    BoardObj board;
-    BoardGrid grid;
     Group objects = new Group();
-    WorkerObj worker;
-    SubScene scene;
+
     DtoSession localSession;
 
 
     public void initialize() throws Exception {
         super.initialize(this);
-        initSidebar();
         initBoard();
     }
 
     private void initBoard() throws Exception {
-        board = new BoardObj();
-        grid = new BoardGrid();
-        grid.setVisible(false);
+        WorkerObj worker;
+        BoardObj board = new BoardObj();
         objects.getChildren().addAll(
                 board,
-                grid,
-                worker = new WorkerObj(new BoardCoords3D(4,0,0))
+                worker = new WorkerObj(new BoardCoords3D(4,0,0)) // <---------- TEST
         );
 
-        scene = new BoardScene(objects,board,840,700);
-        main.setLeft(scene);
-        scene.heightProperty().bind((main.heightProperty()));
-        scene.widthProperty().bind(main.widthProperty().multiply(0.8077));
-        scene.setManaged(false);
-        new BoardCamera(scene);
-        //scene.setCursor(Cursor.OPEN_HAND); // si può cambiare il cursore
+        gameScene = new BoardScene(objects, board,840,700);
+        sceneContainer.setCenter(gameScene);
 
-        //populateBoard();
+        gameScene.heightProperty().bind((sceneContainer.heightProperty()));
+        gameScene.widthProperty().bind(sceneContainer.widthProperty());
+
+        gameScene.setManaged(false);
+        new BoardCamera(gameScene);
+        initWorkerTest(board,worker);
+        showReconnection(true);
+    }
+
+    private void initWorkerTest(BoardObj board, WorkerObj worker) {
+        //scene.setCursor(Cursor.OPEN_HAND); // si può cambiare il cursore
         worker.setOnMouseClicked(event -> {
             BoardCoords3D newCoords = new BoardCoords3D(0,0,0);
             board.getTile(worker.getCoords().getValueX(),worker.getCoords().getValueY()).addEffect(Action.MOVE);
@@ -99,21 +97,8 @@ public class BoardController extends GenericController {
         // il 3D è pesante da generare, va modificata solo la differenza tra la board vecchia (va salvata) e quella nuova
     }
 
-    public void initSidebar() throws IOException {
-
-        Timer timer = new Timer ();
-        timer.schedule(new TimerTask() {
-            @Override
-            public void run() {
-                gamePane.setVisible(false);
-            }
-        }, 8000);
-
-        sidebarSub.heightProperty().bind(main.heightProperty());
-        sidebarSub.widthProperty().bind(main.widthProperty().multiply(0.1923));
-    }
-
-    private void populateBoard(){
+    /*
+    private void populateBoard(BoardObj board, WorkerObj worker){
         board.getTile(0,0).increaseHeight();
         board.getTile(1,0).increaseHeight();
         board.getTile(1,0).increaseHeight();
@@ -130,5 +115,5 @@ public class BoardController extends GenericController {
         board.getTile(0,2).increaseHeight();
         board.getTile(2,2).increaseHeight();
         board.getTile(2,2).placeDome();
-    }
+    }*/
 }

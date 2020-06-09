@@ -353,6 +353,11 @@
             <set />
           </value>
         </entry>
+        <entry key="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/mvc/view/gui/fxmlControllers/BoardTestController.java">
+          <value>
+            <set />
+          </value>
+        </entry>
         <entry key="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/mvc/view/gui/fxmlControllers/ChallengerSelectionController.java">
           <value>
             <set />
@@ -878,6 +883,11 @@
             <set />
           </value>
         </entry>
+        <entry key="$PROJECT_DIR$/src/main/resources/css/boardTest.css">
+          <value>
+            <set />
+          </value>
+        </entry>
         <entry key="$PROJECT_DIR$/src/main/resources/css/connection.css">
           <value>
             <set />
@@ -899,6 +909,16 @@
           </value>
         </entry>
         <entry key="$PROJECT_DIR$/src/main/resources/fxmlFiles/Board.fxml">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/src/main/resources/fxmlFiles/BoardOld.fxml">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/src/main/resources/fxmlFiles/BoardTest.fxml">
           <value>
             <set />
           </value>

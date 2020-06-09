@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
 <?import javafx.geometry.*?>
 <?import java.net.*?>
 <?import javafx.scene.control.*?>
@@ -14,194 +13,222 @@
         <URL value="@../css/lobby.css" />
     </stylesheets>
     <center>
-      <GridPane id="bodybg" fx:id="mainGrid" minHeight="1.0" minWidth="1.0" pickOnBounds="false" styleClass="fullbackground" BorderPane.alignment="CENTER">
-        <columnConstraints>
-            <ColumnConstraints hgrow="SOMETIMES" maxWidth="105.86663665771485" minWidth="10.0" prefWidth="100.0" />
-            <ColumnConstraints hgrow="SOMETIMES" maxWidth="105.86663665771485" minWidth="10.0" prefWidth="100.0" />
-            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-            <ColumnConstraints hgrow="SOMETIMES" maxWidth="105.86663665771485" minWidth="10.0" prefWidth="100.0" />
-            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-        </columnConstraints>
-        <rowConstraints>
-            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-        </rowConstraints>
-         <children>
-            <BorderPane minHeight="1.0" minWidth="1.0" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="3" GridPane.columnSpan="3" GridPane.rowIndex="5">
-               <center>
-                  <Button id="confirmButtonBg" fx:id="confirmButton" minHeight="1.0" minWidth="1.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="158.0" style="-fx-background-color: transparent;" styleClass="fullbackground" text="Confirm" textAlignment="CENTER" textFill="WHITE" BorderPane.alignment="CENTER">
-                     <font>
-                        <Font name="Comic Sans MS" size="26.0" />
-                     </font>
-                     <padding>
-                        <Insets bottom="10.0" />
-                     </padding>
-                  </Button>
-               </center>
+        <GridPane id="bodybg" fx:id="mainGrid" minHeight="1.0" minWidth="1.0" pickOnBounds="false"
+                  styleClass="fullbackground" BorderPane.alignment="CENTER">
+            <columnConstraints>
+                <ColumnConstraints hgrow="SOMETIMES" maxWidth="105.86663665771485" minWidth="10.0" prefWidth="100.0"/>
+                <ColumnConstraints hgrow="SOMETIMES" maxWidth="105.86663665771485" minWidth="10.0" prefWidth="100.0"/>
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0"/>
+                <ColumnConstraints hgrow="SOMETIMES" maxWidth="105.86663665771485" minWidth="10.0" prefWidth="100.0"/>
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0"/>
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0"/>
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0"/>
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0"/>
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0"/>
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0"/>
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0"/>
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0"/>
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0"/>
+            </columnConstraints>
+            <rowConstraints>
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
+            </rowConstraints>
+            <BorderPane minHeight="1.0" minWidth="1.0" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="3"
+                        GridPane.columnSpan="3" GridPane.rowIndex="5">
+                <center>
+                    <Button id="confirmButtonBg" fx:id="confirmButton" minHeight="1.0" minWidth="1.0"
+                            mnemonicParsing="false" prefHeight="50.0" prefWidth="158.0"
+                            style="-fx-background-color: transparent;" styleClass="fullbackground" text="Confirm"
+                            textAlignment="CENTER" textFill="WHITE" BorderPane.alignment="CENTER">
+                        <font>
+                            <Font name="Comic Sans MS" size="26.0"/>
+                        </font>
+                        <padding>
+                            <Insets bottom="10.0"/>
+                        </padding>
+                    </Button>
+                </center>
             </BorderPane>
-            <BorderPane minHeight="1.0" minWidth="1.0" prefHeight="200.0" prefWidth="311.0" GridPane.columnIndex="2" GridPane.columnSpan="5" GridPane.rowIndex="3">
-               <center>
-                  <TextField id="textBack" fx:id="nameTextField" alignment="CENTER" maxWidth="292.0" minHeight="1.0" minWidth="1.0" prefHeight="50.0" prefWidth="292.0" promptText="Insert here your nickname!" style="-fx-background-color: transparent;" styleClass="fullbackground" BorderPane.alignment="CENTER">
-                     <font>
-                        <Font size="20.0" />
-                     </font>
-                  </TextField>
-               </center>
+            <BorderPane minHeight="1.0" minWidth="1.0" prefHeight="200.0" prefWidth="311.0" GridPane.columnIndex="2"
+                        GridPane.columnSpan="5" GridPane.rowIndex="3">
+                <center>
+                    <TextField id="textBack" fx:id="nameTextField" alignment="CENTER" maxWidth="292.0" minHeight="1.0"
+                               minWidth="1.0" prefHeight="50.0" prefWidth="292.0"
+                               promptText="Insert here your nickname!" style="-fx-background-color: transparent;"
+                               styleClass="fullbackground" BorderPane.alignment="CENTER">
+                        <font>
+                            <Font size="20.0"/>
+                        </font>
+                    </TextField>
+                </center>
             </BorderPane>
-            <BorderPane minHeight="1.0" minWidth="1.0" prefHeight="88.0" prefWidth="559.0" GridPane.columnIndex="1" GridPane.columnSpan="7" GridPane.rowIndex="2">
-               <center>
-                  <Label id="labelBack" fx:id="infoLabel" alignment="CENTER" maxWidth="610.0" minHeight="1.0" minWidth="1.0" prefHeight="88.0" prefWidth="557.0" styleClass="fullbackground" text="Insert your Nickname and choose a color" textFill="WHITE" BorderPane.alignment="CENTER">
-                     <font>
-                        <Font name="Comic Sans MS" size="23.0" />
-                     </font>
-                     <padding>
-                        <Insets bottom="5.0" />
-                     </padding>
-                  </Label>
-               </center>
+            <BorderPane minHeight="1.0" minWidth="1.0" prefHeight="88.0" prefWidth="559.0" GridPane.columnIndex="1"
+                        GridPane.columnSpan="7" GridPane.rowIndex="2">
+                <center>
+                    <Label id="labelBack" fx:id="infoLabel" alignment="CENTER" maxWidth="610.0" minHeight="1.0"
+                           minWidth="1.0" prefHeight="88.0" prefWidth="557.0" styleClass="fullbackground"
+                           text="Insert your Nickname and choose a color" textFill="WHITE"
+                           BorderPane.alignment="CENTER">
+                        <font>
+                            <Font name="Comic Sans MS" size="23.0"/>
+                        </font>
+                        <padding>
+                            <Insets bottom="5.0"/>
+                        </padding>
+                    </Label>
+                </center>
             </BorderPane>
-            <BorderPane minHeight="1.0" minWidth="1.0" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.columnSpan="2" GridPane.rowIndex="4">
-               <center>
-                  <ToggleButton id="colorBackground" fx:id="blueButton" minHeight="1.0" minWidth="1.0" mnemonicParsing="false" prefHeight="74.0" prefWidth="146.0" style="-fx-background-color: transparent;" styleClass="fullbackground" text="Blue" textFill="#faf8f8" BorderPane.alignment="CENTER">
-                     <font>
-                        <Font size="22.0" />
-                     </font>
-                     <graphic>
-                        <ImageView fitHeight="25.0" fitWidth="22.0" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@../Texture2D_sorted/Misti/blue.jpg" />
-                           </image>
-                           <effect>
-                              <Bloom />
-                           </effect>
-                        </ImageView>
-                     </graphic>
-                     <padding>
-                        <Insets bottom="5.0" />
-                     </padding>
-                  </ToggleButton>
-               </center>
+            <BorderPane minHeight="1.0" minWidth="1.0" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1"
+                        GridPane.columnSpan="2" GridPane.rowIndex="4">
+                <center>
+                    <ToggleButton id="colorBackground" fx:id="blueButton" minHeight="1.0" minWidth="1.0"
+                                  mnemonicParsing="false" prefHeight="74.0" prefWidth="146.0"
+                                  style="-fx-background-color: transparent;" styleClass="fullbackground" text="Blue"
+                                  textFill="#faf8f8" BorderPane.alignment="CENTER">
+                        <font>
+                            <Font size="22.0"/>
+                        </font>
+                        <graphic>
+                            <ImageView fitHeight="25.0" fitWidth="22.0" pickOnBounds="true" preserveRatio="true">
+                                <effect>
+                                    <Bloom/>
+                                </effect>
+                                <Image url="@../Texture2D_sorted/Misti/blue.jpg"/>
+                            </ImageView>
+                        </graphic>
+                        <padding>
+                            <Insets bottom="5.0"/>
+                        </padding>
+                    </ToggleButton>
+                </center>
             </BorderPane>
-            <BorderPane minHeight="1.0" minWidth="1.0" prefHeight="88.0" prefWidth="207.0" GridPane.columnIndex="3" GridPane.columnSpan="3" GridPane.rowIndex="4">
-               <center>
-                  <ToggleButton id="colorBackground" fx:id="whiteButton" minHeight="1.0" minWidth="1.0" mnemonicParsing="false" prefHeight="74.0" prefWidth="146.0" style="-fx-background-color: transparent;" styleClass="fullbackground" text="White" textFill="#faf8f8" BorderPane.alignment="CENTER">
-                     <font>
-                        <Font size="19.0" />
-                     </font>
-                     <graphic>
-                        <ImageView fitHeight="25.0" fitWidth="22.0" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@../Texture2D_sorted/Misti/white.jpg" />
-                           </image>
-                        </ImageView>
-                     </graphic>
-                     <padding>
-                        <Insets bottom="5.0" />
-                     </padding>
-                  </ToggleButton>
-               </center>
+            <BorderPane minHeight="1.0" minWidth="1.0" prefHeight="88.0" prefWidth="207.0" GridPane.columnIndex="3"
+                        GridPane.columnSpan="3" GridPane.rowIndex="4">
+                <center>
+                    <ToggleButton id="colorBackground" fx:id="whiteButton" minHeight="1.0" minWidth="1.0"
+                                  mnemonicParsing="false" prefHeight="74.0" prefWidth="146.0"
+                                  style="-fx-background-color: transparent;" styleClass="fullbackground" text="White"
+                                  textFill="#faf8f8" BorderPane.alignment="CENTER">
+                        <font>
+                            <Font size="19.0"/>
+                        </font>
+                        <graphic>
+                            <ImageView fitHeight="25.0" fitWidth="22.0" pickOnBounds="true" preserveRatio="true">
+                                <Image url="@../Texture2D_sorted/Misti/white.jpg"/>
+                            </ImageView>
+                        </graphic>
+                        <padding>
+                            <Insets bottom="5.0"/>
+                        </padding>
+                    </ToggleButton>
+                </center>
             </BorderPane>
-            <BorderPane minHeight="1.0" minWidth="1.0" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="6" GridPane.columnSpan="2" GridPane.rowIndex="4">
-               <center>
-                  <ToggleButton id="colorBackground" fx:id="brownButton" minHeight="1.0" minWidth="1.0" mnemonicParsing="false" prefHeight="74.0" prefWidth="146.0" style="-fx-background-color: transparent;" styleClass="fullbackground" text="Brown" textFill="#fff9f9" BorderPane.alignment="CENTER">
-                     <font>
-                        <Font size="18.0" />
-                     </font>
-                     <graphic>
-                        <ImageView fitHeight="22.0" fitWidth="22.0" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@../Texture2D_sorted/Misti/brown.jpg" />
-                           </image>
-                        </ImageView>
-                     </graphic>
-                     <padding>
-                        <Insets bottom="5.0" />
-                     </padding>
-                  </ToggleButton>
-               </center>
+            <BorderPane minHeight="1.0" minWidth="1.0" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="6"
+                        GridPane.columnSpan="2" GridPane.rowIndex="4">
+                <center>
+                    <ToggleButton id="colorBackground" fx:id="brownButton" minHeight="1.0" minWidth="1.0"
+                                  mnemonicParsing="false" prefHeight="74.0" prefWidth="146.0"
+                                  style="-fx-background-color: transparent;" styleClass="fullbackground" text="Brown"
+                                  textFill="#fff9f9" BorderPane.alignment="CENTER">
+                        <font>
+                            <Font size="18.0"/>
+                        </font>
+                        <graphic>
+                            <ImageView fitHeight="22.0" fitWidth="22.0" pickOnBounds="true" preserveRatio="true">
+                                <Image url="@../Texture2D_sorted/Misti/brown.jpg"/>
+                            </ImageView>
+                        </graphic>
+                        <padding>
+                            <Insets bottom="5.0"/>
+                        </padding>
+                    </ToggleButton>
+                </center>
             </BorderPane>
-            <BorderPane minHeight="1.0" minWidth="1.0" prefHeight="70.0" prefWidth="69.0" GridPane.columnIndex="9" GridPane.rowIndex="2">
-               <center>
-                  <GridPane BorderPane.alignment="CENTER">
-                    <columnConstraints>
-                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                      <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                      <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                    </columnConstraints>
-                    <rowConstraints>
-                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                    </rowConstraints>
-                     <children>
-                        <BorderPane id="head" fx:id="colorPlayerOne" minHeight="1.0" minWidth="1.0" prefHeight="200.0" prefWidth="200.0" styleClass="fullbackground" GridPane.columnIndex="1" GridPane.columnSpan="4" GridPane.rowIndex="1" GridPane.rowSpan="4" />
-                     </children>
-                  </GridPane>
-               </center></BorderPane>
-            <BorderPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="10" GridPane.columnSpan="2" GridPane.rowIndex="2">
-               <top>
-                  <Label id="labelBack" fx:id="playerNameOne" alignment="CENTER" prefHeight="88.0" prefWidth="594.0" styleClass="fullbackground" text="Waiting..." textAlignment="CENTER" textFill="WHITE" BorderPane.alignment="CENTER">
-                     <font>
-                        <Font name="Comic Sans MS" size="16.0" />
-                     </font>
-                  </Label>
-               </top>
+            <BorderPane minHeight="1.0" minWidth="1.0" prefHeight="70.0" prefWidth="69.0" GridPane.columnIndex="9"
+                        GridPane.rowIndex="2">
+                <center>
+                    <GridPane BorderPane.alignment="CENTER">
+                        <columnConstraints>
+                            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0"/>
+                            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0"/>
+                            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0"/>
+                            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0"/>
+                            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0"/>
+                            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0"/>
+                        </columnConstraints>
+                        <rowConstraints>
+                            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
+                            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
+                            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
+                            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
+                            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
+                            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
+                        </rowConstraints>
+                        <BorderPane id="head" fx:id="colorPlayerOne" minHeight="1.0" minWidth="1.0"
+                                    prefHeight="200.0" prefWidth="200.0" styleClass="fullbackground"
+                                    GridPane.columnIndex="1" GridPane.columnSpan="4" GridPane.rowIndex="1"
+                                    GridPane.rowSpan="4"/>
+                    </GridPane>
+                </center>
             </BorderPane>
-            <BorderPane minHeight="1.0" minWidth="1.0" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="10" GridPane.columnSpan="2" GridPane.rowIndex="3">
-               <center>
-                  <Label id="labelBack" fx:id="playerNameTwo" alignment="CENTER" prefHeight="88.0" prefWidth="594.0" styleClass="fullbackground" text="Waiting..." textAlignment="CENTER" textFill="WHITE" BorderPane.alignment="CENTER">
-                     <font>
-                        <Font name="Comic Sans MS" size="16.0" />
-                     </font>
-                  </Label>
-               </center>
+            <BorderPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="10" GridPane.columnSpan="2"
+                        GridPane.rowIndex="2">
+                <top>
+                    <Label id="labelBack" fx:id="playerNameOne" alignment="CENTER" prefHeight="88.0" prefWidth="594.0"
+                           styleClass="fullbackground" text="Waiting..." textAlignment="CENTER" textFill="WHITE"
+                           BorderPane.alignment="CENTER">
+                        <font>
+                            <Font name="Comic Sans MS" size="16.0"/>
+                        </font>
+                    </Label>
+                </top>
             </BorderPane>
-            <BorderPane layoutX="730.0" layoutY="184.0" minHeight="1.0" minWidth="1.0" prefHeight="70.0" prefWidth="69.0" GridPane.columnIndex="9" GridPane.rowIndex="3">
-               <center>
-                  <GridPane BorderPane.alignment="CENTER">
-                     <columnConstraints>
-                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                     </columnConstraints>
-                     <rowConstraints>
-                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                     </rowConstraints>
-                     <children>
-                        <BorderPane id="head" fx:id="colorPlayerTwo" minHeight="1.0" minWidth="1.0" prefHeight="200.0" prefWidth="200.0" styleClass="fullbackground" GridPane.columnIndex="1" GridPane.columnSpan="4" GridPane.rowIndex="1" GridPane.rowSpan="4" />
-                     </children>
-                  </GridPane>
-               </center>
+            <BorderPane minHeight="1.0" minWidth="1.0" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="10"
+                        GridPane.columnSpan="2" GridPane.rowIndex="3">
+                <center>
+                    <Label id="labelBack" fx:id="playerNameTwo" alignment="CENTER" prefHeight="88.0" prefWidth="594.0"
+                           styleClass="fullbackground" text="Waiting..." textAlignment="CENTER" textFill="WHITE"
+                           BorderPane.alignment="CENTER">
+                        <font>
+                            <Font name="Comic Sans MS" size="16.0"/>
+                        </font>
+                    </Label>
+                </center>
             </BorderPane>
-         </children>
-      </GridPane>
+            <BorderPane layoutX="730.0" layoutY="184.0" minHeight="1.0" minWidth="1.0" prefHeight="70.0"
+                        prefWidth="69.0" GridPane.columnIndex="9" GridPane.rowIndex="3">
+                <center>
+                    <GridPane BorderPane.alignment="CENTER">
+                        <columnConstraints>
+                            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0"/>
+                            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0"/>
+                            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0"/>
+                            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0"/>
+                            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0"/>
+                            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0"/>
+                        </columnConstraints>
+                        <rowConstraints>
+                            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
+                            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
+                            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
+                            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
+                            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
+                            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
+                        </rowConstraints>
+                        <BorderPane id="head" fx:id="colorPlayerTwo" minHeight="1.0" minWidth="1.0"
+                                    prefHeight="200.0" prefWidth="200.0" styleClass="fullbackground"
+                                    GridPane.columnIndex="1" GridPane.columnSpan="4" GridPane.rowIndex="1"
+                                    GridPane.rowSpan="4"/>
+                    </GridPane>
+                </center>
+            </BorderPane>
+        </GridPane>
    </center>
 </BorderPane>
