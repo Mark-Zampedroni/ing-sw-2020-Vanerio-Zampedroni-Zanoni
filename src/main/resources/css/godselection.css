@@ -213,15 +213,20 @@
 }
 
 #descriptionLabel{
-    -fx-font-size: 14;
+    -fx-font-size: 15;
     -fx-text-alignment: center;
     -fx-wrap-text: true;
+    -fx-text-fill: black;
 }
 #conditionLabel{
     -fx-font-size: 19;
     -fx-alignment: center;
     -fx-text-alignment: center;
+    -fx-text-fill: black;
 }
+
+
+
 
 #playerbuttonpressed {
     -fx-background-image: url("../Texture2D_sorted/Pulsanti/btn_green_pressed.png");
@@ -229,4 +234,9 @@
 
 #playerbutton {
     -fx-background-image: url("../Texture2D_sorted/Pulsanti/btn_green.png");
+}
+
+#actionlabel{
+    -fx-font-size: 17;
+    -fx-font-weight: bold;
 }

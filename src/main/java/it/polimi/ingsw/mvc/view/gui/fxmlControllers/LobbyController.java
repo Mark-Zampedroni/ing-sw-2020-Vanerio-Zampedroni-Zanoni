@@ -4,7 +4,9 @@ import it.polimi.ingsw.utility.enumerations.Colors;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.effect.Glow;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
+
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -16,11 +18,11 @@ public class LobbyController extends GenericController {
     @FXML
     public TextField nameTextField; //id textBack
     @FXML
-    public ToggleButton blueButton; //id colorBackground
+    public BorderPane blueButton; //id colorBackground
     @FXML
-    public ToggleButton whiteButton; //id colorBackground
+    public BorderPane brownButton; //id colorBackground
     @FXML
-    public ToggleButton brownButton; //id colorBackground
+    public BorderPane whiteButton; //id colorBackground
     @FXML
     public BorderPane colorPlayerOne; //id head
     @FXML
@@ -30,13 +32,16 @@ public class LobbyController extends GenericController {
     @FXML
     public Label playerNameTwo;
     @FXML
+    public AnchorPane borderPlayerTwo;
+    @FXML
+    public AnchorPane borderPlayerOne;
+    @FXML
     public Label infoLabel;
 
-    ToggleGroup toggleGroup;
 
     Colors color;
 
-    Map<Colors,ToggleButton> buttons;
+    Map<Colors,BorderPane> buttons;
 
     public void initialize() {
         super.initialize(this);
@@ -44,6 +49,7 @@ public class LobbyController extends GenericController {
         initButtons(buttons);
         hideNode(playerNameTwo);
         hideNode(colorPlayerTwo);
+        hideNode(borderPlayerTwo);
         initConfirmButton(confirmButton);
         initFonts();
     }
@@ -54,15 +60,14 @@ public class LobbyController extends GenericController {
         setFontRatio(playerNameOne);
         setFontRatio(playerNameTwo);
         setFontRatio(infoLabel);
-        buttons.values().forEach(this::setFontRatio);
+        buttons.values().forEach(b -> setFontRatio((Control) b.getChildren().get(0)));
     }
 
-    private void initButtons(Map<Colors,ToggleButton> buttons) {
+    private void initButtons(Map<Colors,BorderPane> buttons) {
         buttons.put(Colors.BLUE,blueButton);
         buttons.put(Colors.WHITE,whiteButton);
         buttons.put(Colors.BROWN,brownButton);
         buttons.values().forEach(this::initColorButton);
-        buttons.values().forEach(b -> b.setToggleGroup(toggleGroup));
     }
 
     private void initConfirmButton(Button button) {
@@ -76,7 +81,7 @@ public class LobbyController extends GenericController {
     }
 
     private void handleButtonReleased(Button button) {
-        button.setId("buttonReleased");
+        button.setId("confirmButtonBg");
         if(gui.validateUsername(nameTextField.getText()) || gui.validateColor(color.toString())) {
             infoLabel.setText("Insert a valid username and color!");
         } else {
@@ -84,14 +89,14 @@ public class LobbyController extends GenericController {
         }
     }
 
-    private void initColorButton(ToggleButton button) {
+    private void initColorButton(BorderPane button) {
         button.setOnMousePressed(event -> {
             color = buttons.keySet().stream().filter(key -> buttons.get(key) == button).findFirst().orElse(Colors.WHITE);
             confirmButton.setDisable(false);
-            button.setId("buttonPressedColor");
+            button.setId("colorpressed"+color);
             button.setEffect(new Glow(0.3));
             buttons.values().stream().filter(b -> b != button).forEach(b -> {
-                b.setId("buttonReleasedColor");
+                b.setId("color"+ buttons.keySet().stream().filter(c -> buttons.get(c) == b).findFirst().orElse(Colors.WHITE));
                 b.setEffect(new Glow(0));
             });
         });
@@ -103,40 +108,43 @@ public class LobbyController extends GenericController {
     }
 
     private void updatePlayers() {
-        handlePlayerSlot(playerNameOne,colorPlayerOne,0, Integer.parseInt(gui.getNumberOfPlayers()) > 0);
-        handlePlayerSlot(playerNameTwo,colorPlayerTwo,1, Integer.parseInt(gui.getNumberOfPlayers()) > 1);
+        handlePlayerSlot(playerNameOne,colorPlayerOne,0, Integer.parseInt(gui.getNumberOfPlayers()) > 0,borderPlayerOne);
+        handlePlayerSlot(playerNameTwo,colorPlayerTwo,1, Integer.parseInt(gui.getNumberOfPlayers()) > 1,borderPlayerTwo);
 
         if(gui.getPlayers().containsKey(gui.getUsername())) {
             hideNode(confirmButton);
             nameTextField.setDisable(true);
             infoLabel.setText("Wait for other players to log ...");
+            buttons.keySet().forEach(c-> buttons.get(c).setDisable(true));
         }
     }
 
-    private void handlePlayerSlot(Label name, BorderPane color, int number, boolean hasPlayer) {
+    private void handlePlayerSlot(Label name, BorderPane color, int number, boolean hasPlayer, AnchorPane labelBg) {
         if(hasPlayer) {
-            addPlayer(name,color,number);
+            addPlayer(name,color,number,labelBg);
         }
         else {
-            hideSlot(name,color,number);
+            hideSlot(name,color,number,labelBg);
         }
     }
 
-    private void addPlayer(Label name, BorderPane color, int number) {
+    private void addPlayer(Label name, BorderPane color, int number, AnchorPane labelbg) {
         String playerName = (String) gui.getPlayers().keySet().toArray()[number];
         String playerColor = gui.getPlayers().get(playerName).toString().toLowerCase();
         name.setText(playerName);
         color.setId("color" + playerColor.substring(0, 1).toUpperCase() + playerColor.substring(1));
         showNode(name);
         showNode(color);
+        showNode(labelbg);
     }
 
-    private void hideSlot(Label name, BorderPane color, int number) {
+    private void hideSlot(Label name, BorderPane color, int number, AnchorPane labelbg) {
         name.setText((number == 0) ? "Waiting..." : "");
         color.setId((number == 0) ? "head" : "");
         if(number != 0) {
             hideNode(name);
             hideNode(color);
+            hideNode(labelbg);
         }
     }
 

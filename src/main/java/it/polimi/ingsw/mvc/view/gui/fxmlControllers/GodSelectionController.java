@@ -61,6 +61,7 @@ public class GodSelectionController extends GenericController {
             Label temp = new Label();
             decorateNode(temp, id, classes, text);
             temp.setPrefSize(500,500);
+            setFontRatio(temp);
             if(position != null) {
                 temp.setAlignment(position);
             }
@@ -103,8 +104,10 @@ public class GodSelectionController extends GenericController {
             firstGrid.add(actionButtonGrid,0,5);
             decorateNode(actionPane, "selectbutton", Arrays.asList("fullbackground","invisiblebackground"), null);
             actionText.setText("SELECT");
+            actionText.setId("actionlabel");
             actionText.setPadding(new Insets(0,0,7,0));
             actionButtonGrid.add(actionPane,1,1,5,4);
+            setFontRatio(actionText);
         }
 
         private void decorateNode(Node node, String id, List<String> classes, String text) {
@@ -147,12 +150,7 @@ public class GodSelectionController extends GenericController {
 
         public void setStarterPlayerButton() {
             actionPane.setDisable(false);
-            if(getPlayerName().equalsIgnoreCase("mark")){
-                actionPane.setId("mark");
-            }
-            else {
-                actionPane.setId("playerbutton");
-            }
+            actionPane.setId("playerbutton");
             actionText.setPadding(new Insets(0,0,7,0));
             setButtonState(() -> actionPane.setId("playerbuttonpressed"), () -> gui.validatePlayer(getPlayerName()));
         }
