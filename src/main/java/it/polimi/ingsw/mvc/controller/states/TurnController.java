@@ -6,6 +6,7 @@ import it.polimi.ingsw.mvc.model.Session;
 import it.polimi.ingsw.mvc.model.rules.EventRules;
 import it.polimi.ingsw.mvc.model.rules.SpecialPower;
 import it.polimi.ingsw.mvc.view.RemoteView;
+import it.polimi.ingsw.network.messages.FlagMessage;
 import it.polimi.ingsw.network.messages.game.ActionMessage;
 import it.polimi.ingsw.network.server.Server;
 import it.polimi.ingsw.utility.enumerations.Action;
@@ -134,23 +135,43 @@ public class TurnController extends StateController implements Serializable {
     public void sendUpdate() {
         removePreventedActions();
         if(possibleActions.containsKey(Action.WIN)){
-            controller.switchState(GameState.END_GAME);
+            //controller.switchState(GameState.END_GAME);
             System.out.println(controller.getTurnOwner()+" won!"); // <--- TEST
             LOG.info(controller.getTurnOwner()+" won");
-            messageBuilder(MessageType.END_GAME, currentPlayer.getUsername(), true);
+            Message message = messageBuilder(MessageType.END_GAME, currentPlayer.getUsername(), true);
+            views.forEach(w -> w.sendMessage(message));
             //loro poi controllano se sono loro o no e switchano scena di conseguenza
-            tryNextState();
-            Server.restartSession();
+            /*Timer timer = new Timer();
+            try {
+                timer.wait(2000);
+            }
+            catch (Exception e) {
+               e.printStackTrace();
+            }*/
+            //tryNextState();
+            Timer timer = new Timer();
+            Restart restart = new Restart();
+            timer.schedule(restart, 10000);
             //stato successivo attende messaggio di ok o usa timer di 30 secondi, poi ri-istanzia il server da capo
             //a livello client viene dato il tasto per rigiocare che rimanda alla prima schermata, oppure si esce con tasto che chiude finestra
         }
         else if(possibleActions.keySet().isEmpty()){
             currentPlayer.loss();
-            System.out.println(controller.getTurnOwner()+" lost!"); // <--- TEST
-            LOG.info(controller.getTurnOwner()+" lost");
-            messageBuilder(MessageType.END_GAME, currentPlayer.getUsername(), false);
-            //vanno informati tutti, rimossi i WORKER dalla board e a livello grafico ingrigire nome e immagine
-            passTurn();
+            if(players.size() == 2) {
+                System.out.println(controller.getTurnOwner()+" won!"); // <--- TEST
+                LOG.info(controller.getTurnOwner()+" won");
+                List player = new ArrayList();
+                player.addAll(players);
+                player.remove(currentPlayer);
+                Message message = messageBuilder(MessageType.END_GAME, ((Player)player.get(0)).getUsername(), true);
+                views.forEach(w -> w.sendMessage(message));
+            } else {
+                System.out.println(controller.getTurnOwner()+" lost!"); // <--- TEST
+                LOG.info(controller.getTurnOwner()+" lost");
+                Message message = messageBuilder(MessageType.END_GAME, currentPlayer.getUsername(), false);
+                views.forEach(w -> w.sendMessage(message));
+                passTurn();
+            }
         }
         else {
             notifyBoardUpdate(possibleActions,currentPlayer.getUsername());
@@ -210,6 +231,12 @@ public class TurnController extends StateController implements Serializable {
         views.forEach(w -> w.updateActions(actionCandidates,turnOwner,isSpecialPowerActive));
     }
 
+
+    public class Restart extends TimerTask {
+        public void run() {
+            Server.restartSession();
+        }
+    }
 
 
 }
