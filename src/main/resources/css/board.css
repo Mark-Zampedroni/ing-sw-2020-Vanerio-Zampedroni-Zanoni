@@ -40,7 +40,7 @@
 }
 
 #sidebarBg{
-     -fx-background-image: url('../Texture2D_sorted/Backgrounds/cm_backingstone.png');
+     -fx-background-image: url('../Texture2D_sorted/Backgrounds/sidebar_bg.png');
   }
 
 #frame{
