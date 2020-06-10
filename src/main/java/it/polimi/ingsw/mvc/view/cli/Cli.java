@@ -20,12 +20,20 @@ public class Cli extends Client {
     private int godPage;
     private List<String> allSelectedGods;
     private DtoSession currentBoard;
+    private String ip;
+    private int port;
 
     public Cli(String ip, int port) {
         input = new Scanner(System.in);
+        initCli();
+        this.ip=ip;
+        this.port=port;
+        waitConnectionRequest(ip, port);
+    }
+
+    private void initCli(){
         inputSave = "";
         allSelectedGods = new ArrayList<>();
-        waitConnectionRequest(ip, port);
     }
 
 
@@ -219,4 +227,31 @@ public class Cli extends Client {
         System.out.println(" -> FINESTRA DISCONNECTED");
     }
 
+    @Override
+    protected void spectatorManage(String spectator) {
+        System.out.println(spectator+" has lost, now is a spectator!");
+    }
+
+    @Override
+    protected void spectatorMode() {
+        System.out.println("You lose, but you have to keep whatching!");
+    }
+
+    @Override
+    protected void winManage(String winner) {
+        if(username.equals(winner)) {
+            System.out.println("You win! Congratulations! \nPress 'ENTER' for a new Game! ");
+            requestInput();
+            initCli();
+            closeGame();
+            waitConnectionRequest(ip, port);
+        }
+        else {
+            System.out.println("You lose, the winner is: "+winner + "\nPress 'ENTER' for a new Game! ");
+            requestInput();
+            initCli();
+            closeGame();
+            waitConnectionRequest(ip, port);
+        }
+    }
 }

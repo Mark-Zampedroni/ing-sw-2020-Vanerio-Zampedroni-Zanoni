@@ -85,6 +85,21 @@ public class TestClient extends Client {
     }
 
     @Override
+    protected void spectatorManage(String spectator) {
+
+    }
+
+    @Override
+    protected void spectatorMode() {
+
+    }
+
+    @Override
+    protected void winManage(String winner) {
+
+    }
+
+    @Override
     public void sendMessage(Message message) {
         if(printMessages) { System.out.println(username+" SENDING TO SERVER:\n"+message+"\n"); }
         super.sendMessage(message);

@@ -128,21 +128,37 @@ public abstract class Client implements Observer<Message>, View {
                 case RECONNECTION_REPLY:
                     parseReconnectionReply((FlagMessage) message);
                     break;
+                case END_GAME:
+                    parseEndGame((FlagMessage)message);
+                    break;
                 case RECONNECTION_UPDATE:
                     if(connection.getReconnect()) { parseReconnectionUpdate(message); }
-                case END_GAME:
-                    //parseEndGame(message);
                     default: //
             }
             flushRequests();
         }
     }
 
-    /*
-    protected abstract void parseEndGame(Message message);{
-        closeGame();
+    
+    private void parseEndGame(FlagMessage message){
+        if(message.getFlag()) {
+            winManage(message.getInfo());
+        }
+        else {
+            if(message.getInfo().equals(username)){
+                spectatorMode(); 
+            } else {
+                spectatorManage(message.getInfo());
+            }
+        }
     }
-    */
+
+    protected abstract void spectatorManage(String spectator);
+
+    protected abstract void spectatorMode();
+
+    protected abstract void winManage(String winner);
+
 
     /* Connection */
     private void parseConnectionMessage(Message message) {
