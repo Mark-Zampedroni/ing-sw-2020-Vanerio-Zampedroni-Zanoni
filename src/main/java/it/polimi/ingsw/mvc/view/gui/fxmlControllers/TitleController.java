@@ -30,6 +30,8 @@ public class TitleController extends GenericController {
     public BorderPane textPane;
     @FXML
     public Label textLabel;
+    @FXML
+    public Button fullScreenButton;
 
 
     public void initialize() {
@@ -38,6 +40,8 @@ public class TitleController extends GenericController {
         initChoiceButton(p2);
         initChoiceButton(p3);
         hideNode(textPane);
+
+        //fullScreenButton.setOnMouseClicked(event -> GuiManager.getInstance().getStage().setFullScreen(true));
     }
 
     private void initFonts() {

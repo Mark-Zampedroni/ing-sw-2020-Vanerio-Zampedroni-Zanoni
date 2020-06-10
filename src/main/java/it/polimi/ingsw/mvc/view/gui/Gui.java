@@ -4,8 +4,10 @@ import it.polimi.ingsw.mvc.view.gui.fxmlControllers.BoardController;
 import it.polimi.ingsw.mvc.view.gui.fxmlControllers.TitleController;
 import javafx.application.Application;
 import javafx.application.Platform;
+import javafx.geometry.Rectangle2D;
 import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
+import javafx.stage.Screen;
 import javafx.stage.Stage;
 
 
@@ -33,6 +35,7 @@ public class Gui extends Application {
         //GuiManager.setLayout(stage.getScene(), GuiManager.getFxmlPath(BoardController.class)); // start screen
         stage.show();
         GuiManager.getInstance().setDefaultWidth(stage.getWidth());
+        //stage.setFullScreen(true);
     }
 
     protected static Stage getStage() {
@@ -53,7 +56,12 @@ public class Gui extends Application {
     public void bindScene(Scene scene) {
         double h = scene.getHeight();
         double w = scene.getWidth();
-        stage.heightProperty().addListener((obs, oldVal, newVal) -> stage.setWidth(newVal.doubleValue()*w/h));
+        stage.heightProperty().addListener((obs, oldVal, newVal) -> {
+            stage.setWidth(newVal.doubleValue()*w/h);
+            Rectangle2D primScreenBounds = Screen.getPrimary().getVisualBounds();
+            stage.setX((primScreenBounds.getWidth() - stage.getWidth()) / 2);
+            stage.setY((primScreenBounds.getHeight() - stage.getHeight()) / 2);
+        });
         stage.minWidthProperty().bind(stage.heightProperty().multiply(w/h));
         stage.maxWidthProperty().bind(stage.heightProperty().multiply(w/h));
     }
