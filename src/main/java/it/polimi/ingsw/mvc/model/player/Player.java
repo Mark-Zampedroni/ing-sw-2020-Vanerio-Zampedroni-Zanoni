@@ -155,13 +155,8 @@ public class Player implements Serializable {
      */
     public boolean isLoser() {return loss;}
 
-    /**
-     * The current player loses
-     */
-    public void setLoser() {loss = true;}
-
-    public void loss(){
-        setLoser();
+    public void loss() {
+        loss = true;
         workers.clear();
         if(rules != null) { rules.removeEffect(); }
     }

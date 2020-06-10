@@ -72,8 +72,8 @@ public abstract class StateController implements Serializable {
         views.removeIf(v -> v.hasName(username));
         if(willGameClose) {
             notifyMessage(new Message(MessageType.DISCONNECTION_UPDATE, "Server", username + " disconnected, the game was closed", "ALL"));
+            controller.restartGame();
         }
-        controller.restartGame();
     }
 
     //RECONNECTION_REPLY

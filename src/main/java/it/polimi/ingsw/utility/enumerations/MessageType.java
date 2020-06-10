@@ -17,7 +17,7 @@ public enum MessageType {
     ACTION,
     RECONNECTION_REPLY,
     RECONNECTION_UPDATE,
-    END_GAME,
+    WIN_LOSE_UPDATE,
 
     INFO_UPDATE
 }

@@ -33,5 +33,8 @@ public interface View {
     //In caso di crash
     void showReconnection(boolean isReconnecting);
     void showDisconnected(String info);
+    //In caso vincita/perdita player
+    void showWin(String playerName);
+    void showLose(String playerName);
 
 }

@@ -6,7 +6,6 @@ import it.polimi.ingsw.mvc.model.Session;
 import it.polimi.ingsw.mvc.model.rules.EventRules;
 import it.polimi.ingsw.mvc.model.rules.SpecialPower;
 import it.polimi.ingsw.mvc.view.RemoteView;
-import it.polimi.ingsw.network.messages.FlagMessage;
 import it.polimi.ingsw.network.messages.game.ActionMessage;
 import it.polimi.ingsw.network.server.Server;
 import it.polimi.ingsw.utility.enumerations.Action;
@@ -130,52 +129,52 @@ public class TurnController extends StateController implements Serializable {
         actionControl = new ActionController(this, currentPlayer);
     }
 
-
     @Override
     public void sendUpdate() {
         removePreventedActions();
         if(possibleActions.containsKey(Action.WIN)){
-            //controller.switchState(GameState.END_GAME);
+
             System.out.println(controller.getTurnOwner()+" won!"); // <--- TEST
             LOG.info(controller.getTurnOwner()+" won");
-            Message message = messageBuilder(MessageType.END_GAME, currentPlayer.getUsername(), true);
-            views.forEach(w -> w.sendMessage(message));
-            //loro poi controllano se sono loro o no e switchano scena di conseguenza
-            /*Timer timer = new Timer();
-            try {
-                timer.wait(2000);
-            }
-            catch (Exception e) {
-               e.printStackTrace();
-            }*/
-            //tryNextState();
-            Timer timer = new Timer();
-            Restart restart = new Restart();
-            timer.schedule(restart, 10000);
-            //stato successivo attende messaggio di ok o usa timer di 30 secondi, poi ri-istanzia il server da capo
+
+            notifyVictory(currentPlayer.getUsername());
+            //waitTime();
+            controller.restartGame();
             //a livello client viene dato il tasto per rigiocare che rimanda alla prima schermata, oppure si esce con tasto che chiude finestra
         }
-        else if(possibleActions.keySet().isEmpty()){
+        else if(possibleActions.keySet().isEmpty()) {
+
+            // players non va toccato come lista! Altrimenti sminchia gli aggiornamenti;
+            // basta settare .loss() e filtrare la lista per i giocatori non perdenti per controllare se qualcuno ha vinto.
+            // Il turno lo passa già al prossimo non perdente.
+
+            // Così dovrebbe essere ok, non ho testato
+
+            System.out.println(controller.getTurnOwner()+" lost!"); // <--- TEST
+            LOG.info(controller.getTurnOwner()+" lost");
+
             currentPlayer.loss();
-            if(players.size() == 2) {
-                System.out.println(controller.getTurnOwner()+" won!"); // <--- TEST
-                LOG.info(controller.getTurnOwner()+" won");
-                List player = new ArrayList();
-                player.addAll(players);
-                player.remove(currentPlayer);
-                Message message = messageBuilder(MessageType.END_GAME, ((Player)player.get(0)).getUsername(), true);
-                views.forEach(w -> w.sendMessage(message));
+            notifyLose(currentPlayer.getUsername());
+            List<String> notLosers = players.stream().filter(p -> !p.isLoser()).map(Player::getUsername).collect(Collectors.toList());
+            if(notLosers.size() == 1) {
+                notifyVictory(notLosers.get(0));
             } else {
-                System.out.println(controller.getTurnOwner()+" lost!"); // <--- TEST
-                LOG.info(controller.getTurnOwner()+" lost");
-                Message message = messageBuilder(MessageType.END_GAME, currentPlayer.getUsername(), false);
-                views.forEach(w -> w.sendMessage(message));
                 passTurn();
             }
         }
         else {
             notifyBoardUpdate(possibleActions,currentPlayer.getUsername());
         }
+    }
+
+    private void notifyVictory(String winnerName) {
+        Message message = messageBuilder(MessageType.WIN_LOSE_UPDATE, winnerName, true);
+        notifyMessage(message);
+    }
+
+    private void notifyLose(String loserName) {
+        Message message = messageBuilder(MessageType.WIN_LOSE_UPDATE, loserName, false);
+        notifyMessage(message);
     }
 
     private List<DtoPosition> getCandidates(Action type) {
@@ -231,13 +230,13 @@ public class TurnController extends StateController implements Serializable {
         views.forEach(w -> w.updateActions(actionCandidates,turnOwner,isSpecialPowerActive));
     }
 
-
-    public class Restart extends TimerTask {
-        public void run() {
-            Server.restartSession();
+    private void waitTime() {
+        try {
+            Thread.sleep(2000);
+        } catch(Exception e) {
+            LOG.warning("[TURN_CONTROLLER] Wait of 2000ms interrupted");
         }
     }
-
 
 }
 

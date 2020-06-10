@@ -26,14 +26,16 @@ public class Cli extends Client {
     public Cli(String ip, int port) {
         input = new Scanner(System.in);
         initCli();
-        this.ip=ip;
-        this.port=port;
+        this.ip = ip;
+        this.port = port;
         waitConnectionRequest(ip, port);
     }
 
     private void initCli(){
         inputSave = "";
         allSelectedGods = new ArrayList<>();
+        godPage = 0;
+        currentBoard = null;
     }
 
 
@@ -228,30 +230,15 @@ public class Cli extends Client {
     }
 
     @Override
-    protected void spectatorManage(String spectator) {
-        System.out.println(spectator+" has lost, now is a spectator!");
+    public void showWin(String playerName) {
+        System.out.println(playerName+" has won");
+        initCli();
+        waitConnectionRequest(ip,port);
     }
 
     @Override
-    protected void spectatorMode() {
-        System.out.println("You lose, but you have to keep whatching!");
+    public void showLose(String playerName) {
+        System.out.println(playerName+" has lost");
     }
 
-    @Override
-    protected void winManage(String winner) {
-        if(username.equals(winner)) {
-            System.out.println("You win! Congratulations! \nPress 'ENTER' for a new Game! ");
-            requestInput();
-            initCli();
-            closeGame();
-            waitConnectionRequest(ip, port);
-        }
-        else {
-            System.out.println("You lose, the winner is: "+winner + "\nPress 'ENTER' for a new Game! ");
-            requestInput();
-            initCli();
-            closeGame();
-            waitConnectionRequest(ip, port);
-        }
-    }
 }

@@ -41,7 +41,6 @@ class PlayerTest {
     @Test
     void correctlyLoser(){
         assertFalse(player.isLoser());
-        player.setLoser();
         player.addWorker(new Position(1,1));
         player.addWorker(new Position(2,2));
         player.setRules(GodRules.getInstance(Gods.HERA));

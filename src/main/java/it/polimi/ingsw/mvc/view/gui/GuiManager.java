@@ -198,11 +198,12 @@ public class GuiManager extends Client {
     public void requestLogin() { /* Logic already implemented within showLobby */ }
 
     @Override
-    protected void spectatorManage(String spectator) {}
+    public void showWin(String playerName) {
+         // DA IMPLEMENTARE
+    }
 
     @Override
-    protected void spectatorMode() {    }
-
-    @Override
-    protected void winManage(String winner) {}
+    public void showLose(String playerName) {
+         // DA IMPLEMENTARE
+    }
 }
