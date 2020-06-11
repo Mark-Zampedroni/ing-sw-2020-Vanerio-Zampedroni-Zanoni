@@ -1,0 +1,64 @@
+.root { 
+   -fx-focus-color: transparent;
+   -fx-faint-focus-color: transparent;
+}
+
+.fullbackground {
+    -fx-background-size: 100% 100%;
+}
+
+.invisiblebackground {
+    -fx-background: transparent;
+    -fx-background-color: transparent;
+}
+
+#whiteborder {
+ -fx-background-image: url("../Texture2D_sorted/Icone_dei/contorni/white_c_frame.png");
+}
+
+#blueborder {
+ -fx-background-image: url("../Texture2D_sorted/Icone_dei/contorni/blue_c_frame.png");
+}
+
+#yellowborder {
+ -fx-background-image: url("../Texture2D_sorted/Icone_dei/contorni/yellow_c_frame.png");
+}
+
+
+#rightpane {
+    -fx-background-image: url("../Texture2D_sorted/Backgrounds/bg_panelEdgeRight2.png");
+}
+
+#wholepane {
+    -fx-background-image: url("../Texture2D_sorted/Backgrounds/allselection.png");
+}
+
+#bgpane{
+    -fx-background-image: url("../Texture2D_sorted/Backgrounds/bg_panelMid.png");
+}
+
+#godframename {
+    -fx-background-image: url("../Texture2D_sorted/Backgrounds/gameGodFrameName2.png");
+    -fx-text-fill: black;
+}
+
+#selectedframename {
+    -fx-background-image: url("../Texture2D_sorted/Backgrounds/gameGodFrameName1.png");
+}
+
+#selectbutton {
+    -fx-background-image: url("../Texture2D_sorted/Pulsanti/btn_blue.png");
+}
+
+#selectbutton:disabled {
+  -fx-opacity: 1.0 ;
+  -fx-background-image: url("../Texture2D_sorted/Pulsanti/btn_small_gray.png");
+}
+
+#selectbuttonpressed {
+    -fx-background-image: url("../Texture2D_sorted/Pulsanti/btn_blue_pressed.png");
+}
+
+#condLabel {
+    -fx-text-fill: black;
+}

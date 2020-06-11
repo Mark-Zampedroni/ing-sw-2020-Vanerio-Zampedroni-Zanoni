@@ -11,6 +11,7 @@
 <BorderPane fx:id="main" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="1.0" minWidth="1.0" prefHeight="700.0" prefWidth="1040.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.mvc.view.gui.fxmlControllers.GodSelectionController">
    <stylesheets>
       <URL value="@../css/godselection.css" />
+      <URL value="@../css/gods.css" />
    </stylesheets>
    <center>
       <GridPane id="bggodselection" fx:id="mainGrid" hgap="5.0" minHeight="1.0" minWidth="1.0" styleClass="fullbackground" BorderPane.alignment="CENTER">

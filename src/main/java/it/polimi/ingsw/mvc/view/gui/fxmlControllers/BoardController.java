@@ -4,7 +4,6 @@ import it.polimi.ingsw.mvc.view.gui.objects3D.obj.BoardObj;
 import it.polimi.ingsw.mvc.view.gui.objects3D.obj.WorkerObj;
 import it.polimi.ingsw.mvc.view.gui.objects3D.utils.BoardCamera;
 import it.polimi.ingsw.mvc.view.gui.objects3D.utils.BoardCoords3D;
-import it.polimi.ingsw.mvc.view.gui.objects3D.utils.BoardGrid;
 import it.polimi.ingsw.mvc.view.gui.objects3D.utils.BoardScene;
 import it.polimi.ingsw.utility.dto.DtoPosition;
 import it.polimi.ingsw.utility.dto.DtoSession;
@@ -15,8 +14,8 @@ import javafx.scene.Group;
 import javafx.scene.SubScene;
 import javafx.scene.layout.BorderPane;
 
-import java.io.IOException;
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class BoardController extends GenericController {
 
@@ -54,7 +53,7 @@ public class BoardController extends GenericController {
         gameScene.setManaged(false);
         new BoardCamera(gameScene);
         initWorkerTest(board,worker);
-        showReconnection(true);
+        //showReconnection(true); // <----------- Test che mostra layer wifi in caso di disconnessione + attesa riconnessione
     }
 
     private void initWorkerTest(BoardObj board, WorkerObj worker) {
@@ -72,11 +71,10 @@ public class BoardController extends GenericController {
 
     public void requestTurnAction(Map<Action, List<DtoPosition>> possibleActions, DtoSession session, Map<String, Colors> colors, Map<String, String> gods) {
         updateBoard(localSession, session);
-        localSession=session;
+        localSession = session;
 
-        List <Action> actions = (List<Action>) possibleActions.keySet();
-        Collections.sort(actions);
-        actions.stream().forEach( p -> addButton(p));
+        List<Action> actions = possibleActions.keySet().stream().sorted().collect(Collectors.toList());
+        actions.forEach(this::addButton);
 
         //metodo per colori e nomi
         //metodo per dei e nomi
@@ -95,6 +93,17 @@ public class BoardController extends GenericController {
     public void showBoard(DtoSession session, Map<String, Colors> colors, Map<String, String> gods) {
         // update da view che richiede di aggiornare la board a quella contenuta in session
         // il 3D è pesante da generare, va modificata solo la differenza tra la board vecchia (va salvata) e quella nuova
+        /*
+        1) Arriva aggiornamento -> confronto board e worker -> applicare metodi board3D per visualizzare roba. Si salva da parte la nuova DtoSession al posto di quella vecchia
+
+        2) Se è il turno del player riempie un hashmap nel controller <String,List<Animazioni> > generando i nodi per tutte le animazioni e settandoli invisibili
+
+        3) Quando viene pigiato un tasto durante il turno del player setta la visibility a true al gruppo di nodi collegati all'azione chiamata con l'id del tasto ( map.get(Azione) )
+
+        4) Quando viene cliccata l'animazione visualizzata dal tasto o la tile sotto all'animazione viene eseguita la lambda function che manda il messaggio al server specificando la posizione —---- come ? Probabilmente conviene passare alle tile e animazioni un puntatore ad una lambda function (o runnable) che poi viene solo sotituito nel controller quando si cambia il tasto cliccato —--
+
+        5) A fine turno del giocatore corrente si puliscono (solo nel suo client) tutte le variabili relative ai nodi delle animazioni
+         */
     }
 
     /*
