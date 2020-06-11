@@ -191,7 +191,12 @@ public class GuiManager extends Client {
 
     @Override
     public void showDisconnected(String info) {
-        runUpdate(DisconnectionController.class, () -> ((DisconnectionController)currentController).showDisconnected(info));
+         if(currentController.getClass() == TitleController.class) {
+             runUpdate(TitleController.class, () -> ((TitleController)currentController).showDisconnected(info));
+         }
+         else {
+             runUpdate(DisconnectionController.class, () -> ((DisconnectionController) currentController).showDisconnected(info));
+         }
     }
 
     @Override

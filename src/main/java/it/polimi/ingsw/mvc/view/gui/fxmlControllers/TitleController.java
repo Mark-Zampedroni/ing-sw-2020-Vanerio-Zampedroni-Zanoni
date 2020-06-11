@@ -32,13 +32,16 @@ public class TitleController extends GenericController {
     public Label textLabel;
     @FXML
     public Button fullScreenButton;
+    @FXML
+    public Button okButton;
 
 
     public void initialize() {
         super.initialize(this);
         initFonts();
-        initChoiceButton(p2);
-        initChoiceButton(p3);
+        initButton(p2);
+        initButton(p3);
+        initButton(okButton);
         hideNode(textPane);
 
         //fullScreenButton.setOnMouseClicked(event -> GuiManager.getInstance().getStage().setFullScreen(true));
@@ -69,7 +72,7 @@ public class TitleController extends GenericController {
         playButton.setId("releasedStart");
     }
 
-    private void initChoiceButton(Button button) {
+    private void initButton(Button button) {
         button.setOnMousePressed(event -> handleButtonPressed(button));
         button.setOnMouseReleased(event -> handleButtonReleased(button));
         hideNode(button);
@@ -81,7 +84,13 @@ public class TitleController extends GenericController {
 
     private void handleButtonReleased(Button button) {
         button.setId("buttonReleased");
-        gui.validateNumberOfPlayers(Arrays.asList(button.getText().split(" ")).get(0));
+        if(button == okButton) {
+            hideNode(textPane);
+            hideNode(okButton);
+            showNode(playButton);
+        } else{
+            gui.validateNumberOfPlayers(Arrays.asList(button.getText().split(" ")).get(0));
+        }
     }
 
     @FXML
@@ -99,22 +108,29 @@ public class TitleController extends GenericController {
     }
 
     public void requestNumberOfPlayers() {
-        hideNode(playButton);
-        showNode(textPane);
+        switchMode("Choose the number of players!");
         showNode(p2);
         showNode(p3);
-        textLabel.setText("Choose the number of players!");
     }
 
     public void showInfo(String text) {
-        hideNode(playButton);
-        showNode(textPane);
-        textLabel.setText(text);
+        switchMode(text);
     }
 
     public static void setConnectionConfig(String ip, int port){
         connectionPort = port;
         connectionIp = ip;
+    }
+
+    public void showDisconnected(String text) {
+        switchMode(text);
+        showNode(okButton);
+    }
+
+    private void switchMode(String text) {
+        hideNode(playButton);
+        showNode(textPane);
+        textLabel.setText(text);
     }
 
 }

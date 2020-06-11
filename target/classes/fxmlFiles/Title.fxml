@@ -134,7 +134,7 @@
                         <children>
                             <BorderPane id="labelBar" fx:id="textPane" minHeight="1.0" minWidth="1.0" pickOnBounds="false" prefHeight="50.0" prefWidth="100.0" styleClass="fullbackground" GridPane.columnIndex="5" GridPane.columnSpan="7" GridPane.rowIndex="4" GridPane.rowSpan="3">
                                 <center>
-                                    <Label fx:id="textLabel" text="Label" textFill="WHITE" BorderPane.alignment="CENTER">
+                                    <Label fx:id="textLabel" alignment="CENTER" text="Label" textAlignment="CENTER" textFill="WHITE" BorderPane.alignment="CENTER">
                                         <font>
                                             <Font size="23.0" />
                                         </font>
@@ -168,6 +168,18 @@
                                     </Button>
                                 </center>
                             </BorderPane>
+                        <BorderPane minHeight="1.0" minWidth="1.0" pickOnBounds="false" prefHeight="50.0" prefWidth="100.0" GridPane.columnIndex="7" GridPane.columnSpan="3" GridPane.rowIndex="8" GridPane.rowSpan="2">
+                           <center>
+                              <Button id="buttonReleased" fx:id="okButton" mnemonicParsing="false" pickOnBounds="false" prefHeight="275.0" prefWidth="1166.0" style="-fx-background-color: transparent;" styleClass="fullbackground" text="Ok" textFill="WHITE" BorderPane.alignment="CENTER">
+                                 <font>
+                                    <Font size="24.0" />
+                                 </font>
+                                 <padding>
+                                    <Insets bottom="10.0" />
+                                 </padding>
+                              </Button>
+                           </center>
+                        </BorderPane>
                         </children>
                      </GridPane>
                </center>
