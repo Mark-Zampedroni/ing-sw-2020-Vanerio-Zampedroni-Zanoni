@@ -19,7 +19,6 @@ public class Cli extends Client {
     private String inputSave;
     private int godPage;
     private List<String> allSelectedGods;
-    private DtoSession currentBoard;
     private String ip;
     private int port;
 
@@ -35,7 +34,6 @@ public class Cli extends Client {
         inputSave = "";
         allSelectedGods = new ArrayList<>();
         godPage = 0;
-        currentBoard = null;
     }
 
 
@@ -62,6 +60,7 @@ public class Cli extends Client {
         }
     }
 
+    @Override
     public void requestNumberOfPlayers() {
         CliScene.printStartScreen("You are the first player to connect!\nchoose if you want to play as 2 or 3 people (Type 2 or 3) ",true);
         while(!validateNumberOfPlayers(requestInput().toUpperCase())) {
@@ -69,13 +68,14 @@ public class Cli extends Client {
         }
     }
 
-    public void showInfo(String text) {
+    @Override
+    public void showQueueInfo(String text) {
         if(state == GameState.PRE_LOBBY) {
             CliScene.printStartScreen(text,false);
         }
-
     }
 
+    @Override
     public void requestLogin() {
         String requestedUsername = requestLobbyInput("Input username: ",
                                                        "This username is invalid, choose a different one: ",
@@ -103,26 +103,30 @@ public class Cli extends Client {
         return requestInput();
     }
 
+    @Override
     public void showLobby(List<Colors> availableColors) {
         boolean input = true;
         if(players.containsKey(username)) {
             inputSave = "Waiting for other players to join ... ";
             input = false;
         }
-        CliScene.printLobbyScreen(inputSave, players,input);
+        CliScene.printLobbyScreen(inputSave, players, input);
     }
 
+    @Override
     public void updateChallengerGodSelection(List<String> gods) {
         inputSave = "You are not the challenger, wait while " +challenger+" chooses "+players.size()+" gods";
         CliScene.printChallengerGodsUpdate(inputSave, new ArrayList<>(gods), players.size());
     }
 
+    @Override
     public void updatePlayerGodSelection(String turnOwner, Map<String,String> choices, List<String> chosenGods) {
         if(allSelectedGods.isEmpty()) { allSelectedGods = new ArrayList<>(chosenGods); }
         inputSave = turnOwner+" is choosing his god, wait . . .";
         CliScene.printPlayerGodSelection(inputSave, choices, allSelectedGods, players.size(),false);
     }
 
+    @Override
     public void requestChallengerGod(List<String> gods) {
         inputSave = "You are the challenger! Type the name of one god to select it ";
         while(true) {
@@ -140,6 +144,7 @@ public class Cli extends Client {
         }
     }
 
+    @Override
     public void requestPlayerGod(List<String> chosenGods, Map<String,String> choices){
         if(allSelectedGods.isEmpty()) { allSelectedGods = new ArrayList<>(chosenGods); }
         inputSave = "Choose one of the available gods:";
@@ -150,6 +155,7 @@ public class Cli extends Client {
         }
     }
 
+    @Override
     public void requestStarterPlayer(Map<String,String> choices){
         inputSave = "As the challenger type the name of the starter player:";
         CliScene.printPlayerGodSelection(inputSave, choices, allSelectedGods, players.size(),true);
@@ -159,18 +165,19 @@ public class Cli extends Client {
         }
     }
 
+    @Override
     public void updateStarterPlayerSelection(Map<String,String> choices) {
         inputSave = "The challenger "+challenger+" is choosing the starter player . . .";
         CliScene.printPlayerGodSelection(inputSave, choices, allSelectedGods, players.size(),false);
     }
 
-    public void showBoard(DtoSession session, Map<String,Colors> colors, Map<String,String> gods){
-        currentBoard = session;
+    @Override
+    public void showBoard(DtoSession session, Map<String,Colors> colors, Map<String,String> gods) {
         CliScene.printBoardScreen(session, new HashMap<>(colors), new HashMap<>(gods));
     }
 
+    @Override
     public void requestTurnAction(Map<Action, List<DtoPosition>> possibleActions, DtoSession session, Map<String,Colors> colors, Map<String,String> gods, boolean isSpecialPowerActive) {
-        currentBoard = session;
         CliScene.printBoardScreen(session, new HashMap<>(colors), new HashMap<>(gods), possibleActions);
         // TEST DA QUI SOTTO ---
         if(possibleActions.containsKey(Action.SPECIAL_POWER)) { System.out.println("Special power: "+((isSpecialPowerActive) ? "ON" : "OFF")); }
@@ -220,13 +227,16 @@ public class Cli extends Client {
         return new DtoPosition(new Position(x,y));
     }
 
+    @Override
     public void showReconnection(boolean isReconnecting) {
         System.out.println(isReconnecting ? "-> FINESTRA RICONNESSIONE IN CORSO" : "-> RICARICAMENTO FINESTRA PRECEDENTE");
     }
 
     @Override
     public void showDisconnected(String info) {
-        System.out.println(" -> FINESTRA DISCONNECTED");
+        CliScene.printStartScreen(info+".\nPress start to go back to the title screen.",true);
+        requestInput();
+        waitConnectionRequest(ip, port);
     }
 
     @Override

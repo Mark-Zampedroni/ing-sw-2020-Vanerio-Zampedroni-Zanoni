@@ -92,7 +92,7 @@ public class TestClient extends Client {
 	
 
     @Override
-    public void showInfo(String text) { }
+    public void showQueueInfo(String text) { }
     @Override
     public void requestNumberOfPlayers() { }
     @Override

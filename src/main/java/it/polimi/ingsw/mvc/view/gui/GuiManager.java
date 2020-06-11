@@ -129,7 +129,7 @@ public class GuiManager extends Client {
     }
 
     @Override
-    public void showInfo(String text) {
+    public void showQueueInfo(String text) {
         runUpdate(TitleController.class, () -> ((TitleController)currentController).showInfo(text));
     }
 

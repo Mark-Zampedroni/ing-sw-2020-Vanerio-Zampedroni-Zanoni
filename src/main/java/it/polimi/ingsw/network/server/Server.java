@@ -147,19 +147,15 @@ public class Server extends Thread {
     private void disconnectInLobby(ServerConnection connection) {
         String user = connection.getUsername();
         LOG.info("[SERVER] "+user + " disconnected\n");
+        sessionController.removePlayer(user);
         if(sessionController.getState() == GameState.LOBBY) {
-            LOG.info("[SERVER] "+user + " removed from lobby\n");
-            sessionController.removePlayer(user);
             sessionController.sendUpdate();
-        }
-        else {
-            sessionController.removePlayer(user);
         }
     }
 
     protected void startLobby(ServerConnection connection, String choice) {
         if(!isLobbyCreated() && connection == gameCreator) { // Anti-cheat
-            if(Arrays.asList(new String[]{"2","3"}).contains(choice)) { // Anti-cheat
+            if(Arrays.asList("2","3").contains(choice)) { // Anti-cheat
                 sessionController.setGameCapacity(Integer.parseInt(choice));
                 fillPlayersSlots();
             }

@@ -220,11 +220,11 @@ public abstract class Client implements Observer<Message>, View {
         if(state != GameState.PRE_LOBBY) {
             closeGame();
         }
-        viewRequest((state == GameState.PRE_LOBBY) ? () -> showInfo(message.getInfo()) : () -> showDisconnected(message.getInfo()));
+        showDisconnected(message.getInfo());
     }
 
     private void parseInfoMessage(Message message) {
-        viewRequest(() -> showInfo(message.getInfo()));
+        viewRequest(() -> showQueueInfo(message.getInfo()));
     }
 
     private void parseRegistrationReply(FlagMessage message) {

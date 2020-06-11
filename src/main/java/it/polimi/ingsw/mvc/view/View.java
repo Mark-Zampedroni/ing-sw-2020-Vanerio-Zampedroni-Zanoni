@@ -12,29 +12,29 @@ import java.util.Map;
 public interface View {
 
 
-    void showInfo(String text); // Generico per mostrare testo nel box input XXXXXXXXXXXXXXXXX
+    void showQueueInfo(String text);
     //Pre-Lobby
-    void requestNumberOfPlayers(); // Chiede al primo giocatore da quante persone fare la partita XXXXXXXXXXXXX
+    void requestNumberOfPlayers();
     //Lobby
-    void showLobby(List<Colors> availableColors); // Aggiorna la LOBBY XXXXXXXXXXXXXXXXX
-    void requestLogin(); // Chiede al giocatore di scegliere un username e un colore XXXXXXXXXXXXXXXXX
+    void showLobby(List<Colors> availableColors);
+    void requestLogin();
     //Scelta dei da parte del Challenger
-    void updateChallengerGodSelection(List<String> chosenGods); // Aggiorna i player durante la scelta del Challenger XXXXXX
-    void requestChallengerGod(List<String> chosenGods); //Visualizza schermata al challenger, chiede in input un dio XXXXXXXXX
+    void updateChallengerGodSelection(List<String> chosenGods);
+    void requestChallengerGod(List<String> chosenGods);
     //Scelta dio di ogni giocatore
-    void updatePlayerGodSelection(String turnOwner, Map<String,String> choices, List<String> chosenGods); // Aggiorna i player durante le scelte del dio di ogni giocatore XXXXXX
-    void requestPlayerGod(List<String> chosenGods, Map<String,String> choices); // Chiede di scegliere un dio da usare XXXXXX
+    void updatePlayerGodSelection(String turnOwner, Map<String,String> choices, List<String> chosenGods);
+    void requestPlayerGod(List<String> chosenGods, Map<String,String> choices);
     //Scelta starter player
-    void updateStarterPlayerSelection(Map<String,String> choices); // Mostra i giocatori disponibili con i loro dei XXXXXXXXX
-    void requestStarterPlayer(Map<String,String> choices); // Chiede di scegliere lo starter player
+    void updateStarterPlayerSelection(Map<String,String> choices);
+    void requestStarterPlayer(Map<String,String> choices);
     //Richiesta azione durante il gioco
     void requestTurnAction(Map<Action, List<DtoPosition>> possibleActions, DtoSession session, Map<String,Colors> colors, Map<String,String> gods, boolean specialPower);
     void showBoard(DtoSession session, Map<String,Colors> colors, Map<String,String> gods);
-    //In caso di crash
-    void showReconnection(boolean isReconnecting);
-    void showDisconnected(String info);
     //In caso vincita/perdita player
     void showWin(String playerName);
     void showLose(String playerName);
+    //In caso di crash
+    void showReconnection(boolean isReconnecting);
+    void showDisconnected(String info);
 
 }
