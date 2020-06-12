@@ -79,3 +79,12 @@
     -fx-background-image: url('../Texture2D_sorted/Pulsanti/PulsantiBoard/gree_board.png');
 }
 
+#playerNameTry {
+    -fx-background-image: url('../Texture2D_sorted/Backgrounds/borderblueplayer2.png');
+}
+#playerNameTry2 {
+    -fx-background-image: url('../Texture2D_sorted/Backgrounds/borderbrownplayer2.png');
+}
+#playerNameTry3 {
+    -fx-background-image: url('../Texture2D_sorted/Backgrounds/borderwhiteplayer2.png');
+}
