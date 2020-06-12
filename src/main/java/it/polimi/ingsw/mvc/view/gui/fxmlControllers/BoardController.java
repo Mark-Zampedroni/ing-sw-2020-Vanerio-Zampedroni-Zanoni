@@ -125,4 +125,5 @@ public class BoardController extends GenericController {
         board.getTile(2,2).increaseHeight();
         board.getTile(2,2).placeDome();
     }*/
+
 }

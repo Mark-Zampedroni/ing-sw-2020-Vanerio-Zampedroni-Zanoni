@@ -82,7 +82,6 @@ public abstract class GenericController {
 
     private void changeFontParameters(Control node, double newWidth, double defaultWidth, double defaultFontSize, String defaultFamily, String defaultStyle, Insets defaultPadding) {
         double widthRatio = newWidth/defaultWidth;
-        //-fx-text-fill: greenyellow;
         node.setStyle("-fx-font-size: " + (int) (defaultFontSize*widthRatio) +";"+
                 "-fx-font-family: '"+defaultFamily+"';"+
                 (defaultStyle.equals("Bold") ? "-fx-font-weight: bold;" : "")+

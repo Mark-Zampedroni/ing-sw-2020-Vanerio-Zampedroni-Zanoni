@@ -139,10 +139,13 @@
                                              <String fx:value="edge-to-edge" />
                                          </styleClass>
                                         <content>
-                                            <Label fx:id="descriptionLabel" textAlignment="CENTER" textFill="#0000008c" wrapText="true">
+                                            <Label fx:id="descriptionLabel" contentDisplay="TOP" textAlignment="CENTER" textFill="#0000008c" wrapText="true">
                                                 <font>
                                                     <Font size="23.0" />
                                                 </font>
+                                       <padding>
+                                          <Insets left="10.0" />
+                                       </padding>
                                             </Label>
                                         </content>
                                      </ScrollPane>
@@ -152,6 +155,9 @@
                                                  <font>
                                                      <Font name="Calibri" size="24.0" />
                                                  </font>
+                                       <padding>
+                                          <Insets left="10.0" />
+                                       </padding>
                                              </Label>
                                          </center>
                                      </BorderPane>
@@ -308,6 +314,9 @@
                                                         <padding>
                                                             <Insets bottom="15.0" />
                                                         </padding>
+                                             <GridPane.margin>
+                                                <Insets left="10.0" />
+                                             </GridPane.margin>
                                                     </Label>
                                                     <Button id="selectbutton" fx:id="selectButton" mnemonicParsing="false" prefHeight="301.0" prefWidth="1032.0" styleClass="fullbackground" text="SELECT" textFill="WHITE" GridPane.columnIndex="2" GridPane.columnSpan="4" GridPane.rowIndex="8">
                                                         <font>
@@ -324,6 +333,9 @@
                                                         <padding>
                                                             <Insets bottom="15.0" />
                                                         </padding>
+                                             <GridPane.margin>
+                                                <Insets left="10.0" />
+                                             </GridPane.margin>
                                                     </Label>
                                                 </children>
                                              </GridPane>
