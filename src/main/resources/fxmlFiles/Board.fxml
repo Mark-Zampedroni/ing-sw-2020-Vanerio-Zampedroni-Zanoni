@@ -45,7 +45,7 @@
                      </SubScene>
                  </center>
               </BorderPane>
-              <GridPane id="sidebarBg" gridLinesVisible="true" style="-fx-background-color: #e5d9ca;" styleClass="fullbackground" GridPane.columnIndex="11" GridPane.columnSpan="3" GridPane.rowSpan="8">
+              <GridPane id="sidebarBg" style="-fx-background-color: #e5d9ca;" styleClass="fullbackground" GridPane.columnIndex="11" GridPane.columnSpan="3" GridPane.rowSpan="8">
                   <columnConstraints>
                   <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                       <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
@@ -65,7 +65,7 @@
                       <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                   </rowConstraints>
                <children>
-                  <BorderPane id="buttonTry4" minHeight="1.0" minWidth="1.0" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.columnSpan="4" GridPane.rowIndex="6">
+                  <BorderPane id="buttonTry4" fx:id="testButton3" minHeight="1.0" minWidth="1.0" pickOnBounds="false" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.columnSpan="4" GridPane.rowIndex="6">
                      <styleClass>
                         <String fx:value="fullbackground" />
                         <String fx:value="invisiblebackground" />
@@ -77,7 +77,7 @@
                            </font>
                         </Label>
                      </top></BorderPane>
-                  <BorderPane id="buttonTry3" minHeight="1.0" minWidth="1.0" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.columnSpan="4" GridPane.rowIndex="5">
+                  <BorderPane id="buttonTry3" fx:id="testButton2" minHeight="1.0" minWidth="1.0" pickOnBounds="false" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.columnSpan="4" GridPane.rowIndex="5">
                      <styleClass>
                         <String fx:value="fullbackground" />
                         <String fx:value="invisiblebackground" />
@@ -89,7 +89,7 @@
                            </font>
                         </Label>
                      </top></BorderPane>
-                  <BorderPane id="buttonTry2" minHeight="1.0" minWidth="1.0" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.columnSpan="4" GridPane.rowIndex="4">
+                  <BorderPane id="buttonTry2" fx:id="testButton" minHeight="1.0" minWidth="1.0" pickOnBounds="false" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.columnSpan="4" GridPane.rowIndex="4">
                      <styleClass>
                         <String fx:value="fullbackground" />
                         <String fx:value="invisiblebackground" />

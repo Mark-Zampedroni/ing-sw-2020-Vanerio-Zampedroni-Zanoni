@@ -1,14 +1,18 @@
 package it.polimi.ingsw.mvc.view.gui.fxmlControllers;
 
+import it.polimi.ingsw.mvc.model.map.Position;
+import it.polimi.ingsw.mvc.view.gui.objects3D.animation.ActionAnimation;
 import it.polimi.ingsw.mvc.view.gui.objects3D.obj.BoardObj;
 import it.polimi.ingsw.mvc.view.gui.objects3D.obj.WorkerObj;
 import it.polimi.ingsw.mvc.view.gui.objects3D.utils.BoardCamera;
 import it.polimi.ingsw.mvc.view.gui.objects3D.utils.BoardCoords3D;
 import it.polimi.ingsw.mvc.view.gui.objects3D.utils.BoardScene;
+import it.polimi.ingsw.mvc.view.gui.objects3D.utils.ObservableTileEvent;
 import it.polimi.ingsw.utility.dto.DtoPosition;
 import it.polimi.ingsw.utility.dto.DtoSession;
 import it.polimi.ingsw.utility.enumerations.Action;
 import it.polimi.ingsw.utility.enumerations.Colors;
+import it.polimi.ingsw.utility.observer.Observer;
 import javafx.fxml.FXML;
 import javafx.scene.Group;
 import javafx.scene.SubScene;
@@ -17,28 +21,45 @@ import javafx.scene.layout.BorderPane;
 import java.util.*;
 import java.util.stream.Collectors;
 
-public class BoardController extends GenericController {
+public class BoardController extends GenericController implements Observer<DtoPosition> {
 
     @FXML
-    //public SubScene sidebarSub;
     public SubScene gameScene;
+    @FXML
     public BorderPane sceneContainer;
+    @FXML
     public BorderPane main;
-    //public GridPane sidebarGrid;
+    @FXML
+    public BorderPane testButton;
+    @FXML
+    public BorderPane testButton2;
+    @FXML
+    public BorderPane testButton3;
 
     Group objects = new Group();
 
     DtoSession localSession;
 
+    ObservableTileEvent tileEvent;
+    //Runnable tileEventResponse;
+    String tileEventResponse = "[test_none]";
+
+
+    Map<Action,List<DtoPosition>> possibleActions;
+    Map<Action,List<ActionAnimation>> animations;
+
 
     public void initialize() throws Exception {
         super.initialize(this);
+        tileEvent = new ObservableTileEvent();
+        tileEvent.addObserver(this);
         initBoard();
+        initTestButtons();
     }
 
     private void initBoard() throws Exception {
         WorkerObj worker;
-        BoardObj board = new BoardObj();
+        BoardObj board = new BoardObj(tileEvent);
         objects.getChildren().addAll(
                 board,
                 worker = new WorkerObj(new BoardCoords3D(4,0,0)) // <---------- TEST
@@ -71,6 +92,9 @@ public class BoardController extends GenericController {
 
     public void requestTurnAction(Map<Action, List<DtoPosition>> possibleActions, DtoSession session, Map<String, Colors> colors, Map<String, String> gods) {
         updateBoard(localSession, session);
+
+        this.possibleActions = possibleActions;
+
         localSession = session;
 
         List<Action> actions = possibleActions.keySet().stream().sorted().collect(Collectors.toList());
@@ -80,6 +104,19 @@ public class BoardController extends GenericController {
         //metodo per dei e nomi
         //metodo per dtoSession
 
+    }
+
+    // NON CANCELLARE --- COMMENTA VIA SE STAI SISTEMANDO I TASTI <----------------------------------------------------
+    private void initTestButtons() {
+        // tileEventResponse sarà Runnable e non una String. E' una prova.
+        testButton.setOnMouseClicked(event -> tileEventResponse = "[TestEvent_1]");
+        testButton2.setOnMouseClicked(event -> tileEventResponse = "[TestEvent_2]");
+        testButton3.setOnMouseClicked(event -> tileEventResponse = "[TestEvent_3]");
+    }
+
+    @Override
+    public void update(DtoPosition position) {
+        System.out.println("Requested "+tileEventResponse+" on Position "+position);
     }
 
     private void updateBoard(DtoSession localSession, DtoSession session) {

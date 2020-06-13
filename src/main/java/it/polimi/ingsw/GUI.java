@@ -2,29 +2,14 @@ package it.polimi.ingsw;
 
 import it.polimi.ingsw.mvc.view.gui.objects3D.obj.BoardObj;
 import it.polimi.ingsw.mvc.view.gui.objects3D.obj.WorkerObj;
-import it.polimi.ingsw.mvc.view.gui.objects3D.utils.BoardCamera;
-import it.polimi.ingsw.mvc.view.gui.objects3D.utils.BoardCoords3D;
-import it.polimi.ingsw.mvc.view.gui.objects3D.utils.BoardGrid;
-import it.polimi.ingsw.mvc.view.gui.objects3D.utils.BoardScene;
+import it.polimi.ingsw.mvc.view.gui.objects3D.utils.*;
 import it.polimi.ingsw.utility.enumerations.Action;
 import javafx.application.Application;
-import javafx.application.Platform;
-import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.fxml.Initializable;
-import javafx.geometry.Orientation;
 import javafx.scene.*;
-import javafx.scene.control.Button;
-import javafx.scene.control.CheckBox;
-import javafx.scene.control.ToolBar;
-import javafx.scene.layout.Border;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
-import java.net.URL;
-import java.util.ResourceBundle;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -40,7 +25,7 @@ public class GUI extends Application {
     public void start(Stage primaryStage) throws Exception {
 
         //Gruppo oggetti che compongono la board (fissi + tutti le torri invisibili)
-        BoardObj board = new BoardObj();
+        BoardObj board = new BoardObj(new ObservableTileEvent());
         //Griglia della board
         BoardGrid grid = new BoardGrid();
         grid.setVisible(false);
@@ -89,9 +74,8 @@ public class GUI extends Application {
         });
 
         // 2D
-        FXMLLoader loader = new FXMLLoader();
-        BorderPane pane = loader.load(getClass().getResource("/fxmlFiles/sidebar.fxml"));
-        BorderPane loadingPane = loader.load(getClass().getResource("/fxmlFiles/loading.fxml"));
+        BorderPane pane = FXMLLoader.load(getClass().getResource("/fxmlFiles/sidebar.fxml"));
+        BorderPane loadingPane = FXMLLoader.load(getClass().getResource("/fxmlFiles/loading.fxml"));
 
         SubScene sideScene = new SubScene(pane, 200, 700);
         BorderPane generalPane = new BorderPane();

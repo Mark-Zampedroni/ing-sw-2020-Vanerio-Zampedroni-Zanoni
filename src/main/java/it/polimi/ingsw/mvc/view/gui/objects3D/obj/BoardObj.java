@@ -1,6 +1,7 @@
 package it.polimi.ingsw.mvc.view.gui.objects3D.obj;
 
 import it.polimi.ingsw.mvc.view.gui.objects3D.utils.NodeOperation;
+import it.polimi.ingsw.mvc.view.gui.objects3D.utils.ObservableTileEvent;
 import javafx.scene.Group;
 import javafx.scene.Node;
 
@@ -19,7 +20,7 @@ public class BoardObj extends Group {
 
     TileObj [][]tiles = new TileObj[5][5];
 
-    public BoardObj() throws Exception {
+    public BoardObj(ObservableTileEvent tileEventResponse) throws Exception {
         getChildren().addAll(
                 cliff = NodeOperation.getModel(CLIFF_OBJ, ALLBOARD_TEXTURE),
                 outerWall1 = NodeOperation.getModel(OUTERWALL1_OBJ, ALLBOARD_TEXTURE),
@@ -32,7 +33,7 @@ public class BoardObj extends Group {
 
         for(int x = 0; x < 5; x++) {
             for(int y = 0; y < 5; y++) {
-                tiles[x][y] = new TileObj(this, x,y);
+                tiles[x][y] = new TileObj(this, x,y, tileEventResponse);
                 getChildren().add(tiles[x][y]);
             }
         }

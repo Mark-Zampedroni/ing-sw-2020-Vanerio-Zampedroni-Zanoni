@@ -56,12 +56,6 @@ public class ActionAnimation extends TrackedGroup {
 
         NodeOperation.setTranslate(this, zeroX, zeroZ, zeroY);
 
-        /*
-        setOnMouseClicked(event -> {
-            setTranslateX(getTranslateX()+0.1);
-            System.out.println(getTranslateX());
-        });
-        */
         setCoords(coords);
     }
 
