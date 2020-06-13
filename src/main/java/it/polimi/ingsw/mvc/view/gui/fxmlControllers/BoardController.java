@@ -44,6 +44,7 @@ public class BoardController extends GenericController implements Observer<DtoPo
     //Runnable tileEventResponse;
     String tileEventResponse = "[test_none]";
 
+    BoardObj board;
 
     Map<Action,List<DtoPosition>> possibleActions;
     Map<Action,List<ActionAnimation>> animations;
@@ -59,7 +60,7 @@ public class BoardController extends GenericController implements Observer<DtoPo
 
     private void initBoard() throws Exception {
         WorkerObj worker;
-        BoardObj board = new BoardObj(tileEvent);
+        board = new BoardObj(tileEvent);
         objects.getChildren().addAll(
                 board,
                 worker = new WorkerObj(new BoardCoords3D(4,0,0)) // <---------- TEST
@@ -111,7 +112,7 @@ public class BoardController extends GenericController implements Observer<DtoPo
         // tileEventResponse sarà Runnable e non una String. E' una prova.
         testButton.setOnMouseClicked(event -> tileEventResponse = "[TestEvent_1]");
         testButton2.setOnMouseClicked(event -> tileEventResponse = "[TestEvent_2]");
-        testButton3.setOnMouseClicked(event -> tileEventResponse = "[TestEvent_3]");
+        testButton3.setOnMouseClicked(event -> board.getTile(2,2).increaseHeight());
     }
 
     @Override
