@@ -45,7 +45,7 @@
 }
 
 #labelBar {
-	-fx-background-image: url("../Texture2D_sorted/Backgrounds/clp_textbar.png");
+	-fx-background-image: url("../Texture2D_sorted/Backgrounds/clp_textbarv3.png");
 }
 
 #buttonReleased {
@@ -54,6 +54,4 @@
 
 #buttonPressed {
     -fx-background-image: url("../Texture2D_sorted/Pulsanti/btn_blue_pressed.png");
-}
-
 }

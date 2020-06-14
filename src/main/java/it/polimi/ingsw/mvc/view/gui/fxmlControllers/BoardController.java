@@ -53,6 +53,7 @@ public class BoardController extends GenericController implements Observer<DtoPo
     private List<BorderPane> actionButtons;
 
 
+
     public void initialize() throws Exception {
         super.initialize(this);
         tileEvent = new ObservableTileEvent();
