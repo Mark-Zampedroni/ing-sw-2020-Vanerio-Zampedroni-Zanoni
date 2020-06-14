@@ -2,6 +2,7 @@ package it.polimi.ingsw.mvc.view.gui.fxmlControllers;
 
 import it.polimi.ingsw.utility.enumerations.Colors;
 import javafx.fxml.FXML;
+import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.effect.Glow;
 import javafx.scene.layout.AnchorPane;
@@ -94,7 +95,7 @@ public class LobbyController extends GenericController {
             color = buttons.keySet().stream().filter(key -> buttons.get(key) == button).findFirst().orElse(Colors.WHITE);
             confirmButton.setDisable(false);
             button.setId("colorpressed"+color);
-            button.setEffect(new Glow(0.5));
+            button.setEffect(new Glow(0.6));
             buttons.values().stream().filter(b -> b != button).forEach(b -> {
                 b.setId("color"+ buttons.keySet().stream().filter(c -> buttons.get(c) == b).findFirst().orElse(Colors.WHITE));
                 b.setEffect(new Glow(0));
@@ -104,9 +105,7 @@ public class LobbyController extends GenericController {
 
     public void showLobby(List<Colors> availableColors) {
         buttons.keySet().forEach(c -> {
-            buttons.get(c).setDisable(!availableColors.contains(c));
-            if (!availableColors.contains(c)) {buttons.get(c).setOpacity(0.6);}
-            else {buttons.get(c).setOpacity(1);}
+            setDisableButton(buttons.get(c), !availableColors.contains(c));
         });
         updatePlayers();
     }
@@ -119,9 +118,13 @@ public class LobbyController extends GenericController {
             hideNode(confirmButton);
             nameTextField.setDisable(true);
             infoLabel.setText("Wait for other players to log ...");
-            buttons.keySet().forEach(c-> buttons.get(c).setDisable(true));
+            buttons.keySet().forEach(c-> setDisableButton(buttons.get(c),true));
         }
     }
+
+    private void setDisableButton(Node node, boolean v){
+        node.setDisable(v);
+        node.setOpacity((v) ? 0.5 : 1); }
 
     private void handlePlayerSlot(Label name, BorderPane color, int number, boolean hasPlayer, AnchorPane labelBg) {
         if(hasPlayer) {
