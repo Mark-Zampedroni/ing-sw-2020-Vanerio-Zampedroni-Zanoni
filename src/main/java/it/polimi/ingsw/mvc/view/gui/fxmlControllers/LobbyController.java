@@ -105,7 +105,8 @@ public class LobbyController extends GenericController {
     public void showLobby(List<Colors> availableColors) {
         buttons.keySet().forEach(c -> {
             buttons.get(c).setDisable(!availableColors.contains(c));
-            if (!availableColors.contains(c)) buttons.get(c).setOpacity(0.5);
+            if (!availableColors.contains(c)) {buttons.get(c).setOpacity(0.5);}
+            else {buttons.get(c).setOpacity(1);}
         });
         updatePlayers();
     }
