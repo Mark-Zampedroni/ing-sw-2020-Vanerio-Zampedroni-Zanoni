@@ -1,9 +1,12 @@
 package it.polimi.ingsw.mvc.view.gui.fxmlControllers;
 
 import it.polimi.ingsw.mvc.view.gui.objects3D.obj.BoardObj;
+import it.polimi.ingsw.mvc.view.gui.objects3D.obj.TileObj;
+import it.polimi.ingsw.mvc.view.gui.objects3D.obj.WorkerObj;
 import it.polimi.ingsw.mvc.view.gui.objects3D.utils.BoardCamera;
 import it.polimi.ingsw.mvc.view.gui.objects3D.utils.BoardScene;
 import it.polimi.ingsw.mvc.view.gui.objects3D.utils.ObservableTileEvent;
+import it.polimi.ingsw.utility.dto.DtoBoard;
 import it.polimi.ingsw.utility.dto.DtoPosition;
 import it.polimi.ingsw.utility.dto.DtoSession;
 import it.polimi.ingsw.utility.dto.DtoWorker;
@@ -128,6 +131,7 @@ public class BoardController extends GenericController implements Observer<DtoPo
     @Override
     public void update(DtoPosition position) {
         if(turnOwner && currentAction!=null && gui.validateAction(currentAction,position,possibleActions)) {
+            System.out.println("Accepted!");
            clearTurn();
         }
     }
@@ -140,7 +144,7 @@ public class BoardController extends GenericController implements Observer<DtoPo
     }
 
     private void showButtons(List<Action> p) {
-        System.out.println("Show buttons: "+actionButtons+" for actions: "+p);
+        System.out.println("Show buttons: "+actionButtons+" for actions: "+p); // <--------------- TEST
         p.forEach(action -> updateButton(actionButtons.get(p.indexOf(action)),action));
     }
 
@@ -152,6 +156,7 @@ public class BoardController extends GenericController implements Observer<DtoPo
         System.out.println("Showing board update ..."); // <-------------------------------------- TEST
         synchronized(boardLock) {
             updateWorkers(session.getWorkers());
+            updateBuildings(session.getBoard());
         }
         localSession = session;
     }
@@ -162,14 +167,25 @@ public class BoardController extends GenericController implements Observer<DtoPo
         localSession.getWorkers().forEach(w -> localPositions.put(w.getPosition(),w.getMasterUsername()));
 
         if(localSession.getWorkers().size() < workers.size()) { // A worker is added
-            System.out.println("Worker added"); // <-------------------------------------- TEST
             workers.stream().filter(w -> localPositions.keySet().stream().noneMatch(k -> k.equals(w.getPosition()))).forEach(this::addWorker);
         }
-        /*
         else if(localSession.getWorkers().size() == workers.size()) { // A worker was possibly moved
-            DtoPosition newPosition = workers.stream().filter(w -> w.getPosition())
+            moveWorkers(workers);
+        }
+    }
+
+    private void updateBuildings(DtoBoard newBoard) {
+        if(newBoard == null || localSession == null) { return; }
+        for(int x = 0; x < 5; x++) {
+            for(int y = 0; y < 5; y++) {
+                if(newBoard.getTile(x,y).getHeight() > localSession.getBoard().getTile(x,y).getHeight()) {
+                    board.getTile(x,y).increaseHeight();
+                }
+                if(newBoard.getTile(x,y).hasDome() && !localSession.getBoard().getTile(x,y).hasDome()) {
+                    board.getTile(x,y).placeDome();
+                }
             }
-        }*/
+        }
     }
 
     private void addWorker(DtoWorker w) {
@@ -177,6 +193,25 @@ public class BoardController extends GenericController implements Observer<DtoPo
             board.getTile(w.getPosition().getX(),w.getPosition().getY()).addWorker(objects, gui.getPlayers().get(w.getMasterUsername()));
         } catch(Exception e) { gui.LOG.severe("[BOARD_CONTROLLER_FX] Worker couldn't be loaded"); }
     }
+
+    private void moveWorkers(List<DtoWorker> workers) {
+        Map<WorkerObj, TileObj> m = buildMovementMap(workers);
+        m.forEach((w,t) -> t.setWorker(w));
+    }
+
+    private Map<WorkerObj, TileObj> buildMovementMap(List<DtoWorker> workers) {
+        List<DtoWorker> movedWorkers = workers.stream().filter(wn ->
+                localSession.getWorkers().stream().noneMatch(wo -> wo.getPosition().equals(wn.getPosition()) && wo.getMasterUsername().equals(wn.getMasterUsername()))).collect(Collectors.toList());
+        List<DtoWorker> oldMovedWorkers = localSession.getWorkers().stream().filter(wo ->
+                workers.stream().noneMatch(wn -> wn.getPosition().equals(wo.getPosition()) && wn.getMasterUsername().equals(wo.getMasterUsername()))).collect(Collectors.toList());
+
+        Map<WorkerObj, TileObj> temp = new HashMap<>();
+        movedWorkers.forEach(wn ->
+                oldMovedWorkers.stream().filter(wo -> wo.getMasterUsername().equals(wn.getMasterUsername()))
+                        .forEach(wo -> temp.put(board.getTile(wo.getPosition().getX(),wo.getPosition().getY()).getWorker(),board.getTile(wn.getPosition().getX(),wn.getPosition().getY()))));
+        return temp;
+    }
+
 
     public void clear() {
         clearAnimations();

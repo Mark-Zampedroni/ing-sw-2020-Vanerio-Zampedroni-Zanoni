@@ -337,7 +337,7 @@ public abstract class Client implements Observer<Message>, View {
     }
 
     public boolean validateAction(Action action, DtoPosition position, Map<Action, List<DtoPosition>> possibleActions) {
-        if(possibleActions.containsKey(action) && (action == Action.END_TURN || possibleActions.get(action).stream().anyMatch(p -> p.equals(position)))) {
+        if(possibleActions.containsKey(action) && (Action.getNullPosActions().contains(action) || possibleActions.get(action).stream().anyMatch(p -> p.equals(position)))) {
             sendMessage(new ActionMessage(username, "Action request", action, position, "SERVER"));
             return true;
         }

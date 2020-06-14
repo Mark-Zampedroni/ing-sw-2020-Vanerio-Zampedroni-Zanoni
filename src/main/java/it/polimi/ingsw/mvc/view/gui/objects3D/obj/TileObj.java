@@ -77,9 +77,7 @@ public class TileObj extends TrackedGroup {
     }
 
     public void grabWorker(TileObj workerTile) {
-        removeEffect(); // <------------------------------------------------- May remove later for SELECT_WORKER
-        worker = workerTile.getWorker();
-        worker.setCoords(new BoardCoords3D(x,y,tower.getHeight()));
+        setWorker(workerTile.getWorker());
     }
 
     public void addWorker(Group objects, Colors color) throws Exception {
@@ -93,6 +91,18 @@ public class TileObj extends TrackedGroup {
         WorkerObj temp = worker;
         worker = null;
         return temp;
+    }
+
+    public void setWorker(WorkerObj worker) {
+        removeEffect();
+        this.worker = worker;
+        worker.setCoords(new BoardCoords3D(x,y,tower.getHeight()));
+    }
+
+    public void switchWorker(TileObj targetTile) {
+        WorkerObj temp = worker;
+        grabWorker(targetTile);
+        targetTile.setWorker(temp);
     }
 
     private void printRed(Shape3D object) {
