@@ -5,6 +5,8 @@ import it.polimi.ingsw.mvc.view.gui.objects3D.animation.ActionAnimation;
 import it.polimi.ingsw.mvc.view.gui.objects3D.utils.BoardCoords3D;
 import it.polimi.ingsw.mvc.view.gui.objects3D.utils.ObservableTileEvent;
 import it.polimi.ingsw.utility.enumerations.Action;
+import it.polimi.ingsw.utility.enumerations.Colors;
+import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.PhongMaterial;
@@ -20,6 +22,7 @@ public class TileObj extends TrackedGroup {
     private boolean VISIBLE = false;
     private int x,y;
     private ObservableTileEvent eventResponse;
+    private WorkerObj worker;
 
     public TileObj(BoardObj board, int x, int y, ObservableTileEvent eventResponse) throws Exception {
         super(-12.3,12.6,0.3,-3.6,-7.3,-9.7);
@@ -60,21 +63,36 @@ public class TileObj extends TrackedGroup {
     public ActionAnimation addEffect(Action action) {
         removeEffect(); // replaces effect
         animation = new ActionAnimation(action, new BoardCoords3D(x,y,tower.getHeight()));
-        board.getChildren().add(animation);
+        //animation.setVisible(false);
+        //board.getChildren().add(animation);
         addClickEvent(animation);
         return animation;
     }
 
-    public void grabWorker(WorkerObj worker) {
+    public void removeEffect() {
+        if(animation != null) {
+            //board.getChildren().remove(animation);
+            animation = null;
+        }
+    }
+
+    public void grabWorker(TileObj workerTile) {
         removeEffect(); // <------------------------------------------------- May remove later for SELECT_WORKER
+        worker = workerTile.getWorker();
         worker.setCoords(new BoardCoords3D(x,y,tower.getHeight()));
     }
 
-    public void removeEffect() {
-        if(animation != null) {
-            board.getChildren().remove(animation);
-            animation = null;
+    public void addWorker(Group objects, Colors color) throws Exception {
+        if(worker == null) {
+            worker = new WorkerObj(new BoardCoords3D(x, y, tower.getHeight()), color);
+            objects.getChildren().add(worker);
         }
+    }
+
+    public WorkerObj getWorker() {
+        WorkerObj temp = worker;
+        worker = null;
+        return temp;
     }
 
     private void printRed(Shape3D object) {

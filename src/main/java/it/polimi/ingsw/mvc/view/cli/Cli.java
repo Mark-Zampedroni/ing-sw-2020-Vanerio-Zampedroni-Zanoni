@@ -190,7 +190,7 @@ public class Cli extends Client {
             CliScene.printBoardScreen(session, new HashMap<>(colors), new HashMap<>(gods), possibleActions);
             position = requestPosition(possibleActions.get(action));
         }
-        sendMessage(new ActionMessage(username, "Action request", action, position, "SERVER"));
+       validateAction(action, position, possibleActions);
 
     }
 
@@ -201,7 +201,7 @@ public class Cli extends Client {
             System.out.println("\nChoose an action (0, 1, 2, ...) on previous list:\n");
             x = requestInput();
         }
-        while(!x.matches("-?\\d+") || !validateAction(possibleActions.size()-1,Integer.parseInt(x)));
+        while(!x.matches("-?\\d+") || !validateRange(possibleActions.size()-1,Integer.parseInt(x)));
         return new ArrayList<>(possibleActions).get(Integer.parseInt(x));
     }
 

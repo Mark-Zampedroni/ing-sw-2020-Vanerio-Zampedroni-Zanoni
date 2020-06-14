@@ -1,21 +1,19 @@
 package it.polimi.ingsw.mvc.view.gui.fxmlControllers;
 
-import it.polimi.ingsw.mvc.model.map.Position;
-import it.polimi.ingsw.mvc.view.gui.objects3D.animation.ActionAnimation;
 import it.polimi.ingsw.mvc.view.gui.objects3D.obj.BoardObj;
-import it.polimi.ingsw.mvc.view.gui.objects3D.obj.WorkerObj;
 import it.polimi.ingsw.mvc.view.gui.objects3D.utils.BoardCamera;
-import it.polimi.ingsw.mvc.view.gui.objects3D.utils.BoardCoords3D;
 import it.polimi.ingsw.mvc.view.gui.objects3D.utils.BoardScene;
 import it.polimi.ingsw.mvc.view.gui.objects3D.utils.ObservableTileEvent;
 import it.polimi.ingsw.utility.dto.DtoPosition;
 import it.polimi.ingsw.utility.dto.DtoSession;
+import it.polimi.ingsw.utility.dto.DtoWorker;
 import it.polimi.ingsw.utility.enumerations.Action;
 import it.polimi.ingsw.utility.enumerations.Colors;
 import it.polimi.ingsw.utility.observer.Observer;
 import javafx.fxml.FXML;
 import javafx.scene.Group;
 import javafx.scene.SubScene;
+import javafx.scene.control.Label;
 import javafx.scene.layout.BorderPane;
 
 import java.util.*;
@@ -36,18 +34,23 @@ public class BoardController extends GenericController implements Observer<DtoPo
     @FXML
     public BorderPane testButton3;
 
-    Group objects = new Group();
 
-    DtoSession localSession;
+    private boolean turnOwner = false;
 
-    ObservableTileEvent tileEvent;
-    //Runnable tileEventResponse;
-    String tileEventResponse = "[test_none]";
+    private DtoSession localSession;
 
-    BoardObj board;
+    private ObservableTileEvent tileEvent;
 
-    Map<Action,List<DtoPosition>> possibleActions;
-    Map<Action,List<ActionAnimation>> animations;
+    private Group objects = new Group();
+    private BoardObj board;
+    private Map<Action,Group> animations;
+
+    private final Object boardLock = new Object();
+
+    private Map<Action,List<DtoPosition>> possibleActions;
+    private Action currentAction;
+
+    private List<BorderPane> actionButtons;
 
 
     public void initialize() throws Exception {
@@ -55,16 +58,13 @@ public class BoardController extends GenericController implements Observer<DtoPo
         tileEvent = new ObservableTileEvent();
         tileEvent.addObserver(this);
         initBoard();
-        initTestButtons();
+        actionButtons = new ArrayList<>(Arrays.asList(testButton3,testButton2,testButton));
+        actionButtons.forEach(this::hideNode);
     }
 
     private void initBoard() throws Exception {
-        WorkerObj worker;
         board = new BoardObj(tileEvent);
-        objects.getChildren().addAll(
-                board,
-                worker = new WorkerObj(new BoardCoords3D(4,0,0)) // <---------- TEST
-        );
+        objects.getChildren().addAll(board);
 
         gameScene = new BoardScene(objects, board,840,700);
         sceneContainer.setCenter(gameScene);
@@ -74,94 +74,112 @@ public class BoardController extends GenericController implements Observer<DtoPo
 
         gameScene.setManaged(false);
         new BoardCamera(gameScene);
-        initWorkerTest(board,worker);
         //showReconnection(true); // <----------- Test che mostra layer wifi in caso di disconnessione + attesa riconnessione
     }
 
-    private void initWorkerTest(BoardObj board, WorkerObj worker) {
-        //scene.setCursor(Cursor.OPEN_HAND); // si può cambiare il cursore
-        worker.setOnMouseClicked(event -> {
-            BoardCoords3D newCoords = new BoardCoords3D(0,0,0);
-            board.getTile(worker.getCoords().getValueX(),worker.getCoords().getValueY()).addEffect(Action.MOVE);
-            if(worker.getCoords().getValueX() == 4 && worker.getCoords().getValueY() != 4) { newCoords = new BoardCoords3D(worker.getCoords().getValueX(),worker.getCoords().getValueY()+1,0); }
-            else if(worker.getCoords().getValueY() == 4 && worker.getCoords().getValueX() != 0) { newCoords = new BoardCoords3D(worker.getCoords().getValueX()-1,worker.getCoords().getValueY(),0); }
-            else if(worker.getCoords().getValueX() == 0 && worker.getCoords().getValueY() != 0) { newCoords = new BoardCoords3D(worker.getCoords().getValueX(),worker.getCoords().getValueY()-1,0); }
-            else if(worker.getCoords().getValueY() == 0 && worker.getCoords().getValueX() != 4) { newCoords = new BoardCoords3D(worker.getCoords().getValueX()+1,worker.getCoords().getValueY(),0); }
-            board.getTile(newCoords.getValueX(),newCoords.getValueY()).grabWorker(worker);
-        });
-    }
-
     public void requestTurnAction(Map<Action, List<DtoPosition>> possibleActions, DtoSession session, Map<String, Colors> colors, Map<String, String> gods) {
-        updateBoard(localSession, session);
+        showBoard(session,colors,gods);
+        turnOwner = true;
+        addAnimations(possibleActions);
 
         this.possibleActions = possibleActions;
 
         localSession = session;
 
         List<Action> actions = possibleActions.keySet().stream().sorted().collect(Collectors.toList());
-        actions.forEach(this::addButton);
-
-        //metodo per colori e nomi
-        //metodo per dei e nomi
-        //metodo per dtoSession
+        showButtons(actions);
 
     }
 
-    // NON CANCELLARE --- COMMENTA VIA SE STAI SISTEMANDO I TASTI <----------------------------------------------------
-    private void initTestButtons() {
-        // tileEventResponse sarà Runnable e non una String. E' una prova.
-        testButton.setOnMouseClicked(event -> tileEventResponse = "[TestEvent_1]");
-        testButton2.setOnMouseClicked(event -> tileEventResponse = "[TestEvent_2]");
-        testButton3.setOnMouseClicked(event -> board.getTile(2,2).increaseHeight());
+    private void addAnimations(Map<Action, List<DtoPosition>> possibleActions) {
+        animations = new HashMap<>();
+        for(Action action : possibleActions.keySet()) {
+            Group temp = new Group();
+            temp.setVisible(false);
+            possibleActions.get(action).forEach(p -> temp.getChildren().add(board.getTile(p.getX(),p.getY()).addEffect(action)));
+            board.getChildren().add(temp);
+            animations.put(action,temp);
+        }
+    }
+
+    private void clearAnimations() {
+        if(animations != null) {
+            animations.values().forEach(group -> board.getChildren().remove(group));
+            animations = null;
+        }
+    }
+
+    private void showAnimations(Action action) {
+        animations.keySet().forEach(k -> animations.get(k).setVisible(k == action));
+    }
+
+    private void updateButton(BorderPane button, Action action) {
+        ((Label) button.getChildren().get(0)).setText(action.toString());
+        button.setOnMouseClicked( event -> {
+            currentAction = action;
+            showAnimations(action);
+            if(possibleActions.get(action).isEmpty()) {
+                update(null);
+            }
+        });
+        showNode(button);
     }
 
     @Override
     public void update(DtoPosition position) {
-        System.out.println("Requested "+tileEventResponse+" on Position "+position);
+        if(turnOwner && currentAction!=null && gui.validateAction(currentAction,position,possibleActions)) {
+           clearTurn();
+        }
     }
 
-    private void updateBoard(DtoSession localSession, DtoSession session) {
-
+    private void clearTurn() {
+        turnOwner = false;
+        currentAction = null;
+        hideButtons();
+        clearAnimations();
     }
 
-    private void addButton(Action p) {
+    private void showButtons(List<Action> p) {
+        System.out.println("Show buttons: "+actionButtons+" for actions: "+p);
+        p.forEach(action -> updateButton(actionButtons.get(p.indexOf(action)),action));
+    }
 
+    private void hideButtons() {
+        actionButtons.forEach(this::hideNode);
     }
 
     public void showBoard(DtoSession session, Map<String, Colors> colors, Map<String, String> gods) {
-        // update da view che richiede di aggiornare la board a quella contenuta in session
-        // il 3D è pesante da generare, va modificata solo la differenza tra la board vecchia (va salvata) e quella nuova
-        /*
-        1) Arriva aggiornamento -> confronto board e worker -> applicare metodi board3D per visualizzare roba. Si salva da parte la nuova DtoSession al posto di quella vecchia
-
-        2) Se è il turno del player riempie un hashmap nel controller <String,List<Animazioni> > generando i nodi per tutte le animazioni e settandoli invisibili
-
-        3) Quando viene pigiato un tasto durante il turno del player setta la visibility a true al gruppo di nodi collegati all'azione chiamata con l'id del tasto ( map.get(Azione) )
-
-        4) Quando viene cliccata l'animazione visualizzata dal tasto o la tile sotto all'animazione viene eseguita la lambda function che manda il messaggio al server specificando la posizione —---- come ? Probabilmente conviene passare alle tile e animazioni un puntatore ad una lambda function (o runnable) che poi viene solo sotituito nel controller quando si cambia il tasto cliccato —--
-
-        5) A fine turno del giocatore corrente si puliscono (solo nel suo client) tutte le variabili relative ai nodi delle animazioni
-         */
+        System.out.println("Showing board update ..."); // <-------------------------------------- TEST
+        synchronized(boardLock) {
+            updateWorkers(session.getWorkers());
+        }
+        localSession = session;
     }
 
-    /*
-    private void populateBoard(BoardObj board, WorkerObj worker){
-        board.getTile(0,0).increaseHeight();
-        board.getTile(1,0).increaseHeight();
-        board.getTile(1,0).increaseHeight();
-        board.getTile(1,0).addEffect(Action.MOVE);
-        board.getTile(0,0).addEffect(Action.MOVE);
-        board.getTile(2,0).addEffect(Action.BUILD);
-        board.getTile(0,4).grabWorker(worker);
-        board.getTile(0,1).increaseHeight();
-        board.getTile(0,1).increaseHeight();
-        board.getTile(0,1).increaseHeight();
-        board.getTile(0,1).addEffect(Action.SELECT_WORKER);
-        board.getTile(0,2).increaseHeight();
-        board.getTile(0,2).increaseHeight();
-        board.getTile(0,2).increaseHeight();
-        board.getTile(2,2).increaseHeight();
-        board.getTile(2,2).placeDome();
-    }*/
+    private void updateWorkers(List<DtoWorker> workers) {
+        if(workers == null || localSession == null) { return; }
+        Map<DtoPosition,String> localPositions = new HashMap<>();
+        localSession.getWorkers().forEach(w -> localPositions.put(w.getPosition(),w.getMasterUsername()));
+
+        if(localSession.getWorkers().size() < workers.size()) { // A worker is added
+            System.out.println("Worker added"); // <-------------------------------------- TEST
+            workers.stream().filter(w -> localPositions.keySet().stream().noneMatch(k -> k.equals(w.getPosition()))).forEach(this::addWorker);
+        }
+        /*
+        else if(localSession.getWorkers().size() == workers.size()) { // A worker was possibly moved
+            DtoPosition newPosition = workers.stream().filter(w -> w.getPosition())
+            }
+        }*/
+    }
+
+    private void addWorker(DtoWorker w) {
+        try {
+            board.getTile(w.getPosition().getX(),w.getPosition().getY()).addWorker(objects, gui.getPlayers().get(w.getMasterUsername()));
+        } catch(Exception e) { gui.LOG.severe("[BOARD_CONTROLLER_FX] Worker couldn't be loaded"); }
+    }
+
+    public void clear() {
+        clearAnimations();
+    }
 
 }

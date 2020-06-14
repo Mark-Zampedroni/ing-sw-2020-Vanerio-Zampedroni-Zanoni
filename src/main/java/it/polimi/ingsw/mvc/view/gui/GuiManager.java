@@ -107,7 +107,7 @@ public class GuiManager extends Client {
          }
     }
 
-    public Map<String,Colors> getPlayers(){ return players;}
+    public Map<String,Colors> getPlayers() { return players; }
 
     public String getNumberOfPlayers() {
          return (players == null) ? String.valueOf(0) : Integer.toString(players.size());
@@ -191,6 +191,9 @@ public class GuiManager extends Client {
 
     @Override
     public void showDisconnected(String info) {
+         if(currentController.getClass() == BoardController.class) {
+             Platform.runLater(() -> ((BoardController)currentController).clear());
+         }
          if(currentController.getClass() == TitleController.class) {
              runUpdate(TitleController.class, () -> ((TitleController)currentController).showDisconnected(info));
          }

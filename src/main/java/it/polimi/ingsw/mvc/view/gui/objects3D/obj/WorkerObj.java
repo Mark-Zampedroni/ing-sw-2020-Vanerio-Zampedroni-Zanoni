@@ -3,6 +3,7 @@ package it.polimi.ingsw.mvc.view.gui.objects3D.obj;
 import it.polimi.ingsw.mvc.view.gui.objects3D.TrackedGroup;
 import it.polimi.ingsw.mvc.view.gui.objects3D.utils.BoardCoords3D;
 import it.polimi.ingsw.mvc.view.gui.objects3D.utils.NodeOperation;
+import it.polimi.ingsw.utility.enumerations.Colors;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.scene.Node;
 import javafx.scene.transform.Rotate;
@@ -11,16 +12,15 @@ import javafx.scene.transform.Rotate;
 public class WorkerObj extends TrackedGroup {
 
     private final String WORKER_OBJ = "/obj/MaleBuilder.fxml";
-    private final String WORKER_TEXTURE = "/texture/MaleBuilder_Orange_v001.png";
 
     private final SimpleDoubleProperty angleY = new SimpleDoubleProperty(0);
     private Rotate yRotate;
     private Node worker;
 
-    public WorkerObj(BoardCoords3D coords) throws Exception {
+    public WorkerObj(BoardCoords3D coords, Colors color) throws Exception {
         super(-12.3,22.5,-2.1,
               -5.9,-9.4,-11.9); // Floors height offset
-        getChildren().add(worker = NodeOperation.getModel(WORKER_OBJ, WORKER_TEXTURE));
+        getChildren().add(worker = NodeOperation.getModel(WORKER_OBJ, getTextureColor(color)));
         NodeOperation.setScale(this,2.8);
 
         NodeOperation.setTranslate(this, zeroX, zeroZ, zeroY); //0.6,9.9
@@ -34,6 +34,10 @@ public class WorkerObj extends TrackedGroup {
             System.out.println(getTranslateZ());
         });*/
 
+    }
+
+    private String getTextureColor(Colors color) {
+        return "/texture/MaleBuilder_"+color+"_v001.png";
     }
 
     @Override

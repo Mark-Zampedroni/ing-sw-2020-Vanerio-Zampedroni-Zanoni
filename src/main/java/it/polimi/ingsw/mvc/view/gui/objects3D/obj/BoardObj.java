@@ -2,6 +2,7 @@ package it.polimi.ingsw.mvc.view.gui.objects3D.obj;
 
 import it.polimi.ingsw.mvc.view.gui.objects3D.utils.NodeOperation;
 import it.polimi.ingsw.mvc.view.gui.objects3D.utils.ObservableTileEvent;
+import it.polimi.ingsw.utility.dto.DtoPosition;
 import javafx.scene.Group;
 import javafx.scene.Node;
 
@@ -63,6 +64,10 @@ public class BoardObj extends Group {
 
     public TileObj getTile(int x, int y) {
         return (x >= 0 && x < 5 && y >= 0 && y < 5) ? tiles[x][y] : null;
+    }
+
+    public void moveWorker(int fromX, int fromY, int toX, int toY) {
+        getTile(toX,toY).grabWorker(getTile(fromX,fromY));
     }
 
 }

@@ -1,5 +1,7 @@
 package it.polimi.ingsw.network.client;
 
+import it.polimi.ingsw.mvc.model.map.Position;
+import it.polimi.ingsw.network.messages.game.ActionMessage;
 import it.polimi.ingsw.network.messages.game.ActionUpdateMessage;
 import it.polimi.ingsw.network.messages.lobby.RegistrationMessage;
 import it.polimi.ingsw.utility.enumerations.*;
@@ -330,8 +332,16 @@ public abstract class Client implements Observer<Message>, View {
         }
     }
 
-    public boolean validateAction(int range, int value) {
+    public boolean validateRange(int range, int value) {
         return value >= 0 && value <= range;
+    }
+
+    public boolean validateAction(Action action, DtoPosition position, Map<Action, List<DtoPosition>> possibleActions) {
+        if(possibleActions.containsKey(action) && (action == Action.END_TURN || possibleActions.get(action).stream().anyMatch(p -> p.equals(position)))) {
+            sendMessage(new ActionMessage(username, "Action request", action, position, "SERVER"));
+            return true;
+        }
+        return false;
     }
 
     public boolean validatePosition(List<DtoPosition> possiblePositions, int x, int y){

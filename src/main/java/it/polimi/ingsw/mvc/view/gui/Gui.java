@@ -31,8 +31,8 @@ public class Gui extends Application {
         scene.getStylesheets().add("/css/connection.css");
         stage.setScene(scene);
         Platform.runLater(() -> bindScene(stage.getScene()));
-        //GuiManager.setLayout(stage.getScene(), GuiManager.getFxmlPath(TitleController.class));
-        GuiManager.setLayout(stage.getScene(), GuiManager.getFxmlPath(BoardController.class)); // start screen
+        GuiManager.setLayout(stage.getScene(), GuiManager.getFxmlPath(TitleController.class));
+        //GuiManager.setLayout(stage.getScene(), GuiManager.getFxmlPath(BoardController.class)); // start screen
         stage.show();
         GuiManager.getInstance().setDefaultWidth(stage.getWidth());
         //stage.setFullScreen(true); <----------------------------------- full screen

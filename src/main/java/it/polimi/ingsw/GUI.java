@@ -4,6 +4,7 @@ import it.polimi.ingsw.mvc.view.gui.objects3D.obj.BoardObj;
 import it.polimi.ingsw.mvc.view.gui.objects3D.obj.WorkerObj;
 import it.polimi.ingsw.mvc.view.gui.objects3D.utils.*;
 import it.polimi.ingsw.utility.enumerations.Action;
+import it.polimi.ingsw.utility.enumerations.Colors;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.*;
@@ -36,7 +37,7 @@ public class GUI extends Application {
         objects.getChildren().addAll(
                 board,
                 grid,
-                worker = new WorkerObj(new BoardCoords3D(4,0,0))
+                worker = new WorkerObj(new BoardCoords3D(4,0,0), Colors.BLUE)
         );
 
 
@@ -47,7 +48,7 @@ public class GUI extends Application {
         board.getTile(1,0).addEffect(Action.MOVE);
         board.getTile(0,0).addEffect(Action.MOVE);
         board.getTile(2,0).addEffect(Action.BUILD);
-        board.getTile(0,4).grabWorker(worker);
+        //board.getTile(0,4).grabWorker(worker);
         board.getTile(0,1).increaseHeight();
         board.getTile(0,1).increaseHeight();
         board.getTile(0,1).increaseHeight();
@@ -70,7 +71,7 @@ public class GUI extends Application {
             else if(worker.getCoords().getValueY() == 4 && worker.getCoords().getValueX() != 0) { newCoords = new BoardCoords3D(worker.getCoords().getValueX()-1,worker.getCoords().getValueY(),0); }
             else if(worker.getCoords().getValueX() == 0 && worker.getCoords().getValueY() != 0) { newCoords = new BoardCoords3D(worker.getCoords().getValueX(),worker.getCoords().getValueY()-1,0); }
             else if(worker.getCoords().getValueY() == 0 && worker.getCoords().getValueX() != 4) { newCoords = new BoardCoords3D(worker.getCoords().getValueX()+1,worker.getCoords().getValueY(),0); }
-            board.getTile(newCoords.getValueX(),newCoords.getValueY()).grabWorker(worker);
+            //board.getTile(newCoords.getValueX(),newCoords.getValueY()).grabWorker(worker);
         });
 
         // 2D
