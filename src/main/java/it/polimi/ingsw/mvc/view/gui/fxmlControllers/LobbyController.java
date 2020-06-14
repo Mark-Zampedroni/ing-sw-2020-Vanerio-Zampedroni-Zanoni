@@ -94,7 +94,7 @@ public class LobbyController extends GenericController {
             color = buttons.keySet().stream().filter(key -> buttons.get(key) == button).findFirst().orElse(Colors.WHITE);
             confirmButton.setDisable(false);
             button.setId("colorpressed"+color);
-            button.setEffect(new Glow(0.3));
+            button.setEffect(new Glow(0.5));
             buttons.values().stream().filter(b -> b != button).forEach(b -> {
                 b.setId("color"+ buttons.keySet().stream().filter(c -> buttons.get(c) == b).findFirst().orElse(Colors.WHITE));
                 b.setEffect(new Glow(0));
@@ -105,7 +105,7 @@ public class LobbyController extends GenericController {
     public void showLobby(List<Colors> availableColors) {
         buttons.keySet().forEach(c -> {
             buttons.get(c).setDisable(!availableColors.contains(c));
-            if (!availableColors.contains(c)) {buttons.get(c).setOpacity(0.5);}
+            if (!availableColors.contains(c)) {buttons.get(c).setOpacity(0.6);}
             else {buttons.get(c).setOpacity(1);}
         });
         updatePlayers();
