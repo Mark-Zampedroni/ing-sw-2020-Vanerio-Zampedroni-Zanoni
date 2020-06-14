@@ -34,6 +34,10 @@ public class TitleController extends GenericController {
     public Button fullScreenButton;
     @FXML
     public Button okButton;
+    @FXML
+    public BorderPane textPaneCon;
+    @FXML
+    public Label textLabelCon;
 
 
     public void initialize() {
@@ -43,20 +47,22 @@ public class TitleController extends GenericController {
         initButton(p3);
         initButton(okButton);
         hideNode(textPane);
-
+        hideNode(textPaneCon);
         //fullScreenButton.setOnMouseClicked(event -> GuiManager.getInstance().getStage().setFullScreen(true));
     }
 
     private void initFonts() {
+        setFontRatio(textLabelCon);
         setFontRatio(textLabel); //<--- TEST
         setFontRatio(p2); //<--- TEST
         setFontRatio(p3); //<--- TEST
+        setFontRatio(okButton);
     }
 
     @FXML
     private void handleClickPlay() throws IOException {
         if(!gui.createConnection(connectionIp, connectionPort)){
-            GuiManager.showDialog((Stage) main.getScene().getWindow(), "Connection Error", "Connection failed! The server is unreachable, try again");
+            showDisconnected("Connection Error! \nConnection failed! The server is unreachable, try again");
         }
     }
 
@@ -85,7 +91,7 @@ public class TitleController extends GenericController {
     private void handleButtonReleased(Button button) {
         button.setId("buttonReleased");
         if(button == okButton) {
-            hideNode(textPane);
+            hideNode(textPaneCon);
             hideNode(okButton);
             showNode(playButton);
         } else{
@@ -114,7 +120,7 @@ public class TitleController extends GenericController {
     }
 
     public void showInfo(String text) {
-        switchMode(text);
+        switchModeConn(text);
     }
 
     public static void setConnectionConfig(String ip, int port){
@@ -123,8 +129,14 @@ public class TitleController extends GenericController {
     }
 
     public void showDisconnected(String text) {
-        switchMode(text);
+        switchModeConn(text);
         showNode(okButton);
+    }
+
+    private void switchModeConn(String text) {
+        hideNode(playButton);
+        showNode(textPaneCon);
+        textLabelCon.setText(text);
     }
 
     private void switchMode(String text) {
