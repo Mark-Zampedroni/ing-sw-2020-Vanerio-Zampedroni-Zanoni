@@ -12,15 +12,16 @@ import java.util.Map;
 public class ClientApp {
 
     public static void main(String[] args) {
-        /*
-        if(args[0].toLowerCase().equals("cli")) {
-            new Cli((args.length == 1) ? "127.0.0.1" : args[1], 7654); //79.50.167.55:7654
-        } else if(args[0].toLowerCase().equals("gui")) {
-            Gui.getInstance().init((args.length == 1) ? "127.0.0.1" : args[1], 7654);
+        try {
+            if (args[0].toLowerCase().equals("gui")) {
+                Gui.getInstance().init((args.length == 1) ? "127.0.0.1" : args[1], 7654);
+            } else {
+                new Cli((args.length == 2) ? "127.0.0.1" : args[1], 7654); //79.50.167.55:7654
+            }
+        } catch(IndexOutOfBoundsException e) {
+            System.out.println("\nSomething went wrong! Be sure you are adding the correct args.\n\n" +
+                    "E.g. for gui :\njava --\"C:/JAVA_DIRECTORY_PATH/module-path javafx-sdk-11.0.2/lib\" --add-modules javafx.controls --add-modules javafx.fxml -jar client.jar gui 127.0.0.1\n\n" +
+                    "E.g. for cli :\njava -jar client.jar cli 127.0.0.1\n");
         }
-        else {
-            new Cli( "127.0.0.1" , 7654); //79.50.167.55:7654
-        }*/
-        Gui.getInstance().init("127.0.0.1",7654);
     }
 }
