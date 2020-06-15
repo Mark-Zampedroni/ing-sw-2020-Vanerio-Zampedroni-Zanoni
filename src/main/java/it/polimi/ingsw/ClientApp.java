@@ -20,7 +20,7 @@ public class ClientApp {
             }
         } catch(IndexOutOfBoundsException e) {
             System.out.println("\nSomething went wrong! Be sure you are adding the correct args.\n\n" +
-                    "E.g. for gui :\njava --\"C:/JAVA_DIRECTORY_PATH/module-path javafx-sdk-11.0.2/lib\" --add-modules javafx.controls --add-modules javafx.fxml -jar client.jar gui 127.0.0.1\n\n" +
+                    "E.g. for gui :\njava --module-path \"C:/JAVA_DIRECTORY_PATH/javafx-sdk-11.0.2/lib\" --add-modules javafx.controls --add-modules javafx.fxml -jar client.jar gui 127.0.0.1\n\n" +
                     "E.g. for cli :\njava -jar client.jar cli 127.0.0.1\n");
         }
     }
