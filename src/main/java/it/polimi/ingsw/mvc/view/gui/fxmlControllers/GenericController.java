@@ -129,6 +129,8 @@ public abstract class GenericController {
         innerGrid.add(wifiSymbol,3,1,2,2);
 
         reconnectionLayer = layer;
+        layer.setPickOnBounds(false);
+
         return layer;
     }
 
