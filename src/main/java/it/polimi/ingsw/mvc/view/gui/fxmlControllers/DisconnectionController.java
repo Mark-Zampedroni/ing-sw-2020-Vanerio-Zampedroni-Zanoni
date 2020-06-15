@@ -11,11 +11,15 @@ public class DisconnectionController extends GenericController {
     @FXML
     Label reason;
     @FXML
+    Label fixedLabel;
+    @FXML
     Button okButton;
 
     public void initialize() {
         super.initialize(this);
         initButton();
+        setFontRatio(fixedLabel);
+        setFontRatio(reason);
     }
 
     public void initButton() {
@@ -29,7 +33,5 @@ public class DisconnectionController extends GenericController {
     public void showDisconnected(String info) {
         reason.setText(info);
     }
-
-
 
 }

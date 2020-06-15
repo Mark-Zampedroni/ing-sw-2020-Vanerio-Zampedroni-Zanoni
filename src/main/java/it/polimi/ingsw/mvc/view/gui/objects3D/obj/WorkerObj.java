@@ -27,18 +27,13 @@ public class WorkerObj extends TrackedGroup {
         initRotation();
         setCoords(coords);
         rotate(90);
-
-        /*
-        setOnMouseClicked(event -> {
-            setTranslateZ(getTranslateZ()-0.1);
-            System.out.println(getTranslateZ());
-        });*/
-
     }
 
     private String getTextureColor(Colors color) {
         return "/texture/MaleBuilder_"+color+"_v001.png";
     }
+
+
 
     @Override
     public void setCoords(BoardCoords3D newCoords) {

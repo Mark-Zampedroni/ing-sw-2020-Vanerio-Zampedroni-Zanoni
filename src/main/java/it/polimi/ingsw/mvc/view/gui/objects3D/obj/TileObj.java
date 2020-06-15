@@ -61,17 +61,14 @@ public class TileObj extends TrackedGroup {
     }
 
     public ActionAnimation addEffect(Action action) {
-        removeEffect(); // replaces effect
+        removeEffect();
         animation = new ActionAnimation(action, new BoardCoords3D(x,y,tower.getHeight()));
-        //animation.setVisible(false);
-        //board.getChildren().add(animation);
         addClickEvent(animation);
         return animation;
     }
 
     public void removeEffect() {
         if(animation != null) {
-            //board.getChildren().remove(animation);
             animation = null;
         }
     }
@@ -84,6 +81,7 @@ public class TileObj extends TrackedGroup {
         if(worker == null) {
             worker = new WorkerObj(new BoardCoords3D(x, y, tower.getHeight()), color);
             objects.getChildren().add(worker);
+            addClickEvent(worker);
         }
     }
 
@@ -97,12 +95,14 @@ public class TileObj extends TrackedGroup {
         removeEffect();
         this.worker = worker;
         worker.setCoords(new BoardCoords3D(x,y,tower.getHeight()));
+        addClickEvent(worker);
     }
 
-    public void switchWorker(TileObj targetTile) {
-        WorkerObj temp = worker;
-        grabWorker(targetTile);
-        targetTile.setWorker(temp);
+    public void deleteWorker(Group objects) {
+        if(worker != null) {
+            objects.getChildren().remove(worker);
+            worker = null;
+        }
     }
 
     private void printRed(Shape3D object) {
@@ -120,7 +120,7 @@ public class TileObj extends TrackedGroup {
         addClickEvent(tileSquare);
     }
 
-    private void addClickEvent(Node object) {
+    protected void addClickEvent(Node object) {
         object.setOnMouseClicked(event -> {
             eventResponse.setCaller(x,y);
             eventResponse.run();

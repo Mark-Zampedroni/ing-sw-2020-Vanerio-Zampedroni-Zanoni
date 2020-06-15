@@ -132,7 +132,6 @@ public class BoardController extends GenericController implements Observer<DtoPo
     @Override
     public void update(DtoPosition position) {
         if(turnOwner && currentAction!=null && gui.validateAction(currentAction,position,possibleActions)) {
-            System.out.println("Accepted!");
            clearTurn();
         }
     }
@@ -145,7 +144,6 @@ public class BoardController extends GenericController implements Observer<DtoPo
     }
 
     private void showButtons(List<Action> p) {
-        System.out.println("Show buttons: "+actionButtons+" for actions: "+p); // <--------------- TEST
         p.forEach(action -> updateButton(actionButtons.get(p.indexOf(action)),action));
     }
 
@@ -154,7 +152,6 @@ public class BoardController extends GenericController implements Observer<DtoPo
     }
 
     public void showBoard(DtoSession session, Map<String, Colors> colors, Map<String, String> gods) {
-        System.out.println("Showing board update ..."); // <-------------------------------------- TEST
         synchronized(boardLock) {
             updateWorkers(session.getWorkers());
             updateBuildings(session.getBoard());
@@ -170,7 +167,7 @@ public class BoardController extends GenericController implements Observer<DtoPo
         if(localSession.getWorkers().size() < workers.size()) { // A worker is added
             workers.stream().filter(w -> localPositions.keySet().stream().noneMatch(k -> k.equals(w.getPosition()))).forEach(this::addWorker);
         }
-        else if(localSession.getWorkers().size() == workers.size()) { // A worker was possibly moved
+        else {
             moveWorkers(workers);
         }
     }
@@ -211,6 +208,20 @@ public class BoardController extends GenericController implements Observer<DtoPo
                 oldMovedWorkers.stream().filter(wo -> wo.getMasterUsername().equals(wn.getMasterUsername()))
                         .forEach(wo -> temp.put(board.getTile(wo.getPosition().getX(),wo.getPosition().getY()).getWorker(),board.getTile(wn.getPosition().getX(),wn.getPosition().getY()))));
         return temp;
+    }
+
+
+    public void showLose(String playerName) {
+        /* aggiornamento board */
+        localSession.getWorkers().stream()
+                .filter(w -> w.getMasterUsername().equals(playerName))
+                .map(DtoWorker::getPosition)
+                .forEach(p -> board.getTile(p.getX(),p.getY()).deleteWorker(objects));
+        /* manca far sparire il nome dalla sidebar */
+    }
+
+    public void showWin(String playerName) {
+        // Mostra robo vittoria playerName (distinguiamo finestra con trombette rotte se perde e belle se vince (?))
     }
 
 

@@ -30,7 +30,6 @@ public class TurnController extends StateController implements Serializable {
     private static final long serialVersionUID = 3510638136440918631L;
     private final List<Player> players;
     private Map<Action, List<DtoPosition>> possibleActions;
-    private final List<Action> ignoredActions;
 
     private Player currentPlayer;
 
@@ -46,7 +45,6 @@ public class TurnController extends StateController implements Serializable {
 
     public TurnController(SessionController controller, List<RemoteView> views, Logger LOG) {
         super(controller, views, LOG);
-        ignoredActions = new ArrayList<>(Arrays.asList(Action.END_TURN,Action.WIN,Action.SPECIAL_POWER));
         this.controller = controller;
         currentIndex = controller.getPlayers().indexOf(Session.getInstance().getPlayerByName(controller.getTurnOwner()));
         this.players = controller.getPlayers();
@@ -206,10 +204,12 @@ public class TurnController extends StateController implements Serializable {
      /*
         Deletes Actions with empty candidates List
      */
-    private void removePreventedActions() { // Checks only move and build actions
+    private void removePreventedActions() {
+        Map<Action, List<DtoPosition>> actionsWithCandidates = new HashMap<>();
         possibleActions.keySet().stream()
-                .filter(action -> possibleActions.get(action).isEmpty() && !ignoredActions.contains(action))
-                .forEach(action -> possibleActions.remove(action));
+                .filter(a -> Action.getNullPosActions().contains(a) || !possibleActions.get(a).isEmpty())
+                .forEach(a -> actionsWithCandidates.put(a,possibleActions.get(a)));
+        possibleActions = actionsWithCandidates;
     }
 
      /*
@@ -228,14 +228,6 @@ public class TurnController extends StateController implements Serializable {
     private void notifyBoardUpdate(Map<Action, List<DtoPosition>> actionCandidates, String turnOwner) {
         controller.saveGame(null,true);
         views.forEach(w -> w.updateActions(actionCandidates,turnOwner,isSpecialPowerActive));
-    }
-
-    private void waitTime() {
-        try {
-            Thread.sleep(2000);
-        } catch(Exception e) {
-            LOG.warning("[TURN_CONTROLLER] Wait of 2000ms interrupted");
-        }
     }
 
 }

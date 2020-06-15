@@ -207,11 +207,11 @@ public class GuiManager extends Client {
 
     @Override
     public void showWin(String playerName) {
-         // DA IMPLEMENTARE
+        runUpdate(BoardController.class, () ->((BoardController)currentController).showWin(playerName));
     }
 
     @Override
     public void showLose(String playerName) {
-         // DA IMPLEMENTARE
+        runUpdate(BoardController.class, () ->((BoardController)currentController).showLose(playerName));
     }
 }
