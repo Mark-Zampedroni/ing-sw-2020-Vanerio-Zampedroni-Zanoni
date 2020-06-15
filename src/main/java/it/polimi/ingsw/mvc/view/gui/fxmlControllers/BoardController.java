@@ -4,6 +4,7 @@ import it.polimi.ingsw.mvc.view.gui.objects3D.obj.BoardObj;
 import it.polimi.ingsw.mvc.view.gui.objects3D.obj.TileObj;
 import it.polimi.ingsw.mvc.view.gui.objects3D.obj.WorkerObj;
 import it.polimi.ingsw.mvc.view.gui.objects3D.utils.BoardCamera;
+import it.polimi.ingsw.mvc.view.gui.objects3D.utils.BoardCoords3D;
 import it.polimi.ingsw.mvc.view.gui.objects3D.utils.BoardScene;
 import it.polimi.ingsw.mvc.view.gui.objects3D.utils.ObservableTileEvent;
 import it.polimi.ingsw.utility.dto.DtoBoard;
@@ -45,6 +46,7 @@ public class BoardController extends GenericController implements Observer<DtoPo
     private ObservableTileEvent tileEvent;
 
     private Group objects = new Group();
+    private Group workersObj = new Group();
     private BoardObj board;
     private Map<Action,Group> animations;
 
@@ -64,11 +66,13 @@ public class BoardController extends GenericController implements Observer<DtoPo
         initBoard();
         actionButtons = new ArrayList<>(Arrays.asList(testButton3,testButton2,testButton));
         actionButtons.forEach(this::hideNode);
+
     }
 
     private void initBoard() throws Exception {
         board = new BoardObj(tileEvent);
-        objects.getChildren().addAll(board);
+        objects.getChildren().add(workersObj);
+        objects.getChildren().add(board);
 
         gameScene = new BoardScene(objects, board,840,700);
         sceneContainer.setCenter(gameScene);
@@ -188,7 +192,7 @@ public class BoardController extends GenericController implements Observer<DtoPo
 
     private void addWorker(DtoWorker w) {
         try {
-            board.getTile(w.getPosition().getX(),w.getPosition().getY()).addWorker(objects, gui.getPlayers().get(w.getMasterUsername()));
+            board.getTile(w.getPosition().getX(),w.getPosition().getY()).addWorker(workersObj, gui.getPlayers().get(w.getMasterUsername()));
         } catch(Exception e) { gui.LOG.severe("[BOARD_CONTROLLER_FX] Worker couldn't be loaded"); }
     }
 
@@ -216,7 +220,7 @@ public class BoardController extends GenericController implements Observer<DtoPo
         localSession.getWorkers().stream()
                 .filter(w -> w.getMasterUsername().equals(playerName))
                 .map(DtoWorker::getPosition)
-                .forEach(p -> board.getTile(p.getX(),p.getY()).deleteWorker(objects));
+                .forEach(p -> board.getTile(p.getX(),p.getY()).deleteWorker(workersObj));
         /* manca far sparire il nome dalla sidebar */
     }
 
