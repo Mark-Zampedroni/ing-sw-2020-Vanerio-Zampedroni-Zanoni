@@ -72,6 +72,7 @@ public abstract class GenericController {
         setResizeEvent(node,defaultWidth,defaultPadding,node.getFont());
     }
 
+
     private void setResizeEvent(Control node, double defaultWidth, Insets defaultPadding,Font font) {
         double defaultFontSize = font.getSize();
         String defaultFamily = font.getFamily();

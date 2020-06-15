@@ -18,12 +18,14 @@ public class WorkerObj extends TrackedGroup {
     private final SimpleDoubleProperty angleY = new SimpleDoubleProperty(0);
     private Rotate yRotate;
     private Node worker;
+    private Colors color;
 
     public WorkerObj(BoardCoords3D coords, Colors color) throws Exception {
         super(-12.3,22.5,-2.1,
               -5.9,-9.4,-11.9); // Floors height offset
 
         getChildren().add(worker = NodeOperation.getModel(WORKER_OBJ, getTextureColor(color)));
+        this.color = color;
         NodeOperation.setScale(this,2.8);
 
         NodeOperation.setTranslate(this, zeroX, zeroZ, zeroY); //0.6,9.9
@@ -34,6 +36,14 @@ public class WorkerObj extends TrackedGroup {
 
     private String getTextureColor(Colors color) {
         return "/texture/MaleBuilder_"+color.toString().toLowerCase()+"_v001.png";
+    }
+
+    public Colors getColor() {
+        return color;
+    }
+
+    public void resetRotation() {
+        rotate(90);
     }
 
     @Override

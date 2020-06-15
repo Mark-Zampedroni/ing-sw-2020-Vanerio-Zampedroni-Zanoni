@@ -47,6 +47,7 @@ public class BoardController extends GenericController implements Observer<DtoPo
 
     private Group objects = new Group();
     private Group workersObj = new Group();
+    private Group preWorkers = new Group();
     private BoardObj board;
     private Map<Action,Group> animations;
 
@@ -73,8 +74,8 @@ public class BoardController extends GenericController implements Observer<DtoPo
 
         board = new BoardObj(tileEvent);
 
-        objects.getChildren().add(workersObj);
-        objects.getChildren().add(board);
+        assignGroups();
+        preLoadWorkers();
 
         gameScene = new BoardScene(objects, board,840,700);
 
@@ -88,6 +89,20 @@ public class BoardController extends GenericController implements Observer<DtoPo
         //showReconnection(true); // <----------- Test che mostra layer wifi in caso di disconnessione + attesa riconnessione
     }
 
+    private void assignGroups() {
+        objects.getChildren().add(workersObj);
+        objects.getChildren().add(preWorkers);
+        preWorkers.setVisible(false);
+        objects.getChildren().add(board);
+    }
+
+    private void preLoadWorkers() {
+        Map<String,Colors> players = gui.getPlayers();
+        players.values().forEach(v -> preWorkers.getChildren().addAll(
+                board.createWorker(new BoardCoords3D(-1,-1,0),v),
+                board.createWorker(new BoardCoords3D(-1,-1,0),v)));
+    }
+
     public void requestTurnAction(Map<Action, List<DtoPosition>> possibleActions, DtoSession session, Map<String, Colors> colors, Map<String, String> gods) {
         showBoard(session,colors,gods);
         turnOwner = true;
@@ -99,7 +114,16 @@ public class BoardController extends GenericController implements Observer<DtoPo
 
         List<Action> actions = possibleActions.keySet().stream().sorted().collect(Collectors.toList());
         showButtons(actions);
+        setDefaultAction();
+    }
 
+    private void setDefaultAction() {
+        List<Action> c = possibleActions.keySet().stream().filter(k -> !Action.getNullPosActions().contains(k)).collect(Collectors.toList());
+        if(!c.isEmpty()) {
+            Action dAction = c.get(c.size() - 1);
+            currentAction = dAction;
+            showAnimations(dAction);
+        }
     }
 
     private void addAnimations(Map<Action, List<DtoPosition>> possibleActions) {
@@ -195,7 +219,13 @@ public class BoardController extends GenericController implements Observer<DtoPo
 
     private void addWorker(DtoWorker w) {
         try {
-            board.getTile(w.getPosition().getX(),w.getPosition().getY()).addWorker(workersObj, gui.getPlayers().get(w.getMasterUsername()));
+            WorkerObj newWorker = (WorkerObj) preWorkers.getChildren().stream()
+                    .filter(n -> ((WorkerObj) n).getColor() == gui.getPlayers().get(w.getMasterUsername()))
+                    .findFirst()
+                    .orElse(new WorkerObj(new BoardCoords3D(-1,-1,0),gui.getPlayers().get(w.getMasterUsername())));
+            workersObj.getChildren().add(newWorker);
+            board.getTile(w.getPosition().getX(),w.getPosition().getY()).setWorker(newWorker);
+            newWorker.resetRotation();
         } catch(Exception e) { gui.LOG.severe("[BOARD_CONTROLLER_FX] Worker couldn't be loaded"); }
     }
 

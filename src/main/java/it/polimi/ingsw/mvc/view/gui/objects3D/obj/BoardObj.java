@@ -1,8 +1,10 @@
 package it.polimi.ingsw.mvc.view.gui.objects3D.obj;
 
+import it.polimi.ingsw.mvc.view.gui.objects3D.utils.BoardCoords3D;
 import it.polimi.ingsw.mvc.view.gui.objects3D.utils.NodeOperation;
 import it.polimi.ingsw.mvc.view.gui.objects3D.utils.ObservableTileEvent;
 import it.polimi.ingsw.utility.dto.DtoPosition;
+import it.polimi.ingsw.utility.enumerations.Colors;
 import javafx.scene.Group;
 import javafx.scene.Node;
 
@@ -64,6 +66,12 @@ public class BoardObj extends Group {
 
     public TileObj getTile(int x, int y) {
         return (x >= 0 && x < 5 && y >= 0 && y < 5) ? tiles[x][y] : null;
+    }
+
+    public WorkerObj createWorker(BoardCoords3D coords, Colors color) {
+        try {
+            return new WorkerObj(new BoardCoords3D(-1, -1, 0), color);
+        } catch(Exception e) { return null; }
     }
 
 }
