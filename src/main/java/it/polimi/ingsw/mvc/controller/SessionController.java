@@ -164,8 +164,8 @@ public class SessionController implements Observer<Message>  {
     }
 
     public void restartGame() {
-        LOG.info("[CONTROLLER] Game restarted from scratch");
-        ReloadGame.clearSavedFile();
+        boolean isDeleted = ReloadGame.clearSavedFile();
+        LOG.info("[CONTROLLER] Game restarted from scratch, old save file deleted: "+isDeleted);
         Session.getInstance().clear();
         Server.restartSession();
     }

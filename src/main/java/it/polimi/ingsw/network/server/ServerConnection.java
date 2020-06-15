@@ -111,7 +111,7 @@ public class ServerConnection extends Observable<Message> implements Runnable {
                 server.handleReconnection(msg,this);
             }
         } else {
-            notify(msg); // Notify -> RemoteView -> SessionController
+            notify(msg); // this.notify -> RemoteView.notify -> SessionController
         }
     }
 

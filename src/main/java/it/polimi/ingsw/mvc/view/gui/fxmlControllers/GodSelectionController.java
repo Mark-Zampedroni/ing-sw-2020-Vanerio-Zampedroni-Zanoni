@@ -13,6 +13,103 @@ import java.util.*;
 
 public class GodSelectionController extends GenericController {
 
+    @FXML
+    GridPane mainGrid;
+    @FXML
+    Label titleLabel;
+    @FXML
+    GridPane twoPlayerFirstGrid;
+    @FXML
+    GridPane twoPlayerSecondGrid;
+    @FXML
+    GridPane gridThreePlayer;
+
+    List<GodCard> cards = new ArrayList<>();
+    List<GridPane> gridsTwoPlayer;
+
+    public void initialize() {
+        super.initialize(this);
+        gridsTwoPlayer = new ArrayList<>(Arrays.asList(twoPlayerFirstGrid, twoPlayerSecondGrid));
+        setFontRatio(titleLabel);
+    }
+
+    public void updatePlayerGodSelection(String turnOwner, Map<String, String> choices, List<String> chosenGods) {
+        // update da view quando è il turno di un altro client
+        loadSelectedGods(chosenGods, choices);
+        titleLabel.setText(turnOwner + " is choosing a god");
+        cards.forEach(GodCard::disableButton);
+
+    }
+
+
+    public void requestPlayerGod(List<String> chosenGods, Map<String, String> choices) {
+        // update da view quando tocca a questo client
+        loadSelectedGods(chosenGods, choices);
+        titleLabel.setText("Choose your god");
+        cards.forEach(GodCard::enableButton);
+    }
+
+
+    public void updateStarterPlayerSelection(Map<String, String> choices) {
+        // update da view a tutti i giocatori notificando che il challenger sta scegliendo lo starter player
+        titleLabel.setText("The Challenger is choosing the starter player");
+        nameUpdate(choices);
+        cards.forEach(GodCard::setActionButtonDisabled);
+    }
+
+    public void requestStarterPlayer(Map<String, String> choices) {
+        // update da view al challenger avvertendolo che deve scegliere lo starter player
+        titleLabel.setText("Choose the starter player");
+        nameUpdate(choices);
+        cards.forEach(GodCard::setStarterPlayerButton);
+    }
+
+
+    private void loadSelectedGods(List<String> chosenGods, Map<String, String> choices) {
+        if (chosenGods.size() == Integer.parseInt(gui.getNumberOfPlayers())) {
+            createGodCards(chosenGods);
+        }
+        else {
+            nameUpdate(choices);
+        }
+    }
+
+    private void createGodCards(List<String> chosenGods) {
+        if (Integer.parseInt(gui.getNumberOfPlayers()) == 3) {
+            chosenGods.forEach(g -> gridThreePlayer.add(createCard(g), chosenGods.indexOf(g),0));
+            disableTwo();
+        }
+        else {
+            gridsTwoPlayer.forEach(g -> g.add(createCard(chosenGods.get(gridsTwoPlayer.indexOf(g))),0,0));
+            disableThree();
+        }
+    }
+
+    private GodCard createCard(String god) {
+        GodCard temp = new GodCard(god);
+        cards.add(temp);
+        return temp;
+    }
+    private void disableTwo() {
+        gridsTwoPlayer.forEach(g -> g.setDisable(true));
+    }
+
+    private void disableThree() {
+        gridThreePlayer.setDisable(true);
+    }
+
+    private void nameUpdate(Map<String, String> choices){
+        choices.keySet().stream()
+                .filter(nome -> !nome.equals(""))
+                .forEach(key -> {
+                    for(GodCard god: cards) {
+                        if(god.getGod().equals(choices.get(key))) {
+                            god.setPlayerName(key);
+                        }
+                    }
+                });
+    }
+
 
     private class GodCard extends BorderPane {
 
@@ -129,8 +226,8 @@ public class GodSelectionController extends GenericController {
                 actionPane.setDisable((false));
                 actionPane.setId("selectbutton");
                 setButtonState(() -> actionPane.setId("selectbuttonpressed"), () -> {
-                            actionPane.setId("selectbutton");
-                            gui.validatePlayerGodChoice(getGod());
+                    actionPane.setId("selectbutton");
+                    gui.validatePlayerGodChoice(getGod());
                 });
             }
         }
@@ -167,100 +264,4 @@ public class GodSelectionController extends GenericController {
         }
     }
 
-    @FXML
-    GridPane mainGrid;
-    @FXML
-    Label titleLabel;
-    @FXML
-    GridPane twoPlayerFirstGrid;
-    @FXML
-    GridPane twoPlayerSecondGrid;
-    @FXML
-    GridPane gridThreePlayer;
-
-    List<GodCard> cards = new ArrayList<>();
-    List<GridPane> gridsTwoPlayer;
-
-    public void initialize() {
-        super.initialize(this);
-        gridsTwoPlayer = new ArrayList<>(Arrays.asList(twoPlayerFirstGrid, twoPlayerSecondGrid));
-    }
-
-    public void updatePlayerGodSelection(String turnOwner, Map<String, String> choices, List<String> chosenGods) {
-        // update da view quando è il turno di un altro client
-        loadSelectedGods(chosenGods, choices);
-        titleLabel.setText(turnOwner + " is choosing a god");
-        cards.forEach(GodCard::disableButton);
-
-    }
-
-
-    public void requestPlayerGod(List<String> chosenGods, Map<String, String> choices) {
-        // update da view quando tocca a questo client
-        loadSelectedGods(chosenGods, choices);
-        titleLabel.setText("Choose your god");
-        cards.forEach(GodCard::enableButton);
-    }
-
-
-    public void updateStarterPlayerSelection(Map<String, String> choices) {
-        // update da view a tutti i giocatori notificando che il challenger sta scegliendo lo starter player
-        titleLabel.setText("The Challenger is choosing the starter player");
-        nameUpdate(choices);
-        cards.forEach(GodCard::setActionButtonDisabled);
-    }
-
-    public void requestStarterPlayer(Map<String, String> choices) {
-        // update da view al challenger avvertendolo che deve scegliere lo starter player
-        titleLabel.setText("Choose the starter player");
-        nameUpdate(choices);
-        cards.forEach(GodCard::setStarterPlayerButton);
-    }
-
-
-    private void loadSelectedGods(List<String> chosenGods, Map<String, String> choices) {
-        if (chosenGods.size() == Integer.parseInt(gui.getNumberOfPlayers())) {
-            createGodCards(chosenGods);
-        }
-        else {
-            nameUpdate(choices);
-        }
-    }
-
-    private void createGodCards(List<String> chosenGods) {
-        if (Integer.parseInt(gui.getNumberOfPlayers()) == 3) {
-            chosenGods.forEach(g -> gridThreePlayer.add(createCard(g), chosenGods.indexOf(g),0));
-            disableTwo();
-        }
-        else {
-            gridsTwoPlayer.forEach(g -> g.add(createCard(chosenGods.get(gridsTwoPlayer.indexOf(g))),0,0));
-            disableThree();
-        }
-    }
-
-    private GodCard createCard(String god) {
-        GodCard temp = new GodCard(god);
-        cards.add(temp);
-        return temp;
-    }
-    private void disableTwo() {
-        gridsTwoPlayer.forEach(g -> g.setDisable(true));
-    }
-
-    private void disableThree() {
-        gridThreePlayer.setDisable(true);
-    }
-
-    private void nameUpdate(Map<String, String> choices){
-        choices.keySet().stream()
-                .filter(nome -> !nome.equals(""))
-                .forEach(key -> {
-                    for(GodCard god: cards) {
-                        if(god.getGod().equals(choices.get(key))) {
-                            god.setPlayerName(key);
-                        }
-                    }
-                });
-    }
-    //150ish
 }

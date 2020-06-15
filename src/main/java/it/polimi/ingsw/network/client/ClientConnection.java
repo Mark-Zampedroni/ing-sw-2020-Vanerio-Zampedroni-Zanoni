@@ -119,6 +119,10 @@ public class ClientConnection implements Runnable {
         if(reconnect) {
             initReconnection();
         }
+        else {
+            // nuovo tipo di messaggio ?
+            //inQueue.add(new Message(MessageType.DISCONNECTION_UPDATE, "SELF", "Lost connection to server", "ALL"));
+        }
     }
 
     private void initReconnection() {

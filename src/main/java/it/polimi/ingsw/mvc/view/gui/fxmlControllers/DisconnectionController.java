@@ -17,13 +17,13 @@ public class DisconnectionController extends GenericController {
 
     public void initialize() {
         super.initialize(this);
-        initButton();
+        Platform.runLater(this::initButton);
         setFontRatio(fixedLabel);
         setFontRatio(reason);
     }
 
     public void initButton() {
-        okButton.setOnMouseClicked(event -> okButton.setId("buttonPressed"));
+        okButton.setOnMousePressed(event -> okButton.setId("buttonPressed"));
         okButton.setOnMouseReleased(event -> {
             okButton.setId("buttonReleased");
             Platform.runLater(() -> GuiManager.setLayout(this.getScene(), GuiManager.getFxmlPath(TitleController.class)));

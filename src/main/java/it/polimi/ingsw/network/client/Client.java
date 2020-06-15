@@ -149,6 +149,9 @@ public abstract class Client implements Observer<Message>, View {
             viewRequest(() -> showWin(message.getInfo()));
         }
         else {
+            if(message.getInfo().equals(username)) {
+                connection.setReconnect(false);
+            }
             viewRequest(() -> showLose(message.getInfo()));
         }
 

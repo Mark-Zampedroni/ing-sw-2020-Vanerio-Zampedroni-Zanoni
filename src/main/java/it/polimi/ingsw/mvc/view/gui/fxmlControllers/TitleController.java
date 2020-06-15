@@ -60,7 +60,7 @@ public class TitleController extends GenericController {
     }
 
     @FXML
-    private void handleClickPlay() throws IOException {
+    private void handleClickPlay() {
         if(!gui.createConnection(connectionIp, connectionPort)){
             showDisconnected("Connection Error! \nConnection failed! The server is unreachable, try again");
         }
@@ -135,6 +135,9 @@ public class TitleController extends GenericController {
 
     private void switchModeConn(String text) {
         hideNode(playButton);
+        hideNode(p2);
+        hideNode(p3);
+        hideNode(textPane);
         showNode(textPaneCon);
         textLabelCon.setText(text);
     }
