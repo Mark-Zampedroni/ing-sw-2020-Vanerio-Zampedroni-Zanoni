@@ -82,9 +82,20 @@
 #playerBLUE{
     -fx-background-image: url('../Texture2D_sorted/Backgrounds/borderblueplayer2.png');
 }
-#playerBROWn{
+#playerBROWN{
     -fx-background-image: url('../Texture2D_sorted/Backgrounds/borderbrownplayer2.png');
 }
 #playerWHITE{
     -fx-background-image: url('../Texture2D_sorted/Backgrounds/borderwhiteplayer2.png');
+}
+#b{
+    -fx-background-image: url('../Texture2D_sorted/Backgrounds/borderblueplayer.png');
+}
+
+#a {
+    -fx-background-image: url('../Texture2D_sorted/Icone_dei/FullBody_senza_sfondo/APOLLO.png');
+}
+
+#try1{
+    -fx-background-image: url('../Texture2D_sorted/Backgrounds/try1.png');
 }
