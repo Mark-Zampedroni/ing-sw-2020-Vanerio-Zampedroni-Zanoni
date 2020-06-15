@@ -66,8 +66,4 @@ public class BoardObj extends Group {
         return (x >= 0 && x < 5 && y >= 0 && y < 5) ? tiles[x][y] : null;
     }
 
-    public void moveWorker(int fromX, int fromY, int toX, int toY) {
-        getTile(toX,toY).grabWorker(getTile(fromX,fromY));
-    }
-
 }

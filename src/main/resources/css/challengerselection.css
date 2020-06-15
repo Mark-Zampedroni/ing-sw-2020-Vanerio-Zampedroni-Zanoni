@@ -13,15 +13,15 @@
 }
 
 #whiteborder {
- -fx-background-image: url("../Texture2D_sorted/Icone_dei/contorni/white_c_frame.png");
+ -fx-background-image: url("../Texture2D_sorted/Icone_dei/Contorni/white_c_frame.png");
 }
 
 #blueborder {
- -fx-background-image: url("../Texture2D_sorted/Icone_dei/contorni/blue_c_frame.png");
+ -fx-background-image: url("../Texture2D_sorted/Icone_dei/Contorni/blue_c_frame.png");
 }
 
 #yellowborder {
- -fx-background-image: url("../Texture2D_sorted/Icone_dei/contorni/yellow_c_frame.png");
+ -fx-background-image: url("../Texture2D_sorted/Icone_dei/Contorni/yellow_c_frame.png");
 }
 
 

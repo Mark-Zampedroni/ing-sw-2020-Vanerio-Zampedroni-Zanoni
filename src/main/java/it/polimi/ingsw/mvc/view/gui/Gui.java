@@ -35,7 +35,7 @@ public class Gui extends Application {
         //GuiManager.setLayout(stage.getScene(), GuiManager.getFxmlPath(BoardController.class)); // start screen
         stage.show();
         GuiManager.getInstance().setDefaultWidth(stage.getWidth());
-        //stage.setFullScreen(true); <----------------------------------- full screen
+        //stage.setFullScreen(true); //<----------------------------------- full screen
     }
 
     protected static Stage getStage() {

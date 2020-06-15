@@ -8,6 +8,8 @@ import javafx.beans.property.SimpleDoubleProperty;
 import javafx.scene.Node;
 import javafx.scene.transform.Rotate;
 
+import java.util.Arrays;
+
 
 public class WorkerObj extends TrackedGroup {
 
@@ -20,6 +22,7 @@ public class WorkerObj extends TrackedGroup {
     public WorkerObj(BoardCoords3D coords, Colors color) throws Exception {
         super(-12.3,22.5,-2.1,
               -5.9,-9.4,-11.9); // Floors height offset
+
         getChildren().add(worker = NodeOperation.getModel(WORKER_OBJ, getTextureColor(color)));
         NodeOperation.setScale(this,2.8);
 
@@ -30,10 +33,8 @@ public class WorkerObj extends TrackedGroup {
     }
 
     private String getTextureColor(Colors color) {
-        return "/texture/MaleBuilder_"+color+"_v001.png";
+        return "/texture/MaleBuilder_"+color.toString().toLowerCase()+"_v001.png";
     }
-
-
 
     @Override
     public void setCoords(BoardCoords3D newCoords) {

@@ -70,11 +70,14 @@ public class BoardController extends GenericController implements Observer<DtoPo
     }
 
     private void initBoard() throws Exception {
+
         board = new BoardObj(tileEvent);
+
         objects.getChildren().add(workersObj);
         objects.getChildren().add(board);
 
         gameScene = new BoardScene(objects, board,840,700);
+
         sceneContainer.setCenter(gameScene);
 
         gameScene.heightProperty().bind((sceneContainer.heightProperty()));
