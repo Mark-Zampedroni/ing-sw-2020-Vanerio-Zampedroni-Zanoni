@@ -63,21 +63,6 @@
      -fx-background-size: 100% 100%;
   }
 
-#buttonTry{
-    -fx-background-image: url('../Texture2D_sorted/Pulsanti/PulsantiBoard/blue_board.png');
-}
-
-#buttonTry2{
-    -fx-background-image: url('../Texture2D_sorted/Pulsanti/PulsantiBoard/purple_board.png');
-}
-
-#buttonTry3{
-    -fx-background-image: url('../Texture2D_sorted/Pulsanti/PulsantiBoard/coral_board.png');
-}
-
-#buttonTry4 {
-    -fx-background-image: url('../Texture2D_sorted/Pulsanti/PulsantiBoard/gree_board.png');
-}
 
 #playerBLUE{
     -fx-background-image: url('../Texture2D_sorted/Backgrounds/borderblueplayer2.png');
@@ -98,4 +83,42 @@
 
 #try1{
     -fx-background-image: url('../Texture2D_sorted/Backgrounds/try1.png');
+}
+
+#brownbig{
+    -fx-background-image: url('../Texture2D_sorted/Backgrounds/bigbrown.png');
+}
+
+#whitebig{
+    -fx-background-image: url('../Texture2D_sorted/Backgrounds/bigwhite.png');
+}
+
+#bluebig{
+    -fx-background-image: url('../Texture2D_sorted/Backgrounds/bigblue.png');
+}
+
+#button1{
+    -fx-background-image: url('../Texture2D_sorted/Pulsanti/PulsantiBoard/gree_board.png');
+}
+#button2{
+    -fx-background-image: url('../Texture2D_sorted/Pulsanti/PulsantiBoard/purple_board.png');
+}
+#button3{
+     -fx-background-image: url('../Texture2D_sorted/Pulsanti/PulsantiBoard/coral_board.png');
+ }
+
+#c {
+    -fx-background-image: url('../Texture2D_sorted/Icone_dei/FullBody_senza_sfondo/APOLLO2.png');
+}
+
+#info{
+    -fx-background-image: url('../Texture2D_sorted/Pulsanti/info2.png');
+}
+
+#crown{
+    -fx-background-image: url('../Texture2D_sorted/Pulsanti/crown.jpg');
+}
+
+#currentplayer{
+    -fx-background-image: url('../Texture2D_sorted/Pulsanti/currentplayer.png');
 }
