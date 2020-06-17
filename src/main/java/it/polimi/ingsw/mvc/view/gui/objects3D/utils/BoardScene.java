@@ -32,14 +32,15 @@ public class BoardScene extends SubScene {
     private final DoubleProperty prevPosX = new SimpleDoubleProperty(0);
     private final DoubleProperty prevPosY = new SimpleDoubleProperty(0);
 
+    private static BoardScene boardScene;
+    private static ObservableTileEvent tileEvent;
+
     private BoardObj board;
     private final Object boardLock = new Object();
 
     private final Map<String,Colors> players;
 
     private Map<Action,Group> animations;
-
-    private ObservableTileEvent tileEvent;
 
     private DtoSession localSession;
 
@@ -52,10 +53,9 @@ public class BoardScene extends SubScene {
 
     private final Logger LOG;
 
-    public BoardScene(Group sceneObjects, ObservableTileEvent tileEvent, Map<String,Colors> players, float width, float height, Logger log) throws Exception {
+    public BoardScene(Group sceneObjects, Map<String,Colors> players, float width, float height, Logger log) throws Exception {
         super(sceneObjects, width, height, true, SceneAntialiasing.DISABLED);
         objects = sceneObjects;
-        this.tileEvent = tileEvent;
         this.players = players;
         this.LOG = log;
         preloadBoard();
@@ -223,6 +223,21 @@ public class BoardScene extends SubScene {
 
     public void clear() {
         clearAnimations();
+        tileEvent = null;
+        boardScene = null;
+    }
+
+    public static void startBoardLoad(Map<String,Colors> players, Logger LOG) throws Exception {
+        tileEvent = new ObservableTileEvent();
+        boardScene = new BoardScene(new Group(), players, 840, 700, LOG);
+    }
+
+    public static BoardScene getBoardLoadedScene() {
+        return boardScene;
+    }
+
+    public static ObservableTileEvent getTileEvent() {
+        return tileEvent;
     }
 
 }

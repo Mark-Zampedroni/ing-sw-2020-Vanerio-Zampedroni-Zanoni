@@ -1,15 +1,11 @@
 package it.polimi.ingsw.mvc.view.gui.fxmlControllers;
 
-import it.polimi.ingsw.mvc.view.gui.GuiManager;
 import it.polimi.ingsw.mvc.view.gui.music.Music;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.effect.Glow;
 import javafx.scene.layout.BorderPane;
-import javafx.stage.Stage;
-
-import java.io.IOException;
 import java.util.Arrays;
 
 
@@ -114,7 +110,7 @@ public class TitleController extends GenericController {
     }
 
     public void requestNumberOfPlayers() {
-        switchMode("Choose the number of players!");
+        switchMode();
         showNode(p2);
         showNode(p3);
     }
@@ -142,10 +138,10 @@ public class TitleController extends GenericController {
         textLabelCon.setText(text);
     }
 
-    private void switchMode(String text) {
+    private void switchMode() {
         hideNode(playButton);
         showNode(textPane);
-        textLabel.setText(text);
+        textLabel.setText("Choose the number of players!");
     }
 
 }

@@ -2,14 +2,12 @@ package it.polimi.ingsw.mvc.view.gui.fxmlControllers;
 
 import it.polimi.ingsw.mvc.view.gui.objects3D.utils.BoardCamera;
 import it.polimi.ingsw.mvc.view.gui.objects3D.utils.BoardScene;
-import it.polimi.ingsw.mvc.view.gui.objects3D.utils.ObservableTileEvent;
 import it.polimi.ingsw.utility.dto.DtoPosition;
 import it.polimi.ingsw.utility.dto.DtoSession;
 import it.polimi.ingsw.utility.enumerations.Action;
 import it.polimi.ingsw.utility.enumerations.Colors;
 import it.polimi.ingsw.utility.observer.Observer;
 import javafx.fxml.FXML;
-import javafx.scene.Group;
 import javafx.scene.SubScene;
 import javafx.scene.control.Label;
 import javafx.scene.layout.BorderPane;
@@ -44,10 +42,12 @@ public class BoardController extends GenericController implements Observer<DtoPo
 
 
 
-    public void initialize() {
+    public void initialize() throws Exception {
         super.initialize(this);
-
-        gui.getTileEvent().addObserver(this);
+        if(BoardScene.getTileEvent() == null) {
+            BoardScene.startBoardLoad(gui.getPlayers(), gui.LOG);
+        }
+        BoardScene.getTileEvent().addObserver(this);
         initBoard();
         actionButtons = new ArrayList<>(Arrays.asList(testButton3,testButton2,testButton));
         actionButtons.forEach(this::hideNode);
@@ -55,7 +55,7 @@ public class BoardController extends GenericController implements Observer<DtoPo
 
     private void initBoard() {
 
-        gameScene = gui.getBoardLoadedScene();
+        gameScene = BoardScene.getBoardLoadedScene();
         boardSubScene = (BoardScene) gameScene;
         sceneContainer.setCenter(gameScene);
 

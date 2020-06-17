@@ -1,18 +1,15 @@
 package it.polimi.ingsw.mvc.view.gui.fxmlControllers;
 
+import it.polimi.ingsw.mvc.view.gui.objects3D.utils.BoardScene;
 import it.polimi.ingsw.utility.enumerations.Gods;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
-import javafx.scene.Node;
 import javafx.scene.control.Button;
-import javafx.scene.control.Control;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.*;
-import javafx.scene.paint.Paint;
 
-import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -91,7 +88,7 @@ public class ChallengerSelectionController extends GenericController {
         initSelectionButton();
         initSelectLabel();
         initFonts();
-        gui.startBoardLoad();
+        BoardScene.startBoardLoad(gui.getPlayers(), gui.LOG);
     }
 
     private void initFonts() {

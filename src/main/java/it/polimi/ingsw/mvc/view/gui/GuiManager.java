@@ -35,9 +35,6 @@ public class GuiManager extends Client {
 
     private GenericController currentController;
 
-    private BoardScene board;
-    private ObservableTileEvent tileEvent;
-
     private GuiManager() {
         super();
         GUI_LOG = LOG;
@@ -97,25 +94,12 @@ public class GuiManager extends Client {
          return (players == null) ? String.valueOf(0) : Integer.toString(players.size());
     }
 
-    public void startBoardLoad() throws Exception {
-        tileEvent = new ObservableTileEvent();
-        board = new BoardScene(new Group(), tileEvent, players, 840, 700, LOG);
-    }
-
-    public BoardScene getBoardLoadedScene() {
-        return board;
-    }
-
-    public ObservableTileEvent getTileEvent() {
-        return tileEvent;
-    }
-
     public String getUsername() { return username; }
 
     public static String getFxmlPath(Class<?> c) {
         List<String> s = Arrays.asList(c.toString().split("\\."));
         String name = s.get(s.size()-1);
-        return "/fxmlFiles/"+name.substring(0,name.length()-10)+".fxml";
+        return "/fxmlFiles/"+name.substring(0,name.length()-10)+".fxml"; // Removes "Controller" from the name
     }
 
     private void runUpdate(Class<?> c, Runnable request) {

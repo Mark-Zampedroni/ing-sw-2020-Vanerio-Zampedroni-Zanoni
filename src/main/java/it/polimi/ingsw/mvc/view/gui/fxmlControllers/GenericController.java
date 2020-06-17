@@ -1,6 +1,5 @@
 package it.polimi.ingsw.mvc.view.gui.fxmlControllers;
 
-import it.polimi.ingsw.mvc.view.gui.Gui;
 import it.polimi.ingsw.mvc.view.gui.GuiManager;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
@@ -9,12 +8,7 @@ import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
-import javafx.scene.paint.Paint;
 import javafx.scene.text.Font;
-import org.w3c.dom.Text;
-
-import java.util.Arrays;
-import java.util.List;
 
 public abstract class GenericController {
 
