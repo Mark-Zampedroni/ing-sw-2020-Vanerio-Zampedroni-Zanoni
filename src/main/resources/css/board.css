@@ -122,3 +122,11 @@
 #currentplayer{
     -fx-background-image: url('../Texture2D_sorted/Pulsanti/currentplayer.png');
 }
+
+#winner{
+    -fx-background-image: url('../Texture2D_sorted/Backgrounds/winningscreen2.png');
+}
+
+#loser{
+    -fx-background-image: url('../Texture2D_sorted/Backgrounds/losingscreen.png');
+}

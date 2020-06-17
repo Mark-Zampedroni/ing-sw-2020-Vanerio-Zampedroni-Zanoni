@@ -10,6 +10,7 @@ import it.polimi.ingsw.utility.observer.Observer;
 import javafx.fxml.FXML;
 import javafx.scene.SubScene;
 import javafx.scene.control.Label;
+import javafx.scene.layout.Border;
 import javafx.scene.layout.BorderPane;
 
 import java.util.*;
@@ -29,6 +30,31 @@ public class BoardController extends GenericController implements Observer<DtoPo
     public BorderPane testButton2;
     @FXML
     public BorderPane testButton3;
+    @FXML
+    public Label endgameLabel;
+    @FXML
+    public BorderPane endgameScreen;
+    @FXML
+    public BorderPane playerSlot1;
+    @FXML
+    public BorderPane playerSlot2;
+    @FXML
+    public BorderPane playerSlot3;
+    @FXML
+    public BorderPane godSlot1;
+    @FXML
+    public BorderPane godSlot2;
+    @FXML
+    public BorderPane godSlot3;
+    @FXML
+    public BorderPane currentPlayer1;
+    @FXML
+    public BorderPane currentPlayer2;
+    @FXML
+    public BorderPane currentPlayer3;
+
+
+
 
 
     private boolean turnOwner = false;
@@ -39,6 +65,10 @@ public class BoardController extends GenericController implements Observer<DtoPo
     private BoardScene boardSubScene;
 
     private List<BorderPane> actionButtons;
+    private List<BorderPane> playerSlots;
+    private List<BorderPane> godSlots;
+    private List<BorderPane> currentPlayers;
+
 
 
 
@@ -51,6 +81,17 @@ public class BoardController extends GenericController implements Observer<DtoPo
         initBoard();
         actionButtons = new ArrayList<>(Arrays.asList(testButton3,testButton2,testButton));
         actionButtons.forEach(this::hideNode);
+        //Da valutare se mettere dinamico, troppa roba
+        playerSlots = new ArrayList<>(Arrays.asList(playerSlot1,playerSlot2));
+        godSlots = new ArrayList<>(Arrays.asList(godSlot1,godSlot2));
+        currentPlayers = new ArrayList<>(Arrays.asList(currentPlayer1,currentPlayer2));
+        if(Integer.parseInt(gui.getNumberOfPlayers()) == 3) {
+            playerSlots.add(playerSlot3);
+            godSlots.add(godSlot3);
+            currentPlayers.add(currentPlayer3);
+        }
+        currentPlayers.forEach(this::hideNode);
+
     }
 
     private void initBoard() {
@@ -79,6 +120,17 @@ public class BoardController extends GenericController implements Observer<DtoPo
 
     public void showBoard(DtoSession session, Map<String, Colors> colors, Map<String, String> gods) {
         boardSubScene.updateBoard(session);
+        //create e basta
+        initPlayerSlots(colors);
+        initGodSlots(gods);
+    }
+
+    private void initPlayerSlots(Map<String, Colors> colors){
+
+    }
+
+    private void initGodSlots(Map<String, String> gods){
+
     }
 
     private void setDefaultAction() {
