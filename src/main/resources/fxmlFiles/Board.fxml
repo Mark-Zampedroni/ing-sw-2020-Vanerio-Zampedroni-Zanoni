@@ -46,7 +46,7 @@
                      </SubScene>
                  </center>
               </BorderPane>
-              <GridPane id="sidebarBg" style="-fx-background-color: #e5d9ca;" styleClass="fullbackground" GridPane.columnIndex="11" GridPane.columnSpan="3" GridPane.rowSpan="8">
+              <GridPane id="sidebarBg" minHeight="1.0" minWidth="1.0" style="-fx-background-color: #e5d9ca;" styleClass="fullbackground" GridPane.columnIndex="11" GridPane.columnSpan="3" GridPane.rowSpan="8">
                   <columnConstraints>
                   <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                       <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
@@ -58,204 +58,270 @@
                   <rowConstraints>
                   <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                   <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="1.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="1.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="1.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                       <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                       <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                       <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                       <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                       <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                       <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                   </rowConstraints>
                <children>
-                  <BorderPane id="buttonTry4" fx:id="testButton3" minHeight="1.0" minWidth="1.0" pickOnBounds="false" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.columnSpan="4" GridPane.rowIndex="7">
-                     <styleClass>
-                        <String fx:value="fullbackground" />
-                        <String fx:value="invisiblebackground" />
-                     </styleClass>
+                  <BorderPane id="button1" minHeight="1.0" minWidth="1.0" prefHeight="1.0" prefWidth="1.0" styleClass="fullbackground" GridPane.columnIndex="1" GridPane.columnSpan="4" GridPane.rowIndex="10" GridPane.rowSpan="2">
                      <top>
-                        <Label alignment="CENTER" minHeight="1.0" minWidth="1.0" prefHeight="66.0" prefWidth="142.0" text="END TURN" textAlignment="CENTER" BorderPane.alignment="CENTER">
+                        <Label alignment="CENTER" minHeight="1.0" minWidth="1.0" prefHeight="60.0" prefWidth="150.0" text="Label" BorderPane.alignment="CENTER">
+                           <font>
+                              <Font size="17.0" />
+                           </font>
+                           <BorderPane.margin>
+                              <Insets bottom="10.0" />
+                           </BorderPane.margin>
+                        </Label>
+                     </top></BorderPane>
+                  <BorderPane id="button2" minHeight="1.0" minWidth="1.0" prefHeight="1.0" prefWidth="1.0" styleClass="fullbackground" GridPane.columnIndex="1" GridPane.columnSpan="4" GridPane.rowIndex="12" GridPane.rowSpan="2">
+                     <top>
+                        <Label alignment="CENTER" minHeight="1.0" minWidth="1.0" prefHeight="60.0" prefWidth="153.0" text="Label" BorderPane.alignment="CENTER">
+                           <BorderPane.margin>
+                              <Insets bottom="10.0" />
+                           </BorderPane.margin>
                            <font>
                               <Font size="17.0" />
                            </font>
                         </Label>
-                     </top>
+                     </top></BorderPane>
+                  <BorderPane id="button3" minHeight="1.0" minWidth="1.0" prefHeight="1.0" prefWidth="1.0" styleClass="fullbackground" GridPane.columnIndex="1" GridPane.columnSpan="4" GridPane.rowIndex="14" GridPane.rowSpan="2">
                      <GridPane.margin>
-                        <Insets bottom="23.0" top="-23.0" />
-                     </GridPane.margin></BorderPane>
-                  <BorderPane id="buttonTry3" fx:id="testButton2" minHeight="1.0" minWidth="1.0" pickOnBounds="false" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.columnSpan="4" GridPane.rowIndex="6">
-                     <styleClass>
-                        <String fx:value="fullbackground" />
-                        <String fx:value="invisiblebackground" />
-                     </styleClass>
+                        <Insets />
+                     </GridPane.margin>
                      <top>
-                        <Label alignment="CENTER" minHeight="1.0" minWidth="1.0" prefHeight="67.0" prefWidth="146.0" text="MOVE" BorderPane.alignment="CENTER">
+                        <Label alignment="CENTER" minHeight="1.0" minWidth="1.0" prefHeight="60.0" prefWidth="150.0" text="Label" BorderPane.alignment="CENTER">
                            <font>
                               <Font size="17.0" />
                            </font>
-                        </Label>
-                     </top>
-                     <GridPane.margin>
-                        <Insets bottom="23.0" top="-23.0" />
-                     </GridPane.margin></BorderPane>
-                  <BorderPane id="buttonTry2" fx:id="testButton" minHeight="1.0" minWidth="1.0" pickOnBounds="false" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.columnSpan="4" GridPane.rowIndex="5">
-                     <styleClass>
-                        <String fx:value="fullbackground" />
-                        <String fx:value="invisiblebackground" />
-                     </styleClass>
-                     <top>
-                        <Label alignment="CENTER" minHeight="1.0" minWidth="1.0" prefHeight="67.0" prefWidth="145.0" text="BUILD" BorderPane.alignment="CENTER">
-                           <font>
-                              <Font size="18.0" />
-                           </font>
-                        </Label>
-                     </top>
-                     <GridPane.margin>
-                        <Insets bottom="23.0" top="-23.0" />
-                     </GridPane.margin>
-                  </BorderPane>
-                  <BorderPane minHeight="1.0" minWidth="1.0" prefHeight="200.0" prefWidth="200.0" GridPane.columnSpan="6" GridPane.rowIndex="1">
-                     <center>
-                        <GridPane minHeight="1.0" minWidth="1.0" BorderPane.alignment="CENTER">
-                          <columnConstraints>
-                              <ColumnConstraints hgrow="SOMETIMES" minWidth="1.0" prefWidth="100.0" />
-                            <ColumnConstraints hgrow="SOMETIMES" minWidth="1.0" prefWidth="100.0" />
-                            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                          </columnConstraints>
-                          <rowConstraints>
-                            <RowConstraints minHeight="1.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                          </rowConstraints>
-                           <children>
-                              <BorderPane minHeight="1.0" minWidth="1.0" prefHeight="200.0" prefWidth="200.0">
-                                 <center>
-                                    <GridPane minHeight="1.0" minWidth="1.0" BorderPane.alignment="CENTER">
-                                      <columnConstraints>
-                                          <ColumnConstraints hgrow="SOMETIMES" minWidth="1.0" prefWidth="100.0" />
-                                          <ColumnConstraints hgrow="SOMETIMES" minWidth="1.0" prefWidth="100.0" />
-                                          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                                        <ColumnConstraints hgrow="SOMETIMES" minWidth="1.0" prefWidth="100.0" />
-                                      </columnConstraints>
-                                      <rowConstraints>
-                                          <RowConstraints minHeight="1.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                                          <RowConstraints minHeight="1.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                                        <RowConstraints minHeight="1.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                                      </rowConstraints>
-                                       <children>
-                                          <BorderPane id="a" minHeight="1.0" minWidth="1.0" prefHeight="200.0" prefWidth="200.0" styleClass="fullbackground" GridPane.columnIndex="1" GridPane.columnSpan="4" GridPane.rowSpan="4" />
-                                       </children>
-                                    </GridPane>
-                                 </center>
-                              </BorderPane>
-                              <BorderPane id="b" minHeight="20.0" minWidth="40.0" prefHeight="200.0" prefWidth="200.0" styleClass="fullbackground" GridPane.columnIndex="1" GridPane.columnSpan="2">
-                                 <center>
-                                    <Label alignment="CENTER" prefHeight="76.0" prefWidth="159.0" text="AAAAAAAAAAAAA" BorderPane.alignment="CENTER" />
-                                 </center>
-                                 <GridPane.margin>
-                                    <Insets bottom="18.0" right="25.0" top="12.0" />
-                                 </GridPane.margin></BorderPane>
-                           </children>
-                        </GridPane>
-                     </center>
-                     <GridPane.margin>
-                        <Insets bottom="-10.0" top="10.0" />
-                     </GridPane.margin>
-                  </BorderPane>
-                  <BorderPane minHeight="1.0" minWidth="1.0" prefHeight="200.0" prefWidth="200.0" GridPane.columnSpan="6" GridPane.rowIndex="2">
-                     <center>
-                        <GridPane minHeight="1.0" minWidth="1.0" BorderPane.alignment="CENTER">
-                           <children>
-                              <BorderPane minHeight="1.0" minWidth="1.0" prefHeight="200.0" prefWidth="200.0">
-                                 <center>
-                                    <GridPane minHeight="1.0" minWidth="1.0" BorderPane.alignment="CENTER">
-                                       <children>
-                                          <BorderPane id="a" minHeight="1.0" minWidth="1.0" prefHeight="200.0" prefWidth="200.0" styleClass="fullbackground" GridPane.columnIndex="1" GridPane.columnSpan="4" GridPane.rowSpan="4" />
-                                       </children>
-                                       <columnConstraints>
-                                          <ColumnConstraints hgrow="SOMETIMES" minWidth="1.0" prefWidth="100.0" />
-                                          <ColumnConstraints hgrow="SOMETIMES" minWidth="1.0" prefWidth="100.0" />
-                                          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                                          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                                          <ColumnConstraints hgrow="SOMETIMES" minWidth="1.0" prefWidth="100.0" />
-                                       </columnConstraints>
-                                       <rowConstraints>
-                                          <RowConstraints minHeight="1.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                                          <RowConstraints minHeight="1.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                                          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                                          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                                          <RowConstraints minHeight="1.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                                       </rowConstraints>
-                                    </GridPane>
-                                 </center>
-                              </BorderPane>
-                              <BorderPane id="b" minHeight="1.0" minWidth="1.0" prefHeight="200.0" prefWidth="200.0" styleClass="fullbackground" GridPane.columnIndex="1" GridPane.columnSpan="2">
-                                 <GridPane.margin>
-                                    <Insets bottom="18.0" right="25.0" top="12.0" />
-                                 </GridPane.margin></BorderPane>
-                           </children>
-                           <columnConstraints>
-                              <ColumnConstraints hgrow="SOMETIMES" minWidth="1.0" prefWidth="100.0" />
-                              <ColumnConstraints hgrow="SOMETIMES" minWidth="1.0" prefWidth="100.0" />
-                              <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                           </columnConstraints>
-                           <rowConstraints>
-                              <RowConstraints minHeight="1.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                           </rowConstraints>
-                        </GridPane>
-                     </center>
-                     <GridPane.margin>
-                        <Insets bottom="-10.0" top="10.0" />
-                     </GridPane.margin>
-                  </BorderPane>
-                  <BorderPane minHeight="1.0" minWidth="1.0" prefHeight="200.0" prefWidth="200.0" GridPane.columnSpan="6" GridPane.rowIndex="3">
-                     <center>
-                        <GridPane minHeight="1.0" minWidth="1.0" BorderPane.alignment="CENTER">
-                           <children>
-                              <BorderPane minHeight="1.0" minWidth="1.0" prefHeight="200.0" prefWidth="200.0">
-                                 <center>
-                                    <GridPane minHeight="1.0" minWidth="1.0" BorderPane.alignment="CENTER">
-                                       <children>
-                                          <BorderPane id="a" minHeight="1.0" minWidth="1.0" prefHeight="200.0" prefWidth="200.0" styleClass="fullbackground" GridPane.columnIndex="1" GridPane.columnSpan="4" GridPane.rowSpan="4" />
-                                       </children>
-                                       <columnConstraints>
-                                          <ColumnConstraints hgrow="SOMETIMES" minWidth="1.0" prefWidth="100.0" />
-                                          <ColumnConstraints hgrow="SOMETIMES" minWidth="1.0" prefWidth="100.0" />
-                                          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                                          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                                          <ColumnConstraints hgrow="SOMETIMES" minWidth="1.0" prefWidth="100.0" />
-                                       </columnConstraints>
-                                       <rowConstraints>
-                                          <RowConstraints minHeight="1.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                                          <RowConstraints minHeight="1.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                                          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                                          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                                          <RowConstraints minHeight="1.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                                       </rowConstraints>
-                                    </GridPane>
-                                 </center>
-                              </BorderPane>
-                              <BorderPane id="b" minHeight="1.0" minWidth="1.0" prefHeight="200.0" prefWidth="200.0" styleClass="fullbackground" GridPane.columnIndex="1" GridPane.columnSpan="2">
-                                 <GridPane.margin>
-                                    <Insets bottom="18.0" right="25.0" top="12.0" />
-                                 </GridPane.margin></BorderPane>
-                           </children>
-                           <columnConstraints>
-                              <ColumnConstraints hgrow="SOMETIMES" minWidth="1.0" prefWidth="100.0" />
-                              <ColumnConstraints hgrow="SOMETIMES" minWidth="1.0" prefWidth="100.0" />
-                              <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                           </columnConstraints>
-                           <rowConstraints>
-                              <RowConstraints minHeight="1.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                           </rowConstraints>
-                        </GridPane>
-                     </center>
-                     <GridPane.margin>
-                        <Insets bottom="-10.0" top="10.0" />
-                     </GridPane.margin>
-                  </BorderPane>
+                           <BorderPane.margin>
+                              <Insets bottom="10.0" />
+                           </BorderPane.margin></Label>
+                     </top></BorderPane>
                </children>
               </GridPane>
+            <GridPane layoutX="825.0" layoutY="10.0" GridPane.columnIndex="11" GridPane.columnSpan="3" GridPane.rowSpan="8">
+               <children>
+                  <BorderPane minHeight="1.0" minWidth="1.0" prefHeight="1.0" prefWidth="1.0" GridPane.columnSpan="6" GridPane.rowIndex="2" GridPane.rowSpan="2">
+                     <center>
+                        <GridPane minHeight="1.0" minWidth="1.0" BorderPane.alignment="CENTER">
+                           <children>
+                              <BorderPane id="brownbig" minHeight="1.0" minWidth="50.0" prefHeight="1.0" prefWidth="1.0" styleClass="fullbackground" GridPane.columnIndex="1" GridPane.columnSpan="2" GridPane.rowIndex="1">
+                                 <GridPane.margin>
+                                    <Insets right="30.0" />
+                                 </GridPane.margin>
+                                 <center>
+                                    <Label alignment="CENTER" prefHeight="49.0" prefWidth="136.0" text="Player1" BorderPane.alignment="CENTER">
+                                       <font>
+                                          <Font size="16.0" />
+                                       </font>
+                                       <BorderPane.margin>
+                                          <Insets />
+                                       </BorderPane.margin>
+                                    </Label>
+                                 </center>
+                              </BorderPane>
+                              <BorderPane minHeight="1.0" minWidth="1.0" prefHeight="200.0" prefWidth="200.0" GridPane.rowSpan="2">
+                                 <center>
+                                    <GridPane minHeight="1.0" minWidth="1.0" BorderPane.alignment="CENTER">
+                                       <children>
+                                          <BorderPane id="a" minHeight="1.0" minWidth="1.0" prefHeight="200.0" prefWidth="200.0" styleClass="fullbackground" GridPane.columnIndex="1" GridPane.columnSpan="4" GridPane.rowIndex="1" GridPane.rowSpan="5" />
+                                          <BorderPane id="info" minHeight="1.0" minWidth="1.0" prefHeight="1.0" prefWidth="1.0" styleClass="fullbackground" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                                       </children>
+                                       <columnConstraints>
+                                          <ColumnConstraints hgrow="SOMETIMES" minWidth="1.0" prefWidth="100.0" />
+                                          <ColumnConstraints hgrow="SOMETIMES" minWidth="1.0" prefWidth="100.0" />
+                                          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                       </columnConstraints>
+                                       <rowConstraints>
+                                          <RowConstraints minHeight="1.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                          <RowConstraints minHeight="1.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                          <RowConstraints minHeight="1.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                          <RowConstraints />
+                                       </rowConstraints>
+                                    </GridPane>
+                                 </center>
+                              </BorderPane>
+                           </children>
+                           <columnConstraints>
+                              <ColumnConstraints hgrow="SOMETIMES" minWidth="1.0" prefWidth="100.0" />
+                              <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                              <ColumnConstraints hgrow="SOMETIMES" minWidth="1.0" prefWidth="100.0" />
+                           </columnConstraints>
+                           <rowConstraints>
+                              <RowConstraints minHeight="1.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                              <RowConstraints minHeight="1.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                           </rowConstraints>
+                        </GridPane>
+                     </center>
+                  </BorderPane>
+                  <BorderPane minHeight="1.0" minWidth="1.0" prefHeight="1.0" prefWidth="1.0" GridPane.columnSpan="6" GridPane.rowIndex="6" GridPane.rowSpan="2">
+                     <center>
+                        <GridPane minHeight="1.0" minWidth="1.0" BorderPane.alignment="CENTER">
+                           <children>
+                              <BorderPane id="bluebig" minHeight="1.0" minWidth="50.0" prefHeight="1.0" prefWidth="1.0" styleClass="fullbackground" GridPane.columnIndex="1" GridPane.columnSpan="2" GridPane.rowIndex="1">
+                                 <GridPane.margin>
+                                    <Insets right="30.0" />
+                                 </GridPane.margin>
+                                 <center>
+                                    <Label alignment="CENTER" prefHeight="48.0" prefWidth="151.0" text="Label" BorderPane.alignment="CENTER">
+                                       <font>
+                                          <Font size="16.0" />
+                                       </font>
+                                    </Label>
+                                 </center>
+                              </BorderPane>
+                              <BorderPane minHeight="1.0" minWidth="1.0" prefHeight="200.0" prefWidth="200.0" GridPane.rowSpan="2">
+                                 <center>
+                                    <GridPane minHeight="1.0" minWidth="1.0" BorderPane.alignment="CENTER">
+                                       <children>
+                                          <BorderPane id="a" minHeight="1.0" minWidth="1.0" prefHeight="200.0" prefWidth="200.0" styleClass="fullbackground" GridPane.columnIndex="1" GridPane.columnSpan="4" GridPane.rowIndex="1" GridPane.rowSpan="5" />
+                                          <BorderPane id="info" minHeight="1.0" minWidth="1.0" prefHeight="1.0" prefWidth="1.0" styleClass="fullbackground" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                                       </children>
+                                       <columnConstraints>
+                                          <ColumnConstraints hgrow="SOMETIMES" minWidth="1.0" prefWidth="100.0" />
+                                          <ColumnConstraints hgrow="SOMETIMES" minWidth="1.0" prefWidth="100.0" />
+                                          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                       </columnConstraints>
+                                       <rowConstraints>
+                                          <RowConstraints minHeight="1.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                          <RowConstraints minHeight="1.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                          <RowConstraints minHeight="1.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                          <RowConstraints />
+                                       </rowConstraints>
+                                    </GridPane>
+                                 </center>
+                              </BorderPane>
+                           </children>
+                           <columnConstraints>
+                              <ColumnConstraints hgrow="SOMETIMES" minWidth="1.0" prefWidth="100.0" />
+                              <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                              <ColumnConstraints hgrow="SOMETIMES" minWidth="1.0" prefWidth="100.0" />
+                           </columnConstraints>
+                           <rowConstraints>
+                              <RowConstraints minHeight="1.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                              <RowConstraints minHeight="1.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                           </rowConstraints>
+                        </GridPane>
+                     </center>
+                  </BorderPane>
+                  <BorderPane minHeight="1.0" minWidth="1.0" prefHeight="1.0" prefWidth="1.0" GridPane.columnSpan="6" GridPane.rowIndex="4" GridPane.rowSpan="2">
+                     <center>
+                        <GridPane minHeight="1.0" minWidth="1.0" BorderPane.alignment="CENTER">
+                           <children>
+                              <BorderPane id="whitebig" minHeight="1.0" minWidth="50.0" prefHeight="1.0" prefWidth="1.0" styleClass="fullbackground" GridPane.columnIndex="1" GridPane.columnSpan="2" GridPane.rowIndex="1">
+                                 <GridPane.margin>
+                                    <Insets right="30.0" />
+                                 </GridPane.margin>
+                                 <center>
+                                    <Label alignment="CENTER" minHeight="1.0" minWidth="1.0" prefHeight="53.0" prefWidth="134.0" text="Label" BorderPane.alignment="CENTER">
+                                       <font>
+                                          <Font size="16.0" />
+                                       </font>
+                                    </Label>
+                                 </center>
+                              </BorderPane>
+                              <BorderPane minHeight="1.0" minWidth="1.0" prefHeight="200.0" prefWidth="200.0" GridPane.rowSpan="2">
+                                 <center>
+                                    <GridPane minHeight="1.0" minWidth="1.0" BorderPane.alignment="CENTER">
+                                       <children>
+                                          <BorderPane id="a" minHeight="1.0" minWidth="1.0" prefHeight="200.0" prefWidth="200.0" styleClass="fullbackground" GridPane.columnIndex="1" GridPane.columnSpan="4" GridPane.rowIndex="1" GridPane.rowSpan="5" />
+                                          <BorderPane id="info" minHeight="1.0" minWidth="1.0" prefHeight="1.0" prefWidth="1.0" styleClass="fullbackground" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                                       </children>
+                                       <columnConstraints>
+                                          <ColumnConstraints hgrow="SOMETIMES" minWidth="1.0" prefWidth="100.0" />
+                                          <ColumnConstraints hgrow="SOMETIMES" minWidth="1.0" prefWidth="100.0" />
+                                          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                       </columnConstraints>
+                                       <rowConstraints>
+                                          <RowConstraints minHeight="1.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                          <RowConstraints minHeight="1.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                          <RowConstraints minHeight="1.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                          <RowConstraints />
+                                       </rowConstraints>
+                                    </GridPane>
+                                 </center>
+                              </BorderPane>
+                           </children>
+                           <columnConstraints>
+                              <ColumnConstraints hgrow="SOMETIMES" minWidth="1.0" prefWidth="100.0" />
+                              <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                              <ColumnConstraints hgrow="SOMETIMES" minWidth="1.0" prefWidth="100.0" />
+                           </columnConstraints>
+                           <rowConstraints>
+                              <RowConstraints minHeight="1.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                              <RowConstraints minHeight="1.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                           </rowConstraints>
+                        </GridPane>
+                     </center>
+                  </BorderPane>
+                  <BorderPane id="crown" minHeight="1.0" minWidth="15.0" prefHeight="1.0" prefWidth="1.0" styleClass="fullbackground" GridPane.columnIndex="4" GridPane.columnSpan="2" GridPane.rowIndex="2">
+                     <GridPane.margin>
+                        <Insets right="30.0" />
+                     </GridPane.margin></BorderPane>
+                  <BorderPane id="currentplayer" minHeight="1.0" minWidth="20.0" prefHeight="1.0" prefWidth="1.0" styleClass="fullbackground" GridPane.columnIndex="3" GridPane.columnSpan="3" GridPane.rowIndex="4">
+                     <GridPane.margin>
+                        <Insets right="30.0" />
+                     </GridPane.margin>
+                     <bottom>
+                        <Label minHeight="1.0" minWidth="1.0" prefHeight="20.0" prefWidth="111.0" text=" Current Player" BorderPane.alignment="CENTER" />
+                     </bottom></BorderPane>
+               </children>
+               <columnConstraints>
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+               </columnConstraints>
+               <rowConstraints>
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+               </rowConstraints>
+            </GridPane>
           </children>
        </GridPane>
    </center>
