@@ -4,6 +4,7 @@ import it.polimi.ingsw.mvc.view.gui.objects3D.TrackedGroup;
 import it.polimi.ingsw.mvc.view.gui.objects3D.utils.BoardCoords3D;
 import it.polimi.ingsw.mvc.view.gui.objects3D.utils.NodeOperation;
 import javafx.scene.Node;
+import javafx.scene.paint.PhongMaterial;
 
 
 public class TowerObj extends TrackedGroup {
@@ -20,6 +21,8 @@ public class TowerObj extends TrackedGroup {
     private Node bottom, middle, top;
     private Node dome;
 
+    private static PhongMaterial TOP_MATERIAL, MID_MATERIAL, BOT_MATERIAL, DOME_MATERIAL;
+
     private int height;
 
     public TowerObj(BoardCoords3D coords) throws Exception {
@@ -29,11 +32,19 @@ public class TowerObj extends TrackedGroup {
     public TowerObj(BoardCoords3D coords, int height) throws Exception {
         super(-11.95, 12.53,0.5,
                 0,0,0);
+
+        if(TOP_MATERIAL == null) {
+            TOP_MATERIAL = NodeOperation.getTexture(TOP_TEXTURE);
+            MID_MATERIAL = NodeOperation.getTexture(MIDDLE_TEXTURE);
+            BOT_MATERIAL = NodeOperation.getTexture(BOTTOM_TEXTURE);
+            DOME_MATERIAL = NodeOperation.getTexture(DOME_TEXTURE);
+        }
+
         getChildren().addAll(
-                    bottom = NodeOperation.getModel(BOTTOM_OBJ, BOTTOM_TEXTURE),
-                    middle = NodeOperation.getModel(MIDDLE_OBJ, MIDDLE_TEXTURE),
-                    top = NodeOperation.getModel(TOP_OBJ, TOP_TEXTURE),
-                    dome = NodeOperation.getModel(DOME_OBJ, DOME_TEXTURE)
+                    bottom = NodeOperation.getModel(BOTTOM_OBJ, BOT_MATERIAL),
+                    middle = NodeOperation.getModel(MIDDLE_OBJ, MID_MATERIAL),
+                    top = NodeOperation.getModel(TOP_OBJ, TOP_MATERIAL),
+                    dome = NodeOperation.getModel(DOME_OBJ, DOME_MATERIAL)
         );
         bottom.setVisible(false);
         middle.setVisible(false);
@@ -46,12 +57,6 @@ public class TowerObj extends TrackedGroup {
         NodeOperation.setTranslate(this, zeroX, zeroZ, zeroY);
 
         setCoords(coords);
-
-        /*
-        setOnMouseClicked(event -> {
-            setTranslateZ(getTranslateZ()+0.1);
-            System.out.println(getTranslateZ());
-        });*/
 
         this.height = height;
         setHeight(height);

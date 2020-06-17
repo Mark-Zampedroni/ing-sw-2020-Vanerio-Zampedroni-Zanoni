@@ -73,10 +73,6 @@ public class TileObj extends TrackedGroup {
         }
     }
 
-    public void grabWorker(TileObj workerTile) {
-        setWorker(workerTile.getWorker());
-    }
-
     public void addWorker(Group objects, Colors color) throws Exception {
         if(worker == null) {
             worker = new WorkerObj(new BoardCoords3D(x, y, tower.getHeight()), color);

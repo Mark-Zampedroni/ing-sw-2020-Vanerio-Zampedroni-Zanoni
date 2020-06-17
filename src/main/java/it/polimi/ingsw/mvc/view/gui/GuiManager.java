@@ -1,6 +1,8 @@
 package it.polimi.ingsw.mvc.view.gui;
 
 import it.polimi.ingsw.mvc.view.gui.fxmlControllers.*;
+import it.polimi.ingsw.mvc.view.gui.objects3D.utils.BoardScene;
+import it.polimi.ingsw.mvc.view.gui.objects3D.utils.ObservableTileEvent;
 import it.polimi.ingsw.network.client.Client;
 import it.polimi.ingsw.utility.enumerations.Action;
 import it.polimi.ingsw.utility.enumerations.Colors;
@@ -9,6 +11,7 @@ import it.polimi.ingsw.utility.dto.DtoSession;
 import javafx.application.Platform;
 import javafx.beans.property.ReadOnlyDoubleProperty;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
@@ -31,6 +34,9 @@ public class GuiManager extends Client {
     private static double width;
 
     private GenericController currentController;
+
+    private BoardScene board;
+    private ObservableTileEvent tileEvent;
 
     private GuiManager() {
         super();
@@ -64,8 +70,7 @@ public class GuiManager extends Client {
         super.disconnectClient();
     }
 
-    /*SET A SCENE*/
-
+    /*SHOWS A SCENE*/
     public static void setLayout(Scene scene, String path) {
         try {
             Pane pane = loadFxmlPane(path);
@@ -74,27 +79,6 @@ public class GuiManager extends Client {
             GUI_LOG.severe("Can't load "+path);
         }
 
-    }
-
-    /*CREATE A DIALOG */
-     public static void showDialog(Stage window, String title, String text) throws IOException {
-        String path = "/fxmlFiles/Dialog.fxml";
-        Pane dialogPane = loadFxmlPane(path);
-        Scene dialogScene = new Scene(dialogPane, 600, 300);
-
-        Stage dialog = new Stage();
-        dialog.setScene(dialogScene);
-        dialog.initOwner(window);
-        dialog.initStyle(StageStyle.DECORATED);
-        dialog.initModality(Modality.APPLICATION_MODAL);
-        dialog.setAlwaysOnTop(true);
-
-        dialogScene.lookup("#okButton").addEventHandler(MouseEvent.MOUSE_CLICKED, event -> dialog.close());
-
-        ((Label) dialogScene.lookup("#dialogTitle")).setText(title);
-        ((Label) dialogScene.lookup("#dialogText")).setText(text);
-
-        dialog.showAndWait();
     }
 
     private static Pane loadFxmlPane(String path) throws IOException {
@@ -111,6 +95,19 @@ public class GuiManager extends Client {
 
     public String getNumberOfPlayers() {
          return (players == null) ? String.valueOf(0) : Integer.toString(players.size());
+    }
+
+    public void startBoardLoad() throws Exception {
+        tileEvent = new ObservableTileEvent();
+        board = new BoardScene(new Group(), tileEvent, players, 840, 700, LOG);
+    }
+
+    public BoardScene getBoardLoadedScene() {
+        return board;
+    }
+
+    public ObservableTileEvent getTileEvent() {
+        return tileEvent;
     }
 
     public String getUsername() { return username; }

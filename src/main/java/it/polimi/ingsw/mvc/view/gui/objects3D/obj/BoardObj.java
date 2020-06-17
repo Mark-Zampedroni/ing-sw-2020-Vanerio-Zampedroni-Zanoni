@@ -3,10 +3,11 @@ package it.polimi.ingsw.mvc.view.gui.objects3D.obj;
 import it.polimi.ingsw.mvc.view.gui.objects3D.utils.BoardCoords3D;
 import it.polimi.ingsw.mvc.view.gui.objects3D.utils.NodeOperation;
 import it.polimi.ingsw.mvc.view.gui.objects3D.utils.ObservableTileEvent;
-import it.polimi.ingsw.utility.dto.DtoPosition;
 import it.polimi.ingsw.utility.enumerations.Colors;
 import javafx.scene.Group;
 import javafx.scene.Node;
+
+import java.util.Map;
 
 public class BoardObj extends Group {
 

@@ -85,12 +85,13 @@ public class ChallengerSelectionController extends GenericController {
     private String selectedGod;
     private List<String> chosenGods = new ArrayList<>(); // Una volta collegato al resto sarà null
 
-    public void initialize() {
+    public void initialize() throws Exception {
         super.initialize(this);
         Platform.runLater(this::initGodsSelectionWindow);
         initSelectionButton();
         initSelectLabel();
         initFonts();
+        gui.startBoardLoad();
     }
 
     private void initFonts() {

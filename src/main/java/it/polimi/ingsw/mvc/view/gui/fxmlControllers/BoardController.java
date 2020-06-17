@@ -1,16 +1,10 @@
 package it.polimi.ingsw.mvc.view.gui.fxmlControllers;
 
-import it.polimi.ingsw.mvc.view.gui.objects3D.obj.BoardObj;
-import it.polimi.ingsw.mvc.view.gui.objects3D.obj.TileObj;
-import it.polimi.ingsw.mvc.view.gui.objects3D.obj.WorkerObj;
 import it.polimi.ingsw.mvc.view.gui.objects3D.utils.BoardCamera;
-import it.polimi.ingsw.mvc.view.gui.objects3D.utils.BoardCoords3D;
 import it.polimi.ingsw.mvc.view.gui.objects3D.utils.BoardScene;
 import it.polimi.ingsw.mvc.view.gui.objects3D.utils.ObservableTileEvent;
-import it.polimi.ingsw.utility.dto.DtoBoard;
 import it.polimi.ingsw.utility.dto.DtoPosition;
 import it.polimi.ingsw.utility.dto.DtoSession;
-import it.polimi.ingsw.utility.dto.DtoWorker;
 import it.polimi.ingsw.utility.enumerations.Action;
 import it.polimi.ingsw.utility.enumerations.Colors;
 import it.polimi.ingsw.utility.observer.Observer;
@@ -41,44 +35,28 @@ public class BoardController extends GenericController implements Observer<DtoPo
 
     private boolean turnOwner = false;
 
-    private DtoSession localSession;
-
-    private ObservableTileEvent tileEvent;
-
-    private Group objects = new Group();
-    private Group workersObj = new Group();
-    private Group preWorkers = new Group();
-    private BoardObj board;
-    private Map<Action,Group> animations;
-
-    private final Object boardLock = new Object();
-
     private Map<Action,List<DtoPosition>> possibleActions;
     private Action currentAction;
+
+    private BoardScene boardSubScene;
 
     private List<BorderPane> actionButtons;
 
 
 
-    public void initialize() throws Exception {
+    public void initialize() {
         super.initialize(this);
-        tileEvent = new ObservableTileEvent();
-        tileEvent.addObserver(this);
+
+        gui.getTileEvent().addObserver(this);
         initBoard();
         actionButtons = new ArrayList<>(Arrays.asList(testButton3,testButton2,testButton));
         actionButtons.forEach(this::hideNode);
-
     }
 
-    private void initBoard() throws Exception {
+    private void initBoard() {
 
-        board = new BoardObj(tileEvent);
-
-        assignGroups();
-        preLoadWorkers();
-
-        gameScene = new BoardScene(objects, board,840,700);
-
+        gameScene = gui.getBoardLoadedScene();
+        boardSubScene = (BoardScene) gameScene;
         sceneContainer.setCenter(gameScene);
 
         gameScene.heightProperty().bind((sceneContainer.heightProperty()));
@@ -89,70 +67,35 @@ public class BoardController extends GenericController implements Observer<DtoPo
         //showReconnection(true); // <----------- Test che mostra layer wifi in caso di disconnessione + attesa riconnessione
     }
 
-    private void assignGroups() {
-        objects.getChildren().add(workersObj);
-        objects.getChildren().add(preWorkers);
-        preWorkers.setVisible(false);
-        objects.getChildren().add(board);
-    }
-
-    private void preLoadWorkers() {
-        Map<String,Colors> players = gui.getPlayers();
-        players.values().forEach(v -> preWorkers.getChildren().addAll(
-                board.createWorker(new BoardCoords3D(-1,-1,0),v),
-                board.createWorker(new BoardCoords3D(-1,-1,0),v)));
-    }
 
     public void requestTurnAction(Map<Action, List<DtoPosition>> possibleActions, DtoSession session, Map<String, Colors> colors, Map<String, String> gods) {
-        showBoard(session,colors,gods);
         turnOwner = true;
-        addAnimations(possibleActions);
-
+        boardSubScene.turnAction(possibleActions,session);
         this.possibleActions = possibleActions;
-
-        localSession = session;
-
         List<Action> actions = possibleActions.keySet().stream().sorted().collect(Collectors.toList());
         showButtons(actions);
         setDefaultAction();
     }
 
+    public void showBoard(DtoSession session, Map<String, Colors> colors, Map<String, String> gods) {
+        boardSubScene.updateBoard(session);
+    }
+
     private void setDefaultAction() {
-        List<Action> c = possibleActions.keySet().stream().filter(k -> !Action.getNullPosActions().contains(k)).collect(Collectors.toList());
+        List<Action> c = possibleActions.keySet().stream().filter(k -> !Action.getNullPosActions().contains(k)).sorted().collect(Collectors.toList());
         if(!c.isEmpty()) {
             Action dAction = c.get(c.size() - 1);
             currentAction = dAction;
-            showAnimations(dAction);
+            boardSubScene.showAnimations(dAction);
         }
     }
 
-    private void addAnimations(Map<Action, List<DtoPosition>> possibleActions) {
-        animations = new HashMap<>();
-        for(Action action : possibleActions.keySet()) {
-            Group temp = new Group();
-            temp.setVisible(false);
-            possibleActions.get(action).forEach(p -> temp.getChildren().add(board.getTile(p.getX(),p.getY()).addEffect(action)));
-            board.getChildren().add(temp);
-            animations.put(action,temp);
-        }
-    }
-
-    private void clearAnimations() {
-        if(animations != null) {
-            animations.values().forEach(group -> board.getChildren().remove(group));
-            animations = null;
-        }
-    }
-
-    private void showAnimations(Action action) {
-        animations.keySet().forEach(k -> animations.get(k).setVisible(k == action));
-    }
 
     private void updateButton(BorderPane button, Action action) {
         ((Label) button.getChildren().get(0)).setText(action.toString());
         button.setOnMouseClicked( event -> {
             currentAction = action;
-            showAnimations(action);
+            boardSubScene.showAnimations(action);
             if(possibleActions.get(action).isEmpty()) {
                 update(null);
             }
@@ -171,7 +114,7 @@ public class BoardController extends GenericController implements Observer<DtoPo
         turnOwner = false;
         currentAction = null;
         hideButtons();
-        clearAnimations();
+        boardSubScene.clear();
     }
 
     private void showButtons(List<Action> p) {
@@ -182,78 +125,10 @@ public class BoardController extends GenericController implements Observer<DtoPo
         actionButtons.forEach(this::hideNode);
     }
 
-    public void showBoard(DtoSession session, Map<String, Colors> colors, Map<String, String> gods) {
-        synchronized(boardLock) {
-            updateWorkers(session.getWorkers());
-            updateBuildings(session.getBoard());
-        }
-        localSession = session;
-    }
-
-    private void updateWorkers(List<DtoWorker> workers) {
-        if(workers == null || localSession == null) { return; }
-        Map<DtoPosition,String> localPositions = new HashMap<>();
-        localSession.getWorkers().forEach(w -> localPositions.put(w.getPosition(),w.getMasterUsername()));
-
-        if(localSession.getWorkers().size() < workers.size()) { // A worker is added
-            workers.stream().filter(w -> localPositions.keySet().stream().noneMatch(k -> k.equals(w.getPosition()))).forEach(this::addWorker);
-        }
-        else {
-            moveWorkers(workers);
-        }
-    }
-
-    private void updateBuildings(DtoBoard newBoard) {
-        if(newBoard == null || localSession == null) { return; }
-        for(int x = 0; x < 5; x++) {
-            for(int y = 0; y < 5; y++) {
-                if(newBoard.getTile(x,y).getHeight() > localSession.getBoard().getTile(x,y).getHeight()) {
-                    board.getTile(x,y).increaseHeight();
-                }
-                if(newBoard.getTile(x,y).hasDome() && !localSession.getBoard().getTile(x,y).hasDome()) {
-                    board.getTile(x,y).placeDome();
-                }
-            }
-        }
-    }
-
-    private void addWorker(DtoWorker w) {
-        try {
-            WorkerObj newWorker = (WorkerObj) preWorkers.getChildren().stream()
-                    .filter(n -> ((WorkerObj) n).getColor() == gui.getPlayers().get(w.getMasterUsername()))
-                    .findFirst()
-                    .orElse(new WorkerObj(new BoardCoords3D(-1,-1,0),gui.getPlayers().get(w.getMasterUsername())));
-            workersObj.getChildren().add(newWorker);
-            board.getTile(w.getPosition().getX(),w.getPosition().getY()).setWorker(newWorker);
-            newWorker.resetRotation();
-        } catch(Exception e) { gui.LOG.severe("[BOARD_CONTROLLER_FX] Worker couldn't be loaded"); }
-    }
-
-    private void moveWorkers(List<DtoWorker> workers) {
-        Map<WorkerObj, TileObj> m = buildMovementMap(workers);
-        m.forEach((w,t) -> t.setWorker(w));
-    }
-
-    private Map<WorkerObj, TileObj> buildMovementMap(List<DtoWorker> workers) {
-        List<DtoWorker> movedWorkers = workers.stream().filter(wn ->
-                localSession.getWorkers().stream().noneMatch(wo -> wo.getPosition().equals(wn.getPosition()) && wo.getMasterUsername().equals(wn.getMasterUsername()))).collect(Collectors.toList());
-        List<DtoWorker> oldMovedWorkers = localSession.getWorkers().stream().filter(wo ->
-                workers.stream().noneMatch(wn -> wn.getPosition().equals(wo.getPosition()) && wn.getMasterUsername().equals(wo.getMasterUsername()))).collect(Collectors.toList());
-
-        Map<WorkerObj, TileObj> temp = new HashMap<>();
-        movedWorkers.forEach(wn ->
-                oldMovedWorkers.stream().filter(wo -> wo.getMasterUsername().equals(wn.getMasterUsername()))
-                        .forEach(wo -> temp.put(board.getTile(wo.getPosition().getX(),wo.getPosition().getY()).getWorker(),board.getTile(wn.getPosition().getX(),wn.getPosition().getY()))));
-        return temp;
-    }
-
 
     public void showLose(String playerName) {
         /* aggiornamento board */
-        localSession.getWorkers().stream()
-                .filter(w -> w.getMasterUsername().equals(playerName))
-                .map(DtoWorker::getPosition)
-                .forEach(p -> board.getTile(p.getX(),p.getY()).deleteWorker(workersObj));
+        boardSubScene.notifyLose(playerName);
         /* manca far sparire il nome dalla sidebar */
     }
 
@@ -261,9 +136,9 @@ public class BoardController extends GenericController implements Observer<DtoPo
         // Mostra robo vittoria playerName (distinguiamo finestra con trombette rotte se perde e belle se vince (?))
     }
 
-
     public void clear() {
-        clearAnimations();
+        boardSubScene.clear();
     }
+
 
 }

@@ -408,6 +408,11 @@
             <set />
           </value>
         </entry>
+        <entry key="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/mvc/view/gui/objects3D/TrackedGroup.java">
+          <value>
+            <set />
+          </value>
+        </entry>
         <entry key="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/mvc/view/gui/objects3D/animation/ActionAnimation.java">
           <value>
             <set />
@@ -439,6 +444,11 @@
           </value>
         </entry>
         <entry key="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/mvc/view/gui/objects3D/utils/BoardCamera.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/mvc/view/gui/objects3D/utils/BoardScene.java">
           <value>
             <set />
           </value>

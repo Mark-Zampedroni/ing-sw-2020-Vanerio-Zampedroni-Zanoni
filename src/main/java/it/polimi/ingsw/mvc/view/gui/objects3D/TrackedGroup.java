@@ -21,7 +21,6 @@ public abstract class TrackedGroup extends Group {
         this.thirdFloorOffset = thirdFloorOffset;
     }
 
-
     public BoardCoords3D getCoords() {
         return coords;
     }

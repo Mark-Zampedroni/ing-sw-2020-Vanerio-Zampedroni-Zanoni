@@ -35,6 +35,18 @@ public class NodeOperation {
         return model;
     }
 
+    public static PhongMaterial getTexture(String textureRelativePath) {
+        PhongMaterial texture = new PhongMaterial();
+        texture.setDiffuseMap(new Image(textureRelativePath, true));
+        return texture;
+    }
+
+    public static Node getModel(String objRelativePath, PhongMaterial texture) throws IOException {
+        MeshView model = FXMLLoader.load(NodeOperation.class.getResource(objRelativePath));
+        model.setMaterial(texture);
+        return model;
+    }
+
     public static void putOnCorrectTile(TrackedGroup node, BoardCoords3D coords) {
         node.setTranslateX(node.getZeroX() + TILES_OFFSET*coords.getValueX());
         node.setTranslateZ(node.getZeroZ() - TILES_OFFSET*coords.getValueY());
