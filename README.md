@@ -37,27 +37,27 @@ L'indirizzo IP del server dipenderà dalla connessione dove si vuole giocare:
 
 Per avviare il server bisogna digitare da terminale:
 ```
-java -jar server.jar [port]
+java -jar server.jar [-p port] [-log]
 ```
-dove `port` è la porta desiderata per il socket, se omesso il campo viene usata quella di default. 
+dove `port` è la porta desiderata per il socket, se omesso il campo viene usata quella di default. Con `log` verrà generato un file di logging nella stessa directory del jar.
 
 ### Client
 Il client ha implementate due interfacce grafiche distinte. Con i parametri `{cli|gui}` all'avvio è possibile scegliere se si vuole giocare su CLI o aprire la GUI.
 
 #### CLI
-Si digita da terminale:
+Si digita da terminale, con gli argomenti opzionali:
 ```
-java -jar client.jar cli [ip] [port]
+java -jar client.jar cli [-i ip] [-p port] [-log]
 ```
-dove `ip` e `port` sono l'indirizzo ip e la porta del server, se omesso/i userà `127.0.0.1` e la porta di default.
+dove `ip` e `port` sono  l'indirizzo ip e la porta del server, se omesso/i userà `127.0.0.1` e la porta di default. Con `log`, come per il server, verrà generato un file di logging.
 
 #### GUI
 Per la GUI è necessario importare le dipendenze di javafx con i parametri `[--module-path]` e `[--add-module]`:
 
 ```
-java --module-path "javafx-sdk-11.0.2/lib" --add-modules javafx.controls --add-modules javafx.fxml -jar client.jar gui [ip] [port]
+java --module-path "javafx-sdk-11.0.2/lib" --add-modules javafx.controls --add-modules javafx.fxml -jar client.jar gui [-i ip] [-p port] [-log]
 ```
-dove `ip` e `port` sono equivalenti alla cli.
+dove `ip`, `port` e `log` sono equivalenti alla cli.
 
 # Dipendenze (da finire)
 I jar sono stati compilati con java X (da trovare), il programma per funzionare necessita di una versione pari o superiore a Java X. (da trovare)
