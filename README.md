@@ -3,7 +3,7 @@
 
 ![alt text](https://github.com/Mark-Zampedroni/ing-sw-2020-Vanerio-Zampedroni-Zanoni/blob/master/src/main/resources/Texture2D_sorted/readmeTitle.JPG)
 
-## Gruppo GC55
+## Componenti del gruppo
 [__Stefano Vanerio__](https://github.com/Stefano-Vanerio) (890404)
 
 [__Mark Federico Zampedroni__](https://github.com/Mark-Zampedroni) (888340)
