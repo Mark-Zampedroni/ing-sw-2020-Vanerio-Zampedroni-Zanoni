@@ -1,17 +1,16 @@
 package it.polimi.ingsw.network.client;
 
-import it.polimi.ingsw.mvc.model.map.Position;
+import it.polimi.ingsw.mvc.view.View;
+import it.polimi.ingsw.network.messages.FlagMessage;
+import it.polimi.ingsw.network.messages.Message;
+import it.polimi.ingsw.network.messages.StateUpdateMessage;
 import it.polimi.ingsw.network.messages.game.ActionMessage;
 import it.polimi.ingsw.network.messages.game.ActionUpdateMessage;
-import it.polimi.ingsw.network.messages.lobby.RegistrationMessage;
-import it.polimi.ingsw.utility.enumerations.*;
-import it.polimi.ingsw.network.messages.FlagMessage;
-import it.polimi.ingsw.network.messages.StateUpdateMessage;
 import it.polimi.ingsw.network.messages.lobby.LobbyUpdate;
-import it.polimi.ingsw.network.messages.Message;
-import it.polimi.ingsw.utility.observer.Observer;
-import it.polimi.ingsw.mvc.view.View;
+import it.polimi.ingsw.network.messages.lobby.RegistrationMessage;
 import it.polimi.ingsw.utility.dto.DtoPosition;
+import it.polimi.ingsw.utility.enumerations.*;
+import it.polimi.ingsw.utility.observer.Observer;
 
 import java.io.IOException;
 import java.text.DateFormat;
@@ -30,7 +29,6 @@ public abstract class Client implements Observer<Message>, View {
     private List<Runnable> requests, inputRequests;
 
     public final Logger LOG;
-    private final boolean logMessages = true; // True to show logs on terminal
 
     protected boolean reconnecting = false;
 
@@ -41,11 +39,14 @@ public abstract class Client implements Observer<Message>, View {
     protected Map<String, Colors> players;
     protected Map<String, String> gods;
 
-    public Client() {
+    public Client(boolean log) {
         init();
         LOG = Logger.getLogger("client");
-        LOG.setUseParentHandlers(logMessages);
-        startLogging();
+        if(log) {
+            startLogging();
+        }
+        LOG.setUseParentHandlers(false);
+
     }
 
     protected void init() {

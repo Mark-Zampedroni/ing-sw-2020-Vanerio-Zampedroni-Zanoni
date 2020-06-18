@@ -55,12 +55,14 @@ public class Server extends Thread {
         }
     }
 
-    public Server(int port) {
+    public Server(int port, boolean log) {
         if(instance == null) { instance = this; }
         reconnecting = new HashMap<>();
         freshConnections = new ArrayList<>();
         allConnections = new ArrayList<>();
-        startLogging();
+        if(log) {
+            startLogging();
+        }
         sessionController = new SessionController(freshConnections, LOG); // Controller
         try {
             serverSocket = new ServerSocket(port);

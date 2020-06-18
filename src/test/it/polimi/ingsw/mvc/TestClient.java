@@ -19,6 +19,7 @@ public class TestClient extends Client {
     private String challenger;
 
     public TestClient(String ip, int port, boolean showLog) {
+        super(showLog);
         this.printMessages = showLog;
     }
 

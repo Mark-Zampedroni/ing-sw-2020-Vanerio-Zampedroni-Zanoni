@@ -22,7 +22,8 @@ public class Cli extends Client {
     private String ip;
     private int port;
 
-    public Cli(String ip, int port) {
+    public Cli(String ip, int port, boolean log) {
+        super(log);
         input = new Scanner(System.in);
         initCli();
         this.ip = ip;

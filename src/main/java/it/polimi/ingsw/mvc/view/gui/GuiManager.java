@@ -35,15 +35,19 @@ public class GuiManager extends Client {
 
     private GenericController currentController;
 
-    private GuiManager() {
-        super();
+    private GuiManager(boolean log) {
+        super(log);
         GUI_LOG = LOG;
     }
 
-    public static GuiManager getInstance() {
+    public static GuiManager getInstance(boolean log) {
         if (instance == null)
-            instance = new GuiManager();
+            instance = new GuiManager(log);
         return instance;
+    }
+
+    public static GuiManager getInstance() {
+        return getInstance(false);
     }
 
     public Stage getStage() {

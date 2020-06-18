@@ -1,7 +1,5 @@
 package it.polimi.ingsw.mvc.view.gui;
 
-import it.polimi.ingsw.mvc.view.gui.fxmlControllers.BoardController;
-import it.polimi.ingsw.mvc.view.gui.fxmlControllers.ChallengerSelectionController;
 import it.polimi.ingsw.mvc.view.gui.fxmlControllers.TitleController;
 import javafx.application.Application;
 import javafx.application.Platform;
@@ -42,7 +40,7 @@ public class Gui extends Application {
         return stage;
     }
 
-    public void init(String ip, int port) {
+    public void init(String ip, int port, boolean log) {
         TitleController.setConnectionConfig(ip, port);
         Application.launch(Gui.class);
     }
