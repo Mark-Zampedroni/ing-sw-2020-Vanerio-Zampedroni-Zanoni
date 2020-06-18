@@ -10,7 +10,6 @@ import it.polimi.ingsw.utility.observer.Observer;
 import javafx.fxml.FXML;
 import javafx.scene.SubScene;
 import javafx.scene.control.Label;
-import javafx.scene.layout.Border;
 import javafx.scene.layout.BorderPane;
 
 import java.util.*;
@@ -27,9 +26,9 @@ public class BoardController extends GenericController implements Observer<DtoPo
     @FXML
     public BorderPane testButton;
     @FXML
-    public BorderPane testButton2;
+    public BorderPane testButton1;
     @FXML
-    public BorderPane testButton3;
+    public BorderPane testButton2;
     @FXML
     public Label endgameLabel;
     @FXML
@@ -52,10 +51,12 @@ public class BoardController extends GenericController implements Observer<DtoPo
     public BorderPane currentPlayer2;
     @FXML
     public BorderPane currentPlayer3;
+    @FXML
+    public BorderPane info3;
 
 
-
-
+    private int numberOfPlayers;
+    private boolean firstTurn = true;
 
     private boolean turnOwner = false;
 
@@ -65,11 +66,9 @@ public class BoardController extends GenericController implements Observer<DtoPo
     private BoardScene boardSubScene;
 
     private List<BorderPane> actionButtons;
-    private List<BorderPane> playerSlots;
-    private List<BorderPane> godSlots;
-    private List<BorderPane> currentPlayers;
 
-
+    private Map<BorderPane,BorderPane> playerGod = new HashMap<>();
+    private Map<BorderPane,BorderPane> playerTurn = new HashMap<>();
 
 
     public void initialize() throws Exception {
@@ -79,19 +78,22 @@ public class BoardController extends GenericController implements Observer<DtoPo
         }
         BoardScene.getTileEvent().addObserver(this);
         initBoard();
-        actionButtons = new ArrayList<>(Arrays.asList(testButton3,testButton2,testButton));
-        actionButtons.forEach(this::hideNode);
-        //Da valutare se mettere dinamico, troppa roba
-        playerSlots = new ArrayList<>(Arrays.asList(playerSlot1,playerSlot2));
-        godSlots = new ArrayList<>(Arrays.asList(godSlot1,godSlot2));
-        currentPlayers = new ArrayList<>(Arrays.asList(currentPlayer1,currentPlayer2));
-        if(Integer.parseInt(gui.getNumberOfPlayers()) == 3) {
-            playerSlots.add(playerSlot3);
-            godSlots.add(godSlot3);
-            currentPlayers.add(currentPlayer3);
-        }
-        currentPlayers.forEach(this::hideNode);
+        initFeatures();
+    }
 
+
+
+    private void initFeatures(){
+        hideNode(endgameScreen);
+        setFontRatio(endgameLabel);
+        actionButtons = new ArrayList<>(Arrays.asList(testButton,testButton1,testButton2));
+        actionButtons.forEach(this::initFont);
+        actionButtons.forEach(this::hideNode);
+        numberOfPlayers = Integer.parseInt(gui.getNumberOfPlayers());
+    }
+
+    private void initFont(BorderPane borderPane){
+        setFontRatio((Label)borderPane.getChildren().get(0));
     }
 
     private void initBoard() {
@@ -116,22 +118,66 @@ public class BoardController extends GenericController implements Observer<DtoPo
         List<Action> actions = possibleActions.keySet().stream().sorted().collect(Collectors.toList());
         showButtons(actions);
         setDefaultAction();
+        if(firstTurn || numberOfPlayers != Integer.parseInt(gui.getNumberOfPlayers())) {
+            updatePlayerSlots(colors, gods);
+            firstTurn = false;
+        }
+        setCurrentPlayer(gui.getUsername());
+    }
+
+    private void setCurrentPlayer(String player){
+        for(BorderPane main : playerTurn.keySet()){
+            if(((Label) main.getChildren().get(0)).getText().equals(player)){
+                showNode(playerTurn.get(main));
+            }
+            else{
+                hideNode(playerTurn.get(main));
+            }
+        }
     }
 
     public void showBoard(DtoSession session, Map<String, Colors> colors, Map<String, String> gods) {
         boardSubScene.updateBoard(session);
-        //create e basta
-        initPlayerSlots(colors);
-        initGodSlots(gods);
+        if(firstTurn || numberOfPlayers != Integer.parseInt(gui.getNumberOfPlayers())) {
+            updatePlayerSlots(colors, gods);
+            firstTurn = false;
+            //setCurrentPlayer(); Da aggiungere poi
+        }
     }
 
-    private void initPlayerSlots(Map<String, Colors> colors){
+    private void updatePlayerSlots(Map<String, Colors> colors, Map<String, String> gods){
+        Map<String, Colors> temp1 = new HashMap<>(colors);
+        Map<String, String> temp2 = new HashMap<>(gods);
+
+        playerGod = Map.of(playerSlot1,godSlot1,playerSlot2,godSlot2);
+        playerTurn = Map.of(playerSlot1,currentPlayer1,playerSlot2,currentPlayer2);
+
+        if(Integer.parseInt(gui.getNumberOfPlayers()) == 3) {
+            playerGod.put(playerSlot3,godSlot3);
+            playerTurn.put(playerSlot3,currentPlayer3);
+        }
+        else{
+            hideNode(playerSlot3);
+            hideNode(godSlot3);
+            hideNode(currentPlayer3);
+            hideNode(info3);
+        }
+
+        playerTurn.keySet().forEach(b-> {
+            initFont(b);
+            initFont(playerTurn.get(b));
+        });
+
+        for(BorderPane main : playerGod.keySet()){
+            Label temp =  ((Label) main.getChildren().get(0));
+            temp.setText(temp1.keySet().stream().findFirst().get());
+            main.setId((temp1.get(temp.getText()).toString()).toLowerCase() + "big");
+            playerGod.get(main).setId(temp2.get(temp.getText()));
+            temp1.remove(temp.getText());
+        }
 
     }
 
-    private void initGodSlots(Map<String, String> gods){
-
-    }
 
     private void setDefaultAction() {
         List<Action> c = possibleActions.keySet().stream().filter(k -> !Action.getNullPosActions().contains(k)).sorted().collect(Collectors.toList());
@@ -181,11 +227,16 @@ public class BoardController extends GenericController implements Observer<DtoPo
     public void showLose(String playerName) {
         /* aggiornamento board */
         boardSubScene.notifyLose(playerName);
+        showNode(endgameScreen);
+        endgameScreen.setId("loser");
+        endgameLabel.setText("Players who suck: " + playerName);
         /* manca far sparire il nome dalla sidebar */
     }
 
     public void showWin(String playerName) {
-        // Mostra robo vittoria playerName (distinguiamo finestra con trombette rotte se perde e belle se vince (?))
+        showNode(endgameScreen);
+        endgameScreen.setId("winner");
+        endgameLabel.setText("Biggest chad evah: " + playerName);
     }
 
     public void clear() {

@@ -100,6 +100,7 @@ public class GuiManager extends Client {
 
     public String getUsername() { return username; }
 
+
     public static String getFxmlPath(Class<?> c) {
         List<String> s = Arrays.asList(c.toString().split("\\."));
         String name = s.get(s.size()-1);
