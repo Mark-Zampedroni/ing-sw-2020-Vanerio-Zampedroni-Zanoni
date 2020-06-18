@@ -45,13 +45,14 @@ dove `port` è la porta desiderata per il socket, se omesso il campo viene usata
 Il client ha implementate due interfacce grafiche distinte. Con i parametri `{cli|gui}` all'avvio è possibile scegliere se si vuole giocare su CLI o aprire la GUI.
 
 #### CLI
+Si digita da terminale:
 ```
 java -jar client.jar cli [ip] [port]
 ```
 dove `ip` e `port` sono l'indirizzo ip e la porta del server, se omesso/i userà `127.0.0.1` e la porta di default.
 
 #### GUI
-Per la GUI è necessario importare le dipendenze di javafx con i parametri `[--module-path]` e `[--add-module]`.
+Per la GUI è necessario importare le dipendenze di javafx con i parametri `[--module-path]` e `[--add-module]`:
 
 ```
 java --module-path "javafx-sdk-11.0.2/lib" --add-modules javafx.controls --add-modules javafx.fxml -jar client.jar gui [ip] [port]
