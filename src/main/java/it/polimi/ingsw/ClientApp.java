@@ -14,12 +14,13 @@ public class ClientApp {
         Map<String, String> a = ArgsParser.parseArgs(args);
 
         try {
-            if (args[0].toLowerCase().equals("gui")) {
-                Gui.getInstance().init(a.getOrDefault("-i", "127.0.0.1"),
-                                        (a.containsKey("-p")) ? Integer.parseInt(a.get("-p")) : 7654,
-                                        a.containsKey("-log"));
-            } else {
+            if (args[0].toLowerCase().equals("cli")) {
                 new Cli(a.getOrDefault("-i", "127.0.0.1"),
+                        (a.containsKey("-p")) ? Integer.parseInt(a.get("-p")) : 7654,
+                        a.containsKey("-log"));
+            }
+            else{
+                Gui.getInstance().init(a.getOrDefault("-i", "127.0.0.1"),
                         (a.containsKey("-p")) ? Integer.parseInt(a.get("-p")) : 7654,
                         a.containsKey("-log"));
             }
