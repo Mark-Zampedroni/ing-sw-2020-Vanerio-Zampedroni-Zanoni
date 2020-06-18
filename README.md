@@ -42,7 +42,7 @@ java -jar server.jar [-p port] [-log]
 dove `port` è la porta desiderata per il socket, se omesso il campo viene usata quella di default. Con `log` verrà generato un file di logging nella stessa directory del jar.
 
 ### Client
-Il client ha implementate due interfacce grafiche distinte. Con i parametri `{cli|gui}` all'avvio è possibile scegliere se si vuole giocare su CLI o aprire la GUI.
+Il client ha implementate due interfacce grafiche distinte. Con il parametro `{cli|gui}` all'avvio è possibile scegliere se si vuole giocare su CLI o aprire la GUI. Se omesso viene caricata la GUI.
 
 #### CLI
 Si digita  console, con gli argomenti opzionali:
