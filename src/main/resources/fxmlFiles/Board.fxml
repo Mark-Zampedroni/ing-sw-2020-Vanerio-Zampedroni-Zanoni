@@ -291,29 +291,17 @@
                               </GridPane>
                            </center>
                         </BorderPane>
-                        <BorderPane id="currentplayer" fx:id="currentPlayer2" minHeight="1.0" minWidth="20.0" prefHeight="1.0" prefWidth="1.0" styleClass="fullbackground" visible="false" GridPane.columnIndex="3" GridPane.columnSpan="3" GridPane.rowIndex="4">
-                           <GridPane.margin>
-                              <Insets right="30.0" />
-                           </GridPane.margin>
-                           <bottom>
-                              <Label minHeight="1.0" minWidth="1.0" prefHeight="20.0" prefWidth="111.0" text=" Current Player" BorderPane.alignment="CENTER" />
-                           </bottom>
-                        </BorderPane>
-                        <BorderPane id="currentplayer" fx:id="currentPlayer1" minHeight="1.0" minWidth="20.0" prefHeight="1.0" prefWidth="1.0" styleClass="fullbackground" visible="false" GridPane.columnIndex="3" GridPane.columnSpan="3" GridPane.rowIndex="2">
-                           <bottom>
-                              <Label minHeight="1.0" minWidth="1.0" prefHeight="20.0" prefWidth="111.0" text=" Current Player" BorderPane.alignment="CENTER">
-                                 <font>
-                                    <Font size="11.0" />
-                                 </font></Label>
-                           </bottom>
+                        <BorderPane id="currentplayer2" fx:id="currentPlayer2" minHeight="1.0" minWidth="20.0" prefHeight="1.0" prefWidth="1.0" styleClass="fullbackground" visible="false" GridPane.columnIndex="3" GridPane.columnSpan="3" GridPane.rowIndex="4">
                            <GridPane.margin>
                               <Insets right="30.0" />
                            </GridPane.margin>
                         </BorderPane>
-                        <BorderPane id="currentplayer" fx:id="currentPlayer3" minHeight="1.0" minWidth="20.0" prefHeight="1.0" prefWidth="1.0" styleClass="fullbackground" visible="false" GridPane.columnIndex="3" GridPane.columnSpan="3" GridPane.rowIndex="6">
-                           <bottom>
-                              <Label minHeight="1.0" minWidth="1.0" prefHeight="20.0" prefWidth="111.0" text=" Current Player" BorderPane.alignment="CENTER" />
-                           </bottom>
+                        <BorderPane id="currentplayer2" fx:id="currentPlayer1" minHeight="1.0" minWidth="20.0" prefHeight="1.0" prefWidth="1.0" styleClass="fullbackground" visible="false" GridPane.columnIndex="3" GridPane.columnSpan="3" GridPane.rowIndex="2">
+                           <GridPane.margin>
+                              <Insets right="30.0" />
+                           </GridPane.margin>
+                        </BorderPane>
+                        <BorderPane id="currentplayer2" fx:id="currentPlayer3" minHeight="1.0" minWidth="20.0" prefHeight="1.0" prefWidth="1.0" styleClass="fullbackground" visible="false" GridPane.columnIndex="3" GridPane.columnSpan="3" GridPane.rowIndex="6">
                            <GridPane.margin>
                               <Insets right="30.0" />
                            </GridPane.margin>
@@ -350,7 +338,7 @@
                   </GridPane>
                </center>
             </BorderPane>
-            <BorderPane fx:id="endgameScreen" pickOnBounds="false" prefHeight="200.0" prefWidth="200.0" styleClass="fullbackground" GridPane.columnIndex="1" GridPane.columnSpan="12" GridPane.rowSpan="8">
+            <BorderPane id="winner" fx:id="endgameScreen" pickOnBounds="false" prefHeight="200.0" prefWidth="200.0" styleClass="fullbackground" visible="false" GridPane.columnIndex="1" GridPane.columnSpan="12" GridPane.rowSpan="8">
                <center>
                   <GridPane pickOnBounds="false" BorderPane.alignment="CENTER">
                     <columnConstraints>
@@ -370,6 +358,36 @@
                               <Font size="26.0" />
                            </font>
                         </Label>
+                        <BorderPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="3">
+                           <center>
+                              <GridPane minHeight="1.0" minWidth="1.0" BorderPane.alignment="CENTER">
+                                <columnConstraints>
+                                    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                </columnConstraints>
+                                <rowConstraints>
+                                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                </rowConstraints>
+                                 <children>
+                                    <BorderPane id="buttonConfirm" fx:id="endgameButton" minHeight="1.0" minWidth="1.0" prefHeight="200.0" prefWidth="200.0" styleClass="fullbackground" GridPane.columnIndex="1" GridPane.columnSpan="2" GridPane.rowSpan="2">
+                                       <center>
+                                          <Label alignment="CENTER" minHeight="1.0" minWidth="1.0" prefHeight="88.0" prefWidth="163.0" text="OK" BorderPane.alignment="CENTER">
+                                             <font>
+                                                <Font name="System Bold" size="26.0" />
+                                             </font>
+                                          </Label>
+                                       </center>
+                                    </BorderPane>
+                                 </children>
+                              </GridPane>
+                           </center>
+                        </BorderPane>
                      </children>
                   </GridPane>
                </center>

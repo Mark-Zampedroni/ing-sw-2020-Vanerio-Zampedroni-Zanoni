@@ -1,5 +1,6 @@
 package it.polimi.ingsw.mvc.view.gui.fxmlControllers;
 
+import it.polimi.ingsw.mvc.view.gui.GuiManager;
 import it.polimi.ingsw.mvc.view.gui.objects3D.utils.BoardCamera;
 import it.polimi.ingsw.mvc.view.gui.objects3D.utils.BoardScene;
 import it.polimi.ingsw.utility.dto.DtoPosition;
@@ -7,9 +8,12 @@ import it.polimi.ingsw.utility.dto.DtoSession;
 import it.polimi.ingsw.utility.enumerations.Action;
 import it.polimi.ingsw.utility.enumerations.Colors;
 import it.polimi.ingsw.utility.observer.Observer;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.SubScene;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.layout.Border;
 import javafx.scene.layout.BorderPane;
 
 import java.util.*;
@@ -34,6 +38,8 @@ public class BoardController extends GenericController implements Observer<DtoPo
     @FXML
     public BorderPane endgameScreen;
     @FXML
+    public BorderPane endgameButton;
+    @FXML
     public BorderPane playerSlot1;
     @FXML
     public BorderPane playerSlot2;
@@ -53,6 +59,7 @@ public class BoardController extends GenericController implements Observer<DtoPo
     public BorderPane currentPlayer3;
     @FXML
     public BorderPane info3;
+
 
 
     private boolean turnOwner = false;
@@ -90,21 +97,33 @@ public class BoardController extends GenericController implements Observer<DtoPo
         playerGod = new ArrayList<>(Arrays.asList(godSlot1, godSlot2, godSlot3));
         playerSlot.forEach(b -> {
             initFont(b);
-            initFont(playerTurn.get(playerSlot.indexOf(b)));
+            //initFont(playerTurn.get(playerSlot.indexOf(b)));
         });
     }
 
 
     private void initFeatures(){
-        hideNode(endgameScreen);
-        setFontRatio(endgameLabel);
+        initEndGame();
         actionButtons = new ArrayList<>(Arrays.asList(testButton,testButton1,testButton2));
+        actionButtons.forEach(b-> b.setOnMousePressed( event -> b.setId(b.getId() + "pressed")));
+        actionButtons.forEach(b-> b.setOnMouseReleased( event -> b.setId(b.getId().replace("pressed", ""))));
         actionButtons.forEach(this::initFont);
         actionButtons.forEach(this::hideNode);
     }
 
     private void initFont(BorderPane borderPane){
         setFontRatio((Label)borderPane.getChildren().get(0));
+    }
+
+    private void initEndGame(){
+        hideNode(endgameScreen);
+        setFontRatio(endgameLabel);
+        initFont(endgameButton);
+        endgameButton.setOnMousePressed(event -> endgameButton.setId("buttonPressed"));
+        endgameButton.setOnMouseReleased(event -> {
+            endgameButton.setId("buttonConfirm");
+            Platform.runLater(() -> GuiManager.setLayout(this.getScene(), GuiManager.getFxmlPath(TitleController.class)));
+        });
     }
 
     private void initBoard() {
@@ -216,6 +235,10 @@ public class BoardController extends GenericController implements Observer<DtoPo
     public void showLose(String playerName) {
         /* aggiornamento board */
         boardSubScene.notifyLose(playerName);
+        if(gui.getUsername().equals(playerName)){
+            endgameScreen.setId("loser");
+            endgameLabel.setText("You lost... \n" + playerName);
+        }
         /* manca far sparire il nome dalla sidebar */
     }
 
