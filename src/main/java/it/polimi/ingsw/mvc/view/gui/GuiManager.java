@@ -166,8 +166,8 @@ public class GuiManager extends Client {
     }
 
     @Override
-    public void showBoard(DtoSession session, Map<String, Colors> colors, Map<String, String> gods) {
-        runUpdate(BoardController.class, () ->((BoardController)currentController).showBoard(session,colors,gods));
+    public void showBoard(DtoSession session, Map<String, Colors> colors, Map<String, String> gods, String turnOwner) {
+        runUpdate(BoardController.class, () ->((BoardController)currentController).showBoard(session,colors,gods,turnOwner));
     }
 
     @Override

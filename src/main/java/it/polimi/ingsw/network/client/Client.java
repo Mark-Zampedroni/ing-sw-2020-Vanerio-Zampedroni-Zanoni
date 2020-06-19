@@ -146,10 +146,13 @@ public abstract class Client implements Observer<Message>, View {
     private void parseWinLoseUpdate(FlagMessage message){
         if(message.getFlag()) {
             reconnecting = false;
+            connection.setDisconnected();
             closeGame();
             viewRequest(() -> showWin(message.getInfo()));
         }
         else {
+            players.remove(message.getInfo());
+            gods.remove(message.getInfo());
             if(message.getInfo().equals(username)) {
                 connection.setReconnect(false);
             }
@@ -223,10 +226,13 @@ public abstract class Client implements Observer<Message>, View {
     }
 
     private void parseDisconnectMessage(Message message) {
-        if(state != GameState.PRE_LOBBY) {
-            closeGame();
+        if(connection != null && !connection.isDisconnected()) {
+            if (state != GameState.PRE_LOBBY) {
+                closeGame();
+            }
+            showDisconnected(message.getInfo());
+            connection.setDisconnected();
         }
-        showDisconnected(message.getInfo());
     }
 
     private void parseInfoMessage(Message message) {
@@ -332,7 +338,7 @@ public abstract class Client implements Observer<Message>, View {
             inputRequest(() -> requestTurnAction(message.getPossibleActions(), message.getGameUpdate(), players, gods, message.getFlag()));
         }
         else {
-            viewRequest(() -> showBoard(message.getGameUpdate(), players, gods));
+            viewRequest(() -> showBoard(message.getGameUpdate(), players, gods, message.getInfo()));
         }
     }
 
@@ -393,6 +399,5 @@ public abstract class Client implements Observer<Message>, View {
         disconnectClient();
         init();
     }
-
 
 }

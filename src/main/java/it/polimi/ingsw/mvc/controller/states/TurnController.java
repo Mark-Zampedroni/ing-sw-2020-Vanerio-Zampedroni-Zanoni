@@ -1,30 +1,30 @@
 package it.polimi.ingsw.mvc.controller.states;
 
-import it.polimi.ingsw.mvc.controller.states.actionControl.ActionController;
 import it.polimi.ingsw.mvc.controller.SessionController;
+import it.polimi.ingsw.mvc.controller.states.actionControl.ActionController;
 import it.polimi.ingsw.mvc.model.Session;
+import it.polimi.ingsw.mvc.model.map.Position;
+import it.polimi.ingsw.mvc.model.player.Player;
+import it.polimi.ingsw.mvc.model.player.Worker;
 import it.polimi.ingsw.mvc.model.rules.EventRules;
 import it.polimi.ingsw.mvc.model.rules.SpecialPower;
 import it.polimi.ingsw.mvc.view.RemoteView;
+import it.polimi.ingsw.network.messages.Message;
 import it.polimi.ingsw.network.messages.game.ActionMessage;
-import it.polimi.ingsw.network.server.Server;
+import it.polimi.ingsw.utility.dto.DtoPosition;
 import it.polimi.ingsw.utility.enumerations.Action;
 import it.polimi.ingsw.utility.enumerations.GameState;
 import it.polimi.ingsw.utility.enumerations.MessageType;
 import it.polimi.ingsw.utility.exceptions.actions.WrongActionException;
-import it.polimi.ingsw.mvc.model.map.Position;
-import it.polimi.ingsw.mvc.model.player.Player;
-import it.polimi.ingsw.mvc.model.player.Worker;
-import it.polimi.ingsw.network.messages.Message;
-import it.polimi.ingsw.utility.dto.DtoPosition;
 
 import java.io.Serializable;
-import java.util.*;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
-/* Controller della sequenza delle azioni, invoca i metodi di ActionController per richiederne l'esecuzione */
-/* possibleActions = { WIN } => ha vinto ; possibleActions.isEmpty() => ha perso */
 public class TurnController extends StateController implements Serializable {
 
     private static final long serialVersionUID = 3510638136440918631L;
@@ -131,26 +131,12 @@ public class TurnController extends StateController implements Serializable {
     public void sendUpdate() {
         removePreventedActions();
         if(possibleActions.containsKey(Action.WIN)){
-
-            System.out.println(controller.getTurnOwner()+" won!"); // <--- TEST
             LOG.info(controller.getTurnOwner()+" won");
-
             notifyVictory(currentPlayer.getUsername());
-            //waitTime();
             controller.restartGame();
-            //a livello client viene dato il tasto per rigiocare che rimanda alla prima schermata, oppure si esce con tasto che chiude finestra
         }
         else if(possibleActions.keySet().isEmpty()) {
-
-            // players non va toccato come lista! Altrimenti sminchia gli aggiornamenti;
-            // basta settare .loss() e filtrare la lista per i giocatori non perdenti per controllare se qualcuno ha vinto.
-            // Il turno lo passa già al prossimo non perdente.
-
-            // Così dovrebbe essere ok, non ho testato
-
-            System.out.println(controller.getTurnOwner()+" lost!"); // <--- TEST
             LOG.info(controller.getTurnOwner()+" lost");
-
             currentPlayer.loss();
             notifyLose(currentPlayer.getUsername());
             List<String> notLosers = players.stream().filter(p -> !p.isLoser()).map(Player::getUsername).collect(Collectors.toList());

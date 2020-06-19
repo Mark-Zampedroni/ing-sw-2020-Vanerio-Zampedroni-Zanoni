@@ -115,7 +115,7 @@ public class TestClient extends Client {
     @Override
     public void requestTurnAction(Map<Action, List<DtoPosition>> possibleActions, DtoSession session, Map<String,Colors> colors, Map<String,String> gods, boolean  isSpecialPowerActive) { }
     @Override
-    public void showBoard(DtoSession session, Map<String,Colors> colors, Map<String,String> gods) { }
+    public void showBoard(DtoSession session, Map<String,Colors> colors, Map<String,String> gods, String turnOwner) { }
     @Override
     public void showReconnection(boolean isReconnecting) { }
     @Override

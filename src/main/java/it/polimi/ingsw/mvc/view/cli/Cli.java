@@ -173,7 +173,7 @@ public class Cli extends Client {
     }
 
     @Override
-    public void showBoard(DtoSession session, Map<String,Colors> colors, Map<String,String> gods) {
+    public void showBoard(DtoSession session, Map<String,Colors> colors, Map<String,String> gods, String turnOwner) {
         CliScene.printBoardScreen(session, new HashMap<>(colors), new HashMap<>(gods));
     }
 

@@ -22,6 +22,8 @@ public class ClientConnection implements Runnable {
     private final String ip;
     private final int port;
 
+    private String name = "";
+
     private ObjectInputStream input;
     private ObjectOutputStream output;
 
@@ -31,8 +33,8 @@ public class ClientConnection implements Runnable {
 
     private final Object queueLock = new Object();
     private ClientMessageReceiver messageReceiver;
-    private boolean reconnect = false;
-    private String name = "";
+    private boolean reconnect;
+    private boolean isDisconnected;
 
     private static class ClientMessageReceiver extends Observable<Message> implements Runnable {
 
@@ -85,6 +87,7 @@ public class ClientConnection implements Runnable {
         input = new ObjectInputStream(socket.getInputStream());
         t = new Thread(this);
         t.start();
+        isDisconnected = false;
     }
 
     public void sendMessage(Message msg) {
@@ -120,8 +123,7 @@ public class ClientConnection implements Runnable {
             initReconnection();
         }
         else {
-            // nuovo tipo di messaggio ?
-            //inQueue.add(new Message(MessageType.DISCONNECTION_UPDATE, "SELF", "Lost connection to server", "ALL"));
+            inQueue.add(new Message(MessageType.DISCONNECTION_UPDATE, "SELF", "Lost connection to server", "ALL"));
         }
     }
 
@@ -135,7 +137,6 @@ public class ClientConnection implements Runnable {
     }
 
     public void disconnect() {
-        //waitTime();
         try {
             if(!socket.isClosed()) {
                 socket.close();
@@ -183,6 +184,14 @@ public class ClientConnection implements Runnable {
 
     protected void setConnectionName(String name) {
         this.name = name;
+    }
+
+    protected boolean isDisconnected() {
+        return isDisconnected;
+    }
+
+    protected void setDisconnected() {
+        this.isDisconnected = true;
     }
 
     private void waitTime() {
