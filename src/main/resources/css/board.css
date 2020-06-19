@@ -23,6 +23,10 @@
    -fx-faint-focus-color: transparent;
 }
 
+.label{
+    -fx-text-fill: black;
+}
+
 #head {
 	-fx-background-image: url("../Texture2D_sorted/Misti/icon_player.png");
 	-fx-background-size: 100% 100%;
