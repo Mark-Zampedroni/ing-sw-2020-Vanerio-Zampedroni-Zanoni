@@ -59,8 +59,8 @@ java --module-path "javafx-sdk-11.0.2/lib" --add-modules javafx.controls --add-m
 ```
 dove `ip`, `port` e `log` sono equivalenti ai parametri della cli.
 
-# Dipendenze (da finire)
-I jar sono stati compilati con java X (da trovare), il programma per funzionare necessita di una versione pari o superiore a Java X. (da trovare)
+# Dipendenze
+I jar sono stati compilati con SDK 13 (versione 13.0.2 di java), il programma per eseguire correttamente necessita di una versione pari o superiore a Java 11.
 
 L'unica dipendendenza non presente nel JDK è javaFx. E' necessario [scaricarlo separatamente](https://openjfx.io/), si può posizionare in una qualsiasi directory e correggere il path passato in `--module-path` all'esecuzione della GUI .
 
