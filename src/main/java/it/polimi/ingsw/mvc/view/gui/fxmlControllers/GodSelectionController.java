@@ -1,6 +1,7 @@
 package it.polimi.ingsw.mvc.view.gui.fxmlControllers;
 
 import it.polimi.ingsw.utility.enumerations.Gods;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -38,9 +39,7 @@ public class GodSelectionController extends GenericController {
         loadSelectedGods(chosenGods, choices);
         titleLabel.setText(turnOwner + " is choosing a god");
         cards.forEach(GodCard::disableButton);
-
     }
-
 
     public void requestPlayerGod(List<String> chosenGods, Map<String, String> choices) {
         // update da view quando tocca a questo client
@@ -128,6 +127,7 @@ public class GodSelectionController extends GenericController {
             initInfoGodPower(godName.toLowerCase()+"power", infoPowerGrid);
             initSelectButton(firstGrid);
             this.setCenter(firstGrid);
+            Platform.runLater(() -> setFontRatio(actionText));
         }
 
         private GridPane initInit() {
@@ -158,10 +158,10 @@ public class GodSelectionController extends GenericController {
             Label temp = new Label();
             decorateNode(temp, id, classes, text);
             temp.setPrefSize(500,500);
-            setFontRatio(temp);
             if(position != null) {
                 temp.setAlignment(position);
             }
+            Platform.runLater(() -> setFontRatio(temp));
             return temp;
         }
 
@@ -204,7 +204,6 @@ public class GodSelectionController extends GenericController {
             actionText.setId("actionlabel");
             actionText.setPadding(new Insets(0,0,7,0));
             actionButtonGrid.add(actionPane,1,1,5,4);
-            setFontRatio(actionText);
         }
 
         private void decorateNode(Node node, String id, List<String> classes, String text) {

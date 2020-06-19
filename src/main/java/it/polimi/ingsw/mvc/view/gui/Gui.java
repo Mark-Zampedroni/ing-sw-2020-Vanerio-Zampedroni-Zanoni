@@ -4,7 +4,9 @@ import it.polimi.ingsw.mvc.view.gui.fxmlControllers.TitleController;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.geometry.Rectangle2D;
+import javafx.scene.ImageCursor;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.scene.layout.Pane;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
@@ -30,10 +32,29 @@ public class Gui extends Application {
         stage.setScene(scene);
         Platform.runLater(() -> bindScene(stage.getScene()));
         GuiManager.setLayout(stage.getScene(), GuiManager.getFxmlPath(TitleController.class));
-        //GuiManager.setLayout(stage.getScene(), GuiManager.getFxmlPath(BoardController.class)); // start screen
+        setMouse(scene);
+        setWindowIcon();
+        stage.setTitle("Santorini");
         stage.show();
         GuiManager.getInstance().setDefaultWidth(stage.getWidth());
-        //stage.setFullScreen(true); //<----------------------------------- full screen
+        //stage.setFullScreen(true); // full screen
+    }
+
+    private void setMouse(Scene scene) {
+        try {
+            scene.setCursor(new ImageCursor(new Image("/texture2D_sorted/Misti/godpower_hand.png")));
+        } catch(Exception e) {
+            GuiManager.getInstance().LOG.warning("[GUI] Personalized mouse set failed with error: "+e.getMessage());
+        }
+    }
+
+    private void setWindowIcon() {
+        try {
+            stage.getIcons().add(new Image("/texture2D_sorted/app_icon.png"));
+            System.out.println("yey");
+        } catch(Exception e) {
+            GuiManager.getInstance().LOG.warning("[GUI] Personalized icon set failed with error: "+e.getMessage());
+        }
     }
 
     protected static Stage getStage() {
@@ -42,6 +63,7 @@ public class Gui extends Application {
 
     public void init(String ip, int port, boolean log) {
         TitleController.setConnectionConfig(ip, port);
+        GuiManager.getInstance(log);
         Application.launch(Gui.class);
     }
 

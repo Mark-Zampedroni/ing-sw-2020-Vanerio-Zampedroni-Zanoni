@@ -39,7 +39,7 @@
           <children>
               <BorderPane fx:id="sceneContainer" prefHeight="200.0" prefWidth="200.0" GridPane.columnSpan="11" GridPane.rowSpan="8">
                  <center>
-                     <SubScene fx:id="gameScene" height="463.0" width="494.0" BorderPane.alignment="CENTER">
+                     <SubScene fx:id="gameScene" height="7.0" width="7.0" BorderPane.alignment="CENTER">
                          <root>
                              <Region />
                          </root>
@@ -80,43 +80,52 @@
                         </rowConstraints>
                      <children>
                         <BorderPane id="button1" fx:id="testButton2" minHeight="1.0" minWidth="1.0" pickOnBounds="false" prefHeight="1.0" prefWidth="1.0" styleClass="fullbackground" GridPane.columnIndex="1" GridPane.columnSpan="4" GridPane.rowIndex="10" GridPane.rowSpan="2">
-                           <top>
-                              <Label alignment="CENTER" minHeight="1.0" minWidth="1.0" prefHeight="60.0" prefWidth="150.0" text="Label" BorderPane.alignment="CENTER">
+                           <center>
+                              <Label alignment="CENTER" minHeight="1.0" minWidth="1.0" prefHeight="490.0" prefWidth="619.0" styleClass="whiteLabel" text="Label" BorderPane.alignment="CENTER">
                                  <font>
-                                    <Font size="17.0" />
+                                    <Font name="System Bold" size="17.0" />
                                  </font>
                                  <BorderPane.margin>
-                                    <Insets bottom="10.0" />
+                                    <Insets />
                                  </BorderPane.margin>
+                                 <padding>
+                                    <Insets bottom="15.0" />
+                                 </padding>
                               </Label>
-                           </top>
+                           </center>
                         </BorderPane>
                         <BorderPane id="button2" fx:id="testButton1" minHeight="1.0" minWidth="1.0" pickOnBounds="false" prefHeight="1.0" prefWidth="1.0" styleClass="fullbackground" GridPane.columnIndex="1" GridPane.columnSpan="4" GridPane.rowIndex="12" GridPane.rowSpan="2">
-                           <top>
-                              <Label alignment="CENTER" minHeight="1.0" minWidth="1.0" prefHeight="60.0" prefWidth="153.0" text="Label" BorderPane.alignment="CENTER">
+                           <center>
+                              <Label alignment="CENTER" minHeight="1.0" minWidth="1.0" prefHeight="422.0" prefWidth="621.0" styleClass="whiteLabel" text="Label" BorderPane.alignment="CENTER">
                                  <BorderPane.margin>
-                                    <Insets bottom="10.0" />
+                                    <Insets />
                                  </BorderPane.margin>
                                  <font>
-                                    <Font size="17.0" />
+                                    <Font name="System Bold" size="17.0" />
                                  </font>
+                                 <padding>
+                                    <Insets bottom="15.0" />
+                                 </padding>
                               </Label>
-                           </top>
+                           </center>
                         </BorderPane>
                         <BorderPane id="button3" fx:id="testButton" minHeight="1.0" minWidth="1.0" pickOnBounds="false" prefHeight="1.0" prefWidth="1.0" styleClass="fullbackground" GridPane.columnIndex="1" GridPane.columnSpan="4" GridPane.rowIndex="14" GridPane.rowSpan="2">
                            <GridPane.margin>
                               <Insets />
                            </GridPane.margin>
-                           <top>
-                              <Label alignment="CENTER" minHeight="1.0" minWidth="1.0" prefHeight="60.0" prefWidth="150.0" text="Label" BorderPane.alignment="CENTER">
+                           <center>
+                              <Label alignment="CENTER" minHeight="1.0" minWidth="1.0" prefHeight="345.0" prefWidth="623.0" styleClass="whiteLabel" text="Label" BorderPane.alignment="CENTER">
                                  <font>
-                                    <Font size="17.0" />
+                                    <Font name="System Bold" size="17.0" />
                                  </font>
                                  <BorderPane.margin>
-                                    <Insets bottom="10.0" />
+                                    <Insets />
                                  </BorderPane.margin>
+                                 <padding>
+                                    <Insets bottom="15.0" />
+                                 </padding>
                               </Label>
-                           </top>
+                           </center>
                         </BorderPane>
                      </children>
                     </GridPane>
@@ -137,7 +146,7 @@
                                        <center>
                                           <Label alignment="CENTER" prefHeight="49.0" prefWidth="136.0" text="Player1" BorderPane.alignment="CENTER">
                                              <font>
-                                                <Font size="16.0" />
+                                                <Font name="System Bold" size="16.0" />
                                              </font>
                                              <BorderPane.margin>
                                                 <Insets />
@@ -194,7 +203,7 @@
                                        <center>
                                           <Label alignment="CENTER" prefHeight="48.0" prefWidth="151.0" text="Label" BorderPane.alignment="CENTER">
                                              <font>
-                                                <Font size="16.0" />
+                                                <Font name="System Bold" size="16.0" />
                                              </font>
                                           </Label>
                                        </center>
@@ -248,7 +257,7 @@
                                        <center>
                                           <Label alignment="CENTER" minHeight="1.0" minWidth="1.0" prefHeight="53.0" prefWidth="134.0" text="Label" BorderPane.alignment="CENTER">
                                              <font>
-                                                <Font size="16.0" />
+                                                <Font name="System Bold" size="16.0" />
                                              </font>
                                           </Label>
                                        </center>
@@ -375,9 +384,9 @@
                                   <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                                 </rowConstraints>
                                  <children>
-                                    <BorderPane id="buttonConfirm" fx:id="endgameButton" minHeight="1.0" minWidth="1.0" prefHeight="200.0" prefWidth="200.0" styleClass="fullbackground" GridPane.columnIndex="1" GridPane.columnSpan="2" GridPane.rowSpan="2">
+                                    <BorderPane id="buttonConfirm" fx:id="endgameButton" minHeight="1.0" minWidth="1.0" prefHeight="1.0" prefWidth="1.0" styleClass="fullbackground" GridPane.columnIndex="1" GridPane.columnSpan="2" GridPane.rowSpan="2">
                                        <center>
-                                          <Label alignment="CENTER" minHeight="1.0" minWidth="1.0" prefHeight="88.0" prefWidth="163.0" text="OK" BorderPane.alignment="CENTER">
+                                          <Label alignment="CENTER" minHeight="1.0" minWidth="1.0" prefHeight="88.0" prefWidth="163.0" styleClass="whiteLabel" text="OK" BorderPane.alignment="CENTER">
                                              <font>
                                                 <Font name="System Bold" size="26.0" />
                                              </font>
@@ -392,7 +401,7 @@
                   </GridPane>
                </center>
             </BorderPane>
-            <BorderPane id="blackScreen" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="4" GridPane.columnSpan="4" GridPane.rowIndex="1" GridPane.rowSpan="6" />
+            <BorderPane id="testcarta" fx:id="godCard" prefHeight="200.0" prefWidth="200.0" styleClass="fullbackground" GridPane.columnIndex="4" GridPane.columnSpan="4" GridPane.rowIndex="1" GridPane.rowSpan="6" />
           </children>
        </GridPane>
    </center>

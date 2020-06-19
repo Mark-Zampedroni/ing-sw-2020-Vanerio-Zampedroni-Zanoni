@@ -59,6 +59,8 @@ public class BoardController extends GenericController implements Observer<DtoPo
     public BorderPane currentPlayer3;
     @FXML
     public BorderPane info3;
+    @FXML
+    public BorderPane godCard;
 
 
 
@@ -84,10 +86,18 @@ public class BoardController extends GenericController implements Observer<DtoPo
             BoardScene.startBoardLoad(gui.getPlayers(), gui.LOG);
         }
         BoardScene.getTileEvent().addObserver(this);
+        godCard.setVisible(false);
         initLists();
         initBoard();
         initFeatures();
         username = gui.getUsername();
+
+        // Chiaramente non sarà qui e non è solo on/off carta ma invocherà il metodo privato
+        // che caricherà i label con i valori corretti (nome/effetto)
+        playerGod.forEach(g -> {
+            g.setOnMouseEntered(event -> godCard.setVisible(true));
+            g.setOnMouseExited(event -> godCard.setVisible(false));
+        });
     }
 
 
@@ -95,10 +105,8 @@ public class BoardController extends GenericController implements Observer<DtoPo
         playerSlot = new ArrayList<>(Arrays.asList(playerSlot1, playerSlot2, playerSlot3));
         playerTurn = new ArrayList<>(Arrays.asList(currentPlayer1, currentPlayer2, currentPlayer3));
         playerGod = new ArrayList<>(Arrays.asList(godSlot1, godSlot2, godSlot3));
-        playerSlot.forEach(b -> {
-            initFont(b);
-            //initFont(playerTurn.get(playerSlot.indexOf(b)));
-        });
+        playerSlot.forEach(this::initFont);
+        //initFont(playerTurn.get(playerSlot.indexOf(b)));
     }
 
 

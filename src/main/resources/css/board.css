@@ -27,6 +27,10 @@
     -fx-text-fill: black;
 }
 
+.whiteLabel {
+    -fx-text-fill: white;
+}
+
 #head {
 	-fx-background-image: url("../Texture2D_sorted/Misti/icon_player.png");
 	-fx-background-size: 100% 100%;
@@ -137,12 +141,20 @@
     -fx-background-image: url('../Texture2D_sorted/Pulsanti/currentplayer2.png');
 }
 
-#winner{
+#winner {
     -fx-background-image: url('../Texture2D_sorted/Backgrounds/winningscreen2.png');
 }
 
-#loser{
+#loser {
     -fx-background-image: url('../Texture2D_sorted/Backgrounds/losingscreen.png');
+}
+
+#buttonConfirm {
+    -fx-background-image: url('../Texture2D_sorted/Pulsanti/cm_btn_blue.png');
+}
+
+#testcarta {
+    -fx-background-image: url('../Texture2D_sorted/provacartaboard.JPG');
 }
 
 #APOLLO {

@@ -131,23 +131,32 @@ public class TurnController extends StateController implements Serializable {
     public void sendUpdate() {
         removePreventedActions();
         if(possibleActions.containsKey(Action.WIN)){
-            LOG.info(controller.getTurnOwner()+" won");
-            notifyVictory(currentPlayer.getUsername());
-            controller.restartGame();
+            handleWinner();
         }
         else if(possibleActions.keySet().isEmpty()) {
-            LOG.info(controller.getTurnOwner()+" lost");
-            currentPlayer.loss();
-            notifyLose(currentPlayer.getUsername());
-            List<String> notLosers = players.stream().filter(p -> !p.isLoser()).map(Player::getUsername).collect(Collectors.toList());
-            if(notLosers.size() == 1) {
-                notifyVictory(notLosers.get(0));
-            } else {
-                passTurn();
-            }
+            handleLoser();
         }
         else {
             notifyBoardUpdate(possibleActions,currentPlayer.getUsername());
+        }
+    }
+
+    private void handleWinner() {
+        LOG.info(controller.getTurnOwner()+" won");
+        notifyVictory(currentPlayer.getUsername());
+        controller.restartGame();
+    }
+
+    private void handleLoser() {
+        LOG.info(controller.getTurnOwner()+" lost");
+        currentPlayer.loss();
+        notifyLose(currentPlayer.getUsername());
+        List<String> notLosers = players.stream().filter(p -> !p.isLoser()).map(Player::getUsername).collect(Collectors.toList());
+        if(notLosers.size() == 1) {
+            notifyVictory(notLosers.get(0));
+            controller.restartGame();
+        } else {
+            passTurn();
         }
     }
 

@@ -61,7 +61,7 @@ public abstract class Client implements Observer<Message>, View {
         DateFormat dateFormat = new SimpleDateFormat("MM_dd_HH-mm-ss");
         Date date = new Date();
         try {
-            FileHandler fileHandler = new FileHandler("log/client/" + dateFormat.format(date) + ".log");
+            FileHandler fileHandler = new FileHandler(dateFormat.format(date) + ".log");
             fileHandler.setFormatter(new SimpleFormatter());
             LOG.addHandler(fileHandler);
         } catch (IOException e) {
@@ -231,7 +231,9 @@ public abstract class Client implements Observer<Message>, View {
                 closeGame();
             }
             showDisconnected(message.getInfo());
-            connection.setDisconnected();
+            if(connection != null) {
+                connection.setDisconnected();
+            }
         }
     }
 

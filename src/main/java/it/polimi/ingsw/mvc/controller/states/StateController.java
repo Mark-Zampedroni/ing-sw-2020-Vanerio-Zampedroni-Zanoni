@@ -68,6 +68,7 @@ public abstract class StateController implements Serializable {
     }
 
     public synchronized void removePlayer(String username) {
+        if(Session.getInstance().getPlayerByName(username) == null) { return; }
         boolean willGameClose = !Session.getInstance().getPlayerByName(username).isLoser();
         views.removeIf(v -> v.hasName(username));
         if(willGameClose) {

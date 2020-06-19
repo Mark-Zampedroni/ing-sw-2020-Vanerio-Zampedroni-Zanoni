@@ -85,7 +85,7 @@ public class Server extends Thread {
         DateFormat dateFormat = new SimpleDateFormat("MM_dd_HH-mm-ss");
         Date date = new Date();
         try {
-            FileHandler fileHandler = new FileHandler("log/server/"+dateFormat.format(date)+".log");
+            FileHandler fileHandler = new FileHandler(dateFormat.format(date)+".log");
             fileHandler.setFormatter(new SimpleFormatter());
             LOG.addHandler(fileHandler);
         } catch(IOException e) { LOG.severe("[SERVER] "+e.getMessage() + " couldn't be opened\n"); }
@@ -226,11 +226,12 @@ public class Server extends Thread {
         return new LobbyUpdate("SERVER", "Update", sessionController.getFreeColors(), sessionController.getPlayers(),"ALL");
     }
 
-    protected void restart() {
+    public void restart() {
         allConnections.forEach(ServerConnection::interrupt);
         reconnecting.clear();
         freshConnections.clear();
         allConnections.clear();
+        gameCreator = null;
         startLogging();
         sessionController = new SessionController(freshConnections, LOG); // Controller
     }
