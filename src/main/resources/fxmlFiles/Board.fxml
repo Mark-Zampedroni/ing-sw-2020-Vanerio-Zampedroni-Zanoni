@@ -392,6 +392,7 @@
                   </GridPane>
                </center>
             </BorderPane>
+            <BorderPane id="blackScreen" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="4" GridPane.columnSpan="4" GridPane.rowIndex="1" GridPane.rowSpan="6" />
           </children>
        </GridPane>
    </center>
