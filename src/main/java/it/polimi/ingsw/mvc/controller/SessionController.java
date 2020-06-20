@@ -19,6 +19,10 @@ import it.polimi.ingsw.utility.dto.DtoSession;
 import java.util.*;
 import java.util.logging.Logger;
 
+/**
+ * Controller used during all the game phases for shared information between the different states,
+ * it also manage the calls to the different methods inside the different states controllers
+ */
 public class SessionController implements Observer<Message>  {
 
     private GameState state;
@@ -31,7 +35,12 @@ public class SessionController implements Observer<Message>  {
     private final Session session;
     private final List<RemoteView> views;
 
-
+    /**
+     * Creates the controller of the game
+     *
+     * @param connections list of client in game
+     * @param LOG general logger of the server
+     */
     public SessionController(List<ServerConnection> connections, Logger LOG) {
         views = new ArrayList<>();
         SessionController.LOG = LOG;
@@ -40,6 +49,13 @@ public class SessionController implements Observer<Message>  {
         stateController = new LobbyController(this, views, LOG, connections);
     }
 
+    /**
+     * Creates the controller of the game after a restart of the server
+     *
+     * @param savedData information saved on disk
+     * @param LOG general logger of the server
+     * @param map the map of connections and username of the clients
+     */
     public SessionController (Logger LOG, SavedData savedData, Map<String, ServerConnection> map) {
         LOG.info("[CONTROLLER] Reloading game data");
         views = new ArrayList<>();
@@ -50,6 +66,13 @@ public class SessionController implements Observer<Message>  {
         LOG.info("[CONTROLLER] Done with reload");
     }
 
+    /**
+     * Reloads all the values of the game before the failure
+     *
+     * @param savedData information saved on disk
+     * @param LOG general logger of the server
+     * @param map the map of connections and username of the clients
+     */
     private void reloadValues(Logger LOG, SavedData savedData, Map<String, ServerConnection> map) {
         SessionController.LOG = LOG;
         session.loadInstance();
@@ -59,21 +82,50 @@ public class SessionController implements Observer<Message>  {
         stateController = savedData.getStateController();
     }
 
+    /**
+     * Getter for Session
+     *
+     * @return the current Session of the game
+     */
     public Session getSession() { return session; }
 
+    /**
+     * Getter for the game state
+     *
+     * @return the state of the game
+     */
     public GameState getState() { return state; }
 
+    /**
+     * Sets the turn owner among the players
+     *
+     * @param turnOwner the current turn owner
+     */
     public void setTurnOwner(String turnOwner) {
         this.turnOwner = turnOwner;
     }
 
+    /**
+     * Getter for turn owner
+     *
+     * @return the turn owner
+     */
     public String getTurnOwner() {
         return turnOwner;
     }
 
+    /**
+     * Returns if the game is started or not
+     *
+     * @return {@code true} if the game si started
+     */
     public boolean isGameStarted() { return (state != GameState.LOBBY); }
 
-    // Cambia stato
+    /**
+     * Changes the current state of the game in a new state
+     *
+     * @param state the new state of the game
+     */
     public void switchState(GameState state) {
         this.state = state;
         switch(state) {
@@ -94,41 +146,71 @@ public class SessionController implements Observer<Message>  {
         LOG.info("[CONTROLLER] Server switch to new state: "+state); // TEST
     }
 
-    // Update ai client per notificarli che è cambiato lo stato, uguale per tutti gli stati
+    /**
+     * Update of the changing state for the clients, broadcast
+     *
+     */
     private void sendStateUpdate() {
         stateController.notifyMessage(new StateUpdateMessage(MessageType.STATE_UPDATE,"SERVER","New state", state, "ALL"));
     }
 
-    // Update sulla situazione in base allo stato in cui si trova
+    /**
+     * Update of the situation according to the state of the game
+     *
+     */
     public void sendUpdate() {
         stateController.sendUpdate();
     }
 
+    /**
+     *Adds a client to the current game
+     *
+     * @param connection the connection that identifies a client
+     */
     public void addUnregisteredView(ServerConnection connection) {
         synchronized(viewLock) {
             stateController.addUnregisteredView(connection);
         }
     }
 
-    // Registra un player e lo aggiunge al gioco
+    /**
+     * Register a player and add it to the game
+     *
+     * @param username the name of the player
+     * @param color the color of the player
+     * @param view the view associated to the player
+     */
     public void addPlayer(String username, Colors color, RemoteView view) {
         synchronized(viewLock) {
             stateController.addPlayer(username, color, view);
         }
     }
 
-    // Rimuove un player registrato e lo de-registra
+    /**
+     * Remove a player from the game
+     *
+     * @param username the name of the player
+     */
     public void removePlayer(String username) {
         synchronized(viewLock) {
             stateController.removePlayer(username);
         }
     }
 
+    /**
+     * It returns the available color
+     *
+     * @return the list of the not chosen colors
+     */
     public List<Colors> getFreeColors() {
         return stateController.getFreeColors();
     }
 
-    // Notifica da parte di una view che è arrivato un messaggio, come viene gestito cambia in base allo stato (parseMessage)
+    /**
+     * Notify the arrive of a message and elaborates its content, how to manage is different for different game states
+     *
+     * @param message the message received from the client
+     */
     public void update(Message message) {
         synchronized(viewLock) {
             saveGame(message,false);
@@ -137,29 +219,58 @@ public class SessionController implements Observer<Message>  {
         }
     }
 
+    /**
+     * Setter for game capacity
+     *
+     * @param capacity desired capacity for the current game
+     */
     public void setGameCapacity(int capacity) {
         gameCapacity = capacity;
     }
 
+    /**
+     * Getter for the game capacity
+     *
+     * @return the capacity of the game
+     */
     public int getGameCapacity() {
         return gameCapacity;
     }
 
+    /**
+     * Getter for the players in game
+     *
+     * @return the list of the players in game
+     */
     public List<Player> getPlayers() {
         return session.getPlayers();
     }
 
+    /**
+     * Sends the first DTO-Session to all the clients
+     *
+     */
     private void assignFirstDTOSession() {
         DtoSession dto = new DtoSession(session);
         views.forEach(v -> v.getFirstDTOSession(dto));
     }
 
+    /**
+     * Saves the game and the last message
+     *
+     * @param message last message received by a client or sent by the server
+     * @param isParseCompleted indicates if the elaboration of message is completed
+     */
     public void saveGame(Message message, boolean isParseCompleted) {
         if(state != GameState.LOBBY) {
             SavedData.saveGame(this, stateController, message, isParseCompleted);
         }
     }
 
+    /**
+     * Restarts the server and the game, clear the file
+     *
+     */
     public void restartGame() {
         boolean isDeleted = ReloadGame.clearSavedFile();
         LOG.info("[CONTROLLER] Game restarted from scratch, old save file deleted: "+isDeleted);

@@ -24,7 +24,8 @@ public class ActionController implements Serializable {
     private final TurnController controller;
 
     /**
-     * Constructor, is linked to the current {@link Player player} and the controller of the turn
+     * Constructor for the controller dedicated to the action part
+     *
      * @param controller controller of the turn
      * @param player currently active
      */
@@ -135,7 +136,7 @@ public class ActionController implements Serializable {
 
     /**
      * Return the list of possible positions where the {@link Worker worker}
-     * can perform the move or build {@link Action action}
+     * can perform move or build {@link Action actions}
      *
      * @param worker that perform the action
      * @param action that the worker performs between move and build
@@ -166,6 +167,7 @@ public class ActionController implements Serializable {
         }
         return temp;
     }
+
     /**
      * Return the list of possible positions where the {@link Player player}
      * can {@link Action select} the workers
