@@ -1,5 +1,6 @@
 package it.polimi.ingsw.mvc.model.rules.gods;
 
+import it.polimi.ingsw.mvc.model.player.Worker;
 import it.polimi.ingsw.mvc.model.rules.SpecialPower;
 import it.polimi.ingsw.utility.enumerations.Action;
 import it.polimi.ingsw.mvc.model.Session;
@@ -31,17 +32,24 @@ public class AtlasRules extends EventRules implements Serializable, SpecialPower
         Tile tile = Session.getInstance().getBoard().getTile(position);
         if(!getEvent()) { tile.increaseHeight(); }
         else { tile.putDome(); }
-        notify(new DtoSession(Session.getInstance()));
-    }
+        notify(new DtoSession(Session.getInstance()));}
 
+    /**
+     * Returns a list of possible {@link Action actions} after the
+     * {@link it.polimi.ingsw.mvc.model.player.Player player}
+     * {@link Action moved} a {@link Worker worker},
+     * one of them is the {@link Action Special_Power} of building an extra dome
+     *
+     * @return list of {@link Action actions} that can be done after {@link Action moving}
+     */
     @Override
-    public List<Action> afterMove() {
-        return new ArrayList<>(Arrays.asList(Action.SPECIAL_POWER, Action.BUILD));
-    }
+    public List<Action> afterMove() { return new ArrayList<>(Arrays.asList(Action.SPECIAL_POWER, Action.BUILD)); }
 
+    /**
+     * Method that set the activation of the special power if choosed
+     */
     @Override
     public void toggleSpecialPower() {
         setEvent(!getEvent());
     }
-
 }

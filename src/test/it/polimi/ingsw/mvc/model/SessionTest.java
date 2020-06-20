@@ -24,6 +24,7 @@ class SessionTest {
     void setUp() {
         session = Session.getInstance();
         session.getBoard().clear();
+        session.loadInstance();
         one = Setupper.addPlayer("Piero", Colors.BLUE,1);
         two = Setupper.addPlayer ("Sandro", Colors.WHITE,2);
         three = Setupper.addPlayer ("Carmelo", Colors.BROWN,3);

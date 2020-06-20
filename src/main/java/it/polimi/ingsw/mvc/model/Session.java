@@ -32,6 +32,9 @@ public class Session implements Serializable {
         super();
     }
 
+    /**
+     * Method for reset the singleton during the reload of the save
+     */
     public void loadInstance(){
         instance = this;
     }
@@ -118,6 +121,12 @@ public class Session implements Serializable {
         return null;
     }
 
+    /**
+     * Getter for the color of a specific player in the game
+     *
+     * @param username the name of the player
+     * @return the {@link Colors color} of that player
+     */
     public Colors getPlayerColor(String username) {
         return getPlayerByName(username).getColor();
     }
@@ -200,10 +209,18 @@ public class Session implements Serializable {
         return p.getUsername();
     }
 
+    /**
+     * Getter for the list of {@link EnemyRules enemyrules} in the game
+     *
+     * @return the list of the rules that modify the game for all
+     */
     public List<EnemyRules> getEnemyModifiers() {
         return enemyModifiers;
     }
 
+    /**
+     * Method for the reset to starting conditions
+     */
     public void clear() {
         players.clear();
         enemyModifiers.clear();

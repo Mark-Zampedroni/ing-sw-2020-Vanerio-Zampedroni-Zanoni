@@ -64,4 +64,19 @@ class CommonRulesTest {
         assertThrows(CantActException.class, ()->test.consentSelect(player.getUsername(),worker));
     }
 
+    @Test
+    void checkConditions(){
+        assertFalse(test.hasSpecialPower());
+        test.clear();
+        test.removeEffect();
+    }
+
+    @Test
+    void checkAddingWorker(){
+        Position position = new Position(2,3);
+        assertDoesNotThrow(()->test.consentAdd(position));
+        test.executeAdd(player, position);
+        position.getWorker().equals(player.getWorkers().get(0));
+    }
+
 }

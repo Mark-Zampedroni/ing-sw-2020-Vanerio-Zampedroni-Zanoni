@@ -79,7 +79,14 @@ public class PoseidonRules extends EventRules implements Serializable {
     }
 
 
-
+    /**
+     * Returns a list of possible {@link Action actions} after the
+     * {@link it.polimi.ingsw.mvc.model.player.Player player}
+     * {@link Action selects} a {@link Worker worker}, if the event flag is {@code true}
+     * adds only {@link Action Build} and {@link Action End_Turn} actions
+     *
+     * @return the list of possible {@link Action actions} after the selection of a worker
+     */
     @Override
     public List<Action> afterSelect() {
         return (getEvent()) ? Arrays.asList(Action.BUILD, Action.END_TURN) : super.afterSelect();

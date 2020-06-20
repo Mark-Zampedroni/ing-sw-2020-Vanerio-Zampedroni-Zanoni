@@ -107,8 +107,7 @@ public class Check implements Serializable {
      * @throws CantActException when the condition hasn't been respected accordingly to value
      */
     public static void boundary(Position position, boolean value, String msg) throws CantActException {
-        if(position.isBoundary() == value) { throw new CantActException(msg); }
-    }
+        if(position.isBoundary() == value) { throw new CantActException(msg); }}
 
     /**
      * Checks if a position is on the perimeter
@@ -117,8 +116,7 @@ public class Check implements Serializable {
      * @throws CantActException when the position is on the perimeter of {@link Board board}
      */
     public static void boundary(Position position) throws CantActException {
-        boundary(position,true,"Tile on boundary");
-    }
+        boundary(position,true,"Tile on boundary");}
 
     /**
      * Checks if the worker's upwards movement exceeds the height's limit defines through offset

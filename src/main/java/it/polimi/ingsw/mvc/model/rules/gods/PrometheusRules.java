@@ -20,7 +20,7 @@ import java.util.List;
 public class PrometheusRules extends EventRules implements Serializable {
 
     private static final long serialVersionUID = 6128545018299786443L;
-    private boolean flag=false;
+    private boolean movementFlag=false;
 
     /**
      * Executes a build {@link Action action}, if is the first build {@link Action action}
@@ -40,21 +40,24 @@ public class PrometheusRules extends EventRules implements Serializable {
      * Returns a list of possible {@link Action actions} after the
      * {@link it.polimi.ingsw.mvc.model.player.Player player}
      * {@link Action built} with a {@link Worker worker},
-     * if the event flag described by {@link #getEvent() getEvent} is {@code true} the next action is {@link Action MOVE}
+     * if the event flag described by {@link #getEvent() getEvent} is {@code true}
+     * and the flag setted in {@link #executeMove(Worker, Position) executeMove} method
+     * is false the next action is {@link Action MOVE}
      *
      * @return list of {@link Action actions} that can be done after {@link Action building}
      */
     @Override
     public List<Action> afterBuild() {
         List<Action> actions = super.afterBuild();
-        if(getEvent() && !flag) {
+        if(getEvent() && !movementFlag) {
             actions.add(Action.MOVE);
             actions.remove(0); }
         return actions;
     }
 
     /**
-     * Checks if by the rules it's physically possible to perform a move {@link Action action}
+     * Checks if by the rules it's physically possible to perform a move {@link Action action},
+     * if the player build before moving adds the check on height
      *
      * @param worker worker that wants to move
      * @param position position to where the worker is moved
@@ -65,19 +68,37 @@ public class PrometheusRules extends EventRules implements Serializable {
         super.consentMovement(worker, position);
         if (getEvent()) {Check.height(worker, position, 0, "Tile out of reach");} }
 
+    /**
+     * Returns a list of possible {@link Action actions} after the
+     * {@link it.polimi.ingsw.mvc.model.player.Player player}
+     * {@link Action selects} a {@link Worker worker},
+     * adds a optional first build with different conditions
+     *
+     * @return list of {@link Action actions} that can be done after {@link Action selection}
+     */
     @Override
     public List<Action> afterSelect() {
         return new ArrayList<>(Arrays.asList(Action.SELECT_WORKER, Action.MOVE, Action.BUILD)); }
 
+    /**
+     * Executes a movement {@link Action action}, sets the movement flag to {@code true}
+     *
+     *
+     * @param worker selected {@link Worker worker}
+     * @param position {@link Position position} the {@link Worker worker} will move to
+     */
     @Override
     public void executeMove(Worker worker, Position position) {
-        flag=true;
+        movementFlag=true;
         super.executeMove(worker,position);
     }
 
+    /**
+     * Reset all the flags
+     */
     @Override
     public void clear() {
         setEvent(false);
-        flag=false;
+        movementFlag=false;
     }
 }

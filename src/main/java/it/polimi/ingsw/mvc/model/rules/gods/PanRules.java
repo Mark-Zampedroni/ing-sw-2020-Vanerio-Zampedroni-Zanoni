@@ -13,6 +13,7 @@ public class PanRules extends CommonRules implements Serializable {
     /**
      * Method to evaluate if the {@link Worker worker}'s
      * {@link it.polimi.ingsw.mvc.model.player.Player master} wins the game
+     * adds the condition of moving down for two levels like win condition
      *
      * @param worker worker that moves
      * @param position position to where the worker is moved

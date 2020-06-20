@@ -36,7 +36,8 @@ public class HestiaRules extends EventRules implements Serializable {
     }
 
     /**
-     * Checks if by the rules it's physically possible to perform a build {@link Action action}
+     * Checks if by the rules it's physically possible to perform a build {@link Action action},
+     * for the second build checks if the position is boundary, if it is blocks the action
      *
      * @param worker worker that wants to build
      * @param position position where the worker wants to build

@@ -2,6 +2,7 @@ package it.polimi.ingsw.mvc.model.rules.gods;
 
 import it.polimi.ingsw.mvc.model.Setupper;
 import it.polimi.ingsw.mvc.model.rules.GodRules;
+import it.polimi.ingsw.utility.enumerations.Action;
 import it.polimi.ingsw.utility.enumerations.Colors;
 import it.polimi.ingsw.utility.enumerations.Gods;
 import it.polimi.ingsw.mvc.model.Session;
@@ -12,6 +13,8 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -41,9 +44,17 @@ class AtlasRulesTest {
         test.executeBuild(position);
         assertEquals(Session.getInstance().getBoard().getTile(position).getHeight(), 1);
         assertFalse(Session.getInstance().getBoard().getTile(position).hasDome());
-        test.setEvent(true);
+        test.toggleSpecialPower();
         position = new Position (3,4);
         test.executeBuild(position);
         assertTrue(Session.getInstance().getBoard().getTile(position).hasDome());
+    }
+
+    @Test
+    void correctActionListAfterMove(){
+        List <Action> actions = test.afterMove();
+        assertTrue(actions.get(0).equals(Action.SPECIAL_POWER));
+        assertTrue(actions.get(1).equals(Action.BUILD));
+
     }
 }

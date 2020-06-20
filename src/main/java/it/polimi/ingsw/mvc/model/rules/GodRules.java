@@ -28,11 +28,19 @@ public abstract class GodRules extends Observable<DtoSession> implements Seriali
 
 
     private static final long serialVersionUID = 5054362736166633442L;
+    protected Position oldPosition;
 
+
+
+    /**
+     * Getter for the list of {@link GodRules rules} that modify the conditions for the player
+     * for different actions during the game
+     *
+     * @return the list of the {@link GodRules rules}
+     */
     protected List<EnemyRules> getEnemyModifiers() {
         return Session.getInstance().getEnemyModifiers();
     }
-    protected Position oldPosition;
 
     /**
      * Executes a movement {@link Action action}
@@ -46,12 +54,23 @@ public abstract class GodRules extends Observable<DtoSession> implements Seriali
         notify(new DtoSession(Session.getInstance()));
     }
 
-
+    /**
+     * Adds a worker of a player in a specific position of the board
+     *
+     * @param player {@link Player player} the player
+     * @param position {@link Position position} the {@link Worker worker} will placed
+     */
     public void executeAdd(Player player, Position position) {
         player.addWorker(position);
         notify(new DtoSession(Session.getInstance()));
     }
 
+    /**
+     * Checks if by the rules it's physically possible to add a {@link Worker worker} in that position
+     *
+     * @param position position the {@link it.polimi.ingsw.mvc.model.player.Player player} wants to select
+     * @throws CantActException when the position can't be selected
+     */
     public void consentAdd(Position position) throws CantActException {
         Check.dome(position);
         Check.positionValidity(position);
@@ -208,6 +227,12 @@ public abstract class GodRules extends Observable<DtoSession> implements Seriali
         return false;
     }
 
+    /**
+     * Method for creating the rules of a specific {@link Gods god}
+     *
+     * @param god the god selected
+     * @return an instance of the associated {@link GodRules rules}
+     */
     public static GodRules getInstance(Gods god) {
         switch (god) {
             case APOLLO:
@@ -248,8 +273,15 @@ public abstract class GodRules extends Observable<DtoSession> implements Seriali
      */
     public void clear() { /* Do nothing */ }
 
+    /**
+     * Placeholder to make removeEffect() callable from any {@link GodRules rules} set
+     */
     public void removeEffect() { /* Do nothing */ }
 
+    /**
+     * Generic getter for the special power condition, used for make callable the method
+     * from any {@link GodRules rules} set
+     */
     public boolean hasSpecialPower() {
         return false;
     }

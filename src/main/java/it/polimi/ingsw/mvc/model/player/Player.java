@@ -37,10 +37,20 @@ public class Player implements Serializable {
         this.color = color;
     }
 
+    /**
+     * Add a worker in {@link Position position} to the list of the player's workers
+     *
+     * @param position position of the worker added
+     */
     public void addWorker(Position position) {
         workers.add(new Worker(position));
     }
 
+    /**
+     * Getter for color
+     *
+     * @return color the {@link Colors color} which represents the player
+     */
     public Colors getColor() { return color; }
 
     /**
@@ -155,12 +165,15 @@ public class Player implements Serializable {
      */
     public boolean isLoser() {return loss;}
 
+    /**
+     * Set the player to a "looser" player, removes his workers, removes the effect of his god
+     *
+     */
     public void loss() {
         loss = true;
         workers.clear();
         if(rules != null) { rules.removeEffect(); }
     }
-
 
     /**
      * Creates a String that contains the player most important values

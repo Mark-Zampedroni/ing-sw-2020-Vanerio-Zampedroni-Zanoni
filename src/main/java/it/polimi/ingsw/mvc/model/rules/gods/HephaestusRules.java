@@ -19,27 +19,25 @@ public class HephaestusRules extends EventRules implements Serializable {
 
     /**
      * Executes a build {@link Action action}, if it is the first build {@link Action action}
-     * calls the {@link #setEvent setEvent} with {@code true} argument and calls the
-     * {@link #setPos(Position) setPos} method with the {@link Position position} of the build
-     * as argument
+     * calls the {@link #setPos(Position) setPos} method with the {@link Position position}
+     * of the build as argument
      *
      * @param position {@link Position position} where to build
      */
     @Override
     public void executeBuild(Position position) {
         if(!getEvent()) {
-            //setEvent(true);
             setPos(position);
         }
         super.executeBuild(position);
     }
 
-    /**
-     * Returns a list of possible {@link Action actions} after the
+     /** *Returns a list of possible {@link Action actions} after the
      * {@link it.polimi.ingsw.mvc.model.player.Player player}
      * {@link Action built} with a {@link Worker worker},
      * if the event flag described by {@link #getEvent() getEvent} is {@code true}
-     * adds another {@link Action BUILD} action to the next actions list
+     * adds another {@link Action BUILD} action to the next actions list else if false set the flag to
+     *  {@code true}
      *
      * @return list of {@link Action actions} that can be done after {@link Action building}
      */
@@ -48,11 +46,11 @@ public class HephaestusRules extends EventRules implements Serializable {
         List<Action> actions = super.afterBuild();
         if(!getEvent()) { actions.add(Action.BUILD);
         setEvent(true);}
-        return actions;
-    }
+        return actions; }
 
     /**
-     * Checks if by the rules it's physically possible to perform a build {@link Action action}
+     * Checks if by the rules it's physically possible to perform a build {@link Action action},
+     * for the second build you have to build in the previous position
      *
      * @param worker worker that wants to build
      * @param position position where the worker wants to build
