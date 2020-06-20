@@ -82,6 +82,7 @@ public class Session implements Serializable {
      * Adds a {@link Player player} to the list of {@link Player players}
      *
      * @param username is the {@link Player player}'s name
+     * @param color the color associated to the player
      */
     public void addPlayer(String username, Colors color) {
         players.add(new Player(username, color));
@@ -196,6 +197,8 @@ public class Session implements Serializable {
 
     /**
      * Randomly chooses the challenger from the {@link Player players}
+     *
+     * @return the name of a player
      */
     public String getChallenger() {
         for (Player player : players) {

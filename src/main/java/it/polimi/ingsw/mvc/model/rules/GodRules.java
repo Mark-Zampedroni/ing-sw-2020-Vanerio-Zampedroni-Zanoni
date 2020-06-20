@@ -129,6 +129,7 @@ public abstract class GodRules extends Observable<DtoSession> implements Seriali
      * Checks if by the rules it's physically possible to perform a select {@link Action action}
      *
      * @param worker worker the {@link it.polimi.ingsw.mvc.model.player.Player player} wants to select
+     * @param username player that is currently active
      * @throws CantActException when the worker can't be selected
      */
     public void consentSelect(String username, Worker worker) throws CantActException {
@@ -281,6 +282,8 @@ public abstract class GodRules extends Observable<DtoSession> implements Seriali
     /**
      * Generic getter for the special power condition, used for make callable the method
      * from any {@link GodRules rules} set
+     *
+     * @return boolan value
      */
     public boolean hasSpecialPower() {
         return false;

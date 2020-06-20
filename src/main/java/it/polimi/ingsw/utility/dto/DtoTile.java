@@ -11,6 +11,8 @@ public class DtoTile implements Serializable {
 
     /**
      * Initializes a tile with minimum {@link it.polimi.ingsw.utility.constants.Height height}
+     *
+     * @param tile the equivalent tile in the model
      */
     public DtoTile(Tile tile) {
         height = tile.getHeight();

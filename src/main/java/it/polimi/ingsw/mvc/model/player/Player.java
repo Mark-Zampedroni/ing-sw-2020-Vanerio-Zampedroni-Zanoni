@@ -30,6 +30,7 @@ public class Player implements Serializable {
      * Initializes a player with his username, creating two {@link Worker workers}
      *
      * @param username unique string used to identify the player
+     * @param color the color associated to the player
      */
     public Player(String username, Colors color) {
         this.username = username;

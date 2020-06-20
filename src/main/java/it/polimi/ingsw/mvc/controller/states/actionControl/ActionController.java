@@ -13,7 +13,9 @@ import it.polimi.ingsw.mvc.model.rules.GodRules;
 import java.io.Serializable;
 import java.util.*;
 
-/* Interfaccia con le azioni sul Model, controlla se sia eseguibile l'azione e l'effettua */
+/**
+ * Controller part dedicated to call the methods that perform the actions of the player in the game.
+ */
 public class ActionController implements Serializable {
 
     private static final long serialVersionUID = 4736242274347489291L;
@@ -21,14 +23,26 @@ public class ActionController implements Serializable {
     private final GodRules rules;
     private final TurnController controller;
 
+    /**
+     * Constructor, is linked to the current {@link Player player} and the controller of the turn
+     * @param controller controller of the turn
+     * @param player currently active
+     */
     public ActionController(TurnController controller, Player player) {
         this.player = player;
         this.rules = player.getRules();
         this.controller = controller;
     }
 
-    /*
-        Applies action [MOVE/BUILD] changes to model
+    /**
+     * Apply the changes to the model about the action passed, performed by the passed worker,
+     * in the passed position
+     *
+     * @param worker that performs the action
+     * @param position where is performed the action
+     * @param type of the action passed
+     * @return the list of possibile {@link Action actions} after the passed action
+     * @throws WrongActionException if the action is not one of the possible actions in the game
      */
     public List<Action> act(Worker worker, Position position, Action type) throws WrongActionException {
         //boolean victory;
@@ -42,6 +56,15 @@ public class ActionController implements Serializable {
         }
     }
 
+    /**
+     * Return the list of possible positions where the {@link Worker worker}
+     * can perform the {@link Action action}
+     *
+     * @param worker that perform the action
+     * @param action that the worker performs
+     *
+     * @return the list of possible position for that action
+     */
     public List<Position> getCandidates(Worker worker, Action action) {
         switch(action) {
             case ADD_WORKER: return getAddWorkerCandidates();

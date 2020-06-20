@@ -35,7 +35,7 @@ public class CliScene {
      * Sets a message on the input box of the current scene
      *
      * @param message message to be shown
-     * @param input true if an input reply is required (>>> for input will be added), otherwise false
+     * @param input true if an input reply is required (for input will be added), otherwise false
      */
     public static void setMessage(String message, boolean input) {
         windowMessage = message;

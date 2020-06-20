@@ -24,6 +24,12 @@ public abstract class StateController implements Serializable {
     protected transient SessionController controller;
     protected transient Logger LOG;
 
+    /**
+     * Creates a controller that change its state during the game
+     * @param controller that is currently active
+     * @param LOG general LOG of the server
+     * @param views list of all the {@link RemoteView remoteview} for comunication with the players
+     */
     public StateController(SessionController controller, List<RemoteView> views, Logger LOG) {
         this.controller = controller;
         this.views = views;

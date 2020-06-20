@@ -95,6 +95,7 @@ public interface View {
      * @param session dto that provides the current {@link it.polimi.ingsw.mvc.model.Session values} at the server side
      * @param colors map of player's names to the color chosen by the player
      * @param gods map of player's name to the god chosen by the player
+     * @param currentPlayer name of the player currently active
      */
     void showBoard(DtoSession session, Map<String,Colors> colors, Map<String,String> gods, String currentPlayer);
 

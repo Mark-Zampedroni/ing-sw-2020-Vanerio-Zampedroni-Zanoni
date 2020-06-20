@@ -26,14 +26,11 @@ public class SessionController implements Observer<Message>  {
     private int gameCapacity;
 
     private String turnOwner;
-
     private final Object viewLock = new Object();
-
     private static Logger LOG;
-
     private final Session session;
-
     private final List<RemoteView> views;
+
 
     public SessionController(List<ServerConnection> connections, Logger LOG) {
         views = new ArrayList<>();
