@@ -78,12 +78,23 @@ public class ActionController implements Serializable {
         return null;
     }
 
-
+    /**
+     * Method that calls the method for modify the model adding a {@link Worker worker}
+     *
+     * @param position the position where the player puts the worker
+     * @return the list of possible actions after the add
+     */
     private List<Action> actAddWorker(Position position) {
         rules.executeAdd(player, position);
         return Collections.singletonList((player.getWorkers().size() < 2) ? Action.ADD_WORKER : Action.END_TURN);
     }
 
+    /**
+     * Method that calls the method for modify the model selecting a {@link Worker worker}
+     *
+     * @param position the position where the worker is
+     * @return the list of possible actions after the selection
+     */
     private List<Action> actSelectWorker(Position position) {
         for (Player player : Session.getInstance().getPlayers()) {
             for (Worker w : player.getWorkers()) {
@@ -96,7 +107,13 @@ public class ActionController implements Serializable {
         return rules.afterSelect();
     }
 
-
+    /**
+     * Method that calls the method for modify the model moving a {@link Worker worker}
+     *
+     * @param position the position where the worker will move
+     * @param worker the worker that performs the move
+     * @return the list of possible actions after the movement
+     */
     private List<Action> actMove(Worker worker, Position position) {
         rules.executeMove(worker, position);
         List<Action> afterMove = rules.afterMove();
@@ -104,14 +121,27 @@ public class ActionController implements Serializable {
         return victory ? Collections.singletonList(Action.WIN) : afterMove;
     }
 
-
+    /**
+     * Method that calls the method for modify the model building a block
+     *
+     * @param position the position where the block is placed
+     * @return the list of possible actions after the build
+     */
     private List<Action> actBuild(Position position) {
         rules.executeBuild(position);
         return rules.afterBuild();
     }
 
 
-    // CANDIDATES MOVE / BUILD
+    /**
+     * Return the list of possible positions where the {@link Worker worker}
+     * can perform the move or build {@link Action action}
+     *
+     * @param worker that perform the action
+     * @param action that the worker performs between move and build
+     *
+     * @return the list of possible position for that action
+     */
     private List<Position> getMoveBuildCandidates(Worker worker, Action action) {
         Position target;
         List<Position> temp = new ArrayList<>();
@@ -136,8 +166,12 @@ public class ActionController implements Serializable {
         }
         return temp;
     }
-
-    // CANDIDATES SELECT_WORKER
+    /**
+     * Return the list of possible positions where the {@link Player player}
+     * can {@link Action select} the workers
+     *
+     * @return the list of possible position for that action
+     */
     private List<Position> getSelectWorkerCandidates() {
         List<Position> temp = new ArrayList<>();
         for(Worker worker : player.getWorkers()) {
@@ -149,7 +183,12 @@ public class ActionController implements Serializable {
         return temp;
     }
 
-    // CANDIDATES ADD_WORKER
+    /**
+     * Return the list of possible positions where the {@link Player player}
+     * can add the {@link Worker workers}
+     *
+     * @return the list of possible position for that action
+     */
     private List<Position> getAddWorkerCandidates() {
         Position target;
         List<Position> temp = new ArrayList<>();
