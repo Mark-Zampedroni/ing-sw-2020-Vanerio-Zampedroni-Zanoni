@@ -19,9 +19,8 @@ public class DemeterRules extends EventRules implements Serializable {
     private static final long serialVersionUID = -6737697310818572309L;
 
     /**
-     * Executes a build {@link Action action}, if it is the first build {@link Action action}
-     * calls the {@link #setPos(Position) setPos} method with the {@link Position position}
-     * of the build as argument
+     * Executes a {@link Action build}, if it is the first build of the turn saves
+     * the position
      *
      * @param position {@link Position position} where to build
      */
@@ -33,24 +32,23 @@ public class DemeterRules extends EventRules implements Serializable {
         super.executeBuild(position);}
 
     /**
-     * Returns a list of possible {@link Action actions} after the
-     * {@link it.polimi.ingsw.mvc.model.player.Player player}
-     * {@link Action built} with a {@link Worker worker},
-     * if the event flag described by {@link #getEvent() getEvent} is {@code true}
-     * adds another {@link Action BUILD} action to the next actions list else sets the flag to {@code true}
+     * Returns a list of possible actions after a {@link Action build}, if it's the first build of the
+     * turn adds another {@link Action build}
      *
      * @return list of {@link Action actions} that can be done after {@link Action building}
      */
     @Override
     public List<Action> afterBuild() {
         List<Action> actions = super.afterBuild();
-        if(!getEvent()) { actions.add(Action.BUILD);
-        setEvent(true);}
-        return actions; }
+        if(!getEvent()) {
+            actions.add(Action.BUILD);
+            setEvent(true);
+        }
+        return actions;
+    }
 
     /**
-     * Checks if by the rules it's physically possible to perform a build {@link Action action},
-     * for the second build add the condition of "no build" in previous position
+     * Checks if by the rules it's physically possible to perform a build {@link Action action}
      *
      * @param worker worker that wants to build
      * @param position position where the worker wants to build

@@ -16,8 +16,7 @@ public class TritonRules extends EventRules implements Serializable {
     private static final long serialVersionUID = -4240895679955654178L;
 
     /**
-     * Executes a movement {@link Action action}, if the movement is on a boundary tile calls the {@link #setEvent setEvent} with {@code true}
-     * argument else with {@code false} argument
+     * Executes a {@link Action movement}, if it's on a boundary tile triggers the god's event
      *
      * @param worker selected {@link Worker worker}
      * @param position {@link Position position} the {@link Worker worker} will move to
@@ -29,17 +28,17 @@ public class TritonRules extends EventRules implements Serializable {
     }
 
     /**
-     * Returns a list of possible {@link Action actions} after the
-     * {@link it.polimi.ingsw.mvc.model.player.Player player}
-     * {@link Action moved} a {@link Worker worker},
-     * if the event flag described by {@link #getEvent() getEvent} is true add a optional {@link Action MOVE} action
+     * Returns a list of possible actions after a {@link Action move}, if the movement was to a boundary tile
+     * adds {@link Action move} to the list
      *
      * @return list of {@link Action actions} that can be done after {@link Action moving}
      */
     @Override
     public List<Action> afterMove() {
         List<Action> actions = super.afterMove();
-        if(getEvent()) { actions.add(Action.MOVE);}
+        if(getEvent()) {
+            actions.add(Action.MOVE);
+        }
         return actions;
     }
 

@@ -1,4 +1,5 @@
 package it.polimi.ingsw.mvc.model.map;
+
 import java.io.Serializable;
 
 import static it.polimi.ingsw.utility.constants.Height.*;
@@ -10,36 +11,44 @@ public class Tile implements Serializable {
 
     private static final long serialVersionUID = 326927623142205908L;
     private int height;
-    private boolean dome;
+    private boolean hasDome;
 
     /**
      * Initializes a tile with minimum {@link it.polimi.ingsw.utility.constants.Height height}
      */
     public Tile() {
         height = GROUND;
-        dome = false;
+        hasDome = false;
     }
 
     /**
      * Places a dome on the tile
      */
-    public void putDome() { dome = true; }
+    public void putDome() {
+        hasDome = true;
+    }
 
     /**
      * Checks if the tile has a dome
      *
      * @return {@code true} if the tile has a dome
      */
-    public boolean hasDome() { return dome; }
+    public boolean hasDome() {
+        return hasDome;
+    }
 
     /**
      * Increases the tile {@link it.polimi.ingsw.utility.constants.Height height}, if it's already reached {@link it.polimi.ingsw.utility.constants.Height TOP}
      * instead places a dome
      */
     public void increaseHeight() {
-        if(!dome) {
-            if(height == TOP) { dome = true; }
-            else { height += 1; }
+        if(!hasDome) {
+            if(height == TOP) {
+                hasDome = true;
+            }
+            else {
+                height += 1;
+            }
         }
     }
 
@@ -59,6 +68,6 @@ public class Tile implements Serializable {
      */
     @Override
     public String toString() {
-        return "Tower, height: "+height+", dome: "+dome;
+        return "Tower, height: "+height+", dome: "+ hasDome;
     }
 }

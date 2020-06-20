@@ -39,5 +39,6 @@ public class Board implements Serializable {
      * @return the {@link Tile tile} identified by the {@link Position position}
      */
     public Tile getTile(Position position) {
-        return tiles[position.getX()][position.getY()]; }
+        return tiles[position.getX()][position.getY()];
+    }
 }

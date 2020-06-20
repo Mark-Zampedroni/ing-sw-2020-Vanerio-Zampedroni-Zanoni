@@ -1,4 +1,5 @@
 package it.polimi.ingsw.mvc.model;
+
 import it.polimi.ingsw.mvc.model.rules.EnemyRules;
 import it.polimi.ingsw.utility.enumerations.Colors;
 import it.polimi.ingsw.utility.enumerations.Gods;
@@ -21,26 +22,26 @@ public class Session implements Serializable {
 
     private final ArrayList<Player> players = new ArrayList<>();
     private final Board board = new Board();
-    private boolean started;
+    private boolean isStarted;
     private static Session instance;
     private final List<EnemyRules> enemyModifiers = new ArrayList<>();
 
     /**
-     * Singleton instance
+     * Can't be instantiated, singleton pattern implemented
      */
     private Session() {
         super();
     }
 
     /**
-     * Method for reset the singleton during the reload of the save
+     * Method to reset the singleton at the reload of the save
      */
     public void loadInstance(){
         instance = this;
     }
 
     /**
-     * Method that create a unique instance of Session
+     * Method that creates a unique instance of Session (Singleton)
      *
      * @return the {@link Session session} with all the game informations
      */
@@ -52,21 +53,21 @@ public class Session implements Serializable {
     }
 
     /**
-     * Evaluates if the match is started
+     * Evaluates if the game started
      *
      * @return {@code true} if is started
      */
     public boolean isStarted() {
-        return started;
+        return isStarted;
     }
 
     /**
      * Setter for started flag
      *
-     * @param state specific if the game is started
+     * @param isStarted specific if the game is started
      */
-    public void setStarted(boolean state) {
-        started=state;
+    public void setStarted(boolean isStarted) {
+        this.isStarted = isStarted;
     }
 
     /**
@@ -108,7 +109,7 @@ public class Session implements Serializable {
     }
 
     /**
-     * Get {@link Player player} by username
+     * Gets a {@link Player player} by username
      *
      * @param username is the {@link Player player}'s name
      * @return the player, or null if not found
@@ -133,13 +134,12 @@ public class Session implements Serializable {
     }
 
     /**
-     * Getter for the list of the {@link Player players}
+     * Getter for the list of {@link Player players}
      *
      * @return a shallow copy of the {@link Player players} list
      */
-    @SuppressWarnings("unchecked")
     public ArrayList<Player> getPlayers() {
-        return (ArrayList<Player>) players.clone();
+        return new ArrayList<>(players);
     }
 
     /**
@@ -190,7 +190,9 @@ public class Session implements Serializable {
      */
     public boolean hasWinner() {
         for (Player player : players) {
-            if (player.isStarter()) { return true; }
+            if (player.isStarter()) {
+                return true;
+            }
         }
         return false;
     }
@@ -213,22 +215,22 @@ public class Session implements Serializable {
     }
 
     /**
-     * Getter for the list of {@link EnemyRules enemyrules} in the game
+     * Getter for the list of {@link EnemyRules EnemyRules} in game
      *
-     * @return the list of the rules that modify the game for all
+     * @return the list of rules
      */
     public List<EnemyRules> getEnemyModifiers() {
         return enemyModifiers;
     }
 
     /**
-     * Method for the reset to starting conditions
+     * Clear method to refresh the Session
      */
     public void clear() {
         players.clear();
         enemyModifiers.clear();
         board.clear();
-        started = false;
+        isStarted = false;
     }
 
 }

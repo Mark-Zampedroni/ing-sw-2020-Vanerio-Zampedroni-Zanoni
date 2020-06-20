@@ -27,7 +27,7 @@ public class PoseidonRules extends EventRules implements Serializable {
      * @param worker the {@link Worker worker} moved in the last {@link Action moveAction}
      */
     private void setMovedWorker(Worker worker) {
-        this.movedWorker = worker;
+        movedWorker = worker;
     }
 
     /**
@@ -40,8 +40,7 @@ public class PoseidonRules extends EventRules implements Serializable {
     }
 
     /**
-     * Setter for unmovedWorker, called in {@link #executeMove(Worker, Position) executeMove} method
-     *
+     * Setter for unmovedWorker
      */
     private void setUnmovedWorker() {
         int index = (movedWorker.getMaster().getWorkers().get(0) != getMovedWorker()) ? 0 : 1;
@@ -49,8 +48,7 @@ public class PoseidonRules extends EventRules implements Serializable {
     }
 
     /**
-     * Executes a movement {@link Action action}, set the {@link Worker movedWorker} and the {@link Worker unmovedWorker}
-     * with the {@link #setUnmovedWorker() setUnmovedWorker} method
+     * Executes a {@link Action movement}, saving which worker is moved
      *
      * @param worker selected {@link Worker worker}
      * @param position {@link Position position} the {@link Worker worker} will move to
@@ -64,8 +62,7 @@ public class PoseidonRules extends EventRules implements Serializable {
     }
 
     /**
-     * Checks if by the rules it's physically possible to perform a select {@link Action action},
-     * for the second {@link Action BUILD} phase the {@link Action BUILD} is possible only with the {@link Worker unmovedWorker}
+     * Checks if by the rules it's physically possible to perform a select {@link Action action}
      *
      * @param worker worker the {@link it.polimi.ingsw.mvc.model.player.Player player} wants to select
      * @throws CantActException when the worker can't be selected
@@ -80,10 +77,7 @@ public class PoseidonRules extends EventRules implements Serializable {
 
 
     /**
-     * Returns a list of possible {@link Action actions} after the
-     * {@link it.polimi.ingsw.mvc.model.player.Player player}
-     * {@link Action selects} a {@link Worker worker}, if the event flag is {@code true}
-     * adds only {@link Action Build} and {@link Action End_Turn} actions
+     * Returns a list of possible actions after a {@link Action selection}
      *
      * @return the list of possible {@link Action actions} after the selection of a worker
      */
@@ -93,11 +87,7 @@ public class PoseidonRules extends EventRules implements Serializable {
     }
 
     /**
-     * Returns a list of possible {@link Action actions} after the
-     * {@link it.polimi.ingsw.mvc.model.player.Player player}
-     * {@link Action built} with a {@link Worker worker},
-     * if the unmovedWorker is on {@link it.polimi.ingsw.utility.constants.Height groundLevel} the player can {@link Action BUILD}
-     * up to three times
+     * Returns a list of possible actions after a {@link Action build}
      *
      * @return list of {@link Action actions} that can be done after {@link Action building}
      */

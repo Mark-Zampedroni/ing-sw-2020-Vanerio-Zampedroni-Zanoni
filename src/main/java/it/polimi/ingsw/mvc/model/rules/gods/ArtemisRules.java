@@ -18,11 +18,8 @@ public class ArtemisRules extends EventRules implements Serializable {
     private static final long serialVersionUID = 513147746771236606L;
 
     /**
-     * Returns a list of possible {@link Action actions} after the
-     * {@link it.polimi.ingsw.mvc.model.player.Player player}
-     * {@link Action moved} a {@link Worker worker},
-     * if it is the first {@link Action MOVE} action adds an additional {@link Action MOVE} action,
-     *  and the {@link #setEvent(boolean) setEvent} method with {@code true} argument
+     * Returns a list of possible actions after a {@link Action move}, if it's the first movement of the turn
+     * adds another {@link Action move}
      *
      * @return list of {@link Action actions} that can be done after {@link Action moving}
      */
@@ -31,13 +28,13 @@ public class ArtemisRules extends EventRules implements Serializable {
         List<Action> actions = super.afterMove();
         if(!getEvent()) {
             setEvent(true);
-            actions.add(Action.MOVE); }
+            actions.add(Action.MOVE);
+        }
         return actions;
     }
 
     /**
-     * Executes a movement {@link Action action}, calls the {@link #setPos(Position) setPos} method with the
-     * {@link Worker worker} {@link Position oldPosition} argument
+     * Executes a {@link Action movement} and saves the previous position
      *
      * @param worker selected {@link Worker worker}
      * @param position {@link Position position} the {@link Worker worker} will move to
@@ -58,6 +55,7 @@ public class ArtemisRules extends EventRules implements Serializable {
     @Override
     public void consentMovement(Worker worker, Position position) throws CantActException {
         super.consentMovement(worker, position);
-        Check.oldPosition(worker,position);}
+        Check.oldPosition(worker,position);
+    }
 
 }

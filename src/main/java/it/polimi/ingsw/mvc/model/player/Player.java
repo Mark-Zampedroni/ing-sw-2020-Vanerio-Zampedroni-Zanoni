@@ -1,4 +1,5 @@
 package it.polimi.ingsw.mvc.model.player;
+
 import it.polimi.ingsw.utility.enumerations.Colors;
 import it.polimi.ingsw.utility.enumerations.Gods;
 import it.polimi.ingsw.mvc.model.map.Position;
@@ -13,7 +14,6 @@ import java.util.List;
  * with a unique {@link it.polimi.ingsw.utility.enumerations.Colors color}, a chosen {@link it.polimi.ingsw.utility.enumerations.Gods god}
  * and a list of {@link it.polimi.ingsw.mvc.model.player.Worker workers}
  */
-
 public class Player implements Serializable {
 
     private static final long serialVersionUID = 1606644735117861200L;
@@ -52,14 +52,16 @@ public class Player implements Serializable {
      *
      * @return color the {@link Colors color} which represents the player
      */
-    public Colors getColor() { return color; }
+    public Colors getColor() {
+        return color;
+    }
 
     /**
      * Getter for username
      *
      * @return username the {@link String string} which represents the username
      */
-    public String getUsername(){
+    public String getUsername() {
         return username;
     }
 
@@ -164,7 +166,9 @@ public class Player implements Serializable {
      *
      * @return {@code true} if the player has lost
      */
-    public boolean isLoser() {return loss;}
+    public boolean isLoser() {
+        return loss;
+    }
 
     /**
      * Set the player to a "looser" player, removes his workers, removes the effect of his god
@@ -173,7 +177,9 @@ public class Player implements Serializable {
     public void loss() {
         loss = true;
         workers.clear();
-        if(rules != null) { rules.removeEffect(); }
+        if(rules != null) {
+            rules.removeEffect();
+        }
     }
 
     /**
