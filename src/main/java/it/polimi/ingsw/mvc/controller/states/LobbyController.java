@@ -42,8 +42,10 @@ public class LobbyController extends StateController implements Serializable {
 
 
     /**
-     * Method that reads the message and, in case of {@link Message registrationMessage}
-     * calls the {@link #registerConnection(RegistrationMessage) registerConnection(Message)} method
+     * Reads the message and, in case of {@link Message registrationMessage}
+     * calls the method for the registration
+     *
+     * @param message the message received by the client
      */
     @Override
     public void parseMessage(Message message) {
@@ -54,7 +56,7 @@ public class LobbyController extends StateController implements Serializable {
 
 
     /**
-     *Controls if the chosen name and the chosen color are avaiable, if not it sends a
+     * Controls if the chosen name and the chosen color are avaiable, if not it sends a
      * new request and an error message. If they are correct, register the connection and create a player.
      *
      * @param message the message containing all the information about the player
@@ -103,7 +105,7 @@ public class LobbyController extends StateController implements Serializable {
 
     /**
      * Send a deny connection to all pending connections in lobby after the filling of the lobby,
-     * than it change the game state with {@link #tryNextState() tryNextState()} method
+     * than it change the game state to "God_Selection"
      */
     private void startGame() {
         new ArrayList<>(freshConnections).forEach(c -> c.denyConnection("The game has started, you were disconnected "));
@@ -142,7 +144,7 @@ public class LobbyController extends StateController implements Serializable {
     }
 
     /**
-     * It returns the avaiable color
+     * It returns the available color
      *
      * @return the list of the not chosen colors
      */

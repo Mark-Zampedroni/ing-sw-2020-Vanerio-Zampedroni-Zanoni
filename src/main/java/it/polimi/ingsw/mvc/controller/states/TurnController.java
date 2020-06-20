@@ -61,8 +61,9 @@ public class TurnController extends StateController implements Serializable {
     }
 
     /**
-     * Method that reads the message and, in case of {@link ActionMessage ActionMessage}
-     * calls the {@link #parseActionMessage(ActionMessage) parseActionMessage(ActionMessage)} method
+     * Method that reads the message and menage what to do depending on the content
+     *
+     * @param message the message received by the client
      */
     @Override
     public void parseMessage(Message message) {
@@ -128,6 +129,8 @@ public class TurnController extends StateController implements Serializable {
 
     /**
      * Setter for the worker currently used
+     *
+     * @param newCurrentWorker worker currently used
      */
     public void setCurrentWorker(Worker newCurrentWorker) {
         this.currentWorker = newCurrentWorker;
@@ -163,8 +166,7 @@ public class TurnController extends StateController implements Serializable {
 
     /**
      * Sends to all the users the {@link Player player} name and the possible
-     * actions, in case of winning or loosing calls the methods {@link #handleLoser() handleLoser()}
-     * and {@link #handleWinner() handleWinner()}
+     * actions, in case of winning or loosing manage what to do
      */
     @Override
     public void sendUpdate() {
@@ -191,8 +193,8 @@ public class TurnController extends StateController implements Serializable {
     }
 
     /**
-     * Manages the case where there is a loser, notify all the players of that and
-     * if remains only one player notify the victory and restart the {@link SessionController controller} for a new game
+     * Manages the case where there is a loser, notify all the players of that and,
+     * if remains only one player, notify the victory and restart the {@link SessionController controller} for a new game
      * else remove the losing player and pass to the next player
      */
     private void handleLoser() {
@@ -276,7 +278,7 @@ public class TurnController extends StateController implements Serializable {
     }
 
      /**
-      * If possible, executes action on model using the {@link ActionController actionController}
+      * If possible, executes action on model through the {@link ActionController actionController}
       *
       * @param position position where the player wants perform the action
       * @param type of the action performed

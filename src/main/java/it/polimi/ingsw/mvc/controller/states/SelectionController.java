@@ -14,6 +14,10 @@ import java.io.Serializable;
 import java.util.*;
 import java.util.logging.Logger;
 
+/**
+ * Controller used during the phase when the players choose the god for the current game
+ * and for the choice of the starter player
+ */
 public class SelectionController extends StateController implements Serializable {
 
     private static final long serialVersionUID = -1391531620876546345L;
@@ -23,7 +27,13 @@ public class SelectionController extends StateController implements Serializable
     private int turn;
     private GameState state;
 
-
+    /**
+     * Creates the controller for the selection phase
+     *
+     * @param views list of the {@link RemoteView remoteViews} of the players for the updates
+     * @param LOG general logger of the server
+     * @param controller general controller for the session
+     */
     public SelectionController(SessionController controller, List<RemoteView> views, Logger LOG) {
         super(controller, views, LOG);
         session = Session.getInstance();
@@ -34,6 +44,11 @@ public class SelectionController extends StateController implements Serializable
         controller.setTurnOwner(challenger.getUsername());
     }
 
+    /**
+     * Reads messages from clients and manage what to do depending on the content
+     *
+     * @param message the message received
+     */
     @Override
     public void parseMessage(Message message) {
         if(message.getSender().equals(controller.getTurnOwner())) {
@@ -56,6 +71,11 @@ public class SelectionController extends StateController implements Serializable
         }
     }
 
+    /**
+     * Reads challenger selection message and add the gods chosen in the list of the gods of the game
+     *
+     * @param message the message received
+     */
     private void parseAddMessage(Message message) {
         if (state == GameState.CHALLENGER_SELECTION){
             if (Gods.isValid(message.getInfo()) && !chosenGod.contains(message.getInfo())) {
@@ -70,6 +90,12 @@ public class SelectionController extends StateController implements Serializable
             }
         }
     }
+
+    /**
+     * Reads the choice of the player in the message and assign the god to the player
+     *
+     * @param message the message received
+     */
     private void parseGodChoiceMessage(Message message) {
         if (state == GameState.GOD_SELECTION) {
             if (chosenGod.contains(message.getInfo())) {
@@ -89,6 +115,11 @@ public class SelectionController extends StateController implements Serializable
         }
     }
 
+    /**
+     * Reads name of the starter player and pass to the next phase "Game"
+     *
+     * @param message the message received
+     */
     private void parseStarterPlayerMessage(Message message) {
         if (state == GameState.STARTER_SELECTION) {
             for (Player player : controller.getPlayers()) {
@@ -101,10 +132,17 @@ public class SelectionController extends StateController implements Serializable
         }
     }
 
+    /**
+     * Changes the state of the controller to "Game"
+     */
     public void tryNextState() {
         controller.switchState(GameState.GAME);
     }
 
+
+    /**
+     * Sends a message for ask the next choice of the god by the players
+     */
     private void askNextSelection() {
         turn = (turn + 1) % controller.getGameCapacity();
         Player turnOwner = session.getPlayers().get(turn);
@@ -114,6 +152,12 @@ public class SelectionController extends StateController implements Serializable
         }
     }
 
+    /**
+     * Assigns the god to the player that choose it
+     *
+     * @param player the player that choose the god
+     * @param god the god chosen by the player
+     */
     private void assignGod(String player, String god){
         Player user = session.getPlayerByName(player);
         if (user != null && user.getGod() == null) {
@@ -122,11 +166,14 @@ public class SelectionController extends StateController implements Serializable
         }
     }
 
+    /**
+     * Associates the rules to the specific view of the player
+     *
+     * @param view the view of the player
+     * @param rules the rules of the god chosen by the player
+     */
     private void connectModelView(RemoteView view, GodRules rules) {
         rules.addObserver(view);
     }
-
-
-
 }
 
