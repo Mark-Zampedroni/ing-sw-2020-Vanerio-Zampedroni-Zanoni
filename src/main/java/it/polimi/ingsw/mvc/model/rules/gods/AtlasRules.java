@@ -46,7 +46,7 @@ public class AtlasRules extends EventRules implements Serializable, SpecialPower
     public List<Action> afterMove() { return new ArrayList<>(Arrays.asList(Action.SPECIAL_POWER, Action.BUILD)); }
 
     /**
-     * Method that set the activation of the special power if choosed
+     * Method that set the activation of the special power if chosen
      */
     @Override
     public void toggleSpecialPower() {
