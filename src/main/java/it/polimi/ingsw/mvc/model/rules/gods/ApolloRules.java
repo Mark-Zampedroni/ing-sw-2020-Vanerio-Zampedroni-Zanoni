@@ -1,15 +1,14 @@
 package it.polimi.ingsw.mvc.model.rules.gods;
 
 import it.polimi.ingsw.mvc.model.Session;
-import it.polimi.ingsw.utility.enumerations.Action;
-import it.polimi.ingsw.utility.enumerations.Target;
-import it.polimi.ingsw.utility.exceptions.actions.CantActException;
 import it.polimi.ingsw.mvc.model.map.Position;
-import it.polimi.ingsw.mvc.model.player.Player;
 import it.polimi.ingsw.mvc.model.player.Worker;
 import it.polimi.ingsw.mvc.model.rules.Check;
 import it.polimi.ingsw.mvc.model.rules.GodRules;
 import it.polimi.ingsw.utility.dto.DtoSession;
+import it.polimi.ingsw.utility.enumerations.Action;
+import it.polimi.ingsw.utility.enumerations.Target;
+import it.polimi.ingsw.utility.exceptions.actions.CantActException;
 
 import java.io.Serializable;
 
@@ -21,9 +20,8 @@ public class ApolloRules extends GodRules implements Serializable {
     private static final long serialVersionUID = 7507382338554029213L;
 
     /**
-     * Executes a movement {@link Action action}, eventually switch the {@link Worker worker}'s {@link Position oldPosition}
-     * with the {@link Position position} of a {@link Player opponent}'s {@link Worker worker} that were in the {@link Position position}
-     * where the {@link Worker worker} moved
+     * Executes a {@link Action movement}, if the target position is occupied by an enemy worker it's
+     * switched with the worker performing the move
      *
      * @param worker selected {@link Worker worker}
      * @param position {@link Position position} the {@link Worker worker} will move to
@@ -31,7 +29,7 @@ public class ApolloRules extends GodRules implements Serializable {
     @Override
     public void executeMove(Worker worker, Position position) {
         if(position.getWorker() != null) {
-            oldPosition=worker.getPosition();
+            oldPosition = worker.getPosition();
             worker.switchPosition(position.getWorker());
             notify(new DtoSession(Session.getInstance()));
         }

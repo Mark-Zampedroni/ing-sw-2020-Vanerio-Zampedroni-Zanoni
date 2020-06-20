@@ -12,6 +12,9 @@ import java.io.Serializable;
 
 import static it.polimi.ingsw.utility.constants.Height.*;
 
+/**
+ * Checks used on all the gods actions consents
+ */
 public class Check implements Serializable {
 
     private static final long serialVersionUID = 6347275335033595844L;
@@ -21,7 +24,7 @@ public class Check implements Serializable {
     }
 
     /**
-     * If value is {@code true} this method checks if the worker is trying to build at the same height as the limit set by a parameter, otherwise it checks the opposite statement
+     * If value is {@code true} this method checks if the worker is trying to build at the same height specified by the parameter, otherwise checks the opposite statement
      *
      * @param worker chosen worker
      * @param value defines the condition that this method is checking
@@ -31,11 +34,13 @@ public class Check implements Serializable {
      */
     public static void piece(Worker worker, boolean value, int height, String msg) throws CantActException {
         EventRules eventBase = (EventRules) worker.getMaster().getRules();
-        if(eventBase.getEvent() && (Session.getInstance().getBoard().getTile(eventBase.getPos()).getHeight() == height) == value) { throw new CantActException(msg); }
+        if(eventBase.getEvent() && (Session.getInstance().getBoard().getTile(eventBase.getPos()).getHeight() == height) == value) {
+            throw new CantActException(msg);
+        }
     }
 
     /**
-     * Checks if a worker is trying to build dome
+     * Checks if a worker is trying to build a dome
      *
      * @param worker chosen worker
      * @throws CantActException when the worker has tried to build a dome
@@ -45,7 +50,7 @@ public class Check implements Serializable {
     }
 
     /**
-     * Checks a position's validity according to value, if value is {@code true} this method checks if the position is valid, otherwise it checks the opposite statement
+     * Checks a position validity according to value, if value is {@code true} this method checks if the position is valid, otherwise checks the opposite statement
      *
      * @param position targeted position
      * @param value defines the condition that this method is checking
@@ -53,7 +58,9 @@ public class Check implements Serializable {
      * @throws CantActException when the condition hasn't been respected accordingly to value
      */
     public static void positionValidity(Position position, boolean value, String msg) throws CantActException {
-        if(!position.isValid() == value) { throw new CantActException(msg); }
+        if(!position.isValid() == value) {
+            throw new CantActException(msg);
+        }
     }
 
     /**
@@ -67,11 +74,13 @@ public class Check implements Serializable {
     }
 
     public static void occupant(Position position) throws CantActException {
-        if (position.getWorker() != null) { throw new CantActException("This position already has a worker"); }
+        if (position.getWorker() != null) {
+            throw new CantActException("This position already has a worker");
+        }
     }
 
     /**
-     * Checks if a worker had been placed on a specific position, if value is {@code true} this method checks if the position is occupied by a worker,  otherwise it checks the opposite statement
+     * Checks if a worker had been placed on a specific position, if value is {@code true} this method checks if the position is occupied by a worker,  otherwise checks the opposite statement
      *
      * @param worker chosen worker
      * @param position targeted position
@@ -82,7 +91,9 @@ public class Check implements Serializable {
      */
     public static void relation(Worker worker, Position position, Target type, boolean value, String msg) throws CantActException {
         if (position.getWorker() != null) {
-            if(type.compareWorkers(worker,position.getWorker()) == value) { throw new CantActException(msg); }
+            if(type.compareWorkers(worker,position.getWorker()) == value) {
+                throw new CantActException(msg);
+            }
         }
     }
 
@@ -99,7 +110,7 @@ public class Check implements Serializable {
     }
 
     /**
-     * If value is {@code true} this method checks if the position is on the perimeter, otherwise it checks the opposite statement
+     * If value is {@code true} this method checks if the position is on the perimeter, otherwise checks the opposite statement
      *
      * @param position targeted position
      * @param value defines the condition that this method is checking
@@ -107,7 +118,10 @@ public class Check implements Serializable {
      * @throws CantActException when the condition hasn't been respected accordingly to value
      */
     public static void boundary(Position position, boolean value, String msg) throws CantActException {
-        if(position.isBoundary() == value) { throw new CantActException(msg); }}
+        if(position.isBoundary() == value) {
+            throw new CantActException(msg);
+        }
+    }
 
     /**
      * Checks if a position is on the perimeter
@@ -116,10 +130,11 @@ public class Check implements Serializable {
      * @throws CantActException when the position is on the perimeter of {@link Board board}
      */
     public static void boundary(Position position) throws CantActException {
-        boundary(position,true,"Tile on boundary");}
+        boundary(position,true,"Tile on boundary");
+    }
 
     /**
-     * Checks if the worker's upwards movement exceeds the height's limit defines through offset
+     * Checks if the worker upwards movement exceeds the height's limit defines through offset
      *
      * @param worker chosen worker
      * @param position targeted position
@@ -128,11 +143,13 @@ public class Check implements Serializable {
      * @throws CantActException when the position where the worker has tried to move on was too high
      */
     public static void height(Worker worker, Position position, int offset, String msg) throws CantActException {
-        if (Session.getInstance().getBoard().getTile(position).getHeight() > Session.getInstance().getBoard().getTile(worker.getPosition()).getHeight() + offset) { throw new CantActException(msg); }
+        if (Session.getInstance().getBoard().getTile(position).getHeight() > Session.getInstance().getBoard().getTile(worker.getPosition()).getHeight() + offset) {
+            throw new CantActException(msg);
+        }
     }
 
     /**
-     * Checks if the height's difference between the worker and the targeted position was more than one
+     * Checks if the height difference between the worker and the targeted position is more than one
      *
      * @param worker chosen worker
      * @param position targeted position
@@ -143,7 +160,7 @@ public class Check implements Serializable {
     }
 
     /**
-     *Checks if the distance's difference between a worker and a position is within a range, min set the lower limit of that range instead max defines the upper one
+     * Checks if the distance difference between a worker and a position is within a range, min set the lower limit of that range instead max defines the upper one
      *
      * @param worker chosen worker
      * @param position targeted position
@@ -154,11 +171,13 @@ public class Check implements Serializable {
      */
     public static void distance(Worker worker, Position position, int min, int max, String msg) throws CantActException {
         if(worker.getPosition().getDistanceFrom(position) < min ||
-           worker.getPosition().getDistanceFrom(position) > max) { throw new CantActException(msg); }
+           worker.getPosition().getDistanceFrom(position) > max) {
+            throw new CantActException(msg);
+        }
     }
 
     /**
-     * Checks if the distance's difference between a worker and a position is one
+     * Checks if the distance difference between a worker and a position is one
      *
      * @param worker chosen worker
      * @param position targeted position
@@ -169,7 +188,7 @@ public class Check implements Serializable {
     }
 
     /**
-     * If value is {@code true} this method checks if a position has a dome placed on, otherwise it checks the opposite statement
+     * If value is {@code true} this method checks if a position has a dome placed on, otherwise checks the opposite statement
      *
      * @param position targeted position
      * @param value defines the condition that this method is checking
@@ -177,7 +196,9 @@ public class Check implements Serializable {
      * @throws CantActException when the position where the worker has tried to move on was too high
      */
     public static void dome(Position position, boolean value, String msg) throws CantActException {
-        if(Session.getInstance().getBoard().getTile(position).hasDome() == value) { throw new CantActException(msg); }
+        if(Session.getInstance().getBoard().getTile(position).hasDome() == value) {
+            throw new CantActException(msg);
+        }
     }
 
     /**
@@ -191,7 +212,7 @@ public class Check implements Serializable {
     }
 
     /**
-     *Compares the position where the worker is trying to move with it's previous one, if value is {@code true} this method checks if the two positions are the same, otherwise it checks the opposite statement
+     * Compares the position where the worker is trying to move with it's previous one, if value is {@code true} this method checks if the two positions are the same, otherwise checks the opposite statement
      *
      * @param worker chosen worker
      * @param position targeted position
@@ -201,11 +222,13 @@ public class Check implements Serializable {
      */
     public static void oldPosition(Worker worker, Position position, boolean value, String msg) throws CantActException {
         EventRules eventBase = (EventRules) worker.getMaster().getRules();
-        if (eventBase.getEvent() && position.equals(eventBase.getPos()) == value) { throw new CantActException(msg); }
+        if (eventBase.getEvent() && position.equals(eventBase.getPos()) == value) {
+            throw new CantActException(msg);
+        }
     }
 
     /**
-     * Checks if the worker is trying to move on the same position it was placed before
+     * Checks if the worker is trying to move on its previous position
      *
      * @param worker chosen worker
      * @param position targeted position

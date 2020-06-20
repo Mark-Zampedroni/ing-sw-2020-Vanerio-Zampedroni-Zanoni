@@ -4,6 +4,9 @@ import it.polimi.ingsw.mvc.model.map.Position;
 
 import java.io.Serializable;
 
+/**
+ * Rules shared by the gods which rely on flags to choose the possible actions
+ */
 public abstract class EventRules extends CommonRules implements Serializable {
 
     private static final long serialVersionUID = -3930788283599303166L;
@@ -47,7 +50,7 @@ public abstract class EventRules extends CommonRules implements Serializable {
     }
 
     /**
-     * Method used for clearing previous value of {@link Boolean event}
+     * Method used to clear the value of {@link Boolean event}
      */
     @Override
     public void clear() {

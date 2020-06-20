@@ -28,7 +28,9 @@ public class Worker implements Serializable {
      *
      * @return a copy of {@link Position position}
      */
-    public Position getPosition() { return position; }
+    public Position getPosition() {
+        return position;
+    }
 
     /**
      * Puts the worker on {@link Position position}, successful only if it's not already occupied
@@ -45,7 +47,9 @@ public class Worker implements Serializable {
      * @param x coordinate
      * @param y coordinate
      */
-    public void setPosition(int x, int y) { setPosition(new Position(x,y)); }
+    public void setPosition(int x, int y) {
+        setPosition(new Position(x,y));
+    }
 
     /**
      * Switches position with another worker
@@ -69,7 +73,7 @@ public class Worker implements Serializable {
                 if(this.equals(w)) { return p; }
             }
         }
-        return null; // Can't happen
+        return null;
     }
 
     /**

@@ -10,6 +10,9 @@ import it.polimi.ingsw.mvc.model.rules.GodRules;
 
 import java.io.Serializable;
 
+/**
+ * Rules for a player with Zeus as God
+ */
 public class ZeusRules extends GodRules implements Serializable {
     private static final long serialVersionUID = -1893676945355386524L;
 

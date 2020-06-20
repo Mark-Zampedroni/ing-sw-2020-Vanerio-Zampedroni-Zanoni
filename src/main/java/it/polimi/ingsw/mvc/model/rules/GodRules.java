@@ -26,11 +26,8 @@ import static it.polimi.ingsw.utility.constants.Height.TOP;
  */
 public abstract class GodRules extends Observable<DtoSession> implements Serializable {
 
-
     private static final long serialVersionUID = 5054362736166633442L;
     protected Position oldPosition;
-
-
 
     /**
      * Getter for the list of {@link GodRules rules} that modify the conditions for the player
@@ -162,7 +159,7 @@ public abstract class GodRules extends Observable<DtoSession> implements Seriali
         Check.distance(worker, position);
         Check.dome(position);
         Check.height(worker, position);
-        for (EnemyRules enemy : getEnemyModifiers()) { // Only Athena atm
+        for (EnemyRules enemy : getEnemyModifiers()) { // Checks enforced by the enemies' gods
             if (this != enemy) {
                 enemy.consentEnemyMovement(worker, position);
             }
@@ -190,7 +187,7 @@ public abstract class GodRules extends Observable<DtoSession> implements Seriali
      * @return {@code true} if the worker's {@link it.polimi.ingsw.mvc.model.player.Player master} wins the game
      */
     public boolean consentWin(Worker worker, Position position) {
-        for (EnemyRules enemy : getEnemyModifiers()) { // Only Hera atm
+        for (EnemyRules enemy : getEnemyModifiers()) { // Checks enforced by the enemies' gods
             if (this != enemy && !enemy.consentEnemyWin(position)) {
                 return false;
             }
@@ -221,7 +218,10 @@ public abstract class GodRules extends Observable<DtoSession> implements Seriali
                                 return true;
                             default: // Do nothing
                         }
-                    } catch (CantActException e) { /* Do nothing */ }
+                    } catch (CantActException e) {
+                        // Intentionally empty, if the exception arises then the move checked can't be done,
+                        // but there is no need to handle it.
+                    }
                 }
             }
         }
@@ -229,7 +229,7 @@ public abstract class GodRules extends Observable<DtoSession> implements Seriali
     }
 
     /**
-     * Method for creating the rules of a specific {@link Gods god}
+     * Method for instantiating the rules of a specific {@link Gods god}
      *
      * @param god the god selected
      * @return an instance of the associated {@link GodRules rules}
@@ -270,14 +270,14 @@ public abstract class GodRules extends Observable<DtoSession> implements Seriali
     }
 
     /**
-     * Placeholder to make clear() callable from any {@link GodRules rules} set
+     * Implemented in {@link EnemyRules EnemyRules}, default is empty
      */
-    public void clear() { /* Do nothing */ }
+    public void clear() { /* Implemented in EnemyRules */ }
 
     /**
-     * Placeholder to make removeEffect() callable from any {@link GodRules rules} set
+     * Implemented in {@link EnemyRules EnemyRules}, default is empty
      */
-    public void removeEffect() { /* Do nothing */ }
+    public void removeEffect() { /* Implemented in EnemyRules */ }
 
     /**
      * Generic getter for the special power condition, used for make callable the method

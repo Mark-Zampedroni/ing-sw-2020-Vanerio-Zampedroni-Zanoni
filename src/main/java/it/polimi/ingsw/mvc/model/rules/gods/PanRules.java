@@ -7,17 +7,18 @@ import it.polimi.ingsw.mvc.model.rules.CommonRules;
 
 import java.io.Serializable;
 
+/**
+ * Rules for a player with Pan as God
+ */
 public class PanRules extends CommonRules implements Serializable {
     private static final long serialVersionUID = -4382896954451533930L;
 
     /**
-     * Method to evaluate if the {@link Worker worker}'s
-     * {@link it.polimi.ingsw.mvc.model.player.Player master} wins the game
-     * adds the condition of moving down for two levels like win condition
+     * Adds a new win condition
      *
      * @param worker worker that moves
      * @param position position to where the worker is moved
-     * @return {@code true} if the worker's {@link it.polimi.ingsw.mvc.model.player.Player master} could win the game
+     * @return {@code true} if the worker {@link it.polimi.ingsw.mvc.model.player.Player master} can win the game
      */
     @Override
     public boolean isWinner(Worker worker, Position position){

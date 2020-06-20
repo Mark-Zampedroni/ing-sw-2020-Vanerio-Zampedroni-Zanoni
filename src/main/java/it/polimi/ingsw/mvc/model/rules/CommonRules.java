@@ -38,7 +38,6 @@ public abstract class CommonRules extends GodRules implements Serializable {
     public void consentMovement(Worker worker, Position position) throws CantActException {
         super.consentMovement(worker, position);
         Check.relation(worker, position, Target.ANY);
-
     }
 
 }

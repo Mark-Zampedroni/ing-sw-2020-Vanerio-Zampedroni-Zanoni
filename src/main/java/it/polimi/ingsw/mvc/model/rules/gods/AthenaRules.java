@@ -15,12 +15,11 @@ public class AthenaRules extends EnemyRules implements Serializable {
     private static final long serialVersionUID = -152466532092964491L;
 
     /**
-     * Executes a movement {@link Action action}, method with the
-     * {@link Worker worker} {@link Position oldPosition} argument,
-     * if increase her height set the malus to other players with {@link #applyEffect() applyEffect} method
+     * Executes a {@link Action movement}, if the position height increases it enforces a new check on movement
+     * to the other players
      *
      * @param worker selected {@link Worker worker}
-     * @param position {@link Position position} the {@link Worker worker} will move to
+     * @param position {@link Position position} the {@link Worker worker} wants to move to
      */
     @Override
     public void executeMove(Worker worker, Position position) {
@@ -31,7 +30,7 @@ public class AthenaRules extends EnemyRules implements Serializable {
     }
 
     /**
-     * Remove the malus to the other players
+     * Removes the enforced check
      */
     @Override
     public void clear() {
@@ -39,11 +38,13 @@ public class AthenaRules extends EnemyRules implements Serializable {
     }
 
     /**
-     * Checks if other players move in correct way after the application of the malus
+     * Check enforced by {@link #executeMove(Worker worker, Position position) executeMove}
      *
-     * @param position position where the worker have to move to
-     * @param worker worker that perform the movement
+     * @param position position where the worker has to move to
+     * @param worker worker that performs the movement
      */
     @Override
-    public void consentEnemyMovement(Worker worker, Position position) throws CantActException { Check.height(worker,position,0,"Athena blocks you"); }
+    public void consentEnemyMovement(Worker worker, Position position) throws CantActException {
+        Check.height(worker,position,0,"Athena blocks you");
+    }
 }
