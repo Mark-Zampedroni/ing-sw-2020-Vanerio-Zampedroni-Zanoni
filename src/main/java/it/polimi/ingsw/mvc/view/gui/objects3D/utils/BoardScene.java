@@ -151,7 +151,7 @@ public class BoardScene extends SubScene {
     public void updateBoard(DtoSession session) {
         synchronized(boardLock) {
             updateWorkers(session.getWorkers());
-            updateBuildings(session.getBoard());
+            updateBuildings(session.getBoard(), session.getWorkers());
         }
             localSession = session;
     }
@@ -170,12 +170,17 @@ public class BoardScene extends SubScene {
         }
     }
 
-    private void updateBuildings(DtoBoard newBoard) {
+    private void updateBuildings(DtoBoard newBoard, List<DtoWorker> workers) {
         if(newBoard == null || localSession == null) { return; }
         for(int x = 0; x < 5; x++) {
             for(int y = 0; y < 5; y++) {
                 if(newBoard.getTile(x,y).getHeight() > localSession.getBoard().getTile(x,y).getHeight()) {
                     board.getTile(x,y).increaseHeight();
+                    WorkerObj temp = board.getTile(x,y).getWorker();
+                    if(temp != null) {
+                        board.getTile(x, y).setWorker(temp);
+                    }
+
                 }
                 if(newBoard.getTile(x,y).hasDome() && !localSession.getBoard().getTile(x,y).hasDome()) {
                     board.getTile(x,y).placeDome();

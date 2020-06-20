@@ -51,7 +51,6 @@ public class Gui extends Application {
     private void setWindowIcon() {
         try {
             stage.getIcons().add(new Image("/texture2D_sorted/app_icon.png"));
-            System.out.println("yey");
         } catch(Exception e) {
             GuiManager.getInstance().LOG.warning("[GUI] Personalized icon set failed with error: "+e.getMessage());
         }
