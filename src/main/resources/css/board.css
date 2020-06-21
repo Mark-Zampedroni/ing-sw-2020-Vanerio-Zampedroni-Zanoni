@@ -108,27 +108,27 @@
     -fx-background-image: url('../Texture2D_sorted/Backgrounds/bigblue.png');
 }
 
-#button1 {
+#button1{
     -fx-background-image: url('../Texture2D_sorted/Pulsanti/PulsantiBoard/gree_board.png');
 }
 
-#button2 {
+#button2{
     -fx-background-image: url('../Texture2D_sorted/Pulsanti/PulsantiBoard/purple_board.png');
 }
 
-#button3 {
+#button3{
     -fx-background-image: url('../Texture2D_sorted/Pulsanti/PulsantiBoard/coral_board.png');
 }
 
-#button1pressed {
+#button1pressed{
     -fx-background-image: url('../Texture2D_sorted/Pulsanti/PulsantiBoard/gree_board_pressed.png');
 }
 
-#button2pressed {
+#button2pressed{
     -fx-background-image: url('../Texture2D_sorted/Pulsanti/PulsantiBoard/purple_board_pressed.png');
 }
 
-#button3pressed {
+#button3pressed{
     -fx-background-image: url('../Texture2D_sorted/Pulsanti/PulsantiBoard/coral_board_pressed.png');
 }
 
@@ -219,4 +219,29 @@
 
 #ZEUS {
     -fx-background-image: url("../Texture2D_sorted/Icone_dei/FullBody_senza_sfondo/ZEUS.png");
+}
+
+#conditionLabel {
+    -fx-font-size: 28;
+    -fx-alignment: center;
+    -fx-text-alignment: center;
+    -fx-text-fill: black;
+}
+
+#descriptionLabel {
+    -fx-font-size: 22;
+    -fx-text-alignment: center;
+    -fx-wrap-text: true;
+    -fx-text-fill: black;
+}
+
+#godNameLabel {
+    -fx-background-image: url("../Texture2D_sorted/Backgrounds/godnametag.png");
+    -fx-font-size: 31;
+    -fx-text-fill: white;
+    -fx-alignment: center;
+}
+
+#cardBackground {
+    -fx-background-image: url("../Texture2D_sorted/Backgrounds/PlayerUIPanel2v4.png");
 }

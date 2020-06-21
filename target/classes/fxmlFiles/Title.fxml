@@ -1,22 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.net.*?>
 <?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 <?import java.lang.String?>
 <?import java.net.URL?>
-<?import javafx.geometry.Insets?>
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.layout.BorderPane?>
-<?import javafx.scene.layout.ColumnConstraints?>
-<?import javafx.scene.layout.GridPane?>
-<?import javafx.scene.layout.RowConstraints?>
-<?import javafx.scene.text.Font?>
-
 <BorderPane fx:id="main" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="1.0" minWidth="1.0" prefHeight="700.0" prefWidth="1040.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.mvc.view.gui.fxmlControllers.TitleController">
     <stylesheets>
         <URL value="@../css/title.css" />
@@ -182,11 +171,12 @@
                      <children>
                         <BorderPane pickOnBounds="false" prefHeight="50.0" prefWidth="50.0" GridPane.columnIndex="1" GridPane.columnSpan="2" GridPane.rowSpan="2">
                            <center>
-                              <Button id="fullscreenbutton" fx:id="fullScreenButton" mnemonicParsing="false" prefHeight="60.0" prefWidth="66.0" textFill="WHITE" BorderPane.alignment="CENTER">
-                                 <styleClass>
-                                    <String fx:value="fullbackground" />
-                                    <String fx:value="invisiblebackground" />
-                                 </styleClass>
+                              <Button id="fullscreenbutton" fx:id="fullScreenButton" mnemonicParsing="false"
+                                      prefHeight="60.0" prefWidth="66.0" textFill="WHITE" BorderPane.alignment="CENTER">
+                                  <styleClass>
+                                      <String fx:value="fullbackground"/>
+                                      <String fx:value="invisiblebackground"/>
+                                  </styleClass>
                               </Button>
                            </center>
                         </BorderPane>

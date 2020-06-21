@@ -6,7 +6,8 @@
 <?import javafx.scene.text.*?>
 <?import java.lang.*?>
 <?import java.net.URL?>
-<BorderPane xmlns:fx="http://javafx.com/fxml/1" id="otherBack" fx:id="main" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="1.0"
+<BorderPane xmlns:fx="http://javafx.com/fxml/1" id="otherBack" fx:id="main" maxHeight="-Infinity" maxWidth="-Infinity"
+            minHeight="1.0"
             minWidth="1.0" prefHeight="700.0" prefWidth="1040.0" styleClass="fullbackground"
             xmlns="http://javafx.com/javafx/8"
             fx:controller="it.polimi.ingsw.mvc.view.gui.fxmlControllers.LobbyController">

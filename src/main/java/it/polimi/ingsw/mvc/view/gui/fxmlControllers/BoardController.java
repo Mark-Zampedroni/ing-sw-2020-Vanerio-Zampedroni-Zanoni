@@ -7,6 +7,7 @@ import it.polimi.ingsw.utility.dto.DtoPosition;
 import it.polimi.ingsw.utility.dto.DtoSession;
 import it.polimi.ingsw.utility.enumerations.Action;
 import it.polimi.ingsw.utility.enumerations.Colors;
+import it.polimi.ingsw.utility.enumerations.Gods;
 import it.polimi.ingsw.utility.observer.Observer;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
@@ -61,6 +62,13 @@ public class BoardController extends GenericController implements Observer<DtoPo
     public BorderPane info3;
     @FXML
     public BorderPane godCard;
+    @FXML
+    public Label godNameLabel;
+    @FXML
+    public Label conditionLabel;
+    @FXML
+    public Label descriptionLabel;
+
     private boolean turnOwner = false;
     private Map<Action, List<DtoPosition>> possibleActions;
     private Action currentAction;
@@ -88,11 +96,18 @@ public class BoardController extends GenericController implements Observer<DtoPo
         // Chiaramente non sarà qui e non è solo on/off carta ma invocherà il metodo privato
         // che caricherà i label con i valori corretti (nome/effetto)
         playerGod.forEach(g -> {
-            g.setOnMouseEntered(event -> godCard.setVisible(true));
+            g.setOnMouseEntered(event -> showCard(g));
             g.setOnMouseExited(event -> godCard.setVisible(false));
         });
     }
 
+    private void showCard(BorderPane god){
+        String[] temp = Gods.valueOf(god.getId()).getDescription().split(":");
+        godCard.setVisible(true);
+        godNameLabel.setText(god.getId());
+        conditionLabel.setText(temp[0]);
+        descriptionLabel.setText(temp[1]);
+    }
 
     private void initLists() {
         playerSlot = new ArrayList<>(Arrays.asList(playerSlot1, playerSlot2, playerSlot3));
@@ -103,13 +118,21 @@ public class BoardController extends GenericController implements Observer<DtoPo
     }
 
 
+
     private void initFeatures() {
         initEndGame();
         actionButtons = new ArrayList<>(Arrays.asList(testButton, testButton1, testButton2));
-        actionButtons.forEach(b -> b.setOnMousePressed(event -> b.setId(b.getId() + "pressed")));
-        actionButtons.forEach(b -> b.setOnMouseReleased(event -> b.setId(b.getId().replace("pressed", ""))));
+        //actionButtons.forEach(b->b.setOnMousePressed(event -> toggleButton(b)));
+
         actionButtons.forEach(this::initFont);
         actionButtons.forEach(this::hideNode);
+    }
+
+    private void toggleButton(BorderPane button){
+        button.setId((button.getId().contains("pressed")) ? button.getId().replace("pressed", "") : button.getId() + "pressed");
+        if(button.getId().contains("pressed")){
+            actionButtons.stream().filter(b-> b != button).forEach(b-> b.setId((b.getId().contains("pressed")) ? b.getId().replace("pressed", "") : b.getId()));
+        }
     }
 
     private void initFont(BorderPane borderPane) {
@@ -193,8 +216,10 @@ public class BoardController extends GenericController implements Observer<DtoPo
         if (!c.isEmpty()) {
             Action dAction = c.get(c.size() - 1);
             currentAction = dAction;
+           // actionButtons.stream().filter(b->((Label) b.getChildren().get(0)).getText().equals(currentAction.toString())).forEach(b->b.setId(b.getId() + "pressed"));
             boardSubScene.showAnimations(dAction);
         }
+
     }
 
 
@@ -202,6 +227,7 @@ public class BoardController extends GenericController implements Observer<DtoPo
         ((Label) button.getChildren().get(0)).setText(action.toString());
         button.setOnMouseClicked(event -> {
             currentAction = action;
+            toggleButton(button);
             boardSubScene.showAnimations(action);
             if (possibleActions.get(action).isEmpty()) {
                 update(null);
