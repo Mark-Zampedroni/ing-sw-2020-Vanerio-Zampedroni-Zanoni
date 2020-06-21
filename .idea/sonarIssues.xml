@@ -43,6 +43,16 @@
             <set />
           </value>
         </entry>
+        <entry key="$PROJECT_DIR$/06_21_03-48-33.log">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/06_22_00-10-19.log">
+          <value>
+            <set />
+          </value>
+        </entry>
         <entry key="$PROJECT_DIR$/out/artifacts/ing_sw_2020_Vanerio_Zampedroni_Zanoni_client/ing-sw-2020-Vanerio-Zampedroni-Zanoni_client.jar!/it/polimi/ingsw/ClientApp.class">
           <value>
             <set />
@@ -1163,7 +1173,22 @@
             <set />
           </value>
         </entry>
+        <entry key="$PROJECT_DIR$/src/main/resources/obj/BuildingBlock01.fxml">
+          <value>
+            <set />
+          </value>
+        </entry>
         <entry key="$PROJECT_DIR$/src/main/resources/obj/BuildingBlock03.fxml">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/src/main/resources/obj/Dome.fxml">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/src/main/resources/obj/InnerWalls.fxml">
           <value>
             <set />
           </value>

@@ -93,8 +93,6 @@ public class BoardController extends GenericController implements Observer<DtoPo
         initFeatures();
         username = gui.getUsername();
 
-        // Chiaramente non sarà qui e non è solo on/off carta ma invocherà il metodo privato
-        // che caricherà i label con i valori corretti (nome/effetto)
         playerGod.forEach(g -> {
             g.setOnMouseEntered(event -> showCard(g));
             g.setOnMouseExited(event -> godCard.setVisible(false));
@@ -103,10 +101,12 @@ public class BoardController extends GenericController implements Observer<DtoPo
 
     private void showCard(BorderPane god){
         String[] temp = Gods.valueOf(god.getId()).getDescription().split(":");
-        godCard.setVisible(true);
-        godNameLabel.setText(god.getId());
-        conditionLabel.setText(temp[0]);
-        descriptionLabel.setText(temp[1]);
+        if (temp.length > 1) {
+            godCard.setVisible(true);
+            godNameLabel.setText(god.getId());
+            conditionLabel.setText(temp[0]);
+            descriptionLabel.setText(temp[1]);
+        }
     }
 
     private void initLists() {
@@ -114,25 +114,26 @@ public class BoardController extends GenericController implements Observer<DtoPo
         playerTurn = new ArrayList<>(Arrays.asList(currentPlayer1, currentPlayer2, currentPlayer3));
         playerGod = new ArrayList<>(Arrays.asList(godSlot1, godSlot2, godSlot3));
         playerSlot.forEach(this::initFont);
-        //initFont(playerTurn.get(playerSlot.indexOf(b)));
     }
-
-
 
     private void initFeatures() {
         initEndGame();
         actionButtons = new ArrayList<>(Arrays.asList(testButton, testButton1, testButton2));
-        //actionButtons.forEach(b->b.setOnMousePressed(event -> toggleButton(b)));
-
         actionButtons.forEach(this::initFont);
         actionButtons.forEach(this::hideNode);
     }
 
-    private void toggleButton(BorderPane button){
-        button.setId((button.getId().contains("pressed")) ? button.getId().replace("pressed", "") : button.getId() + "pressed");
-        if(button.getId().contains("pressed")){
-            actionButtons.stream().filter(b-> b != button).forEach(b-> b.setId((b.getId().contains("pressed")) ? b.getId().replace("pressed", "") : b.getId()));
-        }
+    private void toggleButton(BorderPane button) {
+        actionButtons.stream().filter(b -> b == button).findFirst().ifPresent(b -> b.setId(b.getId() + ((b.getId().contains("pressed") ? "" : "pressed"))));
+        actionButtons.stream().filter(b -> b != button).forEach(b -> b.setId(b.getId().replace("pressed", "")));
+    }
+
+    private void toggleButton(Action action) { // <--------- da sistemare quando si cambieranno le scritte dei tasti
+        actionButtons.stream().filter(b -> ((Label) b.getChildren().get(0)).getText().equals(action.toString().replace("_", " "))).findFirst().ifPresent(this::toggleButton);
+    }
+
+    private void removeToggle() {
+        actionButtons.forEach(b -> b.setId(b.getId().replace("pressed", "")));
     }
 
     private void initFont(BorderPane borderPane) {
@@ -216,7 +217,7 @@ public class BoardController extends GenericController implements Observer<DtoPo
         if (!c.isEmpty()) {
             Action dAction = c.get(c.size() - 1);
             currentAction = dAction;
-           // actionButtons.stream().filter(b->((Label) b.getChildren().get(0)).getText().equals(currentAction.toString())).forEach(b->b.setId(b.getId() + "pressed"));
+            toggleButton(dAction);
             boardSubScene.showAnimations(dAction);
         }
 
@@ -224,7 +225,7 @@ public class BoardController extends GenericController implements Observer<DtoPo
 
 
     private void updateButton(BorderPane button, Action action) {
-        ((Label) button.getChildren().get(0)).setText(action.toString());
+        ((Label) button.getChildren().get(0)).setText(action.toString().replace("_", " "));
         button.setOnMouseClicked(event -> {
             currentAction = action;
             toggleButton(button);
@@ -239,6 +240,7 @@ public class BoardController extends GenericController implements Observer<DtoPo
     @Override
     public void update(DtoPosition position) {
         if (turnOwner && currentAction != null && gui.validateAction(currentAction, position, possibleActions)) {
+            removeToggle();
             clearTurn();
         }
     }
@@ -260,13 +262,12 @@ public class BoardController extends GenericController implements Observer<DtoPo
 
 
     public void showLose(String playerName) {
-        /* aggiornamento board */
         boardSubScene.notifyLose(playerName);
+        /*
         if (gui.getUsername().equals(playerName)) {
             endgameScreen.setId("loser");
             endgameLabel.setText("You lost... \n" + playerName);
-        }
-        /* manca far sparire il nome dalla sidebar */
+        }*/
     }
 
     public void showWin(String playerName) {
