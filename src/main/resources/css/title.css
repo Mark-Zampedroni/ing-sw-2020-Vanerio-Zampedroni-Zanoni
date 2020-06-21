@@ -1,6 +1,6 @@
-.root { 
-   -fx-focus-color: transparent;
-   -fx-faint-focus-color: transparent;
+.root {
+    -fx-focus-color: transparent;
+    -fx-faint-focus-color: transparent;
 }
 
 .fullbackground {
@@ -13,19 +13,19 @@
 }
 
 #bodybg {
-	-fx-background-image: url("../Texture2D_sorted/Title/titleBack.png");
+    -fx-background-image: url("../Texture2D_sorted/Title/titleBack.png");
 }
 
 #labelBack {
-	-fx-background-image: url("../Texture2D_sorted/Backgrounds/clp_textbar.png");
+    -fx-background-image: url("../Texture2D_sorted/Backgrounds/clp_textbar.png");
 }
 
 #buttonBack {
-	-fx-background-image: url("../Texture2D_sorted/Pulsanti/button-play-normal.png");
+    -fx-background-image: url("../Texture2D_sorted/Pulsanti/button-play-normal.png");
 }
 
 #releasedStart {
-	-fx-background-image: url("../Texture2D_sorted/Pulsanti/button-play-normal.png");
+    -fx-background-image: url("../Texture2D_sorted/Pulsanti/button-play-normal.png");
 }
 
 #pressedStart {
@@ -45,7 +45,7 @@
 }
 
 #labelBar {
-	-fx-background-image: url("../Texture2D_sorted/Backgrounds/clp_textbarv3.png");
+    -fx-background-image: url("../Texture2D_sorted/Backgrounds/clp_textbarv3.png");
 }
 
 #buttonReleased {

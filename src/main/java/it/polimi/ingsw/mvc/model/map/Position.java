@@ -32,8 +32,8 @@ public class Position implements Serializable {
      * @param position {@link Position position} to compare
      * @return {@code true} if the coordinates match
      */
-    public boolean equals(Position position) {
-            return (x == position.getX() && y == position.getY());
+    public boolean isSameAs(Position position) {
+        return (x == position.getX() && y == position.getY());
     }
 
     /**
@@ -57,7 +57,7 @@ public class Position implements Serializable {
         int diagonal = Math.min(deltax, deltay);
         int straight = Math.max(deltax, deltay) - diagonal;
 
-        return (int)(diagonal * Math.sqrt(2) + straight);
+        return (int) (diagonal * Math.sqrt(2) + straight);
     }
 
     /**
@@ -66,9 +66,9 @@ public class Position implements Serializable {
      * @return the {@link Worker worker} on the same coordinates, null if none is found
      */
     public Worker getWorker() {
-        for(Player player : Session.getInstance().getPlayers()) {
-            for(Worker worker : player.getWorkers()) {
-                if(this.equals(worker.getPosition())) {
+        for (Player player : Session.getInstance().getPlayers()) {
+            for (Worker worker : player.getWorkers()) {
+                if (this.isSameAs(worker.getPosition())) {
                     return worker;
                 }
             }
@@ -83,7 +83,7 @@ public class Position implements Serializable {
      */
     @Override
     public String toString() {
-        return "("+x+","+y+")";
+        return "(" + x + "," + y + ")";
     }
 
     /**

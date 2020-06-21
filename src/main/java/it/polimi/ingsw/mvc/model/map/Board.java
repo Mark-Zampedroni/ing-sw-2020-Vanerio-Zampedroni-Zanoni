@@ -8,11 +8,10 @@ import java.io.Serializable;
  */
 public class Board implements Serializable {
 
-    public final int WIDTH = 5;
-    public final int HEIGHT = 5;
-
-    private final Tile[][] tiles = new Tile[WIDTH][HEIGHT];
+    public static final int WIDTH = 5;
+    public static final int HEIGHT = 5;
     private static final long serialVersionUID = 30756855033943045L;
+    private final Tile[][] tiles = new Tile[WIDTH][HEIGHT];
 
     /**
      * Initializes the board calling the method {@link #clear() clear}
@@ -25,8 +24,8 @@ public class Board implements Serializable {
      * Replaces all the {@link Tile tiles} in the board with new {@link Tile tiles}
      */
     public void clear() {
-        for (int x=0; x<WIDTH; x++) {
-            for (int y=0; y<HEIGHT; y++) {
+        for (int x = 0; x < WIDTH; x++) {
+            for (int y = 0; y < HEIGHT; y++) {
                 tiles[x][y] = new Tile();
             }
         }

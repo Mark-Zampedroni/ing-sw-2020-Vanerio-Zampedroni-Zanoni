@@ -6,13 +6,15 @@ import it.polimi.ingsw.mvc.model.player.Player;
 import it.polimi.ingsw.mvc.view.RemoteView;
 import it.polimi.ingsw.network.messages.Message;
 import it.polimi.ingsw.network.server.ServerConnection;
-import it.polimi.ingsw.utility.enumerations.GameState;
 import it.polimi.ingsw.utility.dto.DtoSession;
+import it.polimi.ingsw.utility.enumerations.GameState;
+import it.polimi.ingsw.utility.exceptions.utility.NotInstantiableClass;
 
-import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.List;
 import java.util.Map;
 import java.util.logging.Logger;
@@ -20,15 +22,20 @@ import java.util.stream.Collectors;
 
 public class ReloadGame {
 
-    private static SavedData savedData;
+    private static SaveData saveData;
     private static boolean isAlreadyLoaded;
 
-    public static boolean isRestartable() {
-        return (isAlreadyLoaded) || deserializeFile();
+    /**
+     * This class is not instantiable
+     *
+     * @throws NotInstantiableClass when instantiated
+     */
+    private ReloadGame() throws NotInstantiableClass {
+        throw new NotInstantiableClass();
     }
 
-    public static List<String> getInGamePlayersNames(){
-        return savedData.getSession().getPlayers().stream()
+    public static List<String> getInGamePlayersNames() {
+        return saveData.getSession().getPlayers().stream()
                 .filter(p -> !p.isLoser())
                 .map(Player::getUsername).collect(Collectors.toList());
     }
@@ -36,12 +43,11 @@ public class ReloadGame {
     private static boolean deserializeFile() {
         if (ServerApp.isFeature()) {
             String filename = "santorini.game.ser";
-            try {
-                FileInputStream file = new FileInputStream(filename);
-                ObjectInputStream input = new ObjectInputStream(file);
-                ReloadGame.savedData = (SavedData) input.readObject();
-                input.close();
-                file.close();
+            try (
+                    FileInputStream file = new FileInputStream(filename);
+                    ObjectInputStream input = new ObjectInputStream(file)
+            ) {
+                ReloadGame.saveData = (SaveData) input.readObject();
                 isAlreadyLoaded = true;
             } catch (IOException | ClassNotFoundException e) {
                 return false;
@@ -50,8 +56,8 @@ public class ReloadGame {
         return true;
     }
 
-    public static SavedData load() {
-        return savedData;
+    public static SaveData load() {
+        return saveData;
     }
 
     public static void setFinishedLoad() {
@@ -59,52 +65,55 @@ public class ReloadGame {
     }
 
     public static void reloadViews(SessionController controller, Map<String, ServerConnection> map, List<RemoteView> views, GameState state) {
-        for (String name : map.keySet()) {
-            map.get(name).putInLobby();
-            RemoteView view = new RemoteView(map.get(name));
-            view.register(name);
+        for (Map.Entry<String, ServerConnection> e : map.entrySet()) {
+            e.getValue().putInLobby();
+            RemoteView view = new RemoteView(e.getValue());
+            view.register(e.getKey());
             views.add(view);
-            if(state == GameState.GAME) { view.getFirstDTOSession(new DtoSession(savedData.getSession())); }
+            if (state == GameState.GAME) {
+                view.getFirstDTOSession(new DtoSession(saveData.getSession()));
+            }
             view.addObserver(controller);
-            savedData.getSession().getPlayers().stream()
+            saveData.getSession().getPlayers().stream()
                     .filter(p -> p.getRules() != null)
                     .forEach(p -> p.getRules().addObserver(view));
         }
     }
 
-    public static SessionController reloadConnection(SessionController sessionController, Map<String,ServerConnection> reconnecting, ServerConnection connection, Logger LOG, Message message) {
+    public static SessionController reloadConnection(SessionController sessionController, Map<String, ServerConnection> reconnecting, ServerConnection connection, Logger log, Message message) {
         SessionController newController = null;
-        if(!sessionController.isGameStarted() && ReloadGame.isRestartable()) {
+        if (!sessionController.isGameStarted() && ReloadGame.isRestartable()) {
             List<String> previousPlayers = ReloadGame.getInGamePlayersNames();
-            if(previousPlayers.contains(message.getSender()) && !reconnecting.containsKey(message.getSender())) {
-                newController = openIfFull(reconnecting,LOG,previousPlayers,connection,message);
+            if (previousPlayers.contains(message.getSender()) && !reconnecting.containsKey(message.getSender())) {
+                newController = openIfFull(reconnecting, log, previousPlayers, connection, message);
+            } else {
+                connection.denyReconnection(message.getSender(), "You are not a player of the game being loaded");
+                log.info(() -> "Unknown player " + message.getInfo() + " tried to reconnect to previous game");
             }
-            else {
-                connection.denyReconnection(message.getSender(),"You are not a player of the game being loaded");
-                LOG.info("Unknown player "+message.getInfo()+" tried to reconnect to previous game");
-            }
-        }
-        else {
-            connection.denyReconnection(message.getSender(),"No game files that can be loaded exist");
-            LOG.info("Player "+message.getInfo()+" tried to reconnect but no saved game exists");
+        } else {
+            connection.denyReconnection(message.getSender(), "No game files that can be loaded exist");
+            log.info(() -> "Player " + message.getInfo() + " tried to reconnect but no saved game exists");
         }
         return newController;
     }
 
-    private static SessionController openIfFull(Map<String,ServerConnection> reconnecting, Logger LOG, List<String> previousPlayers, ServerConnection connection, Message message) {
+    private static SessionController openIfFull(Map<String, ServerConnection> reconnecting, Logger log, List<String> previousPlayers, ServerConnection connection, Message message) {
         SessionController newController = null;
-        LOG.info("Player "+message.getSender()+" asked to reconnect to the previous game");
+        log.info(() -> "Player " + message.getSender() + " asked to reconnect to the previous game");
         reconnecting.put(message.getSender(), connection);
-        if(reconnecting.size() == previousPlayers.size()) {
-            newController = new SessionController(LOG,ReloadGame.load(),reconnecting);
+        if (reconnecting.size() == previousPlayers.size()) {
+            newController = new SessionController(log, ReloadGame.load(), reconnecting);
             ReloadGame.setFinishedLoad();
         }
         return newController;
     }
 
-    public static boolean clearSavedFile() {
-        File save = new File("santorini.game.ser");
-        return save.delete();
+    public static boolean isRestartable() {
+        return isAlreadyLoaded || deserializeFile();
+    }
+
+    public static void clearSavedFile() throws IOException {
+        Files.deleteIfExists(Paths.get("santorini.game.ser"));
     }
 
 }

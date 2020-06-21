@@ -24,7 +24,9 @@ public class DtoTile implements Serializable {
      *
      * @return {@code true} if the tile has a dome
      */
-    public boolean hasDome() { return dome; }
+    public boolean hasDome() {
+        return dome;
+    }
 
     /**
      * Gets the {@link it.polimi.ingsw.utility.constants.Height height}
@@ -42,6 +44,6 @@ public class DtoTile implements Serializable {
      */
     @Override
     public String toString() {
-        return "Tower, height: "+height+", dome: "+dome;
+        return "Tower, height: " + height + ", dome: " + dome;
     }
 }

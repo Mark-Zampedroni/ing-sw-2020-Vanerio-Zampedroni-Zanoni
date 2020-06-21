@@ -25,21 +25,22 @@ public enum Gods implements Serializable {
     HERA("Opponent's Turn: An opponent cannot win by moving into a perimeter space.");
 
     private final String description;
-    Gods (String description){
+
+    Gods(String description) {
         this.description = description;
     }
 
-    public String getDescription(){
-        return description;
-    }
-
     public static List<String> getGodsStringList() {
-        return new ArrayList<>(Arrays.asList("APOLLO","ARTEMIS","ATHENA","ATLAS","DEMETER","HEPHAESTUS","MINOTAUR",
-                "PAN","PROMETHEUS","ZEUS","TRITON","POSEIDON","HESTIA","HERA"));
+        return new ArrayList<>(Arrays.asList("APOLLO", "ARTEMIS", "ATHENA", "ATLAS", "DEMETER", "HEPHAESTUS", "MINOTAUR",
+                "PAN", "PROMETHEUS", "ZEUS", "TRITON", "POSEIDON", "HESTIA", "HERA"));
     }
 
     public static boolean isValid(String god) {
         List<String> valid = getGodsStringList();
         return valid.contains(god);
+    }
+
+    public String getDescription() {
+        return description;
     }
 }

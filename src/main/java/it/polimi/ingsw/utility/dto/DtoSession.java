@@ -6,6 +6,7 @@ import it.polimi.ingsw.mvc.model.player.Player;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * DTO copy of the class {@link Session Session}
@@ -23,21 +24,20 @@ public class DtoSession implements Serializable {
      */
     public DtoSession(Session session) {
         workers = new ArrayList<>();
-        for(Player p : session.getPlayers()) {
+        for (Player p : session.getPlayers()) {
             p.getWorkers().forEach(w -> workers.add(new DtoWorker(w)));
         }
 
         board = new DtoBoard(session.getBoard());
-        }
+    }
 
     /**
      * Getter for the list of the {@link DtoWorker workers}
      *
      * @return a shallow copy of the {@link DtoWorker workers} list
      */
-    @SuppressWarnings("unchecked")
-    public ArrayList<DtoWorker> getWorkers() {
-        return (ArrayList<DtoWorker>) workers.clone();
+    public List<DtoWorker> getWorkers() {
+        return new ArrayList<>(workers);
     }
 
     /**
@@ -55,17 +55,21 @@ public class DtoSession implements Serializable {
     @Override
     public String toString() {
         StringBuilder b = new StringBuilder();
-        if(board != null) {
+        if (board != null) {
             b.append(board.toString());
         }
         workers.forEach(w -> b.append(w).append("\n"));
-        if(workers.isEmpty()) { b.append("No workers on board\n"); }
+        if (workers.isEmpty()) {
+            b.append("No workers on board\n");
+        }
         return b.toString();
     }
 
     public String getWorkerMasterOn(int x, int y) {
-        for(DtoWorker worker : workers) {
-            if(worker.isOn(x,y)) { return worker.getMasterUsername(); }
+        for (DtoWorker worker : workers) {
+            if (worker.isOn(x, y)) {
+                return worker.getMasterUsername();
+            }
         }
         return null;
     }

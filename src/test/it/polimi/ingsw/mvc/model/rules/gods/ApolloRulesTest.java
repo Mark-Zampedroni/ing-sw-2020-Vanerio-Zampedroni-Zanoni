@@ -1,14 +1,14 @@
 package it.polimi.ingsw.mvc.model.rules.gods;
 
-import it.polimi.ingsw.mvc.model.Setupper;
-import it.polimi.ingsw.utility.enumerations.Colors;
-import it.polimi.ingsw.utility.enumerations.Gods;
-import it.polimi.ingsw.utility.exceptions.actions.CantActException;
 import it.polimi.ingsw.mvc.model.Session;
+import it.polimi.ingsw.mvc.model.Setupper;
 import it.polimi.ingsw.mvc.model.map.Position;
 import it.polimi.ingsw.mvc.model.player.Player;
 import it.polimi.ingsw.mvc.model.player.Worker;
 import it.polimi.ingsw.mvc.model.rules.GodRules;
+import it.polimi.ingsw.utility.enumerations.Colors;
+import it.polimi.ingsw.utility.enumerations.Gods;
+import it.polimi.ingsw.utility.exceptions.actions.CantActException;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -58,12 +58,12 @@ class ApolloRulesTest {
 
     @Test
     void executeMove() {
-        worker.setPosition(2,2);
+        worker.setPosition(2, 2);
         Position oldPosition = worker.getPosition();
-        opponent.getWorkers().get(0).setPosition(2,3);
+        opponent.getWorkers().get(0).setPosition(2, 3);
         Position position = opponent.getWorkers().get(0).getPosition();
-        player.getRules().executeMove(worker, new Position(2,3));
-        assertTrue(opponent.getWorkers().get(0).getPosition().equals(oldPosition));
-        assertTrue(worker.getPosition().equals(position));
+        player.getRules().executeMove(worker, new Position(2, 3));
+        assertTrue(opponent.getWorkers().get(0).getPosition().isSameAs(oldPosition));
+        assertTrue(worker.getPosition().isSameAs(position));
     }
 }

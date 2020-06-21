@@ -72,39 +72,6 @@
                      </GridPane>
                </center>
             </BorderPane>
-            <BorderPane pickOnBounds="false" prefHeight="1.0" prefWidth="1.0" GridPane.columnIndex="6">
-               <center>
-                     <GridPane pickOnBounds="false" BorderPane.alignment="CENTER">
-                         <columnConstraints>
-                             <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                             <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                             <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                         </columnConstraints>
-                         <rowConstraints>
-                             <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                             <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                             <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                             <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                             <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                             <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                             <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                         </rowConstraints>
-                        <children>
-                            <BorderPane pickOnBounds="false" prefHeight="50.0" prefWidth="50.0" GridPane.columnIndex="2" GridPane.columnSpan="2" GridPane.rowSpan="2">
-                                <center>
-                                    <Button id="musicOff" fx:id="musicButton" mnemonicParsing="false" onMousePressed="#handleMusic" prefHeight="60.0" prefWidth="66.0" textFill="WHITE" BorderPane.alignment="CENTER">
-                                        <styleClass>
-                                            <String fx:value="fullbackground" />
-                                            <String fx:value="invisiblebackground" />
-                                        </styleClass>
-                                    </Button>
-                                </center>
-                            </BorderPane>
-                        </children>
-                     </GridPane>
-               </center>
-            </BorderPane>
             <BorderPane pickOnBounds="false" prefHeight="1.0" prefWidth="1.0" GridPane.columnSpan="7" GridPane.rowIndex="1">
                <center>
                      <GridPane pickOnBounds="false" snapToPixel="false" BorderPane.alignment="CENTER">
@@ -215,7 +182,7 @@
                      <children>
                         <BorderPane pickOnBounds="false" prefHeight="50.0" prefWidth="50.0" GridPane.columnIndex="1" GridPane.columnSpan="2" GridPane.rowSpan="2">
                            <center>
-                              <Button id="fullscreenbutton" fx:id="fullScreenButton" mnemonicParsing="false" onMousePressed="#handleMusic" prefHeight="60.0" prefWidth="66.0" textFill="WHITE" BorderPane.alignment="CENTER">
+                              <Button id="fullscreenbutton" fx:id="fullScreenButton" mnemonicParsing="false" prefHeight="60.0" prefWidth="66.0" textFill="WHITE" BorderPane.alignment="CENTER">
                                  <styleClass>
                                     <String fx:value="fullbackground" />
                                     <String fx:value="invisiblebackground" />

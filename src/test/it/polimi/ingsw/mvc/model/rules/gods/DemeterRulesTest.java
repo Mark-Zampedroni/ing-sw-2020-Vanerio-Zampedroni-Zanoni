@@ -1,22 +1,22 @@
 package it.polimi.ingsw.mvc.model.rules.gods;
 
+import it.polimi.ingsw.mvc.model.Session;
 import it.polimi.ingsw.mvc.model.Setupper;
+import it.polimi.ingsw.mvc.model.map.Position;
+import it.polimi.ingsw.mvc.model.player.Player;
+import it.polimi.ingsw.mvc.model.player.Worker;
 import it.polimi.ingsw.mvc.model.rules.GodRules;
 import it.polimi.ingsw.utility.enumerations.Action;
 import it.polimi.ingsw.utility.enumerations.Colors;
 import it.polimi.ingsw.utility.enumerations.Gods;
 import it.polimi.ingsw.utility.exceptions.actions.CantActException;
-import it.polimi.ingsw.mvc.model.Session;
-import static org.junit.jupiter.api.Assertions.*;
-
-import it.polimi.ingsw.mvc.model.player.Player;
-import it.polimi.ingsw.mvc.model.map.Position;
-import it.polimi.ingsw.mvc.model.player.Worker;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 class DemeterRulesTest {
     private Player player;
@@ -58,8 +58,8 @@ class DemeterRulesTest {
         Position position = new Position(1,2);
         assert test != null;
         test.executeBuild(position);
-        assertTrue(position.equals(test.getPos()));
-        assertEquals(Session.getInstance().getBoard().getTile(position).getHeight(),1);
+        assertTrue(position.isSameAs(test.getPos()));
+        assertEquals(Session.getInstance().getBoard().getTile(position).getHeight(), 1);
     }
 
     @Test

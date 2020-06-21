@@ -1,16 +1,16 @@
 package it.polimi.ingsw.mvc.model.rules;
 
-import it.polimi.ingsw.mvc.model.rules.gods.*;
-import it.polimi.ingsw.utility.enumerations.Gods;
-import it.polimi.ingsw.utility.dto.DtoSession;
-import it.polimi.ingsw.utility.enumerations.Action;
-import it.polimi.ingsw.utility.exceptions.actions.CantActException;
 import it.polimi.ingsw.mvc.model.Session;
 import it.polimi.ingsw.mvc.model.map.Board;
-import it.polimi.ingsw.mvc.model.map.Tile;
 import it.polimi.ingsw.mvc.model.map.Position;
+import it.polimi.ingsw.mvc.model.map.Tile;
 import it.polimi.ingsw.mvc.model.player.Player;
 import it.polimi.ingsw.mvc.model.player.Worker;
+import it.polimi.ingsw.mvc.model.rules.gods.*;
+import it.polimi.ingsw.utility.dto.DtoSession;
+import it.polimi.ingsw.utility.enumerations.Action;
+import it.polimi.ingsw.utility.enumerations.Gods;
+import it.polimi.ingsw.utility.exceptions.actions.CantActException;
 import it.polimi.ingsw.utility.observer.Observable;
 
 import java.io.Serializable;
@@ -28,6 +28,47 @@ public abstract class GodRules extends Observable<DtoSession> implements Seriali
 
     private static final long serialVersionUID = 5054362736166633442L;
     protected Position oldPosition;
+
+    /**
+     * Method for instantiating the rules of a specific {@link Gods god}
+     *
+     * @param god the god selected
+     * @return an instance of the associated {@link GodRules rules}
+     */
+    public static GodRules getInstance(Gods god) {
+        switch (god) {
+            case APOLLO:
+                return new ApolloRules();
+            case ARTEMIS:
+                return new ArtemisRules();
+            case ATHENA:
+                return new AthenaRules();
+            case ATLAS:
+                return new AtlasRules();
+            case DEMETER:
+                return new DemeterRules();
+            case HEPHAESTUS:
+                return new HephaestusRules();
+            case MINOTAUR:
+                return new MinotaurRules();
+            case PAN:
+                return new PanRules();
+            case PROMETHEUS:
+                return new PrometheusRules();
+            case ZEUS:
+                return new ZeusRules();
+            case TRITON:
+                return new TritonRules();
+            case POSEIDON:
+                return new PoseidonRules();
+            case HESTIA:
+                return new HestiaRules();
+            case HERA:
+                return new HeraRules();
+            default:
+                return null;
+        }
+    }
 
     /**
      * Getter for the list of {@link GodRules rules} that modify the conditions for the player
@@ -54,7 +95,7 @@ public abstract class GodRules extends Observable<DtoSession> implements Seriali
     /**
      * Adds a worker of a player in a specific position of the board
      *
-     * @param player {@link Player player} the player
+     * @param player   {@link Player player} the player
      * @param position {@link Position position} the {@link Worker worker} will placed
      */
     public void executeAdd(Player player, Position position) {
@@ -125,7 +166,7 @@ public abstract class GodRules extends Observable<DtoSession> implements Seriali
     /**
      * Checks if by the rules it's physically possible to perform a select {@link Action action}
      *
-     * @param worker worker the {@link it.polimi.ingsw.mvc.model.player.Player player} wants to select
+     * @param worker   worker the {@link it.polimi.ingsw.mvc.model.player.Player player} wants to select
      * @param username player that is currently active
      * @throws CantActException when the worker can't be selected
      */
@@ -176,7 +217,7 @@ public abstract class GodRules extends Observable<DtoSession> implements Seriali
      */
     public boolean isWinner(Worker worker, Position position) {
         Board board = Session.getInstance().getBoard();
-        return ((board.getTile(oldPosition).getHeight() == MID && board.getTile(position).getHeight() == TOP));
+        return (board.getTile(oldPosition).getHeight() == MID && board.getTile(position).getHeight() == TOP);
     }
 
     /**
@@ -226,47 +267,6 @@ public abstract class GodRules extends Observable<DtoSession> implements Seriali
             }
         }
         return false;
-    }
-
-    /**
-     * Method for instantiating the rules of a specific {@link Gods god}
-     *
-     * @param god the god selected
-     * @return an instance of the associated {@link GodRules rules}
-     */
-    public static GodRules getInstance(Gods god) {
-        switch (god) {
-            case APOLLO:
-                return new ApolloRules();
-            case ARTEMIS:
-                return new ArtemisRules();
-            case ATHENA:
-                return new AthenaRules();
-            case ATLAS:
-                return new AtlasRules();
-            case DEMETER:
-                return new DemeterRules();
-            case HEPHAESTUS:
-                return new HephaestusRules();
-            case MINOTAUR:
-                return new MinotaurRules();
-            case PAN:
-                return new PanRules();
-            case PROMETHEUS:
-                return new PrometheusRules();
-            case ZEUS:
-                return new ZeusRules();
-            case TRITON:
-                return new TritonRules();
-            case POSEIDON:
-                return new PoseidonRules();
-            case HESTIA:
-                return new HestiaRules();
-            case HERA:
-                return new HeraRules();
-            default:
-                return null;
-        }
     }
 
     /**

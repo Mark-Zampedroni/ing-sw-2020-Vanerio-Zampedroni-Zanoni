@@ -6,14 +6,15 @@
 
 <?import javafx.scene.shape.MeshView?>
 <?import javafx.scene.shape.TriangleMesh?>
-
 <MeshView id="Board_0" cullFace="BACK" drawMode="FILL">
-  <mesh>
-    <TriangleMesh>
-      <points>-6.334152 4.645857E-8 -6.334151 6.334151 -2.587172E-7 6.33415 -6.33415 -2.587172E-7 6.334151 6.334151 4.645857E-8 -6.334151</points>
-      <texCoords>0.260324 0.26000857 0.7352203 0.7349049 0.7352203 0.2600085 0.260324 0.73490477</texCoords>
-      <faces>0 0 1 1 2 2 0 0 3 3 1 1</faces>
-      <faceSmoothingGroups>1 1</faceSmoothingGroups>
-    </TriangleMesh>
-  </mesh>
+    <mesh>
+        <TriangleMesh>
+            <points>-6.334152 4.645857E-8 -6.334151 6.334151 -2.587172E-7 6.33415 -6.33415 -2.587172E-7 6.334151
+                6.334151 4.645857E-8 -6.334151
+            </points>
+            <texCoords>0.260324 0.26000857 0.7352203 0.7349049 0.7352203 0.2600085 0.260324 0.73490477</texCoords>
+            <faces>0 0 1 1 2 2 0 0 3 3 1 1</faces>
+            <faceSmoothingGroups>1 1</faceSmoothingGroups>
+        </TriangleMesh>
+    </mesh>
 </MeshView>

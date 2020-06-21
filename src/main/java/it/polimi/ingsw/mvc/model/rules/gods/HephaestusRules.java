@@ -19,7 +19,7 @@ public class HephaestusRules extends DemeterRules implements Serializable {
      * Checks if by the rules it's physically possible to perform a build {@link Action action},
      * for the second build you have to build in the previous position
      *
-     * @param worker worker that wants to build
+     * @param worker   worker that wants to build
      * @param position position where the worker wants to build
      * @throws CantActException when the worker can't build
      */

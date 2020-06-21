@@ -1,6 +1,7 @@
 package it.polimi.ingsw.mvc.view.gui.objects3D.utils;
 
 import it.polimi.ingsw.mvc.view.gui.objects3D.TrackedGroup;
+import it.polimi.ingsw.utility.exceptions.utility.NotInstantiableClass;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.image.Image;
@@ -12,6 +13,15 @@ import java.io.IOException;
 public class NodeOperation {
 
     public final static double TILES_OFFSET = 6.315;
+
+    /**
+     * This class is for utility and not instantiable
+     *
+     * @throws NotInstantiableClass when instantiated
+     */
+    private NodeOperation() throws NotInstantiableClass {
+        throw new NotInstantiableClass();
+    }
 
     public static void setScale(Node node, double factor) {
         node.setScaleX(node.getScaleX() * factor);
@@ -27,7 +37,7 @@ public class NodeOperation {
 
     public static Node getModel(String objRelativePath, String textureRelativePath) throws IOException {
         MeshView model = FXMLLoader.load(NodeOperation.class.getResource(objRelativePath));
-        if(textureRelativePath != null) {
+        if (textureRelativePath != null) {
             PhongMaterial texture = new PhongMaterial();
             texture.setDiffuseMap(new Image(textureRelativePath, true));
             model.setMaterial(texture);
@@ -48,8 +58,8 @@ public class NodeOperation {
     }
 
     public static void putOnCorrectTile(TrackedGroup node, BoardCoords3D coords) {
-        node.setTranslateX(node.getZeroX() + TILES_OFFSET*coords.getValueX());
-        node.setTranslateZ(node.getZeroZ() - TILES_OFFSET*coords.getValueY());
+        node.setTranslateX(node.getZeroX() + TILES_OFFSET * coords.getValueX());
+        node.setTranslateZ(node.getZeroZ() - TILES_OFFSET * coords.getValueY());
         node.setFloor(coords.getValueZ());
     }
 

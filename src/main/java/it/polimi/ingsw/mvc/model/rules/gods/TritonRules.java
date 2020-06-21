@@ -1,9 +1,9 @@
 package it.polimi.ingsw.mvc.model.rules.gods;
 
-import it.polimi.ingsw.utility.enumerations.Action;
 import it.polimi.ingsw.mvc.model.map.Position;
 import it.polimi.ingsw.mvc.model.player.Worker;
 import it.polimi.ingsw.mvc.model.rules.EventRules;
+import it.polimi.ingsw.utility.enumerations.Action;
 
 import java.io.Serializable;
 import java.util.List;
@@ -18,7 +18,7 @@ public class TritonRules extends EventRules implements Serializable {
     /**
      * Executes a {@link Action movement}, if it's on a boundary tile triggers the god's event
      *
-     * @param worker selected {@link Worker worker}
+     * @param worker   selected {@link Worker worker}
      * @param position {@link Position position} the {@link Worker worker} will move to
      */
     @Override
@@ -36,7 +36,7 @@ public class TritonRules extends EventRules implements Serializable {
     @Override
     public List<Action> afterMove() {
         List<Action> actions = super.afterMove();
-        if(getEvent()) {
+        if (getEvent()) {
             actions.add(Action.MOVE);
         }
         return actions;

@@ -1,16 +1,12 @@
 package it.polimi.ingsw.mvc.controller.states;
 
-import it.polimi.ingsw.mvc.controller.states.actionControl.ActionController;
-
 import it.polimi.ingsw.mvc.model.Session;
 import it.polimi.ingsw.mvc.model.map.Position;
 import it.polimi.ingsw.mvc.model.player.Player;
 import it.polimi.ingsw.mvc.model.player.Worker;
-
-import it.polimi.ingsw.mvc.model.rules.gods.*;
+import it.polimi.ingsw.mvc.model.rules.gods.PanRules;
 import it.polimi.ingsw.utility.enumerations.Action;
 import it.polimi.ingsw.utility.enumerations.Colors;
-
 import it.polimi.ingsw.utility.exceptions.actions.WrongActionException;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -19,7 +15,8 @@ import org.junit.jupiter.api.Test;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public class ActionControllerTest {
@@ -66,11 +63,11 @@ public class ActionControllerTest {
                 List<Position> temp;
                 temp = fullListMoveBuild();
                 for (int i = 0; i < temp.size(); i++) {
-                        assertTrue(actionController.getCandidates(worker, Action.MOVE).get(i).equals(temp.get(i)));
+                        assertTrue(actionController.getCandidates(worker, Action.MOVE).get(i).isSameAs(temp.get(i)));
                 }
                 Session.getInstance().getBoard().getTile(new Position(1, 2)).putDome();
                 for (int i = 1; i < temp.size(); i++) {
-                        assertTrue(actionController.getCandidates(worker, Action.BUILD).get(i - 1).equals(temp.get(i)));
+                        assertTrue(actionController.getCandidates(worker, Action.BUILD).get(i - 1).isSameAs(temp.get(i)));
                 }
         }
 
@@ -80,13 +77,13 @@ public class ActionControllerTest {
                 temp = fullListAddSelect();
 
                 for (int i = 0; i < temp.size(); i++) {
-                        assertTrue(actionController.getCandidates(player.getWorkers().get(0), Action.ADD_WORKER).get(i).equals(temp.get(i)));
+                        assertTrue(actionController.getCandidates(player.getWorkers().get(0), Action.ADD_WORKER).get(i).isSameAs(temp.get(i)));
                 }
                 temp = new ArrayList<>();
                 temp.add(new Position(2,2));
                 temp.add(new Position(3,4));
                 for (int i = 0; i < temp.size(); i++) {
-                        assertTrue(actionController.getCandidates(player.getWorkers().get(0), Action.SELECT_WORKER).get(i).equals(temp.get(i)));
+                        assertTrue(actionController.getCandidates(player.getWorkers().get(0), Action.SELECT_WORKER).get(i).isSameAs(temp.get(i)));
                 }
         }
 
@@ -94,12 +91,12 @@ public class ActionControllerTest {
         void actMoveBuildTest() {
                 try {
                         assertEquals(actionController.act(player.getWorkers().get(0), new Position(2, 3), Action.MOVE).get(0),
-                                        Action.BUILD);
-                        assertTrue(player.getWorkers().get(0).getPosition().equals(new Position(2,3)));
+                                Action.BUILD);
+                        assertTrue(player.getWorkers().get(0).getPosition().isSameAs(new Position(2, 3)));
                         setWinCon();
                         assertEquals(actionController.act(player.getWorkers().get(1), new Position(4, 4), Action.MOVE).get(0),
                                 Action.WIN);
-                        assertTrue(player.getWorkers().get(1).getPosition().equals(new Position(4,4)));
+                        assertTrue(player.getWorkers().get(1).getPosition().isSameAs(new Position(4, 4)));
                         assertEquals(actionController.act(player.getWorkers().get(0), new Position(2, 4), Action.BUILD).get(0),
                                 Action.END_TURN);
                         assertEquals(Session.getInstance().getBoard().getTile(new Position(2,4)).getHeight(), 1);

@@ -1,6 +1,6 @@
-.root { 
-   -fx-focus-color: transparent;
-   -fx-faint-focus-color: transparent;
+.root {
+    -fx-focus-color: transparent;
+    -fx-faint-focus-color: transparent;
 }
 
 .fullbackground {
@@ -13,11 +13,11 @@
 }
 
 #bodybg {
-	-fx-background-image: url("../Texture2D_sorted/Backgrounds/bggod.png");
+    -fx-background-image: url("../Texture2D_sorted/Backgrounds/bggod.png");
 }
 
 #labelBack {
-	-fx-background-image: url("../Texture2D_sorted/Backgrounds/popupnoborder.png");
+    -fx-background-image: url("../Texture2D_sorted/Backgrounds/popupnoborder.png");
 }
 
 #buttonReleased {
@@ -26,6 +26,4 @@
 
 #buttonPressed {
     -fx-background-image: url("../Texture2D_sorted/Pulsanti/btn_blue_pressed.png");
-}
-
 }

@@ -1,6 +1,6 @@
-.root { 
-   -fx-focus-color: transparent;
-   -fx-faint-focus-color: transparent;
+.root {
+    -fx-focus-color: transparent;
+    -fx-faint-focus-color: transparent;
 }
 
 .fullbackground {
@@ -17,34 +17,34 @@
 }
 
 #selectbutton:disabled {
-  -fx-opacity: 1.0 ;
-  -fx-background-image: url("../Texture2D_sorted/Pulsanti/btn_small_gray.png");
+    -fx-opacity: 1.0;
+    -fx-background-image: url("../Texture2D_sorted/Pulsanti/btn_small_gray.png");
 }
 
 #selectbuttonpressed {
     -fx-background-image: url("../Texture2D_sorted/Pulsanti/btn_blue_pressed.png");
 }
 
-#cardBackground{
+#cardBackground {
     -fx-background-image: url("../Texture2D_sorted/Backgrounds/PlayerUIPanel2v4.png");
 }
 
-#godBackground{
+#godBackground {
     -fx-background-image: url("../Texture2D_sorted/Backgrounds/PlayerUIPanel2v5.png");
 }
 
 #labelBack {
-	-fx-background-image: url("../Texture2D_sorted/Backgrounds/popupnoborder.png");
+    -fx-background-image: url("../Texture2D_sorted/Backgrounds/popupnoborder.png");
 }
 
-#godNameLabel{
-	-fx-background-image: url("../Texture2D_sorted/Backgrounds/godnametag.png");
+#godNameLabel {
+    -fx-background-image: url("../Texture2D_sorted/Backgrounds/godnametag.png");
     -fx-font-size: 22;
     -fx-text-fill: white;
     -fx-alignment: center;
 }
 
-#playerNameLabel{
+#playerNameLabel {
     -fx-background-image: url("../Texture2D_sorted/Backgrounds/om_nameTagActiveGreen.png");
     -fx-font-size: 13;
 }
@@ -61,20 +61,19 @@
     -fx-background-image: url("../Texture2D_sorted/Backgrounds/bggod.png");
 }
 
-#descriptionLabel{
+#descriptionLabel {
     -fx-font-size: 15;
     -fx-text-alignment: center;
     -fx-wrap-text: true;
     -fx-text-fill: black;
 }
-#conditionLabel{
+
+#conditionLabel {
     -fx-font-size: 19;
     -fx-alignment: center;
     -fx-text-alignment: center;
     -fx-text-fill: black;
 }
-
-
 
 
 #playerbuttonpressed {
@@ -85,7 +84,7 @@
     -fx-background-image: url("../Texture2D_sorted/Pulsanti/btn_green.png");
 }
 
-#actionlabel{
+#actionlabel {
     -fx-font-size: 17;
     -fx-font-weight: bold;
 }

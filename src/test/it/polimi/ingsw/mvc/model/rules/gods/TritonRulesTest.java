@@ -1,14 +1,14 @@
 package it.polimi.ingsw.mvc.model.rules.gods;
 
+import it.polimi.ingsw.mvc.model.Session;
 import it.polimi.ingsw.mvc.model.Setupper;
+import it.polimi.ingsw.mvc.model.map.Position;
+import it.polimi.ingsw.mvc.model.player.Player;
+import it.polimi.ingsw.mvc.model.player.Worker;
 import it.polimi.ingsw.mvc.model.rules.GodRules;
 import it.polimi.ingsw.utility.enumerations.Action;
 import it.polimi.ingsw.utility.enumerations.Colors;
 import it.polimi.ingsw.utility.enumerations.Gods;
-import it.polimi.ingsw.mvc.model.Session;
-import it.polimi.ingsw.mvc.model.player.Player;
-import it.polimi.ingsw.mvc.model.map.Position;
-import it.polimi.ingsw.mvc.model.player.Worker;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -43,12 +43,12 @@ class TritonRulesTest {
         Position position = new Position(0,2);
         assert test != null;
         test.executeMove(worker, position);
-        assertTrue(position.equals(worker.getPosition()));
+        assertTrue(position.isSameAs(worker.getPosition()));
         assertTrue(test.getEvent());
 
         position = new Position (3,3);
         test.executeMove(worker, position);
-        assertTrue(position.equals(worker.getPosition()));
+        assertTrue(position.isSameAs(worker.getPosition()));
         assertFalse(test.getEvent());
     }
 

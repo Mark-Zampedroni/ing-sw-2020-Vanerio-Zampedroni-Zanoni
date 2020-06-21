@@ -8,49 +8,14 @@ import javafx.geometry.Insets;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
-import javafx.scene.layout.*;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.GridPane;
+import javafx.scene.layout.Pane;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class ChallengerSelectionController extends GenericController {
-
-    private class GodWindow extends GridPane {
-
-        private Pane god;
-        private Pane border;
-
-        public GodWindow(String godName) {
-            initBorder();
-            initGodPane(godName);
-            GenericController.addColumns(this,1);
-            GenericController.addRows(this,1);
-            this.add(god,0,0);
-            this.add(border,0,0);
-        }
-
-        private void initBorder() {
-            border = new Pane();
-            border.getStyleClass().add("fullbackground");
-            border.setId("whiteborder");
-        }
-
-        private void initGodPane(String godName) {
-            god = new Pane();
-            god.getStyleClass().add("fullbackground");
-            GridPane.setMargin(god, new Insets(5,5,5,5));
-            god.setId(godName);
-        }
-
-        public void setCornice(String id) {
-            border.setId(id);
-        }
-
-        public String getGod() {
-            return god.getId();
-        }
-
-    }
 
     @FXML
     public Button selectButton;
@@ -76,9 +41,7 @@ public class ChallengerSelectionController extends GenericController {
     public GridPane selectedGrid;
     @FXML
     public Label selectedNameLabel;
-
     private int godRow, godColumn;
-
     private String selectedGod;
     private List<String> chosenGods = new ArrayList<>(); // Una volta collegato al resto sarà null
 
@@ -88,7 +51,7 @@ public class ChallengerSelectionController extends GenericController {
         initSelectionButton();
         initSelectLabel();
         initFonts();
-        BoardScene.startBoardLoad(gui.getPlayers(), gui.LOG);
+        BoardScene.startBoardLoad(gui.getPlayers(), gui.log);
     }
 
     private void initFonts() {
@@ -121,11 +84,11 @@ public class ChallengerSelectionController extends GenericController {
     }
 
     private void loadGods() {
-        for(String godName : Gods.getGodsStringList()) {
+        for (String godName : Gods.getGodsStringList()) {
             GodWindow godWindow = new GodWindow(godName);
-            godsGrid.add(godWindow,godColumn,godRow);
-            godRow = (godColumn == 2) ? godRow+1 : godRow;
-            godColumn = (godColumn == 2) ? 0 : godColumn+1;
+            godsGrid.add(godWindow, godColumn, godRow);
+            godRow = (godColumn == 2) ? godRow + 1 : godRow;
+            godColumn = (godColumn == 2) ? 0 : godColumn + 1;
             addGodClickEvent(godWindow);
         }
         godsGrid.getChildren().removeIf(c -> !(c instanceof GodWindow));
@@ -148,10 +111,10 @@ public class ChallengerSelectionController extends GenericController {
         selectButton.setDisable(chosenGods.contains(selectedGod));
     }
 
-    private void displayDescription(String godName){
+    private void displayDescription(String godName) {
         godNameBanner.setText(godName);
         String[] temp = Gods.valueOf(godName).getDescription().split(":");
-        conditionLabel.setText("Effect ("+temp[0]+")");
+        conditionLabel.setText("Effect (" + temp[0] + ")");
         descriptionLabel.setText(temp[1]);
     }
 
@@ -173,13 +136,13 @@ public class ChallengerSelectionController extends GenericController {
     private void setChallengerInfo() {
         selectButtonChange(selectedGod);
         challengerLabel.setText("You are the challenger.");
-        infoLabel.setText("Choose "+gui.getNumberOfPlayers()+" gods, everyone will select their from the ones you choose. You will be the last one to select yours.");
+        infoLabel.setText("Choose " + gui.getNumberOfPlayers() + " gods, everyone will select their from the ones you choose. You will be the last one to select yours.");
     }
 
     private void setOthersInfo() {
         hideNode(selectButton);
         challengerLabel.setText("You are not the challenger.");
-        infoLabel.setText("Wait while the challenger chooses "+gui.getNumberOfPlayers()+" gods! Everyone will select their own from the ones chosen by the challenger.");
+        infoLabel.setText("Wait while the challenger chooses " + gui.getNumberOfPlayers() + " gods! Everyone will select their own from the ones chosen by the challenger.");
     }
 
     private void loadSelectedGods(List<String> chosenGods) {
@@ -188,12 +151,49 @@ public class ChallengerSelectionController extends GenericController {
                 .forEach(newGod -> {
                     GodWindow newWindow = new GodWindow(newGod);
                     newWindow.setCornice("yellowborder");
-                    selectedGrid.add(newWindow,chosenGods.size()-1,0);
+                    selectedGrid.add(newWindow, chosenGods.size() - 1, 0);
                 });
-        if(chosenGods.size() > 0) {
+        if (chosenGods.size() > 0) {
             hideNode(emptySelectedLabel);
         }
         this.chosenGods = chosenGods;
+    }
+
+    private class GodWindow extends GridPane {
+
+        private Pane god;
+        private Pane border;
+
+        public GodWindow(String godName) {
+            initBorder();
+            initGodPane(godName);
+            GenericController.addColumns(this, 1);
+            GenericController.addRows(this, 1);
+            this.add(god, 0, 0);
+            this.add(border, 0, 0);
+        }
+
+        private void initBorder() {
+            border = new Pane();
+            border.getStyleClass().add("fullbackground");
+            border.setId("whiteborder");
+        }
+
+        private void initGodPane(String godName) {
+            god = new Pane();
+            god.getStyleClass().add("fullbackground");
+            GridPane.setMargin(god, new Insets(5, 5, 5, 5));
+            god.setId(godName);
+        }
+
+        public void setCornice(String id) {
+            border.setId(id);
+        }
+
+        public String getGod() {
+            return god.getId();
+        }
+
     }
 
 }

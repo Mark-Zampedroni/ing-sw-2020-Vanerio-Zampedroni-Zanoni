@@ -24,6 +24,10 @@ public class Gui extends Application {
         return instance;
     }
 
+    protected static Stage getStage() {
+        return stage;
+    }
+
     @Override
     public void start(Stage stage) {
         Gui.stage = stage;
@@ -43,21 +47,17 @@ public class Gui extends Application {
     private void setMouse(Scene scene) {
         try {
             scene.setCursor(new ImageCursor(new Image("/texture2D_sorted/Misti/godpower_hand.png")));
-        } catch(Exception e) {
-            GuiManager.getInstance().LOG.warning("[GUI] Personalized mouse set failed with error: "+e.getMessage());
+        } catch (Exception e) {
+            GuiManager.getInstance().log.warning("[GUI] Personalized mouse set failed with error: " + e.getMessage());
         }
     }
 
     private void setWindowIcon() {
         try {
             stage.getIcons().add(new Image("/texture2D_sorted/app_icon.png"));
-        } catch(Exception e) {
-            GuiManager.getInstance().LOG.warning("[GUI] Personalized icon set failed with error: "+e.getMessage());
+        } catch (Exception e) {
+            GuiManager.getInstance().log.warning("[GUI] Personalized icon set failed with error: " + e.getMessage());
         }
-    }
-
-    protected static Stage getStage() {
-        return stage;
     }
 
     public void init(String ip, int port, boolean log) {
@@ -76,13 +76,13 @@ public class Gui extends Application {
         double h = scene.getHeight();
         double w = scene.getWidth();
         stage.heightProperty().addListener((obs, oldVal, newVal) -> {
-            stage.setWidth(newVal.doubleValue()*w/h);
+            stage.setWidth(newVal.doubleValue() * w / h);
             Rectangle2D primScreenBounds = Screen.getPrimary().getVisualBounds();
             stage.setX((primScreenBounds.getWidth() - stage.getWidth()) / 2);
             stage.setY((primScreenBounds.getHeight() - stage.getHeight()) / 2);
         });
-        stage.minWidthProperty().bind(stage.heightProperty().multiply(w/h));
-        stage.maxWidthProperty().bind(stage.heightProperty().multiply(w/h));
+        stage.minWidthProperty().bind(stage.heightProperty().multiply(w / h));
+        stage.maxWidthProperty().bind(stage.heightProperty().multiply(w / h));
     }
 
 }

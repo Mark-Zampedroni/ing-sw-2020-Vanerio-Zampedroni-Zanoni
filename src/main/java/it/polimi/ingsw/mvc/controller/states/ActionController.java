@@ -1,17 +1,18 @@
-package it.polimi.ingsw.mvc.controller.states.actionControl;
+package it.polimi.ingsw.mvc.controller.states;
 
-import it.polimi.ingsw.mvc.controller.states.TurnController;
 import it.polimi.ingsw.mvc.model.Session;
-import it.polimi.ingsw.utility.enumerations.Action;
-import it.polimi.ingsw.utility.exceptions.actions.CantActException;
-import it.polimi.ingsw.utility.exceptions.actions.WrongActionException;
 import it.polimi.ingsw.mvc.model.map.Position;
 import it.polimi.ingsw.mvc.model.player.Player;
 import it.polimi.ingsw.mvc.model.player.Worker;
 import it.polimi.ingsw.mvc.model.rules.GodRules;
+import it.polimi.ingsw.utility.enumerations.Action;
+import it.polimi.ingsw.utility.exceptions.actions.CantActException;
+import it.polimi.ingsw.utility.exceptions.actions.WrongActionException;
 
 import java.io.Serializable;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 /**
  * Controller part dedicated to call the methods that perform the actions of the player in the game.
@@ -27,7 +28,7 @@ public class ActionController implements Serializable {
      * Constructor for the controller dedicated to the action part
      *
      * @param controller controller of the turn
-     * @param player currently active
+     * @param player     currently active
      */
     public ActionController(TurnController controller, Player player) {
         this.player = player;
@@ -39,19 +40,22 @@ public class ActionController implements Serializable {
      * Apply the changes to the model about the action passed, performed by the passed worker,
      * in the passed position
      *
-     * @param worker that performs the action
+     * @param worker   that performs the action
      * @param position where is performed the action
-     * @param type of the action passed
+     * @param type     of the action passed
      * @return the list of possibile {@link Action actions} after the passed action
      * @throws WrongActionException if the action is not one of the possible actions in the game
      */
     public List<Action> act(Worker worker, Position position, Action type) throws WrongActionException {
-        //boolean victory;
-        switch(type) {
-            case MOVE: return actMove(worker,position);
-            case BUILD: return actBuild(position);
-            case SELECT_WORKER: return actSelectWorker(position);
-            case ADD_WORKER: return actAddWorker(position);
+        switch (type) {
+            case MOVE:
+                return actMove(worker, position);
+            case BUILD:
+                return actBuild(position);
+            case SELECT_WORKER:
+                return actSelectWorker(position);
+            case ADD_WORKER:
+                return actAddWorker(position);
             default:
                 throw new WrongActionException("Used correct method signature but wrong parameters.");
         }
@@ -63,20 +67,24 @@ public class ActionController implements Serializable {
      *
      * @param worker that perform the action
      * @param action that the worker performs
-     *
      * @return the list of possible position for that action
      */
     public List<Position> getCandidates(Worker worker, Action action) {
-        switch(action) {
-            case ADD_WORKER: return getAddWorkerCandidates();
-            case SELECT_WORKER: return getSelectWorkerCandidates();
+        switch (action) {
+            case ADD_WORKER:
+                return getAddWorkerCandidates();
+            case SELECT_WORKER:
+                return getSelectWorkerCandidates();
             case MOVE:
             case BUILD:
-                if(worker == null) { break; } // ERROR
-                return getMoveBuildCandidates(worker,action);
-            default: return new ArrayList<>();
+                if (worker == null) {
+                    break;
+                } // ERROR
+                return getMoveBuildCandidates(worker, action);
+            default:
+                return new ArrayList<>();
         }
-        return null;
+        return new ArrayList<>();
     }
 
     /**
@@ -97,9 +105,9 @@ public class ActionController implements Serializable {
      * @return the list of possible actions after the selection
      */
     private List<Action> actSelectWorker(Position position) {
-        for (Player player : Session.getInstance().getPlayers()) {
-            for (Worker w : player.getWorkers()) {
-                if (w.getPosition().equals(position) && controller != null) {
+        for (Player p : Session.getInstance().getPlayers()) {
+            for (Worker w : p.getWorkers()) {
+                if (w.getPosition().isSameAs(position) && controller != null) {
                     controller.setCurrentWorker(w);
                     break;
                 }
@@ -112,7 +120,7 @@ public class ActionController implements Serializable {
      * Method that calls the method for modify the model moving a {@link Worker worker}
      *
      * @param position the position where the worker will move
-     * @param worker the worker that performs the move
+     * @param worker   the worker that performs the move
      * @return the list of possible actions after the movement
      */
     private List<Action> actMove(Worker worker, Position position) {
@@ -140,27 +148,22 @@ public class ActionController implements Serializable {
      *
      * @param worker that perform the action
      * @param action that the worker performs between move and build
-     *
      * @return the list of possible position for that action
      */
     private List<Position> getMoveBuildCandidates(Worker worker, Action action) {
         Position target;
         List<Position> temp = new ArrayList<>();
-        for(int x = 0; x < 5; x++) {
-            for(int y = 0; y < 5; y++) {
+        for (int x = 0; x < 5; x++) {
+            for (int y = 0; y < 5; y++) {
                 target = new Position(x, y);
                 try {
-                    switch(action) {
-                        case MOVE:
-                            rules.consentMovement(worker, target);
-                            temp.add(target);
-                            break;
-                        case BUILD:
-                            rules.consentBuild(worker, target);
-                            temp.add(target);
-                            break;
+                    if (action == Action.MOVE) {
+                        rules.consentMovement(worker, target);
+                        temp.add(target);
+                    } else if (action == Action.BUILD) {
+                        rules.consentBuild(worker, target);
+                        temp.add(target);
                     }
-
                 } catch (CantActException e) { /* Ignore */ }
 
             }
@@ -176,11 +179,11 @@ public class ActionController implements Serializable {
      */
     private List<Position> getSelectWorkerCandidates() {
         List<Position> temp = new ArrayList<>();
-        for(Worker worker : player.getWorkers()) {
+        for (Worker worker : player.getWorkers()) {
             try {
                 rules.consentSelect(player.getUsername(), worker);
                 temp.add(worker.getPosition());
-            } catch(CantActException e) { /* Do nothing */ }
+            } catch (CantActException e) { /* Do nothing */ }
         }
         return temp;
     }
@@ -194,9 +197,9 @@ public class ActionController implements Serializable {
     private List<Position> getAddWorkerCandidates() {
         Position target;
         List<Position> temp = new ArrayList<>();
-        for(int x = 0; x < 5; x++) {
-            for(int y = 0; y < 5; y ++) {
-                target = new Position(x,y);
+        for (int x = 0; x < 5; x++) {
+            for (int y = 0; y < 5; y++) {
+                target = new Position(x, y);
                 try {
                     rules.consentAdd(target);
                     temp.add(target);

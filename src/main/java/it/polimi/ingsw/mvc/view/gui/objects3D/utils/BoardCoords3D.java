@@ -14,20 +14,20 @@ public class BoardCoords3D {
         return xBoard;
     }
 
-    public int getValueY() {
-        return yBoard;
-    }
-
-    public int getValueZ() {
-        return zBoard;
-    }
-
     public void setValueX(int x) {
         xBoard = x;
     }
 
+    public int getValueY() {
+        return yBoard;
+    }
+
     public void setValueY(int y) {
         yBoard = y;
+    }
+
+    public int getValueZ() {
+        return zBoard;
     }
 
     public void setValueZ(int z) {

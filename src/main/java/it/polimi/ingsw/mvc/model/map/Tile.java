@@ -2,7 +2,8 @@ package it.polimi.ingsw.mvc.model.map;
 
 import java.io.Serializable;
 
-import static it.polimi.ingsw.utility.constants.Height.*;
+import static it.polimi.ingsw.utility.constants.Height.GROUND;
+import static it.polimi.ingsw.utility.constants.Height.TOP;
 
 /**
  * Tile of the game map, 25 of them and are initialized when a {@link Board board} is created
@@ -42,11 +43,10 @@ public class Tile implements Serializable {
      * instead places a dome
      */
     public void increaseHeight() {
-        if(!hasDome) {
-            if(height == TOP) {
+        if (!hasDome) {
+            if (height == TOP) {
                 hasDome = true;
-            }
-            else {
+            } else {
                 height += 1;
             }
         }
@@ -68,6 +68,6 @@ public class Tile implements Serializable {
      */
     @Override
     public String toString() {
-        return "Tower, height: "+height+", dome: "+ hasDome;
+        return "Tower, height: " + height + ", dome: " + hasDome;
     }
 }

@@ -18,7 +18,7 @@ import java.util.List;
 public class PrometheusRules extends EventRules implements Serializable {
 
     private static final long serialVersionUID = 6128545018299786443L;
-    private boolean movementFlag=false;
+    private boolean movementFlag = false;
 
     /**
      * Executes a {@link Action build}
@@ -40,7 +40,7 @@ public class PrometheusRules extends EventRules implements Serializable {
     @Override
     public List<Action> afterBuild() {
         List<Action> actions = super.afterBuild();
-        if(getEvent() && !movementFlag) {
+        if (getEvent() && !movementFlag) {
             actions.add(Action.MOVE);
             actions.remove(0);
         }
@@ -51,7 +51,7 @@ public class PrometheusRules extends EventRules implements Serializable {
      * Checks if by the rules it's physically possible to perform a move {@link Action action},
      * if the player built before moving adds a check
      *
-     * @param worker worker that wants to move
+     * @param worker   worker that wants to move
      * @param position position to where the worker is moved
      * @throws CantActException when the worker can't move
      */
@@ -71,19 +71,19 @@ public class PrometheusRules extends EventRules implements Serializable {
      */
     @Override
     public List<Action> afterSelect() {
-        return new ArrayList<>(Arrays.asList(Action.SELECT_WORKER, Action.MOVE, Action.BUILD)); }
+        return new ArrayList<>(Arrays.asList(Action.SELECT_WORKER, Action.MOVE, Action.BUILD));
+    }
 
     /**
      * Executes a movement {@link Action action}
      *
-     *
-     * @param worker selected {@link Worker worker}
+     * @param worker   selected {@link Worker worker}
      * @param position {@link Position position} the {@link Worker worker} will move to
      */
     @Override
     public void executeMove(Worker worker, Position position) {
         movementFlag = true;
-        super.executeMove(worker,position);
+        super.executeMove(worker, position);
     }
 
     /**

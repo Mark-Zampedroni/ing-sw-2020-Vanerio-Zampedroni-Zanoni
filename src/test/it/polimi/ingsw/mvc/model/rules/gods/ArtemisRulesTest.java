@@ -1,15 +1,15 @@
 package it.polimi.ingsw.mvc.model.rules.gods;
 
+import it.polimi.ingsw.mvc.model.Session;
 import it.polimi.ingsw.mvc.model.Setupper;
+import it.polimi.ingsw.mvc.model.map.Position;
+import it.polimi.ingsw.mvc.model.player.Player;
+import it.polimi.ingsw.mvc.model.player.Worker;
 import it.polimi.ingsw.mvc.model.rules.GodRules;
 import it.polimi.ingsw.utility.enumerations.Action;
 import it.polimi.ingsw.utility.enumerations.Colors;
 import it.polimi.ingsw.utility.enumerations.Gods;
 import it.polimi.ingsw.utility.exceptions.actions.CantActException;
-import it.polimi.ingsw.mvc.model.Session;
-import it.polimi.ingsw.mvc.model.player.Player;
-import it.polimi.ingsw.mvc.model.map.Position;
-import it.polimi.ingsw.mvc.model.player.Worker;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -73,9 +73,9 @@ class ArtemisRulesTest {
         worker.setPosition(1,1);
         Position oldPosition = worker.getPosition();
         assert test != null;
-        test.executeMove(worker, new Position(1,2));
-        assertTrue(oldPosition.equals(test.getPos()));
-        test.executeMove(worker, new Position(1,3));
-        assertTrue(worker.getPosition().equals(new Position(1,3)));
+        test.executeMove(worker, new Position(1, 2));
+        assertTrue(oldPosition.isSameAs(test.getPos()));
+        test.executeMove(worker, new Position(1, 3));
+        assertTrue(worker.getPosition().isSameAs(new Position(1, 3)));
     }
 }

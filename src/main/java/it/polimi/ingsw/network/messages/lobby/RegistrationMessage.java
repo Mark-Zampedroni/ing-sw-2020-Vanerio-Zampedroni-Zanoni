@@ -1,8 +1,8 @@
 package it.polimi.ingsw.network.messages.lobby;
 
+import it.polimi.ingsw.network.messages.Message;
 import it.polimi.ingsw.utility.enumerations.Colors;
 import it.polimi.ingsw.utility.enumerations.MessageType;
-import it.polimi.ingsw.network.messages.Message;
 
 import java.io.Serializable;
 
@@ -16,6 +16,8 @@ public class RegistrationMessage extends Message implements Serializable {
         this.color = color;
     }
 
-    public Colors getColor() { return color; }
+    public Colors getColor() {
+        return color;
+    }
 
 }

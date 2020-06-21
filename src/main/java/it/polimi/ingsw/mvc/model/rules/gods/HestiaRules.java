@@ -1,11 +1,11 @@
 package it.polimi.ingsw.mvc.model.rules.gods;
 
-import it.polimi.ingsw.utility.enumerations.Action;
-import it.polimi.ingsw.utility.exceptions.actions.CantActException;
 import it.polimi.ingsw.mvc.model.map.Position;
 import it.polimi.ingsw.mvc.model.player.Worker;
 import it.polimi.ingsw.mvc.model.rules.Check;
 import it.polimi.ingsw.mvc.model.rules.EventRules;
+import it.polimi.ingsw.utility.enumerations.Action;
+import it.polimi.ingsw.utility.exceptions.actions.CantActException;
 
 import java.io.Serializable;
 import java.util.List;
@@ -27,7 +27,7 @@ public class HestiaRules extends EventRules implements Serializable {
     @Override
     public List<Action> afterBuild() {
         List<Action> actions = super.afterBuild();
-        if(!getEvent()) {
+        if (!getEvent()) {
             actions.add(Action.BUILD);
             setEvent(true);
         }
@@ -38,14 +38,14 @@ public class HestiaRules extends EventRules implements Serializable {
      * Checks if by the rules it's physically possible to perform a build {@link Action action},
      * for the second build checks if the position is boundary
      *
-     * @param worker worker that wants to build
+     * @param worker   worker that wants to build
      * @param position position where the worker wants to build
      * @throws CantActException when the worker can't build
      */
     @Override
     public void consentBuild(Worker worker, Position position) throws CantActException {
         super.consentBuild(worker, position);
-        if(getEvent()) {
+        if (getEvent()) {
             Check.boundary(position);
         }
     }

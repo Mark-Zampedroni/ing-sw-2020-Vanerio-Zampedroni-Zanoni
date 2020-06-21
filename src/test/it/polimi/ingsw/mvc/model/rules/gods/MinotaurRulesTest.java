@@ -1,14 +1,14 @@
 package it.polimi.ingsw.mvc.model.rules.gods;
 
+import it.polimi.ingsw.mvc.model.Session;
 import it.polimi.ingsw.mvc.model.Setupper;
+import it.polimi.ingsw.mvc.model.map.Position;
+import it.polimi.ingsw.mvc.model.player.Player;
+import it.polimi.ingsw.mvc.model.player.Worker;
+import it.polimi.ingsw.mvc.model.rules.GodRules;
 import it.polimi.ingsw.utility.enumerations.Colors;
 import it.polimi.ingsw.utility.enumerations.Gods;
 import it.polimi.ingsw.utility.exceptions.actions.CantActException;
-import it.polimi.ingsw.mvc.model.Session;
-import it.polimi.ingsw.mvc.model.player.Player;
-import it.polimi.ingsw.mvc.model.map.Position;
-import it.polimi.ingsw.mvc.model.player.Worker;
-import it.polimi.ingsw.mvc.model.rules.GodRules;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -73,15 +73,15 @@ class MinotaurRulesTest {
 
     @Test
     void executeMove() {
-        Position oldPosition = new Position (1,1);
-        Position position = new Position (2,2);
-        Position forwardPosition = new Position (3,3);
+        Position oldPosition = new Position(1, 1);
+        Position position = new Position(2, 2);
+        Position forwardPosition = new Position(3, 3);
         worker.setPosition(oldPosition);
         worker2.setPosition(position);
         assert test != null;
         test.executeMove(worker, position);
-        assertTrue(position.equals(worker.getPosition()));
-        assertTrue(forwardPosition.equals(worker2.getPosition()));
+        assertTrue(position.isSameAs(worker.getPosition()));
+        assertTrue(forwardPosition.isSameAs(worker2.getPosition()));
     }
 
 }

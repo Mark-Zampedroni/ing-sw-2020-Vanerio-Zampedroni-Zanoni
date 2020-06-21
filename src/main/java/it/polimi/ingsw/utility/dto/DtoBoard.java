@@ -10,10 +10,10 @@ import java.io.Serializable;
  */
 
 public class DtoBoard implements Serializable {
-    public final int WIDTH = 5;
-    public final int HEIGHT = 5;
-    private static final long serialVersionUID = 2479300674565274263L;
 
+    public static final int WIDTH = 5;
+    public static final int HEIGHT = 5;
+    private static final long serialVersionUID = 2479300674565274263L;
     private final DtoTile[][] tiles = new DtoTile[WIDTH][HEIGHT];
 
     /**
@@ -22,9 +22,9 @@ public class DtoBoard implements Serializable {
      * @param board indicates his equivalent in server storage
      */
     public DtoBoard(Board board) {
-        for (int x=0; x<WIDTH; x++) {
-            for (int y=0; y<HEIGHT; y++) {
-                tiles[x][y] = new DtoTile(board.getTile(new Position(x,y)));
+        for (int x = 0; x < WIDTH; x++) {
+            for (int y = 0; y < HEIGHT; y++) {
+                tiles[x][y] = new DtoTile(board.getTile(new Position(x, y)));
             }
         }
     }
@@ -50,8 +50,8 @@ public class DtoBoard implements Serializable {
     @Override
     public String toString() {
         StringBuilder b = new StringBuilder();
-        for (int x=0; x<WIDTH; x++) {
-            for(int y=0; y<HEIGHT; y++) {
+        for (int x = 0; x < WIDTH; x++) {
+            for (int y = 0; y < HEIGHT; y++) {
                 b.append("(").append(x).append(",").append(y).append(")").append(" : ").append(tiles[x][y].toString()).append("\n");
             }
         }

@@ -1,10 +1,10 @@
 package it.polimi.ingsw.network.server;
 
 import it.polimi.ingsw.mvc.controller.SessionController;
-import it.polimi.ingsw.utility.enumerations.GameState;
-import it.polimi.ingsw.utility.enumerations.MessageType;
 import it.polimi.ingsw.network.messages.Message;
 import it.polimi.ingsw.network.messages.lobby.LobbyUpdate;
+import it.polimi.ingsw.utility.enumerations.GameState;
+import it.polimi.ingsw.utility.enumerations.MessageType;
 import it.polimi.ingsw.utility.persistency.ReloadGame;
 
 import java.io.IOException;
@@ -22,51 +22,34 @@ import java.util.stream.Collectors;
 
 public class Server extends Thread {
 
+    public static final Logger LOG = Logger.getLogger("Server");
+    public static final String SENDER = "SERVER";
     private static Server instance = null;
-
-    private ServerSocket serverSocket;
     private final List<ServerConnection> allConnections;
     private final List<ServerConnection> freshConnections;
-
     private final Object connectionsLock = new Object();
-
+    private final Map<String, ServerConnection> reconnecting;
+    private final BlockingQueue<Runnable> tasks = new LinkedBlockingQueue<>();
+    private ServerSocket serverSocket;
     private SessionController sessionController;
     private ServerConnection gameCreator;
-
-    private final Map<String,ServerConnection> reconnecting;
-
     private int token = 0;
-
-    public static final Logger LOG = Logger.getLogger("Server");
-
-    private final BlockingQueue<Runnable> tasks = new LinkedBlockingQueue<>();
     private Thread queueHandler;
 
-    private class QueueHandler implements Runnable {
-        @Override
-        public void run() {
-            while (!Thread.currentThread().isInterrupted()) {
-                try {
-                    tasks.take().run();
-                } catch (InterruptedException | NullPointerException e) {
-                    LOG.warning(e.getMessage());
-                }
-            }
-        }
-    }
-
     public Server(int port, boolean log) {
-        if(instance == null) { instance = this; }
+        if (instance == null) {
+            Server.assignInstance(this);
+        }
         reconnecting = new HashMap<>();
         freshConnections = new ArrayList<>();
         allConnections = new ArrayList<>();
-        if(log) {
+        if (log) {
             startLogging();
         }
         sessionController = new SessionController(freshConnections, LOG); // Controller
         try {
             serverSocket = new ServerSocket(port);
-        } catch(IOException e) {
+        } catch (IOException e) {
             LOG.severe(e.getMessage());
         }
         this.start();
@@ -74,10 +57,20 @@ public class Server extends Thread {
         queueHandler.start();
     }
 
+    public static void assignInstance(Server currentInstance) {
+        instance = currentInstance;
+    }
+
+    public static void restartSession() {
+        instance.restart();
+    }
+
     protected void handleReconnection(Message message, ServerConnection connection) {
         synchronized (reconnecting) {
-            SessionController newController = ReloadGame.reloadConnection(sessionController,reconnecting,connection,LOG,message);
-            if(newController != null) { sessionController = newController; }
+            SessionController newController = ReloadGame.reloadConnection(sessionController, reconnecting, connection, LOG, message);
+            if (newController != null) {
+                sessionController = newController;
+            }
         }
     }
 
@@ -85,19 +78,22 @@ public class Server extends Thread {
         DateFormat dateFormat = new SimpleDateFormat("MM_dd_HH-mm-ss");
         Date date = new Date();
         try {
-            FileHandler fileHandler = new FileHandler(dateFormat.format(date)+".log");
+            FileHandler fileHandler = new FileHandler(dateFormat.format(date) + ".log");
             fileHandler.setFormatter(new SimpleFormatter());
             LOG.addHandler(fileHandler);
-        } catch(IOException e) { LOG.severe("[SERVER] "+e.getMessage() + " couldn't be opened\n"); }
+        } catch (IOException e) {
+            LOG.severe("[SERVER] " + e.getMessage() + " couldn't be opened\n");
+        }
     }
 
+    @Override
     public void run() {
         while (!Thread.currentThread().isInterrupted()) {
             try {
                 token += 1;
                 String name = String.valueOf(token);
                 Socket client = serverSocket.accept();
-                tasks.add(() -> queueNewConnection(client,name));
+                tasks.add(() -> queueNewConnection(client, name));
             } catch (IOException e) {
                 Server.LOG.warning(e.getMessage());
             } catch (NullPointerException e) {
@@ -109,12 +105,11 @@ public class Server extends Thread {
 
     private void queueNewConnection(Socket client, String name) {
         ServerConnection c = new ServerConnection(this, client, name, tasks);
-        Server.LOG.info("[SERVER] Opening connection "+name);
-        if(sessionController.isGameStarted()) {
-            Server.LOG.info("[SERVER] Denying connection "+name);
+        Server.LOG.info(() -> "[SERVER] Opening connection " + name);
+        if (sessionController.isGameStarted()) {
+            Server.LOG.info(() -> "[SERVER] Denying connection " + name);
             c.denyConnection("The game has already started, you can't connect ");
-        }
-        else {
+        } else {
             synchronized (connectionsLock) {
                 freshConnections.add(c);
                 allConnections.add(c);
@@ -130,7 +125,7 @@ public class Server extends Thread {
     }
 
     protected void onDisconnection(ServerConnection connection) {
-        synchronized(connectionsLock) {
+        synchronized (connectionsLock) {
             if (connection.isInLobby()) {
                 disconnectInLobby(connection);
             } else {
@@ -148,42 +143,42 @@ public class Server extends Thread {
 
     private void disconnectInLobby(ServerConnection connection) {
         String user = connection.getUsername();
-        LOG.info("[SERVER] "+user + " disconnected\n");
+        LOG.info(() -> "[SERVER] " + user + " disconnected\n");
         sessionController.removePlayer(user);
-        if(sessionController.getState() == GameState.LOBBY) {
+        if (sessionController.getState() == GameState.LOBBY) {
             sessionController.sendUpdate();
         }
     }
 
     protected void startLobby(ServerConnection connection, String choice) {
-        if(!isLobbyCreated() && connection == gameCreator) { // Anti-cheat
-            if(Arrays.asList("2","3").contains(choice)) { // Anti-cheat
+        if (!isLobbyCreated() && connection == gameCreator) { // Anti-cheat
+            if (Arrays.asList("2", "3").contains(choice)) { // Anti-cheat
                 sessionController.setGameCapacity(Integer.parseInt(choice));
                 fillPlayersSlots();
-            }
-            else { // Anti-cheat
-                gameCreator.sendMessage(new Message(MessageType.SLOTS_UPDATE, "SERVER", "Create game",gameCreator.getUsername()));
+            } else { // Anti-cheat
+                gameCreator.sendMessage(new Message(MessageType.SLOTS_UPDATE, SENDER, "Create game", gameCreator.getUsername()));
             }
         }
     }
 
     private void setNewGameCreator() {
         gameCreator = null;
-        if(!allConnections.isEmpty()) {
+        if (!allConnections.isEmpty()) {
             gameCreator = (freshConnections.size() != allConnections.size()) ?
                     allConnections.stream().filter(ServerConnection::isInLobby).collect(Collectors.toList()).get(0) :
                     allConnections.get(0); // Oldest connection
-            if(!isLobbyCreated()) {
-                gameCreator.sendMessage(new Message(MessageType.SLOTS_UPDATE, "SERVER", "Create game",gameCreator.getUsername()));
+            if (!isLobbyCreated()) {
+                gameCreator.sendMessage(new Message(MessageType.SLOTS_UPDATE, SENDER, "Create game", gameCreator.getUsername()));
             }
+        } else {
+            sessionController.setGameCapacity(0);
         }
-        else { sessionController.setGameCapacity(0); }
     }
 
     // Supposto che la lista di connessioni sia piccola, altrimenti sarebbe meglio dividere in più liste in base allo stato
     private void fillPlayersSlots() {
         synchronized (connectionsLock) {
-            if(isLobbyCreated()) {
+            if (isLobbyCreated()) {
                 int neededPlayers = sessionController.getGameCapacity() - (allConnections.size() - freshConnections.size());
                 List<ServerConnection> copy = new ArrayList<>(freshConnections);
                 copy.stream().limit(neededPlayers)
@@ -204,26 +199,27 @@ public class Server extends Thread {
 
     // Notifica la coda in pre-lobby sulla posizione in cui sono
     private void notifyFreshQueue() {
-        for(ServerConnection connection : freshConnections) {
-            if(gameCreator != connection) { connection.sendMessage(createInfoUpdate(freshConnections.indexOf(connection),connection.getUsername())); }
+        for (ServerConnection connection : freshConnections) {
+            if (gameCreator != connection) {
+                connection.sendMessage(createInfoUpdate(freshConnections.indexOf(connection), connection.getUsername()));
+            }
         }
     }
 
     // Crea un messaggio di info per la coda in pre-lobby in base alla situazione di gioco
     private Message createInfoUpdate(int position, String username) {
-        if(isLobbyCreated()) {
-            return new Message(MessageType.INFO_UPDATE, "SERVER", "The game is for " + sessionController.getGameCapacity() + " players ... \n"
+        if (isLobbyCreated()) {
+            return new Message(MessageType.INFO_UPDATE, SENDER, "The game is for " + sessionController.getGameCapacity() + " players ... \n"
                     + "At the moment the Lobby is full and " + ((position == 0) ? "you are first in queue\n" : "there are " + position + " players in queue before you\n")
-                    + "You will be disconnected if no slots are vacated and the game starts",username);
-        }
-        else {
-            return new Message(MessageType.INFO_UPDATE, "SERVER", "A player is already creating a game!\nThere are "
-                    + position + " players before you in queue ",username);
+                    + "You will be disconnected if no slots are vacated and the game starts", username);
+        } else {
+            return new Message(MessageType.INFO_UPDATE, SENDER, "A player is already creating a game!\nThere are "
+                    + position + " players before you in queue ", username);
         }
     }
 
     private Message createLobbyUpdate() {
-        return new LobbyUpdate("SERVER", "Update", sessionController.getFreeColors(), sessionController.getPlayers(),"ALL");
+        return new LobbyUpdate(SENDER, "Update", sessionController.getFreeColors(), sessionController.getPlayers(), "ALL");
     }
 
     public void restart() {
@@ -236,11 +232,19 @@ public class Server extends Thread {
         sessionController = new SessionController(freshConnections, LOG); // Controller
     }
 
-    public static void restartSession() {
-        instance.restart();
+    private class QueueHandler implements Runnable {
+        @Override
+        public void run() {
+            while (!Thread.currentThread().isInterrupted()) {
+                try {
+                    tasks.take().run();
+                } catch (InterruptedException | NullPointerException e) {
+                    LOG.warning(e.getMessage());
+                    Thread.currentThread().interrupt();
+                }
+            }
+        }
     }
-
-
 
 
 }

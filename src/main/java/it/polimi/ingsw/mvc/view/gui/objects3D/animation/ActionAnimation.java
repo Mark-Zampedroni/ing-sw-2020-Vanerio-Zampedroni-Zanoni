@@ -20,35 +20,30 @@ import java.util.List;
 
 public class ActionAnimation extends TrackedGroup {
 
-    private final String MOVE_EFFECT_TEXTURE = "/texture/effects/playermoveindicator_blue.png";
-    private final String SELECT_WORKER_TEXTURE = "/texture/effects/playermoveindicator_yellow.png";
-    private final String BUILD_EFFECT_TEXTURE = "/texture/effects/playerplaceindicator_blue.png";
-    private final String ADD_WORKER_EFFECT_TEXTURE = "/texture/effects/playerplaceindicator_gold.png";
-
     private static Image MOVE_EFFECT;
     private static Image SELECT_WORKER_EFFECT;
     private static Image BUILD_EFFECT;
     private static Image ADD_WORKER_EFFECT;
-
     final double SQUARES_OFFSET = 0.5; //0.5
-    //final double CIRCLES_OFFSET = 0.65; //0.65
-
     final int time = 500;
     final int numberOfSquares = 3;
-
-    private final List<ImageView> e = new ArrayList<>();
-
     final double sX = 0.6;
     final double sY = -5;
+    //final double CIRCLES_OFFSET = 0.65; //0.65
     final double sZ = 3.75;
+    private final String MOVE_EFFECT_TEXTURE = "/texture/effects/playermoveindicator_blue.png";
+    private final String SELECT_WORKER_TEXTURE = "/texture/effects/playermoveindicator_yellow.png";
+    private final String BUILD_EFFECT_TEXTURE = "/texture/effects/playerplaceindicator_blue.png";
+    private final String ADD_WORKER_EFFECT_TEXTURE = "/texture/effects/playerplaceindicator_gold.png";
+    private final List<ImageView> e = new ArrayList<>();
 
     public ActionAnimation(Action type, BoardCoords3D coords) {
 
-        super(-268.3,-243.4,0.3,
-                -3.6,-7.4,-9.7);
+        super(-268.3, -243.4, 0.3,
+                -3.6, -7.4, -9.7);
 
-        if(MOVE_EFFECT == null) {
-            MOVE_EFFECT = new Image(MOVE_EFFECT_TEXTURE,true);
+        if (MOVE_EFFECT == null) {
+            MOVE_EFFECT = new Image(MOVE_EFFECT_TEXTURE, true);
             SELECT_WORKER_EFFECT = new Image(SELECT_WORKER_TEXTURE, true);
             BUILD_EFFECT = new Image(BUILD_EFFECT_TEXTURE, true);
             ADD_WORKER_EFFECT = new Image(ADD_WORKER_EFFECT_TEXTURE, true);
@@ -66,12 +61,16 @@ public class ActionAnimation extends TrackedGroup {
     }
 
     private Image getTexture(Action action) {
-        switch(action) {
-            case SELECT_WORKER: return SELECT_WORKER_EFFECT;
-            case ADD_WORKER: return ADD_WORKER_EFFECT;
-            case BUILD: return BUILD_EFFECT;
+        switch (action) {
+            case SELECT_WORKER:
+                return SELECT_WORKER_EFFECT;
+            case ADD_WORKER:
+                return ADD_WORKER_EFFECT;
+            case BUILD:
+                return BUILD_EFFECT;
             case MOVE:
-            default: return MOVE_EFFECT;
+            default:
+                return MOVE_EFFECT;
         }
     }
 
@@ -84,31 +83,31 @@ public class ActionAnimation extends TrackedGroup {
                 createActionAnimation(2, texture)
         );
 
-        getTransforms().add(xr = new Rotate(0,Rotate.X_AXIS));
+        getTransforms().add(xr = new Rotate(0, Rotate.X_AXIS));
         xr.setAngle(90);
-        NodeOperation.setTranslate(this,sX,sY,sZ);
+        NodeOperation.setTranslate(this, sX, sY, sZ);
     }
 
     private ImageView createActionAnimation(int number, Image texture) {
         ImageView element = new ImageView(texture);
         e.add(element);
-        NodeOperation.setScale(element,0.01);
+        NodeOperation.setScale(element, 0.01);
 
-        element.setTranslateZ( -SQUARES_OFFSET*number);
+        element.setTranslateZ(-SQUARES_OFFSET * number);
         startAnimation(element, number);
         return element;
     }
 
     private void startAnimation(Node node, int number) {
-        double startOpacity = (double)(numberOfSquares-number)/(double)numberOfSquares;
-        double startPosition = SQUARES_OFFSET *number;
-        double endOpacity = (double)(numberOfSquares-number-1)/(double)numberOfSquares;
-        double endPosition = startPosition+ SQUARES_OFFSET;
+        double startOpacity = (double) (numberOfSquares - number) / (double) numberOfSquares;
+        double startPosition = SQUARES_OFFSET * number;
+        double endOpacity = (double) (numberOfSquares - number - 1) / (double) numberOfSquares;
+        double endPosition = startPosition + SQUARES_OFFSET;
 
         Timeline animation = new Timeline(
                 new KeyFrame(Duration.ZERO,
                         new KeyValue(node.translateZProperty(), startPosition),
-                        new KeyValue(node.opacityProperty(),startOpacity)),
+                        new KeyValue(node.opacityProperty(), startOpacity)),
                 new KeyFrame(Duration.millis(time),
                         new KeyValue(node.translateZProperty(),
                                 endPosition, Interpolator.LINEAR),

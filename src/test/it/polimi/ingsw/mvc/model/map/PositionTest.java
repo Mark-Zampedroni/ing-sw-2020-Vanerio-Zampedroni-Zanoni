@@ -1,18 +1,14 @@
 package it.polimi.ingsw.mvc.model.map;
 
-import it.polimi.ingsw.utility.enumerations.Colors;
 import it.polimi.ingsw.mvc.model.Session;
 import it.polimi.ingsw.mvc.model.player.Player;
 import it.polimi.ingsw.mvc.model.player.Worker;
+import it.polimi.ingsw.utility.enumerations.Colors;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertSame;
+import static org.junit.Assert.*;
 
 class PositionTest {
 
@@ -98,10 +94,10 @@ class PositionTest {
                         position = new Position(x, y);
                         that = new Position(tx, ty);
                         if(x == tx && y == ty) {
-                            assertTrue(position.equals(that));
+                            assertTrue(position.isSameAs(that));
                         }
                         else {
-                            assertFalse(position.equals(that));
+                            assertFalse(position.isSameAs(that));
                         }
                     }
                 }

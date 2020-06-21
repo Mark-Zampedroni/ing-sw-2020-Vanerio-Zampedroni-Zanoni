@@ -17,8 +17,10 @@ public class Observable<T> implements Serializable {
      *
      * @param observer identifies the {@link Observer observer}
      */
-    synchronized public void addObserver(Observer<T> observer){
-        if(observers == null) { observers = new ArrayList<>(); }
+    public synchronized void addObserver(Observer<T> observer) {
+        if (observers == null) {
+            observers = new ArrayList<>();
+        }
         observers.add(observer);
     }
 
@@ -27,8 +29,8 @@ public class Observable<T> implements Serializable {
      *
      * @param observer identifies the {@link Observer observer}
      */
-    synchronized public void removeObserver(Observer<T> observer){
-        if(observers != null) {
+    public synchronized void removeObserver(Observer<T> observer) {
+        if (observers != null) {
             observers.remove(observer);
         }
     }
@@ -38,8 +40,8 @@ public class Observable<T> implements Serializable {
      *
      * @param message identifies information about the change
      */
-    synchronized public void notify(T message){
-        if(observers != null) {
+    public synchronized void notify(T message) {
+        if (observers != null) {
             for (Observer<T> observer : observers) {
                 observer.update(message);
             }

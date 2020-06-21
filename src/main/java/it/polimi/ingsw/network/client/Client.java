@@ -23,29 +23,26 @@ import java.util.stream.Collectors;
 
 public abstract class Client implements Observer<Message>, View {
 
+    private static final String RECIPIENT = "SERVER";
+    public final Logger log;
     protected GameState state;
     protected String username;
-
-    private List<Runnable> requests, inputRequests;
-
-    public final Logger LOG;
-
     protected boolean reconnecting = false;
-
     protected ClientConnection connection;
-
     protected String challenger;
     protected List<String> chosenGods;
     protected Map<String, Colors> players;
     protected Map<String, String> gods;
+    private List<Runnable> requests;
+    private List<Runnable> inputRequests;
 
     public Client(boolean log) {
         init();
-        LOG = Logger.getLogger("client");
-        if(log) {
+        this.log = Logger.getLogger("client");
+        if (log) {
             startLogging();
         }
-        LOG.setUseParentHandlers(false);
+        this.log.setUseParentHandlers(false);
 
     }
 
@@ -63,16 +60,19 @@ public abstract class Client implements Observer<Message>, View {
         try {
             FileHandler fileHandler = new FileHandler(dateFormat.format(date) + ".log");
             fileHandler.setFormatter(new SimpleFormatter());
-            LOG.addHandler(fileHandler);
+            log.addHandler(fileHandler);
         } catch (IOException e) {
-            LOG.severe(e.getMessage() + " couldn't be opened\n");
+            log.severe(e.getMessage() + " couldn't be opened\n");
         }
     }
 
     private void viewRequest(Runnable request) {
         requests.add(request);
     }
-    private void inputRequest(Runnable request) { inputRequests.add(request); }
+
+    private void inputRequest(Runnable request) {
+        inputRequests.add(request);
+    }
 
     public void flushRequests() {
         requests.forEach(Runnable::run);
@@ -85,21 +85,27 @@ public abstract class Client implements Observer<Message>, View {
         state = GameState.CONNECTION;
         try {
             connection = new ClientConnection(ip, port, this);
-        } catch(IOException e) { return false; }
+        } catch (IOException e) {
+            return false;
+        }
         return true;
     }
 
     public void update(Message message) {
-        if((message.getType() == MessageType.CONNECTION_TOKEN && state==GameState.CONNECTION) ||
+        if ((message.getType() == MessageType.CONNECTION_TOKEN && state == GameState.CONNECTION) ||
                 message.getRecipient().equals(username) ||
                 message.getRecipient().equals("ALL")) {
-            LOG.info("[CLIENT] Received message "+message);
+            log.info(() -> "[CLIENT] Received message " + message);
             switch (message.getType()) {
                 case CONNECTION_TOKEN: // CONNECTION
-                    if(state == GameState.CONNECTION) { parseConnectionMessage(message); }
+                    if (state == GameState.CONNECTION) {
+                        parseConnectionMessage(message);
+                    }
                     break;
                 case SLOTS_UPDATE: // PRE-LOBBY
-                    if(state == GameState.PRE_LOBBY) { parseSlotMessage(); }
+                    if (state == GameState.PRE_LOBBY) {
+                        parseSlotMessage();
+                    }
                     break;
                 case INFO_UPDATE: // PRE-LOBBY
                     parseInfoMessage(message);
@@ -132,28 +138,29 @@ public abstract class Client implements Observer<Message>, View {
                     parseReconnectionReply((FlagMessage) message);
                     break;
                 case WIN_LOSE_UPDATE:
-                    parseWinLoseUpdate((FlagMessage)message);
+                    parseWinLoseUpdate((FlagMessage) message);
                     break;
                 case RECONNECTION_UPDATE:
-                    if(connection.getReconnect()) { parseReconnectionUpdate(message); }
-                    default: //
+                    if (connection.getReconnect()) {
+                        parseReconnectionUpdate();
+                    }
+                default: //
             }
             flushRequests();
         }
     }
 
-    
-    private void parseWinLoseUpdate(FlagMessage message){
-        if(message.getFlag()) {
+
+    private void parseWinLoseUpdate(FlagMessage message) {
+        if (message.getFlag()) {
             reconnecting = false;
             connection.setDisconnected();
             closeGame();
             viewRequest(() -> showWin(message.getInfo()));
-        }
-        else {
+        } else {
             players.remove(message.getInfo());
             gods.remove(message.getInfo());
-            if(message.getInfo().equals(username)) {
+            if (message.getInfo().equals(username)) {
                 connection.setReconnect(false);
             }
             viewRequest(() -> showLose(message.getInfo()));
@@ -167,16 +174,16 @@ public abstract class Client implements Observer<Message>, View {
         state = GameState.PRE_LOBBY;
     }
 
-    private void parseReconnectionUpdate(Message message) {
+    private void parseReconnectionUpdate() {
         reconnecting = true;
         viewRequest(() -> showReconnection(true));
     }
 
     private void parseReconnectionReply(FlagMessage message) {
         reconnecting = false;
-        if(!message.getFlag()) {
+        if (!message.getFlag()) {
             closeGame();
-            LOG.info("[CLIENT] Couldn't reconnect because: "+message.getInfo()); // Quits game
+            log.info("[CLIENT] Couldn't reconnect because: " + message.getInfo()); // Quits game
         }
         viewRequest((!message.getFlag()) ? () -> showDisconnected(message.getInfo()) : () -> showReconnection(false));
     }
@@ -186,8 +193,8 @@ public abstract class Client implements Observer<Message>, View {
     }
 
     public boolean validateNumberOfPlayers(String number) {
-        if(number.equals("2") || number.equals("3")) { // Controllo su client - implementato anti-cheat su server
-            sendMessage(new Message(MessageType.SLOTS_UPDATE, username, number, "SERVER"));
+        if (number.equals("2") || number.equals("3")) { // Controllo su client - implementato anti-cheat su server
+            sendMessage(new Message(MessageType.SLOTS_UPDATE, username, number, RECIPIENT));
             return true;
         }
         return false;
@@ -201,7 +208,7 @@ public abstract class Client implements Observer<Message>, View {
         try {
             Integer.valueOf(string);
             return true;
-        } catch(Exception e) {
+        } catch (Exception e) {
             return false;
         }
     }
@@ -211,27 +218,27 @@ public abstract class Client implements Observer<Message>, View {
     }
 
     public void requestLogin(String requestedUsername, Colors color) {
-        sendMessage(new RegistrationMessage(username, requestedUsername, color, "SERVER"));
+        sendMessage(new RegistrationMessage(username, requestedUsername, color, RECIPIENT));
     }
 
     private void parseLobbyUpdate(LobbyUpdate message) {
         players = message.getPlayers();
-        if(state == GameState.PRE_LOBBY) {
+        if (state == GameState.PRE_LOBBY) {
             state = GameState.LOGIN;
             inputRequest(this::requestLogin);
         }
-        if(state == GameState.LOGIN || state == GameState.LOBBY) {
+        if (state == GameState.LOGIN || state == GameState.LOBBY) {
             viewRequest(() -> showLobby(message.getColors()));
         }
     }
 
     private void parseDisconnectMessage(Message message) {
-        if(connection != null && !connection.isDisconnected()) {
+        if (connection != null && !connection.isDisconnected()) {
             if (state != GameState.PRE_LOBBY) {
                 closeGame();
             }
             showDisconnected(message.getInfo());
-            if(connection != null) {
+            if (connection != null) {
                 connection.setDisconnected();
             }
         }
@@ -242,13 +249,12 @@ public abstract class Client implements Observer<Message>, View {
     }
 
     private void parseRegistrationReply(FlagMessage message) {
-        if(state == GameState.LOGIN) {
-            if(message.getFlag()) {
+        if (state == GameState.LOGIN) {
+            if (message.getFlag()) {
                 username = message.getInfo();
                 connection.setConnectionName(username);
                 state = GameState.LOBBY;
-            }
-            else {
+            } else {
                 inputRequest(this::requestLogin);
             }
         }
@@ -257,23 +263,22 @@ public abstract class Client implements Observer<Message>, View {
     private void parseChallengerSelection(Message message) {
         gods = new HashMap<>();
         challenger = message.getInfo();
-        if(message.getInfo().equals(username) && chosenGods.size() != players.size()) {
+        if (message.getInfo().equals(username) && chosenGods.size() != players.size()) {
             inputRequest(() -> requestChallengerGod(new ArrayList<>(chosenGods)));
-        }
-        else {
+        } else {
             viewRequest(() -> updateChallengerGodSelection(new ArrayList<>(chosenGods)));
         }
     }
 
-    public boolean validateGods(String requestedGod){
-        if(!getStringAvailableGods().contains(requestedGod)){
+    public boolean validateGods(String requestedGod) {
+        if (!getStringAvailableGods().contains(requestedGod)) {
             return false;
         }
-        sendMessage(new FlagMessage(MessageType.GODS_UPDATE, username, requestedGod, true, "SERVER"));
+        sendMessage(new FlagMessage(MessageType.GODS_UPDATE, username, requestedGod, true, RECIPIENT));
         return true;
     }
 
-    private void parseManagementMessage(FlagMessage message){
+    private void parseManagementMessage(FlagMessage message) {
         if (message.getFlag()) {
             addGod(message);
         } else {
@@ -281,65 +286,63 @@ public abstract class Client implements Observer<Message>, View {
         }
     }
 
-    private void addGod(Message message){
+    private void addGod(Message message) {
         chosenGods.add(message.getInfo());
-        if(chosenGods.size() != players.size()) {
+        if (chosenGods.size() != players.size()) {
             if (challenger.equals(username)) {
                 inputRequest(() -> requestChallengerGod(new ArrayList<>(chosenGods)));
-            }
-            else {
+            } else {
                 viewRequest(() -> updateChallengerGodSelection(new ArrayList<>(chosenGods)));
             }
         }
     }
 
-    private void parseGodPlayerChoice(Message message){
-        gods.put(message.getInfo(),"");
-        if(username.equals(message.getInfo())){
+    private void parseGodPlayerChoice(Message message) {
+        gods.put(message.getInfo(), "");
+        if (username.equals(message.getInfo())) {
             inputRequest(() -> requestPlayerGod(new ArrayList<>(chosenGods), new HashMap<>(gods)));
-        }
-        else {
+        } else {
             viewRequest(() -> updatePlayerGodSelection(message.getInfo(), new HashMap<>(gods), new ArrayList<>(chosenGods)));
         }
     }
 
-    public boolean validatePlayerGodChoice(String requestedGod){
-        if(!chosenGods.contains(requestedGod)){
+    public boolean validatePlayerGodChoice(String requestedGod) {
+        if (!chosenGods.contains(requestedGod)) {
             return false;
         }
-        sendMessage(new Message(MessageType.GODS_SELECTION_UPDATE, username, requestedGod, "SERVER"));
+        sendMessage(new Message(MessageType.GODS_SELECTION_UPDATE, username, requestedGod, RECIPIENT));
         return true;
     }
 
     private void removeGod(Message message) {
         chosenGods.remove(message.getInfo());
-        for(String player: gods.keySet()) {
-            if(gods.get(player).equals("")) {
-                gods.replace(player, message.getInfo());
+        for (Map.Entry<String, String> e : gods.entrySet()) {
+            if (e.getValue().equals("")) {
+                gods.replace(e.getKey(), message.getInfo());
             }
         }
-        if(chosenGods.size() == 0) {
-            if(challenger.equals(username)) {
+        if (chosenGods.isEmpty()) {
+            if (challenger.equals(username)) {
                 inputRequest(() -> requestStarterPlayer(new HashMap<>(gods)));
-            }
-            else {
+            } else {
                 viewRequest(() -> updateStarterPlayerSelection(new HashMap<>(gods)));
             }
         }
     }
 
     public boolean validatePlayer(String string) {
-        if(!players.containsKey(string)) { return false; }
-        sendMessage(new Message(MessageType.STARTER_PLAYER, username, string, "SERVER"));
+        if (!players.containsKey(string)) {
+            return false;
+        }
+        sendMessage(new Message(MessageType.STARTER_PLAYER, username, string, RECIPIENT));
         return true;
     }
 
 
     private void parseTurnUpdate(ActionUpdateMessage message) {
-        if(username.equals(message.getInfo())) {
+        if (username.equals(message.getInfo())) {
             inputRequest(() -> requestTurnAction(message.getPossibleActions(), message.getGameUpdate(), players, gods, message.getFlag()));
-        }
-        else {
+        } else {
             viewRequest(() -> showBoard(message.getGameUpdate(), players, gods, message.getInfo()));
         }
     }
@@ -349,28 +352,28 @@ public abstract class Client implements Observer<Message>, View {
     }
 
     public boolean validateAction(Action action, DtoPosition position, Map<Action, List<DtoPosition>> possibleActions) {
-        if(possibleActions.containsKey(action) && (Action.getNullPosActions().contains(action) || possibleActions.get(action).stream().anyMatch(p -> p.equals(position)))) {
-            sendMessage(new ActionMessage(username, "Action request", action, position, "SERVER"));
+        if (possibleActions.containsKey(action) && (Action.getNullPosActions().contains(action) || possibleActions.get(action).stream().anyMatch(p -> p.isSameAs(position)))) {
+            sendMessage(new ActionMessage(username, "Action request", action, position, RECIPIENT));
             return true;
         }
         return false;
     }
 
-    public boolean validatePosition(List<DtoPosition> possiblePositions, int x, int y){
+    public boolean validatePosition(List<DtoPosition> possiblePositions, int x, int y) {
         return possiblePositions.stream().anyMatch(p -> p.getX() == x && p.getY() == y);
     }
 
 
     private void parseStateUpdate(StateUpdateMessage message) {
         state = message.getState();
-        if(state == GameState.GOD_SELECTION) {
+        if (state == GameState.GOD_SELECTION) {
             connection.setReconnect(true);
         }
     }
 
     public void sendMessage(Message message) {
         connection.sendMessage(message);
-        LOG.info("[CLIENT] Sent message "+message);
+        log.info(() -> "[CLIENT] Sent message " + message);
     }
 
     private List<String> getStringAvailableGods() {
@@ -382,7 +385,7 @@ public abstract class Client implements Observer<Message>, View {
     }
 
     protected void disconnectClient() {
-        if(connection != null) {
+        if (connection != null) {
             connection.setReconnect(false);
             connection.disconnect();
         }

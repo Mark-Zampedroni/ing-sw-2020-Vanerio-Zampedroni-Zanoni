@@ -1,11 +1,11 @@
 package it.polimi.ingsw.mvc.model;
 
-import it.polimi.ingsw.mvc.model.rules.EnemyRules;
-import it.polimi.ingsw.utility.enumerations.Colors;
-import it.polimi.ingsw.utility.enumerations.Gods;
 import it.polimi.ingsw.mvc.model.map.Board;
 import it.polimi.ingsw.mvc.model.player.Player;
 import it.polimi.ingsw.mvc.model.player.Worker;
+import it.polimi.ingsw.mvc.model.rules.EnemyRules;
+import it.polimi.ingsw.utility.enumerations.Colors;
+import it.polimi.ingsw.utility.enumerations.Gods;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -19,12 +19,11 @@ import java.util.Random;
 public class Session implements Serializable {
 
     private static final long serialVersionUID = 3969372125515778369L;
-
+    private static Session instance;
     private final ArrayList<Player> players = new ArrayList<>();
     private final Board board = new Board();
-    private boolean isStarted;
-    private static Session instance;
     private final List<EnemyRules> enemyModifiers = new ArrayList<>();
+    private boolean isStarted;
 
     /**
      * Can't be instantiated, singleton pattern implemented
@@ -34,10 +33,10 @@ public class Session implements Serializable {
     }
 
     /**
-     * Method to reset the singleton at the reload of the save
+     * Method to set the singleton at the reload
      */
-    public void loadInstance(){
-        instance = this;
+    public static synchronized void loadInstance(Session session) {
+        instance = session;
     }
 
     /**
@@ -46,7 +45,7 @@ public class Session implements Serializable {
      * @return the {@link Session session} with all the game informations
      */
     public static Session getInstance() {
-        if(instance == null) {
+        if (instance == null) {
             instance = new Session();
         }
         return instance;
@@ -83,7 +82,7 @@ public class Session implements Serializable {
      * Adds a {@link Player player} to the list of {@link Player players}
      *
      * @param username is the {@link Player player}'s name
-     * @param color the color associated to the player
+     * @param color    the color associated to the player
      */
     public void addPlayer(String username, Colors color) {
         players.add(new Player(username, color));
@@ -115,7 +114,7 @@ public class Session implements Serializable {
      * @return the player, or null if not found
      */
     public Player getPlayerByName(String username) {
-        for(Player p : players) {
+        for (Player p : players) {
             if (p.getUsername().equals(username)) {
                 return p;
             }
@@ -138,7 +137,7 @@ public class Session implements Serializable {
      *
      * @return a shallow copy of the {@link Player players} list
      */
-    public ArrayList<Player> getPlayers() {
+    public List<Player> getPlayers() {
         return new ArrayList<>(players);
     }
 
@@ -148,8 +147,8 @@ public class Session implements Serializable {
      * @param player identifies the {@link Worker workers} master
      */
     private void removeWorkers(Player player) {
-        while(player.getWorkers().size() != 0) {
-            player.removeWorker(player.getWorkers().size()-1);
+        while (!player.getWorkers().isEmpty()) {
+            player.removeWorker(player.getWorkers().size() - 1);
         }
     }
 
@@ -159,8 +158,8 @@ public class Session implements Serializable {
      * @param player the {@link Player player} that you don't need to have in the list
      * @return a shallow copy of the {@link Player players}'s list and removes the {@link Player player} in the argument
      */
-    public ArrayList<Player> getOtherPlayers(Player player) {
-        ArrayList<Player> list = getPlayers();
+    public List<Player> getOtherPlayers(Player player) {
+        List<Player> list = getPlayers();
         list.remove(player);
         return list;
     }
@@ -204,7 +203,7 @@ public class Session implements Serializable {
      */
     public String getChallenger() {
         for (Player player : players) {
-            if(player.isChallenger()){
+            if (player.isChallenger()) {
                 return player.getUsername();
             }
         }

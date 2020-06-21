@@ -1,9 +1,9 @@
 package it.polimi.ingsw.mvc.model.player;
 
-import it.polimi.ingsw.utility.enumerations.Colors;
-import it.polimi.ingsw.utility.enumerations.Gods;
 import it.polimi.ingsw.mvc.model.map.Position;
 import it.polimi.ingsw.mvc.model.rules.GodRules;
+import it.polimi.ingsw.utility.enumerations.Colors;
+import it.polimi.ingsw.utility.enumerations.Gods;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -18,9 +18,9 @@ public class Player implements Serializable {
 
     private static final long serialVersionUID = 1606644735117861200L;
     private final String username;
-    private GodRules rules;
     private final ArrayList<Worker> workers;
     private final Colors color;
+    private GodRules rules;
     private Gods god;
     private boolean challenger;
     private boolean starter;
@@ -30,11 +30,11 @@ public class Player implements Serializable {
      * Initializes a player with his username, creating two {@link Worker workers}
      *
      * @param username unique string used to identify the player
-     * @param color the color associated to the player
+     * @param color    the color associated to the player
      */
     public Player(String username, Colors color) {
         this.username = username;
-        this.workers= new ArrayList<>();
+        this.workers = new ArrayList<>();
         this.color = color;
     }
 
@@ -66,6 +66,15 @@ public class Player implements Serializable {
     }
 
     /**
+     * Getter for god
+     *
+     * @return the {@link Gods god} of the player
+     */
+    public Gods getGod() {
+        return god;
+    }
+
+    /**
      * Setter for god
      *
      * @param god the {@link Gods god} chosen by the player during the creation, never change during the match
@@ -76,12 +85,12 @@ public class Player implements Serializable {
     }
 
     /**
-     * Getter for god
+     * Getter for rules
      *
-     * @return the {@link Gods god} of the player
+     * @return the {@link GodRules rules} of the player
      */
-    public Gods getGod() {
-        return god;
+    public GodRules getRules() {
+        return rules;
     }
 
     /**
@@ -91,15 +100,6 @@ public class Player implements Serializable {
      */
     public void setRules(GodRules rules) {
         this.rules = rules;
-    }
-
-    /**
-     * Getter for rules
-     *
-     * @return the {@link GodRules rules} of the player
-     */
-    public GodRules getRules() {
-        return rules;
     }
 
     /**
@@ -117,7 +117,7 @@ public class Player implements Serializable {
      * @param position specific {@link GodRules rules} that are linked to the chosen {@link Gods god}
      */
     public void removeWorker(Position position) {
-        workers.removeIf(w -> w.getPosition().equals(position));
+        workers.removeIf(w -> w.getPosition().isSameAs(position));
     }
 
     /**
@@ -126,7 +126,7 @@ public class Player implements Serializable {
      * @param index position of the {@link Worker worker} in the list in player
      */
     public void removeWorker(int index) {
-            workers.remove(index);
+        workers.remove(index);
     }
 
     /**
@@ -134,7 +134,7 @@ public class Player implements Serializable {
      *
      * @return {@code true} if the player is the current challenger
      */
-    public boolean isChallenger(){
+    public boolean isChallenger() {
         return challenger;
     }
 
@@ -158,7 +158,7 @@ public class Player implements Serializable {
      * The current player becomes the starter of the match
      */
     public void setStarter() {
-        starter =true;
+        starter = true;
     }
 
     /**
@@ -172,12 +172,11 @@ public class Player implements Serializable {
 
     /**
      * Set the player to a "looser" player, removes his workers, removes the effect of his god
-     *
      */
     public void loss() {
         loss = true;
         workers.clear();
-        if(rules != null) {
+        if (rules != null) {
             rules.removeEffect();
         }
     }
@@ -189,9 +188,9 @@ public class Player implements Serializable {
      */
     @Override
     public String toString() {
-        return "{Username: "+this.username
-                +", Color: "+ color
-                +", God: " + god
-                +"}";
+        return "{Username: " + this.username
+                + ", Color: " + color
+                + ", God: " + god
+                + "}";
     }
 }

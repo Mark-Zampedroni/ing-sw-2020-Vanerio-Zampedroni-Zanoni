@@ -17,7 +17,7 @@ public abstract class EnemyRules extends CommonRules implements Serializable {
      * Check enforced by {@link #executeMove(Worker worker, Position position) executeMove}
      *
      * @param position position where the worker has to move to
-     * @param worker worker that perform the movement
+     * @param worker   worker that perform the movement
      */
     public void consentEnemyMovement(Worker worker, Position position) throws CantActException { /* Nothing on default */ }
 

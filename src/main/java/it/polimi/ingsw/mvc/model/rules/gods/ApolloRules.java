@@ -23,25 +23,24 @@ public class ApolloRules extends GodRules implements Serializable {
      * Executes a {@link Action movement}, if the target position is occupied by an enemy worker it's
      * switched with the worker performing the move
      *
-     * @param worker selected {@link Worker worker}
+     * @param worker   selected {@link Worker worker}
      * @param position {@link Position position} the {@link Worker worker} will move to
      */
     @Override
     public void executeMove(Worker worker, Position position) {
-        if(position.getWorker() != null) {
+        if (position.getWorker() != null) {
             oldPosition = worker.getPosition();
             worker.switchPosition(position.getWorker());
             notify(new DtoSession(Session.getInstance()));
-        }
-        else {
-            super.executeMove(worker,position);
+        } else {
+            super.executeMove(worker, position);
         }
     }
 
     /**
      * Checks if by the rules it's physically possible to perform a move {@link Action action}
      *
-     * @param worker worker that wants to move
+     * @param worker   worker that wants to move
      * @param position position to where the worker is moved
      * @throws CantActException when the worker can't move
      */
@@ -54,7 +53,7 @@ public class ApolloRules extends GodRules implements Serializable {
     /**
      * Checks if by the rules it's physically possible to perform a build {@link Action action}
      *
-     * @param worker worker that wants to build
+     * @param worker   worker that wants to build
      * @param position position where the worker wants to build
      * @throws CantActException when the worker can't build
      */

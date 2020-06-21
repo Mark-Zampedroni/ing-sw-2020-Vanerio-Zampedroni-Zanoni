@@ -16,69 +16,27 @@ import java.util.logging.Logger;
 public class ClientConnection implements Runnable {
 
 
-
-    public final Logger LOG;
+    public final Logger log;
 
     private final String ip;
     private final int port;
-
+    private final List<Message> inQueue;
+    private final Object queueLock = new Object();
     private String name = "";
-
     private ObjectInputStream input;
     private ObjectOutputStream output;
-
     private Socket socket;
-    private final List<Message> inQueue;
     private Thread t;
-
-    private final Object queueLock = new Object();
-    private ClientMessageReceiver messageReceiver;
     private boolean reconnect;
     private boolean isDisconnected;
-
-    private static class ClientMessageReceiver extends Observable<Message> implements Runnable {
-
-        private final Client controller;
-        private final ClientConnection connection;
-
-        public ClientMessageReceiver(ClientConnection connection, Client controller) {
-            this.connection = connection;
-            this.controller = controller;
-            this.addObserver(controller);
-
-            new Thread(this).start();
-        }
-
-        @Override
-        public void run() {
-            List<Message> messages;
-            while (!Thread.currentThread().isInterrupted()) {
-                do {
-                    messages = connection.getQueue(); // Consumer
-                    try {
-                        Thread.sleep(50);
-                    } catch(InterruptedException e) { connection.LOG.warning("[CONNECTION_RECEIVER] ClientReceiver wait time Exception"); }
-                } while(messages.isEmpty());
-                for(Message msg : messages) {
-                    notify(msg);
-                }
-            }
-            this.removeObserver(controller);
-        }
-
-        public Client getController() {
-            return controller;
-        }
-
-    }
 
     public ClientConnection(String ip, int port, Client controller) throws IOException {
         this.ip = ip;
         this.port = port;
         inQueue = new ArrayList<>();
-        LOG = controller.LOG;
+        log = controller.log;
         startConnection();
-        messageReceiver = new ClientMessageReceiver(this, controller);
+        new ClientMessageReceiver(this, controller);
     }
 
     public void startConnection() throws IOException {
@@ -96,73 +54,72 @@ public class ClientConnection implements Runnable {
                 output.writeObject(msg);
                 output.reset();
             }
-        } catch(IOException e) { LOG.severe(e.getMessage()); }
+        } catch (IOException e) {
+            log.severe(e.getMessage());
+        }
     }
 
     @Override
     public void run() {
-        while(!Thread.currentThread().isInterrupted()) {
+        while (!Thread.currentThread().isInterrupted()) {
             try {
                 Message msg = (Message) input.readObject();
-                if(msg != null) {
-                    synchronized(queueLock) {
+                if (msg != null) {
+                    synchronized (queueLock) {
                         inQueue.add(msg);
                     }
                 }
-            }
-            catch(ClassNotFoundException e) {
-                LOG.severe(e.getMessage());
-            }
-            catch(IOException e) {
-                LOG.severe("[CONNECTION] Socket closed");
+            } catch (ClassNotFoundException e) {
+                log.severe(e.getMessage());
+            } catch (IOException e) {
+                log.severe("[CONNECTION] Socket closed");
                 disconnect();
             }
         }
-        LOG.info("[CONNECTION] Server crashed");
-        if(reconnect) {
+        log.info("[CONNECTION] Server crashed");
+        if (reconnect) {
             initReconnection();
-        }
-        else {
+        } else {
             inQueue.add(new Message(MessageType.DISCONNECTION_UPDATE, "SELF", "Lost connection to server", "ALL"));
         }
     }
 
     private void initReconnection() {
-        synchronized(queueLock) {
-            LOG.info("[CONNECTION] Trying to reconnect ...");
+        synchronized (queueLock) {
+            log.info("[CONNECTION] Trying to reconnect ...");
             inQueue.add(new Message(MessageType.RECONNECTION_UPDATE, "SELF", "Server disconnected", "ALL"));
         }
-        Client controller = messageReceiver.getController();
-        startReconnectionRequests(controller);
+        startReconnectionRequests();
     }
 
     public void disconnect() {
         try {
-            if(!socket.isClosed()) {
+            if (!socket.isClosed()) {
                 socket.close();
-                LOG.info("[CONNECTION] Connection closed");
+                log.info("[CONNECTION] Connection closed");
             }
             t.interrupt();
-        } catch(IOException e) {
-            LOG.severe(e.getMessage());
+        } catch (IOException e) {
+            log.severe(e.getMessage());
         }
     }
 
     public List<Message> getQueue() {
         List<Message> copy;
-        synchronized(queueLock) {
+        synchronized (queueLock) {
             copy = new ArrayList<>(inQueue);
             inQueue.clear();
         }
         return copy;
     }
 
-    private void startReconnectionRequests(Client controller) {
-        while(!reconnectRequest()) {
+    private void startReconnectionRequests() {
+        while (!reconnectRequest()) {
             waitTime();
         }
-        if(reconnect) {
-            sendMessage(new Message(MessageType.RECONNECTION_UPDATE,name,"Reconnecting","SERVER")); }
+        if (reconnect) {
+            sendMessage(new Message(MessageType.RECONNECTION_UPDATE, name, "Reconnecting", "SERVER"));
+        }
     }
 
     private boolean reconnectRequest() {
@@ -174,12 +131,12 @@ public class ClientConnection implements Runnable {
         }
     }
 
-    protected void setReconnect(boolean value) {
-        reconnect = value;
-    }
-
     protected boolean getReconnect() {
         return reconnect;
+    }
+
+    protected void setReconnect(boolean value) {
+        reconnect = value;
     }
 
     protected void setConnectionName(String name) {
@@ -197,8 +154,48 @@ public class ClientConnection implements Runnable {
     private void waitTime() {
         try {
             Thread.sleep(2000);
-        } catch(InterruptedException e) {
-            LOG.warning("[CONNECTION] Wait time of "+ 2000 +"ms interrupted");
+        } catch (InterruptedException e) {
+            log.warning("[CONNECTION] Wait time of " + 2000 + "ms interrupted");
+            Thread.currentThread().interrupt();
         }
+    }
+
+    private static class ClientMessageReceiver extends Observable<Message> implements Runnable {
+
+        private final transient Client controller;
+        private final transient ClientConnection connection;
+
+        public ClientMessageReceiver(ClientConnection connection, Client controller) {
+            this.connection = connection;
+            this.controller = controller;
+            this.addObserver(controller);
+
+            new Thread(this).start();
+        }
+
+        @Override
+        public void run() {
+            List<Message> messages;
+            while (!Thread.currentThread().isInterrupted()) {
+                do {
+                    messages = connection.getQueue(); // Consumer
+                    try {
+                        Thread.sleep(50);
+                    } catch (InterruptedException e) {
+                        connection.log.warning("[CONNECTION_RECEIVER] ClientReceiver wait time Exception");
+                        Thread.currentThread().interrupt();
+                    }
+                } while (messages.isEmpty());
+                for (Message msg : messages) {
+                    notify(msg);
+                }
+            }
+            this.removeObserver(controller);
+        }
+
+        public Client getController() {
+            return controller;
+        }
+
     }
 }

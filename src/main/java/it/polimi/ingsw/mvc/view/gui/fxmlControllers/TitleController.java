@@ -1,23 +1,20 @@
 package it.polimi.ingsw.mvc.view.gui.fxmlControllers;
 
-import it.polimi.ingsw.mvc.view.gui.music.Music;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.effect.Glow;
 import javafx.scene.layout.BorderPane;
+
 import java.util.Arrays;
 
 
 public class TitleController extends GenericController {
     private static String connectionIp;
     private static int connectionPort;
-    private static boolean music;
 
     @FXML
     public Button playButton;
-    @FXML
-    public Button musicButton;
     @FXML
     public Button p2;
     @FXML
@@ -35,6 +32,10 @@ public class TitleController extends GenericController {
     @FXML
     public Label textLabelCon;
 
+    public static void setConnectionConfig(String ip, int port) {
+        connectionPort = port;
+        connectionIp = ip;
+    }
 
     public void initialize() {
         super.initialize(this);
@@ -57,7 +58,7 @@ public class TitleController extends GenericController {
 
     @FXML
     private void handleClickPlay() {
-        if(!gui.createConnection(connectionIp, connectionPort)){
+        if (!gui.createConnection(connectionIp, connectionPort)) {
             showDisconnected("Connection Error! \nConnection failed! The server is unreachable, try again");
         }
     }
@@ -86,26 +87,12 @@ public class TitleController extends GenericController {
 
     private void handleButtonReleased(Button button) {
         button.setId("buttonReleased");
-        if(button == okButton) {
+        if (button == okButton) {
             hideNode(textPaneCon);
             hideNode(okButton);
             showNode(playButton);
-        } else{
+        } else {
             gui.validateNumberOfPlayers(Arrays.asList(button.getText().split(" ")).get(0));
-        }
-    }
-
-    @FXML
-    public void handleMusic() {
-        if (!music) {
-            Music.playMusic();
-            musicButton.setId("musicOn");
-            music = true;
-        }
-        else {
-            Music.turnOffMusic();
-            music = false;
-            musicButton.setId("musicOff");
         }
     }
 
@@ -117,11 +104,6 @@ public class TitleController extends GenericController {
 
     public void showInfo(String text) {
         switchModeConn(text);
-    }
-
-    public static void setConnectionConfig(String ip, int port){
-        connectionPort = port;
-        connectionIp = ip;
     }
 
     public void showDisconnected(String text) {

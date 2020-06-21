@@ -51,7 +51,7 @@ public class DtoPosition implements Serializable {
      * @param position {@link DtoPosition position} to compare
      * @return {@code true} if the coordinates match
      */
-    public boolean equals(DtoPosition position) {
+    public boolean isSameAs(DtoPosition position) {
         return (x == position.getX() && y == position.getY());
     }
 
@@ -61,7 +61,7 @@ public class DtoPosition implements Serializable {
      * @param position {@link Position position} to compare
      * @return {@code true} if the coordinates match
      */
-    public boolean equals(Position position) {
+    public boolean isSameAs(Position position) {
         return (x == position.getX() && y == position.getY());
     }
 
@@ -72,15 +72,15 @@ public class DtoPosition implements Serializable {
      */
     @Override
     public String toString() {
-        return "("+x+","+y+")";
+        return "(" + x + "," + y + ")";
     }
 
 
-/**
+    /**
      * Evaluates if the DTOposition is valid
      *
      * @return {@code true} if position is within the {@link DtoBoard DTOboard} boundaries
-    */
+     */
     public boolean isValid() {
         return (x >= 0 && x < 5 && y >= 0 && y < 5);
     }
@@ -89,7 +89,7 @@ public class DtoPosition implements Serializable {
      * Checks if the DTOposition is perimetrical
      *
      * @return {@code true} if DTOposition coordinates are on the perimeter of {@link DtoBoard DTOboard}
-    */
+     */
     public boolean isBoundary() {
         return (x == 0 || x == 4 || y == 0 || y == 4);
     }

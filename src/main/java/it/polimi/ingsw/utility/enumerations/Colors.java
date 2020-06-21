@@ -13,7 +13,7 @@ public enum Colors implements Serializable {
     BLUE, BROWN, WHITE;
 
     public static boolean isValid(String color) {
-        List<String> valid = new ArrayList<>(Arrays.asList("BLUE","BROWN","WHITE"));
+        List<String> valid = new ArrayList<>(Arrays.asList("BLUE", "BROWN", "WHITE"));
         return valid.contains(color);
     }
 

@@ -1,15 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import javafx.geometry.*?>
-<?import java.net.*?>
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
-
-<BorderPane id="otherBack" fx:id="main" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="1.0" minWidth="1.0" prefHeight="700.0" prefWidth="1040.0" styleClass="fullbackground" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.mvc.view.gui.fxmlControllers.LobbyController">
+<?import java.lang.*?>
+<?import java.net.URL?>
+<BorderPane xmlns:fx="http://javafx.com/fxml/1" id="otherBack" fx:id="main" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="1.0"
+            minWidth="1.0" prefHeight="700.0" prefWidth="1040.0" styleClass="fullbackground"
+            xmlns="http://javafx.com/javafx/8"
+            fx:controller="it.polimi.ingsw.mvc.view.gui.fxmlControllers.LobbyController">
     <stylesheets>
-        <URL value="@../css/lobby.css" />
+        <URL value="@../css/lobby.css"/>
     </stylesheets>
     <center>
         <GridPane id="bodybg" fx:id="mainGrid" minHeight="1.0" minWidth="1.0" pickOnBounds="false"
@@ -357,5 +359,5 @@
                 </center>
             </BorderPane>
         </GridPane>
-   </center>
+    </center>
 </BorderPane>

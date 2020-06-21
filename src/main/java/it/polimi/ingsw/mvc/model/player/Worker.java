@@ -48,7 +48,7 @@ public class Worker implements Serializable {
      * @param y coordinate
      */
     public void setPosition(int x, int y) {
-        setPosition(new Position(x,y));
+        setPosition(new Position(x, y));
     }
 
     /**
@@ -68,9 +68,11 @@ public class Worker implements Serializable {
      * @return the {@link Player player} who owns the worker
      */
     public Player getMaster() {
-        for(Player p : Session.getInstance().getPlayers()) {
-            for(Worker w : p.getWorkers()) {
-                if(this.equals(w)) { return p; }
+        for (Player p : Session.getInstance().getPlayers()) {
+            for (Worker w : p.getWorkers()) {
+                if (this.equals(w)) {
+                    return p;
+                }
             }
         }
         return null;
@@ -83,9 +85,9 @@ public class Worker implements Serializable {
      */
     @Override
     public String toString() {
-        return "{Master: "+getMaster()+
-                " X: "+getPosition().getX()+
-                " Y: "+getPosition().getY()+"}";
+        return "{Master: " + getMaster() +
+                " X: " + getPosition().getX() +
+                " Y: " + getPosition().getY() + "}";
     }
 
 }

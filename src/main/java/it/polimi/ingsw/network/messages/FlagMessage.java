@@ -14,6 +14,8 @@ public class FlagMessage extends Message implements Serializable {
         this.flag = flag;
     }
 
-    public boolean getFlag() { return flag; }
+    public boolean getFlag() {
+        return flag;
+    }
 
 }

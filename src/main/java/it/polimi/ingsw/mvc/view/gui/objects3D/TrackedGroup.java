@@ -6,10 +6,9 @@ import javafx.scene.Group;
 
 public abstract class TrackedGroup extends Group {
 
+    public final BoardCoords3D coords = new BoardCoords3D(0, 0, 0);
     protected final double zeroX, zeroZ, zeroY;
     private final double firstFloorOffset, secondFloorOffset, thirdFloorOffset;
-
-    public final BoardCoords3D coords = new BoardCoords3D(0,0,0);
 
     public TrackedGroup(double zeroX, double zeroZ, double zeroY,
                         double firstFloorOffset, double secondFloorOffset, double thirdFloorOffset) {
@@ -26,12 +25,12 @@ public abstract class TrackedGroup extends Group {
     }
 
     public void setCoords(BoardCoords3D newCoords) {
-        coords.setValues(newCoords.getValueX(),newCoords.getValueY(),newCoords.getValueZ());
+        coords.setValues(newCoords.getValueX(), newCoords.getValueY(), newCoords.getValueZ());
         putOnCorrectTile();
     }
 
     private void putOnCorrectTile() {
-        NodeOperation.putOnCorrectTile(this,coords);
+        NodeOperation.putOnCorrectTile(this, coords);
     }
 
     public double getZeroX() {
@@ -48,11 +47,18 @@ public abstract class TrackedGroup extends Group {
 
     public void setFloor(int height) {
         double offset;
-        switch(height) {
-            case 1: offset = firstFloorOffset; break;
-            case 2: offset = secondFloorOffset; break;
-            case 3: offset = thirdFloorOffset; break;
-            default: offset = getZeroY();
+        switch (height) {
+            case 1:
+                offset = firstFloorOffset;
+                break;
+            case 2:
+                offset = secondFloorOffset;
+                break;
+            case 3:
+                offset = thirdFloorOffset;
+                break;
+            default:
+                offset = getZeroY();
         }
         setTranslateY(offset);
     }

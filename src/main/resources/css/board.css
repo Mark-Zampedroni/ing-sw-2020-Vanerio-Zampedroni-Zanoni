@@ -9,21 +9,21 @@
 }
 
 #loading {
-	-fx-background-image: url("../Texture2D_sorted/Misti/loading.gif");
-	-fx-background-size: 100% 100%;
+    -fx-background-image: url("../Texture2D_sorted/Misti/loading.gif");
+    -fx-background-size: 100% 100%;
 }
 
 #blackScreen {
-	-fx-background-image: url("../Texture2D_sorted/Backgrounds/blackScreen.jpg");
-	-fx-background-size: 100% 100%;
+    -fx-background-image: url("../Texture2D_sorted/Backgrounds/blackScreen.jpg");
+    -fx-background-size: 100% 100%;
 }
 
 .root {
-   -fx-focus-color: transparent;
-   -fx-faint-focus-color: transparent;
+    -fx-focus-color: transparent;
+    -fx-faint-focus-color: transparent;
 }
 
-.label{
+.label {
     -fx-text-fill: black;
 }
 
@@ -32,112 +32,120 @@
 }
 
 #head {
-	-fx-background-image: url("../Texture2D_sorted/Misti/icon_player.png");
-	-fx-background-size: 100% 100%;
+    -fx-background-image: url("../Texture2D_sorted/Misti/icon_player.png");
+    -fx-background-size: 100% 100%;
 }
 
 #textBack {
-	-fx-background-image: url("../Texture2D_sorted/Backgrounds/clp_textbarv2.png");
+    -fx-background-image: url("../Texture2D_sorted/Backgrounds/clp_textbarv2.png");
     -fx-text-inner-color: white;
     -fx-background-color: transparent;
-	-fx-background-size: 100% 100%;
+    -fx-background-size: 100% 100%;
 }
 
 #labelBack {
-	-fx-background-image: url("../Texture2D_sorted/Backgrounds/popupnoborder.png");
+    -fx-background-image: url("../Texture2D_sorted/Backgrounds/popupnoborder.png");
 }
 
-#sidebarBg{
-     -fx-background-image: url('../Texture2D_sorted/Backgrounds/bg_without_leaf.png');
-  }
+#sidebarBg {
+    -fx-background-image: url('../Texture2D_sorted/Backgrounds/bg_without_leaf.png');
+}
 
-#frame{
-     -fx-background-image: url('../Texture2D_sorted/Icone_dei/Contorni/frame_white.png');
-     -fx-background-size: 100% 100%;
-  }
+#frame {
+    -fx-background-image: url('../Texture2D_sorted/Icone_dei/Contorni/frame_white.png');
+    -fx-background-size: 100% 100%;
+}
 
-#buttonPressed{
-     -fx-background-image: url('../Texture2D_sorted/Pulsanti/btn_blue_pressed.png');
-  }
+#buttonPressed {
+    -fx-background-image: url('../Texture2D_sorted/Pulsanti/btn_blue_pressed.png');
+}
 
-#button{
+#button {
     -fx-background-image: url('../Texture2D_sorted/Pulsanti/cm_btn_blue.png');
     -fx-background-size: 100% 100%;
 }
 
-#buttonMove{
-     -fx-background-image: url('../Texture2D_sorted/Pulsanti/cm_btn_coral.png');
-     -fx-background-size: 100% 100%;
-  }
+#buttonMove {
+    -fx-background-image: url('../Texture2D_sorted/Pulsanti/cm_btn_coral.png');
+    -fx-background-size: 100% 100%;
+}
 
-#buttonExtraMove{
-     -fx-background-image: url('../Texture2D_sorted/Pulsanti/cm_btn_green.png');
-     -fx-background-size: 100% 100%;
-  }
+#buttonExtraMove {
+    -fx-background-image: url('../Texture2D_sorted/Pulsanti/cm_btn_green.png');
+    -fx-background-size: 100% 100%;
+}
 
 
-#playerBLUE{
+#playerBLUE {
     -fx-background-image: url('../Texture2D_sorted/Backgrounds/borderblueplayer2.png');
 }
-#playerBROWN{
+
+#playerBROWN {
     -fx-background-image: url('../Texture2D_sorted/Backgrounds/borderbrownplayer2.png');
 }
-#playerWHITE{
+
+#playerWHITE {
     -fx-background-image: url('../Texture2D_sorted/Backgrounds/borderwhiteplayer2.png');
 }
-#b{
+
+#b {
     -fx-background-image: url('../Texture2D_sorted/Backgrounds/borderblueplayer.png');
 }
 
-#try1{
+#try1 {
     -fx-background-image: url('../Texture2D_sorted/Backgrounds/try1.png');
 }
 
-#brownbig{
+#brownbig {
     -fx-background-image: url('../Texture2D_sorted/Backgrounds/bigbrown.png');
 }
 
-#whitebig{
+#whitebig {
     -fx-background-image: url('../Texture2D_sorted/Backgrounds/bigwhite.png');
 }
 
-#bluebig{
+#bluebig {
     -fx-background-image: url('../Texture2D_sorted/Backgrounds/bigblue.png');
 }
 
-#button1{
+#button1 {
     -fx-background-image: url('../Texture2D_sorted/Pulsanti/PulsantiBoard/gree_board.png');
 }
-#button2{
+
+#button2 {
     -fx-background-image: url('../Texture2D_sorted/Pulsanti/PulsantiBoard/purple_board.png');
 }
-#button3{
-     -fx-background-image: url('../Texture2D_sorted/Pulsanti/PulsantiBoard/coral_board.png');
- }
-#button1pressed{
+
+#button3 {
+    -fx-background-image: url('../Texture2D_sorted/Pulsanti/PulsantiBoard/coral_board.png');
+}
+
+#button1pressed {
     -fx-background-image: url('../Texture2D_sorted/Pulsanti/PulsantiBoard/gree_board_pressed.png');
 }
-#button2pressed{
+
+#button2pressed {
     -fx-background-image: url('../Texture2D_sorted/Pulsanti/PulsantiBoard/purple_board_pressed.png');
 }
-#button3pressed{
+
+#button3pressed {
     -fx-background-image: url('../Texture2D_sorted/Pulsanti/PulsantiBoard/coral_board_pressed.png');
 }
 
 
-#info{
+#info {
     -fx-background-image: url('../Texture2D_sorted/Pulsanti/info2.png');
 }
 
-#crown{
+#crown {
     -fx-background-image: url('../Texture2D_sorted/Pulsanti/crown.jpg');
 }
 
-#currentplayer{
+#currentplayer {
     -fx-background-image: url('../Texture2D_sorted/Pulsanti/currentplayer.png');
 }
 
-#currentplayer2{
+#currentplayer2 {
     -fx-background-image: url('../Texture2D_sorted/Pulsanti/currentplayer2.png');
 }
 
@@ -161,54 +169,54 @@
     -fx-background-image: url('../Texture2D_sorted/Icone_dei/FullBody_senza_sfondo/APOLLO.png');
 }
 
-#DEMETER{
+#DEMETER {
     -fx-background-image: url("../Texture2D_sorted/Icone_dei/FullBody_senza_sfondo/DEMETER.png");
 }
 
-#ATHENA{
+#ATHENA {
     -fx-background-image: url("../Texture2D_sorted/Icone_dei/FullBody_senza_sfondo/ATHENA.png");
 }
 
-#ATLAS{
+#ATLAS {
     -fx-background-image: url("../Texture2D_sorted/Icone_dei/FullBody_senza_sfondo/ATLAS.png");
 }
 
-#HEPHAESTUS{
+#HEPHAESTUS {
     -fx-background-image: url("../Texture2D_sorted/Icone_dei/FullBody_senza_sfondo/HEPHAESTUS.png");
 }
 
-#MINOTAUR{
+#MINOTAUR {
     -fx-background-image: url("../Texture2D_sorted/Icone_dei/FullBody_senza_sfondo/MINOTAUR.png");
 }
 
-#ARTEMIS{
+#ARTEMIS {
     -fx-background-image: url("../Texture2D_sorted/Icone_dei/FullBody_senza_sfondo/ARTEMIS.png");
 }
 
-#PAN{
+#PAN {
     -fx-background-image: url("../Texture2D_sorted/Icone_dei/FullBody_senza_sfondo/PAN.png");
 }
 
-#PROMETHEUS{
+#PROMETHEUS {
     -fx-background-image: url("../Texture2D_sorted/Icone_dei/FullBody_senza_sfondo/PROMETHEUS.png");
 }
 
-#POSEIDON{
+#POSEIDON {
     -fx-background-image: url("../Texture2D_sorted/Icone_dei/FullBody_senza_sfondo/POSEIDON.png");
 }
 
-#HERA{
+#HERA {
     -fx-background-image: url("../Texture2D_sorted/Icone_dei/FullBody_senza_sfondo/HERA.png");
 }
 
-#TRITON{
+#TRITON {
     -fx-background-image: url("../Texture2D_sorted/Icone_dei/FullBody_senza_sfondo/TRITON.png");
 }
 
-#HESTIA{
+#HESTIA {
     -fx-background-image: url("../Texture2D_sorted/Icone_dei/FullBody_senza_sfondo/HESTIA.png");
 }
 
-#ZEUS{
+#ZEUS {
     -fx-background-image: url("../Texture2D_sorted/Icone_dei/FullBody_senza_sfondo/ZEUS.png");
 }

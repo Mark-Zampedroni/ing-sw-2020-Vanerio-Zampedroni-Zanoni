@@ -1,11 +1,11 @@
 package it.polimi.ingsw.mvc.view;
 
+import it.polimi.ingsw.network.messages.Message;
 import it.polimi.ingsw.network.messages.game.ActionUpdateMessage;
+import it.polimi.ingsw.network.server.ServerConnection;
 import it.polimi.ingsw.utility.dto.DtoPosition;
 import it.polimi.ingsw.utility.dto.DtoSession;
 import it.polimi.ingsw.utility.enumerations.Action;
-import it.polimi.ingsw.network.messages.Message;
-import it.polimi.ingsw.network.server.ServerConnection;
 import it.polimi.ingsw.utility.observer.Observable;
 import it.polimi.ingsw.utility.observer.Observer;
 
@@ -18,22 +18,13 @@ public class RemoteView extends Observable<Message> implements Observer<DtoSessi
     private boolean registered;
     private DtoSession dtoSession;
 
-    private class MessageReceiver implements Observer<Message> {
-        @Override
-        public void update(Message message) {
-            if(message.getSender() != null && message.getSender().equals(connection.getToken())) { //Anti-cheat
-                handleInput(message);
-            }
-        }
-    }
-
     public RemoteView(ServerConnection connection) {
         this.connection = connection;
         connection.addObserver(new MessageReceiver());
     }
 
     public void register(String username) {
-        if(!registered) {
+        if (!registered) {
             connection.setName(username);
             registered = true;
         }
@@ -61,13 +52,22 @@ public class RemoteView extends Observable<Message> implements Observer<DtoSessi
     }
 
     public void getFirstDTOSession(DtoSession dtoSession) {
-        if(this.dtoSession == null) {
+        if (this.dtoSession == null) {
             this.dtoSession = dtoSession;
         }
     }
 
     public void updateActions(Map<Action, List<DtoPosition>> actionCandidates, String turnOwner, boolean isSpecialPowerActive) {
-        sendMessage(new ActionUpdateMessage("SERVER",turnOwner,actionCandidates,dtoSession,isSpecialPowerActive,"ALL"));
+        sendMessage(new ActionUpdateMessage("SERVER", turnOwner, actionCandidates, dtoSession, isSpecialPowerActive, "ALL"));
+    }
+
+    private class MessageReceiver implements Observer<Message> {
+        @Override
+        public void update(Message message) {
+            if (message.getSender() != null && message.getSender().equals(connection.getUsername())) { //Anti-cheat
+                handleInput(message);
+            }
+        }
     }
 
 }

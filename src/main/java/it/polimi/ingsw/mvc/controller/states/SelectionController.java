@@ -1,17 +1,18 @@
 package it.polimi.ingsw.mvc.controller.states;
 
 import it.polimi.ingsw.mvc.controller.SessionController;
+import it.polimi.ingsw.mvc.model.Session;
+import it.polimi.ingsw.mvc.model.player.Player;
 import it.polimi.ingsw.mvc.model.rules.GodRules;
+import it.polimi.ingsw.mvc.view.RemoteView;
+import it.polimi.ingsw.network.messages.Message;
 import it.polimi.ingsw.utility.enumerations.GameState;
 import it.polimi.ingsw.utility.enumerations.Gods;
 import it.polimi.ingsw.utility.enumerations.MessageType;
-import it.polimi.ingsw.mvc.model.Session;
-import it.polimi.ingsw.mvc.model.player.Player;
-import it.polimi.ingsw.network.messages.Message;
-import it.polimi.ingsw.mvc.view.RemoteView;
 
 import java.io.Serializable;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Logger;
 
 /**
@@ -30,12 +31,12 @@ public class SelectionController extends StateController implements Serializable
     /**
      * Creates the controller for the selection phase
      *
-     * @param views list of the {@link RemoteView remoteViews} of the players for the updates
-     * @param LOG general logger of the server
+     * @param views      list of the {@link RemoteView remoteViews} of the players for the updates
+     * @param log        general logger of the server
      * @param controller general controller for the session
      */
-    public SelectionController(SessionController controller, List<RemoteView> views, Logger LOG) {
-        super(controller, views, LOG);
+    public SelectionController(SessionController controller, List<RemoteView> views, Logger log) {
+        super(controller, views, log);
         session = Session.getInstance();
         challenger = session.getPlayerByName(session.getChallenger());
         state = GameState.CHALLENGER_SELECTION;
@@ -51,7 +52,7 @@ public class SelectionController extends StateController implements Serializable
      */
     @Override
     public void parseMessage(Message message) {
-        if(message.getSender().equals(controller.getTurnOwner())) {
+        if (message.getSender().equals(controller.getTurnOwner())) {
             switch (message.getType()) {
                 case GODS_UPDATE:
                     parseAddMessage(message);
@@ -63,11 +64,10 @@ public class SelectionController extends StateController implements Serializable
                     parseStarterPlayerMessage(message);
                     break;
                 default:
-                    LOG.warning("Wrong message type : "+message);
+                    log.warning(() -> "Wrong message type : " + message);
             }
-        }
-        else {
-            LOG.warning("A player who is not the turn owner sent a message : "+message);
+        } else {
+            log.warning(() -> "A player who is not the turn owner sent a message : " + message);
         }
     }
 
@@ -77,7 +77,7 @@ public class SelectionController extends StateController implements Serializable
      * @param message the message received
      */
     private void parseAddMessage(Message message) {
-        if (state == GameState.CHALLENGER_SELECTION){
+        if (state == GameState.CHALLENGER_SELECTION) {
             if (Gods.isValid(message.getInfo()) && !chosenGod.contains(message.getInfo())) {
                 chosenGod.add(message.getInfo());
                 notifyMessage(messageBuilder(MessageType.GODS_UPDATE, message.getInfo(), true));
@@ -86,7 +86,7 @@ public class SelectionController extends StateController implements Serializable
                     askNextSelection();
                 }
             } else {
-                notifyMessage(messageBuilder(MessageType.SELECTION_UPDATE,  challenger.getUsername()));
+                notifyMessage(messageBuilder(MessageType.SELECTION_UPDATE, challenger.getUsername()));
             }
         }
     }
@@ -110,7 +110,7 @@ public class SelectionController extends StateController implements Serializable
                     notifyMessage(messageBuilder(MessageType.GODS_UPDATE, message.getInfo(), false));
                 }
             } else {
-                notifyMessage(messageBuilder(MessageType.GODS_SELECTION_UPDATE,"Turn notify", message.getSender()));
+                notifyMessage(messageBuilder(MessageType.GODS_SELECTION_UPDATE, "Turn notify", message.getSender()));
             }
         }
     }
@@ -148,7 +148,7 @@ public class SelectionController extends StateController implements Serializable
         Player turnOwner = session.getPlayers().get(turn);
         controller.setTurnOwner(turnOwner.getUsername());
         if (turnOwner.getGod() == null) {
-            notifyMessage(messageBuilder(MessageType.GODS_SELECTION_UPDATE,  turnOwner.getUsername()));
+            notifyMessage(messageBuilder(MessageType.GODS_SELECTION_UPDATE, turnOwner.getUsername()));
         }
     }
 
@@ -156,9 +156,9 @@ public class SelectionController extends StateController implements Serializable
      * Assigns the god to the player that choose it
      *
      * @param player the player that choose the god
-     * @param god the god chosen by the player
+     * @param god    the god chosen by the player
      */
-    private void assignGod(String player, String god){
+    private void assignGod(String player, String god) {
         Player user = session.getPlayerByName(player);
         if (user != null && user.getGod() == null) {
             user.setGod(Gods.valueOf(god));
@@ -169,7 +169,7 @@ public class SelectionController extends StateController implements Serializable
     /**
      * Associates the rules to the specific view of the player
      *
-     * @param view the view of the player
+     * @param view  the view of the player
      * @param rules the rules of the god chosen by the player
      */
     private void connectModelView(RemoteView view, GodRules rules) {

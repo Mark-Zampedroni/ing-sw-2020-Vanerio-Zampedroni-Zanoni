@@ -1,18 +1,15 @@
 package it.polimi.ingsw.mvc.model;
 
+import it.polimi.ingsw.mvc.model.player.Player;
 import it.polimi.ingsw.utility.enumerations.Colors;
 import it.polimi.ingsw.utility.enumerations.Gods;
-import it.polimi.ingsw.mvc.model.player.Player;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.util.ArrayList;
+import java.util.List;
 
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.*;
 
 
 class SessionTest {
@@ -24,8 +21,8 @@ class SessionTest {
     void setUp() {
         session = Session.getInstance();
         session.getBoard().clear();
-        session.loadInstance();
-        one = Setupper.addPlayer("Piero", Colors.BLUE,1);
+        Session.loadInstance(session);
+        one = Setupper.addPlayer("Piero", Colors.BLUE, 1);
         two = Setupper.addPlayer ("Sandro", Colors.WHITE,2);
         three = Setupper.addPlayer ("Carmelo", Colors.BROWN,3);
         session.setStarted(true);
@@ -46,7 +43,7 @@ class SessionTest {
         session.getChallenger();
         session.getChallenger();
         assertTrue((one.isChallenger() ^ two.isChallenger()) ^ three.isChallenger()); //xor
-        ArrayList<Player> otherPlayer = session.getOtherPlayers(one);
+        List<Player> otherPlayer = session.getOtherPlayers(one);
         assertEquals(two.getUsername(), otherPlayer.get(0).getUsername());
         assertEquals(three.getUsername(), otherPlayer.get(1).getUsername());
         session.removePlayer(one);

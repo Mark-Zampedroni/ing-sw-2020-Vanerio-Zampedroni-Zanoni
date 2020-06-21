@@ -1,10 +1,10 @@
 package it.polimi.ingsw.serializationTest.dtoTest;
 
 import it.polimi.ingsw.mvc.model.Session;
-import it.polimi.ingsw.mvc.model.map.Position;
 import it.polimi.ingsw.mvc.model.Setupper;
-import it.polimi.ingsw.utility.enumerations.Colors;
+import it.polimi.ingsw.mvc.model.map.Position;
 import it.polimi.ingsw.utility.dto.DtoPosition;
+import it.polimi.ingsw.utility.enumerations.Colors;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -55,13 +55,13 @@ public class DtoPositionTest {
      * Testing if equals methods works
      */
     @Test
-    void correctlyRelated(){
+    void correctlyRelated() {
         DtoPosition dtOposition = new DtoPosition(position);
-        Position position2 = new Position(2,3);
+        Position position2 = new Position(2, 3);
         DtoPosition dtoPosition2 = new DtoPosition(position2);
-        assertTrue(dtOposition.equals(dtoPosition2));
-        assertTrue(position.equals(position2));
-        assertTrue(dtOposition.equals(position));
+        assertTrue(dtOposition.isSameAs(dtoPosition2));
+        assertTrue(position.isSameAs(position2));
+        assertTrue(dtOposition.isSameAs(position));
     }
 
     /**

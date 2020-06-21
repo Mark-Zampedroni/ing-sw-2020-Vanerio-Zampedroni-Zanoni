@@ -1,6 +1,6 @@
-.root { 
-   -fx-focus-color: transparent;
-   -fx-faint-focus-color: transparent;
+.root {
+    -fx-focus-color: transparent;
+    -fx-faint-focus-color: transparent;
 }
 
 .fullbackground {
@@ -13,12 +13,12 @@
 }
 
 #loading {
-	-fx-background-image: url("../Texture2D_sorted/Misti/loading.gif");
-	-fx-background-size: 100% 100%;
+    -fx-background-image: url("../Texture2D_sorted/Misti/loading.gif");
+    -fx-background-size: 100% 100%;
 }
 
 #blackScreen {
-	-fx-background-image: url("../Texture2D_sorted/Backgrounds/blackScreen.jpg");
-  
-	-fx-background-size: 100% 100%;
+    -fx-background-image: url("../Texture2D_sorted/Backgrounds/blackScreen.jpg");
+
+    -fx-background-size: 100% 100%;
 }

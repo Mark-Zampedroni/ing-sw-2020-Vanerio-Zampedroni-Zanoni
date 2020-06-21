@@ -28,13 +28,13 @@ public class AtlasRules extends EventRules implements Serializable, SpecialPower
     @Override
     public void executeBuild(Position position) {
         Tile tile = Session.getInstance().getBoard().getTile(position);
-        if(!getEvent()) {
+        if (!getEvent()) {
             tile.increaseHeight();
-        }
-        else {
+        } else {
             tile.putDome();
         }
-        notify(new DtoSession(Session.getInstance()));}
+        notify(new DtoSession(Session.getInstance()));
+    }
 
     /**
      * Returns a list of possible actions after a {@link Action move}, adding the {@link Action god power}

@@ -12,6 +12,6 @@ public enum Action implements Serializable {
     SELECT_WORKER, MOVE, BUILD, SPECIAL_POWER, END_TURN, WIN, ADD_WORKER;
 
     public static List<Action> getNullPosActions() {
-        return new ArrayList<>(Arrays.asList(Action.SPECIAL_POWER,Action.END_TURN,Action.WIN));
+        return new ArrayList<>(Arrays.asList(Action.SPECIAL_POWER, Action.END_TURN, Action.WIN));
     }
 }

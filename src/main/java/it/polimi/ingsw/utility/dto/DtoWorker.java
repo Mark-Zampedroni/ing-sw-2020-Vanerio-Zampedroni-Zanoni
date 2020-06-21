@@ -38,10 +38,12 @@ public class DtoWorker implements Serializable {
      *
      * @return the {@link DtoPosition DTOposition}
      */
-    public DtoPosition getPosition() { return position; }
+    public DtoPosition getPosition() {
+        return position;
+    }
 
     public boolean isOn(int x, int y) {
-        return position.equals(new DtoPosition(x,y));
+        return position.isSameAs(new DtoPosition(x, y));
     }
 
 
@@ -52,6 +54,6 @@ public class DtoWorker implements Serializable {
      */
     @Override
     public String toString() {
-        return "Master: "+getMasterUsername()+" , ("+getPosition().getX()+","+getPosition().getY()+")";
+        return "Master: " + getMasterUsername() + " , (" + getPosition().getX() + "," + getPosition().getY() + ")";
     }
 }

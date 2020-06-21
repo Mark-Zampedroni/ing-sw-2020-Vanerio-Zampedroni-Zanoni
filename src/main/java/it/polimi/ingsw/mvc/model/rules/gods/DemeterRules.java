@@ -1,11 +1,11 @@
 package it.polimi.ingsw.mvc.model.rules.gods;
 
-import it.polimi.ingsw.utility.enumerations.Action;
-import it.polimi.ingsw.utility.exceptions.actions.CantActException;
 import it.polimi.ingsw.mvc.model.map.Position;
 import it.polimi.ingsw.mvc.model.player.Worker;
 import it.polimi.ingsw.mvc.model.rules.Check;
 import it.polimi.ingsw.mvc.model.rules.EventRules;
+import it.polimi.ingsw.utility.enumerations.Action;
+import it.polimi.ingsw.utility.exceptions.actions.CantActException;
 
 import java.io.Serializable;
 import java.util.List;
@@ -26,10 +26,11 @@ public class DemeterRules extends EventRules implements Serializable {
      */
     @Override
     public void executeBuild(Position position) {
-        if(!getEvent()) {
+        if (!getEvent()) {
             setPos(position);
         }
-        super.executeBuild(position);}
+        super.executeBuild(position);
+    }
 
     /**
      * Returns a list of possible actions after a {@link Action build}, if it's the first build of the
@@ -40,7 +41,7 @@ public class DemeterRules extends EventRules implements Serializable {
     @Override
     public List<Action> afterBuild() {
         List<Action> actions = super.afterBuild();
-        if(!getEvent()) {
+        if (!getEvent()) {
             actions.add(Action.BUILD);
             setEvent(true);
         }
@@ -50,7 +51,7 @@ public class DemeterRules extends EventRules implements Serializable {
     /**
      * Checks if by the rules it's physically possible to perform a build {@link Action action}
      *
-     * @param worker worker that wants to build
+     * @param worker   worker that wants to build
      * @param position position where the worker wants to build
      * @throws CantActException when the worker can't build
      */

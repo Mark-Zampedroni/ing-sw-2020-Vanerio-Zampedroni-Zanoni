@@ -16,13 +16,13 @@ public class PanRules extends CommonRules implements Serializable {
     /**
      * Adds a new win condition
      *
-     * @param worker worker that moves
+     * @param worker   worker that moves
      * @param position position to where the worker is moved
      * @return {@code true} if the worker {@link it.polimi.ingsw.mvc.model.player.Player master} can win the game
      */
     @Override
-    public boolean isWinner(Worker worker, Position position){
-        return(super.isWinner(worker,position) ||
+    public boolean isWinner(Worker worker, Position position) {
+        return (super.isWinner(worker, position) ||
                 Session.getInstance().getBoard().getTile(oldPosition).getHeight() >= Session.getInstance().getBoard().getTile(position).getHeight() + 2);
     }
 }

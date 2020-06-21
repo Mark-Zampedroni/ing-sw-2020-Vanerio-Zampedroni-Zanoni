@@ -2,17 +2,19 @@ package it.polimi.ingsw.mvc.controller.states;
 
 import it.polimi.ingsw.mvc.controller.SessionController;
 import it.polimi.ingsw.mvc.model.Session;
+import it.polimi.ingsw.mvc.model.player.Player;
+import it.polimi.ingsw.mvc.view.RemoteView;
+import it.polimi.ingsw.network.messages.Message;
 import it.polimi.ingsw.network.messages.lobby.RegistrationMessage;
+import it.polimi.ingsw.network.server.ServerConnection;
 import it.polimi.ingsw.utility.enumerations.Colors;
 import it.polimi.ingsw.utility.enumerations.GameState;
-import it.polimi.ingsw.mvc.model.player.Player;
-import it.polimi.ingsw.network.messages.Message;
-import it.polimi.ingsw.network.server.ServerConnection;
-import it.polimi.ingsw.mvc.view.RemoteView;
 import it.polimi.ingsw.utility.enumerations.MessageType;
 
 import java.io.Serializable;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
@@ -23,19 +25,19 @@ import java.util.stream.Collectors;
 public class LobbyController extends StateController implements Serializable {
 
     private static final long serialVersionUID = 6213786388958970675L;
-    transient final List<RemoteView> pendingConnections;
-    transient final List<ServerConnection> freshConnections;
+    final transient List<RemoteView> pendingConnections;
+    final transient List<ServerConnection> freshConnections;
 
     /**
      * Creates the controller for the initial phase
      *
-     * @param views list of the {@link RemoteView remoteViews} of the players for the updates
-     * @param LOG general logger of the server
-     * @param controller general controller for the session
+     * @param views        list of the {@link RemoteView remoteViews} of the players for the updates
+     * @param log          general logger of the server
+     * @param controller   general controller for the session
      * @param unregistered list of clients trying to connect
      */
-    public LobbyController(SessionController controller, List<RemoteView> views, Logger LOG, List<ServerConnection> unregistered) {
-        super(controller, views, LOG);
+    public LobbyController(SessionController controller, List<RemoteView> views, Logger log, List<ServerConnection> unregistered) {
+        super(controller, views, log);
         this.pendingConnections = new ArrayList<>();
         this.freshConnections = unregistered;
     }
@@ -49,7 +51,7 @@ public class LobbyController extends StateController implements Serializable {
      */
     @Override
     public void parseMessage(Message message) {
-        if(message.getType() == MessageType.REGISTRATION_UPDATE) {
+        if (message.getType() == MessageType.REGISTRATION_UPDATE) {
             registerConnection((RegistrationMessage) message);
         }
     }
@@ -69,21 +71,21 @@ public class LobbyController extends StateController implements Serializable {
 
         if (sender != null && !sender.getRegistered()) { // Anti-cheat
             if (Session.getInstance().getPlayerByName(requestedUsername) != null) { // Anti-cheat
-                notifyMessage(messageBuilder(MessageType.REGISTRATION_UPDATE,"This username is already in use", false, message.getSender()));
-                LOG.warning("A player tried to register with the already in use username " + requestedUsername + "\n");
+                notifyMessage(messageBuilder(MessageType.REGISTRATION_UPDATE, "This username is already in use", false, message.getSender()));
+                log.warning(() -> "A player tried to register with the already in use username " + requestedUsername + "\n");
             } else if (!getFreeColors().contains(requestedColor)) { // Anti-cheat
-                notifyMessage(messageBuilder(MessageType.REGISTRATION_UPDATE,"Color " + requestedColor + " is not available", false, message.getSender()));
-                LOG.warning("A player tried to register with the already in use color " + requestedColor + "\n");
+                notifyMessage(messageBuilder(MessageType.REGISTRATION_UPDATE, "Color " + requestedColor + " is not available", false, message.getSender()));
+                log.warning(() -> "A player tried to register with the already in use color " + requestedColor + "\n");
             } else {
                 confirmRegistration(message.getSender(), requestedUsername, requestedColor, sender);
-                notifyMessage(messageBuilder(MessageType.REGISTRATION_UPDATE,requestedUsername, true,message.getSender()));
+                notifyMessage(messageBuilder(MessageType.REGISTRATION_UPDATE, requestedUsername, true, message.getSender()));
                 sendUpdate();
                 if (views.size() == controller.getGameCapacity()) {
                     startGame();
                 }
             }
         } else {
-            LOG.severe("An already registered view requested registration, it was blocked with no further action");
+            log.severe("An already registered view requested registration, it was blocked with no further action");
         }
     }
 
@@ -91,14 +93,14 @@ public class LobbyController extends StateController implements Serializable {
      * It remove a registered player by the pending list and add the player and his info
      * to the {@link SessionController controller} list
      *
-     * @param view the view associated to the player
+     * @param view  the view associated to the player
      * @param color the color of the player
-     * @param user the name of the player
+     * @param user  the name of the player
      * @param token the string associated with the view
      */
     private void confirmRegistration(String token, String user, Colors color, RemoteView view) {
         view.register(user);
-        LOG.info(user + " registered\n");
+        log.info(() -> user + " registered\n");
         controller.addPlayer(user, color, view);
         pendingConnections.removeIf(v -> v.hasName(token));
     }
@@ -118,7 +120,7 @@ public class LobbyController extends StateController implements Serializable {
      */
     @Override
     public void sendUpdate() {
-        notifyMessage(messageBuilder("Lobby update"));
+        notifyMessage(messageBuilder());
     }
 
     /**
@@ -178,8 +180,8 @@ public class LobbyController extends StateController implements Serializable {
      * Adds a player in the lobby to the {@link Session session}
      *
      * @param username name of the player
-     * @param color color chosen by the player
-     * @param view {@link RemoteView remoteView} associated to the player
+     * @param color    color chosen by the player
+     * @param view     {@link RemoteView remoteView} associated to the player
      */
     @Override
     public void addPlayer(String username, Colors color, RemoteView view) {
@@ -195,7 +197,7 @@ public class LobbyController extends StateController implements Serializable {
      */
     @Override
     public synchronized void removePlayer(String username) {
-        if(Session.getInstance().getPlayerByName(username) != null) {
+        if (Session.getInstance().getPlayerByName(username) != null) {
             Session.getInstance().removePlayer(username);
             views.removeIf(v -> v.hasName(username));
         }

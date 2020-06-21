@@ -17,14 +17,11 @@ public class BoardCamera extends PerspectiveCamera {
 
         scene.addEventHandler(ScrollEvent.SCROLL, event -> {
             double zoom = (event.getDeltaY() > 0) ? 0.95 : 1.05;
-            if(!(zoom < 1 && getTranslateZ() > -20) && !(zoom > 1 && getTranslateZ() < -95)) {
+            if (!(zoom < 1 && getTranslateZ() > -20) && !(zoom > 1 && getTranslateZ() < -95)) {
                 translateZProperty().set((getTranslateZ()) * zoom);
             }
         });
     }
-
-
-
 
 
 }

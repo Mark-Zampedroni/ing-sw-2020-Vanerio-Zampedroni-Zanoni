@@ -3,7 +3,10 @@ package it.polimi.ingsw.mvc.view.gui.fxmlControllers;
 import it.polimi.ingsw.utility.enumerations.Colors;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
-import javafx.scene.control.*;
+import javafx.scene.control.Button;
+import javafx.scene.control.Control;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
 import javafx.scene.effect.Glow;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
@@ -42,7 +45,7 @@ public class LobbyController extends GenericController {
 
     Colors color;
 
-    Map<Colors,BorderPane> buttons;
+    Map<Colors, BorderPane> buttons;
 
     public void initialize() {
         super.initialize(this);
@@ -64,10 +67,10 @@ public class LobbyController extends GenericController {
         buttons.values().forEach(b -> setFontRatio((Control) b.getChildren().get(0)));
     }
 
-    private void initButtons(Map<Colors,BorderPane> buttons) {
-        buttons.put(Colors.BLUE,blueButton);
-        buttons.put(Colors.WHITE,whiteButton);
-        buttons.put(Colors.BROWN,brownButton);
+    private void initButtons(Map<Colors, BorderPane> buttons) {
+        buttons.put(Colors.BLUE, blueButton);
+        buttons.put(Colors.WHITE, whiteButton);
+        buttons.put(Colors.BROWN, brownButton);
         buttons.values().forEach(this::initColorButton);
     }
 
@@ -83,7 +86,7 @@ public class LobbyController extends GenericController {
 
     private void handleButtonReleased(Button button) {
         button.setId("confirmButtonBg");
-        if(gui.validateUsername(nameTextField.getText()) || gui.validateColor(color.toString())) {
+        if (gui.validateUsername(nameTextField.getText()) || gui.validateColor(color.toString())) {
             infoLabel.setText("Insert a valid username and color!");
         } else {
             gui.requestLogin(nameTextField.getText(), color);
@@ -94,44 +97,42 @@ public class LobbyController extends GenericController {
         button.setOnMousePressed(event -> {
             color = buttons.keySet().stream().filter(key -> buttons.get(key) == button).findFirst().orElse(Colors.WHITE);
             confirmButton.setDisable(false);
-            button.setId("colorpressed"+color);
+            button.setId("colorpressed" + color);
             button.setEffect(new Glow(0.6));
             buttons.values().stream().filter(b -> b != button).forEach(b -> {
-                b.setId("color"+ buttons.keySet().stream().filter(c -> buttons.get(c) == b).findFirst().orElse(Colors.WHITE));
+                b.setId("color" + buttons.keySet().stream().filter(c -> buttons.get(c) == b).findFirst().orElse(Colors.WHITE));
                 b.setEffect(new Glow(0));
             });
         });
     }
 
     public void showLobby(List<Colors> availableColors) {
-        buttons.keySet().forEach(c -> {
-            setDisableButton(buttons.get(c), !availableColors.contains(c));
-        });
+        buttons.keySet().forEach(c -> setDisableButton(buttons.get(c), !availableColors.contains(c)));
         updatePlayers();
     }
 
     private void updatePlayers() {
-        handlePlayerSlot(playerNameOne,colorPlayerOne,0, Integer.parseInt(gui.getNumberOfPlayers()) > 0,borderPlayerOne);
-        handlePlayerSlot(playerNameTwo,colorPlayerTwo,1, Integer.parseInt(gui.getNumberOfPlayers()) > 1,borderPlayerTwo);
+        handlePlayerSlot(playerNameOne, colorPlayerOne, 0, Integer.parseInt(gui.getNumberOfPlayers()) > 0, borderPlayerOne);
+        handlePlayerSlot(playerNameTwo, colorPlayerTwo, 1, Integer.parseInt(gui.getNumberOfPlayers()) > 1, borderPlayerTwo);
 
-        if(gui.getPlayers().containsKey(gui.getUsername())) {
+        if (gui.getPlayers().containsKey(gui.getUsername())) {
             hideNode(confirmButton);
             nameTextField.setDisable(true);
             infoLabel.setText("Wait for other players to log ...");
-            buttons.keySet().forEach(c-> setDisableButton(buttons.get(c),true));
+            buttons.keySet().forEach(c -> setDisableButton(buttons.get(c), true));
         }
     }
 
-    private void setDisableButton(Node node, boolean v){
+    private void setDisableButton(Node node, boolean v) {
         node.setDisable(v);
-        node.setOpacity((v) ? 0.5 : 1); }
+        node.setOpacity((v) ? 0.5 : 1);
+    }
 
     private void handlePlayerSlot(Label name, BorderPane color, int number, boolean hasPlayer, AnchorPane labelBg) {
-        if(hasPlayer) {
-            addPlayer(name,color,number,labelBg);
-        }
-        else {
-            hideSlot(name,color,number,labelBg);
+        if (hasPlayer) {
+            addPlayer(name, color, number, labelBg);
+        } else {
+            hideSlot(name, color, number, labelBg);
         }
     }
 
@@ -148,7 +149,7 @@ public class LobbyController extends GenericController {
     private void hideSlot(Label name, BorderPane color, int number, AnchorPane labelbg) {
         name.setText((number == 0) ? "Waiting..." : "");
         color.setId((number == 0) ? "head" : "");
-        if(number != 0) {
+        if (number != 0) {
             hideNode(name);
             hideNode(color);
             hideNode(labelbg);

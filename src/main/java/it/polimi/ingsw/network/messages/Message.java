@@ -27,7 +27,9 @@ public class Message implements Serializable {
         return sender;
     }
 
-    public String getRecipient() { return recipient; }
+    public String getRecipient() {
+        return recipient;
+    }
 
     public String getInfo() {
         return info;
@@ -35,10 +37,10 @@ public class Message implements Serializable {
 
     @Override
     public String toString() {
-    return "From: "+sender+"\n"+
-           "To: "+recipient+"\n"+
-           "Type: "+type+"\n"+
-           "Info: "+info+"\n";
+        return "From: " + sender + "\n" +
+                "To: " + recipient + "\n" +
+                "Type: " + type + "\n" +
+                "Info: " + info + "\n";
     }
 
 }
