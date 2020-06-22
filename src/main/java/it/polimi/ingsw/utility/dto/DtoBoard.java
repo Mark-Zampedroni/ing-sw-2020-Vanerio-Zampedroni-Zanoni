@@ -40,6 +40,13 @@ public class DtoBoard implements Serializable {
         return tiles[position.getX()][position.getY()];
     }
 
+    /**
+     * Getter for a specific {@link DtoTile DTOtile} identified by its coordinates
+     *
+     * @param x coordinate on the x-axis
+     * @param y coordinate on the y-axis
+     * @return the {@link DtoTile DTOtile} identified by the {@link DtoPosition DTOposition}
+     */
     public DtoTile getTile(int x, int y) {
         return tiles[x][y];
     }

@@ -26,20 +26,39 @@ public enum Gods implements Serializable {
 
     private final String description;
 
+    /**
+     * Constructor for the gods
+     *
+     * @param description the description of the power
+     */
     Gods(String description) {
         this.description = description;
     }
 
+    /**
+     * Returns a list of all playable gods of the game
+     *
+     * @return the list of the playable gods of the game
+     */
     public static List<String> getGodsStringList() {
         return new ArrayList<>(Arrays.asList("APOLLO", "ARTEMIS", "ATHENA", "ATLAS", "DEMETER", "HEPHAESTUS", "MINOTAUR",
                 "PAN", "PROMETHEUS", "ZEUS", "TRITON", "POSEIDON", "HESTIA", "HERA"));
     }
 
+    /**
+     * Returns if a name of a god is valid
+     *
+     * @param god the name of the god
+     * @return {@code true} if the god passed is one of the playable ones
+     */
     public static boolean isValid(String god) {
         List<String> valid = getGodsStringList();
         return valid.contains(god);
     }
 
+    /**
+     * Getter for the description of a god
+     */
     public String getDescription() {
         return description;
     }

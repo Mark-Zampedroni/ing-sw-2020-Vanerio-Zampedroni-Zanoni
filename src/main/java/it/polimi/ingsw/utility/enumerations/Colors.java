@@ -12,6 +12,12 @@ import java.util.List;
 public enum Colors implements Serializable {
     BLUE, BROWN, WHITE;
 
+    /**
+     * Return if a string is containing a valid color
+     *
+     * @param color the name of the color
+     * @return {@code true} if the color is one of the color of the game
+     */
     public static boolean isValid(String color) {
         List<String> valid = new ArrayList<>(Arrays.asList("BLUE", "BROWN", "WHITE"));
         return valid.contains(color);

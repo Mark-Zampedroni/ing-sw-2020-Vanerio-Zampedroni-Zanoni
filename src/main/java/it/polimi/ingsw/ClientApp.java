@@ -6,10 +6,16 @@ import it.polimi.ingsw.utility.ArgsParser;
 
 import java.util.Map;
 import java.util.logging.Logger;
-
+/**
+ * Executable class, it starts the client
+ */
 public class ClientApp {
 
-
+    /**
+     * Starts the client
+     *
+     * @param args contains the indication for the ip, the port, the type of client and the logging
+     */
     public static void main(String[] args) {
 
         Map<String, String> a = ArgsParser.parseArgs(args);

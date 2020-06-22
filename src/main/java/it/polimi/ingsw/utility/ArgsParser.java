@@ -3,6 +3,9 @@ package it.polimi.ingsw.utility;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * Parser for the the characters passed from the command line
+ */
 public class ArgsParser {
 
     /**
@@ -11,6 +14,9 @@ public class ArgsParser {
     private ArgsParser() {
     }
 
+    /**
+     * Mark will fill it
+     */
     public static Map<String, String> parseArgs(String[] args) {
         Map<String, String> temp = new HashMap<>();
         for (int i = 0; i < args.length; i++) {

@@ -42,6 +42,13 @@ public class DtoWorker implements Serializable {
         return position;
     }
 
+    /**
+     * Returns if the DTO-Position corresponds to a position on the coordinates
+     *
+     * @param x coordinate on the x-axis
+     * @param y coordinate on the y-axis
+     * @return the {@code true} if is the same
+     */
     public boolean isOn(int x, int y) {
         return position.isSameAs(new DtoPosition(x, y));
     }

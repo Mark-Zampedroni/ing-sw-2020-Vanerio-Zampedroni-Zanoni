@@ -7,21 +7,49 @@ import it.polimi.ingsw.mvc.model.player.Worker;
  */
 public enum Target {
     ALLY {
+        /**
+         * Controls if the workers have the same master
+         *
+         * @param worker first worker
+         * @param that second worker
+         * @return {@code true} if the workers have the same master
+         */
         public boolean compareWorkers(Worker worker, Worker that) {
             return worker.getMaster() == that.getMaster();
         }
     },
     ENEMY {
+        /**
+         * Controls if the workers have different master
+         *
+         * @param worker first worker
+         * @param that second worker
+         * @return {@code true} if the workers have different master
+         */
         public boolean compareWorkers(Worker worker, Worker that) {
             return !ALLY.compareWorkers(worker, that);
         }
     },
     ANY {
+        /**
+         * Mark will fill it
+         *
+         * @param worker first worker
+         * @param that second worker
+         * @return {@code true}
+         */
         public boolean compareWorkers(Worker worker, Worker that) {
             return true;
         }
     },
     SELF {
+        /**
+         * Compare if the workers are the same worker
+         *
+         * @param worker first worker
+         * @param that second worker
+         * @return {@code true} if the workers are the same worker
+         */
         public boolean compareWorkers(Worker worker, Worker that) {
             return worker == that;
         }

@@ -1,5 +1,10 @@
 package it.polimi.ingsw.utility.enumerations;
 
+import it.polimi.ingsw.network.messages.Message;
+
+/**
+ * Different types of {@link Message messages} used in the game
+ */
 public enum MessageType {
 
     CONNECTION_TOKEN,

@@ -6,10 +6,18 @@ import it.polimi.ingsw.utility.ArgsParser;
 import java.util.Map;
 import java.util.logging.Logger;
 
+/**
+ * Executable class, it starts the server
+ */
 public class ServerApp {
 
     static final boolean FAULT_TOLERANCE = true;
 
+    /**
+     * Starts the server
+     *
+     * @param args contains the indication for the ip, the port and the logging
+     */
     public static void main(String[] args) {
 
         Map<String, String> a = ArgsParser.parseArgs(args);
@@ -22,6 +30,9 @@ public class ServerApp {
         }
     }
 
+    /**
+     * Returns {@code true} if the fault tolerance is active
+     */
     public static boolean isFeature() {
         return FAULT_TOLERANCE;
     }

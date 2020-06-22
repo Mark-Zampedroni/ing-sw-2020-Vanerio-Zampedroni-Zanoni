@@ -4,6 +4,9 @@ import it.polimi.ingsw.mvc.model.map.Tile;
 
 import java.io.Serializable;
 
+/**
+ * DTO copy of the class {@link Tile tile}
+ */
 public class DtoTile implements Serializable {
     private static final long serialVersionUID = -1540738678773220733L;
     private final int height;

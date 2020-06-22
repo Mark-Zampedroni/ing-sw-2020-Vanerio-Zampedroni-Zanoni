@@ -19,6 +19,9 @@ public class Check implements Serializable {
 
     private static final long serialVersionUID = 6347275335033595844L;
 
+    /**
+     * This class shouldn't be instantiated
+     */
     public Check() throws NotInstantiableClass {
         throw new NotInstantiableClass();
     }

@@ -65,6 +65,14 @@ public class DtoSession implements Serializable {
         return b.toString();
     }
 
+    /**
+     * Getter for the name of the master of the worker in a position
+     *
+     * @param y coordinate on y-axis
+     * @param x coordinate on x-axis
+     *
+     * @return the name of the master
+     */
     public String getWorkerMasterOn(int x, int y) {
         for (DtoWorker worker : workers) {
             if (worker.isOn(x, y)) {
