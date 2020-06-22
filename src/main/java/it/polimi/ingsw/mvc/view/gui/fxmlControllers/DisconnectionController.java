@@ -20,6 +20,7 @@ public class DisconnectionController extends GenericController {
         Platform.runLater(this::initButton);
         setFontRatio(fixedLabel);
         setFontRatio(reason);
+        setFontRatio(okButton);
     }
 
     public void initButton() {

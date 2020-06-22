@@ -20,7 +20,7 @@
         <Label fx:id="dialogTitle" alignment="TOP_CENTER" contentDisplay="CENTER" prefHeight="51.0" prefWidth="600.0"
                text="Labe" BorderPane.alignment="CENTER">
             <font>
-                <Font size="30.0"/>
+                <Font name="Comic Sans MS" size="30.0"/>
             </font>
         </Label>
     </top>
@@ -28,7 +28,7 @@
         <Label fx:id="dialogText" prefHeight="154.0" prefWidth="426.0" text="Label" wrapText="true"
                BorderPane.alignment="CENTER">
             <font>
-                <Font size="25.0"/>
+                <Font name="Comic Sans MS"" size="25.0"/>
             </font>
         </Label>
     </center>

@@ -48,7 +48,7 @@
                                 <String fx:value="invisiblebackground"/>
                             </styleClass>
                             <font>
-                                <Font name="System Bold" size="18.0"/>
+                                <Font name="Comic Sans MS Bold" size="24.0"/>
                             </font>
                             <padding>
                                 <Insets bottom="10.0"/>
@@ -71,7 +71,7 @@
                                 <Label fx:id="fixedLabel" alignment="CENTER" prefHeight="727.0" prefWidth="1166.0"
                                        text="You were disconnected!" textFill="WHITE">
                                     <font>
-                                        <Font size="24.0"/>
+                                        <Font name="Comic Sans MS" size="24.0"/>
                                     </font>
                                     <padding>
                                         <Insets top="10.0"/>
@@ -80,7 +80,7 @@
                                 <Label fx:id="reason" alignment="CENTER" prefHeight="727.0" prefWidth="1166.0"
                                        text="Sample text" textFill="WHITE" GridPane.rowIndex="1">
                                     <font>
-                                        <Font size="24.0"/>
+                                        <Font name="Comic Sans MS" size="24.0"/>
                                     </font>
                                     <padding>
                                         <Insets bottom="10.0"/>

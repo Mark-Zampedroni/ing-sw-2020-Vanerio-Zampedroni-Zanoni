@@ -1,15 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
-<?import javafx.scene.text.*?>
 <?import java.lang.String?>
 <?import java.net.URL?>
-<BorderPane fx:id="main" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="1.0" minWidth="1.0" prefHeight="700.0" prefWidth="1040.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.mvc.view.gui.fxmlControllers.TitleController">
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.text.Font?>
+
+<BorderPane fx:id="main" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="1.0" minWidth="1.0" prefHeight="700.0" prefWidth="1040.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.mvc.view.gui.fxmlControllers.TitleController">
     <stylesheets>
         <URL value="@../css/title.css" />
-      <URL value="@../css/connection.css"/>
+      <URL value="@../css/connection.css" />
     </stylesheets>
     <center>
         <GridPane id="bodybg" fx:id="mainGrid" styleClass="fullbackground" stylesheets="@../css/title.css" BorderPane.alignment="CENTER">
@@ -103,7 +108,7 @@
                                 <center>
                                     <Label fx:id="textLabel" alignment="CENTER" text="Label" textAlignment="CENTER" textFill="WHITE" BorderPane.alignment="CENTER">
                                         <font>
-                                            <Font size="23.0" />
+                                            <Font name="Comic Sans MS" size="23.0" />
                                         </font>
                                         <padding>
                                             <Insets bottom="15.0" />
@@ -115,7 +120,7 @@
                                 <center>
                                     <Button id="buttonReleased" fx:id="p2" mnemonicParsing="false" pickOnBounds="false" prefHeight="275.0" prefWidth="1166.0" style="-fx-background-color: transparent;" styleClass="fullbackground" text="2 Players" textFill="WHITE" BorderPane.alignment="CENTER">
                                         <font>
-                                            <Font size="24.0" />
+                                            <Font name="Comic Sans MS Bold" size="24.0" />
                                         </font>
                                         <padding>
                                             <Insets bottom="10.0" />
@@ -130,7 +135,7 @@
                                             <Insets bottom="10.0" />
                                         </padding>
                                         <font>
-                                            <Font size="24.0" />
+                                            <Font name="Comic Sans MS Bold" size="24.0" />
                                         </font>
                                     </Button>
                                 </center>
@@ -139,7 +144,7 @@
                            <center>
                               <Button id="buttonReleased" fx:id="okButton" mnemonicParsing="false" pickOnBounds="false" prefHeight="275.0" prefWidth="1166.0" style="-fx-background-color: transparent;" styleClass="fullbackground" text="Ok" textFill="WHITE" BorderPane.alignment="CENTER">
                                  <font>
-                                    <Font size="24.0" />
+                                    <Font name="Comic Sans MS Bold" size="24.0" />
                                  </font>
                                  <padding>
                                     <Insets bottom="10.0" />
@@ -151,7 +156,7 @@
                            <center>
                               <Label fx:id="textLabelCon" alignment="CENTER" minHeight="1.0" minWidth="1.0" prefHeight="112.0" prefWidth="704.0" text="The game is for 2 players ... At the moment the Lobby is full and you are first in queue: there are 4 players in queue before you You will be disconnected if no slots are vacated and the game starts" textAlignment="CENTER" textFill="WHITE" wrapText="true" BorderPane.alignment="CENTER">
                                  <font>
-                                    <Font size="14.0" />
+                                    <Font name="Comic Sans MS" size="14.0" />
                                  </font>
                                  <BorderPane.margin>
                                     <Insets />
