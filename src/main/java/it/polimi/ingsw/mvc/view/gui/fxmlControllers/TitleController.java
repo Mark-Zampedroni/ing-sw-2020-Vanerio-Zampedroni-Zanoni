@@ -24,8 +24,6 @@ public class TitleController extends GenericController {
     @FXML
     public Label textLabel;
     @FXML
-    public Button fullScreenButton;
-    @FXML
     public Button okButton;
     @FXML
     public BorderPane textPaneCon;

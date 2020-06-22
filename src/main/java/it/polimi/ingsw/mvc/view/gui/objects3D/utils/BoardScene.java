@@ -1,5 +1,6 @@
 package it.polimi.ingsw.mvc.view.gui.objects3D.utils;
 
+import it.polimi.ingsw.mvc.view.gui.objects3D.animation.ActionAnimation;
 import it.polimi.ingsw.mvc.view.gui.objects3D.obj.BoardObj;
 import it.polimi.ingsw.mvc.view.gui.objects3D.obj.TileObj;
 import it.polimi.ingsw.mvc.view.gui.objects3D.obj.WorkerObj;
@@ -239,6 +240,7 @@ public class BoardScene extends SubScene {
 
     public void clear() {
         clearAnimations();
+        ActionAnimation.clear();
         tileEvent = null;
         boardScene = null;
     }

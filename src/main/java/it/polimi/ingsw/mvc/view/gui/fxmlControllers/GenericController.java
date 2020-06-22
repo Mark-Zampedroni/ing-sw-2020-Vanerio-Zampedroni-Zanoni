@@ -113,13 +113,24 @@ public abstract class GenericController {
         setPadding(node, defaultPadding, widthRatio);
     }
 
-    private void setPadding(Control node, Insets defaultPadding, double ratio) {
+    private void setPadding(Region node, Insets defaultPadding, double ratio) {
         node.setPadding(new Insets(
                 defaultPadding.getTop() * ratio,
                 defaultPadding.getRight() * ratio,
                 defaultPadding.getBottom() * ratio,
                 defaultPadding.getLeft() * ratio
         ));
+    }
+
+    public void setPaddingRatio(Pane pane) {
+        Insets defaultPadding = pane.getPadding();
+        double defaultWidth = GuiManager.getInstance().getDefaultWidth();
+        GuiManager.getInstance().getStage().widthProperty().addListener((o, oldWidth, newWidth) -> resizePadding(pane, newWidth.doubleValue(), defaultWidth, defaultPadding));
+    }
+
+    private void resizePadding(Pane pane, double newWidth, double defaultWidth, Insets defaultPadding) {
+        double widthRatio = newWidth / defaultWidth;
+        setPadding(pane, defaultPadding, widthRatio);
     }
 
     public void showReconnection(boolean isReconnecting) {

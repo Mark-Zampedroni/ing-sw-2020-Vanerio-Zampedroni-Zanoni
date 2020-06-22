@@ -7,8 +7,7 @@
 <?import java.lang.String?>
 <?import java.net.URL?>
 <BorderPane xmlns:fx="http://javafx.com/fxml/1" fx:id="main" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="1.0"
-            minWidth="1.0"
-            prefHeight="700.0" prefWidth="1040.0" xmlns="http://javafx.com/javafx/8"
+            minWidth="1.0" prefHeight="700.0" prefWidth="1040.0" xmlns="http://javafx.com/javafx/8"
             fx:controller="it.polimi.ingsw.mvc.view.gui.fxmlControllers.ChallengerSelectionController">
     <center>
         <GridPane fx:id="mainGrid" minHeight="1.0" minWidth="1.0" BorderPane.alignment="CENTER">
@@ -432,5 +431,6 @@
     <stylesheets>
         <URL value="@../css/challengerselection.css"/>
         <URL value="@../css/gods.css"/>
+        <URL value="@../css/connection.css"/>
     </stylesheets>
 </BorderPane>

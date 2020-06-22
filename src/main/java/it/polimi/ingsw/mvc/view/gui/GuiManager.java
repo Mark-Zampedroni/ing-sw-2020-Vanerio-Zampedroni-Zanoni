@@ -175,6 +175,11 @@ public class GuiManager extends Client {
     public void showDisconnected(String info) {
         if (currentController.getClass() == BoardController.class) {
             Platform.runLater(() -> ((BoardController) currentController).clear());
+            try {
+                Thread.sleep(500);
+            } catch (InterruptedException e) {
+                log.warning("[GUI] Board cleanup interrupted");
+            }
         }
         if (currentController.getClass() == TitleController.class) {
             runUpdate(TitleController.class, () -> ((TitleController) currentController).showDisconnected(info));

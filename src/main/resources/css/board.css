@@ -229,7 +229,7 @@
 }
 
 #descriptionLabel {
-    -fx-font-size: 22;
+    -fx-font-size: 20;
     -fx-text-alignment: center;
     -fx-wrap-text: true;
     -fx-text-fill: black;

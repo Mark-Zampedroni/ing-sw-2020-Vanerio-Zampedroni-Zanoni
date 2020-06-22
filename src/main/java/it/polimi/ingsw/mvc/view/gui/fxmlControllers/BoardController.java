@@ -68,6 +68,12 @@ public class BoardController extends GenericController implements Observer<DtoPo
     public Label conditionLabel;
     @FXML
     public Label descriptionLabel;
+    @FXML
+    public BorderPane padding1;
+    @FXML
+    public BorderPane padding2;
+    @FXML
+    public BorderPane padding3;
 
     private boolean turnOwner = false;
     private Map<Action, List<DtoPosition>> possibleActions;
@@ -91,6 +97,7 @@ public class BoardController extends GenericController implements Observer<DtoPo
         initLists();
         initBoard();
         initFeatures();
+        initLabels();
         username = gui.getUsername();
 
         playerGod.forEach(g -> {
@@ -104,7 +111,7 @@ public class BoardController extends GenericController implements Observer<DtoPo
         if (temp.length > 1) {
             godCard.setVisible(true);
             godNameLabel.setText(god.getId());
-            conditionLabel.setText(temp[0]);
+            conditionLabel.setText("Effect\n(" + temp[0] + ")");
             descriptionLabel.setText(temp[1]);
         }
     }
@@ -113,7 +120,6 @@ public class BoardController extends GenericController implements Observer<DtoPo
         playerSlot = new ArrayList<>(Arrays.asList(playerSlot1, playerSlot2, playerSlot3));
         playerTurn = new ArrayList<>(Arrays.asList(currentPlayer1, currentPlayer2, currentPlayer3));
         playerGod = new ArrayList<>(Arrays.asList(godSlot1, godSlot2, godSlot3));
-        playerSlot.forEach(this::initFont);
     }
 
     private void initFeatures() {
@@ -121,6 +127,19 @@ public class BoardController extends GenericController implements Observer<DtoPo
         actionButtons = new ArrayList<>(Arrays.asList(testButton, testButton1, testButton2));
         actionButtons.forEach(this::initFont);
         actionButtons.forEach(this::hideNode);
+    }
+
+    private void initLabels() {
+        playerSlot.forEach(p -> setFontRatio((Label) p.getChildren().get(0)));
+        playerSlot.forEach(this::setPaddingRatio);
+        playerTurn.forEach(this::setPaddingRatio);
+        playerGod.forEach(this::setPaddingRatio);
+        setFontRatio(descriptionLabel);
+        setFontRatio(godNameLabel);
+        setFontRatio(conditionLabel);
+        setPaddingRatio(padding1);
+        setPaddingRatio(padding2);
+        setPaddingRatio(padding3);
     }
 
     private void toggleButton(BorderPane button) {
@@ -152,7 +171,6 @@ public class BoardController extends GenericController implements Observer<DtoPo
     }
 
     private void initBoard() {
-
         gameScene = BoardScene.getBoardLoadedScene();
         boardSubScene = (BoardScene) gameScene;
         sceneContainer.setCenter(gameScene);
@@ -193,22 +211,26 @@ public class BoardController extends GenericController implements Observer<DtoPo
 
             for (int i = 0; i < 3; i++) {
                 if (i >= playerNames.size()) {
-                    ((Label) playerSlot.get(i).getChildren().get(0)).setText("");
-                    hideNode(playerSlot.get(i));
-                    hideNode(playerTurn.get(i));
-                    hideNode(playerGod.get(i));
-                    if (i == 2) {
-                        hideNode(info3);
-                    }
-                } else {
-                    Label name = (Label) playerSlot.get(i).getChildren().get(0);
-                    name.setText(playerNames.get(i));
-                    playerSlot.get(i).setId(colors.get(playerNames.get(i)).toString().toLowerCase() + "big");
-                    playerGod.get(i).setId(gods.get(playerNames.get(i)));
-                }
+                    hidePlayerTag(i);
+                    if (i == 2) hideNode(info3);
+                } else showPlayerTag(i, playerNames, colors, gods);
             }
             setCurrentPlayer(currentPlayer);
         }
+    }
+
+    private void showPlayerTag(int i, List<String> playerNames, Map<String, Colors> colors, Map<String, String> gods) {
+        Label name = (Label) playerSlot.get(i).getChildren().get(0);
+        name.setText(playerNames.get(i));
+        playerSlot.get(i).getChildren().get(0).setId(colors.get(playerNames.get(i)).toString().toLowerCase() + "big");
+        playerGod.get(i).setId(gods.get(playerNames.get(i)));
+    }
+
+    private void hidePlayerTag(int i) {
+        ((Label) playerSlot.get(i).getChildren().get(0)).setText("");
+        hideNode(playerSlot.get(i));
+        hideNode(playerTurn.get(i));
+        hideNode(playerGod.get(i));
     }
 
 
@@ -241,11 +263,11 @@ public class BoardController extends GenericController implements Observer<DtoPo
     public void update(DtoPosition position) {
         if (turnOwner && currentAction != null && gui.validateAction(currentAction, position, possibleActions)) {
             removeToggle();
-            clearTurn();
+            clear();
         }
     }
 
-    private void clearTurn() {
+    public void clear() {
         turnOwner = false;
         currentAction = null;
         hideButtons();
@@ -263,11 +285,6 @@ public class BoardController extends GenericController implements Observer<DtoPo
 
     public void showLose(String playerName) {
         boardSubScene.notifyLose(playerName);
-        /*
-        if (gui.getUsername().equals(playerName)) {
-            endgameScreen.setId("loser");
-            endgameLabel.setText("You lost... \n" + playerName);
-        }*/
     }
 
     public void showWin(String playerName) {
@@ -275,10 +292,5 @@ public class BoardController extends GenericController implements Observer<DtoPo
         endgameScreen.setId((playerName.equals(username)) ? "winner" : "loser");
         endgameLabel.setText((playerName.equals(username)) ? "You won!" : "You lost ...\n" + playerName + " is the winner");
     }
-
-    public void clear() {
-        boardSubScene.clear();
-    }
-
 
 }

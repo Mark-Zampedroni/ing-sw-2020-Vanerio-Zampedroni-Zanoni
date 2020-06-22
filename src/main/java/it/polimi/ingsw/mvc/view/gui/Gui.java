@@ -3,6 +3,7 @@ package it.polimi.ingsw.mvc.view.gui;
 import it.polimi.ingsw.mvc.view.gui.fxmlControllers.TitleController;
 import javafx.application.Application;
 import javafx.application.Platform;
+import javafx.beans.property.SimpleDoubleProperty;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.ImageCursor;
 import javafx.scene.Scene;
@@ -46,7 +47,7 @@ public class Gui extends Application {
 
     private void setMouse(Scene scene) {
         try {
-            scene.setCursor(new ImageCursor(new Image("/texture2D_sorted/Misti/godpower_hand.png")));
+            scene.setCursor(new ImageCursor(new Image(String.valueOf(Gui.class.getClassLoader().getResource("texture2D_sorted/Misti/godpower_hand.png")))));
         } catch (Exception e) {
             GuiManager.getInstance().log.warning("[GUI] Personalized mouse set failed with error: " + e.getMessage());
         }
@@ -54,7 +55,7 @@ public class Gui extends Application {
 
     private void setWindowIcon() {
         try {
-            stage.getIcons().add(new Image("/texture2D_sorted/app_icon.png"));
+            stage.getIcons().add(new Image(String.valueOf(Gui.class.getClassLoader().getResource("texture2D_sorted/app_icon.png"))));
         } catch (Exception e) {
             GuiManager.getInstance().log.warning("[GUI] Personalized icon set failed with error: " + e.getMessage());
         }
@@ -76,12 +77,16 @@ public class Gui extends Application {
         double h = scene.getHeight();
         double w = scene.getWidth();
         stage.heightProperty().addListener((obs, oldVal, newVal) -> {
-            stage.setWidth(newVal.doubleValue() * w / h);
-            Rectangle2D primScreenBounds = Screen.getPrimary().getVisualBounds();
-            stage.setX((primScreenBounds.getWidth() - stage.getWidth()) / 2);
-            stage.setY((primScreenBounds.getHeight() - stage.getHeight()) / 2);
+            if (newVal.doubleValue() > 398.4) { // min screen width
+                stage.setWidth(newVal.doubleValue() * w / h);
+                Rectangle2D primScreenBounds = Screen.getPrimary().getVisualBounds();
+                stage.setX((primScreenBounds.getWidth() - stage.getWidth()) / 2);
+                stage.setY((primScreenBounds.getHeight() - stage.getHeight()) / 2);
+            }
         });
-        stage.minWidthProperty().bind(stage.heightProperty().multiply(w / h));
+        stage.minWidthProperty().bind(new SimpleDoubleProperty(591.9));
+        stage.minHeightProperty().bind(new SimpleDoubleProperty(398.4));
+        //stage.minWidthProperty().bind(stage.heightProperty().multiply(w / h));
         stage.maxWidthProperty().bind(stage.heightProperty().multiply(w / h));
     }
 

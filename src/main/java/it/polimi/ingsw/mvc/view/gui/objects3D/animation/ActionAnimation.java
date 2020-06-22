@@ -31,11 +31,11 @@ public class ActionAnimation extends TrackedGroup {
     final double sY = -5;
     //final double CIRCLES_OFFSET = 0.65; //0.65
     final double sZ = 3.75;
-    private final String MOVE_EFFECT_TEXTURE = "/texture/effects/playermoveindicator_blue.png";
-    private final String SELECT_WORKER_TEXTURE = "/texture/effects/playermoveindicator_yellow.png";
-    private final String BUILD_EFFECT_TEXTURE = "/texture/effects/playerplaceindicator_blue.png";
-    private final String ADD_WORKER_EFFECT_TEXTURE = "/texture/effects/playerplaceindicator_gold.png";
-    private final List<ImageView> e = new ArrayList<>();
+    private static final String MOVE_EFFECT_TEXTURE = "/texture/effects/playermoveindicator_blue.png";
+    private static final String SELECT_WORKER_TEXTURE = "/texture/effects/playermoveindicator_yellow.png";
+    private static final String BUILD_EFFECT_TEXTURE = "/texture/effects/playerplaceindicator_blue.png";
+    private static final String ADD_WORKER_EFFECT_TEXTURE = "/texture/effects/playerplaceindicator_gold.png";
+    private static final List<Timeline> t = new ArrayList<>();
 
     public ActionAnimation(Action type, BoardCoords3D coords) {
 
@@ -54,10 +54,6 @@ public class ActionAnimation extends TrackedGroup {
         NodeOperation.setTranslate(this, zeroX, zeroZ, zeroY);
 
         setCoords(coords);
-    }
-
-    public void changeTexture(Action action) {
-        e.forEach(a -> a.setImage(getTexture(action)));
     }
 
     private Image getTexture(Action action) {
@@ -88,17 +84,21 @@ public class ActionAnimation extends TrackedGroup {
         NodeOperation.setTranslate(this, sX, sY, sZ);
     }
 
+    public static void clear() {
+        t.forEach(Timeline::stop);
+        t.clear();
+    }
+
     private ImageView createActionAnimation(int number, Image texture) {
         ImageView element = new ImageView(texture);
-        e.add(element);
         NodeOperation.setScale(element, 0.01);
 
         element.setTranslateZ(-SQUARES_OFFSET * number);
-        startAnimation(element, number);
+        t.add(startAnimation(element, number));
         return element;
     }
 
-    private void startAnimation(Node node, int number) {
+    private Timeline startAnimation(Node node, int number) {
         double startOpacity = (double) (numberOfSquares - number) / (double) numberOfSquares;
         double startPosition = SQUARES_OFFSET * number;
         double endOpacity = (double) (numberOfSquares - number - 1) / (double) numberOfSquares;
@@ -117,6 +117,7 @@ public class ActionAnimation extends TrackedGroup {
         );
         animation.setCycleCount(Timeline.INDEFINITE);
         animation.play();
+        return animation;
     }
 
 }
