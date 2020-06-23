@@ -19,8 +19,7 @@ import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
 /**
- * Controller used during the initial phase of the game, it manages the choice of the username and the color
- * by the clients, it manages also the creation of the views of the clients
+ * Controller state on lobby
  */
 public class LobbyController extends StateController implements Serializable {
 
@@ -29,12 +28,12 @@ public class LobbyController extends StateController implements Serializable {
     final transient List<ServerConnection> freshConnections;
 
     /**
-     * Creates the controller for the initial phase
+     * Creates the state
      *
-     * @param views        list of the {@link RemoteView remoteViews} of the players for the updates
-     * @param log          general logger of the server
-     * @param controller   general controller for the session
-     * @param unregistered list of clients trying to connect
+     * @param views        list of the {@link RemoteView RemoteViews}
+     * @param log          logger where any controller event will be stored
+     * @param controller   controller of the MVC
+     * @param unregistered list of connections not yet registered
      */
     public LobbyController(SessionController controller, List<RemoteView> views, Logger log, List<ServerConnection> unregistered) {
         super(controller, views, log);
@@ -42,12 +41,11 @@ public class LobbyController extends StateController implements Serializable {
         this.freshConnections = unregistered;
     }
 
-
     /**
-     * Reads the message and, in case of {@link Message registrationMessage}
-     * calls the method for the registration
+     * Reads the request and, in case of {@link Message registrationMessage},
+     * tries to register the connection
      *
-     * @param message the message received by the client
+     * @param message the request received by the connection
      */
     @Override
     public void parseMessage(Message message) {
@@ -56,12 +54,12 @@ public class LobbyController extends StateController implements Serializable {
         }
     }
 
-
     /**
-     * Controls if the chosen name and the chosen color are avaiable, if not it sends a
-     * new request and an error message. If they are correct, register the connection and create a player.
+     * Tries to register a connection.
+     * Checks if the chosen name and the chosen color are available, if not replies error message.
+     * If they are both available registers the connection and adds the player to the model.
      *
-     * @param message the message containing all the information about the player
+     * @param message the registration request message
      */
     private void registerConnection(RegistrationMessage message) {
 
@@ -84,14 +82,11 @@ public class LobbyController extends StateController implements Serializable {
                     startGame();
                 }
             }
-        } else {
-            log.severe("An already registered view requested registration, it was blocked with no further action");
-        }
+        } else log.severe("An already registered view requested registration, it was blocked with no further action");
     }
 
     /**
-     * It remove a registered player by the pending list and add the player and his info
-     * to the {@link SessionController controller} list
+     * Removes a registered connection, deletes its player from the model
      *
      * @param view  the view associated to the player
      * @param color the color of the player
@@ -106,8 +101,7 @@ public class LobbyController extends StateController implements Serializable {
     }
 
     /**
-     * Send a deny connection to all pending connections in lobby after the filling of the lobby,
-     * than it change the game state to "God_Selection"
+     * Closes all the pending connections and starts the game
      */
     private void startGame() {
         new ArrayList<>(freshConnections).forEach(c -> c.denyConnection("The game has started, you were disconnected "));
@@ -116,7 +110,7 @@ public class LobbyController extends StateController implements Serializable {
     }
 
     /**
-     * Send an update in broadcast to all players
+     * Updates the views
      */
     @Override
     public void sendUpdate() {
@@ -124,7 +118,7 @@ public class LobbyController extends StateController implements Serializable {
     }
 
     /**
-     * Send an update to all the players and all the connection pending
+     * Updates all the connections
      *
      * @param message the message containing the update
      */
@@ -135,7 +129,7 @@ public class LobbyController extends StateController implements Serializable {
     }
 
     /**
-     * Send an update to all the connections in pending list
+     * Updates all the pending connections
      *
      * @param message the message containing the update
      */
@@ -146,9 +140,9 @@ public class LobbyController extends StateController implements Serializable {
     }
 
     /**
-     * It returns the available color
+     * Returns a list of available colors
      *
-     * @return the list of the not chosen colors
+     * @return list of available colors
      */
     @Override
     public List<Colors> getFreeColors() {
@@ -158,7 +152,7 @@ public class LobbyController extends StateController implements Serializable {
     }
 
     /**
-     * Method that change the game state in "God_Selecion" when the lobby is full
+     * Changes the state of the controller to "GOD_SELECTION"
      */
     @Override
     public void tryNextState() {
@@ -166,8 +160,7 @@ public class LobbyController extends StateController implements Serializable {
     }
 
     /**
-     * Add a {@link ServerConnection connection} to the list of the connections of the players,
-     * create the view linked to the connection
+     * Creates a view for the connection and sets the controller to observe it
      */
     @Override
     public void addUnregisteredView(ServerConnection connection) {
@@ -177,7 +170,7 @@ public class LobbyController extends StateController implements Serializable {
     }
 
     /**
-     * Adds a player in the lobby to the {@link Session session}
+     * Adds a player to the {@link Session Model}
      *
      * @param username name of the player
      * @param color    color chosen by the player
@@ -191,7 +184,7 @@ public class LobbyController extends StateController implements Serializable {
     }
 
     /**
-     * Removes a player in the lobby
+     * Removes a player from the {@link Session Model}, deletes its view
      *
      * @param username name of the player
      */

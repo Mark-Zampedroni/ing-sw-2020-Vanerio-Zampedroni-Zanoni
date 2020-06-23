@@ -17,7 +17,7 @@ import java.util.List;
 import java.util.logging.Logger;
 
 /**
- * Abstract class containing the general methods shared by all the controllers of the different game phases
+ * Class of methods and variables shared by the {@link SessionController Controller} states.
  */
 public abstract class StateController implements Serializable {
 
@@ -30,11 +30,11 @@ public abstract class StateController implements Serializable {
     protected transient Logger log;
 
     /**
-     * Creates a controller that change its state during the game
+     * Creates a state
      *
-     * @param controller that is currently active
-     * @param log        general LOG of the server
-     * @param views      list of all the {@link RemoteView remoteview} for comunication with the players
+     * @param controller controller of the MVC
+     * @param log        logger where the events will be stored
+     * @param views      list of all the {@link RemoteView RemoteViews} connected
      */
     public StateController(SessionController controller, List<RemoteView> views, Logger log) {
         this.controller = controller;
@@ -43,15 +43,15 @@ public abstract class StateController implements Serializable {
     }
 
     /**
-     * Reset conditions and values to a situation prior to a failure
+     * Reloads the values of the controller from a saved data file
      *
-     * @param controller the controller that is referred to
-     * @param log        logger of the server
+     * @param controller controller of the MVC
+     * @param log        logger where the events will be stored
      * @param views      list of all the connections
-     * @param saveData   all the data about the previous game
+     * @param saveData   previous game data
      */
     public void reloadState(SessionController controller, SaveData saveData, List<RemoteView> views, Logger log) {
-        resetPreviousState(views, controller, log);
+        restorePreviousState(views, controller, log);
         log.info(() -> "[STATE CONTROLLER] Notifying successfull reconnection to " + views);
         notifyMessage(new FlagMessage(MessageType.RECONNECTION_REPLY, "Server", "Reconnected successfully", true, "ALL"));
         if (!saveData.getActionDone()) {
@@ -61,41 +61,34 @@ public abstract class StateController implements Serializable {
     }
 
     /**
-     * Reset the values inside the controller after a the rest
+     * Restores the values of the state
      *
      * @param views             list of all the connections
-     * @param log               logger of the server
-     * @param sessionController the controller that is referred to
+     * @param log               logger where the events will be stored
+     * @param sessionController controller of the MVC
      */
-    private void resetPreviousState(List<RemoteView> views, SessionController sessionController, Logger log) {
+    private void restorePreviousState(List<RemoteView> views, SessionController sessionController, Logger log) {
         this.log = log;
         this.views = views;
         controller = sessionController;
     }
 
     /**
-     * Sends updates to clients, placeholder for make sendUpdate() callable by subclasses
-     */
-    public void sendUpdate() {
-        log.warning("This state can't send updates");
-    }
-
-    /**
-     * Reads messages from clients, placeholder to make sendUpdate() callable by subclasses
+     * Parses the view request
      *
      * @param message the message received
      */
     public abstract void parseMessage(Message message);
 
     /**
-     * Change the game state, placeholder for the subclasses
+     * Tries to change state to the one specified in the implementation
      */
     public abstract void tryNextState();
 
     /**
-     * Sends to all the view the message passed, save the game before sending
+     * Notifies all the views with a message
      *
-     * @param message the message to send
+     * @param message the message that each view will receive
      */
     public void notifyMessage(Message message) {
         controller.saveGame(message, true);
@@ -103,14 +96,12 @@ public abstract class StateController implements Serializable {
     }
 
     /**
-     * Removes the player with the username by the game and close the game if the game state is after lobby
+     * Removes the player with the username from the game, if the game is open closes it
      *
      * @param username the name of the player to remove
      */
     public synchronized void removePlayer(String username) {
-        if (Session.getInstance().getPlayerByName(username) == null) {
-            return;
-        }
+        if (Session.getInstance().getPlayerByName(username) == null) return;
         boolean willGameClose = !Session.getInstance().getPlayerByName(username).isLoser();
         views.removeIf(v -> v.hasName(username));
         if (willGameClose) {
@@ -120,7 +111,7 @@ public abstract class StateController implements Serializable {
     }
 
     /**
-     * Creates a message for the client
+     * Builds a message with the specified values
      *
      * @param type      the type of the message
      * @param info      the information inside the message
@@ -131,7 +122,7 @@ public abstract class StateController implements Serializable {
     }
 
     /**
-     * Creates a message for the client
+     * Builds a message with the specified values
      *
      * @param type the type of the message
      * @param info the information inside the message
@@ -141,7 +132,7 @@ public abstract class StateController implements Serializable {
     }
 
     /**
-     * Creates a {@link FlagMessage flagMessage} for the client
+     * Builds a {@link FlagMessage flagMessage} with the specified values
      *
      * @param type      the type of the message
      * @param info      the information inside the message
@@ -153,7 +144,7 @@ public abstract class StateController implements Serializable {
     }
 
     /**
-     * reates a {@link FlagMessage flagMessage} for the client
+     * Builds a {@link FlagMessage flagMessage} with the specified values
      *
      * @param type the type of the message
      * @param info the information inside the message
@@ -164,7 +155,7 @@ public abstract class StateController implements Serializable {
     }
 
     /**
-     * Creates a message for the client
+     * Builds a message with the specified values
      *
      * @param info the information inside the message
      */
@@ -173,23 +164,25 @@ public abstract class StateController implements Serializable {
     }
 
     /**
-     * Creates a message for the client
+     * Builds a message with the specified values
      */
     protected Message messageBuilder() {
         return messageBuilder("Lobby update");
     }
 
     /**
-     * Placeholder to make addPlayer() callable by subclass LobbyController
+     * Placeholder method, it shouldn't be called.
+     * It's not implemented by all the states. It may be (but shouldn't) called from any state.
      */
     public void addPlayer(String username, Colors color, RemoteView view) {
         log.warning(() -> "[STATE_CONTROLLER] addPlayer on " + username + " " + color + " " + view + " called on wrong state");
     }
 
     /**
-     * Placeholder to make getFreeColors() callable by subclass LobbyController
+     * Placeholder method, it shouldn't be called.
+     * It's not implemented by all the states. It may be (but shouldn't) called from any state.
      *
-     * @return the list of available colors
+     * @return the list of available colors (empty if not overrided)
      */
     public List<Colors> getFreeColors() {
         log.warning(() -> "[STATE_CONTROLLER] getFreeColors called on wrong state");
@@ -197,10 +190,19 @@ public abstract class StateController implements Serializable {
     }
 
     /**
-     * Placeholder to make addUnregisteredView() callable by subclass LobbyController
+     * Placeholder method, it shouldn't be called.
+     * It's not implemented by all the states. It may be (but shouldn't) called from any state.
      */
     public void addUnregisteredView(ServerConnection connection) {
         log.warning(() -> "[STATE_CONTROLLER] addUnregisteredView on " + connection + " called on wrong state");
+    }
+
+    /**
+     * Placeholder method, it shouldn't be called.
+     * It's not implemented by all the states. It may be (but shouldn't) called from any state.
+     */
+    public void sendUpdate() {
+        log.warning("This state can't send updates");
     }
 
 }

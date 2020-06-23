@@ -16,8 +16,7 @@ import java.util.List;
 import java.util.logging.Logger;
 
 /**
- * Controller used during the phase when the players choose the god for the current game
- * and for the choice of the starter player
+ * Controller state used during the selection of each player god and the starter player
  */
 public class SelectionController extends StateController implements Serializable {
 
@@ -29,11 +28,11 @@ public class SelectionController extends StateController implements Serializable
     private GameState state;
 
     /**
-     * Creates the controller for the selection phase
+     * Creates the state
      *
-     * @param views      list of the {@link RemoteView remoteViews} of the players for the updates
-     * @param log        general logger of the server
-     * @param controller general controller for the session
+     * @param views      list of the {@link RemoteView RemoteViews}
+     * @param log        logger where the events will be stored
+     * @param controller controller of the MVC
      */
     public SelectionController(SessionController controller, List<RemoteView> views, Logger log) {
         super(controller, views, log);
@@ -46,7 +45,7 @@ public class SelectionController extends StateController implements Serializable
     }
 
     /**
-     * Reads messages from clients and manage what to do depending on the content
+     * Parse the view request
      *
      * @param message the message received
      */
@@ -72,7 +71,7 @@ public class SelectionController extends StateController implements Serializable
     }
 
     /**
-     * Reads challenger selection message and add the gods chosen in the list of the gods of the game
+     * Reads challenger selection message and add the gods chosen to the list of the gods of the game
      *
      * @param message the message received
      */
@@ -92,7 +91,7 @@ public class SelectionController extends StateController implements Serializable
     }
 
     /**
-     * Reads the choice of the player in the message and assign the god to the player
+     * Assigns the god requested (through message) to the player
      *
      * @param message the message received
      */
@@ -101,14 +100,8 @@ public class SelectionController extends StateController implements Serializable
             if (chosenGod.contains(message.getInfo())) {
                 chosenGod.remove(message.getInfo());
                 assignGod(message.getSender(), message.getInfo());
-                if (!chosenGod.isEmpty()) {
-                    notifyMessage(messageBuilder(MessageType.GODS_UPDATE, message.getInfo(), false));
-                    askNextSelection();
-                } else {
-                    state = GameState.STARTER_SELECTION;
-                    controller.setTurnOwner(challenger.getUsername());
-                    notifyMessage(messageBuilder(MessageType.GODS_UPDATE, message.getInfo(), false));
-                }
+                if (!chosenGod.isEmpty()) nextSelection(message.getInfo());
+                else closeSelection(message.getInfo());
             } else {
                 notifyMessage(messageBuilder(MessageType.GODS_SELECTION_UPDATE, "Turn notify", message.getSender()));
             }
@@ -116,9 +109,30 @@ public class SelectionController extends StateController implements Serializable
     }
 
     /**
-     * Reads name of the starter player and pass to the next phase "Game"
+     * Notifies the next player that the controller is waiting its choice
      *
-     * @param message the message received
+     * @param info god chosen on the previous input
+     */
+    private void nextSelection(String info) {
+        notifyMessage(messageBuilder(MessageType.GODS_UPDATE, info, false));
+        askNextSelection();
+    }
+
+    /**
+     * Notifies the challenger that the controller is waiting for the starter player choice
+     *
+     * @param info god chosen on the previous input
+     */
+    private void closeSelection(String info) {
+        state = GameState.STARTER_SELECTION;
+        controller.setTurnOwner(challenger.getUsername());
+        notifyMessage(messageBuilder(MessageType.GODS_UPDATE, info, false));
+    }
+
+    /**
+     * Saves the game of the starter player and switches to the next state
+     *
+     * @param message the reply containing the name of the starter player
      */
     private void parseStarterPlayerMessage(Message message) {
         if (state == GameState.STARTER_SELECTION) {
@@ -133,7 +147,7 @@ public class SelectionController extends StateController implements Serializable
     }
 
     /**
-     * Changes the state of the controller to "Game"
+     * Changes the state of the controller to "GAME"
      */
     public void tryNextState() {
         controller.switchState(GameState.GAME);
@@ -141,19 +155,18 @@ public class SelectionController extends StateController implements Serializable
 
 
     /**
-     * Sends a message for ask the next choice of the god by the players
+     * Updates the turn owner and notifies the views
      */
     private void askNextSelection() {
         turn = (turn + 1) % controller.getGameCapacity();
         Player turnOwner = session.getPlayers().get(turn);
         controller.setTurnOwner(turnOwner.getUsername());
-        if (turnOwner.getGod() == null) {
+        if (turnOwner.getGod() == null)
             notifyMessage(messageBuilder(MessageType.GODS_SELECTION_UPDATE, turnOwner.getUsername()));
-        }
     }
 
     /**
-     * Assigns the god to the player that choose it
+     * Assigns the god to the player who chose it
      *
      * @param player the player that choose the god
      * @param god    the god chosen by the player
@@ -167,7 +180,7 @@ public class SelectionController extends StateController implements Serializable
     }
 
     /**
-     * Associates the rules to the specific view of the player
+     * Sets each View as observer of the Model
      *
      * @param view  the view of the player
      * @param rules the rules of the god chosen by the player

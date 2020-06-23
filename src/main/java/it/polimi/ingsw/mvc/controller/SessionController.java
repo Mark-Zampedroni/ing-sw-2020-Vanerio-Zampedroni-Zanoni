@@ -26,8 +26,8 @@ import java.util.Map;
 import java.util.logging.Logger;
 
 /**
- * Controller used during all the game phases for shared information between the different states,
- * it also manage the calls to the different methods inside the different states controllers
+ * Controller of the MVC.
+ * Implements the "state" pattern, using one state for each game phase.
  */
 public class SessionController implements Observer<Message> {
 
@@ -41,7 +41,7 @@ public class SessionController implements Observer<Message> {
     private Logger log;
 
     /**
-     * Creates the controller of the game
+     * Creates the controller
      *
      * @param connections list of client in game
      * @param log         general logger of the server
@@ -58,8 +58,8 @@ public class SessionController implements Observer<Message> {
      * Creates the controller of the game after a restart of the server
      *
      * @param saveData information saved on disk
-     * @param log      general logger of the server
-     * @param map      the map of connections and username of the clients
+     * @param log general logger of the server
+     * @param map map username to connection for the connections
      */
     public SessionController(Logger log, SaveData saveData, Map<String, ServerConnection> map) {
         log.info("[CONTROLLER] Reloading game data");
@@ -72,10 +72,10 @@ public class SessionController implements Observer<Message> {
     }
 
     /**
-     * Reloads all the values of the game before the failure
+     * Reloads all the values of the game reading a save on disk
      *
      * @param saveData information saved on disk
-     * @param log      general logger of the server
+     * @param log logger where the reload progress will be stored
      */
     private void reloadValues(Logger log, SaveData saveData) {
         this.log = log;
@@ -114,7 +114,7 @@ public class SessionController implements Observer<Message> {
     }
 
     /**
-     * Sets the turn owner among the players
+     * Sets the name of the player who is the turn owner
      *
      * @param turnOwner the current turn owner
      */
@@ -132,7 +132,7 @@ public class SessionController implements Observer<Message> {
     }
 
     /**
-     * Changes the current state of the game in a new state
+     * Changes the current state of the game
      *
      * @param state the new state of the game
      */
@@ -156,7 +156,7 @@ public class SessionController implements Observer<Message> {
     }
 
     /**
-     * Update of the changing state for the clients, broadcast
+     * Updates the clients on the state change
      */
     private void sendStateUpdate() {
         stateController.notifyMessage(new StateUpdateMessage(MessageType.STATE_UPDATE, "SERVER", "New state", state, "ALL"));
@@ -170,7 +170,7 @@ public class SessionController implements Observer<Message> {
     }
 
     /**
-     * Adds a client to the current game
+     * Adds a connection to the current game
      *
      * @param connection the connection that identifies a client
      */
@@ -181,7 +181,7 @@ public class SessionController implements Observer<Message> {
     }
 
     /**
-     * Register a player and add it to the game
+     * Registers a player and adds it to the game
      *
      * @param username the name of the player
      * @param color    the color of the player
@@ -194,7 +194,7 @@ public class SessionController implements Observer<Message> {
     }
 
     /**
-     * Remove a player from the game
+     * Removes a player from the game
      *
      * @param username the name of the player
      */
@@ -205,7 +205,7 @@ public class SessionController implements Observer<Message> {
     }
 
     /**
-     * It returns the available color
+     * Returns the available colors
      *
      * @return the list of the not chosen colors
      */
@@ -229,7 +229,7 @@ public class SessionController implements Observer<Message> {
     /**
      * Getter for the game capacity
      *
-     * @return the capacity of the game
+     * @return the capacity of the game (as number of players)
      */
     public int getGameCapacity() {
         return gameCapacity;
@@ -238,7 +238,7 @@ public class SessionController implements Observer<Message> {
     /**
      * Setter for game capacity
      *
-     * @param capacity desired capacity for the current game
+     * @param capacity desired capacity for the current game (as number of players)
      */
     public void setGameCapacity(int capacity) {
         gameCapacity = capacity;
@@ -274,7 +274,7 @@ public class SessionController implements Observer<Message> {
     }
 
     /**
-     * Restarts the server and the game, clear the file
+     * Restarts the server and the game, deletes the save file
      */
     public void restartGame() {
         try {

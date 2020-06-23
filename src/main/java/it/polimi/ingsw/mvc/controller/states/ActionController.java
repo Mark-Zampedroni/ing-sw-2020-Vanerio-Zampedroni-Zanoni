@@ -15,7 +15,8 @@ import java.util.Collections;
 import java.util.List;
 
 /**
- * Controller part dedicated to call the methods that perform the actions of the player in the game.
+ * Handles the action requests and replies (during the "GAME" state of the controller).
+ * Applies the changes to the model
  */
 public class ActionController implements Serializable {
 
@@ -25,10 +26,10 @@ public class ActionController implements Serializable {
     private final TurnController controller;
 
     /**
-     * Constructor for the controller dedicated to the action part
+     * Constructor, initializes the variables
      *
-     * @param controller controller of the turn
-     * @param player     currently active
+     * @param controller state of the controller
+     * @param player     current turn owner
      */
     public ActionController(TurnController controller, Player player) {
         this.player = player;
@@ -37,14 +38,13 @@ public class ActionController implements Serializable {
     }
 
     /**
-     * Apply the changes to the model about the action passed, performed by the passed worker,
-     * in the passed position
+     * Executes an action on the specified position with the specified worker (if possible)
      *
-     * @param worker   that performs the action
-     * @param position where is performed the action
-     * @param type     of the action passed
-     * @return the list of possibile {@link Action actions} after the passed action
-     * @throws WrongActionException if the action is not one of the possible actions in the game
+     * @param worker   worker that performs the action
+     * @param position position on where is performed the action
+     * @param type     type of the action passed
+     * @return the list of possible {@link Action actions} (by the rules) after the action specified
+     * @throws WrongActionException if the action is not one of the actions which apply changes to the board
      */
     public List<Action> act(Worker worker, Position position, Action type) throws WrongActionException {
         switch (type) {
@@ -62,11 +62,11 @@ public class ActionController implements Serializable {
     }
 
     /**
-     * Return the list of possible positions where the {@link Worker worker}
+     * Returns the list of possible positions where the specified {@link Worker worker}
      * can perform the {@link Action action}
      *
-     * @param worker that perform the action
-     * @param action that the worker performs
+     * @param worker worker requested
+     * @param action action requested
      * @return the list of possible position for that action
      */
     public List<Position> getCandidates(Worker worker, Action action) {
@@ -88,10 +88,10 @@ public class ActionController implements Serializable {
     }
 
     /**
-     * Method that calls the method for modify the model adding a {@link Worker worker}
+     * Executes the action {@link Action ADD_WORKER} on the specified position
      *
      * @param position the position where the player puts the worker
-     * @return the list of possible actions after the add
+     * @return the list of possible actions after the addition
      */
     private List<Action> actAddWorker(Position position) {
         rules.executeAdd(player, position);
@@ -99,9 +99,9 @@ public class ActionController implements Serializable {
     }
 
     /**
-     * Method that calls the method for modify the model selecting a {@link Worker worker}
+     * Executes the action {@link Action SELECT_WORKER} on the specified position
      *
-     * @param position the position where the worker is
+     * @param position position where is the worker
      * @return the list of possible actions after the selection
      */
     private List<Action> actSelectWorker(Position position) {
@@ -117,10 +117,10 @@ public class ActionController implements Serializable {
     }
 
     /**
-     * Method that calls the method for modify the model moving a {@link Worker worker}
+     * Executes the action {@link Action MOVE} on the specified position with the specified worker
      *
      * @param position the position where the worker will move
-     * @param worker   the worker that performs the move
+     * @param worker   the worker that performs the movement
      * @return the list of possible actions after the movement
      */
     private List<Action> actMove(Worker worker, Position position) {
@@ -131,9 +131,9 @@ public class ActionController implements Serializable {
     }
 
     /**
-     * Method that calls the method for modify the model building a block
+     * Executes the action {@link Action BUILD} on the specified position
      *
-     * @param position the position where the block is placed
+     * @param position the position where the building is done
      * @return the list of possible actions after the build
      */
     private List<Action> actBuild(Position position) {
@@ -143,12 +143,12 @@ public class ActionController implements Serializable {
 
 
     /**
-     * Return the list of possible positions where the {@link Worker worker}
-     * can perform move or build {@link Action actions}
+     * Returns the list of possible positions where the specified {@link Worker worker}
+     * can perform the move or build {@link Action action}
      *
      * @param worker that perform the action
      * @param action that the worker performs between move and build
-     * @return the list of possible position for that action
+     * @return the list of possible position for the actions
      */
     private List<Position> getMoveBuildCandidates(Worker worker, Action action) {
         Position target;
@@ -172,10 +172,9 @@ public class ActionController implements Serializable {
     }
 
     /**
-     * Return the list of possible positions where the {@link Player player}
-     * can {@link Action select} the workers
+     * Returns the list of positions occupied by selectable workers
      *
-     * @return the list of possible position for that action
+     * @return the list of positions occupied by selectable workers
      */
     private List<Position> getSelectWorkerCandidates() {
         List<Position> temp = new ArrayList<>();
@@ -189,10 +188,9 @@ public class ActionController implements Serializable {
     }
 
     /**
-     * Return the list of possible positions where the {@link Player player}
-     * can add the {@link Worker workers}
+     * Returns the list of possible positions where {@link Worker workers} can be added
      *
-     * @return the list of possible position for that action
+     * @return the list of possible positions for the action ADD_WORKER
      */
     private List<Position> getAddWorkerCandidates() {
         Position target;
