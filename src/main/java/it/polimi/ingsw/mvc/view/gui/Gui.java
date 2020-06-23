@@ -37,7 +37,6 @@ public class Gui extends Application {
         stage.setScene(scene);
         Platform.runLater(() -> bindScene(stage.getScene()));
         GuiManager.setLayout(stage.getScene(), GuiManager.getFxmlPath(TitleController.class));
-        setMouse(scene);
         setWindowIcon();
         stage.setTitle("Santorini");
         stage.show();
@@ -45,7 +44,7 @@ public class Gui extends Application {
         //stage.setFullScreen(true); // full screen
     }
 
-    private void setMouse(Scene scene) {
+    public void setMouse(Scene scene) {
         try {
             scene.setCursor(new ImageCursor(new Image(String.valueOf(Gui.class.getClassLoader().getResource("texture2D_sorted/Misti/godpower_hand.png")))));
         } catch (Exception e) {

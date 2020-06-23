@@ -47,9 +47,9 @@ public class GuiManager extends Client {
         try {
             Pane pane = loadFxmlPane(path);
             scene.setRoot(pane);
+            Gui.getInstance().setMouse(scene);
         } catch (IOException e) {
             GUI_LOG.severe("Can't load " + path);
-            System.out.println(e.getMessage());
         }
 
     }
@@ -105,7 +105,11 @@ public class GuiManager extends Client {
 
     private void runUpdate(Class<?> c, Runnable request) {
         if (!(currentController.getWindowName() == c)) {
-            Platform.runLater(() -> setLayout(currentController.getScene(), GuiManager.getFxmlPath(c)));
+            Scene n = new Scene(new Pane());
+            Platform.runLater(() -> {
+                setLayout(n, GuiManager.getFxmlPath(c));
+                Gui.getStage().setScene(n);
+            });
         }
         Platform.runLater(request);
     }
@@ -173,23 +177,13 @@ public class GuiManager extends Client {
 
     @Override
     public void showDisconnected(String info) {
-        if (currentController.getClass() == BoardController.class) {
+        if (currentController.getClass() == BoardController.class)
             Platform.runLater(() -> ((BoardController) currentController).clear());
-            try {
-                Thread.sleep(500);
-            } catch (InterruptedException e) {
-                log.warning("[GUI] Board cleanup interrupted");
-            }
-        }
-        if (currentController.getClass() == TitleController.class) {
+        if (currentController.getClass() == TitleController.class)
             runUpdate(TitleController.class, () -> ((TitleController) currentController).showDisconnected(info));
-        } else {
+        else
             runUpdate(DisconnectionController.class, () -> ((DisconnectionController) currentController).showDisconnected(info));
-        }
     }
-
-    @Override
-    public void requestLogin() { /* Logic already implemented within showLobby */ }
 
     @Override
     public void showWin(String playerName) {
@@ -200,4 +194,7 @@ public class GuiManager extends Client {
     public void showLose(String playerName) {
         runUpdate(BoardController.class, () -> ((BoardController) currentController).showLose(playerName));
     }
+
+    @Override
+    public void requestLogin() { /* Logic already implemented within showLobby */ }
 }

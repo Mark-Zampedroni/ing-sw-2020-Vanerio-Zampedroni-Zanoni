@@ -9,7 +9,7 @@ import java.util.List;
  * Actions that the {@link it.polimi.ingsw.mvc.model.player.Player players} can perform during their turn
  */
 public enum Action implements Serializable {
-    SELECT_WORKER, MOVE, BUILD, SPECIAL_POWER, END_TURN, WIN, ADD_WORKER;
+    END_TURN, SELECT_WORKER, MOVE, BUILD, SPECIAL_POWER, WIN, ADD_WORKER;
 
     /**
      * Return a list with the actions that don't require position

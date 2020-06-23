@@ -81,53 +81,86 @@
                                 <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                             </rowConstraints>
                             <children>
-                                <BorderPane id="button1" fx:id="testButton2" minHeight="1.0" minWidth="1.0" pickOnBounds="false" prefHeight="1.0" prefWidth="1.0" styleClass="fullbackground" GridPane.columnIndex="1" GridPane.columnSpan="4" GridPane.rowIndex="10" GridPane.rowSpan="2">
+                                <BorderPane fx:id="buttonPadding1" minHeight="1.0" minWidth="1.0" pickOnBounds="false"
+                                            prefHeight="1.0" prefWidth="1.0" GridPane.columnIndex="1"
+                                            GridPane.columnSpan="4" GridPane.rowIndex="10" GridPane.rowSpan="2">
                                     <center>
-                                        <Label alignment="CENTER" minHeight="1.0" minWidth="1.0" prefHeight="490.0" prefWidth="619.0" styleClass="whiteLabel" text="Label" BorderPane.alignment="CENTER">
-                                            <font>
-                                                <Font name="System Bold" size="17.0" />
-                                            </font>
-                                            <BorderPane.margin>
-                                                <Insets />
-                                            </BorderPane.margin>
-                                            <padding>
-                                                <Insets bottom="15.0" />
-                                            </padding>
-                                        </Label>
+                                        <BorderPane fx:id="actionButton2" prefHeight="200.0" prefWidth="200.0"
+                                                    styleClass="fullbackground" visible="false"
+                                                    BorderPane.alignment="CENTER">
+                                            <center>
+                                                <Label alignment="CENTER" minHeight="1.0" minWidth="1.0"
+                                                       prefHeight="490.0" prefWidth="619.0" styleClass="whiteLabel"
+                                                       text="Label" BorderPane.alignment="CENTER">
+                                                    <font>
+                                                        <Font name="System Bold" size="16.0"/>
+                                                    </font>
+                                                    <BorderPane.margin>
+                                                        <Insets/>
+                                                    </BorderPane.margin>
+                                                </Label>
+                                            </center>
+                                        </BorderPane>
                                     </center>
+                                    <padding>
+                                        <Insets bottom="10.0"/>
+                                    </padding>
                                 </BorderPane>
-                                <BorderPane id="button2" fx:id="testButton1" minHeight="1.0" minWidth="1.0" pickOnBounds="false" prefHeight="1.0" prefWidth="1.0" styleClass="fullbackground" GridPane.columnIndex="1" GridPane.columnSpan="4" GridPane.rowIndex="12" GridPane.rowSpan="2">
+                                <BorderPane fx:id="buttonPadding2" minHeight="1.0" minWidth="1.0" pickOnBounds="false"
+                                            prefHeight="1.0" prefWidth="1.0" GridPane.columnIndex="1"
+                                            GridPane.columnSpan="4" GridPane.rowIndex="12" GridPane.rowSpan="2">
                                     <center>
-                                        <Label alignment="CENTER" minHeight="1.0" minWidth="1.0" prefHeight="422.0" prefWidth="621.0" styleClass="whiteLabel" text="Label" BorderPane.alignment="CENTER">
-                                            <BorderPane.margin>
-                                                <Insets />
-                                            </BorderPane.margin>
-                                            <font>
-                                                <Font name="System Bold" size="17.0" />
-                                            </font>
-                                            <padding>
-                                                <Insets bottom="15.0" />
-                                            </padding>
-                                        </Label>
+                                        <BorderPane fx:id="actionButton1" prefHeight="200.0" prefWidth="200.0"
+                                                    styleClass="fullbackground" visible="false"
+                                                    BorderPane.alignment="CENTER">
+                                            <center>
+                                                <Label alignment="CENTER" minHeight="1.0" minWidth="1.0"
+                                                       prefHeight="422.0" prefWidth="621.0" styleClass="whiteLabel"
+                                                       text="Label" BorderPane.alignment="CENTER">
+                                                    <BorderPane.margin>
+                                                        <Insets/>
+                                                    </BorderPane.margin>
+                                                    <font>
+                                                        <Font name="System Bold" size="16.0"/>
+                                                    </font>
+                                                </Label>
+                                            </center>
+                                        </BorderPane>
                                     </center>
-                                </BorderPane>
-                                <BorderPane id="button3" fx:id="testButton" minHeight="1.0" minWidth="1.0" pickOnBounds="false" prefHeight="1.0" prefWidth="1.0" styleClass="fullbackground" GridPane.columnIndex="1" GridPane.columnSpan="4" GridPane.rowIndex="14" GridPane.rowSpan="2">
                                     <GridPane.margin>
-                                        <Insets />
+                                        <Insets/>
+                                    </GridPane.margin>
+                                    <padding>
+                                        <Insets bottom="10.0"/>
+                                    </padding>
+                                </BorderPane>
+                                <BorderPane fx:id="buttonPadding3" minHeight="1.0" minWidth="1.0" pickOnBounds="false"
+                                            prefHeight="1.0" prefWidth="1.0" GridPane.columnIndex="1"
+                                            GridPane.columnSpan="4" GridPane.rowIndex="14" GridPane.rowSpan="2">
+                                    <GridPane.margin>
+                                        <Insets/>
                                     </GridPane.margin>
                                     <center>
-                                        <Label alignment="CENTER" minHeight="1.0" minWidth="1.0" prefHeight="345.0" prefWidth="623.0" styleClass="whiteLabel" text="Label" BorderPane.alignment="CENTER">
-                                            <font>
-                                                <Font name="System Bold" size="17.0" />
-                                            </font>
-                                            <BorderPane.margin>
-                                                <Insets />
-                                            </BorderPane.margin>
-                                            <padding>
-                                                <Insets bottom="15.0" />
-                                            </padding>
-                                        </Label>
+                                        <BorderPane fx:id="actionButton" prefHeight="200.0" prefWidth="200.0"
+                                                    styleClass="fullbackground" visible="false"
+                                                    BorderPane.alignment="CENTER">
+                                            <center>
+                                                <Label alignment="CENTER" minHeight="1.0" minWidth="1.0"
+                                                       prefHeight="345.0" prefWidth="623.0" styleClass="whiteLabel"
+                                                       text="Label" BorderPane.alignment="CENTER">
+                                                    <font>
+                                                        <Font name="System Bold" size="16.0"/>
+                                                    </font>
+                                                    <BorderPane.margin>
+                                                        <Insets/>
+                                                    </BorderPane.margin>
+                                                </Label>
+                                            </center>
+                                        </BorderPane>
                                     </center>
+                                    <padding>
+                                        <Insets bottom="10.0"/>
+                                    </padding>
                                 </BorderPane>
                             </children>
                         </GridPane>
@@ -313,7 +346,7 @@
                                                 </BorderPane>
                                             </children>
                                             <columnConstraints>
-                                                <ColumnConstraints hgrow="SOMETIMES" minWidth="1.0" prefWidth="100.0" />
+                                                <ColumnConstraints hgrow="SOMETIMES" minWidth="1.0" prefWidth="100.0"/>
                                                 <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0"/>
                                                 <ColumnConstraints hgrow="SOMETIMES" minWidth="1.0" prefWidth="100.0"/>
                                             </columnConstraints>
@@ -331,7 +364,7 @@
                                         <Insets/>
                                     </GridPane.margin>
                                     <center>
-                                        <BorderPane id="currentplayer2" fx:id="currentPlayer2" prefHeight="708.0"
+                                        <BorderPane id="currentPlayerBg" fx:id="currentPlayer2" prefHeight="708.0"
                                                     prefWidth="525.0" styleClass="fullbackground" visible="false"
                                                     BorderPane.alignment="CENTER"/>
                                     </center>
@@ -346,7 +379,7 @@
                                         <Insets/>
                                     </GridPane.margin>
                                     <center>
-                                        <BorderPane id="currentplayer2" fx:id="currentPlayer1" prefHeight="781.0"
+                                        <BorderPane id="currentPlayerBg" fx:id="currentPlayer1" prefHeight="781.0"
                                                     prefWidth="543.0" styleClass="fullbackground" visible="false"
                                                     BorderPane.alignment="CENTER"/>
                                     </center>
@@ -361,7 +394,7 @@
                                         <Insets/>
                                     </GridPane.margin>
                                     <center>
-                                        <BorderPane id="currentplayer2" fx:id="currentPlayer3" prefHeight="627.0"
+                                        <BorderPane id="currentPlayerBg" fx:id="currentPlayer3" prefHeight="627.0"
                                                     prefWidth="548.0" styleClass="fullbackground" visible="false"
                                                     BorderPane.alignment="CENTER"/>
                                     </center>
@@ -416,17 +449,19 @@
                                 <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                             </rowConstraints>
                             <children>
-                                <Label fx:id="endgameLabel" alignment="TOP_CENTER" prefHeight="215.0" prefWidth="396.0" text="Label" GridPane.columnIndex="1" GridPane.rowIndex="2">
+                                <Label fx:id="endgameLabel" alignment="CENTER" prefHeight="215.0" prefWidth="396.0"
+                                       text="Label" GridPane.columnIndex="1" GridPane.rowIndex="2">
                                     <font>
-                                        <Font size="26.0" />
+                                        <Font size="31.0"/>
                                     </font>
                                 </Label>
-                                <BorderPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="3">
+                                <BorderPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1"
+                                            GridPane.rowIndex="3">
                                     <center>
                                         <GridPane minHeight="1.0" minWidth="1.0" BorderPane.alignment="CENTER">
                                             <columnConstraints>
-                                                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                                                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0"/>
+                                                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0"/>
                                                 <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                                                 <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                                             </columnConstraints>
@@ -455,27 +490,39 @@
                         </GridPane>
                     </center>
                 </BorderPane>
-                <BorderPane id="cardBackground" fx:id="godCard" pickOnBounds="false" prefHeight="200.0" prefWidth="200.0" styleClass="fullbackground" GridPane.columnIndex="4" GridPane.columnSpan="4" GridPane.rowIndex="1" GridPane.rowSpan="6">
-               <center>
-                  <GridPane BorderPane.alignment="CENTER">
-                     <children>
-                        <GridPane>
-                           <children>
-                              <Label id="godNameLabel" fx:id="godNameLabel" alignment="CENTER" prefHeight="492.0" prefWidth="1252.0" styleClass="fullbackground" text="HEPHAESTUS" textFill="WHITE" GridPane.columnSpan="10" GridPane.rowSpan="3">
-                                 <font>
-                                    <Font size="31.0" />
-                                 </font>
-                              </Label>
-                              <Label id="conditionLabel" fx:id="conditionLabel" alignment="CENTER" prefHeight="632.0" prefWidth="1189.0" text="Effect &#10;(Your build)" textAlignment="CENTER" wrapText="true" GridPane.columnSpan="10" GridPane.rowIndex="3" GridPane.rowSpan="4">
-                                 <font>
-                                    <Font size="28.0" />
-                                 </font>
-                              </Label>
-                              <Label id="descriptionLabel" fx:id="descriptionLabel" alignment="TOP_LEFT" prefHeight="591.0" prefWidth="1249.0" text="Your Worker may move into an opponent Worker's space, if their Worker can be forced one space straight backwards to an unoccupied space at any level." textAlignment="CENTER" wrapText="true" GridPane.columnSpan="10" GridPane.rowIndex="7" GridPane.rowSpan="9">
-                                 <opaqueInsets>
-                                    <Insets />
-                                 </opaqueInsets>
-                                 <padding>
+                <BorderPane id="cardBackground" fx:id="godCard" pickOnBounds="false" prefHeight="200.0"
+                            prefWidth="200.0" styleClass="fullbackground" visible="false" GridPane.columnIndex="4"
+                            GridPane.columnSpan="4" GridPane.rowIndex="1" GridPane.rowSpan="6">
+                    <center>
+                        <GridPane BorderPane.alignment="CENTER">
+                            <children>
+                                <GridPane>
+                                    <children>
+                                        <Label id="godNameLabel" fx:id="godNameLabel" alignment="CENTER"
+                                               prefHeight="492.0" prefWidth="1252.0" styleClass="fullbackground"
+                                               text="HEPHAESTUS" textFill="WHITE" GridPane.columnSpan="10"
+                                               GridPane.rowSpan="3">
+                                            <font>
+                                                <Font size="31.0"/>
+                                            </font>
+                                        </Label>
+                                        <Label id="conditionLabel" fx:id="conditionLabel" alignment="CENTER"
+                                               prefHeight="632.0" prefWidth="1189.0" text="Effect &#10;(Your build)"
+                                               textAlignment="CENTER" wrapText="true" GridPane.columnSpan="10"
+                                               GridPane.rowIndex="3" GridPane.rowSpan="4">
+                                            <font>
+                                                <Font size="28.0"/>
+                                            </font>
+                                        </Label>
+                                        <Label id="descriptionLabel" fx:id="descriptionLabel" alignment="TOP_LEFT"
+                                               prefHeight="591.0" prefWidth="1249.0"
+                                               text="Your Worker may move into an opponent Worker's space, if their Worker can be forced one space straight backwards to an unoccupied space at any level."
+                                               textAlignment="CENTER" wrapText="true" GridPane.columnSpan="10"
+                                               GridPane.rowIndex="7" GridPane.rowSpan="9">
+                                            <opaqueInsets>
+                                                <Insets/>
+                                            </opaqueInsets>
+                                            <padding>
                                      <Insets left="5.0" right="5.0" top="5.0"/>
                                  </padding>
                                  <GridPane.margin>

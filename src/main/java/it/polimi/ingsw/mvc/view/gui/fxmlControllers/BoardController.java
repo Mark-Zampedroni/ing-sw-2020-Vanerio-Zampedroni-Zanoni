@@ -29,11 +29,11 @@ public class BoardController extends GenericController implements Observer<DtoPo
     @FXML
     public BorderPane sceneContainer;
     @FXML
-    public BorderPane testButton;
+    public BorderPane actionButton;
     @FXML
-    public BorderPane testButton1;
+    public BorderPane actionButton1;
     @FXML
-    public BorderPane testButton2;
+    public BorderPane actionButton2;
     @FXML
     public Label endgameLabel;
     @FXML
@@ -74,6 +74,12 @@ public class BoardController extends GenericController implements Observer<DtoPo
     public BorderPane padding2;
     @FXML
     public BorderPane padding3;
+    @FXML
+    public BorderPane buttonPadding1;
+    @FXML
+    public BorderPane buttonPadding2;
+    @FXML
+    public BorderPane buttonPadding3;
 
     private boolean turnOwner = false;
     private Map<Action, List<DtoPosition>> possibleActions;
@@ -124,7 +130,7 @@ public class BoardController extends GenericController implements Observer<DtoPo
 
     private void initFeatures() {
         initEndGame();
-        actionButtons = new ArrayList<>(Arrays.asList(testButton, testButton1, testButton2));
+        actionButtons = new ArrayList<>(Arrays.asList(actionButton, actionButton1, actionButton2));
         actionButtons.forEach(this::initFont);
         actionButtons.forEach(this::hideNode);
     }
@@ -140,19 +146,22 @@ public class BoardController extends GenericController implements Observer<DtoPo
         setPaddingRatio(padding1);
         setPaddingRatio(padding2);
         setPaddingRatio(padding3);
+        setPaddingRatio(buttonPadding1);
+        setPaddingRatio(buttonPadding2);
+        setPaddingRatio(buttonPadding3);
     }
 
     private void toggleButton(BorderPane button) {
-        actionButtons.stream().filter(b -> b == button).findFirst().ifPresent(b -> b.setId(b.getId() + ((b.getId().contains("pressed") ? "" : "pressed"))));
-        actionButtons.stream().filter(b -> b != button).forEach(b -> b.setId(b.getId().replace("pressed", "")));
+        actionButtons.stream().filter(b -> b == button).findFirst().ifPresent(b -> b.setId(b.getId() + ((b.getId().contains("_pressed") ? "" : "_pressed"))));
+        actionButtons.stream().filter(b -> b != button).forEach(b -> b.setId(b.getId().replace("_pressed", "")));
     }
 
-    private void toggleButton(Action action) { // <--------- da sistemare quando si cambieranno le scritte dei tasti
+    private void toggleButton(Action action) {
         actionButtons.stream().filter(b -> ((Label) b.getChildren().get(0)).getText().equals(action.toString().replace("_", " "))).findFirst().ifPresent(this::toggleButton);
     }
 
     private void removeToggle() {
-        actionButtons.forEach(b -> b.setId(b.getId().replace("pressed", "")));
+        actionButtons.forEach(b -> b.setId(b.getId().replace("_pressed", "")));
     }
 
     private void initFont(BorderPane borderPane) {
@@ -245,18 +254,36 @@ public class BoardController extends GenericController implements Observer<DtoPo
 
     }
 
-
     private void updateButton(BorderPane button, Action action) {
-        ((Label) button.getChildren().get(0)).setText(action.toString().replace("_", " "));
+
+        if (action != Action.SPECIAL_POWER) setPositionButton(button, action);
+        else setPowerButton(button, action);
         button.setOnMouseClicked(event -> {
             currentAction = action;
-            toggleButton(button);
+            if (action == Action.SPECIAL_POWER)
+                button.setId(button.getId().contains("_on") ? button.getId().replace("_on", "") : button.getId() + "_on");
+            else toggleButton(button);
             boardSubScene.showAnimations(action);
             if (possibleActions.get(action).isEmpty()) {
                 update(null);
             }
         });
         showNode(button);
+    }
+
+    private void setPositionButton(BorderPane button, Action action) {
+        button.setId("button" + action.toString().toUpperCase());
+        ((Label) button.getChildren().get(0)).setText(action.toString().replace("_", " "));
+        button.setOnMousePressed(event -> button.setId("button" + action.toString().toUpperCase() + "_pressed"));
+        button.setOnMouseReleased(event -> button.setId(button.getId().replace("_pressed", "")));
+    }
+
+    private void setPowerButton(BorderPane button, Action action) {
+        ((Label) button.getChildren().get(0)).setText("");
+        if (!button.getId().contains(action.toString().toUpperCase()))
+            button.setId("button" + action.toString().toUpperCase());
+        button.setOnMousePressed(null);
+        button.setOnMouseReleased(null);
     }
 
     @Override
@@ -290,7 +317,7 @@ public class BoardController extends GenericController implements Observer<DtoPo
     public void showWin(String playerName) {
         showNode(endgameScreen);
         endgameScreen.setId((playerName.equals(username)) ? "winner" : "loser");
-        endgameLabel.setText((playerName.equals(username)) ? "You won!" : "You lost ...\n" + playerName + " is the winner");
+        endgameLabel.setText((playerName.equals(username)) ? "You won!" : "You lost\n" + playerName + " is the winner");
     }
 
 }
