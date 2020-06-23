@@ -146,7 +146,7 @@
                                             <content>
                                                 <Label fx:id="descriptionLabel" contentDisplay="TOP" textAlignment="CENTER" textFill="#0000008c" wrapText="true">
                                                     <font>
-                                                        <Font name="Comic Sans MS" size="23.0" />
+                                                        <Font name="Comic Sans MS" size="20.0" />
                                                     </font>
                                                     <padding>
                                                         <Insets left="10.0" />
@@ -158,7 +158,7 @@
                                             <center>
                                                 <Label id="condLabel" fx:id="conditionLabel" BorderPane.alignment="CENTER">
                                                     <font>
-                                                        <Font name="Comic Sans MS" size="24.0" />
+                                                        <Font name="Comic Sans MS" size="20.0" />
                                                     </font>
                                                     <padding>
                                                         <Insets left="10.0" />
@@ -185,7 +185,7 @@
                                             <children>
                                                 <Label fx:id="emptySelectedLabel" alignment="CENTER" prefHeight="656.0" prefWidth="1419.0" textFill="#000000e5" GridPane.columnSpan="3">
                                                     <font>
-                                                        <Font name="Comic Sans MS" size="24.0" />
+                                                        <Font name="Comic Sans MS" size="20.0" />
                                                     </font>
                                                 </Label>
                                             </children>
@@ -314,7 +314,7 @@
                                                     <children>
                                                         <Label id="godframename" fx:id="godNameBanner" alignment="CENTER" prefHeight="795.0" prefWidth="1034.0" styleClass="fullbackground" textAlignment="CENTER" GridPane.columnIndex="2" GridPane.columnSpan="4" GridPane.rowIndex="1">
                                                             <font>
-                                                                <Font name="Comic Sans MS Bold" size="18.0" />
+                                                                <Font name="Comic Sans MS Bold" size="17.0" />
                                                             </font>
                                                             <padding>
                                                                 <Insets bottom="15.0" />
