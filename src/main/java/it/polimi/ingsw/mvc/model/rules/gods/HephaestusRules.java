@@ -25,10 +25,10 @@ public class HephaestusRules extends EventRules implements Serializable {
      */
     @Override
     public void executeBuild(Position position) {
+        super.executeBuild(position);
         if (!getEvent()) {
             setPos(position);
         }
-        super.executeBuild(position);
     }
 
     /**
@@ -39,12 +39,13 @@ public class HephaestusRules extends EventRules implements Serializable {
      */
     @Override
     public List<Action> afterBuild() {
-        List<Action> actions = super.afterBuild();
         if (!getEvent()) {
+            List<Action> actions = super.afterBuild();
             actions.add(Action.BUILD);
             setEvent(true);
+            return actions;
         }
-        return actions;
+        return super.afterBuild();
     }
 
     /**
@@ -57,8 +58,8 @@ public class HephaestusRules extends EventRules implements Serializable {
      */
     @Override
     public void consentBuild(Worker worker, Position position) throws CantActException {
-        super.consentBuild(worker, position);
         Check.oldPosition(worker, position, false, "You must build on the previous position");
+        super.consentBuild(worker, position);
         Check.piece(worker);
     }
 }

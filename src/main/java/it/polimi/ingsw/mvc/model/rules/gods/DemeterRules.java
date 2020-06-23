@@ -40,12 +40,14 @@ public class DemeterRules extends EventRules implements Serializable {
      */
     @Override
     public List<Action> afterBuild() {
-        List<Action> actions = super.afterBuild();
+        List<Action> actions;
         if (!getEvent()) {
+            actions = super.afterBuild();
             actions.add(Action.BUILD);
             setEvent(true);
+            return actions;
         }
-        return actions;
+        return super.afterBuild();
     }
 
     /**
@@ -57,7 +59,7 @@ public class DemeterRules extends EventRules implements Serializable {
      */
     @Override
     public void consentBuild(Worker worker, Position position) throws CantActException {
-        super.consentBuild(worker, position);
         Check.oldPosition(worker, position);
+        super.consentBuild(worker, position);
     }
 }
