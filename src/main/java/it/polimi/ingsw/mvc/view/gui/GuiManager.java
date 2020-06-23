@@ -42,16 +42,21 @@ public class GuiManager extends Client {
         return getInstance(false);
     }
 
-    /*SHOWS A SCENE*/
     public static void setLayout(Scene scene, String path) {
+        setLayout(scene, path, false);
+    }
+
+    public static void setLayout(Scene scene, String path, boolean isNewScene) {
         try {
             Pane pane = loadFxmlPane(path);
             scene.setRoot(pane);
-            Gui.getInstance().setMouse(scene);
+            if (isNewScene) {
+                Gui.getStage().setScene(scene);
+            }
         } catch (IOException e) {
             GUI_LOG.severe("Can't load " + path);
         }
-
+        Gui.getInstance().setMouse(scene);
     }
 
     private static Pane loadFxmlPane(String path) throws IOException {
@@ -105,11 +110,10 @@ public class GuiManager extends Client {
 
     private void runUpdate(Class<?> c, Runnable request) {
         if (!(currentController.getWindowName() == c)) {
-            Scene n = new Scene(new Pane());
-            Platform.runLater(() -> {
-                setLayout(n, GuiManager.getFxmlPath(c));
-                Gui.getStage().setScene(n);
-            });
+            Platform.runLater(() -> setLayout(
+                    (currentController.getWindowName() == BoardController.class) ? new Scene(new Pane()) : Gui.getStage().getScene(),
+                    GuiManager.getFxmlPath(c),
+                    (currentController.getWindowName() == BoardController.class)));
         }
         Platform.runLater(request);
     }
