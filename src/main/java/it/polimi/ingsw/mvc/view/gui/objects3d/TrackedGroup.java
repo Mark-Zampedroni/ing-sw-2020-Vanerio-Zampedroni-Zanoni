@@ -1,14 +1,18 @@
-package it.polimi.ingsw.mvc.view.gui.objects3D;
+package it.polimi.ingsw.mvc.view.gui.objects3d;
 
-import it.polimi.ingsw.mvc.view.gui.objects3D.utils.BoardCoords3D;
-import it.polimi.ingsw.mvc.view.gui.objects3D.utils.NodeOperation;
+import it.polimi.ingsw.mvc.view.gui.objects3d.utils.BoardCoords3D;
+import it.polimi.ingsw.mvc.view.gui.objects3d.utils.NodeOperation;
 import javafx.scene.Group;
 
 public abstract class TrackedGroup extends Group {
 
     public final BoardCoords3D coords = new BoardCoords3D(0, 0, 0);
-    protected final double zeroX, zeroZ, zeroY;
-    private final double firstFloorOffset, secondFloorOffset, thirdFloorOffset;
+    protected final double zeroX;
+    protected final double zeroZ;
+    protected final double zeroY;
+    private final double firstFloorOffset;
+    private final double secondFloorOffset;
+    private final double thirdFloorOffset;
 
     public TrackedGroup(double zeroX, double zeroZ, double zeroY,
                         double firstFloorOffset, double secondFloorOffset, double thirdFloorOffset) {

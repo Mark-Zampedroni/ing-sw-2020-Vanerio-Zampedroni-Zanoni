@@ -1,4 +1,4 @@
-package it.polimi.ingsw.mvc.view.gui.fxmlControllers;
+package it.polimi.ingsw.mvc.view.gui.fxmlcontrollers;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -43,7 +43,6 @@ public class TitleController extends GenericController {
         initButton(okButton);
         hideNode(textPane);
         hideNode(textPaneCon);
-        //fullScreenButton.setOnMouseClicked(event -> GuiManager.getInstance().getStage().setFullScreen(true));
     }
 
     private void initFonts() {

@@ -1,8 +1,8 @@
-package it.polimi.ingsw.mvc.view.gui.objects3D.obj;
+package it.polimi.ingsw.mvc.view.gui.objects3d.obj;
 
-import it.polimi.ingsw.mvc.view.gui.objects3D.TrackedGroup;
-import it.polimi.ingsw.mvc.view.gui.objects3D.utils.BoardCoords3D;
-import it.polimi.ingsw.mvc.view.gui.objects3D.utils.NodeOperation;
+import it.polimi.ingsw.mvc.view.gui.objects3d.TrackedGroup;
+import it.polimi.ingsw.mvc.view.gui.objects3d.utils.BoardCoords3D;
+import it.polimi.ingsw.mvc.view.gui.objects3d.utils.NodeOperation;
 import it.polimi.ingsw.utility.enumerations.Colors;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.scene.Node;

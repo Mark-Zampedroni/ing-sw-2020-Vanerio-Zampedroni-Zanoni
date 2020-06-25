@@ -1,6 +1,6 @@
-package it.polimi.ingsw.mvc.view.gui.fxmlControllers;
+package it.polimi.ingsw.mvc.view.gui.fxmlcontrollers;
 
-import it.polimi.ingsw.mvc.view.gui.objects3D.utils.BoardScene;
+import it.polimi.ingsw.mvc.view.gui.objects3d.utils.BoardScene;
 import it.polimi.ingsw.utility.enumerations.Gods;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
@@ -12,6 +12,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -41,11 +42,12 @@ public class ChallengerSelectionController extends GenericController {
     public GridPane selectedGrid;
     @FXML
     public Label selectedNameLabel;
-    private int godRow, godColumn;
+    private int godRow;
+    private int godColumn;
     private String selectedGod;
     private List<String> chosenGods = new ArrayList<>(); // Una volta collegato al resto sarà null
 
-    public void initialize() throws Exception {
+    public void initialize() throws IOException {
         super.initialize(this);
         Platform.runLater(this::initGodsSelectionWindow);
         initSelectionButton();
@@ -153,7 +155,7 @@ public class ChallengerSelectionController extends GenericController {
                     newWindow.setCornice("yellowborder");
                     selectedGrid.add(newWindow, chosenGods.size() - 1, 0);
                 });
-        if (chosenGods.size() > 0) {
+        if (!chosenGods.isEmpty()) {
             hideNode(emptySelectedLabel);
         }
         this.chosenGods = chosenGods;

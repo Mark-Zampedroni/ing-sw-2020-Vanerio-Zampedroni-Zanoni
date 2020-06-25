@@ -1,6 +1,6 @@
 package it.polimi.ingsw.mvc.view.gui;
 
-import it.polimi.ingsw.mvc.view.gui.fxmlControllers.*;
+import it.polimi.ingsw.mvc.view.gui.fxmlcontrollers.*;
 import it.polimi.ingsw.network.client.Client;
 import it.polimi.ingsw.utility.dto.DtoPosition;
 import it.polimi.ingsw.utility.dto.DtoSession;
@@ -21,7 +21,7 @@ import java.util.logging.Logger;
 public class GuiManager extends Client {
 
     private static GuiManager instance = null;
-    private static Logger GUI_LOG;
+    private static Logger guilog;
 
     private static double width;
 
@@ -29,13 +29,17 @@ public class GuiManager extends Client {
 
     private GuiManager(boolean log) {
         super(log);
-        GUI_LOG = this.log;
+        loggerSetup(this.log);
     }
 
     public static GuiManager getInstance(boolean log) {
         if (instance == null)
             instance = new GuiManager(log);
         return instance;
+    }
+
+    private static void loggerSetup(Logger defLogger){
+        guilog =defLogger;
     }
 
     public static GuiManager getInstance() {
@@ -54,7 +58,7 @@ public class GuiManager extends Client {
                 Gui.getStage().setScene(scene);
             }
         } catch (IOException e) {
-            GUI_LOG.severe("Can't load " + path);
+            guilog.severe("Can't load " + path);
         }
         Gui.getInstance().setMouse(scene);
     }
@@ -64,7 +68,7 @@ public class GuiManager extends Client {
             return FXMLLoader.load(GuiManager.class.getResource(path));
         } catch (final IOException e) {
             String errorText = "Resource at " + path + " couldn't be loaded";
-            GUI_LOG.severe(errorText);
+            guilog.severe(errorText);
             throw new IOException(errorText);
         }
     }
@@ -72,7 +76,7 @@ public class GuiManager extends Client {
     public static String getFxmlPath(Class<?> c) {
         List<String> s = Arrays.asList(c.toString().split("\\."));
         String name = s.get(s.size() - 1);
-        return "/fxmlFiles/" + name.substring(0, name.length() - 10) + ".fxml"; // Removes "Controller" from the name
+        return "/fxmlFiles/" + name.substring(0, name.length() - 10) + ".fxml";
     }
 
     public Stage getStage() {
@@ -83,17 +87,12 @@ public class GuiManager extends Client {
         return width;
     }
 
-    public void setDefaultWidth(double w) {
+    public static void setDefaultWidth(double w) {
         width = w;
     }
 
     public void setCurrentController(GenericController currentController) {
         this.currentController = currentController;
-    }
-
-    @Override
-    protected void disconnectClient() {
-        super.disconnectClient();
     }
 
     public Map<String, Colors> getPlayers() {
@@ -109,7 +108,7 @@ public class GuiManager extends Client {
     }
 
     private void runUpdate(Class<?> c, Runnable request) {
-        if (!(currentController.getWindowName() == c)) {
+        if (currentController.getWindowName() != c) {
             Platform.runLater(() -> setLayout(
                     (currentController.getWindowName() == BoardController.class) ? new Scene(new Pane()) : Gui.getStage().getScene(),
                     GuiManager.getFxmlPath(c),

@@ -1,8 +1,8 @@
-package it.polimi.ingsw.mvc.view.gui.objects3D.obj;
+package it.polimi.ingsw.mvc.view.gui.objects3d.obj;
 
-import it.polimi.ingsw.mvc.view.gui.objects3D.utils.BoardCoords3D;
-import it.polimi.ingsw.mvc.view.gui.objects3D.utils.NodeOperation;
-import it.polimi.ingsw.mvc.view.gui.objects3D.utils.ObservableTileEvent;
+import it.polimi.ingsw.mvc.view.gui.objects3d.utils.BoardCoords3D;
+import it.polimi.ingsw.mvc.view.gui.objects3d.utils.NodeOperation;
+import it.polimi.ingsw.mvc.view.gui.objects3d.utils.ObservableTileEvent;
 import it.polimi.ingsw.utility.enumerations.Colors;
 import javafx.scene.Group;
 import javafx.scene.Node;
@@ -20,7 +20,12 @@ public class BoardObj extends Group {
     private static final String SEA_OBJ = "/obj/Sea.fxml";
     private static final String SEA_TEXTURE = "/texture/Sea_v002.png";
 
-    Node sea, plane, cliff, innerWall, outerWall1, outerWall2;
+    Node sea;
+    Node plane;
+    Node cliff;
+    Node innerWall;
+    Node outerWall1;
+    Node outerWall2;
 
     TileObj[][] tiles = new TileObj[5][5];
 

@@ -1,4 +1,4 @@
-package it.polimi.ingsw.mvc.view.gui.objects3D.utils;
+package it.polimi.ingsw.mvc.view.gui.objects3d.utils;
 
 import javafx.scene.PerspectiveCamera;
 import javafx.scene.SubScene;

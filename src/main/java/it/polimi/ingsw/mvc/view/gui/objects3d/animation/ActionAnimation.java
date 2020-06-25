@@ -1,8 +1,8 @@
-package it.polimi.ingsw.mvc.view.gui.objects3D.animation;
+package it.polimi.ingsw.mvc.view.gui.objects3d.animation;
 
-import it.polimi.ingsw.mvc.view.gui.objects3D.TrackedGroup;
-import it.polimi.ingsw.mvc.view.gui.objects3D.utils.BoardCoords3D;
-import it.polimi.ingsw.mvc.view.gui.objects3D.utils.NodeOperation;
+import it.polimi.ingsw.mvc.view.gui.objects3d.TrackedGroup;
+import it.polimi.ingsw.mvc.view.gui.objects3d.utils.BoardCoords3D;
+import it.polimi.ingsw.mvc.view.gui.objects3d.utils.NodeOperation;
 import it.polimi.ingsw.utility.enumerations.Action;
 import javafx.animation.Interpolator;
 import javafx.animation.KeyFrame;
@@ -20,17 +20,17 @@ import java.util.List;
 
 public class ActionAnimation extends TrackedGroup {
 
-    private static Image MOVE_EFFECT;
-    private static Image SELECT_WORKER_EFFECT;
-    private static Image BUILD_EFFECT;
-    private static Image ADD_WORKER_EFFECT;
-    final double SQUARES_OFFSET = 0.5; //0.5
-    final int time = 500;
-    final int numberOfSquares = 3;
-    final double sX = 0.6;
-    final double sY = -5;
+    private static Image moveEffect;
+    private static Image selectWorkerEffect;
+    private static Image buildEffect;
+    private static Image addWorkerEffect;
+    static final double SQUARES_OFFSET = 0.5; //0.5
+    static final int TIME = 500;
+    static final int NUMBER_OF_SQUARES = 3;
+    static final double SX = 0.6;
+    static final double SY = -5;
     //final double CIRCLES_OFFSET = 0.65; //0.65
-    final double sZ = 3.75;
+    static final double SZ = 3.75;
     private static final String MOVE_EFFECT_TEXTURE = "/texture/effects/playermoveindicator_blue.png";
     private static final String SELECT_WORKER_TEXTURE = "/texture/effects/playermoveindicator_yellow.png";
     private static final String BUILD_EFFECT_TEXTURE = "/texture/effects/playerplaceindicator_blue.png";
@@ -42,31 +42,33 @@ public class ActionAnimation extends TrackedGroup {
         super(-268.3, -243.4, 0.3,
                 -3.6, -7.4, -9.7);
 
-        if (MOVE_EFFECT == null) {
-            MOVE_EFFECT = new Image(MOVE_EFFECT_TEXTURE, true);
-            SELECT_WORKER_EFFECT = new Image(SELECT_WORKER_TEXTURE, true);
-            BUILD_EFFECT = new Image(BUILD_EFFECT_TEXTURE, true);
-            ADD_WORKER_EFFECT = new Image(ADD_WORKER_EFFECT_TEXTURE, true);
+        if (moveEffect == null) {
+            effectSetup();
         }
 
         createEffect(getTexture(type));
-
         NodeOperation.setTranslate(this, zeroX, zeroZ, zeroY);
-
         setCoords(coords);
+    }
+    
+    private static void effectSetup(){
+        moveEffect = new Image(MOVE_EFFECT_TEXTURE, true);
+        selectWorkerEffect = new Image(SELECT_WORKER_TEXTURE, true);
+        buildEffect = new Image(BUILD_EFFECT_TEXTURE, true);
+        addWorkerEffect = new Image(ADD_WORKER_EFFECT_TEXTURE, true);
     }
 
     private Image getTexture(Action action) {
         switch (action) {
             case SELECT_WORKER:
-                return SELECT_WORKER_EFFECT;
+                return selectWorkerEffect;
             case ADD_WORKER:
-                return ADD_WORKER_EFFECT;
+                return addWorkerEffect;
             case BUILD:
-                return BUILD_EFFECT;
+                return buildEffect;
             case MOVE:
             default:
-                return MOVE_EFFECT;
+                return moveEffect;
         }
     }
 
@@ -78,10 +80,10 @@ public class ActionAnimation extends TrackedGroup {
                 createActionAnimation(1, texture),
                 createActionAnimation(2, texture)
         );
-
-        getTransforms().add(xr = new Rotate(0, Rotate.X_AXIS));
+        xr = new Rotate(0, Rotate.X_AXIS);
+        getTransforms().add(xr);
         xr.setAngle(90);
-        NodeOperation.setTranslate(this, sX, sY, sZ);
+        NodeOperation.setTranslate(this, SX, SY, SZ);
     }
 
     public static void clear() {
@@ -99,16 +101,16 @@ public class ActionAnimation extends TrackedGroup {
     }
 
     private Timeline startAnimation(Node node, int number) {
-        double startOpacity = (double) (numberOfSquares - number) / (double) numberOfSquares;
+        double startOpacity = (double) (NUMBER_OF_SQUARES - number) / (double) NUMBER_OF_SQUARES;
         double startPosition = SQUARES_OFFSET * number;
-        double endOpacity = (double) (numberOfSquares - number - 1) / (double) numberOfSquares;
+        double endOpacity = (double) (NUMBER_OF_SQUARES - number - 1) / (double) NUMBER_OF_SQUARES;
         double endPosition = startPosition + SQUARES_OFFSET;
 
         Timeline animation = new Timeline(
                 new KeyFrame(Duration.ZERO,
                         new KeyValue(node.translateZProperty(), startPosition),
                         new KeyValue(node.opacityProperty(), startOpacity)),
-                new KeyFrame(Duration.millis(time),
+                new KeyFrame(Duration.millis(TIME),
                         new KeyValue(node.translateZProperty(),
                                 endPosition, Interpolator.LINEAR),
                         new KeyValue(node.opacityProperty(),

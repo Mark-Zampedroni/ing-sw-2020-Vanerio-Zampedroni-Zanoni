@@ -10,7 +10,7 @@
             minWidth="1.0"
             prefHeight="700.0" prefWidth="1040.0" stylesheets="@../css/disconnection.css"
             xmlns="http://javafx.com/javafx/8"
-            fx:controller="it.polimi.ingsw.mvc.view.gui.fxmlControllers.DisconnectionController">
+            fx:controller="it.polimi.ingsw.mvc.view.gui.fxmlcontrollers.DisconnectionController">
     <center>
         <GridPane id="bodybg" fx:id="mainGrid" styleClass="fullbackground" BorderPane.alignment="CENTER">
             <columnConstraints>

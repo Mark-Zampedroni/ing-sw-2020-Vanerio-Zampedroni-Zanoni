@@ -1,8 +1,8 @@
-package it.polimi.ingsw.mvc.view.gui.fxmlControllers;
+package it.polimi.ingsw.mvc.view.gui.fxmlcontrollers;
 
 import it.polimi.ingsw.mvc.view.gui.GuiManager;
-import it.polimi.ingsw.mvc.view.gui.objects3D.utils.BoardCamera;
-import it.polimi.ingsw.mvc.view.gui.objects3D.utils.BoardScene;
+import it.polimi.ingsw.mvc.view.gui.objects3d.utils.BoardCamera;
+import it.polimi.ingsw.mvc.view.gui.objects3d.utils.BoardScene;
 import it.polimi.ingsw.utility.dto.DtoPosition;
 import it.polimi.ingsw.utility.dto.DtoSession;
 import it.polimi.ingsw.utility.enumerations.Action;
@@ -15,6 +15,7 @@ import javafx.scene.SubScene;
 import javafx.scene.control.Label;
 import javafx.scene.layout.BorderPane;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -88,12 +89,17 @@ public class BoardController extends GenericController implements Observer<DtoPo
 
     private List<BorderPane> actionButtons;
 
-    private List<BorderPane> playerGod, playerTurn, playerSlot;
+    private List<BorderPane> playerGod;
+    private List<BorderPane> playerTurn;
+    private List<BorderPane> playerSlot;
 
     private String username;
 
+    private static final String PRESSED = "_pressed";
+    private static final String BUTTON = "button";
 
-    public void initialize() throws Exception {
+
+    public void initialize() throws IOException {
         super.initialize(this);
         if (BoardScene.getTileEvent() == null) {
             BoardScene.startBoardLoad(gui.getPlayers(), gui.log);
@@ -152,8 +158,8 @@ public class BoardController extends GenericController implements Observer<DtoPo
     }
 
     private void toggleButton(BorderPane button) {
-        actionButtons.stream().filter(b -> b == button).findFirst().ifPresent(b -> b.setId(b.getId() + ((b.getId().contains("_pressed") ? "" : "_pressed"))));
-        actionButtons.stream().filter(b -> b != button).forEach(b -> b.setId(b.getId().replace("_pressed", "")));
+        actionButtons.stream().filter(b -> b == button).findFirst().ifPresent(b -> b.setId(b.getId() + (b.getId().contains(PRESSED) ? "" : PRESSED)));
+        actionButtons.stream().filter(b -> b != button).forEach(b -> b.setId(b.getId().replace(PRESSED, "")));
     }
 
     private void toggleButton(Action action) {
@@ -161,7 +167,7 @@ public class BoardController extends GenericController implements Observer<DtoPo
     }
 
     private void removeToggle() {
-        actionButtons.forEach(b -> b.setId(b.getId().replace("_pressed", "")));
+        actionButtons.forEach(b -> b.setId(b.getId().replace(PRESSED, "")));
     }
 
     private void initFont(BorderPane borderPane) {
@@ -272,16 +278,16 @@ public class BoardController extends GenericController implements Observer<DtoPo
     }
 
     private void setPositionButton(BorderPane button, Action action) {
-        button.setId("button" + action.toString().toUpperCase());
+        button.setId(BUTTON + action.toString().toUpperCase());
         ((Label) button.getChildren().get(0)).setText(action.toString().replace("_", " "));
-        button.setOnMousePressed(event -> button.setId("button" + action.toString().toUpperCase() + "_pressed"));
-        button.setOnMouseReleased(event -> button.setId(button.getId().replace("_pressed", "")));
+        button.setOnMousePressed(event -> button.setId(BUTTON + action.toString().toUpperCase() + PRESSED));
+        button.setOnMouseReleased(event -> button.setId(button.getId().replace(PRESSED, "")));
     }
 
     private void setPowerButton(BorderPane button, Action action) {
         ((Label) button.getChildren().get(0)).setText("");
         if (!button.getId().contains(action.toString().toUpperCase()))
-            button.setId("button" + action.toString().toUpperCase());
+            button.setId(BUTTON + action.toString().toUpperCase());
         button.setOnMousePressed(null);
         button.setOnMouseReleased(null);
     }

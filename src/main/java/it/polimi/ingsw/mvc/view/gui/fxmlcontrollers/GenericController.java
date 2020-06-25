@@ -1,4 +1,4 @@
-package it.polimi.ingsw.mvc.view.gui.fxmlControllers;
+package it.polimi.ingsw.mvc.view.gui.fxmlcontrollers;
 
 import it.polimi.ingsw.mvc.view.gui.GuiManager;
 import javafx.application.Platform;
@@ -81,17 +81,17 @@ public abstract class GenericController {
         double defaultWidth = GuiManager.getInstance().getDefaultWidth();
         Insets defaultPadding = node.getPadding();
         if (Labeled.class.isAssignableFrom(node.getClass())) {
-            setFontSize((Labeled) node, defaultWidth, defaultPadding);
+            setFontSizeLabeled((Labeled) node, defaultWidth, defaultPadding);
         } else if (TextInputControl.class.isAssignableFrom(node.getClass())) {
-            setFontSize((TextInputControl) node, defaultWidth, defaultPadding);
+            setFontSizeTextInp((TextInputControl) node, defaultWidth, defaultPadding);
         }
     }
 
-    private void setFontSize(Labeled node, double defaultWidth, Insets defaultPadding) {
+    private void setFontSizeLabeled(Labeled node, double defaultWidth, Insets defaultPadding) {
         setResizeEvent(node, defaultWidth, defaultPadding, node.getFont());
     }
 
-    private void setFontSize(TextInputControl node, double defaultWidth, Insets defaultPadding) {
+    private void setFontSizeTextInp(TextInputControl node, double defaultWidth, Insets defaultPadding) {
         setResizeEvent(node, defaultWidth, defaultPadding, node.getFont());
     }
 

@@ -1,4 +1,4 @@
-package it.polimi.ingsw.mvc.view.gui.fxmlControllers;
+package it.polimi.ingsw.mvc.view.gui.fxmlcontrollers;
 
 import it.polimi.ingsw.utility.enumerations.Gods;
 import javafx.application.Platform;
@@ -22,6 +22,9 @@ public class GodSelectionController extends GenericController {
     GridPane twoPlayerSecondGrid;
     @FXML
     GridPane gridThreePlayer;
+
+    private static final String FULLBACKGROUND ="fullbackground";
+    private static final String SELECTBUTTON ="selectbutton";
 
     List<GodCard> cards = new ArrayList<>();
     List<GridPane> gridsTwoPlayer;
@@ -133,7 +136,7 @@ public class GodSelectionController extends GenericController {
             borderTemp.setPrefSize(100, 100);
             firstGrid.add(borderTemp, 0, 0, 1, 5);
             initGrid = createGrid(1, 1);
-            decorateNode(initGrid, "cardBackground", Collections.singletonList("fullbackground"), null);
+            decorateNode(initGrid, "cardBackground", Collections.singletonList(FULLBACKGROUND), null);
             borderTemp.setCenter(initGrid);
             return firstGrid;
         }
@@ -147,7 +150,7 @@ public class GodSelectionController extends GenericController {
             gridPreDescription.add(gridLabel, 0, 0);
             gridLabel.add(createLabel("conditionLabel", null, "Effect\n(" + temp[0] + ")", null), 0, 2, 10, 3);
             gridLabel.add(createLabel("descriptionLabel", null, temp[1], Pos.TOP_LEFT), 0, 5, 10, 9);
-            gridLabel.add(createLabel("godNameLabel", Collections.singletonList("fullbackground"), godName, null), 0, 0, 10, 2);
+            gridLabel.add(createLabel("godNameLabel", Collections.singletonList(FULLBACKGROUND), godName, null), 0, 0, 10, 2);
             gridPreDescription.setOnMouseExited(event -> showNode(preGod));
         }
 
@@ -165,11 +168,11 @@ public class GodSelectionController extends GenericController {
         private GridPane initGodPane(String godName) {
             preGod = createGrid(5, 1);
             god = new BorderPane();
-            decorateNode(god, godName, Collections.singletonList("fullbackground"), null);
+            decorateNode(god, godName, Collections.singletonList(FULLBACKGROUND), null);
             preGod.add(god, 0, 0, 1, 4);
             initGrid.add(preGod, 0, 0);
             GridPane borderGod = createGrid(1, 1);
-            decorateNode(borderGod, "godBackground", Collections.singletonList("fullbackground"), null);
+            decorateNode(borderGod, "godBackground", Collections.singletonList(FULLBACKGROUND), null);
             preGod.add(borderGod, 0, 0, 1, 5);
             GridPane infoPowerGrid = createGrid(4, 2);
             borderGod.add(infoPowerGrid, 0, 0);
@@ -183,8 +186,8 @@ public class GodSelectionController extends GenericController {
             BorderPane godPowerPane = new BorderPane();
             infoPowerGrid.add(infoGrid, 1, 0);
             infoPowerGrid.add(godPowerGrid, 0, 3, 2, 1);
-            decorateNode(infoBorder, "infoButton", Arrays.asList("fullbackground", "invisiblebackground"), null);
-            decorateNode(godPowerPane, godPower, Collections.singletonList("fullbackground"), null);
+            decorateNode(infoBorder, "infoButton", Arrays.asList(FULLBACKGROUND, "invisiblebackground"), null);
+            decorateNode(godPowerPane, godPower, Collections.singletonList(FULLBACKGROUND), null);
             infoGrid.add(infoBorder, 3, 1, 2, 2);
             godPowerGrid.add(godPowerPane, 1, 0, 4, 6);
             infoBorder.setOnMouseEntered(event -> hideNode(preGod));
@@ -196,7 +199,7 @@ public class GodSelectionController extends GenericController {
             actionText = new Label();
             actionPane.setCenter(actionText);
             firstGrid.add(actionButtonGrid, 0, 5);
-            decorateNode(actionPane, "selectbutton", Arrays.asList("fullbackground", "invisiblebackground"), null);
+            decorateNode(actionPane, SELECTBUTTON, Arrays.asList(FULLBACKGROUND, "invisiblebackground"), null);
             actionText.setText("SELECT");
             actionText.setId("actionlabel");
             actionText.setPadding(new Insets(0, 0, 7, 0));
@@ -226,9 +229,9 @@ public class GodSelectionController extends GenericController {
         public void enableButton() {
             if (!actionPane.getId().equals("playerNameLabel")) {
                 actionPane.setDisable((false));
-                actionPane.setId("selectbutton");
+                actionPane.setId(SELECTBUTTON);
                 setButtonState(() -> actionPane.setId("selectbuttonpressed"), () -> {
-                    actionPane.setId("selectbutton");
+                    actionPane.setId(SELECTBUTTON);
                     gui.validatePlayerGodChoice(getGod());
                 });
             }
@@ -255,7 +258,7 @@ public class GodSelectionController extends GenericController {
         }
 
         public void setActionButtonDisabled() {
-            actionPane.setId("selectbutton");
+            actionPane.setId(SELECTBUTTON);
             actionText.setPadding(new Insets(0, 0, 7, 0));
             disableButton();
         }

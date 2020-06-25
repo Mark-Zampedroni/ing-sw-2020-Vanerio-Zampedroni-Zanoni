@@ -1,6 +1,6 @@
 package it.polimi.ingsw.mvc.view.gui;
 
-import it.polimi.ingsw.mvc.view.gui.fxmlControllers.TitleController;
+import it.polimi.ingsw.mvc.view.gui.fxmlcontrollers.TitleController;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.beans.property.SimpleDoubleProperty;
@@ -29,9 +29,11 @@ public class Gui extends Application {
         return stage;
     }
 
+    protected static void setStage(Stage passedStage) {stage=passedStage;}
+
     @Override
     public void start(Stage stage) {
-        Gui.stage = stage;
+        setStage(stage);
         Scene scene = new Scene(new Pane());
         scene.getStylesheets().add("/css/connection.css");
         stage.setScene(scene);
@@ -40,8 +42,8 @@ public class Gui extends Application {
         setWindowIcon();
         stage.setTitle("Santorini");
         stage.show();
-        GuiManager.getInstance().setDefaultWidth(stage.getWidth());
-        //stage.setFullScreen(true); // full screen
+        GuiManager.getInstance();
+        GuiManager.setDefaultWidth(stage.getWidth());
     }
 
     public void setMouse(Scene scene) {
@@ -85,7 +87,6 @@ public class Gui extends Application {
         });
         stage.minWidthProperty().bind(new SimpleDoubleProperty(591.9));
         stage.minHeightProperty().bind(new SimpleDoubleProperty(398.4));
-        //stage.minWidthProperty().bind(stage.heightProperty().multiply(w / h));
         stage.maxWidthProperty().bind(stage.heightProperty().multiply(w / h));
     }
 

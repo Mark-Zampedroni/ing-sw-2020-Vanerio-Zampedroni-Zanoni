@@ -1,9 +1,9 @@
-package it.polimi.ingsw.mvc.view.gui.objects3D.obj;
+package it.polimi.ingsw.mvc.view.gui.objects3d.obj;
 
-import it.polimi.ingsw.mvc.view.gui.objects3D.TrackedGroup;
-import it.polimi.ingsw.mvc.view.gui.objects3D.animation.ActionAnimation;
-import it.polimi.ingsw.mvc.view.gui.objects3D.utils.BoardCoords3D;
-import it.polimi.ingsw.mvc.view.gui.objects3D.utils.ObservableTileEvent;
+import it.polimi.ingsw.mvc.view.gui.objects3d.TrackedGroup;
+import it.polimi.ingsw.mvc.view.gui.objects3d.animation.ActionAnimation;
+import it.polimi.ingsw.mvc.view.gui.objects3d.utils.BoardCoords3D;
+import it.polimi.ingsw.mvc.view.gui.objects3d.utils.ObservableTileEvent;
 import it.polimi.ingsw.utility.enumerations.Action;
 import it.polimi.ingsw.utility.enumerations.Colors;
 import javafx.scene.Group;
@@ -23,7 +23,8 @@ public class TileObj extends TrackedGroup {
     private Shape3D tileSquare;
     private ActionAnimation animation;
     private boolean VISIBLE = false;
-    private int x, y;
+    private int x;
+    private int y;
     private ObservableTileEvent eventResponse;
     private WorkerObj worker;
 

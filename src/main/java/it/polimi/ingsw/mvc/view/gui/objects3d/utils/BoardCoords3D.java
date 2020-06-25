@@ -1,8 +1,10 @@
-package it.polimi.ingsw.mvc.view.gui.objects3D.utils;
+package it.polimi.ingsw.mvc.view.gui.objects3d.utils;
 
 public class BoardCoords3D {
 
-    private int xBoard, yBoard, zBoard;
+    private int xBoard;
+    private int yBoard;
+    private int zBoard;
 
     public BoardCoords3D(int xBoard, int yBoard, int zBoard) {
         this.xBoard = xBoard;

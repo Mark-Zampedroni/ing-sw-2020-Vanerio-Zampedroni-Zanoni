@@ -1,6 +1,6 @@
-package it.polimi.ingsw.mvc.view.gui.objects3D.utils;
+package it.polimi.ingsw.mvc.view.gui.objects3d.utils;
 
-import it.polimi.ingsw.mvc.view.gui.objects3D.TrackedGroup;
+import it.polimi.ingsw.mvc.view.gui.objects3d.TrackedGroup;
 import it.polimi.ingsw.utility.exceptions.utility.NotInstantiableClass;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
@@ -12,7 +12,7 @@ import java.io.IOException;
 
 public class NodeOperation {
 
-    public final static double TILES_OFFSET = 6.315;
+    public static final double TILES_OFFSET = 6.315;
 
     /**
      * This class is for utility and not instantiable

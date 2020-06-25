@@ -1,9 +1,9 @@
-package it.polimi.ingsw.mvc.view.gui.objects3D.utils;
+package it.polimi.ingsw.mvc.view.gui.objects3d.utils;
 
-import it.polimi.ingsw.mvc.view.gui.objects3D.animation.ActionAnimation;
-import it.polimi.ingsw.mvc.view.gui.objects3D.obj.BoardObj;
-import it.polimi.ingsw.mvc.view.gui.objects3D.obj.TileObj;
-import it.polimi.ingsw.mvc.view.gui.objects3D.obj.WorkerObj;
+import it.polimi.ingsw.mvc.view.gui.objects3d.animation.ActionAnimation;
+import it.polimi.ingsw.mvc.view.gui.objects3d.obj.BoardObj;
+import it.polimi.ingsw.mvc.view.gui.objects3d.obj.TileObj;
+import it.polimi.ingsw.mvc.view.gui.objects3d.obj.WorkerObj;
 import it.polimi.ingsw.utility.dto.DtoBoard;
 import it.polimi.ingsw.utility.dto.DtoPosition;
 import it.polimi.ingsw.utility.dto.DtoSession;
@@ -35,9 +35,9 @@ public class BoardScene extends SubScene {
     private final DoubleProperty prevPosY = new SimpleDoubleProperty(0);
     private final Object boardLock = new Object();
     private final Map<String, Colors> players;
-    private final double X_ROTATION_SPEED = 0.35;
-    private final double Y_ROTATION_SPEED = 0.3;
-    private final Logger LOG;
+    private static final double X_ROTATION_SPEED = 0.35;
+    private static final double Y_ROTATION_SPEED = 0.3;
+    private final Logger log;
     private BoardObj board;
     private Map<Action, Group> animations;
     private DtoSession localSession;
@@ -49,16 +49,16 @@ public class BoardScene extends SubScene {
         super(sceneObjects, width, height, true, SceneAntialiasing.DISABLED);
         objects = sceneObjects;
         this.players = players;
-        this.LOG = log;
+        this.log = log;
         preloadBoard();
         setFill(Color.web("#47cbf4")); // Sky color
         addLight();
         initRotation(board);
     }
 
-    public static void startBoardLoad(Map<String, Colors> players, Logger LOG) throws Exception {
+    public static void startBoardLoad(Map<String, Colors> players, Logger log) throws IOException {
         tileEvent = new ObservableTileEvent();
-        boardScene = new BoardScene(new Group(), players, 840, 700, LOG);
+        boardScene = new BoardScene(new Group(), players, 840, 700, log);
     }
 
     public static BoardScene getBoardLoadedScene() {
@@ -179,23 +179,29 @@ public class BoardScene extends SubScene {
     }
 
     private void updateBuildings(DtoBoard newBoard) {
-        if (newBoard == null || localSession == null) {
-            return;
-        }
-        for (int x = 0; x < 5; x++) {
-            for (int y = 0; y < 5; y++) {
-                if (newBoard.getTile(x, y).getHeight() > localSession.getBoard().getTile(x, y).getHeight()) {
-                    board.getTile(x, y).increaseHeight();
-                    WorkerObj temp = board.getTile(x, y).getWorker();
-                    if (temp != null) {
-                        board.getTile(x, y).setWorker(temp);
-                    }
-
-                }
-                if (newBoard.getTile(x, y).hasDome() && !localSession.getBoard().getTile(x, y).hasDome()) {
-                    board.getTile(x, y).placeDome();
+        if (!(newBoard == null || localSession == null)) {
+            for (int x = 0; x < 5; x++) {
+                for (int y = 0; y < 5; y++) {
+                    increaseBuildingHeight(newBoard, x, y);
+                    placeDome(newBoard, x, y);
                 }
             }
+        }
+    }
+
+    private void increaseBuildingHeight(DtoBoard newBoard, int x, int y){
+        if (newBoard.getTile(x, y).getHeight() > localSession.getBoard().getTile(x, y).getHeight()) {
+            board.getTile(x, y).increaseHeight();
+            WorkerObj temp = board.getTile(x, y).getWorker();
+            if (temp != null) {
+                board.getTile(x, y).setWorker(temp);
+            }
+        }
+    }
+
+    private void placeDome(DtoBoard newBoard, int x, int y){
+        if (newBoard.getTile(x, y).hasDome() && !localSession.getBoard().getTile(x, y).hasDome()) {
+            board.getTile(x, y).placeDome();
         }
     }
 
@@ -209,7 +215,7 @@ public class BoardScene extends SubScene {
             board.getTile(w.getPosition().getX(), w.getPosition().getY()).setWorker(newWorker);
             newWorker.resetRotation();
         } catch (Exception e) {
-            LOG.severe("[BOARD_SCENE] Couldn't load a worker");
+            log.severe("[BOARD_SCENE] Couldn't load a worker");
         }
     }
 
@@ -241,8 +247,12 @@ public class BoardScene extends SubScene {
     public void clear() {
         clearAnimations();
         ActionAnimation.clear();
-        tileEvent = null;
-        boardScene = null;
+        clearStatic();
+    }
+
+    private static void clearStatic(){
+        tileEvent=null;
+        boardScene=null;
     }
 
 }

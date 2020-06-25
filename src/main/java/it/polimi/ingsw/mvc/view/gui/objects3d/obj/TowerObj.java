@@ -1,8 +1,8 @@
-package it.polimi.ingsw.mvc.view.gui.objects3D.obj;
+package it.polimi.ingsw.mvc.view.gui.objects3d.obj;
 
-import it.polimi.ingsw.mvc.view.gui.objects3D.TrackedGroup;
-import it.polimi.ingsw.mvc.view.gui.objects3D.utils.BoardCoords3D;
-import it.polimi.ingsw.mvc.view.gui.objects3D.utils.NodeOperation;
+import it.polimi.ingsw.mvc.view.gui.objects3d.TrackedGroup;
+import it.polimi.ingsw.mvc.view.gui.objects3d.utils.BoardCoords3D;
+import it.polimi.ingsw.mvc.view.gui.objects3d.utils.NodeOperation;
 import javafx.scene.Node;
 import javafx.scene.paint.PhongMaterial;
 
@@ -19,8 +19,13 @@ public class TowerObj extends TrackedGroup {
     private static final String TOP_TEXTURE = "/texture/BuildingBlock03_v001.png";
     private static final String DOME_OBJ = "/obj/Dome.fxml";
     private static final String DOME_TEXTURE = "/texture/Dome.png";
-    private static PhongMaterial TOP_MATERIAL, MID_MATERIAL, BOT_MATERIAL, DOME_MATERIAL;
-    private Node bottom, middle, top;
+    private static PhongMaterial topMaterial;
+    private static PhongMaterial midMaterial;
+    private static PhongMaterial botMaterial;
+    private static PhongMaterial domeMaterial;
+    private Node bottom;
+    private Node middle;
+    private Node top;
     private Node dome;
     private int height;
 
@@ -32,14 +37,14 @@ public class TowerObj extends TrackedGroup {
         super(-11.95, 12.53, 0.5,
                 0, 0, 0);
 
-        if (TOP_MATERIAL == null) {
+        if (topMaterial == null) {
             loadAssets();
         }
 
-        bottom = NodeOperation.getModel(BOTTOM_OBJ, BOT_MATERIAL);
-        middle = NodeOperation.getModel(MIDDLE_OBJ, MID_MATERIAL);
-        top = NodeOperation.getModel(TOP_OBJ, TOP_MATERIAL);
-        dome = NodeOperation.getModel(DOME_OBJ, DOME_MATERIAL);
+        bottom = NodeOperation.getModel(BOTTOM_OBJ, botMaterial);
+        middle = NodeOperation.getModel(MIDDLE_OBJ, midMaterial);
+        top = NodeOperation.getModel(TOP_OBJ, topMaterial);
+        dome = NodeOperation.getModel(DOME_OBJ, domeMaterial);
 
         getChildren().addAll(bottom, middle, top, dome);
 
@@ -60,10 +65,10 @@ public class TowerObj extends TrackedGroup {
     }
 
     private static void loadAssets() {
-        TOP_MATERIAL = NodeOperation.getTexture(TOP_TEXTURE);
-        MID_MATERIAL = NodeOperation.getTexture(MIDDLE_TEXTURE);
-        BOT_MATERIAL = NodeOperation.getTexture(BOTTOM_TEXTURE);
-        DOME_MATERIAL = NodeOperation.getTexture(DOME_TEXTURE);
+        topMaterial = NodeOperation.getTexture(TOP_TEXTURE);
+        midMaterial = NodeOperation.getTexture(MIDDLE_TEXTURE);
+        botMaterial = NodeOperation.getTexture(BOTTOM_TEXTURE);
+        domeMaterial = NodeOperation.getTexture(DOME_TEXTURE);
     }
 
     public void placeDome() {

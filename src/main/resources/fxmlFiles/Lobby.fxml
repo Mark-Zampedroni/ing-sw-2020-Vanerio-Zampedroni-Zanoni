@@ -13,7 +13,7 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane id="otherBack" fx:id="main" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="1.0" minWidth="1.0" prefHeight="700.0" prefWidth="1040.0" styleClass="fullbackground" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.mvc.view.gui.fxmlControllers.LobbyController">
+<BorderPane id="otherBack" fx:id="main" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="1.0" minWidth="1.0" prefHeight="700.0" prefWidth="1040.0" styleClass="fullbackground" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.mvc.view.gui.fxmlcontrollers.LobbyController">
     <stylesheets>
         <URL value="@../css/lobby.css" />
         <URL value="@../css/connection.css" />

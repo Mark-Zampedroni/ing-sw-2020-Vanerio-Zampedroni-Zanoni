@@ -1,4 +1,4 @@
-package it.polimi.ingsw.mvc.view.gui.fxmlControllers;
+package it.polimi.ingsw.mvc.view.gui.fxmlcontrollers;
 
 import it.polimi.ingsw.utility.enumerations.Colors;
 import javafx.fxml.FXML;
