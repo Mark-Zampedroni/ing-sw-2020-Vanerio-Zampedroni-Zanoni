@@ -142,6 +142,10 @@ public class GuiManager extends Client {
         runUpdate(ChallengerSelectionController.class, () -> ((ChallengerSelectionController) currentController).requestChallengerGod(chosenGods));
     }
 
+    @Override
+    public void disconnectClient() {
+        super.disconnectClient();
+    }
 
     @Override
     public void updatePlayerGodSelection(String turnOwner, Map<String, String> choices, List<String> chosenGods) {
