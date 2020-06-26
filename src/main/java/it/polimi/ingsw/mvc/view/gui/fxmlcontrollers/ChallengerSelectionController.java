@@ -16,6 +16,9 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Challenger screen FXML controller
+ */
 public class ChallengerSelectionController extends GenericController {
 
     @FXML
@@ -45,7 +48,7 @@ public class ChallengerSelectionController extends GenericController {
     private int godRow;
     private int godColumn;
     private String selectedGod;
-    private List<String> chosenGods = new ArrayList<>(); // Una volta collegato al resto sarà null
+    private List<String> chosenGods = new ArrayList<>();
 
     /**
      * Initializes the main features of the scene
@@ -60,7 +63,7 @@ public class ChallengerSelectionController extends GenericController {
     }
 
     /**
-     * Initializes fonts for scaling purposes
+     * Initializes the fonts scaling
      */
     private void initFonts() {
         setFontRatio(selectButton);
@@ -81,18 +84,18 @@ public class ChallengerSelectionController extends GenericController {
     }
 
     /**
-     * Initializes select button and sets the action for it
+     * Initializes the select button and sets its events
      */
     private void initSelectionButton() {
         selectButton.setOnMousePressed(event -> selectButton.setId("selectbuttonpressed"));
-
         selectButton.setOnMouseReleased(event -> {
             selectButton.setId("selectbutton");
             gui.validateGods(selectedGod);
         });
     }
+
     /**
-     * Initializes this scene's variables with a delay in order to give the thread more time to correctly load the values
+     * Initializes the variables with a delay in order to give the JavaFx thread the needed time to correctly load the values
      */
     private void initGodsSelectionWindow() {
         Platform.runLater(this::loadGods);
@@ -100,8 +103,7 @@ public class ChallengerSelectionController extends GenericController {
     }
 
     /**
-     * Creates a space and dynamically adds {@link GodWindow frames} for all playable gods in the game
-     *
+     * Creates a space and dynamically adds {@link GodWindow frames} for all the playable gods in the game
      */
     private void loadGods() {
         for (String godName : Gods.getGodsStringList()) {
@@ -116,7 +118,7 @@ public class ChallengerSelectionController extends GenericController {
     }
 
     /**
-     * Sets for all gods the action about being clicked
+     * Sets for all the gods the related nodes events
      *
      * @param godWindow the place where to click
      */
@@ -125,7 +127,7 @@ public class ChallengerSelectionController extends GenericController {
     }
 
     /**
-     * Initializes a {@link GodWindow frame} adding different features
+     * Initializes a {@link GodWindow frame}
      *
      * @param godWindow targeted frame
      */
@@ -138,7 +140,7 @@ public class ChallengerSelectionController extends GenericController {
     }
 
     /**
-     * Removes the option to choose a god which has already being taken
+     * Removes the option to choose a god
      *
      * @param selectedGod god's name
      */
@@ -159,7 +161,7 @@ public class ChallengerSelectionController extends GenericController {
     }
 
     /**
-     * Binds the size of a specific element
+     * Binds the size of the gods' nodes
      */
     private void resizeGods() {
         godsPane.minHeightProperty().bind(godsScroll.heightProperty().divide(0.5297560975609756));
@@ -167,7 +169,7 @@ public class ChallengerSelectionController extends GenericController {
     }
 
     /**
-     * Updates the challenger and allows him to choose a god
+     * Updates the challenger and allows it to choose a god
      *
      * @param chosenGods list of chosen gods
      */
@@ -177,7 +179,7 @@ public class ChallengerSelectionController extends GenericController {
     }
 
     /**
-     * Updates the players other than the challenger about his choices
+     * Updates the players, except the challenger, on the challenger's choices
      *
      * @param chosenGods list of gods chosen by the challenger
      */
@@ -187,7 +189,7 @@ public class ChallengerSelectionController extends GenericController {
     }
 
     /**
-     * Displays information for the challenger
+     * Displays information to the challenger
      */
     private void setChallengerInfo() {
         selectButtonChange(selectedGod);
@@ -196,7 +198,7 @@ public class ChallengerSelectionController extends GenericController {
     }
 
     /**
-     * Displays information for the players but the challenger
+     * Displays information to all the players except the challenger
      */
     private void setOthersInfo() {
         hideNode(selectButton);
@@ -227,7 +229,7 @@ public class ChallengerSelectionController extends GenericController {
     /**
      * A frame containing the image of a god
      */
-    private class GodWindow extends GridPane {
+    private static class GodWindow extends GridPane {
 
         private Pane god;
         private Pane border;
@@ -268,7 +270,7 @@ public class ChallengerSelectionController extends GenericController {
         }
 
         /**
-         * Decorates the frame's border
+         * Decorates the frame border
          *
          * @param id type of decoration
          */
@@ -277,7 +279,7 @@ public class ChallengerSelectionController extends GenericController {
         }
 
         /**
-         * A frame containing the image of a god
+         * Returns the name of the god represented within the frame
          *
          * @return the name of the god contained in the frame
          */

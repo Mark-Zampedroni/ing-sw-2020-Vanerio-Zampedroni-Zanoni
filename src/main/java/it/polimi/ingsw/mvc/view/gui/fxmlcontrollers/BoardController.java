@@ -22,6 +22,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+/**
+ * Board screen FXML controller - its FXML contains a SubScene where the 3D objects are loaded
+ */
 public class BoardController extends GenericController implements Observer<DtoPosition> {
 
     private final Object sidePaneLock = new Object();
@@ -110,10 +113,11 @@ public class BoardController extends GenericController implements Observer<DtoPo
         godCard.setVisible(false);
         initLists();
         initBoard();
-        initFeatures();
+        initButtons();
         initLabels();
         username = gui.getUsername();
 
+        //Generates the info cards of the gods in game
         playerGod.forEach(g -> {
             g.setOnMouseEntered(event -> showCard(g));
             g.setOnMouseExited(event -> godCard.setVisible(false));
@@ -137,7 +141,7 @@ public class BoardController extends GenericController implements Observer<DtoPo
 
 
     /**
-     * Initializes different lists containing this scene's main elements
+     * Initializes different lists containing nodes
      */
     private void initLists() {
         playerSlot = new ArrayList<>(Arrays.asList(playerSlot1, playerSlot2, playerSlot3));
@@ -146,17 +150,17 @@ public class BoardController extends GenericController implements Observer<DtoPo
     }
 
     /**
-     * Initializes features for the scene
+     * Initializes the buttons
      */
-    private void initFeatures() {
+    private void initButtons() {
         initEndGame();
         actionButtons = new ArrayList<>(Arrays.asList(actionButton, actionButton1, actionButton2));
-        actionButtons.forEach(this::initFont);
+        actionButtons.forEach(this::initPaddingScaling);
         actionButtons.forEach(this::hideNode);
     }
 
     /**
-     * Initializes fonts for scaling purpose
+     * Initializes the fonts scaling
      */
     private void initLabels() {
         playerSlot.forEach(p -> setFontRatio((Label) p.getChildren().get(0)));
@@ -175,7 +179,8 @@ public class BoardController extends GenericController implements Observer<DtoPo
     }
 
     /**
-     * Changes the graphics of a button in order to make it seems to be pressed
+     * Changes the graphic of a button; toggle-like effect so all the other buttons will
+     * reset their graphic to default
      *
      * @param button targeted button
      */
@@ -185,7 +190,8 @@ public class BoardController extends GenericController implements Observer<DtoPo
     }
 
     /**
-     * Changes the graphics of a button starting from its related action
+     * Changes the graphic of the button connected the given action; toggle-like effect so all the other buttons will
+     * reset their graphic to default
      *
      * @param action action contained in the button
      */
@@ -194,25 +200,26 @@ public class BoardController extends GenericController implements Observer<DtoPo
     }
 
     /**
-     * Removes the effect of being selected
+     * Resets all the buttons graphic to default
      */
     private void removeToggle() {
         actionButtons.forEach(b -> b.setId(b.getId().replace(PRESSED, "")));
     }
+
     /**
-     * Initializes font for scaling purpose
+     * Initializes a BorderPane padding scaling
      */
-    private void initFont(BorderPane borderPane) {
+    private void initPaddingScaling(BorderPane borderPane) {
         setFontRatio((Label) borderPane.getChildren().get(0));
     }
 
     /**
-     * Sets actions for the after-game
+     * Initializes the end game sub-window
      */
     private void initEndGame() {
         hideNode(endgameScreen);
         setFontRatio(endgameLabel);
-        initFont(endgameButton);
+        initPaddingScaling(endgameButton);
         endgameButton.setOnMousePressed(event -> endgameButton.setId("buttonPressed"));
         endgameButton.setOnMouseReleased(event -> {
             endgameButton.setId("buttonConfirm");
@@ -221,7 +228,7 @@ public class BoardController extends GenericController implements Observer<DtoPo
     }
 
     /**
-     * Initializes the game
+     * Initializes the game board (loads all the 3D objects and sub-camera)
      */
     private void initBoard() {
         gameScene = BoardScene.getBoardLoadedScene();
@@ -236,12 +243,12 @@ public class BoardController extends GenericController implements Observer<DtoPo
     }
 
     /**
-     * Updates the turn owner regarding the chances and allows him to start his turn
+     * Updates the turn owner regarding the possible actions
      *
-     * @param colors map containing the player's name and the his color
-     * @param gods map containing the player's name and the his god
+     * @param colors          map containing the player's name and the his color
+     * @param gods            map containing the player's name and the his god
      * @param possibleActions List of possible action that a player can execute
-     * @param session game session
+     * @param session         game session
      */
     public void requestTurnAction(Map<Action, List<DtoPosition>> possibleActions, DtoSession session, Map<String, Colors> colors, Map<String, String> gods) {
         turnOwner = true;
@@ -254,7 +261,7 @@ public class BoardController extends GenericController implements Observer<DtoPo
     }
 
     /**
-     * Shows the owner of the turn
+     * Sets the owner of the turn
      */
     private void setCurrentPlayer(String player) {
         playerSlot.forEach(p -> hideNode(playerTurn.get(playerSlot.indexOf(p))));
@@ -264,7 +271,7 @@ public class BoardController extends GenericController implements Observer<DtoPo
     }
 
     /**
-     * Updates all players but the turn owner regarding the chances
+     * Updates all players, except the turn owner
      *
      * @param colors map containing the player's name and the his color
      * @param gods map containing the player's name and the his god
@@ -277,7 +284,8 @@ public class BoardController extends GenericController implements Observer<DtoPo
     }
 
     /**
-     * Hides the third player if it's not in the game anymore
+     * Every turn updates the playing players frames.
+     * If someone lost its not counted as a "playing" player
      *
      * @param colors map containing the player's name and the his color
      * @param gods map containing the player's name and the his god
@@ -298,7 +306,7 @@ public class BoardController extends GenericController implements Observer<DtoPo
     }
 
     /**
-     * Displays all the players' information
+     * Displays all the players' names, colors and chosen gods
      *
      * @param colors map containing the player's name and the his color
      * @param gods map containing the player's name and the his god
@@ -314,7 +322,7 @@ public class BoardController extends GenericController implements Observer<DtoPo
     }
 
     /**
-     * Hides a player
+     * Hides a player frame
      *
      * @param i defines a player
      */
@@ -326,7 +334,7 @@ public class BoardController extends GenericController implements Observer<DtoPo
     }
 
     /**
-     * Sets a default action listed among the possible ones
+     * Sets a default action. It's taken from the possible ones
      */
     private void setDefaultAction() {
         List<Action> c = possibleActions.keySet().stream().filter(k -> !Action.getNullPosActions().contains(k)).sorted().collect(Collectors.toList());
@@ -364,7 +372,7 @@ public class BoardController extends GenericController implements Observer<DtoPo
 
 
     /**
-     * Displays an action text inside a button
+     * Displays the action name inside a button
      *
      * @param button selected button
      * @param action selected action
@@ -389,6 +397,12 @@ public class BoardController extends GenericController implements Observer<DtoPo
         button.setOnMouseReleased(null);
     }
 
+    /**
+     * Updates the {@link GuiManager gui} on the chosen action.
+     * If it's impossible ignores it
+     *
+     * @param position chosen position for the action - {@code null} if the action doesn't require a position
+     */
     @Override
     public void update(DtoPosition position) {
         if (turnOwner && currentAction != null && gui.validateAction(currentAction, position, possibleActions)) {
@@ -408,9 +422,9 @@ public class BoardController extends GenericController implements Observer<DtoPo
     }
 
     /**
-     * Initializes buttons
+     * Initializes the buttons
      *
-     * @param p list of action
+     * @param p list of actions
      */
     private void showButtons(List<Action> p) {
         p.forEach(action -> updateButton(actionButtons.get(p.indexOf(action)), action));
@@ -418,7 +432,6 @@ public class BoardController extends GenericController implements Observer<DtoPo
 
     /**
      * Hides all buttons
-     *
      */
     private void hideButtons() {
         actionButtons.forEach(this::hideNode);
@@ -434,7 +447,7 @@ public class BoardController extends GenericController implements Observer<DtoPo
     }
 
     /**
-     * Displays the screen for the winning player
+     * Displays the screen to the winning player
      *
      * @param playerName name of the winning player
      */

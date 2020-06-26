@@ -12,6 +12,9 @@ import javafx.scene.control.TextInputControl;
 import javafx.scene.layout.*;
 import javafx.scene.text.Font;
 
+/**
+ * FXML controller containing methods shared or used by all the windows
+ */
 public abstract class GenericController {
 
     @FXML
@@ -80,18 +83,17 @@ public abstract class GenericController {
     protected void handleResizableElement(Control node) {
         double defaultWidth = GuiManager.getInstance().getDefaultWidth();
         Insets defaultPadding = node.getPadding();
-        if (Labeled.class.isAssignableFrom(node.getClass())) {
+        if (Labeled.class.isAssignableFrom(node.getClass()))
             setFontSizeLabeled((Labeled) node, defaultWidth, defaultPadding);
-        } else if (TextInputControl.class.isAssignableFrom(node.getClass())) {
-            setFontSizeTextInp((TextInputControl) node, defaultWidth, defaultPadding);
-        }
+        else if (TextInputControl.class.isAssignableFrom(node.getClass()))
+            setFontSizeText((TextInputControl) node, defaultWidth, defaultPadding);
     }
 
     private void setFontSizeLabeled(Labeled node, double defaultWidth, Insets defaultPadding) {
         setResizeEvent(node, defaultWidth, defaultPadding, node.getFont());
     }
 
-    private void setFontSizeTextInp(TextInputControl node, double defaultWidth, Insets defaultPadding) {
+    private void setFontSizeText(TextInputControl node, double defaultWidth, Insets defaultPadding) {
         setResizeEvent(node, defaultWidth, defaultPadding, node.getFont());
     }
 

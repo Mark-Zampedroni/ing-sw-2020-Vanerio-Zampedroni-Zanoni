@@ -6,6 +6,9 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 
+/**
+ * Disconnection window (shown only if interrupted forcibly) FXML controller
+ */
 public class DisconnectionController extends GenericController {
 
     @FXML
@@ -16,7 +19,7 @@ public class DisconnectionController extends GenericController {
     Button okButton;
 
     /**
-     * Initializes the elements of the scene and binds the size of the fonts for scaling purpose
+     * Initializes the elements of the scene and sets the rescaling of the fonts
      */
     public void initialize() {
         super.initialize(this);
@@ -27,9 +30,9 @@ public class DisconnectionController extends GenericController {
     }
 
     /**
-     * Defines the action regarding a button, which brings to the title screen on its release
+     * Sets the events of the only button
      */
-    public void initButton() {
+    private void initButton() {
         okButton.setOnMousePressed(event -> okButton.setId("buttonPressed"));
         okButton.setOnMouseReleased(event -> {
             okButton.setId("buttonReleased");
@@ -38,7 +41,7 @@ public class DisconnectionController extends GenericController {
     }
 
     /**
-     * Displays a message concerning the reason of a disconnection
+     * Displays a message concerning the reason of the disconnection
      *
      * @param info shown message
      */

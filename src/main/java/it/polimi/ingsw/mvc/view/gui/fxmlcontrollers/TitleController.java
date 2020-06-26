@@ -8,7 +8,9 @@ import javafx.scene.layout.BorderPane;
 
 import java.util.Arrays;
 
-
+/**
+ * Starting (title) screen FXML controller
+ */
 public class TitleController extends GenericController {
     private static String connectionIp;
     private static int connectionPort;
@@ -49,7 +51,7 @@ public class TitleController extends GenericController {
     }
 
     /**
-     *Initializes fonts for scaling purposes
+     * Initializes the fonts scaling
      */
     private void initFonts() {
         setFontRatio(textLabelCon);
@@ -88,7 +90,7 @@ public class TitleController extends GenericController {
     }
 
     /**
-     *Defines a button's actions after being clicked and temporary hides it
+     * Defines the methods called by the button after being clicked. Hides the button until release
      *
      * @param button targeted button
      */
@@ -100,7 +102,7 @@ public class TitleController extends GenericController {
 
 
     /**
-     * Handles the action of pressing a button
+     * Handles the event of pressing a button
      *
      * @param button targeted button
      */
@@ -110,7 +112,7 @@ public class TitleController extends GenericController {
 
 
     /**
-     * Handles the action of releasing a button
+     * Handles the event of releasing a button
      *
      * @param button targeted button
      */

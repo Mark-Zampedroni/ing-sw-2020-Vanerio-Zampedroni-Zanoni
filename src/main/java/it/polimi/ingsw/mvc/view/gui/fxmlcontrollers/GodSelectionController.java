@@ -1,6 +1,5 @@
 package it.polimi.ingsw.mvc.view.gui.fxmlcontrollers;
 
-import it.polimi.ingsw.mvc.model.player.Player;
 import it.polimi.ingsw.utility.enumerations.Gods;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
@@ -13,6 +12,9 @@ import javafx.scene.layout.GridPane;
 
 import java.util.*;
 
+/**
+ * Gods selection screen FXML controller
+ */
 public class GodSelectionController extends GenericController {
 
     @FXML
@@ -24,8 +26,8 @@ public class GodSelectionController extends GenericController {
     @FXML
     GridPane gridThreePlayer;
 
-    private static final String FULLBACKGROUND ="fullbackground";
-    private static final String SELECTBUTTON ="selectbutton";
+    private static final String FULL_BACKGROUND = "fullbackground";
+    private static final String SELECT_BUTTON = "selectbutton";
 
     List<GodCard> cards = new ArrayList<>();
     List<GridPane> gridsTwoPlayer;
@@ -40,11 +42,11 @@ public class GodSelectionController extends GenericController {
     }
 
     /**
-     * Updates all player other than the turn owner about the gods'selection
+     * Updates all the players, except the turn owner, on the selected gods
      *
      * @param chosenGods list of chosen gods
-     * @param choices map which contains players'name and the god they had picked
-     * @param turnOwner owner of the turn
+     * @param choices    map which contains players'name and the god they had picked
+     * @param turnOwner  owner of the turn
      */
     public void updatePlayerGodSelection(String turnOwner, Map<String, String> choices, List<String> chosenGods) {
         loadSelectedGods(chosenGods, choices);
@@ -53,7 +55,7 @@ public class GodSelectionController extends GenericController {
     }
 
     /**
-     * Updates the turn owner about other players' choices and allows him to choose his god
+     * Updates the turn owner on the other players' choices and allows it to choose its god
      *
      * @param chosenGods list of chosen gods
      * @param choices map which contains players'name and the god they had picked
@@ -65,7 +67,7 @@ public class GodSelectionController extends GenericController {
     }
 
     /**
-     * Updates all players that the challenger is choosing the starter player
+     * Updates all the players on the challenger's starter player choice
      *
      * @param choices map which contains players'name and the god they had picked
      */
@@ -87,22 +89,21 @@ public class GodSelectionController extends GenericController {
     }
 
     /**
-     * Updates the scene through the creation of new {@link GodCard cards} or displaying players'choice
+     * Updates the scene through the creation of new {@link GodCard cards} or displaying the players' choice
      *
      * @param chosenGods list of chosen gods
      * @param choices map which contains players'name and the god they had picked
      */
 
     private void loadSelectedGods(List<String> chosenGods, Map<String, String> choices) {
-        if (chosenGods.size() == Integer.parseInt(gui.getNumberOfPlayers())) {
+        if (chosenGods.size() == Integer.parseInt(gui.getNumberOfPlayers()))
             createGodCards(chosenGods);
-        } else {
+        else
             nameUpdate(choices);
-        }
     }
 
     /**
-     * Creates a bunch of {@link GodCard cards} based on the number of players
+     * Creates the {@link GodCard cards} based on the argument chosen gods
      *
      * @param chosenGods list of chosen gods
      */
@@ -117,7 +118,7 @@ public class GodSelectionController extends GenericController {
     }
 
     /**
-     * Creates a {@link GodCard card}
+     * Creates a {@link GodCard card} node
      *
      * @param god name of the god
      */
@@ -127,10 +128,16 @@ public class GodSelectionController extends GenericController {
         return temp;
     }
 
+    /**
+     * Disables the nodes for the 2-players mode
+     */
     private void disableTwo() {
         gridsTwoPlayer.forEach(g -> g.setDisable(true));
     }
 
+    /**
+     * Disables the nodes for the 3-players mode
+     */
     private void disableThree() {
         gridThreePlayer.setDisable(true);
     }
@@ -140,22 +147,20 @@ public class GodSelectionController extends GenericController {
      *
      * @param choices map which contains players'name and the god they had picked
      */
-
     private void nameUpdate(Map<String, String> choices) {
         choices.keySet().stream()
                 .filter(nome -> !nome.equals(""))
                 .forEach(key -> {
                     for (GodCard god : cards) {
-                        if (god.getGod().equals(choices.get(key))) {
+                        if (god.getGod().equals(choices.get(key)))
                             god.setPlayerName(key);
-                        }
                     }
                 });
     }
 
-/**
- * A card which contains all the information concerning a god and its power, can be selected by a player.
- */
+    /**
+     * A card which contains all the information concerning a god and its power, it can be selected by a player
+     */
     private class GodCard extends BorderPane {
 
         private BorderPane god;
@@ -167,11 +172,11 @@ public class GodSelectionController extends GenericController {
         private String playerName;
 
 
-    /**
-     * Initializes the card of a god
-     *
-     * @param godName god's name
-     */
+        /**
+         * Initializes the god card
+         *
+         * @param godName god's name
+         */
         public GodCard(String godName) {
             GridPane firstGrid = initInit();
             initDescription(godName);
@@ -182,26 +187,25 @@ public class GodSelectionController extends GenericController {
             Platform.runLater(() -> setFontRatio(actionText));
         }
 
-    /**
-     * Adds the background image to a {@link GodCard card}
-     *
-     */
+        /**
+         * Adds the background image to the {@link GodCard card}
+         */
         private GridPane initInit() {
             BorderPane borderTemp = new BorderPane();
             GridPane firstGrid = createGrid(6, 1);
             borderTemp.setPrefSize(100, 100);
             firstGrid.add(borderTemp, 0, 0, 1, 5);
             initGrid = createGrid(1, 1);
-            decorateNode(initGrid, "cardBackground", Collections.singletonList(FULLBACKGROUND), null);
+            decorateNode(initGrid, "cardBackground", Collections.singletonList(FULL_BACKGROUND), null);
             borderTemp.setCenter(initGrid);
             return firstGrid;
         }
 
-    /**
-     * Adds information labels about the chosen god
-     *
-     * @param godName god's name
-     */
+        /**
+         * Adds information labels about the chosen god
+         *
+         * @param godName god's name
+         */
         private void initDescription(String godName) {
             String[] temp = Gods.valueOf(godName).getDescription().split(":");
             GridPane gridPreDescription = createGrid(1, 1);
@@ -211,17 +215,18 @@ public class GodSelectionController extends GenericController {
             gridPreDescription.add(gridLabel, 0, 0);
             gridLabel.add(createLabel("conditionLabel", null, "Effect\n(" + temp[0] + ")", null), 0, 2, 10, 3);
             gridLabel.add(createLabel("descriptionLabel", null, temp[1], Pos.TOP_LEFT), 0, 5, 10, 9);
-            gridLabel.add(createLabel("godNameLabel", Collections.singletonList(FULLBACKGROUND), godName, null), 0, 0, 10, 2);
+            gridLabel.add(createLabel("godNameLabel", Collections.singletonList(FULL_BACKGROUND), godName, null), 0, 0, 10, 2);
             gridPreDescription.setOnMouseExited(event -> showNode(preGod));
         }
-    /**
-     * Creates a label with default properties
-     *
-     * @param id label's name
-     * @param text label's text
-     * @param position defines the type of alignment for the label
-     * @param classes defines the background image for the label
-     */
+
+        /**
+         * Creates a label with default properties
+         *
+         * @param id label's name
+         * @param text label's text
+         * @param position defines the type of alignment for the label
+         * @param classes defines the background image for the label
+         */
         private Label createLabel(String id, List<String> classes, String text, Pos position) {
             Label temp = new Label();
             decorateNode(temp, id, classes, text);
@@ -233,31 +238,31 @@ public class GodSelectionController extends GenericController {
             return temp;
         }
 
-    /**
-     * Adds the image of the selected god
-     *
-     * @param godName chosen god
-     */
+        /**
+         * Adds the image of the selected god
+         *
+         * @param godName chosen god
+         */
         private GridPane initGodPane(String godName) {
             preGod = createGrid(5, 1);
             god = new BorderPane();
-            decorateNode(god, godName, Collections.singletonList(FULLBACKGROUND), null);
+            decorateNode(god, godName, Collections.singletonList(FULL_BACKGROUND), null);
             preGod.add(god, 0, 0, 1, 4);
             initGrid.add(preGod, 0, 0);
             GridPane borderGod = createGrid(1, 1);
-            decorateNode(borderGod, "godBackground", Collections.singletonList(FULLBACKGROUND), null);
+            decorateNode(borderGod, "godBackground", Collections.singletonList(FULL_BACKGROUND), null);
             preGod.add(borderGod, 0, 0, 1, 5);
             GridPane infoPowerGrid = createGrid(4, 2);
             borderGod.add(infoPowerGrid, 0, 0);
             return infoPowerGrid;
         }
 
-    /**
-     * Adds the info button which allows the player to read this god's abilities
-     *
-     * @param godPower chosen god
-     * @param infoPowerGrid defines the place where the info button is going to be settled in
-     */
+        /**
+         * Adds the info button which allows the player to read this god's abilities
+         *
+         * @param godPower chosen god
+         * @param infoPowerGrid defines the place where the info button is going to be settled in
+         */
         private void initInfoGodPower(String godPower, GridPane infoPowerGrid) {
             GridPane infoGrid = createGrid(5, 6);
             GridPane godPowerGrid = createGrid(7, 6);
@@ -265,39 +270,39 @@ public class GodSelectionController extends GenericController {
             BorderPane godPowerPane = new BorderPane();
             infoPowerGrid.add(infoGrid, 1, 0);
             infoPowerGrid.add(godPowerGrid, 0, 3, 2, 1);
-            decorateNode(infoBorder, "infoButton", Arrays.asList(FULLBACKGROUND, "invisiblebackground"), null);
-            decorateNode(godPowerPane, godPower, Collections.singletonList(FULLBACKGROUND), null);
+            decorateNode(infoBorder, "infoButton", Arrays.asList(FULL_BACKGROUND, "invisiblebackground"), null);
+            decorateNode(godPowerPane, godPower, Collections.singletonList(FULL_BACKGROUND), null);
             infoGrid.add(infoBorder, 3, 1, 2, 2);
             godPowerGrid.add(godPowerPane, 1, 0, 4, 6);
             infoBorder.setOnMouseEntered(event -> hideNode(preGod));
         }
 
-    /**
-     * Adds the button through which a player can choose his god
-     *
-     * @param firstGrid defines the place where the select button is going to be settled in
-     */
+        /**
+         * Adds the button through which a player can choose his god
+         *
+         * @param firstGrid defines the place where the select button is going to be settled in
+         */
         private void initSelectButton(GridPane firstGrid) {
             GridPane actionButtonGrid = createGrid(5, 7);
             actionPane = new BorderPane();
             actionText = new Label();
             actionPane.setCenter(actionText);
             firstGrid.add(actionButtonGrid, 0, 5);
-            decorateNode(actionPane, SELECTBUTTON, Arrays.asList(FULLBACKGROUND, "invisiblebackground"), null);
+            decorateNode(actionPane, SELECT_BUTTON, Arrays.asList(FULL_BACKGROUND, "invisiblebackground"), null);
             actionText.setText("SELECT");
             actionText.setId("actionlabel");
             actionText.setPadding(new Insets(0, 0, 7, 0));
             actionButtonGrid.add(actionPane, 1, 1, 5, 4);
         }
 
-    /**
-     * Adds a list of style classes and a text to a generic node
-     *
-     * @param node chosen element
-     * @param classes style classes
-     * @param id node's name
-     * @param text node's text
-     */
+        /**
+         * Adds a list of style classes and a text to a generic node
+         *
+         * @param node chosen element
+         * @param classes style classes
+         * @param id node's name
+         * @param text node's text
+         */
         private void decorateNode(Node node, String id, List<String> classes, String text) {
             if (id != null) {
                 node.setId(id);
@@ -310,54 +315,53 @@ public class GodSelectionController extends GenericController {
             }
         }
 
-    /**
-     * Getter for the card's god
-     *
-     * @return the name of the god associated with this card
-     */
+        /**
+         * Getter for the card's god
+         *
+         * @return the name of the god associated with this card
+         */
         public String getGod() {
             return god.getId();
         }
 
-    /**
-     * Disables the select button
-     */
+        /**
+         * Disables the select button
+         */
         public void disableButton() {
             actionPane.setDisable(true);
         }
 
 
-    /**
-     * Enables the select button which allows a player to choose his god
-     *
-     */
+        /**
+         * Enables the select button which allows a player to choose his god
+         */
         public void enableButton() {
             if (!actionPane.getId().equals("playerNameLabel")) {
                 actionPane.setDisable((false));
-                actionPane.setId(SELECTBUTTON);
+                actionPane.setId(SELECT_BUTTON);
                 setButtonState(() -> actionPane.setId("selectbuttonpressed"), () -> {
-                    actionPane.setId(SELECTBUTTON);
+                    actionPane.setId(SELECT_BUTTON);
                     gui.validatePlayerGodChoice(getGod());
                 });
             }
         }
 
 
-    /**
-     * Returns the player's name for a chosen god
-     *
-     * @return the name of a player
-     */
+        /**
+         * Returns the name of the player who chose the card
+         *
+         * @return the name of a player
+         */
         public String getPlayerName() {
             return playerName;
         }
 
 
-    /**
-     * Sets and displays the player who has chosen a god
-     *
-     * @param playerName name of the player
-     */
+        /**
+         * Sets and displays the player who chose the card
+         *
+         * @param playerName name of the player
+         */
         public void setPlayerName(String playerName) {
             this.playerName = playerName;
             actionPane.setId("playerNameLabel");
@@ -366,11 +370,9 @@ public class GodSelectionController extends GenericController {
             actionText.setPadding(new Insets(0, 0, 2, 0));
         }
 
-
-    /**
-     * Displays a button for the choice of the starting player
-     *
-     */
+        /**
+         * Displays a button for the choice of the starting player
+         */
         public void setStarterPlayerButton() {
             actionPane.setDisable(false);
             actionPane.setId("playerbutton");
@@ -378,21 +380,21 @@ public class GodSelectionController extends GenericController {
             setButtonState(() -> actionPane.setId("playerbuttonpressed"), () -> gui.validatePlayer(getPlayerName()));
         }
 
-    /**
-     * Resets the select button to default and disables it
-     */
+        /**
+         * Resets the select button to default and disables it
+         */
         public void setActionButtonDisabled() {
-            actionPane.setId(SELECTBUTTON);
+            actionPane.setId(SELECT_BUTTON);
             actionText.setPadding(new Insets(0, 0, 7, 0));
             disableButton();
         }
 
-    /**
-     * Defines the select button's actions after being clicked
-     *
-     * @param onPress action made after being pressed
-     * @param onRelease action made after the release
-     */
+        /**
+         * Defines the select button actions after being clicked
+         *
+         * @param onPress action made after being pressed
+         * @param onRelease action made after the release
+         */
         public void setButtonState(Runnable onPress, Runnable onRelease) {
             actionPane.setOnMousePressed(event -> onPress.run());
             actionPane.setOnMouseReleased(event -> onRelease.run());

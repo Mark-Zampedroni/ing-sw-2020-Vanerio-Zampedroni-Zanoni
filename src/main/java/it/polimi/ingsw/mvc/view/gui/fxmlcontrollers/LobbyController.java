@@ -15,6 +15,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * Lobby screen FXML controller
+ */
 public class LobbyController extends GenericController {
 
     @FXML
@@ -63,7 +66,7 @@ public class LobbyController extends GenericController {
 
 
     /**
-     * Initializes fonts for scaling purposes
+     * Initializes the fonts scaling
      */
     private void initFonts() {
         setFontRatio(nameTextField);
@@ -75,7 +78,7 @@ public class LobbyController extends GenericController {
     }
 
     /**
-     * Displays all three available colors
+     * Displays all the available colors
      *
      * @param buttons map which contains a color and its place in the scene
      */
@@ -87,7 +90,7 @@ public class LobbyController extends GenericController {
     }
 
     /**
-     * Defines a button's actions after being clicked
+     * Defines the methods called by the button after being clicked. Hides the button until release
      *
      * @param button targeted button
      */
@@ -99,7 +102,7 @@ public class LobbyController extends GenericController {
 
 
     /**
-     * Handles the action of pressing a button
+     * Handles the event of pressing a button
      *
      * @param button targeted button
      */
@@ -109,7 +112,7 @@ public class LobbyController extends GenericController {
 
 
     /**
-     * Handles the action of releasing a button
+     * Handles the event of releasing a button
      *
      * @param button targeted button
      */
@@ -123,7 +126,7 @@ public class LobbyController extends GenericController {
     }
 
     /**
-     * Creates three buttons which allow a player to select his color
+     * Creates the buttons which allow a player to select its color
      *
      * @param button targeted button
      */
@@ -141,7 +144,7 @@ public class LobbyController extends GenericController {
     }
 
     /**
-     * Updates every player about the changes and disables unavailable colors
+     * Updates every player on the changes and disables the buttons with unavailable colors
      *
      * @param availableColors list of available colors
      */
@@ -151,8 +154,7 @@ public class LobbyController extends GenericController {
     }
 
     /**
-     * Updates every player about the changes
-     *
+     * Updates every player on the changes
      */
     private void updatePlayers() {
         handlePlayerSlot(playerNameOne, colorPlayerOne, 0, Integer.parseInt(gui.getNumberOfPlayers()) > 0, borderPlayerOne);
@@ -170,7 +172,7 @@ public class LobbyController extends GenericController {
      * Manages the disable functionality through a given parameter
      *
      * @param node targeted element
-     * @param v parameter which affects this method's outcome
+     * @param v parameter which affects this method outcome
      */
     private void setDisableButton(Node node, boolean v) {
         node.setDisable(v);
@@ -218,16 +220,16 @@ public class LobbyController extends GenericController {
      *
      * @param number defines the number of players currently in the game
      * @param name player's name
-     * @param labelbg label used to show a player's choices
+     * @param labelBg label used to show a player's choices
      * @param color place to display the color chose by the player
      */
-    private void hideSlot(Label name, BorderPane color, int number, AnchorPane labelbg) {
+    private void hideSlot(Label name, BorderPane color, int number, AnchorPane labelBg) {
         name.setText((number == 0) ? "Waiting..." : "");
         color.setId((number == 0) ? "head" : "");
         if (number != 0) {
             hideNode(name);
             hideNode(color);
-            hideNode(labelbg);
+            hideNode(labelBg);
         }
     }
 
