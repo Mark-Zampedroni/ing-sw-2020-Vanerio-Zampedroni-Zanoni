@@ -6,17 +6,17 @@ import java.util.Arrays;
 import java.util.List;
 
 /**
- * Colors that represent the {@link it.polimi.ingsw.mvc.model.player.Player player}'s
- * workers on the {@link it.polimi.ingsw.mvc.model.map.Board board}
+ * Available colors; each {@link it.polimi.ingsw.mvc.model.player.Player player} can choose its own,
+ * at a given Session a color can't be assigned to more than one player
  */
 public enum Colors implements Serializable {
     BLUE, BROWN, WHITE;
 
     /**
-     * Return if a string is containing a valid color
+     * Returns if a string is the name of a valid color
      *
-     * @param color the name of the color
-     * @return {@code true} if the color is one of the color of the game
+     * @param color the name of the color to check
+     * @return {@code true} if the name given is one of the colors in the game
      */
     public static boolean isValid(String color) {
         List<String> valid = new ArrayList<>(Arrays.asList("BLUE", "BROWN", "WHITE"));

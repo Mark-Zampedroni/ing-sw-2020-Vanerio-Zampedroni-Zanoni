@@ -3,7 +3,8 @@ package it.polimi.ingsw.utility.enumerations;
 import java.io.Serializable;
 
 /**
- * Represents the different phases of the game, from the connection to the end_game
+ * Different phases of the game, used both on {@link it.polimi.ingsw.network.client.Client} and
+ * {@link it.polimi.ingsw.mvc.controller.SessionController Controller} to tune the game flow
  */
 public enum GameState implements Serializable {
     CONNECTION,

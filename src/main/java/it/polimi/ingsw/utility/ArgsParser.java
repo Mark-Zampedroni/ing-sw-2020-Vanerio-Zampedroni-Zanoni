@@ -15,18 +15,17 @@ public class ArgsParser {
     }
 
     /**
-     * Mark will fill it
+     * Splits the arguments given to {@link it.polimi.ingsw.ClientApp ClientApp} or
+     * {@link it.polimi.ingsw.ServerApp ServerApp} creating a map parameter-value
+     *
+     * @param args list of arguments
+     * @return map parameter-value
      */
     public static Map<String, String> parseArgs(String[] args) {
         Map<String, String> temp = new HashMap<>();
         for (int i = 0; i < args.length; i++) {
-            if (args[i].startsWith("-")) {
-                if (i < args.length - 1 && !args[i + 1].startsWith("-")) {
-                    temp.put(args[i], args[i + 1]);
-                } else {
-                    temp.put(args[i], "");
-                }
-            }
+            if (args[i].startsWith("-"))
+                temp.put(args[i], (i < args.length - 1 && !args[i + 1].startsWith("-")) ? args[i + 1] : "");
         }
         return temp;
     }

@@ -11,8 +11,7 @@ import java.io.*;
 import java.util.logging.Logger;
 
 /**
- * Contains all the information of a previous moment of the game, it's the class where is contained
- *  all the information used during the reload of a game
+ * Utility class that saves the game in a save file
  */
 public class SaveData implements Serializable {
 
@@ -31,14 +30,14 @@ public class SaveData implements Serializable {
     private String turnOwner;
 
     /**
-     * Constructor of the class
+     * Constructor of this object, that will be serialized and stored within the save file
      *
-     * @param flag indicates if the save is before or after the modify of the model for the arrive of the message
-     * @param lastMessage the last message received
-     * @param sessionController the controller of the session
-     * @param stateController the controller of the state of the game
+     * @param flag              indicates if the save occurs before or after a message is parsed
+     * @param lastMessage       the last message received
+     * @param sessionController the controller of the MVC
+     * @param stateController   the state of the controller
      */
-    SaveData(SessionController sessionController, StateController stateController, Message lastMessage, Boolean flag) {
+    private SaveData(SessionController sessionController, StateController stateController, Message lastMessage, Boolean flag) {
         actionDone = flag;
         session = sessionController.getSession();
         state = stateController;
@@ -47,18 +46,18 @@ public class SaveData implements Serializable {
     }
 
     /**
-     * Saves all the information of the game
+     * Creates the save file
      *
-     * @param flag indicates if the save is before or after the modify of the model for the arrive of the message
+     * @param flag indicates if the save occurs before or after a message is parsed
      * @param lastMessage the last message received
-     * @param sessionController the controller of the session
-     * @param stateController the controller of the state of the game
-     * @param log logger of the server
+     * @param sessionController the controller of the MVC
+     * @param stateController the state of the controller
+     * @param log logger where any event will be stored
      */
     public static void saveGame(SessionController sessionController, StateController stateController, Message lastMessage, Boolean flag, Logger log) {
         if (ServerApp.isFeature()) {
             SaveData saveData = new SaveData(sessionController, stateController, lastMessage, flag);
-            try (FileOutputStream game = new FileOutputStream(new File("santorini.game.ser"))) {
+            try (FileOutputStream game = new FileOutputStream(new File("saved.game.ser"))) {
                 ObjectOutputStream outputStream = new ObjectOutputStream(game);
                 outputStream.writeObject(saveData);
                 outputStream.close();
@@ -81,7 +80,7 @@ public class SaveData implements Serializable {
     /**
      * Getter for the session of the game
      *
-     * @return the ssession of the saved game
+     * @return the session of the saved game
      */
     public Session getSession() {
         return session;
@@ -97,9 +96,9 @@ public class SaveData implements Serializable {
     }
 
     /**
-     * Getter for the capacity of the saved game
+     * Getter for the capacity (as number of players) of the saved game
      *
-     * @return the capacity of the the daved game
+     * @return the capacity of the saved game
      */
     public int getGameCapacity() {
         return gameCapacity;
@@ -108,32 +107,32 @@ public class SaveData implements Serializable {
     /**
      * Getter for the last turn owner
      *
-     * @return the name of the last turn owner
+     * @return the name of the turn owner at the moment of the save
      */
     public String getTurnOwner() {
         return turnOwner;
     }
 
     /**
-     * Getter for the last message
+     * Getter for the last message received
      *
-     * @return the last message received
+     * @return the last message received at the moment of the save
      */
     public Message getMessage() {
         return message;
     }
 
     /**
-     * Returns if the execution of the action in last message is terminated before saving or not
+     * Returns if the parsing of the last message ended before the save or not
      *
-     * @return {@code true} if the execution of the action in last message is terminated before saving
+     * @return {@code true} if the parsing of the last message ended before the save or not
      */
     public boolean getActionDone() {
         return actionDone;
     }
 
     /**
-     * Saves all the important data from session controller (not serializable class)
+     * Saves all the data from session controller (not serializable class)
      *
      * @param sessionController the controller of the session
      */

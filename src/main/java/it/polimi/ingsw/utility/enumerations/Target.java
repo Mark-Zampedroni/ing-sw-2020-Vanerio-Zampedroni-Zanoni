@@ -3,7 +3,7 @@ package it.polimi.ingsw.utility.enumerations;
 import it.polimi.ingsw.mvc.model.player.Worker;
 
 /**
- * Possible relationship between any two {@link it.polimi.ingsw.mvc.model.player.Worker workers}
+ * Possible relationships between two {@link it.polimi.ingsw.mvc.model.player.Worker workers}
  */
 public enum Target {
     ALLY {
@@ -32,10 +32,10 @@ public enum Target {
     },
     ANY {
         /**
-         * Mark will fill it
+         * If any kind of relationship is ok then returns true
          *
          * @param worker first worker
-         * @param that second worker
+         * @param that   second worker
          * @return {@code true}
          */
         public boolean compareWorkers(Worker worker, Worker that) {
@@ -44,7 +44,7 @@ public enum Target {
     },
     SELF {
         /**
-         * Compare if the workers are the same worker
+         * Checks if the workers are the same worker
          *
          * @param worker first worker
          * @param that second worker
@@ -56,8 +56,7 @@ public enum Target {
     };
 
     /**
-     * Checks if two workers have the relationship defined by the instance
-     * where the method is called
+     * Checks if two workers have the relationship defined
      *
      * @param worker one of the two workers
      * @param that   the other worker

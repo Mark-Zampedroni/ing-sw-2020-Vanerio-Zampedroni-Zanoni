@@ -6,9 +6,10 @@ import it.polimi.ingsw.mvc.model.map.Position;
 import java.io.Serializable;
 
 /**
- * DTO copy of the class {@link Board board}
+ * Dto copy of {@link Board board}.
+ * The Dto classes are created and stored in some messages exchanged on the network,
+ * their methods consist of only getters and all their variables are final
  */
-
 public class DtoBoard implements Serializable {
 
     public static final int WIDTH = 5;
@@ -17,9 +18,9 @@ public class DtoBoard implements Serializable {
     private final DtoTile[][] tiles = new DtoTile[WIDTH][HEIGHT];
 
     /**
-     * Initializes the DTOboard
+     * Initializes the DtoBoard
      *
-     * @param board indicates his equivalent in server storage
+     * @param board indicates the board to copy as a dto
      */
     public DtoBoard(Board board) {
         for (int x = 0; x < WIDTH; x++) {
@@ -31,38 +32,25 @@ public class DtoBoard implements Serializable {
 
 
     /**
-     * Getter for a specific {@link DtoTile DTOtile} identified by its {@link DtoPosition DTOposition}
+     * Getter for a specific {@link DtoTile DtoTile} identified by its {@link DtoPosition DtoPosition}
      *
-     * @param position the DTOposition of the required {@link DtoTile DTOtile}
-     * @return the {@link DtoTile DTOtile} identified by the {@link DtoPosition DTOposition}
+     * @param position the DtoPosition of the required {@link DtoTile DtoTile}
+     * @return the {@link DtoTile DtoTile} identified by the {@link DtoPosition DtoPosition}
      */
     public DtoTile getTile(DtoPosition position) {
         return tiles[position.getX()][position.getY()];
     }
 
     /**
-     * Getter for a specific {@link DtoTile DTOtile} identified by its coordinates
+     * Getter for a specific {@link DtoTile DtoTile} identified by its coordinates
      *
-     * @param x coordinate on the x-axis
-     * @param y coordinate on the y-axis
-     * @return the {@link DtoTile DTOtile} identified by the {@link DtoPosition DTOposition}
+     * @param x position on the x-axis
+     * @param y position on the y-axis
+     * @return the {@link DtoTile DtoTile} in position (x,y)
      */
     public DtoTile getTile(int x, int y) {
         return tiles[x][y];
     }
 
-    /**
-     * Implementation of toString method for the {@link DtoBoard DTOboard}
-     */
-    @Override
-    public String toString() {
-        StringBuilder b = new StringBuilder();
-        for (int x = 0; x < WIDTH; x++) {
-            for (int y = 0; y < HEIGHT; y++) {
-                b.append("(").append(x).append(",").append(y).append(")").append(" : ").append(tiles[x][y].toString()).append("\n");
-            }
-        }
-        return b.toString();
-    }
 
 }

@@ -1,12 +1,12 @@
 package it.polimi.ingsw.utility.exceptions.utility;
 
 /**
- * Exception thrown if a class is not instantiable
+ * Exception thrown if the constructor of a class not instantiable is called
  */
 public class NotInstantiableClass extends Exception {
 
     /**
-     * Constructor for the exception
+     * Constructor
      */
     public NotInstantiableClass() {
         super("This class can't have instances");

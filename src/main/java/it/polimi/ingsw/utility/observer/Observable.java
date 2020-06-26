@@ -5,8 +5,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Observable Superclass, is necessary for the communication between Model, Controller, View.
- * It contains a list of observer.
+ * It's necessary for the communication between Model, Controller, View.
+ * It saves a list of observer; implements the Observer-Observable pattern
  */
 public class Observable<T> implements Serializable {
 
@@ -18,27 +18,25 @@ public class Observable<T> implements Serializable {
      * @param observer identifies the {@link Observer observer}
      */
     public synchronized void addObserver(Observer<T> observer) {
-        if (observers == null) {
+        if (observers == null)
             observers = new ArrayList<>();
-        }
         observers.add(observer);
     }
 
     /**
-     * Removes an {@link Observer observer} from the list of {@link Observer observers}
+     * Removes an {@link Observer observer} from the list of observers
      *
      * @param observer identifies the {@link Observer observer}
      */
     public synchronized void removeObserver(Observer<T> observer) {
-        if (observers != null) {
+        if (observers != null)
             observers.remove(observer);
-        }
     }
 
     /**
-     * Call the {@link Observer update} method in all the {@link Observer observers} in the list
+     * Calls the update method of all the {@link Observer observers}
      *
-     * @param message identifies information about the change
+     * @param message information about the change
      */
     public synchronized void notify(T message) {
         if (observers != null) {

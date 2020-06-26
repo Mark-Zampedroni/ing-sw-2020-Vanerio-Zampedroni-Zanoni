@@ -5,7 +5,9 @@ import it.polimi.ingsw.mvc.model.map.Tile;
 import java.io.Serializable;
 
 /**
- * DTO copy of the class {@link Tile tile}
+ * Dto copy of {@link Tile tile}
+ * The Dto classes are created and stored in some messages exchanged on the network,
+ * their methods consist of only getters and all their variables are final
  */
 public class DtoTile implements Serializable {
     private static final long serialVersionUID = -1540738678773220733L;
@@ -13,9 +15,9 @@ public class DtoTile implements Serializable {
     private final boolean dome;
 
     /**
-     * Initializes a tile with minimum {@link it.polimi.ingsw.utility.constants.Height height}
+     * Initializes a new DtoTile
      *
-     * @param tile the equivalent tile in the model
+     * @param tile the tile to copy as a dto
      */
     public DtoTile(Tile tile) {
         height = tile.getHeight();
@@ -23,9 +25,9 @@ public class DtoTile implements Serializable {
     }
 
     /**
-     * Checks if the tile has a dome
+     * Checks if the DtoTile has a dome
      *
-     * @return {@code true} if the tile has a dome
+     * @return {@code true} if the dtoTile has a dome
      */
     public boolean hasDome() {
         return dome;
@@ -40,13 +42,4 @@ public class DtoTile implements Serializable {
         return height;
     }
 
-    /**
-     * Creates a String that contains the tile variables values
-     *
-     * @return a String with the tile attributes
-     */
-    @Override
-    public String toString() {
-        return "Tower, height: " + height + ", dome: " + dome;
-    }
 }

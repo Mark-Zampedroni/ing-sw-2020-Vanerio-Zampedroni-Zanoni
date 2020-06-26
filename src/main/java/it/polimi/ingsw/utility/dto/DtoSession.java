@@ -9,7 +9,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * DTO copy of the class {@link Session Session}
+ * Dto copy of {@link Session Session}.
+ * The Dto classes are created and stored in some messages exchanged on the network,
+ * their methods consist of only getters and all their variables are final
  */
 public class DtoSession implements Serializable {
 
@@ -18,9 +20,9 @@ public class DtoSession implements Serializable {
     private final ArrayList<DtoWorker> workers;
 
     /**
-     * Method that create a instance of DTOsession
+     * Initializes a new DtoSession
      *
-     * @param session indicates his equivalent in server storage
+     * @param session the session to copy as a dto
      */
     public DtoSession(Session session) {
         workers = new ArrayList<>();
@@ -32,7 +34,7 @@ public class DtoSession implements Serializable {
     }
 
     /**
-     * Getter for the list of the {@link DtoWorker workers}
+     * Getter for the list of {@link DtoWorker workers} on the board
      *
      * @return a shallow copy of the {@link DtoWorker workers} list
      */
@@ -41,36 +43,31 @@ public class DtoSession implements Serializable {
     }
 
     /**
-     * Getter for the {@link DtoBoard DTOboard}
+     * Getter for the {@link DtoBoard DtoBoard}
      *
-     * @return the {@link DtoBoard board} used in the session
+     * @return the {@link DtoBoard board} saved within the DtoSession
      */
     public DtoBoard getBoard() {
         return board;
     }
 
     /**
-     * Implementation of toString method for the {@link DtoSession DTObsession}
+     * Override of the toString method
      */
     @Override
     public String toString() {
         StringBuilder b = new StringBuilder();
-        if (board != null) {
-            b.append(board.toString());
-        }
+        if (board != null) b.append(board.toString());
         workers.forEach(w -> b.append(w).append("\n"));
-        if (workers.isEmpty()) {
-            b.append("No workers on board\n");
-        }
+        if (workers.isEmpty()) b.append("No workers on board\n");
         return b.toString();
     }
 
     /**
-     * Getter for the name of the master of the worker in a position
+     * Gets the name of the master of a worker at the coordinates given
      *
      * @param y coordinate on y-axis
      * @param x coordinate on x-axis
-     *
      * @return the name of the master
      */
     public String getWorkerMasterOn(int x, int y) {

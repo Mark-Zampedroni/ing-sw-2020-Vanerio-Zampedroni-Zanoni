@@ -6,7 +6,7 @@ import java.util.Arrays;
 import java.util.List;
 
 /**
- * Playable gods, each {@link it.polimi.ingsw.mvc.model.player.Player player} can select one
+ * Gods implemented in the game
  */
 public enum Gods implements Serializable {
     APOLLO("Your Move: Your Worker may move into an opponent Worker's space by forcing their Worker to the space yours just vacated."),
@@ -27,18 +27,18 @@ public enum Gods implements Serializable {
     private final String description;
 
     /**
-     * Constructor for the gods
+     * Constructor for each of the classes in the enum; it's private
      *
-     * @param description the description of the power
+     * @param description the description of the god's power
      */
     Gods(String description) {
         this.description = description;
     }
 
     /**
-     * Returns a list of all playable gods of the game
+     * Returns a list with all the names of the gods
      *
-     * @return the list of the playable gods of the game
+     * @return the list containing all the names of the gods
      */
     public static List<String> getGodsStringList() {
         return new ArrayList<>(Arrays.asList("APOLLO", "ARTEMIS", "ATHENA", "ATLAS", "DEMETER", "HEPHAESTUS", "MINOTAUR",
@@ -46,14 +46,14 @@ public enum Gods implements Serializable {
     }
 
     /**
-     * Returns if a name of a god is valid
+     * Returns if a given string is the name of a god
      *
      * @param god the name of the god
      * @return {@code true} if the given god can is one of the selectable ones
      */
     public static boolean isValid(String god) {
         List<String> valid = getGodsStringList();
-        return valid.contains(god);
+        return valid.contains(god.toUpperCase());
     }
 
     /**

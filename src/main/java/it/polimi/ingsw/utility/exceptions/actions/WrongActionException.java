@@ -1,12 +1,12 @@
 package it.polimi.ingsw.utility.exceptions.actions;
 
 /**
- * Exception thrown if the player makes a wrong action
+ * Exception thrown if a player tries to execute an action not available
  */
 public class WrongActionException extends Exception {
 
     /**
-     * Constructor for the exception
+     * Constructor
      *
      * @param message contains the information about the exception
      */

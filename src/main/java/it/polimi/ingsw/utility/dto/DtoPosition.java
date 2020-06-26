@@ -5,7 +5,9 @@ import it.polimi.ingsw.mvc.model.map.Position;
 import java.io.Serializable;
 
 /**
- * DTO copy of the class {@link Position Position}
+ * Dto copy of {@link Position Position}.
+ * The Dto classes are created and stored in some messages exchanged on the network,
+ * their methods consist of only getters and all their variables are final
  */
 public class DtoPosition implements Serializable {
     private static final long serialVersionUID = -8141609635185613115L;
@@ -13,9 +15,9 @@ public class DtoPosition implements Serializable {
     private final int y;
 
     /**
-     * Initializes a new DTOposition
+     * Initializes a new DtoPosition
      *
-     * @param position indicates his equivalent in server storage
+     * @param position the position to copy as a dto
      */
     public DtoPosition(Position position) {
         this.x = position.getX();
@@ -23,10 +25,10 @@ public class DtoPosition implements Serializable {
     }
 
     /**
-     * Initializes a new DTOposition
+     * Initializes a new DtoPosition
      *
-     * @param x coordinate on the x-axis
-     * @param y coordinate on the y-axis
+     * @param x position on the x-axis
+     * @param y position on the y-axis
      */
     public DtoPosition(int x, int y) {
         this.x = x;
@@ -34,7 +36,7 @@ public class DtoPosition implements Serializable {
     }
 
     /**
-     * Getter for x coordinate
+     * Getter for coordinate x
      *
      * @return x coordinate
      */
@@ -43,7 +45,7 @@ public class DtoPosition implements Serializable {
     }
 
     /**
-     * Getter for y coordinate
+     * Getter for coordinate y
      *
      * @return y coordinate
      */
@@ -52,9 +54,9 @@ public class DtoPosition implements Serializable {
     }
 
     /**
-     * Method to check if two DTOpositions have the same coordinates
+     * Checks if two DtoPositions have the same coordinates
      *
-     * @param position {@link DtoPosition position} to compare
+     * @param position target DtoPosition
      * @return {@code true} if the coordinates match
      */
     public boolean isSameAs(DtoPosition position) {
@@ -62,9 +64,9 @@ public class DtoPosition implements Serializable {
     }
 
     /**
-     * Method to check if a DTOpositions have the same coordinates of a Position
+     * Checks if a DtoPosition has the same coordinates of a Position
      *
-     * @param position {@link Position position} to compare
+     * @param position target Position
      * @return {@code true} if the coordinates match
      */
     public boolean isSameAs(Position position) {
@@ -72,7 +74,7 @@ public class DtoPosition implements Serializable {
     }
 
     /**
-     * Generates a String stating the DTOposition coordinates
+     * Generates a String with the DtoPosition coordinates
      *
      * @return coordinates as String
      */
@@ -81,20 +83,19 @@ public class DtoPosition implements Serializable {
         return "(" + x + "," + y + ")";
     }
 
-
     /**
-     * Evaluates if the DTOposition is valid
+     * Evaluates if the DtoPosition is valid
      *
-     * @return {@code true} if position is within the {@link DtoBoard DTOboard} boundaries
+     * @return {@code true} if position is within the boundaries
      */
     public boolean isValid() {
         return (x >= 0 && x < 5 && y >= 0 && y < 5);
     }
 
     /**
-     * Checks if the DTOposition is perimetrical
+     * Checks if the DtoPosition is on the perimeter
      *
-     * @return {@code true} if DTOposition coordinates are on the perimeter of {@link DtoBoard DTOboard}
+     * @return {@code true} if DtoPosition coordinates are on the perimeter
      */
     public boolean isBoundary() {
         return (x == 0 || x == 4 || y == 0 || y == 4);

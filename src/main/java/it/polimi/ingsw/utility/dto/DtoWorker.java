@@ -5,7 +5,9 @@ import it.polimi.ingsw.mvc.model.player.Worker;
 import java.io.Serializable;
 
 /**
- * DTO copy of the class {@link Worker Worker}
+ * Dto copy of {@link Worker Worker}.
+ * The Dto classes are created and stored in some messages exchanged on the network,
+ * their methods consist of only getters and all their variables are final
  */
 
 public class DtoWorker implements Serializable {
@@ -15,9 +17,9 @@ public class DtoWorker implements Serializable {
     private final DtoPosition position;
 
     /**
-     * Initializes the DTOworker
+     * Initializes the DtoWorker
      *
-     * @param worker indicates his equivalent in server storage
+     * @param worker the worker to copy as a dto
      */
     public DtoWorker(Worker worker) {
         this.masterUsername = worker.getMaster().getUsername();
@@ -25,7 +27,7 @@ public class DtoWorker implements Serializable {
     }
 
     /**
-     * Getter for master username
+     * Getter for the username of the player who owns the worker copied
      *
      * @return the {@link String username} of the player who owns the worker
      */
@@ -34,7 +36,7 @@ public class DtoWorker implements Serializable {
     }
 
     /**
-     * Returns the {@link DtoPosition DTOposition} where the Worker is settled
+     * Returns the {@link DtoPosition DtoPosition} where the Worker copied is settled
      *
      * @return the {@link DtoPosition DTOposition}
      */
@@ -43,24 +45,14 @@ public class DtoWorker implements Serializable {
     }
 
     /**
-     * Returns if the DTO-Position corresponds to a position on the coordinates
+     * Returns if the position of the worker copied is at the coordinates given
      *
      * @param x coordinate on the x-axis
      * @param y coordinate on the y-axis
-     * @return the {@code true} if is the same
+     * @return the {@code true} if the position given is the same as the position of the worker copied
      */
     public boolean isOn(int x, int y) {
         return position.isSameAs(new DtoPosition(x, y));
     }
 
-
-    /**
-     * Generates a String which contains the DTOworker's variables values
-     *
-     * @return a String with the DTOworker's attributes
-     */
-    @Override
-    public String toString() {
-        return "Master: " + getMasterUsername() + " , (" + getPosition().getX() + "," + getPosition().getY() + ")";
-    }
 }

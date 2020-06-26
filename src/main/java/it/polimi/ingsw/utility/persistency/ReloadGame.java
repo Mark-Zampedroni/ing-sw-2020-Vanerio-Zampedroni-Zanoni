@@ -21,7 +21,7 @@ import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
 /**
- * Reloads the game from a file after a failure of the server
+ * Utility class that reloads the game from a save file
  */
 public class ReloadGame {
 
@@ -38,7 +38,7 @@ public class ReloadGame {
     }
 
     /**
-     * Reads from the saved date the names of the players
+     * Reads from the saved data the names of the players
      *
      * @return a list containing the names of the players
      */
@@ -49,13 +49,13 @@ public class ReloadGame {
     }
 
     /**
-     * Deserialize the file and loads the information in a specific class
+     * Deserializes the file and loads the information to a specific class
      *
-     * @return {@code true} if there aren't problems during the deserialization
+     * @return {@code true} if the save file deserializes correctly
      */
     private static boolean deserializeFile() {
         if (ServerApp.isFeature()) {
-            String filename = "santorini.game.ser";
+            String filename = "saved.game.ser";
             try (
                     FileInputStream file = new FileInputStream(filename);
                     ObjectInputStream input = new ObjectInputStream(file)
@@ -72,25 +72,25 @@ public class ReloadGame {
     /**
      * Getter for the saved data
      *
-     * @return the class containing all the information of the previous game
+     * @return the class containing all the information about the previous game
      */
     public static SaveData load() {
         return saveData;
     }
 
     /**
-     * Sets to false the flag that indicates if the game is already loaded or not
+     * Sets to false the flag that indicates if the game is already loaded
      */
     public static void setFinishedLoad() {
         isAlreadyLoaded = false;
     }
 
     /**
-     * Creates new views for the players of the saved game
+     * Creates the views for the players trying to reconnect to a previous game
      *
-     * @param state the state of the game
-     * @param map contains the connections of the players
-     * @param views the list containing the views of the players
+     * @param state      the state of the game
+     * @param map        contains the connections of the players
+     * @param views      the list containing the views of the players
      * @param controller the controller of the session
      */
     public static void reloadViews(SessionController controller, Map<String, ServerConnection> map, List<RemoteView> views, GameState state) {
@@ -99,9 +99,8 @@ public class ReloadGame {
             RemoteView view = new RemoteView(e.getValue());
             view.register(e.getKey());
             views.add(view);
-            if (state == GameState.GAME) {
+            if (state == GameState.GAME)
                 view.getFirstDTOSession(new DtoSession(saveData.getSession()));
-            }
             view.addObserver(controller);
             saveData.getSession().getPlayers().stream()
                     .filter(p -> p.getRules() != null)
@@ -110,13 +109,13 @@ public class ReloadGame {
     }
 
     /**
-     * Accepts the client that play in the previous game and denies connection to the others
+     * Accepts a reconnection request if the player played in the previous game and denies any fresh connection
      *
      * @param log logger of the server
-     * @param reconnecting contains the connections and the associated key
-     * @param message the message sent by client
-     * @param connection Mark will fill it
-     * @param sessionController the controller of the session
+     * @param reconnecting map of the token of each already open connection to its connection
+     * @param message the request sent by the player
+     * @param connection connection of the player trying to reconnect
+     * @param sessionController the controller of the MVC
      */
     public static SessionController reloadConnection(SessionController sessionController, Map<String, ServerConnection> reconnecting, ServerConnection connection, Logger log, Message message) {
         SessionController newController = null;
@@ -136,15 +135,15 @@ public class ReloadGame {
     }
 
     /**
-     * Opens the game if all the player in previous game reconnect
+     * Opens the game if all the players in the saved game reconnected
      *
      * @param log logger of the server
-     * @param reconnecting contains the connections and the associated key
-     * @param message the message sent by client
-     * @param connection Mark will fill it
+     * @param reconnecting map of the token of each already open connection to its connection
+     * @param message the request sent by the player
+     * @param connection connection of the last player who reconnected
      * @param previousPlayers list of the players previously in game
      *
-     * @return the session controller of the new game
+     * @return the Controller of the new game; its state is reloaded from the save file
      */
     private static SessionController openIfFull(Map<String, ServerConnection> reconnecting, Logger log, List<String> previousPlayers, ServerConnection connection, Message message) {
         SessionController newController = null;
@@ -167,10 +166,10 @@ public class ReloadGame {
     }
 
     /**
-     * Deletes the old backup file from the memory
+     * Deletes the old save file from the memory
      */
     public static void clearSavedFile() throws IOException {
-        Files.deleteIfExists(Paths.get("santorini.game.ser"));
+        Files.deleteIfExists(Paths.get("saved.game.ser"));
     }
 
 }
