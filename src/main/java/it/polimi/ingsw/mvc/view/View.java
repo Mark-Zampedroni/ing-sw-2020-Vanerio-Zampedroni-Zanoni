@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * Interface of methods used to handle the inputs and outputs independently of the implementation.
+ * Interface of methods used to handle the inputs and outputs independently from the implementation.
  */
 public interface View {
 
