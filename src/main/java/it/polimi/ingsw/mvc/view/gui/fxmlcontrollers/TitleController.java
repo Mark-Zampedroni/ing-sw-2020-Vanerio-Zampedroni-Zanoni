@@ -35,6 +35,9 @@ public class TitleController extends GenericController {
         connectionIp = ip;
     }
 
+    /**
+     * Initializes the scene
+     */
     public void initialize() {
         super.initialize(this);
         initFonts();
@@ -45,14 +48,20 @@ public class TitleController extends GenericController {
         hideNode(textPaneCon);
     }
 
+    /**
+     *Initializes fonts for scaling purposes
+     */
     private void initFonts() {
         setFontRatio(textLabelCon);
-        setFontRatio(textLabel); //<--- TEST
-        setFontRatio(p2); //<--- TEST
-        setFontRatio(p3); //<--- TEST
+        setFontRatio(textLabel);
+        setFontRatio(p2);
+        setFontRatio(p3);
         setFontRatio(okButton);
     }
 
+    /**
+     * Starts a connection as a {@link it.polimi.ingsw.network.client.Client client} or displays an error message
+     */
     @FXML
     private void handleClickPlay() {
         if (!gui.createConnection(connectionIp, connectionPort)) {
@@ -60,28 +69,51 @@ public class TitleController extends GenericController {
         }
     }
 
+    /**
+     * Applies a glowing effect on the button that allows a player to enter the game
+     */
     @FXML
     private void handleStartEntered() {
         playButton.setEffect(new Glow(0.4));
         playButton.setId("pressedStart");
     }
 
+    /**
+     * Removes the glowing effect applied on the button that allows a player to enter the game
+     */
     @FXML
     private void handleStartExited() {
         playButton.setEffect(new Glow(0.0));
         playButton.setId("releasedStart");
     }
 
+    /**
+     *Defines a button's actions after being clicked and temporary hides it
+     *
+     * @param button targeted button
+     */
     private void initButton(Button button) {
         button.setOnMousePressed(event -> handleButtonPressed(button));
         button.setOnMouseReleased(event -> handleButtonReleased(button));
         hideNode(button);
     }
 
+
+    /**
+     * Handles the action of pressing a button
+     *
+     * @param button targeted button
+     */
     private void handleButtonPressed(Button button) {
         button.setId("buttonPressed");
     }
 
+
+    /**
+     * Handles the action of releasing a button
+     *
+     * @param button targeted button
+     */
     private void handleButtonReleased(Button button) {
         button.setId("buttonReleased");
         if (button == okButton) {
@@ -93,21 +125,42 @@ public class TitleController extends GenericController {
         }
     }
 
+    /**
+     * Allows a player to choose the number of players that can join that game
+     */
     public void requestNumberOfPlayers() {
         switchMode();
         showNode(p2);
         showNode(p3);
     }
 
+
+    /**
+     * Displays a message
+     *
+     * @param text text that's is going to be shown
+     */
     public void showInfo(String text) {
         switchModeConn(text);
     }
 
+
+    /**
+     * Displays a message regarding a disconnection
+     *
+     * @param text text that's is going to be shown
+     */
     public void showDisconnected(String text) {
         switchModeConn(text);
         showNode(okButton);
     }
 
+
+    /**
+     * Hides all the buttons and displays a message
+     *
+     * @param text text that's is going to be shown
+     */
     private void switchModeConn(String text) {
         hideNode(playButton);
         hideNode(p2);
@@ -117,6 +170,11 @@ public class TitleController extends GenericController {
         textLabelCon.setText(text);
     }
 
+
+    /**
+     * Displays a message regarding the number of player in the game
+     *
+     */
     private void switchMode() {
         hideNode(playButton);
         showNode(textPane);

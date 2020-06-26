@@ -98,7 +98,9 @@ public class BoardController extends GenericController implements Observer<DtoPo
     private static final String PRESSED = "_pressed";
     private static final String BUTTON = "button";
 
-
+    /**
+     * Initializes the main features of the scene
+     */
     public void initialize() throws IOException {
         super.initialize(this);
         if (BoardScene.getTileEvent() == null) {
@@ -118,6 +120,11 @@ public class BoardController extends GenericController implements Observer<DtoPo
         });
     }
 
+    /**
+     * Shows in a card-like space all the information about a god
+     *
+     * @param god image of a god, named accordingly to it
+     */
     private void showCard(BorderPane god){
         String[] temp = Gods.valueOf(god.getId()).getDescription().split(":");
         if (temp.length > 1) {
@@ -128,12 +135,19 @@ public class BoardController extends GenericController implements Observer<DtoPo
         }
     }
 
+
+    /**
+     * Initializes different lists containing this scene's main elements
+     */
     private void initLists() {
         playerSlot = new ArrayList<>(Arrays.asList(playerSlot1, playerSlot2, playerSlot3));
         playerTurn = new ArrayList<>(Arrays.asList(currentPlayer1, currentPlayer2, currentPlayer3));
         playerGod = new ArrayList<>(Arrays.asList(godSlot1, godSlot2, godSlot3));
     }
 
+    /**
+     * Initializes features for the scene
+     */
     private void initFeatures() {
         initEndGame();
         actionButtons = new ArrayList<>(Arrays.asList(actionButton, actionButton1, actionButton2));
@@ -141,6 +155,9 @@ public class BoardController extends GenericController implements Observer<DtoPo
         actionButtons.forEach(this::hideNode);
     }
 
+    /**
+     * Initializes fonts for scaling purpose
+     */
     private void initLabels() {
         playerSlot.forEach(p -> setFontRatio((Label) p.getChildren().get(0)));
         playerSlot.forEach(this::setPaddingRatio);
@@ -157,23 +174,41 @@ public class BoardController extends GenericController implements Observer<DtoPo
         setPaddingRatio(buttonPadding3);
     }
 
+    /**
+     * Changes the graphics of a button in order to make it seems to be pressed
+     *
+     * @param button targeted button
+     */
     private void toggleButton(BorderPane button) {
         actionButtons.stream().filter(b -> b == button).findFirst().ifPresent(b -> b.setId(b.getId() + (b.getId().contains(PRESSED) ? "" : PRESSED)));
         actionButtons.stream().filter(b -> b != button).forEach(b -> b.setId(b.getId().replace(PRESSED, "")));
     }
 
+    /**
+     * Changes the graphics of a button starting from its related action
+     *
+     * @param action action contained in the button
+     */
     private void toggleButton(Action action) {
         actionButtons.stream().filter(b -> ((Label) b.getChildren().get(0)).getText().equals(action.toString().replace("_", " "))).findFirst().ifPresent(this::toggleButton);
     }
 
+    /**
+     * Removes the effect of being selected
+     */
     private void removeToggle() {
         actionButtons.forEach(b -> b.setId(b.getId().replace(PRESSED, "")));
     }
-
+    /**
+     * Initializes font for scaling purpose
+     */
     private void initFont(BorderPane borderPane) {
         setFontRatio((Label) borderPane.getChildren().get(0));
     }
 
+    /**
+     * Sets actions for the after-game
+     */
     private void initEndGame() {
         hideNode(endgameScreen);
         setFontRatio(endgameLabel);
@@ -185,6 +220,9 @@ public class BoardController extends GenericController implements Observer<DtoPo
         });
     }
 
+    /**
+     * Initializes the game
+     */
     private void initBoard() {
         gameScene = BoardScene.getBoardLoadedScene();
         boardSubScene = (BoardScene) gameScene;
@@ -197,7 +235,14 @@ public class BoardController extends GenericController implements Observer<DtoPo
         new BoardCamera(gameScene);
     }
 
-
+    /**
+     * Updates the turn owner regarding the chances and allows him to start his turn
+     *
+     * @param colors map containing the player's name and the his color
+     * @param gods map containing the player's name and the his god
+     * @param possibleActions List of possible action that a player can execute
+     * @param session game session
+     */
     public void requestTurnAction(Map<Action, List<DtoPosition>> possibleActions, DtoSession session, Map<String, Colors> colors, Map<String, String> gods) {
         turnOwner = true;
         boardSubScene.turnAction(possibleActions, session);
@@ -208,6 +253,9 @@ public class BoardController extends GenericController implements Observer<DtoPo
         updatePlayerSlots(colors, gods, username);
     }
 
+    /**
+     * Shows the owner of the turn
+     */
     private void setCurrentPlayer(String player) {
         playerSlot.forEach(p -> hideNode(playerTurn.get(playerSlot.indexOf(p))));
         playerSlot.stream()
@@ -215,11 +263,26 @@ public class BoardController extends GenericController implements Observer<DtoPo
                 .forEach(p -> showNode(playerTurn.get(playerSlot.indexOf(p))));
     }
 
+    /**
+     * Updates all players but the turn owner regarding the chances
+     *
+     * @param colors map containing the player's name and the his color
+     * @param gods map containing the player's name and the his god
+     * @param currentPlayer name of the player who owns the turn
+     * @param session game session
+     */
     public void showBoard(DtoSession session, Map<String, Colors> colors, Map<String, String> gods, String currentPlayer) {
         boardSubScene.updateBoard(session);
         updatePlayerSlots(colors, gods, currentPlayer);
     }
 
+    /**
+     * Hides the third player if it's not in the game anymore
+     *
+     * @param colors map containing the player's name and the his color
+     * @param gods map containing the player's name and the his god
+     * @param currentPlayer name of the player who owns the turn
+     */
     private void updatePlayerSlots(Map<String, Colors> colors, Map<String, String> gods, String currentPlayer) {
         synchronized (sidePaneLock) {
             List<String> playerNames = new ArrayList<>(colors.keySet());
@@ -234,6 +297,15 @@ public class BoardController extends GenericController implements Observer<DtoPo
         }
     }
 
+    /**
+     * Displays all the players' information
+     *
+     * @param colors map containing the player's name and the his color
+     * @param gods map containing the player's name and the his god
+     * @param i defines a player
+     * @param playerNames a list containing the names of the players
+     *
+     */
     private void showPlayerTag(int i, List<String> playerNames, Map<String, Colors> colors, Map<String, String> gods) {
         Label name = (Label) playerSlot.get(i).getChildren().get(0);
         name.setText(playerNames.get(i));
@@ -241,6 +313,11 @@ public class BoardController extends GenericController implements Observer<DtoPo
         playerGod.get(i).setId(gods.get(playerNames.get(i)));
     }
 
+    /**
+     * Hides a player
+     *
+     * @param i defines a player
+     */
     private void hidePlayerTag(int i) {
         ((Label) playerSlot.get(i).getChildren().get(0)).setText("");
         hideNode(playerSlot.get(i));
@@ -248,7 +325,9 @@ public class BoardController extends GenericController implements Observer<DtoPo
         hideNode(playerGod.get(i));
     }
 
-
+    /**
+     * Sets a default action listed among the possible ones
+     */
     private void setDefaultAction() {
         List<Action> c = possibleActions.keySet().stream().filter(k -> !Action.getNullPosActions().contains(k)).sorted().collect(Collectors.toList());
         if (!c.isEmpty()) {
@@ -260,6 +339,12 @@ public class BoardController extends GenericController implements Observer<DtoPo
 
     }
 
+    /**
+     * Links an action to a button
+     *
+     * @param button selected button
+     * @param action selected action
+     */
     private void updateButton(BorderPane button, Action action) {
 
         if (action != Action.SPECIAL_POWER) setPositionButton(button, action);
@@ -277,6 +362,13 @@ public class BoardController extends GenericController implements Observer<DtoPo
         showNode(button);
     }
 
+
+    /**
+     * Displays an action text inside a button
+     *
+     * @param button selected button
+     * @param action selected action
+     */
     private void setPositionButton(BorderPane button, Action action) {
         button.setId(BUTTON + action.toString().toUpperCase());
         ((Label) button.getChildren().get(0)).setText(action.toString().replace("_", " "));
@@ -284,6 +376,11 @@ public class BoardController extends GenericController implements Observer<DtoPo
         button.setOnMouseReleased(event -> button.setId(button.getId().replace(PRESSED, "")));
     }
 
+    /**
+     * Sets a button for a unique action related to a god
+     * @param button selected button
+     * @param action selected action
+     */
     private void setPowerButton(BorderPane button, Action action) {
         ((Label) button.getChildren().get(0)).setText("");
         if (!button.getId().contains(action.toString().toUpperCase()))
@@ -300,6 +397,9 @@ public class BoardController extends GenericController implements Observer<DtoPo
         }
     }
 
+    /**
+     * Resets the scene
+     */
     public void clear() {
         turnOwner = false;
         currentAction = null;
@@ -307,19 +407,37 @@ public class BoardController extends GenericController implements Observer<DtoPo
         boardSubScene.clear();
     }
 
+    /**
+     * Initializes buttons
+     *
+     * @param p list of action
+     */
     private void showButtons(List<Action> p) {
         p.forEach(action -> updateButton(actionButtons.get(p.indexOf(action)), action));
     }
 
+    /**
+     * Hides all buttons
+     *
+     */
     private void hideButtons() {
         actionButtons.forEach(this::hideNode);
     }
 
-
+    /**
+     * Displays the loosing screen
+     *
+     * @param playerName name of loosing player
+     */
     public void showLose(String playerName) {
         boardSubScene.notifyLose(playerName);
     }
 
+    /**
+     * Displays the screen for the winning player
+     *
+     * @param playerName name of the winning player
+     */
     public void showWin(String playerName) {
         showNode(endgameScreen);
         endgameScreen.setId((playerName.equals(username)) ? "winner" : "loser");

@@ -6,7 +6,7 @@ import java.util.Arrays;
 import java.util.List;
 
 /**
- * Actions that the {@link it.polimi.ingsw.mvc.model.player.Player players} can perform during their turn
+ * Actions that a {@link it.polimi.ingsw.mvc.model.player.Player player} can perform during his turn
  */
 public enum Action implements Serializable {
     END_TURN, SELECT_WORKER, MOVE, BUILD, SPECIAL_POWER, WIN, ADD_WORKER;

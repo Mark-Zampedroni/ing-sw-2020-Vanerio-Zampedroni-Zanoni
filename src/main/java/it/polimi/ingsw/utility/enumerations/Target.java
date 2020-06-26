@@ -8,7 +8,7 @@ import it.polimi.ingsw.mvc.model.player.Worker;
 public enum Target {
     ALLY {
         /**
-         * Controls if the workers have the same master
+         * Checks if two workers share the same master
          *
          * @param worker first worker
          * @param that second worker
@@ -20,7 +20,7 @@ public enum Target {
     },
     ENEMY {
         /**
-         * Controls if the workers have different master
+         * Checks if two workers have different masters
          *
          * @param worker first worker
          * @param that second worker

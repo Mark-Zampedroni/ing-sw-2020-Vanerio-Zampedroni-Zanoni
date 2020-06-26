@@ -49,7 +49,7 @@ public enum Gods implements Serializable {
      * Returns if a name of a god is valid
      *
      * @param god the name of the god
-     * @return {@code true} if the god passed is one of the playable ones
+     * @return {@code true} if the given god can is one of the selectable ones
      */
     public static boolean isValid(String god) {
         List<String> valid = getGodsStringList();

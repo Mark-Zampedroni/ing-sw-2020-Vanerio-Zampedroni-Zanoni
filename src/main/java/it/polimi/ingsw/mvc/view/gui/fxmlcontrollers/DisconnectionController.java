@@ -15,6 +15,9 @@ public class DisconnectionController extends GenericController {
     @FXML
     Button okButton;
 
+    /**
+     * Initializes the elements of the scene and binds the size of the fonts for scaling purpose
+     */
     public void initialize() {
         super.initialize(this);
         Platform.runLater(this::initButton);
@@ -23,6 +26,9 @@ public class DisconnectionController extends GenericController {
         setFontRatio(okButton);
     }
 
+    /**
+     * Defines the action regarding a button, which brings to the title screen on its release
+     */
     public void initButton() {
         okButton.setOnMousePressed(event -> okButton.setId("buttonPressed"));
         okButton.setOnMouseReleased(event -> {
@@ -31,6 +37,11 @@ public class DisconnectionController extends GenericController {
         });
     }
 
+    /**
+     * Displays a message concerning the reason of a disconnection
+     *
+     * @param info shown message
+     */
     public void showDisconnected(String info) {
         reason.setText(info);
     }

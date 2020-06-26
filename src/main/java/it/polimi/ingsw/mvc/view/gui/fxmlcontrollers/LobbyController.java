@@ -47,6 +47,9 @@ public class LobbyController extends GenericController {
 
     Map<Colors, BorderPane> buttons;
 
+    /**
+     * Initializes the main features of the scene
+     */
     public void initialize() {
         super.initialize(this);
         buttons = new HashMap<>();
@@ -58,6 +61,10 @@ public class LobbyController extends GenericController {
         initFonts();
     }
 
+
+    /**
+     * Initializes fonts for scaling purposes
+     */
     private void initFonts() {
         setFontRatio(nameTextField);
         setFontRatio(confirmButton);
@@ -67,6 +74,11 @@ public class LobbyController extends GenericController {
         buttons.values().forEach(b -> setFontRatio((Control) b.getChildren().get(0)));
     }
 
+    /**
+     * Displays all three available colors
+     *
+     * @param buttons map which contains a color and its place in the scene
+     */
     private void initButtons(Map<Colors, BorderPane> buttons) {
         buttons.put(Colors.BLUE, blueButton);
         buttons.put(Colors.WHITE, whiteButton);
@@ -74,16 +86,33 @@ public class LobbyController extends GenericController {
         buttons.values().forEach(this::initColorButton);
     }
 
+    /**
+     * Defines a button's actions after being clicked
+     *
+     * @param button targeted button
+     */
     private void initConfirmButton(Button button) {
         button.setOnMousePressed(event -> handleButtonPressed(button));
         button.setOnMouseReleased(event -> handleButtonReleased(button));
         button.setDisable(true);
     }
 
+
+    /**
+     * Handles the action of pressing a button
+     *
+     * @param button targeted button
+     */
     private void handleButtonPressed(Button button) {
         button.setId("buttonPressed");
     }
 
+
+    /**
+     * Handles the action of releasing a button
+     *
+     * @param button targeted button
+     */
     private void handleButtonReleased(Button button) {
         button.setId("confirmButtonBg");
         if (gui.validateUsername(nameTextField.getText()) || gui.validateColor(color.toString())) {
@@ -93,6 +122,11 @@ public class LobbyController extends GenericController {
         }
     }
 
+    /**
+     * Creates three buttons which allow a player to select his color
+     *
+     * @param button targeted button
+     */
     private void initColorButton(BorderPane button) {
         button.setOnMousePressed(event -> {
             color = buttons.keySet().stream().filter(key -> buttons.get(key) == button).findFirst().orElse(Colors.WHITE);
@@ -106,11 +140,20 @@ public class LobbyController extends GenericController {
         });
     }
 
+    /**
+     * Updates every player about the changes and disables unavailable colors
+     *
+     * @param availableColors list of available colors
+     */
     public void showLobby(List<Colors> availableColors) {
         buttons.keySet().forEach(c -> setDisableButton(buttons.get(c), !availableColors.contains(c)));
         updatePlayers();
     }
 
+    /**
+     * Updates every player about the changes
+     *
+     */
     private void updatePlayers() {
         handlePlayerSlot(playerNameOne, colorPlayerOne, 0, Integer.parseInt(gui.getNumberOfPlayers()) > 0, borderPlayerOne);
         handlePlayerSlot(playerNameTwo, colorPlayerTwo, 1, Integer.parseInt(gui.getNumberOfPlayers()) > 1, borderPlayerTwo);
@@ -123,11 +166,26 @@ public class LobbyController extends GenericController {
         }
     }
 
+    /**
+     * Manages the disable functionality through a given parameter
+     *
+     * @param node targeted element
+     * @param v parameter which affects this method's outcome
+     */
     private void setDisableButton(Node node, boolean v) {
         node.setDisable(v);
         node.setOpacity((v) ? 0.5 : 1);
     }
 
+    /**
+     * Displays the changes
+     *
+     * @param color place to display the color chose by the player
+     * @param labelBg label used to show a player's choices
+     * @param hasPlayer {@code false} if a player is no longer in the game
+     * @param name name of the player
+     * @param number player's number
+     */
     private void handlePlayerSlot(Label name, BorderPane color, int number, boolean hasPlayer, AnchorPane labelBg) {
         if (hasPlayer) {
             addPlayer(name, color, number, labelBg);
@@ -136,6 +194,14 @@ public class LobbyController extends GenericController {
         }
     }
 
+    /**
+     * Creates a label which contains all the information regarding a player
+     *
+     * @param color place to display the color chose by the player
+     * @param name name of the player
+     * @param number player's number
+     * @param labelbg label used to show a player's choices
+     */
     private void addPlayer(Label name, BorderPane color, int number, AnchorPane labelbg) {
         String playerName = (String) gui.getPlayers().keySet().toArray()[number];
         String playerColor = gui.getPlayers().get(playerName).toString().toLowerCase();
@@ -146,6 +212,15 @@ public class LobbyController extends GenericController {
         showNode(labelbg);
     }
 
+
+    /**
+     * Hides a player's slot
+     *
+     * @param number defines the number of players currently in the game
+     * @param name player's name
+     * @param labelbg label used to show a player's choices
+     * @param color place to display the color chose by the player
+     */
     private void hideSlot(Label name, BorderPane color, int number, AnchorPane labelbg) {
         name.setText((number == 0) ? "Waiting..." : "");
         color.setId((number == 0) ? "head" : "");
