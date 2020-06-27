@@ -454,7 +454,7 @@ public class BoardController extends GenericController implements Observer<DtoPo
     public void showWin(String playerName) {
         showNode(endgameScreen);
         endgameScreen.setId((playerName.equals(username)) ? "winner" : "loser");
-        endgameLabel.setText((playerName.equals(username)) ? "You won!" : "You lost\n" + playerName + " is the winner");
+        endgameLabel.setText((playerName.equals(username)) ? "You won!" : "You lost!\n" + playerName + " won ...");
     }
 
 }

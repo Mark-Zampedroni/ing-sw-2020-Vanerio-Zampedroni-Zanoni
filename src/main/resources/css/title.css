@@ -32,10 +32,6 @@
     -fx-background-image: url("../Texture2D_sorted/Pulsanti/button-play-down.png");
 }
 
-#fullscreenbutton {
-    -fx-background-image: url("../Texture2D_sorted/Pulsanti/blue_button08.png");
-}
-
 #musicOn {
     -fx-background-image: url("../Texture2D_sorted/Pulsanti/pngfuel.com.png");
 }
