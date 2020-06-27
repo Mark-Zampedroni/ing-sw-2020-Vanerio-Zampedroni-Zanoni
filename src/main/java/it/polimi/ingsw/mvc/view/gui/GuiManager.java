@@ -124,7 +124,7 @@ public class GuiManager extends Client {
 
     @Override
     public void requestNumberOfPlayers() {
-        runUpdate(TitleController.class, () -> ((TitleController) currentController).requestNumberOfPlayers());
+        runUpdate(TitleController.class, ((TitleController) currentController)::requestNumberOfPlayers);
     }
 
     @Override
@@ -185,7 +185,7 @@ public class GuiManager extends Client {
     @Override
     public void showDisconnected(String info) {
         if (currentController.getClass() == BoardController.class)
-            Platform.runLater(() -> ((BoardController) currentController).clear());
+            Platform.runLater(((BoardController) currentController)::clear);
         if (currentController.getClass() == TitleController.class)
             runUpdate(TitleController.class, () -> ((TitleController) currentController).showDisconnected(info));
         else

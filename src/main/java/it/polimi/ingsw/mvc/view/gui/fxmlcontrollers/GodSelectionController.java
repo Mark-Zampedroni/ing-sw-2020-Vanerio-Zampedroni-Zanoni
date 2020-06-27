@@ -167,7 +167,6 @@ public class GodSelectionController extends GenericController {
         private BorderPane actionPane;
         private Label actionText;
         private GridPane initGrid;
-        private GridPane preGod;
 
         private String playerName;
 
@@ -178,10 +177,11 @@ public class GodSelectionController extends GenericController {
          * @param godName god's name
          */
         public GodCard(String godName) {
+            GridPane preGod = createGrid(5, 1);
             GridPane firstGrid = initInit();
-            initDescription(godName);
-            GridPane infoPowerGrid = initGodPane(godName);
-            initInfoGodPower(godName.toLowerCase() + "power", infoPowerGrid);
+            initDescription(godName, preGod);
+            GridPane infoPowerGrid = initGodPane(godName, preGod);
+            initInfoGodPower(godName.toLowerCase() + "power", infoPowerGrid, preGod);
             initSelectButton(firstGrid);
             this.setCenter(firstGrid);
             Platform.runLater(() -> setFontRatio(actionText));
@@ -205,8 +205,9 @@ public class GodSelectionController extends GenericController {
          * Adds information labels about the chosen god
          *
          * @param godName god's name
+         * @param preGod  card grid node
          */
-        private void initDescription(String godName) {
+        private void initDescription(String godName, GridPane preGod) {
             String[] temp = Gods.valueOf(godName).getDescription().split(":");
             GridPane gridPreDescription = createGrid(1, 1);
             gridPreDescription.setPadding(new Insets(15, 20, 0, 20));
@@ -242,9 +243,9 @@ public class GodSelectionController extends GenericController {
          * Adds the image of the selected god
          *
          * @param godName chosen god
+         * @param preGod  card grid node
          */
-        private GridPane initGodPane(String godName) {
-            preGod = createGrid(5, 1);
+        private GridPane initGodPane(String godName, GridPane preGod) {
             god = new BorderPane();
             decorateNode(god, godName, Collections.singletonList(FULL_BACKGROUND), null);
             preGod.add(god, 0, 0, 1, 4);
@@ -260,10 +261,11 @@ public class GodSelectionController extends GenericController {
         /**
          * Adds the info button which allows the player to read this god's abilities
          *
-         * @param godPower chosen god
+         * @param godPower      chosen god
          * @param infoPowerGrid defines the place where the info button is going to be settled in
+         * @param preGod        card grid node
          */
-        private void initInfoGodPower(String godPower, GridPane infoPowerGrid) {
+        private void initInfoGodPower(String godPower, GridPane infoPowerGrid, GridPane preGod) {
             GridPane infoGrid = createGrid(5, 6);
             GridPane godPowerGrid = createGrid(7, 6);
             BorderPane infoBorder = new BorderPane();

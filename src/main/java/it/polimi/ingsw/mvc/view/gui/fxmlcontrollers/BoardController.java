@@ -11,6 +11,7 @@ import it.polimi.ingsw.utility.enumerations.Gods;
 import it.polimi.ingsw.utility.observer.Observer;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
+import javafx.scene.Node;
 import javafx.scene.SubScene;
 import javafx.scene.control.Label;
 import javafx.scene.layout.BorderPane;
@@ -196,7 +197,15 @@ public class BoardController extends GenericController implements Observer<DtoPo
      * @param action action contained in the button
      */
     private void toggleButton(Action action) {
-        actionButtons.stream().filter(b -> ((Label) b.getChildren().get(0)).getText().equals(action.toString().replace("_", " "))).findFirst().ifPresent(this::toggleButton);
+        List<Node> temp = actionButtons.stream()
+                .map(b -> b.getChildren().get(0))
+                .map(Label.class::cast)
+                .filter(p -> p.getText().equals(action.toString().replace("_", " ")))
+                .collect(Collectors.toList());
+        actionButtons.stream()
+                .filter(b -> temp.contains(b.getChildren().get(0)))
+                .findFirst()
+                .ifPresent(this::toggleButton);
     }
 
     /**
@@ -265,8 +274,12 @@ public class BoardController extends GenericController implements Observer<DtoPo
      */
     private void setCurrentPlayer(String player) {
         playerSlot.forEach(p -> hideNode(playerTurn.get(playerSlot.indexOf(p))));
+        List<Node> temp = playerSlot.stream()
+                .map(p -> p.getChildren().get(0))
+                .map(Label.class::cast)
+                .filter(p -> p.getText().equals(player)).collect(Collectors.toList());
         playerSlot.stream()
-                .filter(p -> ((Label) p.getChildren().get(0)).getText().equals(player))
+                .filter(p -> temp.contains(p.getChildren().get(0)))
                 .forEach(p -> showNode(playerTurn.get(playerSlot.indexOf(p))));
     }
 

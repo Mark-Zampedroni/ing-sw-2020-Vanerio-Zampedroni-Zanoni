@@ -134,7 +134,10 @@ public class ChallengerSelectionController extends GenericController {
     private void godWindowConsumer(GodWindow godWindow) {
         godWindow.setCornice("blueborder");
         selectedGod = godWindow.getGod();
-        godsGrid.getChildren().stream().filter(god -> god != godWindow).forEach(god -> ((GodWindow) god).setCornice("whiteborder"));
+        godsGrid.getChildren().stream()
+                .filter(god -> god != godWindow)
+                .map(GodWindow.class::cast)
+                .forEach(god -> god.setCornice("whiteborder"));
         displayDescription(selectedGod);
         selectButtonChange(selectedGod);
     }

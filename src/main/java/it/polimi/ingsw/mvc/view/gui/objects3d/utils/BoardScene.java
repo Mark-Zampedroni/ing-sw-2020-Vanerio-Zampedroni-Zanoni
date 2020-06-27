@@ -207,8 +207,9 @@ public class BoardScene extends SubScene {
 
     private void addWorker(DtoWorker w) {
         try {
-            WorkerObj newWorker = (WorkerObj) preWorkers.getChildren().stream()
-                    .filter(n -> ((WorkerObj) n).getColor() == players.get(w.getMasterUsername()))
+            WorkerObj newWorker = preWorkers.getChildren().stream()
+                    .map(WorkerObj.class::cast)
+                    .filter(n -> n.getColor() == players.get(w.getMasterUsername()))
                     .findFirst()
                     .orElse(new WorkerObj(new BoardCoords3D(-1, -1, 0), players.get(w.getMasterUsername())));
             workersObj.getChildren().add(newWorker);

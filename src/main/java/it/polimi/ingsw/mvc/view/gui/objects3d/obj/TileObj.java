@@ -22,7 +22,7 @@ public class TileObj extends TrackedGroup {
     private final TowerObj tower;
     private Shape3D tileSquare;
     private ActionAnimation animation;
-    private boolean VISIBLE = false;
+    private static final boolean VISIBLE = false;
     private int x;
     private int y;
     private ObservableTileEvent eventResponse;

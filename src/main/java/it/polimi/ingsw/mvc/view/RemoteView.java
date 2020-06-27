@@ -38,9 +38,7 @@ public class RemoteView extends Observable<Message> implements Observer<DtoSessi
         return registered;
     }
 
-    private void handleInput(Message message) {
-        notify(message);
-    }
+
 
     public void sendMessage(Message message) {
         connection.sendMessage(message);
@@ -67,6 +65,10 @@ public class RemoteView extends Observable<Message> implements Observer<DtoSessi
             if (message.getSender() != null && message.getSender().equals(connection.getUsername())) { //Anti-cheat
                 handleInput(message);
             }
+        }
+
+        private void handleInput(Message message) {
+            RemoteView.this.notify(message);
         }
     }
 
