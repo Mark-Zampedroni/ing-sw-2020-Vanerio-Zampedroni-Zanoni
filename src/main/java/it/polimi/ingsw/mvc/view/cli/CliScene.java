@@ -192,28 +192,139 @@ public class CliScene {
         }
     }
 
-    /**
-     * Prints the scene with the game board to the players not currently turnOwner
-     *
-     * @param session DtoSession that will be shown
-     * @param colors  map of players with their colors
-     * @param gods    map of players with their gods
-     */
-    public static void printBoardScreen(DtoSession session, Map<String, Colors> colors, Map<String, String> gods) {
-        printBoardScreen(session, colors, gods, null);
+    //Prints the scene with the game board for the players not currently turnOwner
+    public static void printBoardScreen(DtoSession session, Map<String, Colors> colors, Map<String, String> gods, String turnOwner) {
+        printBoardScreen("", session, colors, gods, null, turnOwner);
     }
 
-    /**
-     * Prints the scene with the game board for the turnOwner
-     *
-     * @param session         DtoSession that will be shown
-     * @param colors          map of players with their colors
-     * @param gods            map of players with their gods
-     * @param possibleActions map that contains which actions can be performed and where
-     */
-    public static void printBoardScreen(DtoSession session, Map<String, Colors> colors, Map<String, String> gods, Map<Action, List<DtoPosition>> possibleActions) {
-        out.println(createBoard(session, colors, possibleActions));
-        out.flush();
+    //Prints the scene with the game board for the turnOwner
+    public static void printBoardScreen(String inputRequest, DtoSession session, Map<String, Colors> colors, Map<String, String> gods, Map<Action, List<DtoPosition>> possibleActions, String turnOwner) {
+        String board = addBoardScreenBorder(addCoordinates(createBoard(session, colors, possibleActions))).toString();
+        out.println(Ansi.CLEAR_CONSOLE + centerScreen(addSideBar(inputRequest, board, colors, gods, possibleActions, turnOwner).toString(), 20));
+        //if(!inputRequest.equals(""))
+        setCursor(105, 14);
+    }
+
+    private static StringBuilder addSideBar(String inputRequest, String t, Map<String, Colors> colors, Map<String, String> gods, Map<Action, List<DtoPosition>> possibleActions, String turnOwner) {
+        StringBuilder temp = new StringBuilder();
+        String[] pBox = createSideBar(inputRequest, colors, gods, possibleActions, turnOwner).split("\\r?\\n");
+        int i = 0;
+        for (String s : t.split("\\r?\\n")) {
+            temp.append(s);
+            if (i < pBox.length) {
+                temp.append(pBox[i]);
+                i++;
+            }
+            temp.append("\n");
+        }
+        return temp;
+    }
+
+    private static String createSideBar(String inputRequest, Map<String, Colors> colors, Map<String, String> gods, Map<Action, List<DtoPosition>> possibleActions, String turnOwner) {
+        StringBuilder temp = new StringBuilder();
+        addPlayersBoardBox(temp, colors, gods);
+        addPlayerTurnBox(temp, possibleActions, turnOwner);
+        addBoardRequest(temp, inputRequest);
+        return temp.toString();
+    }
+
+    private static void addBoardRequest(StringBuilder b, String inputRequest) {
+        String emptyRow = (extendSlots("", 34) + "|\n");
+        b.append("  ").append(extendSlots(inputRequest, 32)).append("|\n");
+        b.append(emptyRow);
+        if (inputRequest != "") b.append(extendSlots("  >>> ", 34)).append("|\n");
+        else b.append(emptyRow);
+        b.append(emptyRow.repeat(10));
+        b.append("-".repeat(35));
+    }
+
+    private static void addPlayerTurnBox(StringBuilder b, Map<Action, List<DtoPosition>> possibleActions, String turnOwner) {
+        String emptyRow = (extendSlots("", 34) + "|\n");
+        String separator = "-".repeat(34);
+        b.append(emptyRow).append(centerLine("ACTIONS", 34, false)).append("|\n")
+                .append(separator).append("|\n").append(emptyRow);
+        if (possibleActions == null)
+            b.append(centerLine("It's " + turnOwner + " turn", 34, false)).append("|\n").append(emptyRow.repeat(9));
+        else {
+            b.append(centerLine("It's your turn!", 34, false)).append("|\n");
+            b.append(emptyRow.repeat(2));
+            b.append(extendSlots("  Available actions:", 34)).append("|\n");
+            int i = 0;
+            for (Action action : possibleActions.keySet()) {
+                b.append(emptyRow);
+                b.append(extendSlots("  " + i + " -> " + action.toString(), 34)).append("|\n");
+                i++;
+            }
+            while (i < 3) {
+                b.append(emptyRow.repeat(2));
+                i++;
+            }
+        }
+        b.append(emptyRow);
+    }
+
+    private static void addPlayersBoardBox(StringBuilder b, Map<String, Colors> colors, Map<String, String> gods) {
+        String emptyRow = (extendSlots("", 34) + "|\n");
+        String separator = "-".repeat(34);
+        b.append(separator).append("-\n")
+                .append(emptyRow).append(centerLine("PLAYERS", 34, false)).append("|\n")
+                .append(separator).append("|\n").append(emptyRow)
+                .append("  Player     - God       - Color  |\n")
+                .append(emptyRow);
+        for (Map.Entry<String, Colors> e : colors.entrySet()) {
+            b.append(" ".repeat(2))
+                    .append(extendSlots(e.getKey(), 13))
+                    .append(extendSlots(gods.get(e.getKey()), 12))
+                    .append(extendSlots(e.getValue().toString(), 5)).append("  |\n")
+                    .append(emptyRow);
+        }
+        if (colors.size() == 2) b.append(emptyRow.repeat(2));
+        b.append(emptyRow.repeat(8)).append(separator).append("|\n");
+    }
+
+    private static StringBuilder addBoardScreenBorder(String boardWithCoordinates) {
+        StringBuilder temp = new StringBuilder();
+        temp.append("-".repeat(99)).append("\n");
+        for (String line : boardWithCoordinates.split("\\r?\\n")) {
+            temp.append("|").append(line).append(" ".repeat((line.equals("") ? 97 : 2))).append("|").append("\n");
+        }
+        temp.append("|").append(" ".repeat(97)).append("|").append("\n").append("-".repeat(99)).append("\n");
+        return temp;
+    }
+
+    private static String addCoordinates(String board) {
+        StringBuilder temp = new StringBuilder();
+        temp = addXCoordinates(temp);
+        temp = addYCoordinates(temp, board);
+        return temp.toString();
+    }
+
+    private static final StringBuilder addXCoordinates(StringBuilder boardWithoutCoordinates) {
+        List<String> xC = new ArrayList<>(Arrays.asList("A", "B", "C", "D", "E"));
+        boardWithoutCoordinates.append("\n").append(" ".repeat(13));
+        xC.forEach(e -> boardWithoutCoordinates.append(e).append(" ".repeat((e.equals("E") ? 9 : 17))));
+        return boardWithoutCoordinates;
+    }
+
+    private static final StringBuilder addYCoordinates(StringBuilder temp, String board) {
+        int p = 0;
+        int a = 0;
+        int r = 1;
+        temp.append("\n");
+        for (String row : board.split("\\r?\\n")) {
+            temp.append(" ");
+            if (p == 5 || a == 8) {
+                temp.append(" ").append(r).append(" ");
+                a = 0;
+                r++;
+            } else {
+                temp.append(" ".repeat(3));
+                if (p > 4) a++;
+            }
+            p++;
+            temp.append((p == 1) ? row.substring(7) : row).append("\n");
+        }
+        return temp;
     }
 
     /**
@@ -554,9 +665,9 @@ public class CliScene {
     }
 
     /**
-     * Creates the board based on a DtoBoard
+     * Creates the board basing on a DtoBoard
      *
-     * @param session         DtoSession we want the board to be printed
+     * @param session         DtoSession containing the board to print
      * @param colors          players and their colors
      * @param possibleActions map that contains which actions can be performed and where
      * @return the board as string
@@ -587,7 +698,7 @@ public class CliScene {
     /**
      * Colors the border of tiles in positions where the action can be done - only if 1 action is selected
      *
-     * @param possibleActions list of possible actions (of size 1 if one action was selected)
+     * @param possibleActions list of possible actions
      * @param row             row where to append the color
      * @param b               temp builder for the scene
      * @return after appending the colored rows to the builder returns a map of that shows in ascended order on which positions the action can be performed
@@ -1277,5 +1388,4 @@ public class CliScene {
     private static String addTileLine(String leftBorder, String rightBorder, String inner, int height) {
         return addTileLine(leftBorder, rightBorder, inner, height, 0);
     }
-
 }

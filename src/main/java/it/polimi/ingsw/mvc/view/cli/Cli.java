@@ -133,14 +133,11 @@ public class Cli extends Client {
         while (true) {
             CliScene.printChallengerSelection(inputSave, new ArrayList<>(gods), godPage, players.keySet().size(), true);
             String choice = requestInput().toUpperCase();
-            if (choice.equals("1")) {
-                godPage = (godPage == -3) ? 0 : godPage - 1;
-            } else if (choice.equals("2")) {
-                godPage = (godPage == 3) ? 0 : godPage + 1;
-            } else {
-                if (validateGods(choice)) {
-                    break;
-                } else {
+            if (choice.equals("1")) godPage = (godPage == -3) ? 0 : godPage - 1;
+            else if (choice.equals("2")) godPage = (godPage == 3) ? 0 : godPage + 1;
+            else {
+                if (validateGods(choice)) break;
+                else {
                     inputSave = "God not available, choose a different one:";
                     CliScene.printChallengerSelection(inputSave, new ArrayList<>(gods), godPage, players.keySet().size(), true);
                 }
@@ -150,9 +147,7 @@ public class Cli extends Client {
 
     @Override
     public void requestPlayerGod(List<String> chosenGods, Map<String, String> choices) {
-        if (allSelectedGods.isEmpty()) {
-            allSelectedGods = new ArrayList<>(chosenGods);
-        }
+        if (allSelectedGods.isEmpty()) allSelectedGods = new ArrayList<>(chosenGods);
         inputSave = "Choose one of the available gods:";
         CliScene.printPlayerGodSelection(inputSave, choices, allSelectedGods, players.size(), true);
         while (!validatePlayerGodChoice(requestInput().toUpperCase())) {
@@ -179,65 +174,84 @@ public class Cli extends Client {
 
     @Override
     public void showBoard(DtoSession session, Map<String, Colors> colors, Map<String, String> gods, String turnOwner) {
-        CliScene.printBoardScreen(session, new HashMap<>(colors), new HashMap<>(gods));
+        CliScene.printBoardScreen(session, new HashMap<>(colors), new HashMap<>(gods), turnOwner);
     }
 
     @Override
     public void requestTurnAction(Map<Action, List<DtoPosition>> possibleActions, DtoSession session, Map<String, Colors> colors, Map<String, String> gods, boolean isSpecialPowerActive) {
-        CliScene.printBoardScreen(session, new HashMap<>(colors), new HashMap<>(gods), possibleActions);
-        // TEST DA QUI SOTTO ---
-        if (possibleActions.containsKey(Action.SPECIAL_POWER)) {
-            System.out.println("Special power: " + ((isSpecialPowerActive) ? "ON" : "OFF"));
-        }
-        Action action = requestAction(possibleActions.keySet());
+        Action action = requestAction(possibleActions, session, colors, gods);
         List<DtoPosition> positions = possibleActions.get(action);
         DtoPosition position = null;
         if (action != Action.END_TURN && action != Action.SPECIAL_POWER) {
             possibleActions = new HashMap<>();
             possibleActions.put(action, positions);
-            CliScene.printBoardScreen(session, new HashMap<>(colors), new HashMap<>(gods), possibleActions);
-            position = requestPosition(possibleActions.get(action));
+            position = requestPosition(possibleActions, session, colors, gods, action);
         }
         validateAction(action, position, possibleActions);
-
     }
 
-    private Action requestAction(Set<Action> possibleActions) {
+    private Action requestAction(Map<Action, List<DtoPosition>> possibleActions, DtoSession session, Map<String, Colors> colors, Map<String, String> gods) {
         String x;
-        System.out.println(possibleActions);
+        inputSave = "Type the chosen action number";
         do {
-            System.out.println("\nChoose an action (0, 1, 2, ...) on previous list:\n");
+            CliScene.printBoardScreen(inputSave, session, new HashMap<>(colors), new HashMap<>(gods), possibleActions, username);
             x = requestInput();
+            inputSave = "Invalid number, retype it";
         }
         while (!x.matches("-?\\d+") || !validateRange(possibleActions.size() - 1, Integer.parseInt(x)));
-        return new ArrayList<>(possibleActions).get(Integer.parseInt(x));
+        return new ArrayList<>(possibleActions.keySet()).get(Integer.parseInt(x));
     }
 
-    private DtoPosition requestPosition(List<DtoPosition> possiblePositions) {
-        int x, y;
+    private DtoPosition requestPosition(Map<Action, List<DtoPosition>> possibleActions, DtoSession session, Map<String, Colors> colors, Map<String, String> gods, Action a) {
+        List<Integer> c;
         do {
-            System.out.println("\nChoose x:");
+            inputSave = "Insert the pos. (es: A1 or 1A)";
             while (true) {
-                try {
-                    x = Integer.parseInt(requestInput());
+                CliScene.printBoardScreen(inputSave, session, new HashMap<>(colors), new HashMap<>(gods), possibleActions, username);
+                String[] input = requestInput().split("");
+                if (input.length == 2 && !decodeCoordinatesValue(input).isEmpty()) {
+                    c = decodeCoordinatesValue(input);
                     break;
-                } catch (Exception e) { /**/ }
+                } else inputSave = "Unexpected pos. retype (es: 1A)";
             }
-            System.out.println("\nChoose y:");
-            while (true) {
-                try {
-                    y = Integer.parseInt(requestInput());
-                    break;
-                } catch (Exception e) { /**/ }
-            }
+        } while (!validatePosition(possibleActions.get(a), c.get(0), c.get(1)));
+        return new DtoPosition(new Position(c.get(0), c.get(1)));
+    }
+
+    private List<Integer> decodeCoordinatesValue(String[] input) {
+        List<Integer> c = new ArrayList<>();
+        if (isInt(input[0]) && isValidCoordinate(input[1])) {
+            c.add(convertXBoardCoordinate(input[1]));
+            c.add(Integer.parseInt(input[0]) - 1);
+        } else if (isInt(input[1]) && isValidCoordinate(input[0])) {
+            c.add(convertXBoardCoordinate(input[0]));
+            c.add(Integer.parseInt(input[1]) - 1);
         }
-        while (!validatePosition(possiblePositions, x, y));
-        return new DtoPosition(new Position(x, y));
+        return c;
+    }
+
+    private int convertXBoardCoordinate(String value) {
+        return ((int) value.toUpperCase().charAt(0)) - 'A';
+    }
+
+    private boolean isValidCoordinate(String value) {
+        int c = convertXBoardCoordinate(value);
+        return (c >= 0 && c <= 5);
+    }
+
+    private boolean isInt(String value) {
+        if (value == null) return false;
+        try {
+            Integer.parseInt(value);
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
     }
 
     @Override
     public void showReconnection(boolean isReconnecting) {
-        System.out.println(isReconnecting ? "-> FINESTRA RICONNESSIONE IN CORSO" : "-> RICARICAMENTO FINESTRA PRECEDENTE");
+        /* There is no reconnection window notification on CLI */
     }
 
     @Override
@@ -249,14 +263,14 @@ public class Cli extends Client {
 
     @Override
     public void showWin(String playerName) {
-        System.out.println(playerName + " has won");
+        CliScene.printStartScreen(playerName + "has won!\nPress start to go back to the title screen.", true);
         initCli();
         waitConnectionRequest(ip, port);
     }
 
     @Override
     public void showLose(String playerName) {
-        System.out.println(playerName + " has lost");
+        /* There is no loss window notification on CLI */
     }
 
 }
