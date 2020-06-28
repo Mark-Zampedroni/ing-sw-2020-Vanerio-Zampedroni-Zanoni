@@ -26,6 +26,14 @@ public class CliScene {
     private static final String B_MID = "#".repeat(9);
     private static final String B_BOT = "z".repeat(13);
     public static final String ROW = "-".repeat(100);
+    private static final String DOWN = "     \n";
+    private static final String SPACE= "       ";
+    private static final String SPACE2="      ";
+    private static final String DOWN2="\\ \n";
+    private static final String BLANKLINE="                               |                              |                               ";
+    private static final String BLANKLINESMALL="                                  |                                  ";
+    private static final String BLANKLINEDOWN="                          \n";
+    private static final String DOWN3="\\r?\\n";
 
     private static final String TOP_LOBBY =
             "    " + "_".repeat(94) + "   \n" +
@@ -36,7 +44,7 @@ public class CliScene {
                     "   " + P_TOP + " ".repeat(66) + P_TOP + "  \n" +
                     "  " + P_MID + " ".repeat(64) + P_MID + " \n" +
                     "   " + P_BOT + " ".repeat(66) + P_BOT + "  \n" +
-                    "       " + C + " ".repeat(28) + "REGISTERED PLAYERS" + " ".repeat(28) + C + "      ";
+                    SPACE + C + " ".repeat(28) + "REGISTERED PLAYERS" + " ".repeat(28) + C + SPACE2;
     private static final String TITLE =
             "      .---.                                          ,___ \n" +
                     "     / .-, .                   ________            .'  _  \\  [ ]          [ ]\n" +
@@ -53,57 +61,57 @@ public class CliScene {
             "Original board version published by Roxley Games";
     private static final int SCREEN_WIDTH = 192;
     private static final String BOTTOM_LOBBY =
-            "       " + C + " ".repeat(74) + C + "      \n" +
-                    "      " + B_TOP + " ".repeat(72) + B_TOP + "     \n" +
-                    "      " + B_MID + " ".repeat(72) + B_MID + "     \n" +
+            SPACE + C + " ".repeat(74) + C + "      \n" +
+                    SPACE2 + B_TOP + " ".repeat(72) + B_TOP + DOWN +
+                    SPACE2 + B_MID + " ".repeat(72) + B_MID + DOWN +
                     "   ." + B_BOT + "-".repeat(68) + B_BOT + ".  \n" +
                     "  /" + "_".repeat(96) + "\\ ";
     private static final String TOP_CHALLENGER =
             "    " + "_".repeat(114) + "\n" +
-                    "   /" + " ".repeat(114) + "\\ \n" +
+                    "   /" + " ".repeat(114) + DOWN2 +
                     "  |'____'''''____''''____''''___''''___''''_____''''____''''_____''''_____''''_____''''_____''''_____''''____'''''____'|   \n" +
                     "   " + P_TOP + "                           ( )                              ( )                       " + P_TOP + "\n" +
                     "  " + P_MID + "                           |                                |                       " + P_MID + "\n" +
                     "   " + P_BOT + "                            |                                |                        " + P_BOT + " \n" +
-                    "       " + C + "                                |                                |                            " + C + "     ";
+                    SPACE + C + "                                |                                |                            " + C + "     ";
     private static final String BOTTOM_CHALLENGER =
-            "      " + B_TOP + "                               |                                |                           " + B_TOP + "\n" +
-                    "      " + B_MID + "                              ( )                              ( )                          " + B_MID + "    \n" +
+            SPACE2 + B_TOP + "                               |                                |                           " + B_TOP + "\n" +
+                    SPACE2 + B_MID + "                              ( )                              ( )                          " + B_MID + "    \n" +
                     "   ." + B_BOT + "-".repeat(88) + B_BOT + ".\n" +
                     "  /" + "_".repeat(116) + "\\";
     private static final String TOP_SELECTION_3 =
             "    " + " ".repeat(114) + " \n" +
-                    "   /" + " ".repeat(114) + "\\ \n" +
+                    "   /" + " ".repeat(114) + DOWN2 +
                     "  |'____'''''____'''____''''____''''____''''____'''____''''____''''____'''____''''____''''____''''____'''____'''''____'|\n" +
                     "   " + P_TOP + "                          ( )                            ( )                          " + P_TOP + "\n" +
                     "  " + P_MID + "                          |                              |                          " + P_MID + "\n" +
                     "   " + P_BOT + "                           |                              |                           " + P_BOT + " \n" +
-                    "       " + C + "                               |                              |                               " + C + "     \n" +
-                    "       " + C + "                               |                              |                               " + C + "\n" +
-                    "       " + C + "                               |                              |                               " + C;
+                    SPACE + C + BLANKLINE + C + DOWN +
+                    SPACE + C + BLANKLINE + C + "\n" +
+                    SPACE + C + BLANKLINE + C;
     private static final String BOTTOM_SELECTION_3 =
-            "       " + C + "                               |                              |                               " + C + "\n" +
-                    "       " + C + "                               |                              |                               " + C + "\n" +
-                    "      " + B_TOP + "                              |                              |                              " + B_TOP + "\n" +
-                    "      " + B_MID + "                             ( )                            ( )                             " + B_MID + "  \n" +
+            SPACE + C + BLANKLINE + C + "\n" +
+                    SPACE + C + BLANKLINE + C + "\n" +
+                    SPACE2 + B_TOP + "                              |                              |                              " + B_TOP + "\n" +
+                    SPACE2 + B_MID + "                             ( )                            ( )                             " + B_MID + "  \n" +
                     "   ." + B_BOT + "-".repeat(88) + B_BOT + ".\n" +
                     "  /" + "_".repeat(116) + "\\";
     private static final String TOP_SELECTION_2 =
             "    " + "_".repeat(89) + " \n" +
-                    "   /" + " ".repeat(89) + "\\ \n" +
+                    "   /" + " ".repeat(89) + DOWN2 +
                     "  |'____'''''____''''____''''____''''____'''''_____'''''____''''____''''____''''____'''''____'|\n" +
                     "   " + P_TOP + "                             ( )                             " + P_TOP + "\n" +
                     "  " + P_MID + "                             |                             " + P_MID + "\n" +
                     "   " + P_BOT + "                              |                              " + P_BOT + " \n" +
-                    "       " + C + "                                  |                                  " + C + "     \n" +
-                    "       " + C + "                                  |                                  " + C + "\n" +
-                    "       " + C + "                                  |                                  " + C;
+                    SPACE + C + BLANKLINESMALL + C + DOWN +
+                    SPACE + C + BLANKLINESMALL + C + "\n" +
+                    SPACE + C + BLANKLINESMALL + C;
     private static final String BOTTOM_SELECTION_2 =
-            "       " + C + "                                  |                                  " + C + "\n" +
-                    "       " + C + "                                  |                                  " + C + "\n" +
-                    "       " + C + "                                  |                                  " + C + "\n" +
-                    "      " + B_TOP + "                                 |                                 " + B_TOP + "\n" +
-                    "      " + B_MID + "                                ( )                                " + B_MID + "\n" +
+            SPACE + C + BLANKLINESMALL + C + "\n" +
+                    SPACE + C + BLANKLINESMALL + C + "\n" +
+                    SPACE + C + BLANKLINESMALL + C + "\n" +
+                    SPACE2 + B_TOP + "                                 |                                 " + B_TOP + "\n" +
+                    SPACE2 + B_MID + "                                ( )                                " + B_MID + "\n" +
                     "   ." + B_BOT + "-".repeat(63) + B_BOT + ".\n" +
                     "  /" + "_".repeat(91) + "\\";
 
@@ -111,12 +119,12 @@ public class CliScene {
     private static final String[] BOTTOM_SELECTION = {BOTTOM_SELECTION_2, BOTTOM_SELECTION_3};
 
     private static final String ARROWS_CHALLENGER =
-            "                          \n" +
-                    "                          \n" +
+            BLANKLINEDOWN +
+                    BLANKLINEDOWN +
                     "  Type 1 and 2 to browse  \n" +
                     "  more available gods     \n" +
-                    "                          \n" +
-                    "                          \n" +
+                    BLANKLINEDOWN +
+                    BLANKLINEDOWN +
                     "      /|__       __|\\      \n" +
                     "   1 /    |     |    \\ 2   \n" +
                     "     \\  __|     |__  /     \n" +
@@ -129,8 +137,8 @@ public class CliScene {
 
     private static String windowMessage = " Empty Message ...";
 
-    private static int[] LEVEL_LENGTH = {17, 13, 9, 5}; //-4 for each level
-    private static int[] LEVEL_HEIGHT = {8, 6, 4, 2}; //-2 for each level
+    private static int[] levellength = {17, 13, 9, 5}; //-4 for each level
+    private static int[] levelheight = {8, 6, 4, 2}; //-2 for each level
 
     /**
      * CliScene is not instantiable
@@ -201,15 +209,14 @@ public class CliScene {
     public static void printBoardScreen(String inputRequest, DtoSession session, Map<String, Colors> colors, Map<String, String> gods, Map<Action, List<DtoPosition>> possibleActions, String turnOwner) {
         String board = addBoardScreenBorder(addCoordinates(createBoard(session, colors, possibleActions))).toString();
         out.println(Ansi.CLEAR_CONSOLE + centerScreen(addSideBar(inputRequest, board, colors, gods, possibleActions, turnOwner).toString(), 20));
-        //if(!inputRequest.equals(""))
         setCursor(105, 14);
     }
 
     private static StringBuilder addSideBar(String inputRequest, String t, Map<String, Colors> colors, Map<String, String> gods, Map<Action, List<DtoPosition>> possibleActions, String turnOwner) {
         StringBuilder temp = new StringBuilder();
-        String[] pBox = createSideBar(inputRequest, colors, gods, possibleActions, turnOwner).split("\\r?\\n");
+        String[] pBox = createSideBar(inputRequest, colors, gods, possibleActions, turnOwner).split(DOWN3);
         int i = 0;
-        for (String s : t.split("\\r?\\n")) {
+        for (String s : t.split(DOWN3)) {
             temp.append(s);
             if (i < pBox.length) {
                 temp.append(pBox[i]);
@@ -285,7 +292,7 @@ public class CliScene {
     private static StringBuilder addBoardScreenBorder(String boardWithCoordinates) {
         StringBuilder temp = new StringBuilder();
         temp.append("-".repeat(99)).append("\n");
-        for (String line : boardWithCoordinates.split("\\r?\\n")) {
+        for (String line : boardWithCoordinates.split(DOWN3)) {
             temp.append("|").append(line).append(" ".repeat((line.equals("") ? 97 : 2))).append("|").append("\n");
         }
         temp.append("|").append(" ".repeat(97)).append("|").append("\n").append("-".repeat(99)).append("\n");
@@ -310,7 +317,7 @@ public class CliScene {
         int a = 0;
         int r = 1;
         temp.append("\n");
-        for (String row : board.split("\\r?\\n")) {
+        for (String row : board.split(DOWN3)) {
             temp.append(" ");
             if (p == 5 || a == 8) {
                 temp.append(" ").append(r).append(" ");
@@ -356,7 +363,7 @@ public class CliScene {
     private static StringBuilder addOffset(String text, double o) {
         StringBuilder temp = new StringBuilder();
         String offset = " ".repeat(Math.max(0, (int) o));
-        for (String line : text.split("\\r?\\n")) {
+        for (String line : text.split(DOWN3)) {
             String newLine = offset + line + "\n";
             temp.append(newLine);
         }
@@ -383,7 +390,7 @@ public class CliScene {
     private static String removeLines(String text) {
         StringBuilder b = new StringBuilder();
         int i = 1;
-        for (String string : text.split("\\r?\\n")) {
+        for (String string : text.split(DOWN3)) {
             if (i > 5) {
                 b.append(string).append("\n");
             }
@@ -401,7 +408,7 @@ public class CliScene {
     private static String extendSlots(String string) {
         StringBuilder temp = new StringBuilder();
         int width = getLongestLine(string);
-        for (String s : string.split("\\r?\\n")) {
+        for (String s : string.split(DOWN3)) {
             temp.append(s);
             temp.append(" ".repeat(Math.max(0, width - s.length() + 1)));
             temp.append("\n");
@@ -469,7 +476,7 @@ public class CliScene {
      *                but we do not need to count them for the total length
      */
     private static void appendAllLinesCentered(StringBuilder b, String text, int length, boolean fixAnsi) {
-        for (String line : text.split("\\r?\\n")) {
+        for (String line : text.split(DOWN3)) {
             b.append(centerLine(line, length, fixAnsi)).append("\n");
         }
     }
@@ -481,7 +488,7 @@ public class CliScene {
      * @param left  left margin
      */
     private static void appendAllLinesCentered(StringBuilder b, String text, int left) {
-        for (String line : text.split("\\r?\\n")) {
+        for (String line : text.split(DOWN3)) {
             b.append(" ".repeat(left)).append(line).append(" ".repeat(0)).append("\n");
         }
     }
@@ -532,7 +539,7 @@ public class CliScene {
      */
     private static int getLongestLine(String text) {
         int max = 0;
-        for (String line : text.split("\\r?\\n")) {
+        for (String line : text.split(DOWN3)) {
             if (line.length() > max) {
                 max = line.length();
             }
@@ -551,7 +558,7 @@ public class CliScene {
         StringBuilder temp = new StringBuilder();
         appendEmptyLine(temp);
         temp.append(".").append("-".repeat(width)).append(".\n");
-        for (String string : b.toString().split("\\r?\\n")) {
+        for (String string : b.toString().split(DOWN3)) {
             temp.append("|").append(string).append("|");
             temp.append("\n");
         }
@@ -567,8 +574,8 @@ public class CliScene {
      */
     private static StringBuilder decorateColumns(StringBuilder b) {
         StringBuilder temp = new StringBuilder();
-        for (String string : b.toString().split("\\r?\\n")) {
-            temp.append(" | | | |").append(string).append("| | | |");
+        for (String string : b.toString().split(DOWN3)) {
+            temp.append(" | | | |").append(string).append(C);
             temp.append("\n");
         }
         return temp;
@@ -624,7 +631,7 @@ public class CliScene {
      */
     private static String addTowerElem(String oldTile, int pos1, int pos2, String firstElem, String secondElem) {
         StringBuilder tile = new StringBuilder();
-        List<String> tempRow = Arrays.asList(oldTile.split("\\r?\\n"));
+        List<String> tempRow = Arrays.asList(oldTile.split(DOWN3));
         for (int r = 0; r < tempRow.size(); r++) {
             if (r == 4 || r == 5) {
                 tile.append(tempRow.get(r), 0, pos1).append((r == 4) ? firstElem : secondElem).append(tempRow.get(r).substring(pos2)).append("\n");
@@ -645,7 +652,7 @@ public class CliScene {
      */
     private static String colorLevels(String oldTile, int height, String occupant) {
         StringBuilder tile = new StringBuilder();
-        List<String> temp = Arrays.asList(oldTile.split("\\r?\\n"));
+        List<String> temp = Arrays.asList(oldTile.split(DOWN3));
         List<String> overBase = new ArrayList<>();
         for (int row = 1; row < temp.size() - 1; row++) {
             overBase.add(temp.get(row).substring(1, temp.get(row).length() - 1));
@@ -674,11 +681,11 @@ public class CliScene {
             for (int x = 0; x < 5; x++) {
                 DtoTile tile = session.getBoard().getTile(x, y);
                 String master = session.getWorkerMasterOn(x, y);
-                line[x] = Arrays.asList(createTile(tile.getHeight(), tile.hasDome(), master == null ? "" : colors.get(master).toString()).split("\\r?\\n"));
+                line[x] = Arrays.asList(createTile(tile.getHeight(), tile.hasDome(), master == null ? "" : colors.get(master).toString()).split(DOWN3));
             }
             positions = createBorder(possibleActions, y, board);
             for (int r = 0; r < line[0].size(); r++) {
-                board.append(positions.get(0) ? Ansi.addBg(111, "|") : "|");
+                board.append(Boolean.TRUE.equals(positions.get(0)) ? Ansi.addBg(111, "|") : "|");
                 for (int x = 0; x < 5; x++) {
                     board.append(line[x].get(r)).append((positions.get(x) || positions.get(x + 1)) ? Ansi.addBg(111, "|") : "|");
                 }
@@ -708,7 +715,7 @@ public class CliScene {
             for (int x = 0; x < 5; x++) {
                 b.append((candidates.get(x) || (candidatesNext.get(x))) ? Ansi.addBg(111, "-".repeat(17)) : "-".repeat(17));
                 b.append((candidates.get(x) || candidates.get(x + 1) ||
-                        ((candidatesNext.get(x) || candidatesNext.get(x + 1)))) ? Ansi.addBg(111, "-") : "-");
+                        (candidatesNext.get(x) || candidatesNext.get(x + 1))) ? Ansi.addBg(111, "-") : "-");
             }
             b.append("\n");
         } else {
@@ -756,7 +763,7 @@ public class CliScene {
 
         setMessage(message, input);
         StringBuilder b = new StringBuilder();
-        b.append(createSelectedGodsRow(chosenGods, choices, godsSlotsWidth, godsSlotsHeight, numberOfPlayers));
+        b.append(createSelectedGodsRow(chosenGods, godsSlotsWidth, godsSlotsHeight, numberOfPlayers));
         b.append(createSelectedSlot(chosenGods, choices, godsSlotsWidth));
         b = closeSelectionWindow(b, numberOfPlayers, outPutWidth);
         out.println(centerScreen(Ansi.CLEAR_CONSOLE + b));
@@ -780,7 +787,8 @@ public class CliScene {
         boolean found = false;
         for (String god : chosenGods) {
             temp.append(" ".repeat(chosenGods.size() == 3 ? 2 : 4));
-            for (String player : choices.keySet()) {
+            for (Map.Entry<String,String> entry : choices.entrySet()) {
+                String player = entry.getKey();
                 if (choices.get(player).equals(god)) {
                     temp.append(extendSlots("Selected by " + player, length));
                     found = true;
@@ -800,13 +808,12 @@ public class CliScene {
      * Glues together the boxes displaying the gods selected by the challenger and chosen by the players
      *
      * @param chosenGods      gods selected by the challenger
-     * @param choices         map of players with the god they chose
      * @param length          length of the box
      * @param height          height of the box
      * @param numberOfPlayers number of players in game
      * @return the box as string
      */
-    private static String createSelectedGodsRow(List<String> chosenGods, Map<String, String> choices, int length, int height, int numberOfPlayers) {
+    private static String createSelectedGodsRow(List<String> chosenGods, int length, int height, int numberOfPlayers) {
         List<String> chosen = new ArrayList<>();
         for (String god : chosenGods) {
             chosen.add(createGodWindow(god, length, height));
@@ -890,7 +897,7 @@ public class CliScene {
             r.append(" ".repeat((numberOfPlayers == 3) ? 1 : 0));
             for (String box : chosen) {
                 r.append(" ".repeat((numberOfPlayers == 3) ? 2 : 4))
-                        .append(box.split("\\r?\\n")[row])
+                        .append(box.split(DOWN3)[row])
                         .append(" ".repeat((numberOfPlayers == 3) ? 2 : 4))
                         .append("|");
             }
@@ -937,7 +944,7 @@ public class CliScene {
         addBrowseArrows(b, chosenGods, numberOfPlayers);
         String temp = decorateColumns(b).toString();
         b.setLength(0);
-        for (String line : temp.split("\\r?\\n")) {
+        for (String line : temp.split(DOWN3)) {
             b.append(centerLine(line, 6, 0)).append("\n");
         }
         b.insert(0, "\n" + TOP_CHALLENGER + "\n");
@@ -1029,8 +1036,8 @@ public class CliScene {
      * @param numberOfPlayers number of players in game
      */
     public static void addBrowseArrows(StringBuilder b, List<String> selectedGods, int numberOfPlayers) {
-        String[] arrow = ARROWS_CHALLENGER.split("\\r?\\n");
-        String[] godBox = b.toString().split("\\r?\\n");
+        String[] arrow = ARROWS_CHALLENGER.split(DOWN3);
+        String[] godBox = b.toString().split(DOWN3);
         b.setLength(0);
         b.append(godBox[0]).append("  You selected ").append(selectedGods.size()).append("/").append(numberOfPlayers).append(" gods     ").append("\n");
         for (int row = 1; row < 10; row++) {
@@ -1039,7 +1046,7 @@ public class CliScene {
         for (int row = 10; row < 13; row++) {
             b.append(godBox[row]).append(getEmptyLength(28)).append("\n");
         }
-        if (selectedGods.size() == 0) {
+        if (selectedGods.isEmpty()) {
             selectedGods.add("None yet");
         }
         b.append(godBox[13]).append(extendSlots("  Gods selected:", 28)).append("\n");
@@ -1063,9 +1070,9 @@ public class CliScene {
     public static void addGodsRow(StringBuilder b, List<String> godBoxes, int block, int length, int height) {
         for (int h = 0; h < height; h++) {
             b.append(" ".repeat(2));
-            b.append(godBoxes.get(block).split("\\r?\\n")[h]);
+            b.append(godBoxes.get(block).split(DOWN3)[h]);
             b.append(" ".repeat(2)).append("|").append(" ".repeat(2));
-            b.append(godBoxes.get(block + 1).split("\\r?\\n")[h]);
+            b.append(godBoxes.get(block + 1).split(DOWN3)[h]);
             b.append(" ".repeat(2)).append("|").append("\n");
         }
         b.append(" ".repeat(2 + length + 2)).append("|").append(" ".repeat(2 + length + 2)).append("|").append("\n");
@@ -1115,7 +1122,7 @@ public class CliScene {
         for (String string : divideInRows(description[1].substring(1), length)) {
             temp.append(extendSlots(string, length)).append("\n");
         }
-        appendEmptyRow(temp, length, height - temp.toString().split("\\r?\\n").length + 1);
+        appendEmptyRow(temp, length, height - temp.toString().split(DOWN3).length + 1);
         return temp.toString();
     }
 
@@ -1230,7 +1237,7 @@ public class CliScene {
         }
         if (height == 0) {
             addLastFloor(row, match, height, newRow, occupant);
-        } else if (match.size() == 0) {
+        } else if (match.isEmpty()) {
             newRow.append(Ansi.addBg(244, String.join("", row)));
         } else {
             recursiveColorsAdd(row, match, height, newRow, 0, occupant);
@@ -1316,12 +1323,12 @@ public class CliScene {
         int yPos = 1;
         int xPos = 1;
         for (int h = 1; h < height + 1; h++) {
-            String[] oldTile = tile.toString().split("\\r?\\n");
+            String[] oldTile = tile.toString().split(DOWN3);
             tile.setLength(0);
             for (int r = 0; r < yPos; r++) {
                 tile.append(oldTile[r]).append("\n");
             }
-            String[] newLevel = getLevel(h).split("\\r?\\n");
+            String[] newLevel = getLevel(h).split(DOWN3);
             for (int n = 0; n < newLevel.length; n++) {
                 tile.append(oldTile[n + yPos], 0, xPos)
                         .append(newLevel[n])
@@ -1345,7 +1352,7 @@ public class CliScene {
     private static String getLevel(int height) {
         StringBuilder temp = new StringBuilder();
         temp.append(addTileLine(" .", ". ", "-", height, 2)).append("\n");
-        for (int r = 0; r < LEVEL_HEIGHT[height]; r++) {
+        for (int r = 0; r < levelheight[height]; r++) {
             temp.append(addTileLine(height)).append("\n");
         }
         temp.append(addTileLine(" '", "' ", "-", height, 2)).append("\n");
@@ -1365,7 +1372,7 @@ public class CliScene {
     private static String addTileLine(String leftBorder, String rightBorder, String inner, int height, int offset) {
         return " ".repeat((height > 0) ? 1 : 0) +
                 leftBorder +
-                inner.repeat(LEVEL_LENGTH[height] - offset) +
+                inner.repeat(levellength[height] - offset) +
                 ((height > 0 && rightBorder.equals(". ")) ? "." + height : rightBorder) +
                 " ".repeat((height > 0) ? 1 : 0);
     }

@@ -1,6 +1,5 @@
 package it.polimi.ingsw.mvc.view.gui;
 
-import it.polimi.ingsw.mvc.model.Session;
 import it.polimi.ingsw.mvc.view.gui.fxmlcontrollers.TitleController;
 import javafx.application.Application;
 import javafx.application.Platform;

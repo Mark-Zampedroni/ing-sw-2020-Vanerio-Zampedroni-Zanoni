@@ -1,6 +1,5 @@
 package it.polimi.ingsw.mvc.view.gui.fxmlcontrollers;
 
-import it.polimi.ingsw.mvc.view.gui.Gui;
 import it.polimi.ingsw.mvc.view.gui.GuiManager;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
