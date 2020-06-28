@@ -12,6 +12,14 @@ public class Message implements Serializable {
     private final String info;
     private final String recipient;
 
+    /**
+     * Constructor
+     *
+     * @param sender sender of the message
+     * @param info information
+     * @param type type of the message
+     * @param recipient the recipient of the message
+     */
     public Message(MessageType type, String sender, String info, String recipient) {
         this.type = type;
         this.sender = sender;
@@ -19,22 +27,47 @@ public class Message implements Serializable {
         this.recipient = recipient;
     }
 
+    /**
+     * Getter for the type
+     *
+     * @return the type
+     */
     public MessageType getType() {
         return type;
     }
 
+    /**
+     * Getter for the sender
+     *
+     * @return the sender
+     */
     public String getSender() {
         return sender;
     }
 
+    /**
+     * Getter for the recipient
+     *
+     * @return the recipient
+     */
     public String getRecipient() {
         return recipient;
     }
 
+    /**
+     * Getter for the information
+     *
+     * @return the information
+     */
     public String getInfo() {
         return info;
     }
 
+    /**
+     * Override of ToString
+     *
+     * @return a different string
+     */
     @Override
     public String toString() {
         return "From: " + sender + "\n" +

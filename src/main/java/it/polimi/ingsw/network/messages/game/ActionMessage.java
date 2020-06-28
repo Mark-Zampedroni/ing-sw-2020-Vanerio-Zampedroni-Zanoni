@@ -13,16 +13,35 @@ public class ActionMessage extends Message implements Serializable {
     private final Action action;
     private final DtoPosition position;
 
+    /**
+     * Constructor
+     *
+     * @param sender sender of the message
+     * @param action chosen action
+     * @param position chosen position
+     * @param content info
+     * @param recipient the recipient of the message
+     */
     public ActionMessage(String sender, String content, Action action, DtoPosition position, String recipient) {
         super(MessageType.ACTION, sender, content, recipient);
         this.action = action;
         this.position = position;
     }
 
+    /**
+     * Getter for the position
+     *
+     * @return the position
+     */
     public DtoPosition getPosition() {
         return position;
     }
 
+    /**
+     * Getter for the action
+     *
+     * @return the action
+     */
     public Action getAction() {
         return action;
     }
