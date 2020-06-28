@@ -30,6 +30,13 @@ public class ClientConnection implements Runnable {
     private boolean reconnect;
     private boolean isDisconnected;
 
+    /**
+     * Constructor
+     *
+     * @param controller client
+     * @param port connection port
+     * @param ip server ip
+     */
     public ClientConnection(String ip, int port, Client controller) throws IOException {
         this.ip = ip;
         this.port = port;
@@ -39,6 +46,9 @@ public class ClientConnection implements Runnable {
         new ClientMessageReceiver(this, controller);
     }
 
+    /**
+     * Creates a connection with the server
+     */
     public void startConnection() throws IOException {
         socket = new Socket(ip, port);
         output = new ObjectOutputStream(socket.getOutputStream());
@@ -48,6 +58,11 @@ public class ClientConnection implements Runnable {
         isDisconnected = false;
     }
 
+    /**
+     * Sends a message
+     *
+     * @param msg message to send
+     */
     public void sendMessage(Message msg) {
         try {
             if (output != null) {
@@ -84,6 +99,9 @@ public class ClientConnection implements Runnable {
         }
     }
 
+    /**
+     * Starts the reconnection
+     */
     private void initReconnection() {
         synchronized (queueLock) {
             log.info("[CONNECTION] Trying to reconnect ...");
@@ -92,6 +110,9 @@ public class ClientConnection implements Runnable {
         startReconnectionRequests();
     }
 
+    /**
+     * Disconnects a client
+     */
     public void disconnect() {
         try {
             if (!socket.isClosed()) {
@@ -104,6 +125,11 @@ public class ClientConnection implements Runnable {
         }
     }
 
+    /**
+     * Gets the queue
+     *
+     * @return the queue
+     */
     public List<Message> getQueue() {
         List<Message> copy;
         synchronized (queueLock) {
@@ -113,6 +139,9 @@ public class ClientConnection implements Runnable {
         return copy;
     }
 
+    /**
+     * Sends a reconnection message
+     */
     private void startReconnectionRequests() {
         while (!reconnectRequest()) {
             waitTime();

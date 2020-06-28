@@ -16,6 +16,15 @@ public class LobbyUpdate extends Message implements Serializable {
     private final List<Colors> colors;
     private final Map<String, Colors> registeredPlayers;
 
+    /**
+     * Constructor
+     *
+     * @param sender sender of the message
+     * @param info information
+     * @param colors list of colors
+     * @param players list of players
+     * @param recipient the recipient of the message
+     */
     public LobbyUpdate(String sender, String info, List<Colors> colors, List<Player> players, String recipient) {
         super(MessageType.LOBBY_UPDATE, sender, info, recipient);
         this.colors = colors;
@@ -25,10 +34,20 @@ public class LobbyUpdate extends Message implements Serializable {
         }
     }
 
+    /**
+     * Getter for the colors
+     *
+     * @return a list of colors
+     */
     public List<Colors> getColors() {
         return colors;
     }
 
+    /**
+     * Getter for a map of players and their colors
+     *
+     * @return tha map
+     */
     public Map<String, Colors> getPlayers() {
         return registeredPlayers;
     }
