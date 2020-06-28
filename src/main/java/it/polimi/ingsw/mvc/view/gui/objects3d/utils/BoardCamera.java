@@ -4,8 +4,17 @@ import javafx.scene.PerspectiveCamera;
 import javafx.scene.SubScene;
 import javafx.scene.input.ScrollEvent;
 
+/**
+ * Camera of the 3D board
+ */
 public class BoardCamera extends PerspectiveCamera {
 
+    /**
+     * Constructor of the camera.
+     * Starts the zoom event on mouse scroll
+     *
+     * @param scene SubScene containing the 3D board
+     */
     public BoardCamera(SubScene scene) {
         super(true);
         setNearClip(1);

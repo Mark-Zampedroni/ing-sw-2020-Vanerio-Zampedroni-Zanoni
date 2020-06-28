@@ -1,6 +1,6 @@
 package it.polimi.ingsw.mvc.view.gui.objects3d.obj;
 
-import it.polimi.ingsw.mvc.view.gui.objects3d.utils.BoardCoords3D;
+import it.polimi.ingsw.mvc.view.gui.objects3d.utils.BoardCoordinates3D;
 import it.polimi.ingsw.mvc.view.gui.objects3d.utils.NodeOperation;
 import it.polimi.ingsw.mvc.view.gui.objects3d.utils.ObservableTileEvent;
 import it.polimi.ingsw.utility.enumerations.Colors;
@@ -9,6 +9,9 @@ import javafx.scene.Node;
 
 import java.io.IOException;
 
+/**
+ * 3D object representing the {@link it.polimi.ingsw.mvc.model.map.Board board} on the 3D SubScene
+ */
 public class BoardObj extends Group {
 
     private static final String CLIFF_OBJ = "/obj/Cliff.fxml";
@@ -20,15 +23,21 @@ public class BoardObj extends Group {
     private static final String SEA_OBJ = "/obj/Sea.fxml";
     private static final String SEA_TEXTURE = "/texture/Sea_v002.png";
 
-    Node sea;
-    Node plane;
-    Node cliff;
-    Node innerWall;
-    Node outerWall1;
-    Node outerWall2;
+    private Node sea;
+    private Node plane;
+    private Node cliff;
+    private Node innerWall;
+    private Node outerWall1;
+    private Node outerWall2;
 
-    TileObj[][] tiles = new TileObj[5][5];
+    private TileObj[][] tiles = new TileObj[5][5];
 
+    /**
+     * Constructor
+     *
+     * @param tileEventResponse Observable that triggers when a tile or an object on a tile is clicked
+     * @throws IOException if any of the fxml files can't be read
+     */
     public BoardObj(ObservableTileEvent tileEventResponse) throws IOException {
 
         cliff = NodeOperation.getModel(CLIFF_OBJ, ALLBOARD_TEXTURE);
@@ -48,6 +57,10 @@ public class BoardObj extends Group {
         }
     }
 
+    /**
+     * Initializes the 3D board elements, it's built
+     * using various models and textures
+     */
     private void initBoard() {
         NodeOperation.setScale(sea, 2.3);
         NodeOperation.setTranslate(sea, 1.5, -0.6, 7.5);  //71,203,244
@@ -70,13 +83,28 @@ public class BoardObj extends Group {
         NodeOperation.setTranslate(this, 0, 10, 0);
     }
 
+    /**
+     * Getter for the 3D tile object at the requested coordinates
+     *
+     * @param x coordinate on the X axis
+     * @param y coordinate on the Y axis
+     * @return the tile at (x,y)
+     */
     public TileObj getTile(int x, int y) {
         return (x >= 0 && x < 5 && y >= 0 && y < 5) ? tiles[x][y] : null;
     }
 
+    /**
+     * Creates a worker object and adds outside the board with visibility false.
+     * When a Tile "adds" a worker of the same color it will be moved there.
+     * (In other words it preloads the worker to keep delay at minimum)
+     *
+     * @param color color of the worker
+     * @return worker created
+     */
     public WorkerObj createWorker(Colors color) {
         try {
-            return new WorkerObj(new BoardCoords3D(-1, -1, 0), color);
+            return new WorkerObj(new BoardCoordinates3D(-1, -1, 0), color);
         } catch (Exception e) {
             return null;
         }

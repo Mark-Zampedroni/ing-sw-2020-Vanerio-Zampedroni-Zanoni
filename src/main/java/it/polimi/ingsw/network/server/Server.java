@@ -20,9 +20,18 @@ import java.util.logging.Logger;
 import java.util.logging.SimpleFormatter;
 import java.util.stream.Collectors;
 
+/**
+ * Server; manages the connection/reconnection/disconnection of any {@link ServerConnection ServerConnection}
+ */
 public class Server extends Thread {
 
+    /**
+     * Logger of the Server
+     */
     public static final Logger LOG = Logger.getLogger("Server");
+    /**
+     * Name of the Server, used as signature in the messages sent
+     */
     public static final String SENDER = "SERVER";
     private static Server instance = null;
     private final List<ServerConnection> allConnections;
@@ -36,16 +45,19 @@ public class Server extends Thread {
     private int token = 0;
     private Thread queueHandler;
 
+    /**
+     * Constructor of a the Singleton instance.
+     * Opens the server on the port specified
+     *
+     * @param port port on which the server will wait for connections
+     * @param log  if {@code true} creates a log where any event will be recorded
+     */
     public Server(int port, boolean log) {
-        if (instance == null) {
-            Server.assignInstance(this);
-        }
+        if (instance == null) Server.assignInstance(this);
         reconnecting = new HashMap<>();
         freshConnections = new ArrayList<>();
         allConnections = new ArrayList<>();
-        if (log) {
-            startLogging();
-        }
+        if (log) startLogging();
         sessionController = new SessionController(freshConnections, LOG); // Controller
         try {
             serverSocket = new ServerSocket(port);
@@ -57,23 +69,41 @@ public class Server extends Thread {
         queueHandler.start();
     }
 
+    /**
+     * Assigns a new instance of the Server
+     *
+     * @param currentInstance new instance of th server
+     */
     public static void assignInstance(Server currentInstance) {
         instance = currentInstance;
     }
 
+    /**
+     * Disconnects all the connections and clears any variables in the current instance
+     */
     public static void restartSession() {
         instance.restart();
     }
 
+    /**
+     * Reloads the game from a save file, checks if the connection given was
+     * a player of that game. If not refuses the reconnection, otherwise
+     * waits for all the players to reconnect and resumes the game
+     *
+     * @param message    reconnection request
+     * @param connection connection trying to reconnect
+     */
     protected void handleReconnection(Message message, ServerConnection connection) {
         synchronized (reconnecting) {
             SessionController newController = ReloadGame.reloadConnection(sessionController, reconnecting, connection, LOG, message);
-            if (newController != null) {
+            if (newController != null)
                 sessionController = newController;
-            }
         }
     }
 
+    /**
+     * Starts a new Logger, assigns it to the static variable LOG
+     */
     private void startLogging() {
         DateFormat dateFormat = new SimpleDateFormat("MM_dd_HH-mm-ss");
         Date date = new Date();
@@ -86,6 +116,11 @@ public class Server extends Thread {
         }
     }
 
+    /**
+     * Task of the Server Thread.
+     * Stays idle waiting for new connection requests, when one is received
+     * opens a socket and queues the connection creation request
+     */
     @Override
     public void run() {
         while (!Thread.currentThread().isInterrupted()) {
@@ -103,6 +138,13 @@ public class Server extends Thread {
         queueHandler.interrupt();
     }
 
+    /**
+     * Runs a connection creation request, adds the fresh connection
+     * to the Lists freshConnections and allConnections
+     *
+     * @param client socket of the connection
+     * @param name   temporary token of the connection
+     */
     private void queueNewConnection(Socket client, String name) {
         ServerConnection c = new ServerConnection(this, client, name, tasks);
         Server.LOG.info(() -> "[SERVER] Opening connection " + name);
@@ -113,24 +155,23 @@ public class Server extends Thread {
             synchronized (connectionsLock) {
                 freshConnections.add(c);
                 allConnections.add(c);
-                if (gameCreator == null) {
-                    setNewGameCreator();
-                }
+                if (gameCreator == null) setNewGameCreator();
             }
-            if (isLobbyCreated()) {
-                fillPlayersSlots();
-            }
+            if (isLobbyCreated()) fillPlayersSlots();
             notifyFreshQueue();
         }
     }
 
+    /**
+     * Called when a {@link ServerConnection connection} disconnects.
+     * Removes such connection from any List of the server
+     *
+     * @param connection connection that disconnected
+     */
     protected void onDisconnection(ServerConnection connection) {
         synchronized (connectionsLock) {
-            if (connection.isInLobby()) {
-                disconnectInLobby(connection);
-            } else {
-                freshConnections.remove(connection);
-            }
+            if (connection.isInLobby()) disconnectInLobby(connection);
+            else freshConnections.remove(connection);
             allConnections.remove(connection);
 
             if (gameCreator == connection) {
@@ -141,15 +182,25 @@ public class Server extends Thread {
         }
     }
 
+    /**
+     * Handles a disconnection in lobby.
+     * Asks the Controller to remove the player from the Model
+     *
+     * @param connection connection that disconnected
+     */
     private void disconnectInLobby(ServerConnection connection) {
         String user = connection.getUsername();
         LOG.info(() -> "[SERVER] " + user + " disconnected\n");
         sessionController.removePlayer(user);
-        if (sessionController.getState() == GameState.LOBBY) {
-            sessionController.sendUpdate();
-        }
+        if (sessionController.getState() == GameState.LOBBY) sessionController.sendUpdate();
     }
 
+    /**
+     * Opens the lobby
+     *
+     * @param connection connection of the game creator
+     * @param choice     number of players chosen for the game
+     */
     protected void startLobby(ServerConnection connection, String choice) {
         if (!isLobbyCreated() && connection == gameCreator) { // Anti-cheat
             if (Arrays.asList("2", "3").contains(choice)) { // Anti-cheat
@@ -161,6 +212,11 @@ public class Server extends Thread {
         }
     }
 
+    /**
+     * Sets a new game creator;
+     * may be used when the first connection occurs or when the previous
+     * game creator disconnects
+     */
     private void setNewGameCreator() {
         gameCreator = null;
         if (!allConnections.isEmpty()) {
@@ -175,7 +231,10 @@ public class Server extends Thread {
         }
     }
 
-    // Supposto che la lista di connessioni sia piccola, altrimenti sarebbe meglio dividere in più liste in base allo stato
+    /**
+     * Moves in lobby the required number of players, choosing them following a FIFO rule
+     * on the connection queue
+     */
     private void fillPlayersSlots() {
         synchronized (connectionsLock) {
             if (isLobbyCreated()) {
@@ -193,11 +252,18 @@ public class Server extends Thread {
         }
     }
 
+    /**
+     * Checks if the lobby is open
+     *
+     * @return {@code true} if the lobby is open
+     */
     private boolean isLobbyCreated() {
         return (sessionController.getGameCapacity() != 0);
     }
 
-    // Notifica la coda in pre-lobby sulla posizione in cui sono
+    /**
+     * Updates all the connections in freshConnection on their position in queue
+     */
     private void notifyFreshQueue() {
         for (ServerConnection connection : freshConnections) {
             if (gameCreator != connection) {
@@ -206,7 +272,13 @@ public class Server extends Thread {
         }
     }
 
-    // Crea un messaggio di info per la coda in pre-lobby in base alla situazione di gioco
+    /**
+     * Creates a message of update on why a connection can't join the lobby
+     *
+     * @param position position of the connection in queue
+     * @param username token of the connection
+     * @return message of update
+     */
     private Message createInfoUpdate(int position, String username) {
         if (isLobbyCreated()) {
             return new Message(MessageType.INFO_UPDATE, SENDER, "The game is for " + sessionController.getGameCapacity() + " players ... \n"
@@ -218,10 +290,18 @@ public class Server extends Thread {
         }
     }
 
+    /**
+     * Creates a message of update for the player in Lobby
+     *
+     * @return message of update
+     */
     private Message createLobbyUpdate() {
         return new LobbyUpdate(SENDER, "Update", sessionController.getFreeColors(), sessionController.getPlayers(), "ALL");
     }
 
+    /**
+     * Restarts the Server, clearing all the variables and connections
+     */
     public void restart() {
         allConnections.forEach(ServerConnection::interrupt);
         reconnecting.clear();
@@ -232,7 +312,13 @@ public class Server extends Thread {
         sessionController = new SessionController(freshConnections, LOG); // Controller
     }
 
+    /**
+     * Inner class acting as a receiver for the messages sent by the connections
+     */
     private class QueueHandler implements Runnable {
+        /**
+         * Task of the Thread; waits for any new message and adds it to the list in server
+         */
         @Override
         public void run() {
             while (!Thread.currentThread().isInterrupted()) {
