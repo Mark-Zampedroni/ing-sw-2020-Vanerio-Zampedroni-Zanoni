@@ -9,7 +9,7 @@ import it.polimi.ingsw.utility.enumerations.Colors;
 import it.polimi.ingsw.utility.enumerations.GameState;
 
 import java.util.*;
-import java.util.function.Function;
+import java.util.function.Predicate;
 
 public class Cli extends Client {
 
@@ -82,15 +82,15 @@ public class Cli extends Client {
         String requestedColor = requestLobbyInput("Selected name: " + requestedUsername + ", choose one of the available colors: "
                         + (requestedUsername.length() % 2 == 0 ? " " : ""),
                 "This color does not exist or was already chosen, select a different one:",
-                (color) -> validateColor(color.toUpperCase())).toUpperCase();
+                color -> validateColor(color.toUpperCase())).toUpperCase();
         requestLogin(requestedUsername, Colors.valueOf(requestedColor));
     }
 
-    private String requestLobbyInput(String request, String error, Function<String, Boolean> check) {
+    private String requestLobbyInput(String request, String error, Predicate<String> check) {
         inputSave = request;
         CliScene.printLobbyScreen(inputSave, players, true);
         String someInput = requestInput();
-        while (check.apply(someInput)) {
+        while (Boolean.TRUE.equals(check.test(someInput))) {
             someInput = showWrongInput(error);
         }
         return someInput;
@@ -183,7 +183,7 @@ public class Cli extends Client {
         List<DtoPosition> positions = possibleActions.get(action);
         DtoPosition position = null;
         if (action != Action.END_TURN && action != Action.SPECIAL_POWER) {
-            possibleActions = new HashMap<>();
+            possibleActions = new EnumMap<>(Action.class);
             possibleActions.put(action, positions);
             position = requestPosition(possibleActions, session, colors, gods, action);
         }
