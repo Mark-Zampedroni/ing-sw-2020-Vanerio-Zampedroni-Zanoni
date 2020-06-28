@@ -1,6 +1,5 @@
 package it.polimi.ingsw.mvc.view.gui.fxmlcontrollers;
 
-import it.polimi.ingsw.mvc.view.gui.Gui;
 import it.polimi.ingsw.mvc.view.gui.GuiManager;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
@@ -41,9 +40,9 @@ public abstract class GenericController {
     }
 
     /**
-     * Adds a defined number of columns to a given grid pane
+     * Adds the defined number of columns to a given grid pane
      *
-     * @param grid targeted grid pane
+     * @param grid     targeted grid pane
      * @param quantity number of columns
      */
     public static void addColumns(GridPane grid, int quantity) {
@@ -57,7 +56,7 @@ public abstract class GenericController {
     }
 
     /**
-     * Adds a defined number of rows to a given grid pane
+     * Adds the defined number of rows to a given grid pane
      *
      * @param grid targeted grid pane
      * @param quantity number of rows
@@ -73,7 +72,7 @@ public abstract class GenericController {
     }
 
     /**
-     * Getter for the name of the window
+     * Getter for the class of the fxml controller
      *
      * @return a generic class
      *
@@ -144,22 +143,22 @@ public abstract class GenericController {
     }
 
     /**
-     * Calls a method to modify the size of the text for a label
+     * Adds a listener that corrects the size of the text in a Labeled node when the window is rescaled
      *
      * @param node targeted element
+     * @param defaultWidth default size of the stage with the scene containing the node
      * @param defaultPadding padding of the text
-     * @param defaultWidth old size of the text
      */
     private void setFontSizeLabeled(Labeled node, double defaultWidth, Insets defaultPadding) {
         setResizeEvent(node, defaultWidth, defaultPadding, node.getFont());
     }
 
     /**
-     * Calls a method to modify the size of the text put by a player
+     * Adds a listener that corrects the size of the text in a TextInputControl node when the window is rescaled
      *
      * @param node targeted element
+     * @param defaultWidth default size of the stage with the scene containing the node
      * @param defaultPadding padding of the text
-     * @param defaultWidth old size of the text
      */
     private void setFontSizeText(TextInputControl node, double defaultWidth, Insets defaultPadding) {
         setResizeEvent(node, defaultWidth, defaultPadding, node.getFont());
@@ -167,10 +166,11 @@ public abstract class GenericController {
 
 
     /**
-     * Updates the size of the text for scaling purpose
+     * Given the default value of padding and font of a Control node creates
+     * the event of rescaling
      *
      * @param node targeted element
-     * @param defaultWidth old size of the element
+     * @param defaultWidth default size of the stage with the scene containing the node
      * @param defaultPadding old value of padding of the text
      */
     private void setResizeEvent(Control node, double defaultWidth, Insets defaultPadding, Font font) {
@@ -182,11 +182,11 @@ public abstract class GenericController {
     }
 
     /**
-     * Sets a new size for the text and also changes other features
+     * Changes the size of the text and fixes the padding accordingly
      *
-     * @param node targeted element
-     * @param defaultWidth old size of the element
-     * @param newWidth new size of the element
+     * @param node targeted Control node
+     * @param defaultWidth default size of the stage with the scene containing the node
+     * @param newWidth new size of the stage with the scene containing the node
      * @param defaultPadding old value of padding of the text
      * @param defaultFamily old family of the text
      * @param defaultFontSize old size of the text
@@ -204,11 +204,11 @@ public abstract class GenericController {
     }
 
     /**
-     * Sets the padding of a element accordingly to a give value
+     * Adds a listener that corrects the size of the padding in a Region node when the window is rescaled
      *
-     * @param node  targeted element
-     * @param defaultPadding old values of padding
-     * @param ratio value used to update the padding
+     * @param node targeted element
+     * @param defaultPadding default value of padding
+     * @param ratio ratio new stage width / default stage width
      */
     private void setPadding(Region node, Insets defaultPadding, double ratio) {
         node.setPadding(new Insets(
@@ -221,7 +221,7 @@ public abstract class GenericController {
 
 
     /**
-     * Upgrades the padding of an element for scaling purpose
+     * Adds a listener that corrects the size of the padding in a Pane node when the window is rescaled
      *
      * @param pane targeted element
      */
@@ -232,7 +232,8 @@ public abstract class GenericController {
     }
 
     /**
-     * Determines a ratio for updating the padding
+     * Calculates the ratio new stage width / default stage width and
+     * adds a listener that corrects the size of the padding in a Region node when the window is rescaled
      *
      * @param defaultPadding old values of padding
      * @param pane targeted element
@@ -246,25 +247,24 @@ public abstract class GenericController {
 
 
     /**
-     * Displays a reconnection screen with all the needed information
+     * Displays the reconnection layer on screen
      *
      * @param isReconnecting {@code true} if a player is trying to reconnect to a game
      */
     public void showReconnection(boolean isReconnecting) {
-        if (isReconnecting) {
+        if (isReconnecting)
             mainGrid.add(loadReconnectionLayer(), 0, 0, mainGrid.getColumnCount(), mainGrid.getRowCount());
-        } else {
-            if (reconnectionLayer != null) {
+        else {
+            if (reconnectionLayer != null)
                 mainGrid.getChildren().remove(reconnectionLayer);
-            }
         }
     }
 
 
     /**
-     * Returns a layout fot the reconnection
+     * Gets the Singleton instance of the reconnection layer
      *
-     * @return the layout
+     * @return layer as borderPane
      */
     private BorderPane loadReconnectionLayer() {
         return (reconnectionLayer == null) ? createReconnectionLayer() : reconnectionLayer;
@@ -272,9 +272,9 @@ public abstract class GenericController {
 
 
     /**
-     * Creates a layout in case of a reconnection
+     * Creates the reconnection layer
      *
-     * @return the layout
+     * @return layer as borderPane
      */
     private BorderPane createReconnectionLayer() {
 

@@ -19,7 +19,7 @@ import java.util.Map;
 import java.util.logging.Logger;
 
 /**
- * Handles all the interactions between Client and GUI
+ * Client with graphical interface (GUI)
  */
 public class GuiManager extends Client {
 
@@ -31,7 +31,7 @@ public class GuiManager extends Client {
     private GenericController currentController;
 
     /**
-     * Constructor for GuiManager
+     * Constructor
      */
     private GuiManager(boolean log) {
         super(log);
@@ -40,7 +40,7 @@ public class GuiManager extends Client {
 
 
     /**
-     * Creates a unique instance of GuiManager, it also could use a logger to store events
+     * Gets the Singleton instance of GuiManager
      *
      * @param log if {@code true} creates a logger
      * @return the {@link GuiManager GuiManager} instance
@@ -52,16 +52,17 @@ public class GuiManager extends Client {
     }
 
     /**
-     * Sets a given logger as default for Gui Manager
+     * Sets a logger for Gui Manager
      *
-     * @param defLogger logger
+     * @param defLogger log where any event will be recorded
      */
     private static void loggerSetup(Logger defLogger){
-        guilog =defLogger;
+        guilog = defLogger;
     }
 
     /**
-     * Creates a unique instance of GuiManager
+     * Gets the Singleton instance of GuiManager.
+     * No logger is attached if the instance is created
      *
      * @return the {@link GuiManager GuiManager} instance
      */
@@ -71,10 +72,10 @@ public class GuiManager extends Client {
 
 
     /**
-     * Sets a layout for an already existing scene
+     * Loads a layout from an fxml file and applies it to a Scene
      *
-     * @param scene the scene
-     * @param path the path of the Fxml file
+     * @param scene the scene where the layout will be applied
+     * @param path  the path of the Fxml file
      */
     public static void setLayout(Scene scene, String path) {
         setLayout(scene, path, false);
@@ -82,12 +83,12 @@ public class GuiManager extends Client {
 
 
     /**
-     * Sets a layout for a scene
+     * Loads a layout from a Fxml file and applies it to a Scene.
+     * If the scene is new sets it to the stage
      *
      * @param scene the scene
      * @param isNewScene defines if the scene is a new one
      * @param path the path of the Fxml file
-     * @return the {@link Gui gui} instance
      */
     public static void setLayout(Scene scene, String path, boolean isNewScene) {
         try {
@@ -104,7 +105,7 @@ public class GuiManager extends Client {
 
 
     /**
-     * Loads a pane for the Fxml file
+     * Loads a pane from a Fxml file
      *
      * @param path the path of the Fxml file
      * @return the pane
@@ -168,7 +169,7 @@ public class GuiManager extends Client {
     /**
      * Getter for a map containing the players and their colors
      *
-     * @return a map of players-colors
+     * @return a map of players to colors
      */
     public Map<String, Colors> getPlayers() {
         return players;
@@ -196,7 +197,12 @@ public class GuiManager extends Client {
 
 
     /**
-     * @param c a generic class
+     * Called when the Client runs a request of update using a method implemented from View.
+     * If the current fxml controller supports the request then applies it, otherwise
+     * the default fxml for the request is loaded and applied to the Scene
+     *
+     * @param c class of the fxml controller needed to run the request
+     * @param request requested update by View
      */
     private void runUpdate(Class<?> c, Runnable request) {
         if (currentController.getWindowName() != c) {
@@ -209,7 +215,7 @@ public class GuiManager extends Client {
     }
 
     /**
-     * Method used for the interaction between client and gui
+     * Implementation of {@link it.polimi.ingsw.mvc.view.View view}
      *
      * @param text text to display
      */
@@ -219,7 +225,7 @@ public class GuiManager extends Client {
     }
 
     /**
-     * Method used for the interaction between client and gui
+     * Implementation of {@link it.polimi.ingsw.mvc.view.View view}
      */
     @Override
     public void requestNumberOfPlayers() {
@@ -227,9 +233,9 @@ public class GuiManager extends Client {
     }
 
     /**
-     * Method used for the interaction between client and gui
+     * Implementation of {@link it.polimi.ingsw.mvc.view.View view}
      *
-     * @param availableColors list of colors
+     * @param availableColors list of available colors
      */
     @Override
     public void showLobby(List<Colors> availableColors) {
@@ -237,7 +243,7 @@ public class GuiManager extends Client {
     }
 
     /**
-     * Method used for the interaction between client and gui
+     * Implementation of {@link it.polimi.ingsw.mvc.view.View view}
      *
      * @param chosenGods list of chosen gods
      */
@@ -247,7 +253,7 @@ public class GuiManager extends Client {
     }
 
     /**
-     * Method used for the interaction between client and gui
+     * Implementation of {@link it.polimi.ingsw.mvc.view.View view}
      *
      * @param chosenGods list of chosen gods
      */
@@ -257,7 +263,7 @@ public class GuiManager extends Client {
     }
 
     /**
-     * Method used for the interaction between client and gui
+     * Implementation of {@link it.polimi.ingsw.mvc.view.View view}
      */
     @Override
     public void disconnectClient() {
@@ -265,11 +271,11 @@ public class GuiManager extends Client {
     }
 
     /**
-     * Method used for the interaction between client and gui
+     * Implementation of {@link it.polimi.ingsw.mvc.view.View view}
      *
      * @param chosenGods list of chosen gods
      * @param turnOwner current player
-     * @param choices map containing players' name and their gods
+     * @param choices map connecting a player's name to its god
      */
     @Override
     public void updatePlayerGodSelection(String turnOwner, Map<String, String> choices, List<String> chosenGods) {
@@ -277,10 +283,10 @@ public class GuiManager extends Client {
     }
 
     /**
-     * Method used for the interaction between client and gui
+     * Implementation of {@link it.polimi.ingsw.mvc.view.View view}
      *
      * @param chosenGods list of chosen gods
-     * @param choices map containing players' name and their gods
+     * @param choices map connecting a player's name to its god
      */
     @Override
     public void requestPlayerGod(List<String> chosenGods, Map<String, String> choices) {
@@ -288,9 +294,9 @@ public class GuiManager extends Client {
     }
 
     /**
-     * Method used for the interaction between client and gui
+     * Implementation of {@link it.polimi.ingsw.mvc.view.View view}
      *
-     * @param choices map containing players' name and their gods
+     * @param choices map connecting a player's name to its god
      */
     @Override
     public void updateStarterPlayerSelection(Map<String, String> choices) {
@@ -298,9 +304,9 @@ public class GuiManager extends Client {
     }
 
     /**
-     * Method used for the interaction between client and gui
+     * Implementation of {@link it.polimi.ingsw.mvc.view.View view}
      *
-     * @param choices map containing players' name and their gods
+     * @param choices map connecting a player's name to its god
      */
     @Override
     public void requestStarterPlayer(Map<String, String> choices) {
@@ -308,13 +314,13 @@ public class GuiManager extends Client {
     }
 
     /**
-     * Method used for the interaction between client and gui
+     * Implementation of {@link it.polimi.ingsw.mvc.view.View view}
      *
      * @param possibleActions possible action that a player can execute
-     * @param gods  map containing players' name and their gods
-     * @param colors map containing player's name and their colors
+     * @param gods  map connecting a player's name to its god
+     * @param colors map connecting a player's name to its color
      * @param session game session
-     * @param specialPower defines a god's special power
+     * @param specialPower {@code true} if the god's passive special power is active
      */
     @Override
     public void requestTurnAction(Map<Action, List<DtoPosition>> possibleActions, DtoSession session, Map<String, Colors> colors, Map<String, String> gods, boolean specialPower) {
@@ -322,10 +328,10 @@ public class GuiManager extends Client {
     }
 
     /**
-     * Method used for the interaction between client and gui
+     * Implementation of {@link it.polimi.ingsw.mvc.view.View view}
      *
-     * @param gods  map containing players' name and their gods
-     * @param colors map containing player's name and their colors
+     * @param gods  map connecting a player's name to its god
+     * @param colors map connecting a player's name to its color
      * @param session game session
      */
     @Override
@@ -334,9 +340,9 @@ public class GuiManager extends Client {
     }
 
     /**
-     * Method used for the interaction between client and gui
+     * Implementation of {@link it.polimi.ingsw.mvc.view.View view}
      *
-     * @param isReconnecting defines if a player is reconnecting
+     * @param isReconnecting {@code ture} if a player is reconnecting
      */
     @Override
     public void showReconnection(boolean isReconnecting) {
@@ -344,7 +350,7 @@ public class GuiManager extends Client {
     }
 
     /**
-     * Method used for the interaction between client and gui
+     * Implementation of {@link it.polimi.ingsw.mvc.view.View view}
      *
      * @param info disconnection message
      */
@@ -359,7 +365,7 @@ public class GuiManager extends Client {
     }
 
     /**
-     * Method used for the interaction between client and gui
+     * Implementation of {@link it.polimi.ingsw.mvc.view.View view}
      *
      * @param playerName player's name
      */
@@ -369,7 +375,7 @@ public class GuiManager extends Client {
     }
 
     /**
-     * Method used for the interaction between client and gui
+     * Implementation of {@link it.polimi.ingsw.mvc.view.View view}
      *
      * @param playerName player's name
      */
@@ -379,7 +385,7 @@ public class GuiManager extends Client {
     }
 
     /**
-     * Method used for the interaction between client and gui
+     * Implementation of {@link it.polimi.ingsw.mvc.view.View view}
      */
     @Override
     public void requestLogin() { /* Logic already implemented within showLobby */ }

@@ -32,14 +32,6 @@
     -fx-background-image: url("../Texture2D_sorted/Pulsanti/button-play-down.png");
 }
 
-#musicOn {
-    -fx-background-image: url("../Texture2D_sorted/Pulsanti/pngfuel.com.png");
-}
-
-#musicOff {
-    -fx-background-image: url("../Texture2D_sorted/Pulsanti/sound-off-icon-40963.png");
-}
-
 #labelBar {
     -fx-background-image: url("../Texture2D_sorted/Backgrounds/clp_textbarv3.png");
 }

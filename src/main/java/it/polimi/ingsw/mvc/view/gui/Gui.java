@@ -1,6 +1,5 @@
 package it.polimi.ingsw.mvc.view.gui;
 
-import it.polimi.ingsw.mvc.model.Session;
 import it.polimi.ingsw.mvc.view.gui.fxmlcontrollers.TitleController;
 import javafx.application.Application;
 import javafx.application.Platform;
@@ -14,7 +13,7 @@ import javafx.stage.Screen;
 import javafx.stage.Stage;
 
 /**
- * Glu is trash. u do dis.
+ * JavaFx application extension
  */
 public class Gui extends Application {
 
@@ -22,7 +21,7 @@ public class Gui extends Application {
     private static Stage stage;
 
     /**
-     * Creates a unique instance of Gui
+     * Gets the Singleton instance of Gui
      *
      * @return the {@link Gui gui} instance
      */
@@ -43,7 +42,7 @@ public class Gui extends Application {
 
 
     /**
-     * Sets the stage through a given parameter
+     * Sets the stage
      *
      * @param passedStage the stage
      */
@@ -51,7 +50,7 @@ public class Gui extends Application {
 
 
     /**
-     * Initializes all elements needed to start a game
+     * Initializes all elements needed to show a window
      *
      * @param stage the main stage
      */
@@ -71,7 +70,7 @@ public class Gui extends Application {
     }
 
     /**
-     * Sets a customize icon for the mouse in a given scene
+     * Sets the customized mouse icon on a scene
      *
      * @param scene targeted scene
      */
@@ -84,7 +83,7 @@ public class Gui extends Application {
     }
 
     /**
-     * Sets a customize icon for the app of the graphic user interface
+     * Sets the customized app icon
      */
     private void setWindowIcon() {
         try {
@@ -95,11 +94,11 @@ public class Gui extends Application {
     }
 
     /**
-     * Starts the graphic user interface, setting the main parameters
+     * Starts the GUI, sets the connection parameters and the logger
      *
-     * @param ip server ip
+     * @param ip   server ip
      * @param port connection port
-     * @param log parameter which stores any occurred event
+     * @param log  parameter which stores any occurred event
      */
     public void init(String ip, int port, boolean log) {
         TitleController.setConnectionConfig(ip, port);
@@ -118,7 +117,8 @@ public class Gui extends Application {
 
 
     /**
-     * Binds the height and the width to each other for a given scene; on top of that sets a minimum size for the window
+     * Binds the height/width ratio to a constant value.
+     * Sets the minimum size for the window
      *
      * @param scene targeted scene
      */
