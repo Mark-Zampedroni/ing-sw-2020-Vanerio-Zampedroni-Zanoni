@@ -42,7 +42,7 @@ public class Session implements Serializable {
     /**
      * Method that creates a unique instance of Session (Singleton)
      *
-     * @return the {@link Session session} with all the game informations
+     * @return the {@link Session session} with all the game information
      */
     public static Session getInstance() {
         if (instance == null) {
