@@ -232,7 +232,7 @@ public class CliScene {
         String emptyRow = (extendSlots("", 34) + "|\n");
         b.append("  ").append(extendSlots(inputRequest, 32)).append("|\n");
         b.append(emptyRow);
-        if (inputRequest != "") b.append(extendSlots("  >>> ", 34)).append("|\n");
+        if (!inputRequest.equals("")) b.append(extendSlots("  >>> ", 34)).append("|\n");
         else b.append(emptyRow);
         b.append(emptyRow.repeat(10));
         b.append("-".repeat(35));
@@ -294,19 +294,18 @@ public class CliScene {
 
     private static String addCoordinates(String board) {
         StringBuilder temp = new StringBuilder();
-        temp = addXCoordinates(temp);
-        temp = addYCoordinates(temp, board);
+        addXCoordinates(temp);
+        addYCoordinates(temp, board);
         return temp.toString();
     }
 
-    private static final StringBuilder addXCoordinates(StringBuilder boardWithoutCoordinates) {
+    private static void addXCoordinates(StringBuilder boardWithoutCoordinates) {
         List<String> xC = new ArrayList<>(Arrays.asList("A", "B", "C", "D", "E"));
         boardWithoutCoordinates.append("\n").append(" ".repeat(13));
         xC.forEach(e -> boardWithoutCoordinates.append(e).append(" ".repeat((e.equals("E") ? 9 : 17))));
-        return boardWithoutCoordinates;
     }
 
-    private static final StringBuilder addYCoordinates(StringBuilder temp, String board) {
+    private static void addYCoordinates(StringBuilder temp, String board) {
         int p = 0;
         int a = 0;
         int r = 1;
@@ -324,7 +323,6 @@ public class CliScene {
             p++;
             temp.append((p == 1) ? row.substring(7) : row).append("\n");
         }
-        return temp;
     }
 
     /**
@@ -379,15 +377,14 @@ public class CliScene {
     /**
      * Removes the number of specified lines from the start of a text
      *
-     * @param text   text we want to shorten from top
-     * @param number number of lines to be removed
+     * @param text text we want to shorten from top
      * @return shortened text
      */
-    private static String removeLines(String text, int number) {
+    private static String removeLines(String text) {
         StringBuilder b = new StringBuilder();
         int i = 1;
         for (String string : text.split("\\r?\\n")) {
-            if (i > number) {
+            if (i > 5) {
                 b.append(string).append("\n");
             }
             i++;
@@ -442,12 +439,11 @@ public class CliScene {
 
     /**
      * Appends to the StringBuilder b a number of empty lines
+     *  @param b      builder to which the empty lines will be appended
      *
-     * @param b      builder to which the empty lines will be appended
-     * @param number number of lines
      */
-    private static void appendEmptyLine(StringBuilder b, int number) {
-        b.append("\n".repeat(Math.max(0, number)));
+    private static void appendEmptyLine(StringBuilder b) {
+        b.append("\n".repeat(Math.max(0, 3)));
     }
 
     /**
@@ -480,15 +476,13 @@ public class CliScene {
 
     /**
      * Adds a left and right margin to all the lines of a text
-     *
-     * @param b     builder to which the new lines will be appended
+     *  @param b     builder to which the new lines will be appended
      * @param text  text we want to add margin to
      * @param left  left margin
-     * @param right right margin
      */
-    private static void appendAllLinesCentered(StringBuilder b, String text, int left, int right) {
+    private static void appendAllLinesCentered(StringBuilder b, String text, int left) {
         for (String line : text.split("\\r?\\n")) {
-            b.append(" ".repeat(left)).append(line).append(" ".repeat(right)).append("\n");
+            b.append(" ".repeat(left)).append(line).append(" ".repeat(0)).append("\n");
         }
     }
 
@@ -555,7 +549,7 @@ public class CliScene {
      */
     private static StringBuilder decorateSquare(StringBuilder b, int width) {
         StringBuilder temp = new StringBuilder();
-        appendEmptyLine(temp, 3);
+        appendEmptyLine(temp);
         temp.append(".").append("-".repeat(width)).append(".\n");
         for (String string : b.toString().split("\\r?\\n")) {
             temp.append("|").append(string).append("|");
@@ -871,13 +865,13 @@ public class CliScene {
     private static StringBuilder closeSelectionWindow(StringBuilder temp, int numberOfPlayers, int outPutWidth) {
         StringBuilder b = new StringBuilder();
         temp = decorateColumns(temp);
-        appendAllLinesCentered(b, temp.toString(), 6, 0); //14
+        appendAllLinesCentered(b, temp.toString(), 6); //14
         b.insert(0, "\n" + TOP_SELECTION[numberOfPlayers - 2] + "\n");
         b.append(BOTTOM_SELECTION[numberOfPlayers - 2]).append("\n");
         temp.setLength(0);
         inputOutputSlot(temp, outPutWidth);
         temp = decorateSquare(temp, outPutWidth);
-        appendAllLinesCentered(b, removeLines(temp.toString(), 5), 1, 0);
+        appendAllLinesCentered(b, removeLines(temp.toString()), 1);
         return b;
     }
 
@@ -951,7 +945,7 @@ public class CliScene {
         StringBuilder outputSlot = new StringBuilder();
         inputOutputSlot(outputSlot, outPutWidth);
         outputSlot = decorateSquare(outputSlot, outPutWidth);
-        appendAllLinesCentered(b, removeLines(outputSlot.toString(), 5), 2, 0);
+        appendAllLinesCentered(b, removeLines(outputSlot.toString()), 2);
         out.println(centerScreen(Ansi.CLEAR_CONSOLE + b));
         if (input) {
             setCursor(10, 5);
@@ -1003,7 +997,7 @@ public class CliScene {
         StringBuilder temp = new StringBuilder();
         inputOutputSlot(temp, 96);
         temp = decorateSquare(temp, 96);
-        appendAllLinesCentered(b, extendSlots(removeLines(temp.toString(), 5)), width + 2, false);
+        appendAllLinesCentered(b, extendSlots(removeLines(temp.toString())), width + 2, false);
         out.println(centerScreen(Ansi.CLEAR_CONSOLE + b, 42));
         if (input) {
             setCursor(10, 5);
@@ -1352,7 +1346,7 @@ public class CliScene {
         StringBuilder temp = new StringBuilder();
         temp.append(addTileLine(" .", ". ", "-", height, 2)).append("\n");
         for (int r = 0; r < LEVEL_HEIGHT[height]; r++) {
-            temp.append(addTileLine("|", "|", " ", height)).append("\n");
+            temp.append(addTileLine(height)).append("\n");
         }
         temp.append(addTileLine(" '", "' ", "-", height, 2)).append("\n");
         return temp.toString();
@@ -1379,13 +1373,10 @@ public class CliScene {
     /**
      * Creates a Tile line based on height with offset from left border of 0
      *
-     * @param leftBorder  left border length
-     * @param rightBorder right border length
-     * @param inner       inner space length
      * @param height      whole tile height
      * @return line of the tile with offset 0
      */
-    private static String addTileLine(String leftBorder, String rightBorder, String inner, int height) {
-        return addTileLine(leftBorder, rightBorder, inner, height, 0);
+    private static String addTileLine(int height) {
+        return addTileLine("|", "|", " ", height, 0);
     }
 }
