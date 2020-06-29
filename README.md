@@ -1,7 +1,7 @@
 <h1 align="center"><b>Progetto ing. software anno accademico 2019/2020</b></h1>
 <h2 align="center">Gruppo GC55</h2>
 
-![alt text](https://github.com/Mark-Zampedroni/ing-sw-2020-Vanerio-Zampedroni-Zanoni/blob/master/src/main/resources/Texture2D_sorted/readmeTitle.JPG)
+![alt text](https://github.com/Mark-Zampedroni/ing-sw-2020-Vanerio-Zampedroni-Zanoni/blob/master/src/main/resources/Images/readmeTitle.JPG)
 
 ## Componenti del gruppo
 [__Stefano Vanerio__](https://github.com/Stefano-Vanerio) (890404)
@@ -25,7 +25,7 @@ Element | Class, % | Method, % | Line, % |
 --- | --- | --- | --- |
 __model__ | 100% (26/26) | 100% (154/154) | 98% (474/479) |
 __controller__ | 100% (9/9) | 92% (86/93) | 85% (355/413) |
-__server__ | 100% (3/3) | 94% (32/34) | 85% (178/209) |
+__server__ | 100% (3/3) | 91% (31/34) | 81% (172/209) |
 __utility__ | 91% (21/23) | 66% (52/78) | 62% (144/232) |
 
 # Funzionalità
@@ -67,7 +67,7 @@ dove `ip` e `port` sono  l'indirizzo ip e la porta del server, se omesso/i user�
 Per la GUI è necessario importare le dipendenze di javafx con i parametri `[--module-path]` e `[--add-module]`:
 
 ```
-java --module-path "javafx-sdk-11.0.2/lib" --add-modules javafx.controls --add-modules javafx.fxml -jar client.jar gui [-i ip] [-p port] [-log]
+java --module-path "javafx-sdk-11.0.2/lib" --add-modules javafx.controls,javafx.fxml -jar client.jar gui [-i ip] [-p port] [-log]
 ```
 dove `ip`, `port` e `log` sono equivalenti ai parametri della cli.
 
