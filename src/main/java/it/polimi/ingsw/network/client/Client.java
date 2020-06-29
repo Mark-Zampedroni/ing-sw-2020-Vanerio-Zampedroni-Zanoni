@@ -38,6 +38,7 @@ public abstract class Client implements Observer<Message>, View {
     protected Map<String, String> gods;
     private List<Runnable> requests;
     private List<Runnable> inputRequests;
+    private boolean isDiscParsed;
 
     public Client(boolean log) {
         init();
@@ -132,7 +133,11 @@ public abstract class Client implements Observer<Message>, View {
                     parseInfoMessage(message);
                     break;
                 case DISCONNECTION_UPDATE: // PRE-LOBBY / LOBBY (tutte)
-                    parseDisconnectMessage(message);
+                    //System.out.println("Disconnection from: "+message.getSender());
+                    if (!isDiscParsed) {
+                        parseDisconnectMessage(message);
+                        if (message.getSender().equals("SERVER")) isDiscParsed = true;
+                    } else isDiscParsed = false;
                     break;
                 case REGISTRATION_UPDATE: // LOBBY (pendente)
                     parseRegistrationReply((FlagMessage) message);
@@ -579,7 +584,6 @@ public abstract class Client implements Observer<Message>, View {
     }
 
     protected boolean isConnectionLost() {
-        System.out.println("isConnectionLost = " + ((connection == null) || (connection.isDisconnected())));
         return !reconnecting && (connection == null) || (connection.isDisconnected());
     }
 
