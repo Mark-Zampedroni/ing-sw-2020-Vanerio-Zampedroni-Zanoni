@@ -15,7 +15,7 @@ import java.io.IOException;
  */
 public class WorkerObj extends TrackedGroup {
 
-    private static final String WORKER_OBJ = "/obj/MaleBuilder.fxml";
+    private static final String WORKER_OBJ = "/Images/3D/Obj/MaleBuilder.fxml";
 
     private final SimpleDoubleProperty angleY = new SimpleDoubleProperty(0);
     private Rotate yRotate;
@@ -51,7 +51,7 @@ public class WorkerObj extends TrackedGroup {
      * @return path of the texture
      */
     private String getTexturePath(Colors color) {
-        return "/texture/MaleBuilder_" + color.toString().toLowerCase() + "_v001.png";
+        return "/Images/3D/Texture/MaleBuilder_" + color.toString().toLowerCase() + "_v001.png";
     }
 
     /**

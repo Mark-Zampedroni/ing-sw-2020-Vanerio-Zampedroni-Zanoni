@@ -37,60 +37,56 @@
                 <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
                 <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
             </rowConstraints>
-            <children>
-                <BorderPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="4" GridPane.columnSpan="2"
-                            GridPane.rowIndex="6">
-                    <center>
-                        <Button id="buttonReleased" fx:id="okButton" mnemonicParsing="false" prefHeight="441.0"
-                                prefWidth="1058.0" text="OK" textFill="WHITE" BorderPane.alignment="CENTER">
-                            <styleClass>
-                                <String fx:value="fullbackground"/>
-                                <String fx:value="invisiblebackground"/>
-                            </styleClass>
+            <BorderPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="4" GridPane.columnSpan="2"
+                        GridPane.rowIndex="6">
+                <center>
+                    <Button id="buttonReleased" fx:id="okButton" mnemonicParsing="false" prefHeight="441.0"
+                            prefWidth="1058.0" text="OK" textFill="WHITE" BorderPane.alignment="CENTER">
+                        <styleClass>
+                            <String fx:value="fullbackground"/>
+                            <String fx:value="invisiblebackground"/>
+                        </styleClass>
+                        <font>
+                            <Font name="Comic Sans MS Bold" size="24.0"/>
+                        </font>
+                        <padding>
+                            <Insets bottom="10.0"/>
+                        </padding>
+                    </Button>
+                </center>
+            </BorderPane>
+            <BorderPane prefHeight="50.0" prefWidth="50.0" GridPane.columnIndex="2" GridPane.columnSpan="6"
+                        GridPane.rowIndex="2" GridPane.rowSpan="2">
+                <center>
+                    <GridPane id="labelBack" styleClass="fullbackground" BorderPane.alignment="CENTER">
+                        <columnConstraints>
+                            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0"/>
+                        </columnConstraints>
+                        <rowConstraints>
+                            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
+                            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
+                        </rowConstraints>
+                        <Label fx:id="fixedLabel" alignment="CENTER" prefHeight="727.0" prefWidth="1166.0"
+                               text="You were disconnected!" textFill="WHITE">
                             <font>
-                                <Font name="Comic Sans MS Bold" size="24.0"/>
+                                <Font name="Comic Sans MS" size="24.0"/>
+                            </font>
+                            <padding>
+                                <Insets top="10.0"/>
+                            </padding>
+                        </Label>
+                        <Label fx:id="reason" alignment="CENTER" prefHeight="727.0" prefWidth="1166.0"
+                               text="Sample text" textFill="WHITE" GridPane.rowIndex="1">
+                            <font>
+                                <Font name="Comic Sans MS" size="24.0"/>
                             </font>
                             <padding>
                                 <Insets bottom="10.0"/>
                             </padding>
-                        </Button>
-                    </center>
-                </BorderPane>
-                <BorderPane prefHeight="50.0" prefWidth="50.0" GridPane.columnIndex="2" GridPane.columnSpan="6"
-                            GridPane.rowIndex="2" GridPane.rowSpan="2">
-                    <center>
-                        <GridPane id="labelBack" styleClass="fullbackground" BorderPane.alignment="CENTER">
-                            <columnConstraints>
-                                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0"/>
-                            </columnConstraints>
-                            <rowConstraints>
-                                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
-                                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
-                            </rowConstraints>
-                            <children>
-                                <Label fx:id="fixedLabel" alignment="CENTER" prefHeight="727.0" prefWidth="1166.0"
-                                       text="You were disconnected!" textFill="WHITE">
-                                    <font>
-                                        <Font name="Comic Sans MS" size="24.0"/>
-                                    </font>
-                                    <padding>
-                                        <Insets top="10.0"/>
-                                    </padding>
-                                </Label>
-                                <Label fx:id="reason" alignment="CENTER" prefHeight="727.0" prefWidth="1166.0"
-                                       text="Sample text" textFill="WHITE" GridPane.rowIndex="1">
-                                    <font>
-                                        <Font name="Comic Sans MS" size="24.0"/>
-                                    </font>
-                                    <padding>
-                                        <Insets bottom="10.0"/>
-                                    </padding>
-                                </Label>
-                            </children>
-                        </GridPane>
-                    </center>
-                </BorderPane>
-            </children>
+                        </Label>
+                    </GridPane>
+                </center>
+            </BorderPane>
         </GridPane>
     </center>
 </BorderPane>

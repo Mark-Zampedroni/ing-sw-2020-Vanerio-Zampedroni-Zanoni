@@ -92,11 +92,9 @@ public class ClientConnection implements Runnable {
             }
         }
         log.info("[CONNECTION] Server crashed");
-        if (reconnect) {
-            initReconnection();
-        } else {
+        if (reconnect) initReconnection();
+        else if (!isDisconnected)
             inQueue.add(new Message(MessageType.DISCONNECTION_UPDATE, "SELF", "Lost connection to server", "ALL"));
-        }
     }
 
     /**
@@ -114,6 +112,7 @@ public class ClientConnection implements Runnable {
      * Disconnects a client
      */
     public void disconnect() {
+        isDisconnected = true;
         try {
             if (!socket.isClosed()) {
                 socket.close();

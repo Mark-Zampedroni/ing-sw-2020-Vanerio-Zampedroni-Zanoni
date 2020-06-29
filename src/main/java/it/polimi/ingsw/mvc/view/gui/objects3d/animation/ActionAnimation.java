@@ -32,10 +32,10 @@ public class ActionAnimation extends TrackedGroup {
     private static final double SX = 0.6;
     private static final double SY = -5;
     private static final double SZ = 3.75;
-    private static final String MOVE_EFFECT_TEXTURE = "/texture/effects/playermoveindicator_blue.png";
-    private static final String SELECT_WORKER_TEXTURE = "/texture/effects/playermoveindicator_yellow.png";
-    private static final String BUILD_EFFECT_TEXTURE = "/texture/effects/playerplaceindicator_blue.png";
-    private static final String ADD_WORKER_EFFECT_TEXTURE = "/texture/effects/playerplaceindicator_gold.png";
+    private static final String MOVE_EFFECT_TEXTURE = "/Images/3D/Texture/effects/playermoveindicator_blue.png";
+    private static final String SELECT_WORKER_TEXTURE = "/Images/3D/Texture/effects/playermoveindicator_yellow.png";
+    private static final String BUILD_EFFECT_TEXTURE = "/Images/3D/Texture/effects/playerplaceindicator_blue.png";
+    private static final String ADD_WORKER_EFFECT_TEXTURE = "/Images/3D/Texture/effects/playerplaceindicator_gold.png";
     private static final List<Timeline> t = new ArrayList<>();
 
     /**

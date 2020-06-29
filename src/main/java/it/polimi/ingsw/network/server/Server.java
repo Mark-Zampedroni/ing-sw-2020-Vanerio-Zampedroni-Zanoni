@@ -44,6 +44,7 @@ public class Server extends Thread {
     private ServerConnection gameCreator;
     private int token = 0;
     private Thread queueHandler;
+    private boolean isLogging;
 
     /**
      * Constructor of a the Singleton instance.
@@ -53,11 +54,12 @@ public class Server extends Thread {
      * @param log  if {@code true} creates a log where any event will be recorded
      */
     public Server(int port, boolean log) {
+        isLogging = log;
         if (instance == null) Server.assignInstance(this);
         reconnecting = new HashMap<>();
         freshConnections = new ArrayList<>();
         allConnections = new ArrayList<>();
-        if (log) startLogging();
+        if (isLogging) startLogging();
         sessionController = new SessionController(freshConnections, LOG); // Controller
         try {
             serverSocket = new ServerSocket(port);
@@ -308,7 +310,7 @@ public class Server extends Thread {
         freshConnections.clear();
         allConnections.clear();
         gameCreator = null;
-        startLogging();
+        if (isLogging) startLogging();
         sessionController = new SessionController(freshConnections, LOG); // Controller
     }
 

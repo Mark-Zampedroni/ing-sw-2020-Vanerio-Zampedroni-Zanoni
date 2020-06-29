@@ -5,7 +5,7 @@
 }
 
 #wifiSymbol {
-    -fx-background-image: url("../Texture2D_sorted/misti/wifi.png");
+    -fx-background-image: url("../Images/Mixed/wifi.png");
     -fx-background-size: 100% 100%;
     -fx-opacity: 1;
 }

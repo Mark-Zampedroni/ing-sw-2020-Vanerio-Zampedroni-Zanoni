@@ -27,13 +27,13 @@ public class CliScene {
     private static final String B_BOT = "z".repeat(13);
     public static final String ROW = "-".repeat(100);
     private static final String DOWN = "     \n";
-    private static final String SPACE= "       ";
-    private static final String SPACE2="      ";
-    private static final String DOWN2="\\ \n";
-    private static final String BLANKLINE="                               |                              |                               ";
-    private static final String BLANKLINESMALL="                                  |                                  ";
-    private static final String BLANKLINEDOWN="                          \n";
-    private static final String DOWN3="\\r?\\n";
+    private static final String SPACE = "       ";
+    private static final String SPACE2 = "      ";
+    private static final String DOWN2 = "\\ \n";
+    private static final String B_LINE = " ".repeat(31) + "|" + " ".repeat(30) + "|" + " ".repeat(31);
+    private static final String B_LINE_SMALL = " ".repeat(34) + "|" + " ".repeat(34);
+    private static final String B_LINE_B = " ".repeat(26) + "\n";
+    private static final String SPLIT_VALUE = "\\r?\\n";
 
     private static final String TOP_LOBBY =
             "    " + "_".repeat(94) + "   \n" +
@@ -86,12 +86,12 @@ public class CliScene {
                     "   " + P_TOP + "                          ( )                            ( )                          " + P_TOP + "\n" +
                     "  " + P_MID + "                          |                              |                          " + P_MID + "\n" +
                     "   " + P_BOT + "                           |                              |                           " + P_BOT + " \n" +
-                    SPACE + C + BLANKLINE + C + DOWN +
-                    SPACE + C + BLANKLINE + C + "\n" +
-                    SPACE + C + BLANKLINE + C;
+                    SPACE + C + B_LINE + C + DOWN +
+                    SPACE + C + B_LINE + C + "\n" +
+                    SPACE + C + B_LINE + C;
     private static final String BOTTOM_SELECTION_3 =
-            SPACE + C + BLANKLINE + C + "\n" +
-                    SPACE + C + BLANKLINE + C + "\n" +
+            SPACE + C + B_LINE + C + "\n" +
+                    SPACE + C + B_LINE + C + "\n" +
                     SPACE2 + B_TOP + "                              |                              |                              " + B_TOP + "\n" +
                     SPACE2 + B_MID + "                             ( )                            ( )                             " + B_MID + "  \n" +
                     "   ." + B_BOT + "-".repeat(88) + B_BOT + ".\n" +
@@ -103,13 +103,13 @@ public class CliScene {
                     "   " + P_TOP + "                             ( )                             " + P_TOP + "\n" +
                     "  " + P_MID + "                             |                             " + P_MID + "\n" +
                     "   " + P_BOT + "                              |                              " + P_BOT + " \n" +
-                    SPACE + C + BLANKLINESMALL + C + DOWN +
-                    SPACE + C + BLANKLINESMALL + C + "\n" +
-                    SPACE + C + BLANKLINESMALL + C;
+                    SPACE + C + B_LINE_SMALL + C + DOWN +
+                    SPACE + C + B_LINE_SMALL + C + "\n" +
+                    SPACE + C + B_LINE_SMALL + C;
     private static final String BOTTOM_SELECTION_2 =
-            SPACE + C + BLANKLINESMALL + C + "\n" +
-                    SPACE + C + BLANKLINESMALL + C + "\n" +
-                    SPACE + C + BLANKLINESMALL + C + "\n" +
+            SPACE + C + B_LINE_SMALL + C + "\n" +
+                    SPACE + C + B_LINE_SMALL + C + "\n" +
+                    SPACE + C + B_LINE_SMALL + C + "\n" +
                     SPACE2 + B_TOP + "                                 |                                 " + B_TOP + "\n" +
                     SPACE2 + B_MID + "                                ( )                                " + B_MID + "\n" +
                     "   ." + B_BOT + "-".repeat(63) + B_BOT + ".\n" +
@@ -119,12 +119,12 @@ public class CliScene {
     private static final String[] BOTTOM_SELECTION = {BOTTOM_SELECTION_2, BOTTOM_SELECTION_3};
 
     private static final String ARROWS_CHALLENGER =
-            BLANKLINEDOWN +
-                    BLANKLINEDOWN +
+            B_LINE_B +
+                    B_LINE_B +
                     "  Type 1 and 2 to browse  \n" +
                     "  more available gods     \n" +
-                    BLANKLINEDOWN +
-                    BLANKLINEDOWN +
+                    B_LINE_B +
+                    B_LINE_B +
                     "      /|__       __|\\      \n" +
                     "   1 /    |     |    \\ 2   \n" +
                     "     \\  __|     |__  /     \n" +
@@ -200,23 +200,53 @@ public class CliScene {
         }
     }
 
-    //Prints the scene with the game board for the players not currently turnOwner
-    public static void printBoardScreen(DtoSession session, Map<String, Colors> colors, Map<String, String> gods, String turnOwner) {
-        printBoardScreen("", session, colors, gods, null, turnOwner);
+    /**
+     * Prints the board screen on console, hides the action candidates
+     *
+     * @param session         session containing the board to show
+     * @param colors          map of each player name to its color
+     * @param gods            map of each player name to its god
+     * @param turnOwner       name of the current turn owner
+     * @param areActionsShown {@code true} if the action candidates marks must be shown
+     */
+    public static void printBoardScreen(DtoSession session, Map<String, Colors> colors, Map<String, String> gods, String turnOwner, boolean areActionsShown) {
+        printBoardScreen("", session, colors, gods, null, turnOwner, areActionsShown);
     }
 
-    //Prints the scene with the game board for the turnOwner
-    public static void printBoardScreen(String inputRequest, DtoSession session, Map<String, Colors> colors, Map<String, String> gods, Map<Action, List<DtoPosition>> possibleActions, String turnOwner) {
-        String board = addBoardScreenBorder(addCoordinates(createBoard(session, colors, possibleActions))).toString();
+    /**
+     * Prints the board screen on console, shows the action candidates
+     *
+     * @param inputRequest    text of the input request
+     * @param session         session containing the board to show
+     * @param colors          map of each player name to its color
+     * @param gods            map of each player name to its god
+     * @param possibleActions map of each possible action to the list of the candidate positions for the action
+     * @param turnOwner       name of the current turn owner
+     * @param areActionsShown {@code true} if the action candidates marks must be shown
+     */
+    public static void printBoardScreen(String inputRequest, DtoSession session, Map<String, Colors> colors, Map<String, String> gods, Map<Action, List<DtoPosition>> possibleActions, String turnOwner, boolean areActionsShown) {
+        String board = addBoardScreenBorder(addCoordinates(createBoard(session, colors, possibleActions, areActionsShown))).toString();
         out.println(Ansi.CLEAR_CONSOLE + centerScreen(addSideBar(inputRequest, board, colors, gods, possibleActions, turnOwner).toString(), 20));
-        setCursor(105, 14);
+        if (possibleActions != null) setCursor(105, 14);
+        out.flush();
     }
 
-    private static StringBuilder addSideBar(String inputRequest, String t, Map<String, Colors> colors, Map<String, String> gods, Map<Action, List<DtoPosition>> possibleActions, String turnOwner) {
+    /**
+     * Adds the sidebar to the board scene
+     *
+     * @param inputRequest    text of the input request
+     * @param board           board as string (already built)
+     * @param colors          map of each player name to its color
+     * @param gods            map of each player name to its god
+     * @param possibleActions map of each possible action to the list of the candidate positions for the action
+     * @param turnOwner       name of the current turn owner
+     * @return the board given as parameter decorated with a sidebar
+     */
+    private static StringBuilder addSideBar(String inputRequest, String board, Map<String, Colors> colors, Map<String, String> gods, Map<Action, List<DtoPosition>> possibleActions, String turnOwner) {
         StringBuilder temp = new StringBuilder();
-        String[] pBox = createSideBar(inputRequest, colors, gods, possibleActions, turnOwner).split(DOWN3);
+        String[] pBox = createSideBar(inputRequest, colors, gods, possibleActions, turnOwner).split(SPLIT_VALUE);
         int i = 0;
-        for (String s : t.split(DOWN3)) {
+        for (String s : board.split(SPLIT_VALUE)) {
             temp.append(s);
             if (i < pBox.length) {
                 temp.append(pBox[i]);
@@ -227,6 +257,16 @@ public class CliScene {
         return temp;
     }
 
+    /**
+     * Creates a sidebar displaying the given parameters
+     *
+     * @param inputRequest    text of the input request
+     * @param colors          map of each player name to its color
+     * @param gods            map of each player name to its god
+     * @param possibleActions map of each possible action to the list of the candidate positions for the action
+     * @param turnOwner       name of the current turn owner
+     * @return the sidebar built
+     */
     private static String createSideBar(String inputRequest, Map<String, Colors> colors, Map<String, String> gods, Map<Action, List<DtoPosition>> possibleActions, String turnOwner) {
         StringBuilder temp = new StringBuilder();
         addPlayersBoardBox(temp, colors, gods);
@@ -235,70 +275,102 @@ public class CliScene {
         return temp.toString();
     }
 
-    private static void addBoardRequest(StringBuilder b, String inputRequest) {
+    /**
+     * Adds to the sidebar the box with the input request
+     *
+     * @param sidebar      StringBuilder containing the sidebar
+     * @param inputRequest text of the input request
+     */
+    private static void addBoardRequest(StringBuilder sidebar, String inputRequest) {
         String emptyRow = (extendSlots("", 34) + "|\n");
-        b.append("  ").append(extendSlots(inputRequest, 32)).append("|\n");
-        b.append(emptyRow);
-        if (!inputRequest.equals("")) b.append(extendSlots("  >>> ", 34)).append("|\n");
-        else b.append(emptyRow);
-        b.append(emptyRow.repeat(10));
-        b.append("-".repeat(35));
+        sidebar.append("  ").append(extendSlots(inputRequest, 32)).append("|\n");
+        sidebar.append(emptyRow);
+        if (!inputRequest.equals("")) sidebar.append(extendSlots("  >>> ", 34)).append("|\n");
+        else sidebar.append(emptyRow);
+        sidebar.append(emptyRow.repeat(10));
+        sidebar.append("-".repeat(35));
     }
 
-    private static void addPlayerTurnBox(StringBuilder b, Map<Action, List<DtoPosition>> possibleActions, String turnOwner) {
+    /**
+     * Adds to the sidebar the box containing the possible actions
+     *
+     * @param sidebar         StringBuilder containing the sidebar
+     * @param possibleActions map of each possible action to the list of positions candidates
+     * @param turnOwner       name of the current turn owner
+     */
+    private static void addPlayerTurnBox(StringBuilder sidebar, Map<Action, List<DtoPosition>> possibleActions, String turnOwner) {
         String emptyRow = (extendSlots("", 34) + "|\n");
         String separator = "-".repeat(34);
-        b.append(emptyRow).append(centerLine("ACTIONS", 34, false)).append("|\n")
+        sidebar.append(emptyRow).append(centerLine("ACTIONS", 34, false)).append("|\n")
                 .append(separator).append("|\n").append(emptyRow);
         if (possibleActions == null)
-            b.append(centerLine("It's " + turnOwner + " turn", 34, false)).append("|\n").append(emptyRow.repeat(9));
+            sidebar.append(centerLine("It's " + turnOwner + " turn", 34, false)).append("|\n").append(emptyRow.repeat(9));
         else {
-            b.append(centerLine("It's your turn!", 34, false)).append("|\n");
-            b.append(emptyRow.repeat(2));
-            b.append(extendSlots("  Available actions:", 34)).append("|\n");
+            sidebar.append(centerLine("It's your turn!", 34, false)).append("|\n");
+            sidebar.append(emptyRow.repeat(2));
+            sidebar.append(extendSlots("  Available actions:", 34)).append("|\n");
             int i = 0;
             for (Action action : possibleActions.keySet()) {
-                b.append(emptyRow);
-                b.append(extendSlots("  " + i + " -> " + action.toString(), 34)).append("|\n");
+                sidebar.append(emptyRow);
+                sidebar.append(extendSlots("  " + i + " -> " + action.toString(), 34)).append("|\n");
                 i++;
             }
             while (i < 3) {
-                b.append(emptyRow.repeat(2));
+                sidebar.append(emptyRow.repeat(2));
                 i++;
             }
         }
-        b.append(emptyRow);
+        sidebar.append(emptyRow);
     }
 
-    private static void addPlayersBoardBox(StringBuilder b, Map<String, Colors> colors, Map<String, String> gods) {
+    /**
+     * Adds to the sidebar the box containing the players names, their colors and their gods
+     *
+     * @param sidebar StringBuilder containing the sidebar
+     * @param colors  map of each player name to its color
+     * @param gods    map of each player name to its god
+     */
+    private static void addPlayersBoardBox(StringBuilder sidebar, Map<String, Colors> colors, Map<String, String> gods) {
         String emptyRow = (extendSlots("", 34) + "|\n");
         String separator = "-".repeat(34);
-        b.append(separator).append("-\n")
+        sidebar.append(separator).append("-\n")
                 .append(emptyRow).append(centerLine("PLAYERS", 34, false)).append("|\n")
                 .append(separator).append("|\n").append(emptyRow)
                 .append("  Player     - God       - Color  |\n")
                 .append(emptyRow);
         for (Map.Entry<String, Colors> e : colors.entrySet()) {
-            b.append(" ".repeat(2))
+            sidebar.append(" ".repeat(2))
                     .append(extendSlots(e.getKey(), 13))
                     .append(extendSlots(gods.get(e.getKey()), 12))
                     .append(extendSlots(e.getValue().toString(), 5)).append("  |\n")
                     .append(emptyRow);
         }
-        if (colors.size() == 2) b.append(emptyRow.repeat(2));
-        b.append(emptyRow.repeat(8)).append(separator).append("|\n");
+        if (colors.size() == 2) sidebar.append(emptyRow.repeat(2));
+        sidebar.append(emptyRow.repeat(8)).append(separator).append("|\n");
     }
 
+    /**
+     * Adds the outer border of the board
+     *
+     * @param boardWithCoordinates string containing the board decorated with coordinates
+     * @return board decorated with the outer border
+     */
     private static StringBuilder addBoardScreenBorder(String boardWithCoordinates) {
         StringBuilder temp = new StringBuilder();
         temp.append("-".repeat(99)).append("\n");
-        for (String line : boardWithCoordinates.split(DOWN3)) {
+        for (String line : boardWithCoordinates.split(SPLIT_VALUE)) {
             temp.append("|").append(line).append(" ".repeat((line.equals("") ? 97 : 2))).append("|").append("\n");
         }
         temp.append("|").append(" ".repeat(97)).append("|").append("\n").append("-".repeat(99)).append("\n");
         return temp;
     }
 
+    /**
+     * Adds the coordinates values to the board
+     *
+     * @param board string containing the board
+     * @return board decorated with coordinates
+     */
     private static String addCoordinates(String board) {
         StringBuilder temp = new StringBuilder();
         addXCoordinates(temp);
@@ -306,18 +378,29 @@ public class CliScene {
         return temp.toString();
     }
 
+    /**
+     * Adds the X axis values to the board in the given StringBuilder
+     *
+     * @param boardWithoutCoordinates StringBuilder containing the board
+     */
     private static void addXCoordinates(StringBuilder boardWithoutCoordinates) {
         List<String> xC = new ArrayList<>(Arrays.asList("A", "B", "C", "D", "E"));
         boardWithoutCoordinates.append("\n").append(" ".repeat(13));
         xC.forEach(e -> boardWithoutCoordinates.append(e).append(" ".repeat((e.equals("E") ? 9 : 17))));
     }
 
+    /**
+     * Adds the Y axis values to the board in the given StringBuilder
+     *
+     * @param temp  StringBuilder where the result will be put
+     * @param board string containing the board
+     */
     private static void addYCoordinates(StringBuilder temp, String board) {
         int p = 0;
         int a = 0;
         int r = 1;
         temp.append("\n");
-        for (String row : board.split(DOWN3)) {
+        for (String row : board.split(SPLIT_VALUE)) {
             temp.append(" ");
             if (p == 5 || a == 8) {
                 temp.append(" ").append(r).append(" ");
@@ -363,7 +446,7 @@ public class CliScene {
     private static StringBuilder addOffset(String text, double o) {
         StringBuilder temp = new StringBuilder();
         String offset = " ".repeat(Math.max(0, (int) o));
-        for (String line : text.split(DOWN3)) {
+        for (String line : text.split(SPLIT_VALUE)) {
             String newLine = offset + line + "\n";
             temp.append(newLine);
         }
@@ -390,7 +473,7 @@ public class CliScene {
     private static String removeLines(String text) {
         StringBuilder b = new StringBuilder();
         int i = 1;
-        for (String string : text.split(DOWN3)) {
+        for (String string : text.split(SPLIT_VALUE)) {
             if (i > 5) {
                 b.append(string).append("\n");
             }
@@ -408,7 +491,7 @@ public class CliScene {
     private static String extendSlots(String string) {
         StringBuilder temp = new StringBuilder();
         int width = getLongestLine(string);
-        for (String s : string.split(DOWN3)) {
+        for (String s : string.split(SPLIT_VALUE)) {
             temp.append(s);
             temp.append(" ".repeat(Math.max(0, width - s.length() + 1)));
             temp.append("\n");
@@ -476,7 +559,7 @@ public class CliScene {
      *                but we do not need to count them for the total length
      */
     private static void appendAllLinesCentered(StringBuilder b, String text, int length, boolean fixAnsi) {
-        for (String line : text.split(DOWN3)) {
+        for (String line : text.split(SPLIT_VALUE)) {
             b.append(centerLine(line, length, fixAnsi)).append("\n");
         }
     }
@@ -488,7 +571,7 @@ public class CliScene {
      * @param left  left margin
      */
     private static void appendAllLinesCentered(StringBuilder b, String text, int left) {
-        for (String line : text.split(DOWN3)) {
+        for (String line : text.split(SPLIT_VALUE)) {
             b.append(" ".repeat(left)).append(line).append(" ".repeat(0)).append("\n");
         }
     }
@@ -539,7 +622,7 @@ public class CliScene {
      */
     private static int getLongestLine(String text) {
         int max = 0;
-        for (String line : text.split(DOWN3)) {
+        for (String line : text.split(SPLIT_VALUE)) {
             if (line.length() > max) {
                 max = line.length();
             }
@@ -558,7 +641,7 @@ public class CliScene {
         StringBuilder temp = new StringBuilder();
         appendEmptyLine(temp);
         temp.append(".").append("-".repeat(width)).append(".\n");
-        for (String string : b.toString().split(DOWN3)) {
+        for (String string : b.toString().split(SPLIT_VALUE)) {
             temp.append("|").append(string).append("|");
             temp.append("\n");
         }
@@ -574,7 +657,7 @@ public class CliScene {
      */
     private static StringBuilder decorateColumns(StringBuilder b) {
         StringBuilder temp = new StringBuilder();
-        for (String string : b.toString().split(DOWN3)) {
+        for (String string : b.toString().split(SPLIT_VALUE)) {
             temp.append(" | | | |").append(string).append(C);
             temp.append("\n");
         }
@@ -631,7 +714,7 @@ public class CliScene {
      */
     private static String addTowerElem(String oldTile, int pos1, int pos2, String firstElem, String secondElem) {
         StringBuilder tile = new StringBuilder();
-        List<String> tempRow = Arrays.asList(oldTile.split(DOWN3));
+        List<String> tempRow = Arrays.asList(oldTile.split(SPLIT_VALUE));
         for (int r = 0; r < tempRow.size(); r++) {
             if (r == 4 || r == 5) {
                 tile.append(tempRow.get(r), 0, pos1).append((r == 4) ? firstElem : secondElem).append(tempRow.get(r).substring(pos2)).append("\n");
@@ -652,7 +735,7 @@ public class CliScene {
      */
     private static String colorLevels(String oldTile, int height, String occupant) {
         StringBuilder tile = new StringBuilder();
-        List<String> temp = Arrays.asList(oldTile.split(DOWN3));
+        List<String> temp = Arrays.asList(oldTile.split(SPLIT_VALUE));
         List<String> overBase = new ArrayList<>();
         for (int row = 1; row < temp.size() - 1; row++) {
             overBase.add(temp.get(row).substring(1, temp.get(row).length() - 1));
@@ -673,7 +756,7 @@ public class CliScene {
      * @param possibleActions map that contains which actions can be performed and where
      * @return the board as string
      */
-    private static String createBoard(DtoSession session, Map<String, Colors> colors, Map<Action, List<DtoPosition>> possibleActions) {
+    private static String createBoard(DtoSession session, Map<String, Colors> colors, Map<Action, List<DtoPosition>> possibleActions, boolean areActionsShown) {
         StringBuilder board = new StringBuilder();
         Map<Integer, Boolean> positions;
         for (int y = 0; y < 5; y++) {
@@ -681,9 +764,9 @@ public class CliScene {
             for (int x = 0; x < 5; x++) {
                 DtoTile tile = session.getBoard().getTile(x, y);
                 String master = session.getWorkerMasterOn(x, y);
-                line[x] = Arrays.asList(createTile(tile.getHeight(), tile.hasDome(), master == null ? "" : colors.get(master).toString()).split(DOWN3));
+                line[x] = Arrays.asList(createTile(tile.getHeight(), tile.hasDome(), master == null ? "" : colors.get(master).toString()).split(SPLIT_VALUE));
             }
-            positions = createBorder(possibleActions, y, board);
+            positions = createBorder((areActionsShown) ? possibleActions : new HashMap<>(), y, board);
             for (int r = 0; r < line[0].size(); r++) {
                 board.append(Boolean.TRUE.equals(positions.get(0)) ? Ansi.addBg(111, "|") : "|");
                 for (int x = 0; x < 5; x++) {
@@ -692,7 +775,7 @@ public class CliScene {
                 board.append("\n");
             }
         }
-        createBorder(possibleActions, 5, board);
+        createBorder((areActionsShown) ? possibleActions : new HashMap<>(), 5, board);
         return Ansi.CLEAR_CONSOLE + board.toString();
     }
 
@@ -897,7 +980,7 @@ public class CliScene {
             r.append(" ".repeat((numberOfPlayers == 3) ? 1 : 0));
             for (String box : chosen) {
                 r.append(" ".repeat((numberOfPlayers == 3) ? 2 : 4))
-                        .append(box.split(DOWN3)[row])
+                        .append(box.split(SPLIT_VALUE)[row])
                         .append(" ".repeat((numberOfPlayers == 3) ? 2 : 4))
                         .append("|");
             }
@@ -944,7 +1027,7 @@ public class CliScene {
         addBrowseArrows(b, chosenGods, numberOfPlayers);
         String temp = decorateColumns(b).toString();
         b.setLength(0);
-        for (String line : temp.split(DOWN3)) {
+        for (String line : temp.split(SPLIT_VALUE)) {
             b.append(centerLine(line, 6, 0)).append("\n");
         }
         b.insert(0, "\n" + TOP_CHALLENGER + "\n");
@@ -1036,8 +1119,8 @@ public class CliScene {
      * @param numberOfPlayers number of players in game
      */
     public static void addBrowseArrows(StringBuilder b, List<String> selectedGods, int numberOfPlayers) {
-        String[] arrow = ARROWS_CHALLENGER.split(DOWN3);
-        String[] godBox = b.toString().split(DOWN3);
+        String[] arrow = ARROWS_CHALLENGER.split(SPLIT_VALUE);
+        String[] godBox = b.toString().split(SPLIT_VALUE);
         b.setLength(0);
         b.append(godBox[0]).append("  You selected ").append(selectedGods.size()).append("/").append(numberOfPlayers).append(" gods     ").append("\n");
         for (int row = 1; row < 10; row++) {
@@ -1070,9 +1153,9 @@ public class CliScene {
     public static void addGodsRow(StringBuilder b, List<String> godBoxes, int block, int length, int height) {
         for (int h = 0; h < height; h++) {
             b.append(" ".repeat(2));
-            b.append(godBoxes.get(block).split(DOWN3)[h]);
+            b.append(godBoxes.get(block).split(SPLIT_VALUE)[h]);
             b.append(" ".repeat(2)).append("|").append(" ".repeat(2));
-            b.append(godBoxes.get(block + 1).split(DOWN3)[h]);
+            b.append(godBoxes.get(block + 1).split(SPLIT_VALUE)[h]);
             b.append(" ".repeat(2)).append("|").append("\n");
         }
         b.append(" ".repeat(2 + length + 2)).append("|").append(" ".repeat(2 + length + 2)).append("|").append("\n");
@@ -1122,7 +1205,7 @@ public class CliScene {
         for (String string : divideInRows(description[1].substring(1), length)) {
             temp.append(extendSlots(string, length)).append("\n");
         }
-        appendEmptyRow(temp, length, height - temp.toString().split(DOWN3).length + 1);
+        appendEmptyRow(temp, length, height - temp.toString().split(SPLIT_VALUE).length + 1);
         return temp.toString();
     }
 
@@ -1323,12 +1406,12 @@ public class CliScene {
         int yPos = 1;
         int xPos = 1;
         for (int h = 1; h < height + 1; h++) {
-            String[] oldTile = tile.toString().split(DOWN3);
+            String[] oldTile = tile.toString().split(SPLIT_VALUE);
             tile.setLength(0);
             for (int r = 0; r < yPos; r++) {
                 tile.append(oldTile[r]).append("\n");
             }
-            String[] newLevel = getLevel(h).split(DOWN3);
+            String[] newLevel = getLevel(h).split(SPLIT_VALUE);
             for (int n = 0; n < newLevel.length; n++) {
                 tile.append(oldTile[n + yPos], 0, xPos)
                         .append(newLevel[n])

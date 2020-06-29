@@ -13,52 +13,52 @@
 }
 
 #selectbutton {
-    -fx-background-image: url("../Texture2D_sorted/Pulsanti/btn_blue.png");
+    -fx-background-image: url("/Images/Buttons/btn_blue.png");
 }
 
 #selectbutton:disabled {
     -fx-opacity: 1.0;
-    -fx-background-image: url("../Texture2D_sorted/Pulsanti/btn_small_gray.png");
+    -fx-background-image: url("/Images/Buttons/btn_small_gray.png");
 }
 
 #selectbuttonpressed {
-    -fx-background-image: url("../Texture2D_sorted/Pulsanti/btn_blue_pressed.png");
+    -fx-background-image: url("/Images/Buttons/btn_blue_pressed.png");
 }
 
 #cardBackground {
-    -fx-background-image: url("../Texture2D_sorted/Backgrounds/PlayerUIPanel2v4.png");
+    -fx-background-image: url("/Images/Backgrounds/PlayerUIPanel2v4.png");
 }
 
 #godBackground {
-    -fx-background-image: url("../Texture2D_sorted/Backgrounds/PlayerUIPanel2v5.png");
+    -fx-background-image: url("/Images/Backgrounds/PlayerUIPanel2v5.png");
 }
 
 #labelBack {
-    -fx-background-image: url("../Texture2D_sorted/Backgrounds/popupnoborder.png");
+    -fx-background-image: url("/Images/Backgrounds/popupnoborder.png");
 }
 
 #godNameLabel {
-    -fx-background-image: url("../Texture2D_sorted/Backgrounds/godnametag.png");
+    -fx-background-image: url("/Images/Backgrounds/godnametag.png");
     -fx-font-size: 22;
     -fx-text-fill: white;
     -fx-alignment: center;
 }
 
 #playerNameLabel {
-    -fx-background-image: url("../Texture2D_sorted/Backgrounds/om_nameTagActiveGreen.png");
+    -fx-background-image: url("/Images/Backgrounds/om_nameTagActiveGreen.png");
     -fx-font-size: 13;
 }
 
 #infoButton {
-    -fx-background-image: url("../Texture2D_sorted/Backgrounds/info.png");
+    -fx-background-image: url("/Images/Backgrounds/info.png");
 }
 
 #infoPressed {
-    -fx-background-image: url("../Texture2D_sorted/Backgrounds/infopressed.png");
+    -fx-background-image: url("/Images/Backgrounds/infopressed.png");
 }
 
 #bggodselection {
-    -fx-background-image: url("../Texture2D_sorted/Backgrounds/bggod.png");
+    -fx-background-image: url("/Images/Backgrounds/bggod.png");
 }
 
 #descriptionLabel {
@@ -77,11 +77,11 @@
 
 
 #playerbuttonpressed {
-    -fx-background-image: url("../Texture2D_sorted/Pulsanti/btn_green_pressed.png");
+    -fx-background-image: url("../Images/Buttons/btn_green_pressed.png");
 }
 
 #playerbutton {
-    -fx-background-image: url("../Texture2D_sorted/Pulsanti/btn_green.png");
+    -fx-background-image: url("../Images/Buttons/btn_green.png");
 }
 
 #actionlabel {

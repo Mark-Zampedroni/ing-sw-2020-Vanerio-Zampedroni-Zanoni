@@ -13,14 +13,14 @@ import java.io.IOException;
  */
 public class TowerObj extends TrackedGroup {
 
-    private static final String BOTTOM_OBJ = "/obj/BuildingBlock01.fxml";
-    private static final String BOTTOM_TEXTURE = "/texture/BuildingBlock01_v001.png";
-    private static final String MIDDLE_OBJ = "/obj/BuildingBlock02.fxml";
-    private static final String MIDDLE_TEXTURE = "/texture/BuildingBlock02_v001.png";
-    private static final String TOP_OBJ = "/obj/BuildingBlock03.fxml";
-    private static final String TOP_TEXTURE = "/texture/BuildingBlock03_v001.png";
-    private static final String DOME_OBJ = "/obj/Dome.fxml";
-    private static final String DOME_TEXTURE = "/texture/Dome.png";
+    private static final String BOTTOM_OBJ = "/Images/3D/Obj/BuildingBlock01.fxml";
+    private static final String BOTTOM_TEXTURE = "/Images/3D/Texture/BuildingBlock01_v001.png";
+    private static final String MIDDLE_OBJ = "/Images/3D/Obj/BuildingBlock02.fxml";
+    private static final String MIDDLE_TEXTURE = "/Images/3D/Texture/BuildingBlock02_v001.png";
+    private static final String TOP_OBJ = "/Images/3D/Obj/BuildingBlock03.fxml";
+    private static final String TOP_TEXTURE = "/Images/3D/Texture/BuildingBlock03_v001.png";
+    private static final String DOME_OBJ = "/Images/3D/Obj/Dome.fxml";
+    private static final String DOME_TEXTURE = "/Images/3D/Texture/Dome.png";
     private static PhongMaterial topTexture;
     private static PhongMaterial midTexture;
     private static PhongMaterial botTexture;

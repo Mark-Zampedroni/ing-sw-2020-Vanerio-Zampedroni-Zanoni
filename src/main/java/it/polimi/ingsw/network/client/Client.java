@@ -24,6 +24,9 @@ import java.util.stream.Collectors;
 public abstract class Client implements Observer<Message>, View {
 
     private static final String RECIPIENT = "SERVER";
+    /**
+     * Logger of the client
+     */
     public final Logger log;
     protected GameState state;
     protected String username;
@@ -39,11 +42,8 @@ public abstract class Client implements Observer<Message>, View {
     public Client(boolean log) {
         init();
         this.log = Logger.getLogger("client");
-        if (log) {
-            startLogging();
-        }
-        this.log.setUseParentHandlers(false);
-
+        if (log) startLogging();
+        this.log.setUseParentHandlers(true);
     }
 
     /**
@@ -123,14 +123,10 @@ public abstract class Client implements Observer<Message>, View {
             log.info(() -> "[CLIENT] Received message " + message);
             switch (message.getType()) {
                 case CONNECTION_TOKEN: // CONNECTION
-                    if (state == GameState.CONNECTION) {
-                        parseConnectionMessage(message);
-                    }
+                    if (state == GameState.CONNECTION) parseConnectionMessage(message);
                     break;
                 case SLOTS_UPDATE: // PRE-LOBBY
-                    if (state == GameState.PRE_LOBBY) {
-                        parseSlotMessage();
-                    }
+                    if (state == GameState.PRE_LOBBY) parseSlotMessage();
                     break;
                 case INFO_UPDATE: // PRE-LOBBY
                     parseInfoMessage(message);
@@ -325,10 +321,10 @@ public abstract class Client implements Observer<Message>, View {
             if (state != GameState.PRE_LOBBY) {
                 closeGame();
             }
-            showDisconnected(message.getInfo());
             if (connection != null) {
                 connection.setDisconnected();
             }
+            showDisconnected(message.getInfo());
         }
     }
 
@@ -369,11 +365,10 @@ public abstract class Client implements Observer<Message>, View {
     private void parseChallengerSelection(Message message) {
         gods = new HashMap<>();
         challenger = message.getInfo();
-        if (message.getInfo().equals(username) && chosenGods.size() != players.size()) {
+        if (message.getInfo().equals(username) && chosenGods.size() != players.size())
             inputRequest(() -> requestChallengerGod(new ArrayList<>(chosenGods)));
-        } else {
+        else
             viewRequest(() -> updateChallengerGodSelection(new ArrayList<>(chosenGods)));
-        }
     }
 
     /**
@@ -475,7 +470,7 @@ public abstract class Client implements Observer<Message>, View {
      * @return {@code true} if the given string matches with one of the players' names
      */
     public boolean validatePlayer(String string) {
-        if (!players.containsKey(string)) {
+        if (players == null || !players.containsKey(string)) {
             return false;
         }
         sendMessage(new Message(MessageType.STARTER_PLAYER, username, string, RECIPIENT));
@@ -516,7 +511,7 @@ public abstract class Client implements Observer<Message>, View {
      * @return {@code true} if the action is allowed
      */
     public boolean validateAction(Action action, DtoPosition position, Map<Action, List<DtoPosition>> possibleActions) {
-        if (possibleActions.containsKey(action) && (Action.getNullPosActions().contains(action) || possibleActions.get(action).stream().anyMatch(p -> p.isSameAs(position)))) {
+        if (connection != null && possibleActions.containsKey(action) && (Action.getNullPosActions().contains(action) || possibleActions.get(action).stream().anyMatch(p -> p.isSameAs(position)))) {
             sendMessage(new ActionMessage(username, "Action request", action, position, RECIPIENT));
             return true;
         }
@@ -553,8 +548,10 @@ public abstract class Client implements Observer<Message>, View {
      * @param message the message to send
      */
     public void sendMessage(Message message) {
-        connection.sendMessage(message);
-        log.info(() -> "[CLIENT] Sent message " + message);
+        if (connection != null) {
+            connection.sendMessage(message);
+            log.info(() -> "[CLIENT] Sent message " + message);
+        }
     }
 
     /**

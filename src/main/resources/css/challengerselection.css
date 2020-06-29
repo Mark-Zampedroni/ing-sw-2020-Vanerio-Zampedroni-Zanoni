@@ -13,50 +13,50 @@
 }
 
 #whiteborder {
-    -fx-background-image: url("../Texture2D_sorted/Icone_dei/Contorni/white_c_frame.png");
+    -fx-background-image: url("../Images/Gods_icons/Frames/white_c_frame.png");
 }
 
 #blueborder {
-    -fx-background-image: url("../Texture2D_sorted/Icone_dei/Contorni/blue_c_frame.png");
+    -fx-background-image: url("../Images/Gods_icons/Frames/blue_c_frame.png");
 }
 
 #yellowborder {
-    -fx-background-image: url("../Texture2D_sorted/Icone_dei/Contorni/yellow_c_frame.png");
+    -fx-background-image: url("../Images/Gods_icons/Frames/yellow_c_frame.png");
 }
 
 
 #rightpane {
-    -fx-background-image: url("../Texture2D_sorted/Backgrounds/bg_panelEdgeRight2.png");
+    -fx-background-image: url("../Images/Backgrounds/bg_panelEdgeRight2.png");
 }
 
 #wholepane {
-    -fx-background-image: url("../Texture2D_sorted/Backgrounds/allselection.png");
+    -fx-background-image: url("../Images/Backgrounds/allselection.png");
 }
 
 #bgpane {
-    -fx-background-image: url("../Texture2D_sorted/Backgrounds/bg_panelMid.png");
+    -fx-background-image: url("../Images/Backgrounds/bg_panelMid.png");
 }
 
 #godframename {
-    -fx-background-image: url("../Texture2D_sorted/Backgrounds/gameGodFrameName2.png");
+    -fx-background-image: url("../Images/Backgrounds/gameGodFrameName2.png");
     -fx-text-fill: black;
 }
 
 #selectedframename {
-    -fx-background-image: url("../Texture2D_sorted/Backgrounds/gameGodFrameName1.png");
+    -fx-background-image: url("../Images/Backgrounds/gameGodFrameName1.png");
 }
 
 #selectbutton {
-    -fx-background-image: url("../Texture2D_sorted/Pulsanti/btn_blue.png");
+    -fx-background-image: url("../Images/Buttons/btn_blue.png");
 }
 
 #selectbutton:disabled {
     -fx-opacity: 1.0;
-    -fx-background-image: url("../Texture2D_sorted/Pulsanti/btn_small_gray.png");
+    -fx-background-image: url("../Images/Buttons/btn_small_gray.png");
 }
 
 #selectbuttonpressed {
-    -fx-background-image: url("../Texture2D_sorted/Pulsanti/btn_blue_pressed.png");
+    -fx-background-image: url("../Images/Buttons/btn_blue_pressed.png");
 }
 
 #condLabel {

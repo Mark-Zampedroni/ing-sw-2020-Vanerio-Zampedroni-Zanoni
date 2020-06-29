@@ -22,189 +22,188 @@
 }
 
 #textBack {
-    -fx-background-image: url("../Texture2D_sorted/Backgrounds/clp_textbarv2.png");
+    -fx-background-image: url("../Images/Backgrounds/clp_textbarv2.png");
     -fx-text-inner-color: white;
     -fx-background-color: transparent;
     -fx-background-size: 100% 100%;
 }
 
 #labelBack {
-    -fx-background-image: url("../Texture2D_sorted/Backgrounds/popupnoborder.png");
+    -fx-background-image: url("../Images/Backgrounds/popupnoborder.png");
 }
 
 #sidebarBg {
-    -fx-background-image: url('../Texture2D_sorted/Backgrounds/bg_without_leaf.png');
+    -fx-background-image: url('../Images/Backgrounds/bg_without_leaf.png');
 }
 
 #frame {
-    -fx-background-image: url('../Texture2D_sorted/Icone_dei/Contorni/frame_white.png');
+    -fx-background-image: url('../Images/Gods_icons/Frames/frame_white.png');
     -fx-background-size: 100% 100%;
 }
 
 #buttonPressed {
-    -fx-background-image: url('../Texture2D_sorted/Pulsanti/btn_blue_pressed.png');
+    -fx-background-image: url('../Images/Buttons/btn_blue_pressed.png');
 }
 
 #button {
-    -fx-background-image: url('../Texture2D_sorted/Pulsanti/cm_btn_blue.png');
+    -fx-background-image: url('../Images/Buttons/cm_btn_blue.png');
     -fx-background-size: 100% 100%;
 }
 
 #playerBLUE {
-    -fx-background-image: url('../Texture2D_sorted/Backgrounds/borderblueplayer2.png');
+    -fx-background-image: url('../Images/Backgrounds/borderblueplayer2.png');
 }
 
 #playerBROWN {
-    -fx-background-image: url('../Texture2D_sorted/Backgrounds/borderbrownplayer2.png');
+    -fx-background-image: url('../Images/Backgrounds/borderbrownplayer2.png');
 }
 
 #playerWHITE {
-    -fx-background-image: url('../Texture2D_sorted/Backgrounds/borderwhiteplayer2.png');
+    -fx-background-image: url('../Images/Backgrounds/borderwhiteplayer2.png');
 }
 
 #b {
-    -fx-background-image: url('../Texture2D_sorted/Backgrounds/borderblueplayer.png');
+    -fx-background-image: url('../Images/Backgrounds/borderblueplayer.png');
 }
 
 #brownbig {
-    -fx-background-image: url('../Texture2D_sorted/Backgrounds/bigbrown.png');
+    -fx-background-image: url('../Images/Backgrounds/bigbrown.png');
 }
 
 #whitebig {
-    -fx-background-image: url('../Texture2D_sorted/Backgrounds/bigwhite.png');
+    -fx-background-image: url('../Images/Backgrounds/bigwhite.png');
 }
 
 #bluebig {
-    -fx-background-image: url('../Texture2D_sorted/Backgrounds/bigblue.png');
+    -fx-background-image: url('../Images/Backgrounds/bigblue.png');
 }
 
 #buttonBUILD {
-    -fx-background-image: url('../Texture2D_sorted/Pulsanti/cm_btn_blue.png');
+    -fx-background-image: url('../Images/Buttons/cm_btn_blue.png');
 }
 
 #buttonMOVE {
-    -fx-background-image: url('../Texture2D_sorted/Pulsanti/cm_btn_green.png');
+    -fx-background-image: url('../Images/Buttons/cm_btn_green.png');
 }
 
 #buttonSELECT_WORKER {
-    -fx-background-image: url('../Texture2D_sorted/Pulsanti/cm_btn_coral.png');
+    -fx-background-image: url('../Images/Buttons/cm_btn_coral.png');
 }
 
 #buttonADD_WORKER {
-    -fx-background-image: url('../Texture2D_sorted/Pulsanti/cm_btn_coral.png');
+    -fx-background-image: url('../Images/Buttons/cm_btn_coral.png');
 }
 
 #buttonEND_TURN {
-    -fx-background-image: url('../Texture2D_sorted/Pulsanti/cm_btn_purple.png');
+    -fx-background-image: url('../Images/Buttons/cm_btn_purple.png');
 }
 
 #buttonSPECIAL_POWER {
-    -fx-background-image: url('../Texture2D_sorted/Pulsanti/gp_builddome.png');
+    -fx-background-image: url('../Images/Buttons/gp_builddome.png');
 }
 
 #buttonBUILD_pressed {
-    -fx-background-image: url('../Texture2D_sorted/Pulsanti/cm_btn_blue_pressed.png');
+    -fx-background-image: url('../Images/Buttons/cm_btn_blue_pressed.png');
 }
 
 #buttonMOVE_pressed {
-    -fx-background-image: url('../Texture2D_sorted/Pulsanti/cm_btn_green_pressed.png');
+    -fx-background-image: url('../Images/Buttons/cm_btn_green_pressed.png');
 }
 
 #buttonSELECT_WORKER_pressed {
-    -fx-background-image: url('../Texture2D_sorted/Pulsanti/cm_btn_coral_pressed.png');
+    -fx-background-image: url('../Images/Buttons/cm_btn_coral_pressed.png');
 }
 
 #buttonADD_WORKER_pressed {
-    -fx-background-image: url('../Texture2D_sorted/Pulsanti/cm_btn_coral_pressed.png');
+    -fx-background-image: url('../Images/Buttons/cm_btn_coral_pressed.png');
 }
 
 #buttonEND_TURN_pressed {
-    -fx-background-image: url('../Texture2D_sorted/Pulsanti/cm_btn_purple_pressed.png');
+    -fx-background-image: url('../Images/Buttons/cm_btn_purple_pressed.png');
 }
 
 #buttonSPECIAL_POWER_on {
-    -fx-background-image: url('../Texture2D_sorted/Pulsanti/gp_builddome_on.png');
+    -fx-background-image: url('../Images/Buttons/gp_builddome_on.png');
 }
 
-
 #info {
-    -fx-background-image: url('../Texture2D_sorted/Pulsanti/info2.png');
+    -fx-background-image: url('../Images/Buttons/info2.png');
 }
 
 #currentPlayerBg {
-    -fx-background-image: url('../Texture2D_sorted/Pulsanti/currentPlayerBg.png');
+    -fx-background-image: url('../Images/Buttons/currentPlayerBg.png');
 }
 
 #winner {
-    -fx-background-image: url('../Texture2D_sorted/Backgrounds/winningscreen2.png');
+    -fx-background-image: url('../Images/Backgrounds/winningscreen2.png');
 }
 
 #loser {
-    -fx-background-image: url('../Texture2D_sorted/Backgrounds/losingscreen.png');
+    -fx-background-image: url('../Images/Backgrounds/losingscreen.png');
 }
 
 #buttonConfirm {
-    -fx-background-image: url('../Texture2D_sorted/Pulsanti/cm_btn_blue.png');
+    -fx-background-image: url('../Images/Buttons/cm_btn_blue.png');
 }
 
 #testcarta {
-    -fx-background-image: url('../Texture2D_sorted/provacartaboard.JPG');
+    -fx-background-image: url('../Images/provacartaboard.JPG');
 }
 
 #APOLLO {
-    -fx-background-image: url('../Texture2D_sorted/Icone_dei/FullBody_senza_sfondo/APOLLO.png');
+    -fx-background-image: url('../Images/Gods_icons/Gods_no_bg/APOLLO.png');
 }
 
 #DEMETER {
-    -fx-background-image: url("../Texture2D_sorted/Icone_dei/FullBody_senza_sfondo/DEMETER.png");
+    -fx-background-image: url("../Images/Gods_icons/Gods_no_bg/DEMETER.png");
 }
 
 #ATHENA {
-    -fx-background-image: url("../Texture2D_sorted/Icone_dei/FullBody_senza_sfondo/ATHENA.png");
+    -fx-background-image: url("../Images/Gods_icons/Gods_no_bg/ATHENA.png");
 }
 
 #ATLAS {
-    -fx-background-image: url("../Texture2D_sorted/Icone_dei/FullBody_senza_sfondo/ATLAS.png");
+    -fx-background-image: url("../Images/Gods_icons/Gods_no_bg/ATLAS.png");
 }
 
 #HEPHAESTUS {
-    -fx-background-image: url("../Texture2D_sorted/Icone_dei/FullBody_senza_sfondo/HEPHAESTUS.png");
+    -fx-background-image: url("../Images/Gods_icons/Gods_no_bg/HEPHAESTUS.png");
 }
 
 #MINOTAUR {
-    -fx-background-image: url("../Texture2D_sorted/Icone_dei/FullBody_senza_sfondo/MINOTAUR.png");
+    -fx-background-image: url("../Images/Gods_icons/Gods_no_bg/MINOTAUR.png");
 }
 
 #ARTEMIS {
-    -fx-background-image: url("../Texture2D_sorted/Icone_dei/FullBody_senza_sfondo/ARTEMIS.png");
+    -fx-background-image: url("../Images/Gods_icons/Gods_no_bg/ARTEMIS.png");
 }
 
 #PAN {
-    -fx-background-image: url("../Texture2D_sorted/Icone_dei/FullBody_senza_sfondo/PAN.png");
+    -fx-background-image: url("../Images/Gods_icons/Gods_no_bg/PAN.png");
 }
 
 #PROMETHEUS {
-    -fx-background-image: url("../Texture2D_sorted/Icone_dei/FullBody_senza_sfondo/PROMETHEUS.png");
+    -fx-background-image: url("../Images/Gods_icons/Gods_no_bg/PROMETHEUS.png");
 }
 
 #POSEIDON {
-    -fx-background-image: url("../Texture2D_sorted/Icone_dei/FullBody_senza_sfondo/POSEIDON.png");
+    -fx-background-image: url("../Images/Gods_icons/Gods_no_bg/POSEIDON.png");
 }
 
 #HERA {
-    -fx-background-image: url("../Texture2D_sorted/Icone_dei/FullBody_senza_sfondo/HERA.png");
+    -fx-background-image: url("../Images/Gods_icons/Gods_no_bg/HERA.png");
 }
 
 #TRITON {
-    -fx-background-image: url("../Texture2D_sorted/Icone_dei/FullBody_senza_sfondo/TRITON.png");
+    -fx-background-image: url("../Images/Gods_icons/Gods_no_bg/TRITON.png");
 }
 
 #HESTIA {
-    -fx-background-image: url("../Texture2D_sorted/Icone_dei/FullBody_senza_sfondo/HESTIA.png");
+    -fx-background-image: url("../Images/Gods_icons/Gods_no_bg/HESTIA.png");
 }
 
 #ZEUS {
-    -fx-background-image: url("../Texture2D_sorted/Icone_dei/FullBody_senza_sfondo/ZEUS.png");
+    -fx-background-image: url("../Images/Gods_icons/Gods_no_bg/ZEUS.png");
 }
 
 #conditionLabel {
@@ -222,12 +221,12 @@
 }
 
 #godNameLabel {
-    -fx-background-image: url("../Texture2D_sorted/Backgrounds/godnametag.png");
+    -fx-background-image: url("../Images/Backgrounds/godnametag.png");
     -fx-font-size: 31;
     -fx-text-fill: white;
     -fx-alignment: center;
 }
 
 #cardBackground {
-    -fx-background-image: url("../Texture2D_sorted/Backgrounds/PlayerUIPanel2v4.png");
+    -fx-background-image: url("../Images/Backgrounds/PlayerUIPanel2v4.png");
 }
