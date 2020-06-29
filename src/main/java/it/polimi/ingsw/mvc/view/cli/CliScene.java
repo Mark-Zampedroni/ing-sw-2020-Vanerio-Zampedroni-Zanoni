@@ -137,8 +137,8 @@ public class CliScene {
 
     private static String windowMessage = " Empty Message ...";
 
-    private static int[] levelLength = {17, 13, 9, 5}; //-4 for each level
-    private static int[] levelHeight = {8, 6, 4, 2}; //-2 for each level
+    private static int[] levellength = {17, 13, 9, 5}; //-4 for each level
+    private static int[] levelheight = {8, 6, 4, 2}; //-2 for each level
 
     /**
      * CliScene is not instantiable
@@ -215,31 +215,29 @@ public class CliScene {
 
     /**
      * Prints the board screen on console, shows the action candidates
-     *
-     * @param inputRequest    text of the input request
-     * @param session         session containing the board to show
-     * @param colors          map of each player name to its color
-     * @param gods            map of each player name to its god
+     * @param inputRequest text of the input request
+     * @param session session containing the board to show
+     * @param colors map of each player name to its color
+     * @param gods map of each player name to its god
      * @param possibleActions map of each possible action to the list of the candidate positions for the action
-     * @param turnOwner       name of the current turn owner
+     * @param turnOwner name of the current turn owner
      * @param areActionsShown {@code true} if the action candidates marks must be shown
      */
     public static void printBoardScreen(String inputRequest, DtoSession session, Map<String, Colors> colors, Map<String, String> gods, Map<Action, List<DtoPosition>> possibleActions, String turnOwner, boolean areActionsShown) {
         String board = addBoardScreenBorder(addCoordinates(createBoard(session, colors, possibleActions, areActionsShown))).toString();
-        out.println(Ansi.CLEAR_CONSOLE + centerScreen(addSideBar(inputRequest, board, colors, gods, possibleActions, turnOwner).toString(), 20));
+        out.println(centerScreen("\n" + Ansi.CLEAR_CONSOLE + addSideBar(inputRequest, board, colors, gods, possibleActions, turnOwner).toString(), 20));
         if (possibleActions != null) setCursor(105, 14);
         out.flush();
     }
 
     /**
      * Adds the sidebar to the board scene
-     *
-     * @param inputRequest    text of the input request
-     * @param board           board as string (already built)
-     * @param colors          map of each player name to its color
-     * @param gods            map of each player name to its god
+     * @param inputRequest text of the input request
+     * @param board board as string (already built)
+     * @param colors map of each player name to its color
+     * @param gods map of each player name to its god
      * @param possibleActions map of each possible action to the list of the candidate positions for the action
-     * @param turnOwner       name of the current turn owner
+     * @param turnOwner name of the current turn owner
      * @return the board given as parameter decorated with a sidebar
      */
     private static StringBuilder addSideBar(String inputRequest, String board, Map<String, Colors> colors, Map<String, String> gods, Map<Action, List<DtoPosition>> possibleActions, String turnOwner) {
@@ -259,12 +257,11 @@ public class CliScene {
 
     /**
      * Creates a sidebar displaying the given parameters
-     *
-     * @param inputRequest    text of the input request
-     * @param colors          map of each player name to its color
-     * @param gods            map of each player name to its god
+     * @param inputRequest text of the input request
+     * @param colors map of each player name to its color
+     * @param gods map of each player name to its god
      * @param possibleActions map of each possible action to the list of the candidate positions for the action
-     * @param turnOwner       name of the current turn owner
+     * @param turnOwner name of the current turn owner
      * @return the sidebar built
      */
     private static String createSideBar(String inputRequest, Map<String, Colors> colors, Map<String, String> gods, Map<Action, List<DtoPosition>> possibleActions, String turnOwner) {
@@ -277,8 +274,7 @@ public class CliScene {
 
     /**
      * Adds to the sidebar the box with the input request
-     *
-     * @param sidebar      StringBuilder containing the sidebar
+     * @param sidebar StringBuilder containing the sidebar
      * @param inputRequest text of the input request
      */
     private static void addBoardRequest(StringBuilder sidebar, String inputRequest) {
@@ -293,10 +289,9 @@ public class CliScene {
 
     /**
      * Adds to the sidebar the box containing the possible actions
-     *
-     * @param sidebar         StringBuilder containing the sidebar
+     * @param sidebar StringBuilder containing the sidebar
      * @param possibleActions map of each possible action to the list of positions candidates
-     * @param turnOwner       name of the current turn owner
+     * @param turnOwner name of the current turn owner
      */
     private static void addPlayerTurnBox(StringBuilder sidebar, Map<Action, List<DtoPosition>> possibleActions, String turnOwner) {
         String emptyRow = (extendSlots("", 34) + "|\n");
@@ -325,10 +320,9 @@ public class CliScene {
 
     /**
      * Adds to the sidebar the box containing the players names, their colors and their gods
-     *
      * @param sidebar StringBuilder containing the sidebar
-     * @param colors  map of each player name to its color
-     * @param gods    map of each player name to its god
+     * @param colors map of each player name to its color
+     * @param gods map of each player name to its god
      */
     private static void addPlayersBoardBox(StringBuilder sidebar, Map<String, Colors> colors, Map<String, String> gods) {
         String emptyRow = (extendSlots("", 34) + "|\n");
@@ -351,7 +345,6 @@ public class CliScene {
 
     /**
      * Adds the outer border of the board
-     *
      * @param boardWithCoordinates string containing the board decorated with coordinates
      * @return board decorated with the outer border
      */
@@ -367,7 +360,6 @@ public class CliScene {
 
     /**
      * Adds the coordinates values to the board
-     *
      * @param board string containing the board
      * @return board decorated with coordinates
      */
@@ -380,7 +372,6 @@ public class CliScene {
 
     /**
      * Adds the X axis values to the board in the given StringBuilder
-     *
      * @param boardWithoutCoordinates StringBuilder containing the board
      */
     private static void addXCoordinates(StringBuilder boardWithoutCoordinates) {
@@ -391,8 +382,7 @@ public class CliScene {
 
     /**
      * Adds the Y axis values to the board in the given StringBuilder
-     *
-     * @param temp  StringBuilder where the result will be put
+     * @param temp StringBuilder where the result will be put
      * @param board string containing the board
      */
     private static void addYCoordinates(StringBuilder temp, String board) {
@@ -1435,7 +1425,7 @@ public class CliScene {
     private static String getLevel(int height) {
         StringBuilder temp = new StringBuilder();
         temp.append(addTileLine(" .", ". ", "-", height, 2)).append("\n");
-        for (int r = 0; r < levelHeight[height]; r++) {
+        for (int r = 0; r < levelheight[height]; r++) {
             temp.append(addTileLine(height)).append("\n");
         }
         temp.append(addTileLine(" '", "' ", "-", height, 2)).append("\n");
@@ -1455,7 +1445,7 @@ public class CliScene {
     private static String addTileLine(String leftBorder, String rightBorder, String inner, int height, int offset) {
         return " ".repeat((height > 0) ? 1 : 0) +
                 leftBorder +
-                inner.repeat(levelLength[height] - offset) +
+                inner.repeat(levellength[height] - offset) +
                 ((height > 0 && rightBorder.equals(". ")) ? "." + height : rightBorder) +
                 " ".repeat((height > 0) ? 1 : 0);
     }

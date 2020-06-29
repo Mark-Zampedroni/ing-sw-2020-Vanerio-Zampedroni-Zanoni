@@ -133,7 +133,8 @@ public abstract class Client implements Observer<Message>, View {
                     parseInfoMessage(message);
                     break;
                 case DISCONNECTION_UPDATE: // PRE-LOBBY / LOBBY (tutte)
-                    //System.out.println("Disconnection from: "+message.getSender());
+                    System.out.println("Disconnection from: " + message.getSender());
+                    System.out.println("!isDiscParsed = " + !isDiscParsed);
                     if (!isDiscParsed) {
                         parseDisconnectMessage(message);
                         if (message.getSender().equals("SERVER")) isDiscParsed = true;
@@ -310,9 +311,7 @@ public abstract class Client implements Observer<Message>, View {
             state = GameState.LOGIN;
             inputRequest(this::requestLogin);
         }
-        if (state == GameState.LOGIN || state == GameState.LOBBY) {
-            viewRequest(() -> showLobby(message.getColors()));
-        }
+        if (state == GameState.LOGIN || state == GameState.LOBBY) viewRequest(() -> showLobby(message.getColors()));
     }
 
     /**
@@ -424,7 +423,7 @@ public abstract class Client implements Observer<Message>, View {
      * @return {@code true} if the given god is among the ones which were chosen by the challenger
      */
     public boolean validatePlayerGodChoice(String requestedGod) {
-        if (!chosenGods.contains(requestedGod)) return false;
+        if (!chosenGods.contains(requestedGod) || isConnectionLost()) return false;
         sendMessage(new Message(MessageType.GODS_SELECTION_UPDATE, username, requestedGod, RECIPIENT));
         return true;
     }

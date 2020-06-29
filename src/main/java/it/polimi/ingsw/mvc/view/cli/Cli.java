@@ -21,7 +21,6 @@ public class Cli extends Client {
     private String ip;
     private int port;
     private static volatile boolean waitingInput;
-    private boolean gameEnd;
 
     public Cli(String ip, int port, boolean log) {
         super(log);
@@ -36,6 +35,12 @@ public class Cli extends Client {
         inputSave = "";
         allSelectedGods = new ArrayList<>();
         godPage = 0;
+    }
+
+    @Override
+    protected void init() {
+        super.init();
+        initCli();
     }
 
     private String requestInput() {
@@ -160,6 +165,7 @@ public class Cli extends Client {
         inputSave = "Choose one of the available gods:";
         CliScene.printPlayerGodSelection(inputSave, choices, allSelectedGods, players.size(), true);
         while (!validatePlayerGodChoice(requestInput().toUpperCase())) {
+            if (isConnectionLost()) return;
             inputSave = "This god isn't available, please choose a different one: ";
             try {
                 CliScene.printPlayerGodSelection(inputSave, choices, allSelectedGods, players.size(), true);
@@ -197,9 +203,9 @@ public class Cli extends Client {
     @Override
     public void requestTurnAction(Map<Action, List<DtoPosition>> possibleActions, DtoSession session, Map<String, Colors> colors, Map<String, String> gods, boolean isSpecialPowerActive) {
         Action action = requestAction(possibleActions, session, colors, gods);
-        if (isConnectionLost()) return;
+        if (action == null) return;
         List<DtoPosition> positions = possibleActions.get(action);
-        if (isConnectionLost()) return;
+        if (positions == null) return;
         DtoPosition position = null;
         if (action != Action.END_TURN && action != Action.SPECIAL_POWER) {
             possibleActions = new EnumMap<>(Action.class);
@@ -215,7 +221,12 @@ public class Cli extends Client {
         do {
             CliScene.printBoardScreen(inputSave, session, new HashMap<>(colors), new HashMap<>(gods), possibleActions, username, false);
             x = requestInput();
-            if (isConnectionLost()) return null;
+            if (isConnectionLost()) {
+                System.out.println("Connection is lost!");
+                return null;
+            } else {
+                System.out.println("Ok!");
+            }
             inputSave = "Invalid number, retype it";
         }
         while (!x.matches("-?\\d+") || !validateRange(possibleActions.size() - 1, Integer.parseInt(x)));
@@ -277,20 +288,17 @@ public class Cli extends Client {
 
     @Override
     public void showDisconnected(String info) {
-        if (!gameEnd) {
-            while (waitingInput) Thread.onSpinWait();
-            CliScene.printStartScreen(info + "\nPress start to go back to the title screen.", true);
-            requestInput();
-            waitConnectionRequest(ip, port);
-        }
-        gameEnd = false;
+        while (waitingInput) Thread.onSpinWait();
+        CliScene.printStartScreen(info + "\nPress start to go back to the title screen.", true);
+        requestInput();
+        waitConnectionRequest(ip, port);
+
     }
 
     @Override
     public void showWin(String playerName) {
-        initCli();
-        showDisconnected(playerName + "has won!");
-        gameEnd = true;
+        init();
+        showDisconnected(playerName + " has won!");
     }
 
     @Override
