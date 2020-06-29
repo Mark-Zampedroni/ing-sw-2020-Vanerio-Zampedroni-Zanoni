@@ -29,8 +29,6 @@ public class ClientConnection implements Runnable {
     private Thread t;
     private boolean reconnect;
     private boolean isDisconnected;
-    private boolean isServerOffline;
-    private boolean isDiscParsed;
 
     /**
      * Constructor
@@ -58,7 +56,6 @@ public class ClientConnection implements Runnable {
         t = new Thread(this);
         t.start();
         isDisconnected = false;
-        isServerOffline = false;
     }
 
     /**
