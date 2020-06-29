@@ -13,8 +13,20 @@
 # Scopo
 Lo scopo progettuale è l'implementazione software del gioco da tavolo Santorini utilizzando come riferimento la versione fisica prodotta dalla Roxley games. Il pattern architetturale imposto è il Model-View-Controller.
 
-# Test e coverage (da finire)
-__Qui si scrive roba sulla coverage__
+# Test e coverage
+
+I test utilizzano Junit 4.12.
+
+Principalmente sono stati testati Model e Controller. Anche se non richiesto si è raggiunta una buona coverage per Server e messaggi.
+
+Nella seguente tabella si riportano gli elementi con coverage più alta:
+
+Element | Class, % | Method, % | Line, % |
+--- | --- | --- | --- |
+__model__ | 100% (26/26) | 100% (154/154) | 98% (474/479) |
+__controller__ | 100% (9/9) | 92% (86/93) | 85% (355/413) |
+__server__ | 100% (3/3) | 94% (32/34) | 85% (178/209) |
+__utility__ | 91% (21/23) | 66% (52/78) | 62% (144/232) |
 
 # Funzionalità
 Sono state implementate tutte le funzionalità richieste
