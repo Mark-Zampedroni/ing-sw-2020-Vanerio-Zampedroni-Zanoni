@@ -43,7 +43,7 @@ public abstract class Client implements Observer<Message>, View {
         init();
         this.log = Logger.getLogger("client");
         if (log) startLogging();
-        this.log.setUseParentHandlers(true); // <- Set True for debugging
+        this.log.setUseParentHandlers(false); // <- Set True for debugging
     }
 
     /**
