@@ -84,10 +84,12 @@ public class Cli extends Client {
         String requestedUsername = requestLobbyInput("Input username: ",
                 "This username is invalid, choose a different one: ",
                 this::validateUsername);
+        if (connection == null) return;
         String requestedColor = requestLobbyInput("Selected name: " + requestedUsername + ", choose one of the available colors: "
                         + (requestedUsername.length() % 2 == 0 ? " " : ""),
                 "This color does not exist or was already chosen, select a different one:",
                 color -> validateColor(color.toUpperCase())).toUpperCase();
+        if (connection == null) return;
         requestLogin(requestedUsername, Colors.valueOf(requestedColor));
     }
 

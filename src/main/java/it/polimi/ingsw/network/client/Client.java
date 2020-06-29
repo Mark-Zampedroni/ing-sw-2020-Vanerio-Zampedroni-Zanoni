@@ -43,7 +43,7 @@ public abstract class Client implements Observer<Message>, View {
         init();
         this.log = Logger.getLogger("client");
         if (log) startLogging();
-        this.log.setUseParentHandlers(true);
+        this.log.setUseParentHandlers(false); // <- Set True for debugging
     }
 
     /**
@@ -255,7 +255,7 @@ public abstract class Client implements Observer<Message>, View {
      * @return {@code true} if it's valid
      */
     public boolean validateUsername(String requestedUsername) {
-        return (players.containsKey(requestedUsername) || requestedUsername.length() <= 0 || requestedUsername.length() >= 12 || isNumeric(requestedUsername));
+        return (connection != null) && (players.containsKey(requestedUsername) || requestedUsername.length() <= 0 || requestedUsername.length() >= 12 || isNumeric(requestedUsername));
     }
 
     /**
@@ -317,13 +317,9 @@ public abstract class Client implements Observer<Message>, View {
      * @param message message to display
      */
     private void parseDisconnectMessage(Message message) {
-        if (connection != null && !connection.isDisconnected()) {
-            if (state != GameState.PRE_LOBBY) {
-                closeGame();
-            }
-            if (connection != null) {
-                connection.setDisconnected();
-            }
+        if (connection != null && (!connection.isDisconnected() || connection.getIsServerOffline())) {
+            if (state != GameState.PRE_LOBBY) closeGame();
+            if (connection != null) connection.setDisconnected();
             showDisconnected(message.getInfo());
         }
     }
@@ -350,9 +346,7 @@ public abstract class Client implements Observer<Message>, View {
                 username = message.getInfo();
                 connection.setConnectionName(username);
                 state = GameState.LOBBY;
-            } else {
-                inputRequest(this::requestLogin);
-            }
+            } else inputRequest(this::requestLogin);
         }
     }
 
@@ -378,9 +372,7 @@ public abstract class Client implements Observer<Message>, View {
      * @return {@code true} if the god is valid
      */
     public boolean validateGods(String requestedGod) {
-        if (!getStringAvailableGods().contains(requestedGod)) {
-            return false;
-        }
+        if (!getStringAvailableGods().contains(requestedGod)) return false;
         sendMessage(new FlagMessage(MessageType.GODS_UPDATE, username, requestedGod, true, RECIPIENT));
         return true;
     }
@@ -391,11 +383,8 @@ public abstract class Client implements Observer<Message>, View {
      * @param message message to forward
      */
     private void parseManagementMessage(FlagMessage message) {
-        if (message.getFlag()) {
-            addGod(message);
-        } else {
-            removeGod(message);
-        }
+        if (message.getFlag()) addGod(message);
+        else removeGod(message);
     }
 
     /**
@@ -406,11 +395,10 @@ public abstract class Client implements Observer<Message>, View {
     private void addGod(Message message) {
         chosenGods.add(message.getInfo());
         if (chosenGods.size() != players.size()) {
-            if (challenger.equals(username)) {
+            if (challenger.equals(username))
                 inputRequest(() -> requestChallengerGod(new ArrayList<>(chosenGods)));
-            } else {
+            else
                 viewRequest(() -> updateChallengerGodSelection(new ArrayList<>(chosenGods)));
-            }
         }
     }
 
@@ -421,11 +409,10 @@ public abstract class Client implements Observer<Message>, View {
      */
     private void parseGodPlayerChoice(Message message) {
         gods.put(message.getInfo(), "");
-        if (username.equals(message.getInfo())) {
+        if (username.equals(message.getInfo()))
             inputRequest(() -> requestPlayerGod(new ArrayList<>(chosenGods), new HashMap<>(gods)));
-        } else {
+        else
             viewRequest(() -> updatePlayerGodSelection(message.getInfo(), new HashMap<>(gods), new ArrayList<>(chosenGods)));
-        }
     }
 
     /**
@@ -435,9 +422,7 @@ public abstract class Client implements Observer<Message>, View {
      * @return {@code true} if the given god is among the ones which were chosen by the challenger
      */
     public boolean validatePlayerGodChoice(String requestedGod) {
-        if (!chosenGods.contains(requestedGod)) {
-            return false;
-        }
+        if (!chosenGods.contains(requestedGod)) return false;
         sendMessage(new Message(MessageType.GODS_SELECTION_UPDATE, username, requestedGod, RECIPIENT));
         return true;
     }
@@ -455,11 +440,10 @@ public abstract class Client implements Observer<Message>, View {
             }
         }
         if (chosenGods.isEmpty()) {
-            if (challenger.equals(username)) {
+            if (challenger.equals(username))
                 inputRequest(() -> requestStarterPlayer(new HashMap<>(gods)));
-            } else {
+            else
                 viewRequest(() -> updateStarterPlayerSelection(new HashMap<>(gods)));
-            }
         }
     }
 
@@ -470,9 +454,7 @@ public abstract class Client implements Observer<Message>, View {
      * @return {@code true} if the given string matches with one of the players' names
      */
     public boolean validatePlayer(String string) {
-        if (players == null || !players.containsKey(string)) {
-            return false;
-        }
+        if (players == null || !players.containsKey(string)) return false;
         sendMessage(new Message(MessageType.STARTER_PLAYER, username, string, RECIPIENT));
         return true;
     }
@@ -483,11 +465,10 @@ public abstract class Client implements Observer<Message>, View {
      * @param message message containing the current player and the possbile action it can carry out
      */
     private void parseTurnUpdate(ActionUpdateMessage message) {
-        if (username.equals(message.getInfo())) {
+        if (username.equals(message.getInfo()))
             inputRequest(() -> requestTurnAction(message.getPossibleActions(), message.getGameUpdate(), players, gods, message.getFlag()));
-        } else {
+        else
             viewRequest(() -> showBoard(message.getGameUpdate(), players, gods, message.getInfo()));
-        }
     }
 
     /**
@@ -537,9 +518,7 @@ public abstract class Client implements Observer<Message>, View {
      */
     private void parseStateUpdate(StateUpdateMessage message) {
         state = message.getState();
-        if (state == GameState.GOD_SELECTION) {
-            connection.setReconnect(true);
-        }
+        if (state == GameState.GOD_SELECTION) connection.setReconnect(true);
     }
 
     /**

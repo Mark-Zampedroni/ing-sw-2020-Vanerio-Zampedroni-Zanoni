@@ -59,9 +59,7 @@ public class ChallengerSelectionController extends GenericController {
         initSelectionButton();
         initSelectLabel();
         initFonts();
-        System.out.println("yey");
         BoardScene.startBoardLoad(gui.getPlayers(), gui.log);
-        System.out.println("yey2");
     }
 
     /**
