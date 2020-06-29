@@ -74,6 +74,10 @@ public class ClientConnection implements Runnable {
         }
     }
 
+    /**
+     * Task of the connection Thread;
+     * Receives the messages and puts them in queue
+     */
     @Override
     public void run() {
         while (!Thread.currentThread().isInterrupted()) {
@@ -110,7 +114,7 @@ public class ClientConnection implements Runnable {
     }
 
     /**
-     * Disconnects a client
+     * Disconnects a connection
      */
     public void disconnect() {
         isDisconnected = true;
@@ -140,7 +144,7 @@ public class ClientConnection implements Runnable {
     }
 
     /**
-     * Sends a reconnection message
+     * Starts a reconnection request
      */
     private void startReconnectionRequests() {
         while (!reconnectRequest()) {
@@ -151,6 +155,11 @@ public class ClientConnection implements Runnable {
         }
     }
 
+    /**
+     * Checks if the reconnection request is successful
+     *
+     * @return {@code true} if it has started the reconnection
+     */
     private boolean reconnectRequest() {
         try {
             startConnection();
@@ -160,26 +169,52 @@ public class ClientConnection implements Runnable {
         }
     }
 
+    /**
+     * Checks if reconnecting
+     *
+     * @return {@code true} if reconnecting
+     */
     protected boolean getReconnect() {
         return reconnect;
     }
 
+    /**
+     * Setter for the reconnection
+     *
+     * @param value value for the reconnection
+     */
     protected void setReconnect(boolean value) {
         reconnect = value;
     }
 
+    /**
+     * Sets the name of the connection
+     *
+     * @param name name being set
+     */
     protected void setConnectionName(String name) {
         this.name = name;
     }
 
+    /**
+     * Checks if a connection is disconnected
+     *
+     * @return {@code true} if disconnected
+     */
     protected boolean isDisconnected() {
         return isDisconnected;
     }
 
+    /**
+     * Sets a connection as disconnected
+     */
     protected void setDisconnected() {
         this.isDisconnected = true;
     }
 
+    /**
+     * Puts the thread into a sleeping state
+     */
     private void waitTime() {
         try {
             Thread.sleep(2000);
