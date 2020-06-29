@@ -38,18 +38,17 @@ public class Cli extends Client {
         godPage = 0;
     }
 
-
     private String requestInput() {
         while (true) {
             try {
                 while (waitingInput) Thread.onSpinWait();
                 waitingInput = true;
-                String in = cliInput.nextLine();
-                if (!reconnecting) {
-                    waitingInput = false;
-                    return (in != null) ? in : "";
-                } else {
-                    log.info("[CLI] Input refused because client lost connection to the server");
+                while (waitingInput) {
+                    String in = cliInput.nextLine();
+                    if (!reconnecting) {
+                        waitingInput = false;
+                        return (in != null) ? in : "";
+                    } else log.info("[CLI] Input refused because client lost connection to the server");
                 }
             } catch (IndexOutOfBoundsException e) { /* nothing */ }
         }
@@ -68,6 +67,7 @@ public class Cli extends Client {
     public void requestNumberOfPlayers() {
         CliScene.printStartScreen("You are the first player to connect!\nchoose if you want to play as 2 or 3 people (Type 2 or 3) ", true);
         while (!validateNumberOfPlayers(requestInput().toUpperCase())) {
+            if (isConnectionLost()) return;
             CliScene.printStartScreen("The number you typed is not valid, please choose 2 or 3:", true);
         }
     }
@@ -84,12 +84,12 @@ public class Cli extends Client {
         String requestedUsername = requestLobbyInput("Input username: ",
                 "This username is invalid, choose a different one: ",
                 this::validateUsername);
-        if (connection == null) return;
+        if (isConnectionLost()) return;
         String requestedColor = requestLobbyInput("Selected name: " + requestedUsername + ", choose one of the available colors: "
                         + (requestedUsername.length() % 2 == 0 ? " " : ""),
                 "This color does not exist or was already chosen, select a different one:",
                 color -> validateColor(color.toUpperCase())).toUpperCase();
-        if (connection == null) return;
+        if (isConnectionLost()) return;
         requestLogin(requestedUsername, Colors.valueOf(requestedColor));
     }
 
@@ -97,7 +97,7 @@ public class Cli extends Client {
         inputSave = request;
         CliScene.printLobbyScreen(inputSave, players, true);
         String someInput = requestInput();
-        while (Boolean.TRUE.equals(check.test(someInput))) {
+        while (!isConnectionLost() && Boolean.TRUE.equals(check.test(someInput))) {
             someInput = showWrongInput(error);
         }
         return someInput;
@@ -127,9 +127,7 @@ public class Cli extends Client {
 
     @Override
     public void updatePlayerGodSelection(String turnOwner, Map<String, String> choices, List<String> chosenGods) {
-        if (allSelectedGods.isEmpty()) {
-            allSelectedGods = new ArrayList<>(chosenGods);
-        }
+        if (allSelectedGods.isEmpty()) allSelectedGods = new ArrayList<>(chosenGods);
         inputSave = turnOwner + " is choosing his god, wait . . .";
         CliScene.printPlayerGodSelection(inputSave, choices, allSelectedGods, players.size(), false);
     }
@@ -199,13 +197,9 @@ public class Cli extends Client {
     @Override
     public void requestTurnAction(Map<Action, List<DtoPosition>> possibleActions, DtoSession session, Map<String, Colors> colors, Map<String, String> gods, boolean isSpecialPowerActive) {
         Action action = requestAction(possibleActions, session, colors, gods);
-        if (connection == null) {
-            return;
-        }
+        if (isConnectionLost()) return;
         List<DtoPosition> positions = possibleActions.get(action);
-        if (connection == null) {
-            return;
-        }
+        if (isConnectionLost()) return;
         DtoPosition position = null;
         if (action != Action.END_TURN && action != Action.SPECIAL_POWER) {
             possibleActions = new EnumMap<>(Action.class);
@@ -221,9 +215,7 @@ public class Cli extends Client {
         do {
             CliScene.printBoardScreen(inputSave, session, new HashMap<>(colors), new HashMap<>(gods), possibleActions, username, false);
             x = requestInput();
-            if (connection == null) {
-                return null;
-            }
+            if (isConnectionLost()) return null;
             inputSave = "Invalid number, retype it";
         }
         while (!x.matches("-?\\d+") || !validateRange(possibleActions.size() - 1, Integer.parseInt(x)));
@@ -237,9 +229,7 @@ public class Cli extends Client {
             while (true) {
                 CliScene.printBoardScreen(inputSave, session, new HashMap<>(colors), new HashMap<>(gods), possibleActions, username, true);
                 String[] input = requestInput().split("");
-                if (connection == null) {
-                    return null;
-                }
+                if (isConnectionLost()) return null;
                 if (input.length == 2 && !decodeCoordinatesValue(input).isEmpty()) {
                     c = decodeCoordinatesValue(input);
                     break;

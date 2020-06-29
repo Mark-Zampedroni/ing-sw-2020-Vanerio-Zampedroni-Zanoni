@@ -43,7 +43,7 @@ public abstract class Client implements Observer<Message>, View {
         init();
         this.log = Logger.getLogger("client");
         if (log) startLogging();
-        this.log.setUseParentHandlers(false); // <- Set True for debugging
+        this.log.setUseParentHandlers(true); // <- Set True for debugging
     }
 
     /**
@@ -199,7 +199,6 @@ public abstract class Client implements Observer<Message>, View {
      *
      * @param message received message
      */
-    /* Connection */
     private void parseConnectionMessage(Message message) {
         username = message.getInfo();
         state = GameState.PRE_LOBBY;
@@ -317,11 +316,9 @@ public abstract class Client implements Observer<Message>, View {
      * @param message message to display
      */
     private void parseDisconnectMessage(Message message) {
-        if (connection != null && (!connection.isDisconnected() || connection.getIsServerOffline())) {
-            if (state != GameState.PRE_LOBBY) closeGame();
-            if (connection != null) connection.setDisconnected();
-            showDisconnected(message.getInfo());
-        }
+        if (state != GameState.PRE_LOBBY) closeGame();
+        if (connection != null) connection.setDisconnected();
+        showDisconnected(message.getInfo());
     }
 
 
@@ -579,6 +576,11 @@ public abstract class Client implements Observer<Message>, View {
     protected void closeGame() {
         disconnectClient();
         init();
+    }
+
+    protected boolean isConnectionLost() {
+        System.out.println("isConnectionLost = " + ((connection == null) || (connection.isDisconnected())));
+        return !reconnecting && (connection == null) || (connection.isDisconnected());
     }
 
 }

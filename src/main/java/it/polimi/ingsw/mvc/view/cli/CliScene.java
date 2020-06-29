@@ -137,8 +137,8 @@ public class CliScene {
 
     private static String windowMessage = " Empty Message ...";
 
-    private static int[] levellength = {17, 13, 9, 5}; //-4 for each level
-    private static int[] levelheight = {8, 6, 4, 2}; //-2 for each level
+    private static int[] levelLength = {17, 13, 9, 5}; //-4 for each level
+    private static int[] levelHeight = {8, 6, 4, 2}; //-2 for each level
 
     /**
      * CliScene is not instantiable
@@ -411,7 +411,7 @@ public class CliScene {
                 if (p > 4) a++;
             }
             p++;
-            temp.append((p == 1) ? row.substring(7) : row).append("\n");
+            temp.append(row).append("\n");
         }
     }
 
@@ -776,7 +776,7 @@ public class CliScene {
             }
         }
         createBorder((areActionsShown) ? possibleActions : new HashMap<>(), 5, board);
-        return Ansi.CLEAR_CONSOLE + board.toString();
+        return board.toString();
     }
 
     /**
@@ -1435,7 +1435,7 @@ public class CliScene {
     private static String getLevel(int height) {
         StringBuilder temp = new StringBuilder();
         temp.append(addTileLine(" .", ". ", "-", height, 2)).append("\n");
-        for (int r = 0; r < levelheight[height]; r++) {
+        for (int r = 0; r < levelHeight[height]; r++) {
             temp.append(addTileLine(height)).append("\n");
         }
         temp.append(addTileLine(" '", "' ", "-", height, 2)).append("\n");
@@ -1455,7 +1455,7 @@ public class CliScene {
     private static String addTileLine(String leftBorder, String rightBorder, String inner, int height, int offset) {
         return " ".repeat((height > 0) ? 1 : 0) +
                 leftBorder +
-                inner.repeat(levellength[height] - offset) +
+                inner.repeat(levelLength[height] - offset) +
                 ((height > 0 && rightBorder.equals(". ")) ? "." + height : rightBorder) +
                 " ".repeat((height > 0) ? 1 : 0);
     }
