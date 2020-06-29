@@ -67,7 +67,7 @@ dove `ip` e `port` sono  l'indirizzo ip e la porta del server, se omesso/i user√
 Per la GUI √® necessario importare le dipendenze di javafx con i parametri `[--module-path]` e `[--add-module]`:
 
 ```
-java --module-path "javafx-sdk-11.0.2/lib" --add-modules javafx.controls --add-modules javafx.fxml -jar client.jar gui [-i ip] [-p port] [-log]
+java --module-path "javafx-sdk-11.0.2/lib" --add-modules javafx.controls,javafx.fxml -jar client.jar gui [-i ip] [-p port] [-log]
 ```
 dove `ip`, `port` e `log` sono equivalenti ai parametri della cli.
 
