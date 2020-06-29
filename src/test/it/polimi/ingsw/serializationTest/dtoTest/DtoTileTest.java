@@ -5,12 +5,14 @@ import it.polimi.ingsw.utility.constants.Height;
 import it.polimi.ingsw.utility.dto.DtoTile;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import static org.junit.jupiter.api.Assertions.*;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class DtoTileTest {
 
     Tile tile;
-    DtoTile dtOtile;
+    DtoTile dtoTile;
 
     @BeforeEach
     void setUp() {
@@ -23,8 +25,8 @@ public class DtoTileTest {
     @Test
     void hasDomeTest() {
         tile.putDome();
-        dtOtile = new DtoTile(tile);
-        assertTrue(dtOtile.hasDome());
+        dtoTile = new DtoTile(tile);
+        assertTrue(dtoTile.hasDome());
     }
 
     /**
@@ -34,8 +36,8 @@ public class DtoTileTest {
     void getHeight() {
         tile.increaseHeight();
         tile.increaseHeight();
-        dtOtile = new DtoTile(tile);
-        assertEquals(dtOtile.getHeight(), Height.MID);
+        dtoTile = new DtoTile(tile);
+        assertEquals(dtoTile.getHeight(), Height.MID);
     }
 
     /**
@@ -45,7 +47,7 @@ public class DtoTileTest {
     void toStringTest() {
         tile.increaseHeight();
         tile.putDome();
-        dtOtile = new DtoTile(tile);
-        assertEquals(tile.toString(),dtOtile.toString());
+        dtoTile = new DtoTile(tile);
+        assertEquals(tile.toString(), "Tower, height: 1, dome: true");
     }
 }

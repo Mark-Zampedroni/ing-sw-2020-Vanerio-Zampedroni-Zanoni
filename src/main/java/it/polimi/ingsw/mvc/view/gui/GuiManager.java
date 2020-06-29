@@ -24,7 +24,7 @@ import java.util.logging.Logger;
 public class GuiManager extends Client {
 
     private static GuiManager instance = null;
-    private static Logger guilog;
+    private static Logger guiLog;
 
     private static double width;
 
@@ -35,7 +35,7 @@ public class GuiManager extends Client {
      */
     private GuiManager(boolean log) {
         super(log);
-        loggerSetup(this.log);
+        setGuiLog(this.log);
     }
 
 
@@ -56,8 +56,8 @@ public class GuiManager extends Client {
      *
      * @param defLogger log where any event will be recorded
      */
-    private static void loggerSetup(Logger defLogger){
-        guilog = defLogger;
+    private static void setGuiLog(Logger defLogger) {
+        guiLog = defLogger;
     }
 
     /**
@@ -94,11 +94,9 @@ public class GuiManager extends Client {
         try {
             Pane pane = loadFxmlPane(path);
             scene.setRoot(pane);
-            if (isNewScene) {
-                Gui.getStage().setScene(scene);
-            }
+            if (isNewScene) Gui.getStage().setScene(scene);
         } catch (IOException e) {
-            guilog.severe("Can't load " + path);
+            guiLog.severe("Can't load " + path);
         }
         Gui.getInstance().setMouse(scene);
     }
@@ -115,7 +113,7 @@ public class GuiManager extends Client {
             return FXMLLoader.load(GuiManager.class.getResource(path));
         } catch (final IOException e) {
             String errorText = "Resource at " + path + " couldn't be loaded";
-            guilog.severe(errorText);
+            guiLog.severe(errorText);
             throw new IOException(errorText);
         }
     }

@@ -20,6 +20,8 @@ public class Cli extends Client {
     private List<String> allSelectedGods;
     private String ip;
     private int port;
+    private static volatile boolean waitingInput;
+    private boolean gameEnd;
 
     public Cli(String ip, int port, boolean log) {
         super(log);
@@ -40,11 +42,14 @@ public class Cli extends Client {
     private String requestInput() {
         while (true) {
             try {
+                while (waitingInput) Thread.onSpinWait();
+                waitingInput = true;
                 String in = cliInput.nextLine();
                 if (!reconnecting) {
-                    return in;
+                    waitingInput = false;
+                    return (in != null) ? in : "";
                 } else {
-                    log.info("[CLI] Input refused because client lost connection to server");
+                    log.info("[CLI] Input refused because client lost connection to the server");
                 }
             } catch (IndexOutOfBoundsException e) { /* nothing */ }
         }
@@ -79,10 +84,12 @@ public class Cli extends Client {
         String requestedUsername = requestLobbyInput("Input username: ",
                 "This username is invalid, choose a different one: ",
                 this::validateUsername);
+        if (connection == null) return;
         String requestedColor = requestLobbyInput("Selected name: " + requestedUsername + ", choose one of the available colors: "
                         + (requestedUsername.length() % 2 == 0 ? " " : ""),
                 "This color does not exist or was already chosen, select a different one:",
                 color -> validateColor(color.toUpperCase())).toUpperCase();
+        if (connection == null) return;
         requestLogin(requestedUsername, Colors.valueOf(requestedColor));
     }
 
@@ -139,7 +146,11 @@ public class Cli extends Client {
                 if (validateGods(choice)) break;
                 else {
                     inputSave = "God not available, choose a different one:";
-                    CliScene.printChallengerSelection(inputSave, new ArrayList<>(gods), godPage, players.keySet().size(), true);
+                    try {
+                        CliScene.printChallengerSelection(inputSave, new ArrayList<>(gods), godPage, players.keySet().size(), true);
+                    } catch (NullPointerException e) {
+                        break;
+                    }
                 }
             }
         }
@@ -152,7 +163,11 @@ public class Cli extends Client {
         CliScene.printPlayerGodSelection(inputSave, choices, allSelectedGods, players.size(), true);
         while (!validatePlayerGodChoice(requestInput().toUpperCase())) {
             inputSave = "This god isn't available, please choose a different one: ";
-            CliScene.printPlayerGodSelection(inputSave, choices, allSelectedGods, players.size(), true);
+            try {
+                CliScene.printPlayerGodSelection(inputSave, choices, allSelectedGods, players.size(), true);
+            } catch (NullPointerException e) {
+                break;
+            }
         }
     }
 
@@ -162,7 +177,11 @@ public class Cli extends Client {
         CliScene.printPlayerGodSelection(inputSave, choices, allSelectedGods, players.size(), true);
         while (!validatePlayer(requestInput())) {
             inputSave = "This player doesn't exist, choose again:";
-            CliScene.printPlayerGodSelection(inputSave, choices, allSelectedGods, players.size(), true);
+            try {
+                CliScene.printPlayerGodSelection(inputSave, choices, allSelectedGods, players.size(), true);
+            } catch (NullPointerException e) {
+                break;
+            }
         }
     }
 
@@ -174,13 +193,19 @@ public class Cli extends Client {
 
     @Override
     public void showBoard(DtoSession session, Map<String, Colors> colors, Map<String, String> gods, String turnOwner) {
-        CliScene.printBoardScreen(session, new HashMap<>(colors), new HashMap<>(gods), turnOwner);
+        CliScene.printBoardScreen(session, new HashMap<>(colors), new HashMap<>(gods), turnOwner, false);
     }
 
     @Override
     public void requestTurnAction(Map<Action, List<DtoPosition>> possibleActions, DtoSession session, Map<String, Colors> colors, Map<String, String> gods, boolean isSpecialPowerActive) {
         Action action = requestAction(possibleActions, session, colors, gods);
+        if (connection == null) {
+            return;
+        }
         List<DtoPosition> positions = possibleActions.get(action);
+        if (connection == null) {
+            return;
+        }
         DtoPosition position = null;
         if (action != Action.END_TURN && action != Action.SPECIAL_POWER) {
             possibleActions = new EnumMap<>(Action.class);
@@ -194,8 +219,11 @@ public class Cli extends Client {
         String x;
         inputSave = "Type the chosen action number";
         do {
-            CliScene.printBoardScreen(inputSave, session, new HashMap<>(colors), new HashMap<>(gods), possibleActions, username);
+            CliScene.printBoardScreen(inputSave, session, new HashMap<>(colors), new HashMap<>(gods), possibleActions, username, false);
             x = requestInput();
+            if (connection == null) {
+                return null;
+            }
             inputSave = "Invalid number, retype it";
         }
         while (!x.matches("-?\\d+") || !validateRange(possibleActions.size() - 1, Integer.parseInt(x)));
@@ -207,8 +235,11 @@ public class Cli extends Client {
         do {
             inputSave = "Insert the pos. (es: A1 or 1A)";
             while (true) {
-                CliScene.printBoardScreen(inputSave, session, new HashMap<>(colors), new HashMap<>(gods), possibleActions, username);
+                CliScene.printBoardScreen(inputSave, session, new HashMap<>(colors), new HashMap<>(gods), possibleActions, username, true);
                 String[] input = requestInput().split("");
+                if (connection == null) {
+                    return null;
+                }
                 if (input.length == 2 && !decodeCoordinatesValue(input).isEmpty()) {
                     c = decodeCoordinatesValue(input);
                     break;
@@ -256,16 +287,20 @@ public class Cli extends Client {
 
     @Override
     public void showDisconnected(String info) {
-        CliScene.printStartScreen(info + ".\nPress start to go back to the title screen.", true);
-        requestInput();
-        waitConnectionRequest(ip, port);
+        if (!gameEnd) {
+            while (waitingInput) Thread.onSpinWait();
+            CliScene.printStartScreen(info + "\nPress start to go back to the title screen.", true);
+            requestInput();
+            waitConnectionRequest(ip, port);
+        }
+        gameEnd = false;
     }
 
     @Override
     public void showWin(String playerName) {
-        CliScene.printStartScreen(playerName + "has won!\nPress start to go back to the title screen.", true);
         initCli();
-        waitConnectionRequest(ip, port);
+        showDisconnected(playerName + "has won!");
+        gameEnd = true;
     }
 
     @Override

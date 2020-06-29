@@ -14,14 +14,14 @@ import java.io.IOException;
  */
 public class BoardObj extends Group {
 
-    private static final String CLIFF_OBJ = "/obj/Cliff.fxml";
-    private static final String ALLBOARD_TEXTURE = "/texture/Cliff_v001.png";
-    private static final String OUTERWALL1_OBJ = "/obj/OuterWall1.fxml";
-    private static final String OUTERWALL2_OBJ = "/obj/OuterWall2.fxml";
-    private static final String BOARD_OBJ = "/obj/Board.fxml";
-    private static final String INNERWALL_OBJ = "/obj/InnerWalls.fxml";
-    private static final String SEA_OBJ = "/obj/Sea.fxml";
-    private static final String SEA_TEXTURE = "/texture/Sea_v002.png";
+    private static final String CLIFF_OBJ = "/Images/3D/Obj/Cliff.fxml";
+    private static final String ALLBOARD_TEXTURE = "/Images/3D/Texture/Cliff_v001.png";
+    private static final String OUTERWALL1_OBJ = "/Images/3D/Obj/OuterWall1.fxml";
+    private static final String OUTERWALL2_OBJ = "/Images/3D/Obj/OuterWall2.fxml";
+    private static final String BOARD_OBJ = "/Images/3D/Obj/Board.fxml";
+    private static final String INNERWALL_OBJ = "/Images/3D/Obj/InnerWalls.fxml";
+    private static final String SEA_OBJ = "/Images/3D/Obj/Sea.fxml";
+    private static final String SEA_TEXTURE = "/Images/3D/Texture/Sea_v002.png";
 
     private Node sea;
     private Node plane;

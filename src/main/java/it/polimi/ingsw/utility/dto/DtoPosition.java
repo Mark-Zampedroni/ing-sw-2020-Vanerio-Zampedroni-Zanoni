@@ -60,7 +60,7 @@ public class DtoPosition implements Serializable {
      * @return {@code true} if the coordinates match
      */
     public boolean isSameAs(DtoPosition position) {
-        return (x == position.getX() && y == position.getY());
+        return (position != null) && (x == position.getX() && y == position.getY());
     }
 
     /**

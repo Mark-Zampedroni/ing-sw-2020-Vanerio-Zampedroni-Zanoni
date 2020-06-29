@@ -76,7 +76,7 @@ public class Gui extends Application {
      */
     public void setMouse(Scene scene) {
         try {
-            scene.setCursor(new ImageCursor(new Image(String.valueOf(Gui.class.getClassLoader().getResource("texture2D_sorted/Misti/godpower_hand.png")))));
+            scene.setCursor(new ImageCursor(new Image(String.valueOf(Gui.class.getClassLoader().getResource("godpower_hand.png")))));
         } catch (Exception e) {
             GuiManager.getInstance().log.warning("[GUI] Personalized mouse set failed with error: " + e.getMessage());
         }
@@ -87,7 +87,7 @@ public class Gui extends Application {
      */
     private void setWindowIcon() {
         try {
-            stage.getIcons().add(new Image(String.valueOf(Gui.class.getClassLoader().getResource("texture2D_sorted/app_icon.png"))));
+            stage.getIcons().add(new Image(String.valueOf(Gui.class.getClassLoader().getResource("app_icon.png"))));
         } catch (Exception e) {
             GuiManager.getInstance().log.warning("[GUI] Personalized icon set failed with error: " + e.getMessage());
         }

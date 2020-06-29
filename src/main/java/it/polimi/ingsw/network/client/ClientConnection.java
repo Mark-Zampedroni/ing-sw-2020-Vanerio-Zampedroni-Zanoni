@@ -29,6 +29,7 @@ public class ClientConnection implements Runnable {
     private Thread t;
     private boolean reconnect;
     private boolean isDisconnected;
+    private boolean isServerOffline;
 
     /**
      * Constructor
@@ -56,6 +57,7 @@ public class ClientConnection implements Runnable {
         t = new Thread(this);
         t.start();
         isDisconnected = false;
+        isServerOffline = false;
     }
 
     /**
@@ -88,15 +90,15 @@ public class ClientConnection implements Runnable {
                 log.severe(e.getMessage());
             } catch (IOException e) {
                 log.severe("[CONNECTION] Socket closed");
+                isServerOffline = true;
                 disconnect();
             }
         }
         log.info("[CONNECTION] Server crashed");
-        if (reconnect) {
+        if (reconnect)
             initReconnection();
-        } else {
+        else if (!isDisconnected || isServerOffline)
             inQueue.add(new Message(MessageType.DISCONNECTION_UPDATE, "SELF", "Lost connection to server", "ALL"));
-        }
     }
 
     /**
@@ -114,6 +116,7 @@ public class ClientConnection implements Runnable {
      * Disconnects a client
      */
     public void disconnect() {
+        isDisconnected = true;
         try {
             if (!socket.isClosed()) {
                 socket.close();
@@ -158,6 +161,10 @@ public class ClientConnection implements Runnable {
         } catch (IOException e) {
             return false;
         }
+    }
+
+    protected boolean getIsServerOffline() {
+        return isServerOffline;
     }
 
     protected boolean getReconnect() {

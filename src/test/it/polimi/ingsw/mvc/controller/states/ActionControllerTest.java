@@ -101,7 +101,7 @@ public class ActionControllerTest {
                                 Action.END_TURN);
                         assertEquals(Session.getInstance().getBoard().getTile(new Position(2,4)).getHeight(), 1);
                 } catch (WrongActionException e) {
-                        System.out.println("Non succede nei test");
+                        // Shouldn't happen
                 }
         }
 
