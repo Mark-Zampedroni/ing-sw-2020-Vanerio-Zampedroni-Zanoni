@@ -57,7 +57,10 @@ dove `port` è la porta desiderata per il socket, se omesso il campo viene usata
 Il client ha implementate due interfacce grafiche distinte. Con il parametro `{cli|gui}` all'avvio è possibile scegliere se si vuole giocare su CLI o aprire la GUI. Se omesso viene caricata la GUI.
 
 #### CLI
-Si digita  console, con gli argomenti opzionali:
+
+In modo da poter giocare al meglio con la CLI si necessita l'utilizzo di un terminale che supporti gli ANSI escape (per i colori) impostato su una codifica UTF-8. In base alla risoluzione dello schermo si potrebbe aver bisogno di diminuire la dimensione del font (per esempio: con una risoluzione di 1920x1080 l'ideale è una font-size di 14).
+
+Per avviare la CLI dal jar si deve scrivere su console ([arg] sono argomenti opzionali):
 ```
 java -jar client.jar cli [-i ip] [-p port] [-log]
 ```
@@ -69,7 +72,7 @@ Per la GUI è necessario importare le dipendenze di javafx con i parametri `[--m
 ```
 java --module-path "javafx-sdk-11.0.2/lib" --add-modules javafx.controls,javafx.fxml -jar client.jar gui [-i ip] [-p port] [-log]
 ```
-dove `ip`, `port` e `log` sono equivalenti ai parametri della cli.
+dove `ip`, `port` e `log` sono equivalenti ai parametri della cli. Nel caso non si abbia l'SDK di javaFx si può trovare il link per scaricarlo alla voce dipendenze.
 
 # Dipendenze
 I jar sono stati compilati con SDK 13 (versione 13.0.2 di java), il programma per eseguire correttamente necessita di una versione pari o superiore a Java 11.
