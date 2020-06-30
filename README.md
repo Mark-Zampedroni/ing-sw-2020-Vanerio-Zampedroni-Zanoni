@@ -58,7 +58,7 @@ Il client ha implementate due interfacce grafiche distinte. Con il parametro `{c
 
 #### CLI
 
-In modo da poter giocare al meglio con la CLI si necessita l'utilizzo di un terminale che supporti gli ANSI escape (per i colori) impostato su una codifica UTF-8. In base alla risoluzione dello schermo si potrebbe aver bisogno di diminuire la dimensione del font (per esempio: con una risoluzione di 1920x1080 l'ideale è una font-size di 14).
+In modo da poter giocare al meglio con la CLI si necessita l'utilizzo di un terminale che supporti gli ANSI escape estesi (per i colori) impostato su una codifica UTF-8. In base alla risoluzione dello schermo si potrebbe aver bisogno di diminuire la dimensione del font (per esempio: con una risoluzione di 1920x1080 l'ideale è una font-size di 14).
 
 Per avviare la CLI dal jar si deve scrivere su console ([arg] sono argomenti opzionali):
 ```
