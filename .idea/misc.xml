@@ -2,7 +2,8 @@
 <project version="4">
   <component name="ExternalStorageConfigurationManager" enabled="true" />
   <component name="JavadocGenerationManager">
-    <option name="OUTPUT_DIRECTORY" value="$USER_HOME$/Desktop/Uni/IN CORSO/Progetto_ing_sw/doc" />
+    <option name="OUTPUT_DIRECTORY" value="$USER_HOME$/Desktop/j" />
+    <option name="OPTION_SCOPE" value="private" />
   </component>
   <component name="MavenProjectsManager">
     <option name="originalFiles">

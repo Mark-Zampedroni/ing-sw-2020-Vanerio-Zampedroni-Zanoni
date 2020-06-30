@@ -193,7 +193,7 @@ public class TurnController extends StateController implements Serializable {
      */
     private void handleLoser() {
         log.info(controller.getTurnOwner() + " lost");
-        currentPlayer.loss();
+        currentPlayer.setLoser();
         notifyLose(currentPlayer.getUsername());
         List<String> notLosers = players.stream().filter(p -> !p.isLoser()).map(Player::getUsername).collect(Collectors.toList());
         if (notLosers.size() == 1) {

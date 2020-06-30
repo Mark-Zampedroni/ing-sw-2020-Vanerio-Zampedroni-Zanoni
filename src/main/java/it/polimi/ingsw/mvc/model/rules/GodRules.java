@@ -171,7 +171,7 @@ public abstract class GodRules extends Observable<DtoSession> implements Seriali
      * @throws CantActException when the worker can't be selected
      */
     public void consentSelect(String username, Worker worker) throws CantActException {
-        if (!canSelect(worker, afterSelect()) || worker.getMaster() != Session.getInstance().getPlayerByName(username)) {
+        if (!consentSelect(worker, afterSelect()) || worker.getMaster() != Session.getInstance().getPlayerByName(username)) {
             throw new CantActException("This worker can't do any action");
         }
     }
@@ -244,7 +244,7 @@ public abstract class GodRules extends Observable<DtoSession> implements Seriali
      * @param actions list of {@link Action actions} the worker may be required to perform
      * @return {@code true} if the worker could do at least one {@link Action action}
      */
-    public boolean canSelect(Worker worker, List<Action> actions) {
+    public boolean consentSelect(Worker worker, List<Action> actions) {
         Position position = worker.getPosition();
         for (int x = -1; x < 2; x++) {
             for (int y = -1; y < 2; y++) {
@@ -272,7 +272,7 @@ public abstract class GodRules extends Observable<DtoSession> implements Seriali
     /**
      * Implemented in {@link EnemyRules EnemyRules}, default is empty
      */
-    public void clear() { /* Implemented in EnemyRules */ }
+    public void clear() { /* Implemented in EventRules */ }
 
     /**
      * Implemented in {@link EnemyRules EnemyRules}, default is empty

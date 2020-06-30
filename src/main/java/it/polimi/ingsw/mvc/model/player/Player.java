@@ -171,9 +171,9 @@ public class Player implements Serializable {
     }
 
     /**
-     * Set the player to a "looser" player, removes his workers, removes the effect of his god
+     * Flags a player as loser, removes his workers, removes the effect of his god
      */
-    public void loss() {
+    public void setLoser() {
         loss = true;
         workers.clear();
         if (rules != null) {

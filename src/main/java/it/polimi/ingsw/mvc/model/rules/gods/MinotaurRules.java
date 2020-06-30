@@ -47,10 +47,10 @@ public class MinotaurRules extends ApolloRules implements Serializable {
     public void consentMovement(Worker worker, Position position) throws CantActException {
         super.consentMovement(worker, position);
         if (position.getWorker() != null) {
-            Position backpos = getPositionBackwards(worker.getPosition(), position);
-            Check.positionValidity(backpos, true, "Can't push enemy worker out of boundaries");
-            Check.relation(worker, backpos, Target.ANY, true, "Can't push enemy worker to an occupied tile");
-            Check.dome(backpos, true, "Can't push enemy worker to a tile with a dome");
+            Position backPos = getPositionBackwards(worker.getPosition(), position);
+            Check.positionValidity(backPos, true, "Can't push enemy worker out of boundaries");
+            Check.relation(worker, backPos, Target.ANY, true, "Can't push enemy worker to an occupied tile");
+            Check.dome(backPos, true, "Can't push enemy worker to a tile with a dome");
         }
     }
 

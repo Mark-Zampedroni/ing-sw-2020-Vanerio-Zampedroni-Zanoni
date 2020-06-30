@@ -1,10 +1,10 @@
 package it.polimi.ingsw.mvc.model.player;
 
-import it.polimi.ingsw.utility.enumerations.Colors;
-import it.polimi.ingsw.utility.enumerations.Gods;
+import it.polimi.ingsw.mvc.model.Setupper;
 import it.polimi.ingsw.mvc.model.map.Position;
 import it.polimi.ingsw.mvc.model.rules.GodRules;
-import it.polimi.ingsw.mvc.model.Setupper;
+import it.polimi.ingsw.utility.enumerations.Colors;
+import it.polimi.ingsw.utility.enumerations.Gods;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -44,8 +44,8 @@ class PlayerTest {
         player.addWorker(new Position(1,1));
         player.addWorker(new Position(2,2));
         player.setRules(GodRules.getInstance(Gods.HERA));
-        assertEquals(player.getWorkers().size(),2);
-        player.loss();
+        assertEquals(player.getWorkers().size(), 2);
+        player.setLoser();
         assertTrue(player.isLoser());
         assertEquals(player.getWorkers().size(),0);
     }

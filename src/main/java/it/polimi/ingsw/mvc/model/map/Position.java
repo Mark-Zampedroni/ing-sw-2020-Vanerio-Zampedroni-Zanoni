@@ -52,10 +52,10 @@ public class Position implements Serializable {
      * @return calculated distance
      */
     public int getDistanceFrom(Position position) {
-        int deltax = Math.abs(this.x - position.getX());
-        int deltay = Math.abs(this.y - position.getY());
-        int diagonal = Math.min(deltax, deltay);
-        int straight = Math.max(deltax, deltay) - diagonal;
+        int deltaX = Math.abs(this.x - position.getX());
+        int deltaY = Math.abs(this.y - position.getY());
+        int diagonal = Math.min(deltaX, deltaY);
+        int straight = Math.max(deltaX, deltaY) - diagonal;
 
         return (int) (diagonal * Math.sqrt(2) + straight);
     }
