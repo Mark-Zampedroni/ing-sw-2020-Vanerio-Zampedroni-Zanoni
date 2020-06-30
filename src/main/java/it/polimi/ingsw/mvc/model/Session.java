@@ -34,6 +34,7 @@ public class Session implements Serializable {
 
     /**
      * Method to set the singleton at the reload
+     * @param session the session passed
      */
     public static synchronized void loadInstance(Session session) {
         instance = session;

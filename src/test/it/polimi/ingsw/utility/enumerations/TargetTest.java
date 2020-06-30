@@ -33,6 +33,7 @@ class TargetTest {
         Setupper.removePlayer(player2);
     }
 
+    // Checks if the worker comparison works correctly
     @Test
     void compareWorkersTest() {
         assertTrue(Target.ENEMY.compareWorkers(worker,worker2));

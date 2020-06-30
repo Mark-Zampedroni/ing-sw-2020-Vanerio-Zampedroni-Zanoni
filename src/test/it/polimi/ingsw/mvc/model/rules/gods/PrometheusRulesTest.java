@@ -40,7 +40,7 @@ class PrometheusRulesTest {
         Setupper.removePlayer(player);
     }
 
-
+    //Checks if the worker can move correctly before or after moving
     @Test
     void consentMovement() {
         worker.setPosition(new Position(2,2));
@@ -55,6 +55,7 @@ class PrometheusRulesTest {
         assertThrows(CantActException.class, ()->test.consentMovement(worker, new Position(3,3)));
     }
 
+    //Checks if the build works correctly
     @Test
     void executeBuild() {
         Position position = new Position(1,2);
@@ -68,6 +69,7 @@ class PrometheusRulesTest {
         assertFalse(test.getEvent());
     }
 
+    //Checks that possible actions after the first move and the second move are different
     @Test
     void afterBuild(){
         assert test != null;
@@ -83,6 +85,7 @@ class PrometheusRulesTest {
         assertEquals(list.size(),1);
     }
 
+    //Checks the correct reset of all flags
     @Test
     void clear(){
         assert test != null;
@@ -90,6 +93,7 @@ class PrometheusRulesTest {
         assertFalse(test.getEvent());
     }
 
+    //Checks if the possible actions after the selection are correct
     @Test
     void afterSelect(){
         assert test != null;
@@ -99,8 +103,4 @@ class PrometheusRulesTest {
         assertEquals(action.get(2), Action.BUILD);
     }
 
-    @Test
-    void executeMove(){
-
-    }
 }

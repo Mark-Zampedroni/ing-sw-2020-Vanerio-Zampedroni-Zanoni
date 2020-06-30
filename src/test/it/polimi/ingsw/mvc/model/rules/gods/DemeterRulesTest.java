@@ -38,7 +38,7 @@ class DemeterRulesTest {
         Setupper.removePlayer(player);
     }
 
-
+    //Checks if the two different builds are correctly managed
     @Test
     void consentBuild() {
         worker.setPosition(1,1);
@@ -53,6 +53,7 @@ class DemeterRulesTest {
 
     }
 
+    //Checks if the build action works
     @Test
     void executeBuild() {
         Position position = new Position(1,2);
@@ -62,6 +63,7 @@ class DemeterRulesTest {
         assertEquals(Session.getInstance().getBoard().getTile(position).getHeight(), 1);
     }
 
+    //Checks if after the first build is possible a second build
     @Test
     void afterBuild(){
         assert test != null;

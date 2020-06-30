@@ -32,6 +32,7 @@ public class ServerApp {
 
     /**
      * Returns {@code true} if the fault tolerance is active
+     * @return {@code true} if is active
      */
     public static boolean isFeature() {
         return FAULT_TOLERANCE;

@@ -123,6 +123,7 @@ public abstract class GenericController {
 
     /**
      * Calls a method with a delay in order to give the JavaFx thread the needed time to correctly load the values
+     * @param node the node where set the font ratio
      */
     protected void setFontRatio(Control node) {
         Platform.runLater(() -> handleResizableElement(node));

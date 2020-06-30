@@ -35,6 +35,7 @@ class PanRulesTest {
         Setupper.removePlayer(player);
     }
 
+    //Checks the different win condition
     @Test
     void isWinner() {
         Board board = Session.getInstance().getBoard();

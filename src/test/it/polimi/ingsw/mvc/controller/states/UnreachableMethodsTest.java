@@ -28,6 +28,7 @@ public class UnreachableMethodsTest {
         wrongState = new SelectionController(controller, new ArrayList<>(), LOG);
     }
 
+    // Tests the impossible calls
     @Test
     public void impossibleCallsTest() {
         wrongState.sendUpdate();

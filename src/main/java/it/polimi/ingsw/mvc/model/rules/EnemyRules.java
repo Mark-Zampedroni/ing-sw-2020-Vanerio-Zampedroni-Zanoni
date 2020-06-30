@@ -18,6 +18,7 @@ public abstract class EnemyRules extends CommonRules implements Serializable {
      *
      * @param position position where the worker has to move to
      * @param worker   worker that perform the movement
+     * @throws CantActException if the worker can't perform the action
      */
     public void consentEnemyMovement(Worker worker, Position position) throws CantActException { /* Nothing on default */ }
 
@@ -25,6 +26,7 @@ public abstract class EnemyRules extends CommonRules implements Serializable {
      * Check enforced on the other players as an extra win condition
      *
      * @param position position where the worker has to move to
+     * @return {@code true} if the worker is not blocked by an enemy power
      */
     public boolean consentEnemyWin(Position position) {
         return true; /* Default */

@@ -37,6 +37,7 @@ class HephaestusRulesTest {
         Setupper.removePlayer(player);
     }
 
+    //Checks if the two different builds are correctly managed
     @Test
     void consentBuild() {
         worker.setPosition(1,1);
@@ -50,6 +51,7 @@ class HephaestusRulesTest {
         assertThrows(CantActException.class, ()->test.consentBuild(worker, new Position(2,1)));
     }
 
+    //Checks if the build action works properly
     @Test
     void executeBuild() {
         Position position = new Position(1,2);
@@ -59,6 +61,7 @@ class HephaestusRulesTest {
         assertEquals(Session.getInstance().getBoard().getTile(position).getHeight(), 1);
     }
 
+    //Checks if after the first build is possible a second build
     @Test
     void afterBuild(){
         assert test != null;

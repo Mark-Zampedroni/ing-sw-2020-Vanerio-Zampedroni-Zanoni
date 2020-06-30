@@ -21,6 +21,7 @@ public class Check implements Serializable {
 
     /**
      * This class shouldn't be instantiated
+     * @throws NotInstantiableClass if instantiated
      */
     public Check() throws NotInstantiableClass {
         throw new NotInstantiableClass();

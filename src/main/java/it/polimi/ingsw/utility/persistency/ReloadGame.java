@@ -116,6 +116,7 @@ public class ReloadGame {
      * @param message the request sent by the player
      * @param connection connection of the player trying to reconnect
      * @param sessionController the controller of the MVC
+     * @return the main controller of the game
      */
     public static SessionController reloadConnection(SessionController sessionController, Map<String, ServerConnection> reconnecting, ServerConnection connection, Logger log, Message message) {
         SessionController newController = null;
@@ -167,6 +168,7 @@ public class ReloadGame {
 
     /**
      * Deletes the old save file from the memory
+     * @throws IOException if there are problems while deleting file
      */
     public static void clearSavedFile() throws IOException {
         Files.deleteIfExists(Paths.get("saved.game.ser"));

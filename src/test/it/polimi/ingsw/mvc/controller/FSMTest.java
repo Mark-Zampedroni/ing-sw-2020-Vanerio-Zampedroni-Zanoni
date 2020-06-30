@@ -19,6 +19,7 @@ class FSMTest {
 
     private final boolean showLog = false; // True to show client log
 
+    //Test that emulate an entire game
     @Test
     void completeGameTest() {
         // Server and clients start
@@ -91,7 +92,7 @@ class FSMTest {
         testClient3.createConnection("127.0.0.1", testPort);
     }
 
-    // Aggiunge delay tra i messaggi
+    // Adds delay between messages
     private void request(Runnable request) {
         try {
             Thread.sleep(   300); // Time between messages

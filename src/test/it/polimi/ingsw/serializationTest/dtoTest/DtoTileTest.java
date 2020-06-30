@@ -19,9 +19,7 @@ public class DtoTileTest {
         tile = new Tile();
     }
 
-    /**
-     * Testing if the flag hasDome is passed
-     */
+    //Tests if the flag hasDome is passed
     @Test
     void hasDomeTest() {
         tile.putDome();
@@ -29,9 +27,8 @@ public class DtoTileTest {
         assertTrue(dtoTile.hasDome());
     }
 
-    /**
-     * Testing if is correctly stored the height of the tower in DTOtile
-     */
+
+     //Tests if is correctly stored the height of the tower in DTOtile
     @Test
     void getHeight() {
         tile.increaseHeight();
@@ -40,9 +37,7 @@ public class DtoTileTest {
         assertEquals(dtoTile.getHeight(), Height.MID);
     }
 
-    /**
-     * Testing if the toString is the same for DTO and normal tile versions
-     */
+    //Tests if the toString is the same for DTO and normal tile versions
     @Test
     void toStringTest() {
         tile.increaseHeight();

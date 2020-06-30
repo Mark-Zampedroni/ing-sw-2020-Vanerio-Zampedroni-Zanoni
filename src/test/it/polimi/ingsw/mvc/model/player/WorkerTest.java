@@ -31,6 +31,7 @@ class WorkerTest {
         Setupper.removePlayer(player);
     }
 
+    //Controls if the position of a worker is correctly assigned
     @Test
     void getPosition() {
         for(int x = 0; x < 6; x++) {
@@ -43,12 +44,14 @@ class WorkerTest {
         }
     }
 
+    //Checks if the toString method works
     @Test
     void testToString() {
         worker.setPosition(1,2);
         assertEquals("{Master: {Username: TestName, Color: BLUE, God: null} X: 1 Y: 2}", worker.toString());
     }
 
+    //Controls if the master is correctly assigned to the worker
     @Test
     void getMaster() {
         Worker worker2 = new Worker(new Position(-3,-3));

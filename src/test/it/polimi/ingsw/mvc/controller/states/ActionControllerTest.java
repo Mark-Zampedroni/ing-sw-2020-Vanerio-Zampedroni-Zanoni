@@ -46,6 +46,7 @@ public class ActionControllerTest {
                 player = null;
         }
 
+        // Checks if the control on wrong actions works properly
         @Test
         void wrongAct() {
                 try {
@@ -55,6 +56,7 @@ public class ActionControllerTest {
                         -> actionController.act(new Worker(new Position(2, 3)), new Position(2, 4), Action.WIN));
         }
 
+        // Checks if the method that return the list of "candidates" for move and build works properly
         @Test
         void getCandidates() {
                 Worker worker = new Worker(new Position(2, 3));
@@ -71,6 +73,7 @@ public class ActionControllerTest {
                 }
         }
 
+        // Checks if the method that return the list of "candidates" for selection and add works properly
         @Test
         void getCandidatesSelectAdd() {
                 List<Position> temp;
@@ -87,6 +90,7 @@ public class ActionControllerTest {
                 }
         }
 
+        // Checks if the methods called for the different actions work properly
         @Test
         void actMoveBuildTest() {
                 try {

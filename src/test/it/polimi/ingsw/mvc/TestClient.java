@@ -18,6 +18,7 @@ public class TestClient extends Client {
 
     private String challenger;
 
+    // Creates a fake client for FSM Test
     public TestClient(String ip, int port, boolean showLog) {
         super(showLog);
         this.printMessages = showLog;

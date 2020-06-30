@@ -36,6 +36,7 @@ class AtlasRulesTest {
         Setupper.removePlayer(player);
     }
 
+    //Checks if works properly the building of domes in different levels
     @Test
     void executeBuild() {
         Position position = new Position(1,2);
@@ -50,6 +51,7 @@ class AtlasRulesTest {
         assertTrue(Session.getInstance().getBoard().getTile(position).hasDome());
     }
 
+    //Checks if is correct the list of possible actions with his special power
     @Test
     void correctActionListAfterMove(){
         List <Action> actions = test.afterMove();

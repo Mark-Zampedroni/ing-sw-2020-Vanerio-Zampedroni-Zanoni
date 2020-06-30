@@ -58,6 +58,7 @@ public enum Gods implements Serializable {
 
     /**
      * Getter for the description of a god
+     * @return the description of the god
      */
     public String getDescription() {
         return description;

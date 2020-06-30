@@ -38,6 +38,7 @@ class ZeusRulesTest {
         Setupper.removePlayer(opponent);
     }
 
+    //Checks if the worker can build under himself
     @Test
     void consentBuild() {
         worker.setPosition(1,1);
@@ -57,6 +58,7 @@ class ZeusRulesTest {
         });
     }
 
+    //Checks if the movement
     @Test
     void consentMovement() {
         worker.setPosition(1,1);

@@ -36,6 +36,7 @@ public class ClientConnection implements Runnable {
      * @param controller client
      * @param port connection port
      * @param ip server ip
+     * @throws IOException if there is a problem
      */
     public ClientConnection(String ip, int port, Client controller) throws IOException {
         this.ip = ip;
@@ -48,6 +49,7 @@ public class ClientConnection implements Runnable {
 
     /**
      * Creates a connection with the server
+     * @throws IOException if there is a problem in the opening of streams
      */
     public void startConnection() throws IOException {
         socket = new Socket(ip, port);

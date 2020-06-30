@@ -37,9 +37,7 @@ public class DtoSessionTest {
         Setupper.removePlayer(three);
     }
 
-    /**
-     * Testing if all is copied correctly
-     */
+    //Tests if all is copied correctly
     @Test
     void correctlyCreated (){
         Session.getInstance().getChallenger();

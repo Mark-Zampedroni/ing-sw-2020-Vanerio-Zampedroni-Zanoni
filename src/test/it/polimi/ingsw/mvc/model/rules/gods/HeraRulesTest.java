@@ -33,15 +33,16 @@ class HeraRulesTest {
         Setupper.removePlayer(player2);
     }
 
+    //Checks if the effect of Hera is correctly applied on other players
     @Test
     void applyEffect() {
         player2.setRules(GodRules.getInstance(Gods.APOLLO)); // Any god
-        player2.getRules().executeBuild(new Position(0,1)); //altezza 1
+        player2.getRules().executeBuild(new Position(0,1)); //height 1
         player2.getRules().executeBuild(new Position(0,2));
-        player2.getRules().executeBuild(new Position(0,2)); //altezza 2
+        player2.getRules().executeBuild(new Position(0,2)); //height 2
         player2.getRules().executeBuild(new Position(0,3));
         player2.getRules().executeBuild(new Position(0,3));
-        player2.getRules().executeBuild(new Position(0,3)); //altezza 3
+        player2.getRules().executeBuild(new Position(0,3)); //height 3
         worker2.setPosition(0,1);
         player2.getRules().executeMove(worker2, new Position(0,2));
         assertFalse(player2.getRules().consentWin(worker2, new Position(0,2)));

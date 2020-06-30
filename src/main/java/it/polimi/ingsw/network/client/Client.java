@@ -101,6 +101,7 @@ public abstract class Client implements Observer<Message>, View {
      *
      * @param ip server ip
      * @param port connection port
+     * @return {@code true} if the connection is created
      */
     public boolean createConnection(String ip, int port) {
         state = GameState.CONNECTION;

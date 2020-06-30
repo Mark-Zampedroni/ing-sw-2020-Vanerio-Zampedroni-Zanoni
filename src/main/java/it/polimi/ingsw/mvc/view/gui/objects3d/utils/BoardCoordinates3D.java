@@ -35,6 +35,8 @@ public class BoardCoordinates3D {
 
     /**
      * Setter for the X coordinate value
+     *
+     * @param x the x coordinate
      */
     public void setValueX(int x) {
         xBoard = x;
@@ -51,6 +53,8 @@ public class BoardCoordinates3D {
 
     /**
      * Setter for the Y coordinate value
+     *
+     * @param y the y coordinate
      */
     public void setValueY(int y) {
         yBoard = y;
@@ -67,6 +71,7 @@ public class BoardCoordinates3D {
 
     /**
      * Setter for the Z coordinate value (height)
+     * @param z the z coordinate
      */
     public void setValueZ(int z) {
         zBoard = z;
@@ -74,6 +79,10 @@ public class BoardCoordinates3D {
 
     /**
      * Setter for all the coordinates
+     *
+     * @param x the x coordinate
+     * @param y the y coordinate
+     * @param z the z coordinate
      */
     public void setValues(int x, int y, int z) {
         setValueX(x);

@@ -37,6 +37,7 @@ class AthenaRulesTest {
         Setupper.removePlayer(player2);
     }
 
+    //Checks if Athena power works on another player
     @Test
     void applyEffect() {
         player.setRules(GodRules.getInstance(Gods.ATHENA));
@@ -58,6 +59,7 @@ class AthenaRulesTest {
         assertDoesNotThrow(()->player2.getRules().consentMovement(worker2, new Position(2,3))); // Athena does not block enemy
     }
 
+    //Checks if Athena effect works also when a player wins
     @Test
     void winCondition() {
         player.setRules(GodRules.getInstance(Gods.ATHENA));

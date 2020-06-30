@@ -42,6 +42,7 @@ class CommonRulesTest {
 
     }
 
+    //Checks if the selection of workers works properly
     @Test
     void canSelect() {
         list.add(Action.BUILD);
@@ -64,6 +65,7 @@ class CommonRulesTest {
         assertThrows(CantActException.class, () -> test.consentSelect(player.getUsername(), worker));
     }
 
+    //Checks the flag special power and the removing of effects
     @Test
     void checkConditions(){
         assertFalse(test.hasSpecialPower());
@@ -71,6 +73,7 @@ class CommonRulesTest {
         test.removeEffect();
     }
 
+    //Checks if adding a worker works properly
     @Test
     void checkAddingWorker(){
         Position position = new Position(2,3);

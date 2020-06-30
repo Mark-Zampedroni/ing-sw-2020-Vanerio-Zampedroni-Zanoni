@@ -37,15 +37,21 @@ class SessionTest {
         Setupper.removePlayer(three);
     }
 
+    //Checks the correct management of the players during the game
     @Test
     void PlayerManagement (){
+        // Correct assignment of challenger player
         assertEquals(3,session.playersNumber());
         session.getChallenger();
         session.getChallenger();
         assertTrue((one.isChallenger() ^ two.isChallenger()) ^ three.isChallenger()); //xor
+
+        // Checks if the method otherPlayer works properly
         List<Player> otherPlayer = session.getOtherPlayers(one);
         assertEquals(two.getUsername(), otherPlayer.get(0).getUsername());
         assertEquals(three.getUsername(), otherPlayer.get(1).getUsername());
+
+        // Checks if removing players everything works correctly
         session.removePlayer(one);
         assertEquals(session.playersNumber(), 2);
         session.addPlayer(one);
@@ -55,6 +61,8 @@ class SessionTest {
         two.removeWorker(0);
         session.removePlayer(two);
         assertEquals(session.playersNumber(), 2);
+
+        //Checks if the method for getting players by name and color works properly
         two = new Player("Sandro", Colors.BLUE);
         session.addPlayer(two);
         session.addPlayer("Luca", Colors.WHITE);
@@ -63,6 +71,7 @@ class SessionTest {
         session.removePlayer("Luca");
     }
 
+    // Controls the correct manage of the gods
     @Test
     void GodsManagement() {
         one.setGod(Gods.APOLLO);
@@ -70,8 +79,6 @@ class SessionTest {
         session.getPlayers();
         assertEquals(session.getPlayers().get(0).getGod(), one.getGod());
         assertEquals(session.getPlayers().get(1).getGod(), two.getGod());
-        assertEquals(session.getPlayers().get(0).getGod(), one.getGod());
-
     }
 }
 
