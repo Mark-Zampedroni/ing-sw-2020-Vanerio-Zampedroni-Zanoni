@@ -42,6 +42,7 @@ class MinotaurRulesTest {
         Setupper.removePlayer(player2);
     }
 
+    //Checks if is correctly managed the possibility of moving in an occupied position pushing another worker
     @Test
     void consentMovement() {
         Position position= new Position(4,4);
@@ -71,6 +72,7 @@ class MinotaurRulesTest {
         });
         }
 
+        //Checks if the movement works correctly and also the pushing of another worker
     @Test
     void executeMove() {
         Position oldPosition = new Position(1, 1);

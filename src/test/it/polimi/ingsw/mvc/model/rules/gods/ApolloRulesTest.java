@@ -36,16 +36,16 @@ class ApolloRulesTest {
         Setupper.removePlayer(opponent);
     }
 
-
+    //Checks if the worker with god Apollo can move also on an occupied position
     @Test
     void consentMovement() {
         worker.setPosition(1,1);
         assertDoesNotThrow(() -> player.getRules().consentMovement(worker, new Position(1,2)));
         player.getWorkers().get(1).setPosition(2,2);
         assertThrows(CantActException.class, () -> player.getRules().consentMovement(worker, new Position(2,2)));
-
     }
 
+    //Checks if the building of blocks works properly
     @Test
     void consentBuild() {
         worker.setPosition(1,1);
@@ -53,9 +53,9 @@ class ApolloRulesTest {
         worker.setPosition(1,1);
         player.getWorkers().get(1).setPosition(2,2);
         assertThrows(CantActException.class, () -> player.getRules().consentBuild(worker, new Position(2,2)));
-
     }
 
+    //Checks if the worker moves in correct way
     @Test
     void executeMove() {
         worker.setPosition(2, 2);

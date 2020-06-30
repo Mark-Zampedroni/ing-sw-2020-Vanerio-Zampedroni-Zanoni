@@ -15,6 +15,7 @@ class BoardTest {
     @AfterEach
     void setUp() { Session.getInstance().getBoard().clear(); }
 
+    // Checks the height equal to zero for all the tiles
     @Test
     void correctlyCreated() {
         for (int i=0; i<5; i++) {
@@ -25,6 +26,7 @@ class BoardTest {
         }
     }
 
+    // Checks if the changes are applied
     @Test
     void correctManagement() {
         Session.getInstance().getBoard().getTile(new Position(2,3)).increaseHeight();

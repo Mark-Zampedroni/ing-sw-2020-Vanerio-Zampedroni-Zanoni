@@ -39,7 +39,7 @@ class HestiaRulesTest {
         Setupper.removePlayer(player);
     }
 
-
+    //Checks if the two different builds are correctly managed
     @Test
     void consentBuild() {
         worker.setPosition(1,1);
@@ -53,6 +53,7 @@ class HestiaRulesTest {
         assertThrows(CantActException.class, () -> test.consentBuild(worker, position ));
     }
 
+    //Checks if after the first build is possible a second build
     @Test
     void afterBuild(){
         assert test != null;

@@ -28,6 +28,7 @@ class PlayerTest {
         player=null;
     }
 
+    // Checks if the the flags for Challenger and Starter work properly
     @Test
     void correctlyFlagged() {
         assertFalse(player.isChallenger());
@@ -38,6 +39,7 @@ class PlayerTest {
         assertEquals(player.getColor(), Colors.BLUE);
     }
 
+    // Checks the removal of workers in case a player loses
     @Test
     void correctlyLoser(){
         assertFalse(player.isLoser());
@@ -50,8 +52,10 @@ class PlayerTest {
         assertEquals(player.getWorkers().size(),0);
     }
 
+    //Checks if during the creation the workers are added and the remove of them
     @Test
     void correctlyCreated () {
+        //Remove workers by index
         Player player = Setupper.addPlayer("Paolo", Colors.BLUE, 1);
         assertEquals(player.getUsername(),"Paolo");
         assertNull(player.getGod());
@@ -68,6 +72,8 @@ class PlayerTest {
         player.removeWorker(0);
         assertEquals(player.getWorkers().size(), 0);
         Setupper.removePlayer(player);
+
+        //Removes the workers by position on board
         player = Setupper.addPlayer("Paolo", Colors.BLUE,2);
         Position position = new Position(2,3);
         player.getWorkers().get(0).setPosition(position);

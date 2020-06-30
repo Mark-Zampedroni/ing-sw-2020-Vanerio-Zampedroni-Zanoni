@@ -30,10 +30,9 @@ public class DtoWorkerTest {
         position = null;
     }
 
-    /**
-     * Testing if the creation of a DTOposition works, testing all the getters
-     */
-    @Test
+
+     //Testing if the creation of a DTOposition works, testing all the getters
+     @Test
     void correctlyCreated(){
         DtoPosition dtOposition = new DtoPosition(position);
         assertEquals(position.getX(), dtOposition.getX());
@@ -44,10 +43,9 @@ public class DtoWorkerTest {
 
     }
 
-    /**
-     * Testing if equals method works, testing if distanceFrom works
-     */
-    @Test
+
+     //Testing if equals method works, testing if distanceFrom works
+     @Test
     void correctlyRelated() {
         DtoPosition dtOposition = new DtoPosition(position);
         Position position2 = new Position(2, 3);

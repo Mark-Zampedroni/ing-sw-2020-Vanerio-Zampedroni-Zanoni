@@ -7,6 +7,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class CheckTest {
 
+    //Checks the construction of exceptions
     @Test
     void construction() {
         assertThrows(NotInstantiableClass.class, Check::new);

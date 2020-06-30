@@ -28,9 +28,8 @@ public class DtoBoardTest {
         board = null;
     }
 
-    /**
-     * Testing if is correctly created and if getTile method works in DTO version
-     */
+
+     //Tests if is correctly created and if getTile method works in DTO version
     @Test
     void correctBoard() {
         DtoBoard dtOboard = new DtoBoard(board);

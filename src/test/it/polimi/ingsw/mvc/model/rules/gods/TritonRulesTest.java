@@ -37,6 +37,7 @@ class TritonRulesTest {
         Setupper.removePlayer(player);
     }
 
+    //Tests a double movement
     @Test
     void executeMove() {
         worker.setPosition(0,1);
@@ -52,6 +53,7 @@ class TritonRulesTest {
         assertFalse(test.getEvent());
     }
 
+    //Checks the possible actions after a generic move and a move on a boundary position
     @Test
     void afterMove() {
         assert test != null;

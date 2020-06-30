@@ -29,9 +29,7 @@ public class DtoPositionTest {
         position = null;
     }
 
-    /**
-     * Testing if the creation of a DTOposition works, testing all the getters
-     */
+    //Tests if the creation of a DTOposition works, testing all the getters
     @Test
     void correctlyCreated(){
         DtoPosition dtOposition = new DtoPosition(position);
@@ -41,9 +39,7 @@ public class DtoPositionTest {
         assertEquals(position.isValid(), dtOposition.isValid());
     }
 
-    /**
-     * Testing if distanceFrom works
-     */
+    //Tests if distanceFrom works
     @Test
     void correctDistanceFrom(){
         DtoPosition dtOposition = new DtoPosition(position);
@@ -51,9 +47,8 @@ public class DtoPositionTest {
         DtoPosition dtoPosition2 = new DtoPosition(position2);
     }
 
-    /**
-     * Testing if equals methods works
-     */
+
+    //Tests if equals methods works
     @Test
     void correctlyRelated() {
         DtoPosition dtOposition = new DtoPosition(position);
@@ -64,9 +59,8 @@ public class DtoPositionTest {
         assertTrue(dtOposition.isSameAs(position));
     }
 
-    /**
-     * Testing if is correct toString method
-     */
+
+    //Tests if is correct toString method
     @Test
     void correctWrite() {
         DtoPosition dtOposition = new DtoPosition(position);

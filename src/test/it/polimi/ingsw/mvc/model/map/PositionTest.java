@@ -20,6 +20,7 @@ class PositionTest {
         Session.getInstance().getBoard().clear();
     }
 
+    // Checks the correct control of x and y coordinate
     @Test
     void isValid() {
         for(int x = 0; x<5; x++) {
@@ -68,13 +69,14 @@ class PositionTest {
         Session.getInstance().removePlayer(player);
     }
 
+    // Tests if is correct the boundary tile recognition
     @Test
     void isBoundary() {
         assertTrue((new Position(0,1)).isBoundary());
         assertFalse((new Position(1,1)).isBoundary());
     }
 
-    // toString test
+    // Tests the toString method
     @Test
     void testToString() {
         for(int x = 0; x < 5;x++) {

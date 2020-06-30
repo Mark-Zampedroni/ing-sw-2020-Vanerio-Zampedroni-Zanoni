@@ -38,7 +38,7 @@ class ArtemisRulesTest {
         Setupper.removePlayer(player);
     }
 
-
+    //Checks the possibility of a second move
     @Test
     void consentMovement() {
         worker.setPosition(1,1);
@@ -54,6 +54,7 @@ class ArtemisRulesTest {
 
     }
 
+    //Checks if after the first move is present a second move in the list of possible actions
     @Test
     void afterMove(){
         assert test != null;
@@ -67,9 +68,9 @@ class ArtemisRulesTest {
         assertEquals(list.size(),1);
     }
 
+    //Checks a double move
     @Test
     void executeMove(){
-        //correct double move
         worker.setPosition(1,1);
         Position oldPosition = worker.getPosition();
         assert test != null;

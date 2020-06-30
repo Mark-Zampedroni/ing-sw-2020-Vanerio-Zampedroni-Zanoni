@@ -16,6 +16,7 @@ class TileTest {
         tile = new Tile();
     }
 
+    // Checks if the method for placing a dome works
     @Test
     void placeHasDome() {
         assertFalse(tile.hasDome());
@@ -23,6 +24,7 @@ class TileTest {
         assertTrue(tile.hasDome());
     }
 
+    // Checks if the method for improve the height works
     @Test
     void increaseGetHeight() {
         assertEquals(GROUND,tile.getHeight());
@@ -36,6 +38,7 @@ class TileTest {
         tile.increaseHeight();
     }
 
+    // Tests toString method
     @Test
     void testToString() {
         tile.increaseHeight();

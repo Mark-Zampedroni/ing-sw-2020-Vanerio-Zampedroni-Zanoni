@@ -27,16 +27,20 @@ public class SessionControllerTest {
         Session.getInstance().removePlayer("tester");
     }
 
+    //Tests public methods from session
     @Test
     void offlineCallsTest(){
         assertEquals(Session.getInstance(), sessionController.getSession());
         assertEquals(sessionController.getState(), GameState.LOBBY);
+        //Sets turn owner
         sessionController.setTurnOwner("tester");
         assertEquals(sessionController.getTurnOwner(), "tester");
         assertFalse(sessionController.isGameStarted());
+        //Sets game capacity
         sessionController.setGameCapacity(3);
         assertEquals(sessionController.getGameCapacity(),3);
         assertEquals(sessionController.getPlayers(), Session.getInstance().getPlayers());
+        //Controls the free colors
         assertEquals(sessionController.getFreeColors().get(0), Colors.BLUE);
         assertEquals(sessionController.getFreeColors().get(1), Colors.BROWN);
     }

@@ -40,6 +40,7 @@ class PoseidonRulesTest {
         Setupper.removePlayer(player);
     }
 
+    //Checks if works correctly the movement and if are correctly set the moved and the unmoved worker
     @Test
     void executeMove() {
         Worker worker2 = player.getWorkers().get(1);
@@ -55,6 +56,7 @@ class PoseidonRulesTest {
         assertDoesNotThrow(()->test.consentSelect(player.getUsername(),worker));
     }
 
+    // Checks if the selection of a worker works properly
     @Test
     void consentSelect() {
         Worker worker1 = player.getWorkers().get(1);
@@ -69,6 +71,7 @@ class PoseidonRulesTest {
         assertDoesNotThrow(()->test.consentSelect(player.getUsername(),worker1));
     }
 
+    //Checks if is correctly managed the possibility of the build with the second worker
     @Test
     void afterBuild(){
 
