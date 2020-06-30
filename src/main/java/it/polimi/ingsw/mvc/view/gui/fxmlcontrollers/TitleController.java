@@ -179,6 +179,7 @@ public class TitleController extends GenericController {
      */
     private void switchMode() {
         hideNode(playButton);
+        hideNode(textPaneCon);
         showNode(textPane);
         textLabel.setText("Choose the number of players!");
     }

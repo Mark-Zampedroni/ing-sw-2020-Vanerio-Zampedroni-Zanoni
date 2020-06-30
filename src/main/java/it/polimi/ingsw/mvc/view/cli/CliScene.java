@@ -80,7 +80,7 @@ public class CliScene {
                     "   ." + B_BOT + "-".repeat(88) + B_BOT + ".\n" +
                     "  /" + "_".repeat(116) + "\\";
     private static final String TOP_SELECTION_3 =
-            "    " + " ".repeat(114) + " \n" +
+            "    " + "_".repeat(114) + " \n" +
                     "   /" + " ".repeat(114) + DOWN2 +
                     "  |'____'''''____'''____''''____''''____''''____'''____''''____''''____'''____''''____''''____''''____'''____'''''____'|\n" +
                     "   " + P_TOP + "                          ( )                            ( )                          " + P_TOP + "\n" +
@@ -753,8 +753,10 @@ public class CliScene {
             List<String>[] line = new List[5];
             for (int x = 0; x < 5; x++) {
                 DtoTile tile = session.getBoard().getTile(x, y);
+                System.out.println("Tile = " + tile);
                 String master = session.getWorkerMasterOn(x, y);
-                line[x] = Arrays.asList(createTile(tile.getHeight(), tile.hasDome(), master == null ? "" : colors.get(master).toString()).split(SPLIT_VALUE));
+                System.out.println("Master = " + master);
+                line[x] = Arrays.asList(createTile(tile.getHeight(), tile.hasDome(), (master == null || colors.get(master) == null) ? "" : colors.get(master).toString()).split(SPLIT_VALUE));
             }
             positions = createBorder((areActionsShown) ? possibleActions : new HashMap<>(), y, board);
             for (int r = 0; r < line[0].size(); r++) {

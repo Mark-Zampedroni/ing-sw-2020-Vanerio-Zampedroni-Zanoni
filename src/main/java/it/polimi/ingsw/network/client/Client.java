@@ -123,39 +123,37 @@ public abstract class Client implements Observer<Message>, View {
                 message.getRecipient().equals("ALL")) {
             log.info(() -> "[CLIENT] Received message " + message);
             switch (message.getType()) {
-                case CONNECTION_TOKEN: // CONNECTION
+                case CONNECTION_TOKEN:
                     if (state == GameState.CONNECTION) parseConnectionMessage(message);
                     break;
-                case SLOTS_UPDATE: // PRE-LOBBY
+                case SLOTS_UPDATE:
                     if (state == GameState.PRE_LOBBY) parseSlotMessage();
                     break;
-                case INFO_UPDATE: // PRE-LOBBY
+                case INFO_UPDATE:
                     parseInfoMessage(message);
                     break;
-                case DISCONNECTION_UPDATE: // PRE-LOBBY / LOBBY (tutte)
-                    System.out.println("Disconnection from: " + message.getSender());
-                    System.out.println("!isDiscParsed = " + !isDiscParsed);
+                case DISCONNECTION_UPDATE:
                     if (!isDiscParsed) {
                         parseDisconnectMessage(message);
                         if (message.getSender().equals("SERVER")) isDiscParsed = true;
                     } else isDiscParsed = false;
                     break;
-                case REGISTRATION_UPDATE: // LOBBY (pendente)
+                case REGISTRATION_UPDATE:
                     parseRegistrationReply((FlagMessage) message);
                     break;
-                case LOBBY_UPDATE: // LOBBY (tutte)
+                case LOBBY_UPDATE:
                     parseLobbyUpdate((LobbyUpdate) message);
                     break;
-                case STATE_UPDATE: // TUTTE
+                case STATE_UPDATE:
                     parseStateUpdate((StateUpdateMessage) message);
                     break;
                 case SELECTION_UPDATE:
                     parseChallengerSelection(message);
                     break;
-                case GODS_UPDATE: // GOD_SELECTION
+                case GODS_UPDATE:
                     parseManagementMessage((FlagMessage) message);
                     break;
-                case GODS_SELECTION_UPDATE: // GOD_SELECTION
+                case GODS_SELECTION_UPDATE:
                     parseGodPlayerChoice(message);
                     break;
                 case TURN_UPDATE:
