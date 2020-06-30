@@ -314,14 +314,14 @@ public class GuiManager extends Client {
     /**
      * Implementation of {@link it.polimi.ingsw.mvc.view.View view}
      *
-     * @param possibleActions possible action that a player can execute
-     * @param gods  map connecting a player's name to its god
-     * @param colors map connecting a player's name to its color
-     * @param session game session
-     * @param specialPower {@code true} if the god's passive special power is active
+     * @param possibleActions      possible action that a player can execute
+     * @param gods                 map connecting a player's name to its god
+     * @param colors               map connecting a player's name to its color
+     * @param session              game session
+     * @param isSpecialPowerActive {@code true} if the god's passive special power is active
      */
     @Override
-    public void requestTurnAction(Map<Action, List<DtoPosition>> possibleActions, DtoSession session, Map<String, Colors> colors, Map<String, String> gods, boolean specialPower) {
+    public void requestTurnAction(Map<Action, List<DtoPosition>> possibleActions, DtoSession session, Map<String, Colors> colors, Map<String, String> gods, boolean isSpecialPowerActive) {
         runUpdate(BoardController.class, () -> ((BoardController) currentController).requestTurnAction(possibleActions, session, colors, gods));
     }
 
@@ -386,5 +386,7 @@ public class GuiManager extends Client {
      * Implementation of {@link it.polimi.ingsw.mvc.view.View view}
      */
     @Override
-    public void requestLogin() { /* Logic already implemented within showLobby */ }
+    public void requestLogin() {
+        log.info("[GUI] Request of login");
+    }
 }
