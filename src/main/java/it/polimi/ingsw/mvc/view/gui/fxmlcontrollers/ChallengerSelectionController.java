@@ -52,6 +52,7 @@ public class ChallengerSelectionController extends GenericController {
 
     /**
      * Initializes the main features of the scene
+     * @throws IOException if there is a problem with the board loading
      */
     public void initialize() throws IOException {
         super.initialize(this);

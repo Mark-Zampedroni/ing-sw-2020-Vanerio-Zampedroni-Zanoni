@@ -236,6 +236,7 @@ public class TurnController extends StateController implements Serializable {
     /**
      * Converts the list of positions to a list of {@link DtoPosition DtoPositions}
      *
+     * @param positions a list of positions
      * @return a list of DtoPosition where is possible to perform the action
      */
     public List<DtoPosition> dtoConversion(List<Position> positions) {

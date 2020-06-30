@@ -116,6 +116,7 @@ public abstract class StateController implements Serializable {
      * @param type      the type of the message
      * @param info      the information inside the message
      * @param recipient the receiver of the message
+     * @return the constructed message
      */
     protected Message messageBuilder(MessageType type, String info, String recipient) {
         return new Message(type, SENDER, info, recipient);
@@ -126,6 +127,7 @@ public abstract class StateController implements Serializable {
      *
      * @param type the type of the message
      * @param info the information inside the message
+     * @return the constructed message
      */
     protected Message messageBuilder(MessageType type, String info) {
         return messageBuilder(type, info, "ALL");
@@ -138,6 +140,7 @@ public abstract class StateController implements Serializable {
      * @param info      the information inside the message
      * @param recipient the receiver of the message
      * @param flag      passes a boolean value
+     * @return the constructed message
      */
     protected Message messageBuilder(MessageType type, String info, boolean flag, String recipient) {
         return new FlagMessage(type, SENDER, info, flag, recipient);
@@ -149,6 +152,7 @@ public abstract class StateController implements Serializable {
      * @param type the type of the message
      * @param info the information inside the message
      * @param flag passes a boolean value
+     * @return the constructed message
      */
     protected Message messageBuilder(MessageType type, String info, boolean flag) {
         return messageBuilder(type, info, flag, "ALL");
@@ -158,6 +162,7 @@ public abstract class StateController implements Serializable {
      * Builds a message with the specified values
      *
      * @param info the information inside the message
+     * @return the constructed message
      */
     protected Message messageBuilder(String info) {
         return new LobbyUpdate(SENDER, info, controller.getFreeColors(), controller.getPlayers(), "ALL");
@@ -165,6 +170,7 @@ public abstract class StateController implements Serializable {
 
     /**
      * Builds a message with the specified values
+     * @return the constructed message
      */
     protected Message messageBuilder() {
         return messageBuilder("Lobby update");
@@ -173,6 +179,9 @@ public abstract class StateController implements Serializable {
     /**
      * Placeholder method, it shouldn't be called.
      * It's not implemented by all the states. It may be (but shouldn't) called from any state.
+     * @param username the name of the player
+     * @param color the color chosen
+     * @param view the view connected to the player
      */
     public void addPlayer(String username, Colors color, RemoteView view) {
         log.warning(() -> "[STATE_CONTROLLER] addPlayer on " + username + " " + color + " " + view + " called on wrong state");
@@ -192,6 +201,7 @@ public abstract class StateController implements Serializable {
     /**
      * Placeholder method, it shouldn't be called.
      * It's not implemented by all the states. It may be (but shouldn't) called from any state.
+     * @param connection the connection linked to the player
      */
     public void addUnregisteredView(ServerConnection connection) {
         log.warning(() -> "[STATE_CONTROLLER] addUnregisteredView on " + connection + " called on wrong state");

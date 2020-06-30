@@ -13,6 +13,7 @@ public enum Action implements Serializable {
 
     /**
      * Returns a list with the actions that don't require a position to be executed
+     * @return the list of possible actions
      */
     public static List<Action> getNullPosActions() {
         return new ArrayList<>(Arrays.asList(Action.SPECIAL_POWER, Action.END_TURN, Action.WIN));

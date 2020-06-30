@@ -104,6 +104,7 @@ public class BoardController extends GenericController implements Observer<DtoPo
 
     /**
      * Initializes the main features of the scene
+     * @throws IOException error if there is a problem with the board creation
      */
     public void initialize() throws IOException {
         super.initialize(this);
