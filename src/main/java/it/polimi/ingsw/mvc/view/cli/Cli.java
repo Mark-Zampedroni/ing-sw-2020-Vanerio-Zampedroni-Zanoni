@@ -43,15 +43,19 @@ public class Cli extends Client {
         initCli();
     }
 
+    private static synchronized void setWaitingInput(boolean value) {
+        waitingInput = value;
+    }
+
     private String requestInput() {
         while (true) {
             try {
                 while (waitingInput) Thread.onSpinWait();
-                waitingInput = true;
+                setWaitingInput(true);
                 while (waitingInput) {
                     String in = cliInput.nextLine();
                     if (!reconnecting) {
-                        waitingInput = false;
+                        setWaitingInput(false);
                         return (in != null) ? in : "";
                     } else log.info("[CLI] Input refused because client lost connection to the server");
                 }
@@ -143,20 +147,18 @@ public class Cli extends Client {
         while (true) {
             CliScene.printChallengerSelection(inputSave, new ArrayList<>(gods), godPage, players.keySet().size(), true);
             String choice = requestInput().toUpperCase();
-            if (choice.equals("1")) godPage = (godPage == -3) ? 0 : godPage - 1;
-            else if (choice.equals("2")) godPage = (godPage == 3) ? 0 : godPage + 1;
+            if (isConnectionLost()) return;
+            if (choice.equals("1") || choice.equals("2")) changeGodPage(Integer.parseInt(choice));
             else {
                 if (validateGods(choice)) break;
-                else {
-                    inputSave = "God not available, choose a different one:";
-                    try {
-                        CliScene.printChallengerSelection(inputSave, new ArrayList<>(gods), godPage, players.keySet().size(), true);
-                    } catch (NullPointerException e) {
-                        break;
-                    }
-                }
+                else inputSave = "God not available, choose a different one:";
             }
         }
+    }
+
+    private void changeGodPage(int choice) {
+        if (choice == 1) godPage = (godPage == -3) ? 0 : godPage - 1;
+        else godPage = (godPage == 3) ? 0 : godPage + 1;
     }
 
     @Override
@@ -221,12 +223,7 @@ public class Cli extends Client {
         do {
             CliScene.printBoardScreen(inputSave, session, new HashMap<>(colors), new HashMap<>(gods), possibleActions, username, false);
             x = requestInput();
-            if (isConnectionLost()) {
-                System.out.println("Connection is lost!");
-                return null;
-            } else {
-                System.out.println("Ok!");
-            }
+            if (isConnectionLost()) return null;
             inputSave = "Invalid number, retype it";
         }
         while (!x.matches("-?\\d+") || !validateRange(possibleActions.size() - 1, Integer.parseInt(x)));

@@ -3,7 +3,7 @@ package it.polimi.ingsw.mvc.view.cli;
 import it.polimi.ingsw.utility.exceptions.utility.NotInstantiableClass;
 
 /**
- * Utility class; methods used to color Strings with ANSI characters - works only on supported terminals
+ * Utility class; methods used to color Strings with ANSI characters (extended) - works only on supported terminals
  */
 public class Ansi {
 
@@ -18,14 +18,6 @@ public class Ansi {
      */
     public static final String RESET = PRE + "0m";
 
-    private static final String BLACK = "30";
-    private static final String RED = "31";
-    private static final String GREEN = "32";
-    private static final String YELLOW = "33";
-    private static final String BLUE = "34";
-    private static final String PURPLE = "35";
-    private static final String CYAN = "36";
-    private static final String WHITE = "37";
     private static final int E_BROWN = 94;
     private static final int E_WHITE = 231;
     private static final int E_BLUE = 75;
@@ -39,48 +31,6 @@ public class Ansi {
         throw new NotInstantiableClass();
     }
 
-    /**
-     * Colors the given string with the specified color
-     *
-     * @param color color used
-     * @return the colored string
-     */
-    private static String addColor(String color) {
-        color = color.toUpperCase();
-        String brightness = "m";
-        int backgroundOffset = 0;
-
-        switch (color) {
-            case "BLACK":
-                return buildColor(BLACK, brightness, backgroundOffset);
-            case "RED":
-                return buildColor(RED, brightness, backgroundOffset);
-            case "GREEN":
-                return buildColor(GREEN, brightness, backgroundOffset);
-            case "YELLOW":
-                return buildColor(YELLOW, brightness, backgroundOffset);
-            case "BLUE":
-                return buildColor(BLUE, brightness, backgroundOffset);
-            case "PURPLE":
-                return buildColor(PURPLE, brightness, backgroundOffset);
-            case "CYAN":
-                return buildColor(CYAN, brightness, backgroundOffset);
-            default:
-                return buildColor(WHITE, brightness, backgroundOffset);
-        }
-    }
-
-    /**
-     * Decorates the given string adding a color / changing its brightness / adding a background color
-     *
-     * @param color            color to use on the string
-     * @param brightness       id for the desired brightness
-     * @param backgroundOffset id of the color to use on the background
-     * @return the decorated string
-     */
-    private static String buildColor(String color, String brightness, int backgroundOffset) {
-        return PRE + (Integer.parseInt(color) + backgroundOffset) + brightness;
-    }
 
     /**
      * Converts a color to its numeric id
@@ -110,7 +60,6 @@ public class Ansi {
         return "\u001b[48;5;" + colorCode + "m" + string + RESET;
     }
 
-
     /**
      * Colors a string
      *
@@ -119,7 +68,7 @@ public class Ansi {
      * @return colored string
      */
     public static String decorateColorString(String text, String color) {
-        return addColor(color) + text + RESET;
+        return addBg(colorToInt(color.toUpperCase()), text);
     }
 
     /**

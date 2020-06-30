@@ -133,10 +133,7 @@ public abstract class Client implements Observer<Message>, View {
                     parseInfoMessage(message);
                     break;
                 case DISCONNECTION_UPDATE:
-                    if (!isDiscParsed) {
-                        parseDisconnectMessage(message);
-                        if (message.getSender().equals("SERVER")) isDiscParsed = true;
-                    } else isDiscParsed = false;
+                    parseDisconnectMessage(message);
                     break;
                 case REGISTRATION_UPDATE:
                     parseRegistrationReply((FlagMessage) message);
@@ -166,9 +163,7 @@ public abstract class Client implements Observer<Message>, View {
                     parseWinLoseUpdate((FlagMessage) message);
                     break;
                 case RECONNECTION_UPDATE:
-                    if (connection.getReconnect()) {
-                        parseReconnectionUpdate();
-                    }
+                    parseReconnectionUpdate();
                 default: //
             }
             flushRequests();
@@ -212,8 +207,10 @@ public abstract class Client implements Observer<Message>, View {
      * Manages the reconnection of a client
      */
     private void parseReconnectionUpdate() {
-        reconnecting = true;
-        viewRequest(() -> showReconnection(true));
+        if (connection.getReconnect()) {
+            reconnecting = true;
+            viewRequest(() -> showReconnection(true));
+        }
     }
 
     /**
@@ -318,9 +315,12 @@ public abstract class Client implements Observer<Message>, View {
      * @param message message to display
      */
     private void parseDisconnectMessage(Message message) {
-        if (state != GameState.PRE_LOBBY) closeGame();
-        if (connection != null) connection.setDisconnected();
-        showDisconnected(message.getInfo());
+        if (!isDiscParsed) {
+            if (state != GameState.PRE_LOBBY) closeGame();
+            if (connection != null) connection.setDisconnected();
+            showDisconnected(message.getInfo());
+            if (message.getSender().equals(RECIPIENT)) isDiscParsed = true;
+        } else isDiscParsed = false;
     }
 
 

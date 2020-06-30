@@ -225,7 +225,7 @@ public class CliScene {
      */
     public static void printBoardScreen(String inputRequest, DtoSession session, Map<String, Colors> colors, Map<String, String> gods, Map<Action, List<DtoPosition>> possibleActions, String turnOwner, boolean areActionsShown) {
         String board = addBoardScreenBorder(addCoordinates(createBoard(session, colors, possibleActions, areActionsShown))).toString();
-        out.println(centerScreen("\n" + Ansi.CLEAR_CONSOLE + addSideBar(inputRequest, board, colors, gods, possibleActions, turnOwner).toString(), 20));
+        out.println(Ansi.CLEAR_CONSOLE + centerScreen(addSideBar(inputRequest, board, colors, gods, possibleActions, turnOwner).toString(), 20));
         if (possibleActions != null) setCursor(105, 14);
         out.flush();
     }
@@ -397,7 +397,7 @@ public class CliScene {
                 a = 0;
                 r++;
             } else {
-                temp.append(" ".repeat(3));
+                temp.append(" ".repeat(3)); // <--- TEST_
                 if (p > 4) a++;
             }
             p++;
@@ -750,25 +750,48 @@ public class CliScene {
         StringBuilder board = new StringBuilder();
         Map<Integer, Boolean> positions;
         for (int y = 0; y < 5; y++) {
-            List<String>[] line = new List[5];
-            for (int x = 0; x < 5; x++) {
-                DtoTile tile = session.getBoard().getTile(x, y);
-                System.out.println("Tile = " + tile);
-                String master = session.getWorkerMasterOn(x, y);
-                System.out.println("Master = " + master);
-                line[x] = Arrays.asList(createTile(tile.getHeight(), tile.hasDome(), (master == null || colors.get(master) == null) ? "" : colors.get(master).toString()).split(SPLIT_VALUE));
-            }
+            List<String>[] line = createBoardRow(session, colors, y);
             positions = createBorder((areActionsShown) ? possibleActions : new HashMap<>(), y, board);
-            for (int r = 0; r < line[0].size(); r++) {
-                board.append(Boolean.TRUE.equals(positions.get(0)) ? Ansi.addBg(111, "|") : "|");
-                for (int x = 0; x < 5; x++) {
-                    board.append(line[x].get(r)).append((positions.get(x) || positions.get(x + 1)) ? Ansi.addBg(111, "|") : "|");
-                }
-                board.append("\n");
-            }
+            addSideDivisors(positions, board, line);
         }
-        createBorder((areActionsShown) ? possibleActions : new HashMap<>(), 5, board);
+        createBorder((areActionsShown) ? possibleActions : new EnumMap<>(Action.class), 5, board);
         return board.toString();
+    }
+
+    /**
+     * Adds the divisors between the tiles in the board row given; colors them if adjacent to a tile
+     * candidate for the action selected
+     *
+     * @param positions map position to {@code true} if the position is candidate for the action
+     * @param board     board being built as string
+     * @param line      list containing the tiles to decorate with divisors
+     */
+    private static void addSideDivisors(Map<Integer, Boolean> positions, StringBuilder board, List<String>[] line) {
+        for (int r = 0; r < line[0].size(); r++) {
+            board.append(Boolean.TRUE.equals(positions.get(0)) ? Ansi.addBg(111, "|") : "|");
+            for (int x = 0; x < 5; x++) {
+                board.append(line[x].get(r)).append((positions.get(x) || positions.get(x + 1)) ? Ansi.addBg(111, "|") : "|");
+            }
+            board.append("\n");
+        }
+    }
+
+    /**
+     * Creates the specified row of the board
+     *
+     * @param session session containing the board
+     * @param colors  map of each player to its color; needed to paint the workers
+     * @param row     row of the board (y coordinate) to build
+     * @return list containing the board tiles of the row specified
+     */
+    private static List<String>[] createBoardRow(DtoSession session, Map<String, Colors> colors, int row) {
+        List<String>[] line = new List[5];
+        for (int x = 0; x < 5; x++) {
+            DtoTile tile = session.getBoard().getTile(x, row);
+            String master = session.getWorkerMasterOn(x, row);
+            line[x] = Arrays.asList(createTile(tile.getHeight(), tile.hasDome(), (master == null || colors.get(master) == null) ? "" : colors.get(master).toString()).split(SPLIT_VALUE));
+        }
+        return line;
     }
 
     /**
@@ -787,11 +810,7 @@ public class CliScene {
             candidates = getRowCandidatePositions(positions, row);
             candidatesNext = getRowCandidatePositions(positions, row - 1);
             b.append((candidates.get(0) || candidatesNext.get(0)) ? Ansi.addBg(111, "-") : "-");
-            for (int x = 0; x < 5; x++) {
-                b.append((candidates.get(x) || (candidatesNext.get(x))) ? Ansi.addBg(111, "-".repeat(17)) : "-".repeat(17));
-                b.append((candidates.get(x) || candidates.get(x + 1) ||
-                        (candidatesNext.get(x) || candidatesNext.get(x + 1))) ? Ansi.addBg(111, "-") : "-");
-            }
+            addInnerBorders(b, candidates, candidatesNext);
             b.append("\n");
         } else {
             b.append("-".repeat(17 * 5 + 6)).append("\n");
@@ -800,6 +819,22 @@ public class CliScene {
             }
         }
         return candidates;
+    }
+
+    /**
+     * Adds the borders between the board tiles. Colors the border added if adjacent to a position candidate for
+     * the action selected
+     *
+     * @param b              StringBuilder where the borders will be added
+     * @param candidates     map position index to {@code true} if the position is candidate for the action
+     * @param candidatesNext same as candidates but for the following row
+     */
+    private static void addInnerBorders(StringBuilder b, Map<Integer, Boolean> candidates, Map<Integer, Boolean> candidatesNext) {
+        for (int x = 0; x < 5; x++) {
+            b.append((candidates.get(x) || (candidatesNext.get(x))) ? Ansi.addBg(111, "-".repeat(17)) : "-".repeat(17));
+            b.append((candidates.get(x) || candidates.get(x + 1) ||
+                    (candidatesNext.get(x) || candidatesNext.get(x + 1))) ? Ansi.addBg(111, "-") : "-");
+        }
     }
 
     /**
@@ -1276,19 +1311,20 @@ public class CliScene {
         if (!players.keySet().isEmpty()) {
             players.keySet().forEach(p -> b
                     .append("\n")
+                    .append(" ".repeat(3))
                     .append(p)
                     .append(getEmptyLength(nameMaxLength - p.length() + (colorMaxLength - players.get(p).toString().length())))
-                    .append(Ansi.decorateColorString(players.get(p).toString(), players.get(p).toString()))
+                    .append(players.get(p).toString())
                     .append("\n"));
             b.append(" \n".repeat((3 - players.keySet().size()) * 2));
         } else {
-            b.append("\n".repeat(2)).append("No one registered yet . . .").append("\n ".repeat(3)).append("\n");
+            b.append("\n".repeat(2)).append(" ").append("No one registered yet . . .").append("\n ".repeat(3)).append("\n");
         }
-        b.append(" \n").append(" ".repeat(4)).append("- Available colors -");
+        b.append(" \n").append(" ".repeat((players.isEmpty() ? 4 : 2))).append("- Available colors -");
 
         String box = b.toString();
         b.setLength(0);
-        appendAllLinesCentered(b, extendSlots(box), width, true);
+        appendAllLinesCentered(b, extendSlots(box), width, false);
 
         return decorateColumns(b).toString();
 
