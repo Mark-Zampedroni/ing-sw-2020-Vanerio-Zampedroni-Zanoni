@@ -234,7 +234,6 @@ public class ClientConnection implements Runnable {
      */
     private static class ClientMessageReceiver extends Observable<Message> implements Runnable {
 
-        private final transient Client controller;
         private final transient ClientConnection connection;
 
         /**
@@ -245,7 +244,6 @@ public class ClientConnection implements Runnable {
          */
         public ClientMessageReceiver(ClientConnection connection, Client controller) {
             this.connection = connection;
-            this.controller = controller;
             this.addObserver(controller);
 
             new Thread(this).start();
@@ -272,7 +270,6 @@ public class ClientConnection implements Runnable {
                     notify(msg);
                 }
             }
-            this.removeObserver(controller);
         }
     }
 }
