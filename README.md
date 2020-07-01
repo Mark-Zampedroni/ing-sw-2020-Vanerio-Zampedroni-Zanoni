@@ -43,7 +43,7 @@ e due funzionalità aggiuntive (FA)
 # JAR
 ### Creazione dei JAR
 E' possibile creare i JAR sia tramite Intellij sia tramite Maven `package`, dopo aver utilizzato il comando `Build Project`.
-Nella cartella sono già presenti i jar finali ma, nel caso si volessero creare, è possibile farlo con la funzione `Build artifacts` o con questo procedimento utilizzando maven:
+Nella cartella sono già presenti i jar finali ma, nel caso si volessero creare, è possibile farlo con la funzione `Build artifacts` o con questo procedimento utilizzando maven all'interno di Intellij:
 - Per il Server: selezionare il profilo `server` e deselezionare il profilo `client` all'interno del menu di Maven. 
 Quindi premere il comando `package`.
 - Per il Client: selezionare il profilo `client` e deselezionare il profilo `server` all'interno del menu di Maven. Modificare alla riga numero `112` del file `pom.xml` dentro il tag `<mainClass>` la classe `it.polimi.ingsw.ServerApp` con la classe `it.polimi.ingsw.ClientApp`. 
