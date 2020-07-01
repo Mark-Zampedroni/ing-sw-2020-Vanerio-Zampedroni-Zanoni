@@ -46,7 +46,7 @@ E' possibile creare i jar sia tramite Intellij sia tramite Maven `package`, dopo
 Nella cartella sono già presenti i jar finali ma, nel caso si volessero creare, è possibile farlo con la funzione `Build artifacts` o con questo procedimento utilizzando maven da Intellij:
 
 Nel caso si vogliano buildare entrambi i jar spostare il primo dopo averlo creato per evitare che venga sovrascritto.  
-- Per il Server: dal menu di maven selezionare il profilo `server` e deselezionare il profilo `client`. Inserire alla riga `112` del [pom.xml](https://github.com/Mark-Zampedroni/ing-sw-2020-Vanerio-Zampedroni-Zanoni/blob/master/pom.xml) la classe `it.polimi.ingsw.ServerApp` tra le tag `<mainClass>`. 
+- Per il Server: dal menu di maven selezionare il profilo `server` e deselezionare il profilo `client`. Inserire alla riga numero `112` del file [pom.xml](https://github.com/Mark-Zampedroni/ing-sw-2020-Vanerio-Zampedroni-Zanoni/blob/master/pom.xml) la classe `it.polimi.ingsw.ServerApp` tra le tag `<mainClass>`. 
 Quindi premere `Lifecycle -> package`.
 - Per il Client: dal menu di maven selezionare il profilo `client` e deselezionare il profilo `server`. Inserire alla riga numero `112` del file [pom.xml](https://github.com/Mark-Zampedroni/ing-sw-2020-Vanerio-Zampedroni-Zanoni/blob/master/pom.xml) la classe `it.polimi.ingsw.ClientApp` tra le tag `<mainClass>`.
 Quindi premere `Lifecycle -> package`.
