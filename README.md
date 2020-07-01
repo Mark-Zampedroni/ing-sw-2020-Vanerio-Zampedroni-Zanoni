@@ -49,6 +49,7 @@ Quindi premere il comando `package`.
 - Per il Client: selezionare il profilo `client` e deselezionare il profilo `server` all'interno del menu di Maven. Modificare alla riga numero `112` del file `pom.xml` dentro il tag `<mainClass>` la classe `it.polimi.ingsw.ServerApp` con la classe `it.polimi.ingsw.ClientApp`. 
 Quindi premere il comando `package`.
   
+Dopo aver generato un JAR esso si troverà nella cartella `target`, spostare il file per evitare che venga sovrascritto.  
 Per reimpostare la generazione del JAR per il server sostituire il contenuto della riga `112` con `it.polimi.ingsw.ServerApp` e selezionare il profilo corretto.
   
 ### Server
