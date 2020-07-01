@@ -392,7 +392,7 @@ public class Cli extends Client {
      * Converts an array of string of 2 elements, a letter and a number (in any given order),
      * pointing to a position of the board (in a chess like way), to a list of 2 Integers:
      * the values (x,y) of the position.
-     * es: (A,1) -> (0,0) ; (3,E) -> (4,2)
+     * es: (A,1) in (0,0) ; (3,E) in (4,2)
      *
      * @param input array containing a letter and a number
      * @return decoded coordinates of the position

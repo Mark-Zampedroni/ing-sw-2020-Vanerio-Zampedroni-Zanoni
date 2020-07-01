@@ -172,6 +172,7 @@ public abstract class GenericController {
      * @param node targeted element
      * @param defaultWidth default size of the stage with the scene containing the node
      * @param defaultPadding old value of padding of the text
+     * @param font type of the font
      */
     private void setResizeEvent(Control node, double defaultWidth, Insets defaultPadding, Font font) {
         double defaultFontSize = font.getSize();

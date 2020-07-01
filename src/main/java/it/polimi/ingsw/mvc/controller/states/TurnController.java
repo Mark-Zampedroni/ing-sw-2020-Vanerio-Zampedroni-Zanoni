@@ -227,6 +227,7 @@ public class TurnController extends StateController implements Serializable {
     /**
      * Creates a list of possible {@link DtoPosition positions} for a specific action
      *
+     * @param type the type of action
      * @return a list of DtoPosition where is possible to perform the action
      */
     private List<DtoPosition> getCandidates(Action type) {
@@ -269,6 +270,7 @@ public class TurnController extends StateController implements Serializable {
      *
      * @param position position where the player wants perform the action
      * @param type     type of the action performed
+     * @throws WrongActionException if is selected an impossible action
      */
     private void executeAction(Position position, Action type) throws WrongActionException {
         if (type == Action.END_TURN) {

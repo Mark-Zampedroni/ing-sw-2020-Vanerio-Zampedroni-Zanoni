@@ -218,6 +218,8 @@ public class BoardController extends GenericController implements Observer<DtoPo
 
     /**
      * Initializes a BorderPane padding scaling
+     *
+     * @param borderPane the pane with the padding scaling initialized
      */
     private void initPaddingScaling(BorderPane borderPane) {
         setFontRatio((Label) borderPane.getChildren().get(0));
@@ -272,6 +274,7 @@ public class BoardController extends GenericController implements Observer<DtoPo
 
     /**
      * Sets the owner of the turn
+     * @param player the turn owner
      */
     private void setCurrentPlayer(String player) {
         playerSlot.forEach(p -> hideNode(playerTurn.get(playerSlot.indexOf(p))));

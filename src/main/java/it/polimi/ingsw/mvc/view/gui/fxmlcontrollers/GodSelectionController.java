@@ -121,6 +121,7 @@ public class GodSelectionController extends GenericController {
      * Creates a {@link GodCard card} node
      *
      * @param god name of the god
+     * @return the created card
      */
     private GodCard createCard(String god) {
         GodCard temp = new GodCard(god);
@@ -189,6 +190,7 @@ public class GodSelectionController extends GenericController {
 
         /**
          * Adds the background image to the {@link GodCard card}
+         * @return the grid representing the card
          */
         private GridPane initInit() {
             BorderPane borderTemp = new BorderPane();
@@ -227,6 +229,7 @@ public class GodSelectionController extends GenericController {
          * @param text label's text
          * @param position defines the type of alignment for the label
          * @param classes defines the background image for the label
+         * @return the label with the passed text
          */
         private Label createLabel(String id, List<String> classes, String text, Pos position) {
             Label temp = new Label();
@@ -244,6 +247,7 @@ public class GodSelectionController extends GenericController {
          *
          * @param godName chosen god
          * @param preGod  card grid node
+         * @return the grid with the chosen god
          */
         private GridPane initGodPane(String godName, GridPane preGod) {
             god = new BorderPane();
