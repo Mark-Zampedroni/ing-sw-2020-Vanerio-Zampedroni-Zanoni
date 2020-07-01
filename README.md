@@ -41,6 +41,13 @@ e due funzionalità aggiuntive (FA)
 - Divinità Avanzate (Advanced Gods)
 
 # JAR
+### Creazione dei JAR
+E' possibile creare i JAR sia tramite Intellij sia tramite Maven "package", dopo aver utilizzato il comando "Build Project".
+Nella cartella sono già presenti i jar finali ma, nel caso si volessero creare, è possibile farlo con la funzione "build artifacts" o con questo procedimento utilizzando maven:
+- Per il Server: selezionare il profilo "Server" e deselezionare il profilo "Client" all'interno del menu di Maven. Quindi premere il comando "package"
+- Per il Client: selezionare il profilo "Client" e deselezionare il profilo "Server" all'interno del menu di Maven. Modificare alla riga numero "112" del file pom.xml dentro il tag <mainClass> la classe "it.polimi.ingsw.ServerApp" con la classe "it.polimi.ingsw.ClientApp". Quindi premere il comando "package".
+  Per reimpostare la generazione del JAR per il server sostituire il contenuto della riga "112" con "it.polimi.ingsw.ServerApp" e selezionare il profilo corretto.
+  
 ### Server
 L'indirizzo IP del server dipenderà dalla connessione dove si vuole giocare:
 - Se tutti i client vengono eseguiti sulla macchina in locale sarà `127.0.0.1`.
