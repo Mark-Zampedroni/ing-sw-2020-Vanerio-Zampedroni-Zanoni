@@ -48,7 +48,7 @@ Nella cartella sono già presenti i jar finali ma, nel caso si volessero creare,
 Dopo aver generato un JAR esso si troverà nella cartella `target`, spostare il file per evitare che venga sovrascritto.  
 - Per il Server: selezionare il profilo `server` e deselezionare il profilo `client` all'interno del menu di Maven. 
 Quindi premere il comando `Lifecycle -> package`.
-- Per il Client: selezionare il profilo `client` e deselezionare il profilo `server` all'interno del menu di Maven. Modificare alla riga numero `112` del file [pom.xml](https://github.com/Mark-Zampedroni/ing-sw-2020-Vanerio-Zampedroni-Zanoni/blob/master/pom.xml) dentro il tag `<mainClass>` la classe `it.polimi.ingsw.ServerApp` con la classe `it.polimi.ingsw.ClientApp`. 
+- Per il Client: selezionare il profilo `client` e deselezionare il profilo `server` all'interno del menu di Maven. Sostituire alla riga numero `112` del file [pom.xml](https://github.com/Mark-Zampedroni/ing-sw-2020-Vanerio-Zampedroni-Zanoni/blob/master/pom.xml) dentro il tag `<mainClass>` la classe `it.polimi.ingsw.ServerApp` con la classe `it.polimi.ingsw.ClientApp`. 
 Quindi premere il comando `package`.
   
 Per reimpostare la generazione del JAR per il server sostituire il contenuto della riga `112` del file [pom.xml](https://github.com/Mark-Zampedroni/ing-sw-2020-Vanerio-Zampedroni-Zanoni/blob/master/pom.xml) con `it.polimi.ingsw.ServerApp` e selezionare il profilo corretto.
