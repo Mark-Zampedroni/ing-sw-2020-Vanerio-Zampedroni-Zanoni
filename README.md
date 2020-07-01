@@ -48,7 +48,7 @@ Nella cartella sono già presenti i jar finali ma, nel caso si volessero creare,
 Nel caso si vogliano buildare entrambi i jar spostare il primo dopo averlo creato per evitare che venga sovrascritto.  
 - Per il Server: dal menu di maven selezionare il profilo `server` e deselezionare il profilo `client`. Inserire alla riga `112` del [pom.xml](https://github.com/Mark-Zampedroni/ing-sw-2020-Vanerio-Zampedroni-Zanoni/blob/master/pom.xml) la classe `it.polimi.ingsw.ServerApp` tra le tag `<mainClass>`. 
 Quindi premere `Lifecycle -> package`.
-- Per il Client: dal menu di maven selezionare il profilo `client` e deselezionare il profilo `server`. Sostituire alla riga numero `112` del file [pom.xml](https://github.com/Mark-Zampedroni/ing-sw-2020-Vanerio-Zampedroni-Zanoni/blob/master/pom.xml) la classe `it.polimi.ingsw.ServerApp` tra le tag `<mainClass>` con la classe `it.polimi.ingsw.ClientApp`.
+- Per il Client: dal menu di maven selezionare il profilo `client` e deselezionare il profilo `server`. Inserire alla riga numero `112` del file [pom.xml](https://github.com/Mark-Zampedroni/ing-sw-2020-Vanerio-Zampedroni-Zanoni/blob/master/pom.xml) la classe `it.polimi.ingsw.ClientApp` tra le tag `<mainClass>`.
 Quindi premere `Lifecycle -> package`.
 
 Dopo aver generato un jar si può trovare nella cartella `target`
