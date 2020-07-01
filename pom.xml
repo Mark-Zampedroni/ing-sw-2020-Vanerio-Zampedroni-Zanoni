@@ -16,6 +16,29 @@
     <maven.compiler.target>11</maven.compiler.target>
   </properties>
 
+  <profiles>
+    <profile>
+      <id>server</id>
+      <activation>
+        <activeByDefault>true</activeByDefault>
+      </activation>
+      <properties>
+        <project.outputName>Server</project.outputName>
+        <project.mainClass>it.polimi.ingsw.ServerApp</project.mainClass>
+      </properties>
+    </profile>
+    <profile>
+      <id>client</id>
+      <activation>
+      </activation>
+      <properties>
+        <project.outputName>Client</project.outputName>
+        <project.mainClass>it.polimi.ingsw.ClientApp</project.mainClass>
+      </properties>
+    </profile>
+  </profiles>
+
+
   <dependencies>
     <dependency>
       <groupId>junit</groupId>
@@ -83,6 +106,13 @@
         <plugin>
           <artifactId>maven-jar-plugin</artifactId>
           <version>3.0.2</version>
+          <configuration>
+            <archive>
+              <manifest>
+                <mainClass> it.polimi.ingsw.ServerApp</mainClass> <!--change "ServerApp" to "ClientApp" for the other jar-->
+              </manifest>
+            </archive>
+          </configuration>
         </plugin>
         <plugin>
           <artifactId>maven-install-plugin</artifactId>
@@ -101,8 +131,26 @@
           <artifactId>maven-project-info-reports-plugin</artifactId>
           <version>3.0.0</version>
         </plugin>
-
       </plugins>
-    </pluginManagement>
+      </pluginManagement>
+      <plugins>
+         <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+           <artifactId>maven-shade-plugin</artifactId>
+        <version>3.2.3</version>
+        <executions>
+        <execution>
+            <phase>package</phase>
+              <configuration>
+                  <transformers>
+                      <transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
+                  <mainClass>${project.mainClass}</mainClass>
+                      </transformer>
+                  </transformers>
+              </configuration>
+        </execution>
+        </executions>
+  </plugin>
+  </plugins>
   </build>
 </project>
