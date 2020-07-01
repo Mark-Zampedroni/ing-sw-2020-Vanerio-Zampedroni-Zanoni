@@ -40,10 +40,10 @@ public class GuiController extends Client {
 
 
     /**
-     * Gets the Singleton instance of GuiManager
+     * Gets the Singleton instance of GuiController
      *
      * @param log if {@code true} creates a logger
-     * @return the {@link GuiController GuiManager} instance
+     * @return the {@link GuiController GuiController} instance
      */
     public static GuiController getInstance(boolean log) {
         if (instance == null)
@@ -61,10 +61,10 @@ public class GuiController extends Client {
     }
 
     /**
-     * Gets the Singleton instance of GuiManager.
+     * Gets the Singleton instance of GuiController.
      * No logger is attached if the instance is created
      *
-     * @return the {@link GuiController GuiManager} instance
+     * @return the {@link GuiController GuiController} instance
      */
     public static GuiController getInstance() {
         return getInstance(false);
