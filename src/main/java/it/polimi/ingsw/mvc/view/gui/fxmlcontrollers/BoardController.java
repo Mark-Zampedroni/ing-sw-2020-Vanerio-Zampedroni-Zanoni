@@ -1,6 +1,6 @@
 package it.polimi.ingsw.mvc.view.gui.fxmlcontrollers;
 
-import it.polimi.ingsw.mvc.view.gui.GuiManager;
+import it.polimi.ingsw.mvc.view.gui.GuiController;
 import it.polimi.ingsw.mvc.view.gui.objects3d.utils.BoardCamera;
 import it.polimi.ingsw.mvc.view.gui.objects3d.utils.BoardScene;
 import it.polimi.ingsw.utility.dto.DtoPosition;
@@ -233,7 +233,7 @@ public class BoardController extends GenericController implements Observer<DtoPo
         endgameButton.setOnMousePressed(event -> endgameButton.setId("buttonPressed"));
         endgameButton.setOnMouseReleased(event -> {
             endgameButton.setId("buttonConfirm");
-            Platform.runLater(() -> GuiManager.setLayout(this.getScene(), GuiManager.getFxmlPath(TitleController.class)));
+            Platform.runLater(() -> GuiController.setLayout(this.getScene(), GuiController.getFxmlPath(TitleController.class)));
         });
     }
 
@@ -412,7 +412,7 @@ public class BoardController extends GenericController implements Observer<DtoPo
     }
 
     /**
-     * Updates the {@link GuiManager gui} on the chosen action.
+     * Updates the {@link GuiController gui} on the chosen action.
      * If it's impossible ignores it
      *
      * @param position chosen position for the action - {@code null} if the action doesn't require a position

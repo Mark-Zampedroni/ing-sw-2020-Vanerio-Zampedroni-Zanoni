@@ -258,9 +258,5 @@ public class ClientConnection implements Runnable {
             }
             this.removeObserver(controller);
         }
-
-        public Client getController() {
-            return controller;
-        }
     }
 }

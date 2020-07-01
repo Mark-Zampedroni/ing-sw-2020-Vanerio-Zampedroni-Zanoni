@@ -258,7 +258,7 @@ public class SessionController implements Observer<Message> {
      */
     private void assignFirstDTOSession() {
         DtoSession dto = new DtoSession(session);
-        views.forEach(v -> v.getFirstDTOSession(dto));
+        views.forEach(v -> v.getFirstDtoSession(dto));
     }
 
     /**

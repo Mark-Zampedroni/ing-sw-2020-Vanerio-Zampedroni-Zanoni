@@ -59,7 +59,7 @@ public class RemoteView extends Observable<Message> implements Observer<DtoSessi
      *
      * @return {@code true} if the remoteView has an username
      */
-    public boolean getRegistered() {
+    public boolean isRegistered() {
         return registered;
     }
 
@@ -88,7 +88,7 @@ public class RemoteView extends Observable<Message> implements Observer<DtoSessi
      *
      * @param dtoSession fresh model
      */
-    public void getFirstDTOSession(DtoSession dtoSession) {
+    public void getFirstDtoSession(DtoSession dtoSession) {
         if (this.dtoSession == null) {
             this.dtoSession = dtoSession;
         }

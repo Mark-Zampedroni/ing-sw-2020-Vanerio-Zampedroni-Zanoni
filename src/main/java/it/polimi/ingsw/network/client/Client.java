@@ -118,6 +118,7 @@ public abstract class Client implements Observer<Message>, View {
      *
      * @param message received message
      */
+    @Override
     public void update(Message message) {
         if ((message.getType() == MessageType.CONNECTION_TOKEN && state == GameState.CONNECTION) ||
                 message.getRecipient().equals(username) ||
@@ -465,6 +466,8 @@ public abstract class Client implements Observer<Message>, View {
      * @param message message containing the current player and the possbile action it can carry out
      */
     private void parseTurnUpdate(ActionUpdateMessage message) {
+        List<String> toRemove = players.keySet().stream().filter(s -> !gods.containsKey(s)).collect(Collectors.toList());
+        toRemove.forEach(s -> players.remove(s));
         if (username.equals(message.getInfo()))
             inputRequest(() -> requestTurnAction(message.getPossibleActions(), message.getGameUpdate(), players, gods, message.getFlag()));
         else

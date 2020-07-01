@@ -154,7 +154,7 @@ public class CliScene {
      *
      * @return the screen width as number of characters
      */
-    public static double getScreenCharSize() {
+    private static double getScreenCharSize() {
         return SCREEN_WIDTH;
     }
 
@@ -175,7 +175,7 @@ public class CliScene {
      * @param b     temporary builder for the scene
      * @param width length of the input box (generally the same as the scene)
      */
-    public static void inputOutputSlot(StringBuilder b, int width) {
+    private static void inputOutputSlot(StringBuilder b, int width) {
         b.append("-".repeat(width)).append("\n");
         appendEmptyRow(b, width, 1);
         appendAllLinesCentered(b, windowMessage, width, false);
@@ -192,7 +192,7 @@ public class CliScene {
      * @param x horizontal positive (right) movement
      * @param y vertical negative (up) movement
      */
-    public static void setCursor(int x, int y) {
+    private static void setCursor(int x, int y) {
         if (enableInput) {
             out.print(Ansi.moveCursorE(cursorOffset + x)); // Da togliere cursorOffset, a volte da problemi
             out.print(Ansi.moveCursorN(y));
@@ -941,7 +941,7 @@ public class CliScene {
      * @param numberOfPlayers number of players in game
      * @return the box as string
      */
-    public static String createPlayersChoiceBox(List<String> chosenGods, int length, int height, int numberOfPlayers) {
+    private static String createPlayersChoiceBox(List<String> chosenGods, int length, int height, int numberOfPlayers) {
         List<String> chosen = new ArrayList<>();
         for (String god : chosenGods) {
             chosen.add(createGodWindow(god, length, height));
@@ -1025,7 +1025,7 @@ public class CliScene {
      * @param height height of the box
      * @return the box as string
      */
-    public static String createChoosingBox(int length, int height) {
+    private static String createChoosingBox(int length, int height) {
         StringBuilder temp = new StringBuilder();
         temp.append(centerLine("The challenger is", length, false)).append("\n").append(centerLine("choosing ...", length, false)).append("\n");
         for (int row = 3; row < height; row++) {
@@ -1130,7 +1130,7 @@ public class CliScene {
      * @param length length of the box
      * @param height height of the box
      */
-    public static void createGodsInfoBox(StringBuilder b, int page, int length, int height) {
+    private static void createGodsInfoBox(StringBuilder b, int page, int length, int height) {
         List<String> godBoxes = getGodPage(page, length, height);
         addGodsRow(b, godBoxes, 0, length, height);
         b.append("-".repeat(2 + length + 2)).append("|").append("-".repeat(2 + length + 2)).append("|").append("\n");
@@ -1145,7 +1145,7 @@ public class CliScene {
      * @param selectedGods    list of gods selected
      * @param numberOfPlayers number of players in game
      */
-    public static void addBrowseArrows(StringBuilder b, List<String> selectedGods, int numberOfPlayers) {
+    private static void addBrowseArrows(StringBuilder b, List<String> selectedGods, int numberOfPlayers) {
         String[] arrow = ARROWS_CHALLENGER.split(SPLIT_VALUE);
         String[] godBox = b.toString().split(SPLIT_VALUE);
         b.setLength(0);
@@ -1177,7 +1177,7 @@ public class CliScene {
      * @param length   length of the box
      * @param height   height of the box
      */
-    public static void addGodsRow(StringBuilder b, List<String> godBoxes, int block, int length, int height) {
+    private static void addGodsRow(StringBuilder b, List<String> godBoxes, int block, int length, int height) {
         for (int h = 0; h < height; h++) {
             b.append(" ".repeat(2));
             b.append(godBoxes.get(block).split(SPLIT_VALUE)[h]);
@@ -1222,7 +1222,7 @@ public class CliScene {
      * @param height  height of the box
      * @return the box as string
      */
-    public static String createGodWindow(String godName, int length, int height) {
+    private static String createGodWindow(String godName, int length, int height) {
         StringBuilder temp = new StringBuilder();
         String[] description = Gods.valueOf(godName).getDescription().split(":");
         temp.append(extendSlots("Name: " + godName, length)).append("\n");
@@ -1243,7 +1243,7 @@ public class CliScene {
      * @param height height of the box
      * @return the box as string
      */
-    public static String createEmptyWindow(int length, int height) {
+    private static String createEmptyWindow(int length, int height) {
         return ("\n" + " ".repeat(length)).repeat(height).substring(1);
     }
 
@@ -1254,7 +1254,7 @@ public class CliScene {
      * @param rowLength max length of each row
      * @return list containing the substrings found
      */
-    public static List<String> divideInRows(String message, int rowLength) {
+    private static List<String> divideInRows(String message, int rowLength) {
         List<String> temp = new ArrayList<>();
         StringBuilder row = new StringBuilder();
         for (String word : message.split(" ")) {

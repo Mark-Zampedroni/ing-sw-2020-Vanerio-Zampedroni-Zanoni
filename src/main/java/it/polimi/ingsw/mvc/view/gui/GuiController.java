@@ -21,9 +21,9 @@ import java.util.logging.Logger;
 /**
  * Client with graphical interface (GUI)
  */
-public class GuiManager extends Client {
+public class GuiController extends Client {
 
-    private static GuiManager instance = null;
+    private static GuiController instance = null;
     private static Logger guiLog;
 
     private static double width;
@@ -33,7 +33,7 @@ public class GuiManager extends Client {
     /**
      * Constructor
      */
-    private GuiManager(boolean log) {
+    private GuiController(boolean log) {
         super(log);
         setGuiLog(this.log);
     }
@@ -43,11 +43,11 @@ public class GuiManager extends Client {
      * Gets the Singleton instance of GuiManager
      *
      * @param log if {@code true} creates a logger
-     * @return the {@link GuiManager GuiManager} instance
+     * @return the {@link GuiController GuiManager} instance
      */
-    public static GuiManager getInstance(boolean log) {
+    public static GuiController getInstance(boolean log) {
         if (instance == null)
-            instance = new GuiManager(log);
+            instance = new GuiController(log);
         return instance;
     }
 
@@ -64,9 +64,9 @@ public class GuiManager extends Client {
      * Gets the Singleton instance of GuiManager.
      * No logger is attached if the instance is created
      *
-     * @return the {@link GuiManager GuiManager} instance
+     * @return the {@link GuiController GuiManager} instance
      */
-    public static GuiManager getInstance() {
+    public static GuiController getInstance() {
         return getInstance(false);
     }
 
@@ -110,7 +110,7 @@ public class GuiManager extends Client {
      */
     private static Pane loadFxmlPane(String path) throws IOException {
         try {
-            return FXMLLoader.load(GuiManager.class.getResource(path));
+            return FXMLLoader.load(GuiController.class.getResource(path));
         } catch (final IOException e) {
             String errorText = "Resource at " + path + " couldn't be loaded";
             guiLog.severe(errorText);
@@ -206,7 +206,7 @@ public class GuiManager extends Client {
         if (currentController.getWindowName() != c) {
             Platform.runLater(() -> setLayout(
                     (currentController.getWindowName() == BoardController.class) ? new Scene(new Pane()) : Gui.getStage().getScene(),
-                    GuiManager.getFxmlPath(c),
+                    GuiController.getFxmlPath(c),
                     (currentController.getWindowName() == BoardController.class)));
         }
         Platform.runLater(request);

@@ -100,7 +100,7 @@ public class ReloadGame {
             view.register(e.getKey());
             views.add(view);
             if (state == GameState.GAME)
-                view.getFirstDTOSession(new DtoSession(saveData.getSession()));
+                view.getFirstDtoSession(new DtoSession(saveData.getSession()));
             view.addObserver(controller);
             saveData.getSession().getPlayers().stream()
                     .filter(p -> p.getRules() != null)

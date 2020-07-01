@@ -61,12 +61,12 @@ public class Gui extends Application {
         scene.getStylesheets().add("/css/connection.css");
         stage.setScene(scene);
         Platform.runLater(() -> bindScene(stage.getScene()));
-        GuiManager.setLayout(stage.getScene(), GuiManager.getFxmlPath(TitleController.class));
+        GuiController.setLayout(stage.getScene(), GuiController.getFxmlPath(TitleController.class));
         setWindowIcon();
         stage.setTitle("Santorini");
         stage.show();
-        GuiManager.getInstance();
-        GuiManager.setDefaultWidth(stage.getWidth());
+        GuiController.getInstance();
+        GuiController.setDefaultWidth(stage.getWidth());
     }
 
     /**
@@ -78,7 +78,7 @@ public class Gui extends Application {
         try {
             scene.setCursor(new ImageCursor(new Image(String.valueOf(Gui.class.getClassLoader().getResource("godpower_hand.png")))));
         } catch (Exception e) {
-            GuiManager.getInstance().log.warning("[GUI] Personalized mouse set failed with error: " + e.getMessage());
+            GuiController.getInstance().log.warning("[GUI] Personalized mouse set failed with error: " + e.getMessage());
         }
     }
 
@@ -89,7 +89,7 @@ public class Gui extends Application {
         try {
             stage.getIcons().add(new Image(String.valueOf(Gui.class.getClassLoader().getResource("app_icon.png"))));
         } catch (Exception e) {
-            GuiManager.getInstance().log.warning("[GUI] Personalized icon set failed with error: " + e.getMessage());
+            GuiController.getInstance().log.warning("[GUI] Personalized icon set failed with error: " + e.getMessage());
         }
     }
 
@@ -102,7 +102,7 @@ public class Gui extends Application {
      */
     public void init(String ip, int port, boolean log) {
         TitleController.setConnectionConfig(ip, port);
-        GuiManager.getInstance(log);
+        GuiController.getInstance(log);
         Application.launch(Gui.class);
     }
 
@@ -111,7 +111,7 @@ public class Gui extends Application {
      */
     @Override
     public void stop() {
-        GuiManager.getInstance().disconnectClient();
+        GuiController.getInstance().disconnectClient();
         System.exit(0);
     }
 

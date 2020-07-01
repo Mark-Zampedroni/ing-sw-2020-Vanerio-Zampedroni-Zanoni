@@ -1,6 +1,6 @@
 package it.polimi.ingsw.mvc.view.gui.fxmlcontrollers;
 
-import it.polimi.ingsw.mvc.view.gui.GuiManager;
+import it.polimi.ingsw.mvc.view.gui.GuiController;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
@@ -22,7 +22,7 @@ public abstract class GenericController {
     @FXML
     public GridPane mainGrid;
     protected GenericController windowName;
-    protected GuiManager gui;
+    protected GuiController gui;
     private BorderPane reconnectionLayer;
 
     /**
@@ -87,7 +87,7 @@ public abstract class GenericController {
      * @param controller targeted controller
      */
     public void initialize(GenericController controller) {
-        gui = GuiManager.getInstance();
+        gui = GuiController.getInstance();
         gui.setCurrentController(controller);
         windowName = controller;
     }
@@ -135,7 +135,7 @@ public abstract class GenericController {
      * @param node targeted element
      */
     protected void handleResizableElement(Control node) {
-        double defaultWidth = GuiManager.getInstance().getDefaultWidth();
+        double defaultWidth = GuiController.getInstance().getDefaultWidth();
         Insets defaultPadding = node.getPadding();
         if (Labeled.class.isAssignableFrom(node.getClass()))
             setFontSizeLabeled((Labeled) node, defaultWidth, defaultPadding);
@@ -178,8 +178,8 @@ public abstract class GenericController {
         double defaultFontSize = font.getSize();
         String defaultFamily = font.getFamily();
         String defaultStyle = font.getStyle();
-        changeFontParameters(node, GuiManager.getInstance().getStage().getWidth(), defaultWidth, defaultFontSize, defaultFamily, defaultStyle, defaultPadding);
-        GuiManager.getInstance().getStage().widthProperty().addListener((o, oldWidth, newWidth) -> changeFontParameters(node, newWidth.doubleValue(), defaultWidth, defaultFontSize, defaultFamily, defaultStyle, defaultPadding));
+        changeFontParameters(node, GuiController.getInstance().getStage().getWidth(), defaultWidth, defaultFontSize, defaultFamily, defaultStyle, defaultPadding);
+        GuiController.getInstance().getStage().widthProperty().addListener((o, oldWidth, newWidth) -> changeFontParameters(node, newWidth.doubleValue(), defaultWidth, defaultFontSize, defaultFamily, defaultStyle, defaultPadding));
     }
 
     /**
@@ -228,8 +228,8 @@ public abstract class GenericController {
      */
     public void setPaddingRatio(Pane pane) {
         Insets defaultPadding = pane.getPadding();
-        double defaultWidth = GuiManager.getInstance().getDefaultWidth();
-        GuiManager.getInstance().getStage().widthProperty().addListener((o, oldWidth, newWidth) -> resizePadding(pane, newWidth.doubleValue(), defaultWidth, defaultPadding));
+        double defaultWidth = GuiController.getInstance().getDefaultWidth();
+        GuiController.getInstance().getStage().widthProperty().addListener((o, oldWidth, newWidth) -> resizePadding(pane, newWidth.doubleValue(), defaultWidth, defaultPadding));
     }
 
     /**

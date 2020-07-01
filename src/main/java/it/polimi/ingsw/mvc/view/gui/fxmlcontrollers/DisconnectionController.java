@@ -1,6 +1,6 @@
 package it.polimi.ingsw.mvc.view.gui.fxmlcontrollers;
 
-import it.polimi.ingsw.mvc.view.gui.GuiManager;
+import it.polimi.ingsw.mvc.view.gui.GuiController;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -36,7 +36,7 @@ public class DisconnectionController extends GenericController {
         okButton.setOnMousePressed(event -> okButton.setId("buttonPressed"));
         okButton.setOnMouseReleased(event -> {
             okButton.setId("buttonReleased");
-            Platform.runLater(() -> GuiManager.setLayout(this.getScene(), GuiManager.getFxmlPath(TitleController.class)));
+            Platform.runLater(() -> GuiController.setLayout(this.getScene(), GuiController.getFxmlPath(TitleController.class)));
         });
     }
 

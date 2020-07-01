@@ -67,7 +67,7 @@ public class LobbyController extends StateController implements Serializable {
         Colors requestedColor = message.getColor();
         RemoteView sender = pendingConnections.stream().filter(v -> v.hasName(message.getSender())).findFirst().orElse(null);
 
-        if (sender != null && !sender.getRegistered()) { // Anti-cheat
+        if (sender != null && !sender.isRegistered()) { // Anti-cheat
             if (Session.getInstance().getPlayerByName(requestedUsername) != null) { // Anti-cheat
                 notifyMessage(messageBuilder(MessageType.REGISTRATION_UPDATE, "This username is already in use", false, message.getSender()));
                 log.warning(() -> "A player tried to register with the already in use username " + requestedUsername + "\n");

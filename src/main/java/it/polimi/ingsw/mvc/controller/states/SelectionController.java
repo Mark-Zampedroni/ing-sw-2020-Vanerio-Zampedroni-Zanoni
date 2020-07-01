@@ -149,6 +149,7 @@ public class SelectionController extends StateController implements Serializable
     /**
      * Changes the state of the controller to "GAME"
      */
+    @Override
     public void tryNextState() {
         controller.switchState(GameState.GAME);
     }
