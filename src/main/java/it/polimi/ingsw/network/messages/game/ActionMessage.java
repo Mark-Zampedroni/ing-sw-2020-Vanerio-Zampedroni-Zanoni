@@ -7,6 +7,9 @@ import it.polimi.ingsw.utility.enumerations.MessageType;
 
 import java.io.Serializable;
 
+/**
+ * Message used to send an action on a connection
+ */
 public class ActionMessage extends Message implements Serializable {
 
     private static final long serialVersionUID = 1392822996168131758L;

@@ -203,11 +203,11 @@ public class GuiController extends Client {
      * @param request requested update by View
      */
     private void runUpdate(Class<?> c, Runnable request) {
-        if (currentController.getWindowName() != c) {
+        if (currentController.getWindowClass() != c) {
             Platform.runLater(() -> setLayout(
-                    (currentController.getWindowName() == BoardController.class) ? new Scene(new Pane()) : Gui.getStage().getScene(),
+                    (currentController.getWindowClass() == BoardController.class) ? new Scene(new Pane()) : Gui.getStage().getScene(),
                     GuiController.getFxmlPath(c),
-                    (currentController.getWindowName() == BoardController.class)));
+                    (currentController.getWindowClass() == BoardController.class)));
         }
         Platform.runLater(request);
     }

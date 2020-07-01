@@ -10,6 +10,9 @@ import java.io.Serializable;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * Message used to send a map of actions to their possible positions and a  flag on a connection
+ */
 public class ActionUpdateMessage extends FlagMessage implements Serializable {
 
     private static final long serialVersionUID = 3928828614516772694L;

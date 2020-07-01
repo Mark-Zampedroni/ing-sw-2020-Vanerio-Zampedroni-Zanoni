@@ -6,6 +6,7 @@ import it.polimi.ingsw.utility.ArgsParser;
 
 import java.util.Map;
 import java.util.logging.Logger;
+
 /**
  * Executable class, it starts the client
  */

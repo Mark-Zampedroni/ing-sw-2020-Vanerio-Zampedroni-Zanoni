@@ -24,7 +24,7 @@ public class ObservableTileEvent extends Observable<DtoPosition> {
      * @param x coordinate X of the position on the board
      * @param y coordinate Y of the position on the board
      */
-    public void setCaller(int x, int y) {
+    public void setCallerCoordinates(int x, int y) {
         this.x = x;
         this.y = y;
     }

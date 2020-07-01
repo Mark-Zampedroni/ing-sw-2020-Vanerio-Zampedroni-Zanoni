@@ -21,7 +21,7 @@ public abstract class GenericController {
     public Pane main;
     @FXML
     public GridPane mainGrid;
-    protected GenericController windowName;
+    protected GenericController window;
     protected GuiController gui;
     private BorderPane reconnectionLayer;
 
@@ -75,10 +75,9 @@ public abstract class GenericController {
      * Getter for the class of the fxml controller
      *
      * @return a generic class
-     *
      */
-    public Class<?> getWindowName() {
-        return windowName.getClass();
+    public Class<?> getWindowClass() {
+        return window.getClass();
     }
 
     /**
@@ -89,7 +88,7 @@ public abstract class GenericController {
     public void initialize(GenericController controller) {
         gui = GuiController.getInstance();
         gui.setCurrentController(controller);
-        windowName = controller;
+        window = controller;
     }
 
     /**

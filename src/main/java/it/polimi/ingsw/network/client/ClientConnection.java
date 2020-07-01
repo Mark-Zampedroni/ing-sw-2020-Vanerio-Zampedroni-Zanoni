@@ -12,9 +12,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
 
-
+/**
+ * Connection of the Client. Acts as middle-man for the message sent and received
+ * by the Server
+ */
 public class ClientConnection implements Runnable {
-
 
     public final Logger log;
 
@@ -27,16 +29,16 @@ public class ClientConnection implements Runnable {
     private ObjectOutputStream output;
     private Socket socket;
     private Thread t;
-    private boolean reconnect;
+    private boolean hasToReconnect;
     private boolean isDisconnected;
 
     /**
      * Constructor
      *
      * @param controller client
-     * @param port connection port
-     * @param ip server ip
-     * @throws IOException if there is a problem
+     * @param port       connection port
+     * @param ip         server ip
+     * @throws IOException if the objects streams can't be opened
      */
     public ClientConnection(String ip, int port, Client controller) throws IOException {
         this.ip = ip;
@@ -94,13 +96,13 @@ public class ClientConnection implements Runnable {
                 log.severe(e.getMessage());
             } catch (IOException e) {
                 log.severe("[CONNECTION] Socket closed");
-                if (!isDisconnected && !reconnect)
+                if (!isDisconnected && !hasToReconnect)
                     inQueue.add(new Message(MessageType.DISCONNECTION_UPDATE, "SELF", "Lost connection to server", "ALL"));
                 disconnect();
             }
         }
         log.info("[CONNECTION] Server crashed");
-        if (reconnect)
+        if (hasToReconnect)
             initReconnection();
     }
 
@@ -116,7 +118,7 @@ public class ClientConnection implements Runnable {
     }
 
     /**
-     * Disconnects a connection
+     * Disconnects the connection
      */
     public void disconnect() {
         isDisconnected = true;
@@ -132,9 +134,9 @@ public class ClientConnection implements Runnable {
     }
 
     /**
-     * Gets the queue
+     * Gets the messages queue
      *
-     * @return the queue
+     * @return the messages queue
      */
     public List<Message> getQueue() {
         List<Message> copy;
@@ -152,13 +154,13 @@ public class ClientConnection implements Runnable {
         while (!reconnectRequest()) {
             waitTime();
         }
-        if (reconnect) {
+        if (hasToReconnect) {
             sendMessage(new Message(MessageType.RECONNECTION_UPDATE, name, "Reconnecting", "SERVER"));
         }
     }
 
     /**
-     * Checks if the reconnection request is successful
+     * Starts a reconnection request; returns {@code true} if successful
      *
      * @return {@code true} if it has started the reconnection
      */
@@ -172,27 +174,27 @@ public class ClientConnection implements Runnable {
     }
 
     /**
-     * Checks if reconnecting
+     * Checks if the connection should try to reconnect on crash
      *
-     * @return {@code true} if reconnecting
+     * @return {@code true} if the connection should reconnect
      */
-    protected boolean getReconnect() {
-        return reconnect;
+    protected boolean getHasToReconnect() {
+        return hasToReconnect;
     }
 
     /**
-     * Setter for the reconnection
+     * Setter for hasToReconnect
      *
-     * @param value value for the reconnection
+     * @param value value of hasToReconnect
      */
-    protected void setReconnect(boolean value) {
-        reconnect = value;
+    protected void setHasToReconnect(boolean value) {
+        hasToReconnect = value;
     }
 
     /**
      * Sets the name of the connection
      *
-     * @param name name being set
+     * @param name name to set
      */
     protected void setConnectionName(String name) {
         this.name = name;
@@ -215,7 +217,7 @@ public class ClientConnection implements Runnable {
     }
 
     /**
-     * Puts the thread into a sleeping state
+     * Puts the thread into a sleeping state for 2 seconds
      */
     private void waitTime() {
         try {
@@ -226,11 +228,21 @@ public class ClientConnection implements Runnable {
         }
     }
 
+    /**
+     * Inner class implementing the Observer-Observable patten; when a new message
+     * is received redirects it to the Client (observer)
+     */
     private static class ClientMessageReceiver extends Observable<Message> implements Runnable {
 
         private final transient Client controller;
         private final transient ClientConnection connection;
 
+        /**
+         * Constructor
+         *
+         * @param connection to listen for new messages
+         * @param controller Client
+         */
         public ClientMessageReceiver(ClientConnection connection, Client controller) {
             this.connection = connection;
             this.controller = controller;
@@ -239,6 +251,10 @@ public class ClientConnection implements Runnable {
             new Thread(this).start();
         }
 
+        /**
+         * Task of the thread; listens for any new message received on the outer class and
+         * notifies the Client
+         */
         @Override
         public void run() {
             List<Message> messages;

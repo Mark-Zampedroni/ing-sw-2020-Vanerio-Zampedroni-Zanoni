@@ -490,7 +490,7 @@ public class Cli extends Client {
      */
     @Override
     public void showLose(String playerName) {
-        log.info("[CLI] Player " + playerName + " lost!");
+        log.info(() -> "[CLI] Player " + playerName + " lost!");
     }
 
 }

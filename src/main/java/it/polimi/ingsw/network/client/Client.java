@@ -21,6 +21,9 @@ import java.util.logging.Logger;
 import java.util.logging.SimpleFormatter;
 import java.util.stream.Collectors;
 
+/**
+ * Client, it's implemented as {@link it.polimi.ingsw.mvc.view.cli.Cli cli} and {@link it.polimi.ingsw.mvc.view.gui.GuiController gui}
+ */
 public abstract class Client implements Observer<Message>, View {
 
     private static final String RECIPIENT = "SERVER";
@@ -40,6 +43,11 @@ public abstract class Client implements Observer<Message>, View {
     private List<Runnable> inputRequests;
     private boolean isDiscParsed;
 
+    /**
+     * Constructor
+     *
+     * @param log if {@code true} creates a log file
+     */
     public Client(boolean log) {
         init();
         this.log = Logger.getLogger("client");
@@ -58,6 +66,9 @@ public abstract class Client implements Observer<Message>, View {
         clearSessionVars();
     }
 
+    /**
+     * Initializes the logging
+     */
     private void startLogging() {
         DateFormat dateFormat = new SimpleDateFormat("MM_dd_HH-mm-ss");
         Date date = new Date();
@@ -72,23 +83,26 @@ public abstract class Client implements Observer<Message>, View {
 
 
     /**
-     * Output thread
+     * Adds the specified output request to the queue
      *
-     * @param request the thread
+     * @param request request as runnable
      */
     private void viewRequest(Runnable request) {
         requests.add(request);
     }
 
     /**
-     * Input thread
+     * Adds the specified input request to the queue
      *
-     * @param request the thread
+     * @param request request as runnable
      */
     private void inputRequest(Runnable request) {
         inputRequests.add(request);
     }
 
+    /**
+     * Executes and consumes all the requests in queue
+     */
     public void flushRequests() {
         requests.forEach(Runnable::run);
         requests.clear();
@@ -97,7 +111,7 @@ public abstract class Client implements Observer<Message>, View {
     }
 
     /**
-     * Creates a connection for the client
+     * Opens a connection
      *
      * @param ip server ip
      * @param port connection port
@@ -114,7 +128,7 @@ public abstract class Client implements Observer<Message>, View {
     }
 
     /**
-     * Calls a specific method based on the message type
+     * Parses a message, then consumes the queue of requests
      *
      * @param message received message
      */
@@ -172,9 +186,9 @@ public abstract class Client implements Observer<Message>, View {
         }
     }
 
-    
+
     /**
-     * Handles a winning or loosing message
+     * Parses a winning or loosing message
      *
      * @param message received message
      */
@@ -188,7 +202,7 @@ public abstract class Client implements Observer<Message>, View {
             players.remove(message.getInfo());
             gods.remove(message.getInfo());
             if (message.getInfo().equals(username)) {
-                connection.setReconnect(false);
+                connection.setHasToReconnect(false);
             }
             viewRequest(() -> showLose(message.getInfo()));
         }
@@ -196,7 +210,7 @@ public abstract class Client implements Observer<Message>, View {
     }
 
     /**
-     * Handles a connection message
+     * Parses a connection message
      *
      * @param message received message
      */
@@ -206,17 +220,17 @@ public abstract class Client implements Observer<Message>, View {
     }
 
     /**
-     * Manages the reconnection of a client
+     * Shows on the View the reconnection reply
      */
     private void parseReconnectionUpdate() {
-        if (connection.getReconnect()) {
+        if (connection.getHasToReconnect()) {
             reconnecting = true;
             viewRequest(() -> showReconnection(true));
         }
     }
 
     /**
-     * Handles a reconnection message
+     * Parses a reconnection message
      *
      * @param message received message
      */
@@ -230,14 +244,14 @@ public abstract class Client implements Observer<Message>, View {
     }
 
     /**
-     * Allows a client to choose between 2 or 3 players
+     * Shows an input request; asks the player to choose between 2 or 3 slots for the game
      */
     private void parseSlotMessage() { // TEST CLI
         viewRequest(this::requestNumberOfPlayers);
     }
 
     /**
-     * Checks if the given number of player is valid
+     * Checks if the given number of players is valid
      *
      * @param number number of player as string
      * @return {@code true} if it's valid
@@ -251,7 +265,7 @@ public abstract class Client implements Observer<Message>, View {
     }
 
     /**
-     * Checks if a given name is allowed
+     * Checks if a given player name is allowed
      *
      * @param requestedUsername name of the player
      * @return {@code true} if it's valid
@@ -261,7 +275,7 @@ public abstract class Client implements Observer<Message>, View {
     }
 
     /**
-     * Checks if a given string can be turn into a number
+     * Checks if a given string can be cast into a number
      *
      * @param string number as string
      * @return {@code true} if the given string can be turn into a number
@@ -276,7 +290,7 @@ public abstract class Client implements Observer<Message>, View {
     }
 
     /**
-     * Checks if a given colors is valid
+     * Checks if a given color is valid
      *
      * @param requestedColor chosen color
      *@return {@code true} if it's valid
@@ -287,7 +301,7 @@ public abstract class Client implements Observer<Message>, View {
 
 
     /**
-     * Interacts with the server to pass on the player's choices
+     * Sends to the server a registration request
      *
      * @param requestedUsername selected username
      * @param color chosen color
@@ -298,7 +312,8 @@ public abstract class Client implements Observer<Message>, View {
 
 
     /**
-     * Handles a message from the server allowing a player to choose its username and its color
+     * Parses a lobby update message from the server; if the client is not registered
+     * shows to the player the request to choose an username and a color
      *
      * @param message received message
      */
@@ -312,9 +327,9 @@ public abstract class Client implements Observer<Message>, View {
     }
 
     /**
-     * Handles a disconnection message from the server
+     * Parses a disconnection message
      *
-     * @param message message to display
+     * @param message message to display on the disconnection tab (if shown)
      */
     private void parseDisconnectMessage(Message message) {
         if (!isDiscParsed) {
@@ -327,7 +342,7 @@ public abstract class Client implements Observer<Message>, View {
 
 
     /**
-     * Handles a message regarding the queue of players
+     * Parses a message regarding the queue of players waiting to join the lobby
      *
      * @param message message to display
      */
@@ -337,7 +352,8 @@ public abstract class Client implements Observer<Message>, View {
 
 
     /**
-     * Handles a registration message from the server
+     * Parses a registration reply message from the server; if failed
+     * shows the reason and asks again to choose an username and a color
      *
      * @param message message containing the information
      */
@@ -353,7 +369,8 @@ public abstract class Client implements Observer<Message>, View {
 
 
     /**
-     * Sets the challenger and allows it to choose a god
+     * Parses a selection update message; if the challenger has to select
+     * more gods queues a View update
      *
      * @param message message with information regarding the challenger
      */
@@ -367,9 +384,9 @@ public abstract class Client implements Observer<Message>, View {
     }
 
     /**
-     * Checks if a given god is valid, if so it notifies the server of the player's choice
+     * Checks if a given god is valid, if so notifies the server of the player's choice
      *
-     * @param requestedGod targeted god
+     * @param requestedGod specified god
      * @return {@code true} if the god is valid
      */
     public boolean validateGods(String requestedGod) {
@@ -379,9 +396,9 @@ public abstract class Client implements Observer<Message>, View {
     }
 
     /**
-     * Calls a method in regard of the received message
+     * Parses a gods update message; updates the View on the selected gods
      *
-     * @param message message to forward
+     * @param message message received
      */
     private void parseManagementMessage(FlagMessage message) {
         if (message.getFlag()) addGod(message);
@@ -389,7 +406,8 @@ public abstract class Client implements Observer<Message>, View {
     }
 
     /**
-     * Adds a god to the list of chosen ones and could allow the challenger to choose a new god
+     * Adds the god contained in the message given to the list of chosen ones; then
+     * queues a View update
      *
      * @param message message containing the chosen god
      */
@@ -404,7 +422,8 @@ public abstract class Client implements Observer<Message>, View {
     }
 
     /**
-     * Allows players to chose their gods and also creates a map containing the name of the players and their choices regarding the gods
+     * Parses a god selection update message, adds the selected god
+     * to the map of players; queues a View update
      *
      * @param message message to display
      */
@@ -417,9 +436,9 @@ public abstract class Client implements Observer<Message>, View {
     }
 
     /**
-     * Checks if a given god is valid, if so it notifies the server of the player's choice
+     * Checks if a given god is valid, if so sends to the server a god selection update containing the god
      *
-     * @param requestedGod targeted god
+     * @param requestedGod selected god
      * @return {@code true} if the given god is among the ones which were chosen by the challenger
      */
     public boolean validatePlayerGodChoice(String requestedGod) {
@@ -429,16 +448,17 @@ public abstract class Client implements Observer<Message>, View {
     }
 
     /**
-     * Removes a god from a list and allows the challenger to choose the starting player
+     * Removes a god from the chosen gods list; if the list becomes empty
+     * queues a View request update to the challenger client, otherwise
+     * updates any client
      *
-     * @param message message with the name of a god
+     * @param message message containing the name of a god
      */
     private void removeGod(Message message) {
         chosenGods.remove(message.getInfo());
         for (Map.Entry<String, String> e : gods.entrySet()) {
-            if (e.getValue().equals("")) {
+            if (e.getValue().equals(""))
                 gods.replace(e.getKey(), message.getInfo());
-            }
         }
         if (chosenGods.isEmpty()) {
             if (challenger.equals(username))
@@ -449,7 +469,8 @@ public abstract class Client implements Observer<Message>, View {
     }
 
     /**
-     * Notifies the server of the starting player if the given name is valid
+     * Checks if the given name is the name of a player; if so sends a starter player
+     * message to the server
      *
      * @param string could be the name of a player
      * @return {@code true} if the given string matches with one of the players' names
@@ -461,7 +482,8 @@ public abstract class Client implements Observer<Message>, View {
     }
 
     /**
-     * Updates a client on the changes occurred in the previous turn and also allows the turn owner to play
+     * Parses a turn update message. Queues an update to the View, if the current player
+     * is the client owner requests to execute an action
      *
      * @param message message containing the current player and the possbile action it can carry out
      */
@@ -475,11 +497,11 @@ public abstract class Client implements Observer<Message>, View {
     }
 
     /**
-     * Checks if a parameter is between 0 and a given number
+     * Checks if a given value is between 0 and a second given value
      *
      * @param range the upper range
      * @param value the value to check
-     * @return {@code true} if the value is positive and minor of and other parameter
+     * @return {@code true} if the value is positive and minor than the other parameter
      */
     public boolean validateRange(int range, int value) {
         return value >= 0 && value <= range;
@@ -487,7 +509,7 @@ public abstract class Client implements Observer<Message>, View {
 
 
     /**
-     * Check if an action is allowed, if so notifies the server
+     * Check if an action is allowed, if so sends an action request message to the server
      *
      * @param action chosen action
      * @param possibleActions map containing the possible actions that can be carried out by the player and their positions
@@ -503,11 +525,11 @@ public abstract class Client implements Observer<Message>, View {
     }
 
     /**
-     * Checks if it's possible to carry out an action in a position defined by two given parameters
+     * Checks if the given position identified by its coordinates is contained in the given list of positions
      *
-     * @param possiblePositions list of possible positions
-     * @param x int that indicates the x coordinate for a wanted action
-     * @param y int that indicates the y coordinate for a wanted action
+     * @param possiblePositions list of positions
+     * @param x int that indicates the x coordinate
+     * @param y int that indicates the y coordinate
      * @return {@code true} if the action is allowed in the that position
      */
     public boolean validatePosition(List<DtoPosition> possiblePositions, int x, int y) {
@@ -515,13 +537,13 @@ public abstract class Client implements Observer<Message>, View {
     }
 
     /**
-     * Changes the client game state accordingly to the message
+     * Parses a game state update message, changes the client game state accordingly
      *
-     * @param message message containing the next game state
+     * @param message message containing the game state
      */
     private void parseStateUpdate(StateUpdateMessage message) {
         state = message.getState();
-        if (state == GameState.GOD_SELECTION) connection.setReconnect(true);
+        if (state == GameState.GOD_SELECTION) connection.setHasToReconnect(true);
     }
 
     /**
@@ -555,17 +577,17 @@ public abstract class Client implements Observer<Message>, View {
     }
 
     /**
-     * Handles the disconnection of a client
+     * Handles the disconnection of the client
      */
     protected void disconnectClient() {
         if (connection != null) {
-            connection.setReconnect(false);
+            connection.setHasToReconnect(false);
             connection.disconnect();
         }
     }
 
     /**
-     * Clears all the variable of the game
+     * Clears all the variable of the client
      */
     private void clearSessionVars() {
         connection = null;
@@ -584,6 +606,11 @@ public abstract class Client implements Observer<Message>, View {
         init();
     }
 
+    /**
+     * Checks if the client is connected to the server
+     *
+     * @return {@code true} if the client is connected
+     */
     protected boolean isConnectionLost() {
         return !reconnecting && (connection == null) || (connection.isDisconnected());
     }

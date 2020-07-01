@@ -9,7 +9,7 @@ import it.polimi.ingsw.network.messages.lobby.LobbyUpdate;
 import it.polimi.ingsw.network.server.ServerConnection;
 import it.polimi.ingsw.utility.enumerations.Colors;
 import it.polimi.ingsw.utility.enumerations.MessageType;
-import it.polimi.ingsw.utility.persistency.SaveData;
+import it.polimi.ingsw.utility.persistency.SavedData;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -48,15 +48,15 @@ public abstract class StateController implements Serializable {
      * @param controller controller of the MVC
      * @param log        logger where the events will be stored
      * @param views      list of all the connections
-     * @param saveData   previous game data
+     * @param savedData  previous game data
      */
-    public void reloadState(SessionController controller, SaveData saveData, List<RemoteView> views, Logger log) {
+    public void reloadState(SessionController controller, SavedData savedData, List<RemoteView> views, Logger log) {
         restorePreviousState(views, controller, log);
         log.info(() -> "[STATE CONTROLLER] Notifying successfull reconnection to " + views);
         notifyMessage(new FlagMessage(MessageType.RECONNECTION_REPLY, "Server", "Reconnected successfully", true, "ALL"));
-        if (!saveData.getActionDone()) {
+        if (!savedData.getActionDone()) {
             log.info(() -> "Last message before save is being re-parsed");
-            parseMessage(saveData.getMessage());
+            parseMessage(savedData.getMessage());
         }
     }
 

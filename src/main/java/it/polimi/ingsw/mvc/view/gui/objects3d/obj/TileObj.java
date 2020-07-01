@@ -192,7 +192,7 @@ public class TileObj extends TrackedGroup {
      */
     protected void addClickEvent(Node object) {
         object.setOnMouseClicked(event -> {
-            eventResponse.setCaller(x, y);
+            eventResponse.setCallerCoordinates(x, y);
             eventResponse.run();
         });
     }

@@ -483,6 +483,11 @@
             <set />
           </value>
         </entry>
+        <entry key="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/mvc/view/gui/GuiController.java">
+          <value>
+            <set />
+          </value>
+        </entry>
         <entry key="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/mvc/view/gui/GuiManager.java">
           <value>
             <set />

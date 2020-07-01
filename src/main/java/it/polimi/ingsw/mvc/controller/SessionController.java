@@ -17,7 +17,7 @@ import it.polimi.ingsw.utility.enumerations.GameState;
 import it.polimi.ingsw.utility.enumerations.MessageType;
 import it.polimi.ingsw.utility.observer.Observer;
 import it.polimi.ingsw.utility.persistency.ReloadGame;
-import it.polimi.ingsw.utility.persistency.SaveData;
+import it.polimi.ingsw.utility.persistency.SavedData;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -57,33 +57,33 @@ public class SessionController implements Observer<Message> {
     /**
      * Creates the controller of the game after a restart of the server
      *
-     * @param saveData information saved on disk
-     * @param log general logger of the server
-     * @param map map username to connection for the connections
+     * @param savedData information saved on disk
+     * @param log       general logger of the server
+     * @param map       map username to connection for the connections
      */
-    public SessionController(Logger log, SaveData saveData, Map<String, ServerConnection> map) {
+    public SessionController(Logger log, SavedData savedData, Map<String, ServerConnection> map) {
         log.info("[CONTROLLER] Reloading game data");
         views = new ArrayList<>();
-        session = saveData.getSession();
-        reloadValues(log, saveData);
+        session = savedData.getSession();
+        reloadValues(log, savedData);
         ReloadGame.reloadViews(this, map, views, state);
-        stateController.reloadState(this, saveData, views, log);
+        stateController.reloadState(this, savedData, views, log);
         log.info("[CONTROLLER] Done with reload");
     }
 
     /**
      * Reloads all the values of the game reading a save on disk
      *
-     * @param saveData information saved on disk
-     * @param log logger where the reload progress will be stored
+     * @param savedData information saved on disk
+     * @param log       logger where the reload progress will be stored
      */
-    private void reloadValues(Logger log, SaveData saveData) {
+    private void reloadValues(Logger log, SavedData savedData) {
         this.log = log;
         Session.loadInstance(session);
-        state = saveData.getGameState();
-        turnOwner = saveData.getTurnOwner();
-        gameCapacity = saveData.getGameCapacity();
-        stateController = saveData.getStateController();
+        state = savedData.getGameState();
+        turnOwner = savedData.getTurnOwner();
+        gameCapacity = savedData.getGameCapacity();
+        stateController = savedData.getStateController();
     }
 
     /**
@@ -269,7 +269,7 @@ public class SessionController implements Observer<Message> {
      */
     public void saveGame(Message message, boolean isParseCompleted) {
         if (state != GameState.LOBBY) {
-            SaveData.saveGame(this, stateController, message, isParseCompleted, log);
+            SavedData.saveGame(this, stateController, message, isParseCompleted, log);
         }
     }
 

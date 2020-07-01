@@ -13,7 +13,7 @@ import java.util.logging.Logger;
 /**
  * Utility class that saves the game in a save file
  */
-public class SaveData implements Serializable {
+public class SavedData implements Serializable {
 
     private static final long serialVersionUID = -8284194909335487737L;
 
@@ -37,7 +37,7 @@ public class SaveData implements Serializable {
      * @param sessionController the controller of the MVC
      * @param stateController   the state of the controller
      */
-    private SaveData(SessionController sessionController, StateController stateController, Message lastMessage, Boolean flag) {
+    private SavedData(SessionController sessionController, StateController stateController, Message lastMessage, Boolean flag) {
         actionDone = flag;
         session = sessionController.getSession();
         state = stateController;
@@ -56,10 +56,10 @@ public class SaveData implements Serializable {
      */
     public static void saveGame(SessionController sessionController, StateController stateController, Message lastMessage, Boolean flag, Logger log) {
         if (ServerApp.isFeature()) {
-            SaveData saveData = new SaveData(sessionController, stateController, lastMessage, flag);
+            SavedData savedData = new SavedData(sessionController, stateController, lastMessage, flag);
             try (FileOutputStream game = new FileOutputStream(new File("saved.game.ser"))) {
                 ObjectOutputStream outputStream = new ObjectOutputStream(game);
-                outputStream.writeObject(saveData);
+                outputStream.writeObject(savedData);
                 outputStream.close();
                 outputStream.flush();
             } catch (IOException e) {

@@ -25,7 +25,7 @@ import java.util.stream.Collectors;
  */
 public class ReloadGame {
 
-    private static SaveData saveData;
+    private static SavedData savedData;
     private static boolean isAlreadyLoaded;
 
     /**
@@ -43,7 +43,7 @@ public class ReloadGame {
      * @return a list containing the names of the players
      */
     public static List<String> getInGamePlayersNames() {
-        return saveData.getSession().getPlayers().stream()
+        return savedData.getSession().getPlayers().stream()
                 .filter(p -> !p.isLoser())
                 .map(Player::getUsername).collect(Collectors.toList());
     }
@@ -60,7 +60,7 @@ public class ReloadGame {
                     FileInputStream file = new FileInputStream(filename);
                     ObjectInputStream input = new ObjectInputStream(file)
             ) {
-                ReloadGame.saveData = (SaveData) input.readObject();
+                ReloadGame.savedData = (SavedData) input.readObject();
                 isAlreadyLoaded = true;
             } catch (IOException | ClassNotFoundException e) {
                 return false;
@@ -74,8 +74,8 @@ public class ReloadGame {
      *
      * @return the class containing all the information about the previous game
      */
-    public static SaveData load() {
-        return saveData;
+    public static SavedData load() {
+        return savedData;
     }
 
     /**
@@ -100,9 +100,9 @@ public class ReloadGame {
             view.register(e.getKey());
             views.add(view);
             if (state == GameState.GAME)
-                view.getFirstDtoSession(new DtoSession(saveData.getSession()));
+                view.getFirstDtoSession(new DtoSession(savedData.getSession()));
             view.addObserver(controller);
-            saveData.getSession().getPlayers().stream()
+            savedData.getSession().getPlayers().stream()
                     .filter(p -> p.getRules() != null)
                     .forEach(p -> p.getRules().addObserver(view));
         }
