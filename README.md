@@ -87,7 +87,7 @@ java --module-path "javafx-sdk-11.0.2/lib" --add-modules javafx.controls,javafx.
 ```
 dove `ip`, `port` e `log` sono equivalenti ai parametri della cli. Nel caso non si abbia l'SDK di javaFx si può trovare il link per scaricarlo alla voce dipendenze.
 
-Per utenti Linux: potrebbe essere necessario includere il comando `- Dprism.forceGPU=true` in caso di bug grafici nel rendering della parte 3D.
+Per utenti Linux: in caso non venga renderizzato correttamente il 3D includere l'opzione `-Dprism.forceGPU=true` all'avvio (subito dopo java).
 
 Inoltre controllare di avere i driver della scheda video aggiornati per scongiurare altri possibili problemi.
 
