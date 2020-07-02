@@ -86,6 +86,8 @@ Per la GUI è necessario importare le dipendenze di javafx con i parametri `[--m
 java --module-path "javafx-sdk-11.0.2/lib" --add-modules javafx.controls,javafx.fxml -jar client.jar gui [-i ip] [-p port] [-log]
 ```
 dove `ip`, `port` e `log` sono equivalenti ai parametri della cli. Nel caso non si abbia l'SDK di javaFx si può trovare il link per scaricarlo alla voce dipendenze.
+Per utenti Linux: potrebbe essere necessario includere il comando `- Dprism.forceGPU=true` in caso di bug grafici nel rendering della parte 3D.
+Inoltre controllare di avere i driver della scheda video aggiornati per scongiurare altri possibili problemi.
 
 # Dipendenze
 I jar sono stati compilati con SDK 13 (versione 13.0.2 di java), il programma per eseguire correttamente necessita di una versione pari o superiore a Java 11.
