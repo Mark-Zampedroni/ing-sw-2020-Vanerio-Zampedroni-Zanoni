@@ -32,6 +32,7 @@ public class GuiController extends Client {
 
     /**
      * Constructor
+     * @param log if true logging is active
      */
     private GuiController(boolean log) {
         super(log);
@@ -107,6 +108,7 @@ public class GuiController extends Client {
      *
      * @param path the path of the Fxml file
      * @return the pane
+     * @throws IOException if there are problems reading the fxml file
      */
     private static Pane loadFxmlPane(String path) throws IOException {
         try {

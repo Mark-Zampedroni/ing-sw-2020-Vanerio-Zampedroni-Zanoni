@@ -744,6 +744,7 @@ public class CliScene {
      * @param session         DtoSession containing the board to print
      * @param colors          players and their colors
      * @param possibleActions map that contains which actions can be performed and where
+     * @param areActionsShown boolean value that represents if the actions are showned
      * @return the board as string
      */
     private static String createBoard(DtoSession session, Map<String, Colors> colors, Map<Action, List<DtoPosition>> possibleActions, boolean areActionsShown) {
