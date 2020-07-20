@@ -1,6 +1,9 @@
 <h1 align="center"><b>Progetto ing. software anno accademico 2019/2020</b></h1>
 <h2 align="center">Gruppo GC55</h2>
 
+![alt text](https://github.com/Mark-Zampedroni/ing-sw-2020-Vanerio-Zampedroni-Zanoni/blob/master/cover_readme.JPG)
+<p align="right">Texture e modelli di copyright Roxley Games<p>
+
 ## Componenti del gruppo
 [__Stefano Vanerio__](https://github.com/Stefano-Vanerio) (890404)
 
